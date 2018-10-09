@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TeaseAI.Common.Constants;
 using TeaseAI.Common.Data;
 
 namespace TeaseAI.Common
@@ -8,13 +9,14 @@ namespace TeaseAI.Common
     /// <summary>
     /// Main engine of the program. 
     /// </summary>
-    public class Session 
+    public class Session
     {
         #region Properties
         public DommePersonality Domme { get; set; }
         public SubPersonality Sub { get; set; }
         public Stack<Script> Scripts { get; private set; }
         public Script CurrentScript => (Scripts.Count == 0) ? default(Script) : Scripts.Peek();
+        public SessionPhase Phase { get; set; }
         public string PointInSession
         {
             get
@@ -60,6 +62,7 @@ namespace TeaseAI.Common
                 IsBeforeTease = this.IsBeforeTease,
                 IsEdging = this.IsEdging,
                 IsHoldingTheEdge = this.IsHoldingTheEdge,
+                Phase = this.Phase,
             };
             var scripts = this.Scripts.ToArray().ToList();
             scripts.Reverse();

@@ -127,11 +127,14 @@ namespace TeaseAI.Services
 
         public void BeginSession()
         {
-            var selectScript = _scriptAccessor.GetAvailableScripts(Session.Domme, Session.Sub, "Stroke", GetStage(Session))
+            if (Session.Phase != SessionPhase.BeforeSession)
+                return;
+            Session.Phase = GetNextPhase(Session.Phase);
+            var selectScript = _scriptAccessor.GetAvailableScripts(Session.Domme, Session.Sub, "Stroke", Session.Phase)
                 .OnSuccess(scripts =>
                 {
                     if (scripts.Count == 0)
-                        return _scriptAccessor.GetFallbackMetaData(Session, "Start");
+                        return _scriptAccessor.GetFallbackMetaData(Session, Session.Phase);
                     return Result.Ok(scripts[new Random().Next(scripts.Count)]);
                 })
                 .OnSuccess(smd => _scriptAccessor.GetScript(smd));
@@ -371,15 +374,20 @@ namespace TeaseAI.Services
         private void EndCommandProcessed(object sender, CommandProcessedEventArgs e)
         {
             var sub = e.Session.Sub;
-            var stage = GetStage(e.Session);
+            e.Session.Phase = GetNextPhase(e.Session.Phase);
+            if(e.Session.Phase == SessionPhase.AfterSession)
+            {
+                e.Session.Scripts.Clear();
+                return;
+            }
             var type = "Stroke";
-            if (stage == "Modules")
+            if (e.Session.Phase == SessionPhase.Modules)
                 type = string.Empty;
-            var selectScript = _scriptAccessor.GetAvailableScripts(e.Session.Domme, e.Session.Sub, type, stage)
+            var selectScript = _scriptAccessor.GetAvailableScripts(e.Session.Domme, e.Session.Sub, type, e.Session.Phase)
                 .OnSuccess(scripts =>
                 {
                     if (scripts.Count == 0)
-                        return _scriptAccessor.GetFallbackMetaData(e.Session, stage);
+                        return _scriptAccessor.GetFallbackMetaData(e.Session, e.Session.Phase);
                     return Result.Ok(scripts[new Random().Next(scripts.Count)]);
                 })
                 .OnSuccess(smd => _scriptAccessor.GetScript(smd));
@@ -393,6 +401,25 @@ namespace TeaseAI.Services
             e.Session.Scripts.Push(selectScript.Value);
             _scriptTimer.Interval = 1000;
             _scriptTimer.Enabled = false;
+        }
+
+        private SessionPhase GetNextPhase(SessionPhase phase)
+        {
+            switch (phase)
+            {
+                case SessionPhase.BeforeSession:
+                    return SessionPhase.Start;
+                case SessionPhase.Start:
+                    return SessionPhase.Modules;
+                case SessionPhase.Modules:
+                    return SessionPhase.Link;
+                case SessionPhase.Link:
+                    return SessionPhase.End;
+                case SessionPhase.End:
+                    return SessionPhase.AfterSession;
+                default:
+                    return SessionPhase.End;
+            }
         }
 
         private string GetStage(Session session)

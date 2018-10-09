@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using TeaseAI.Common.Constants;
 using TeaseAI.Common.Data;
 
 namespace TeaseAI.Common.Interfaces
@@ -12,10 +12,10 @@ namespace TeaseAI.Common.Interfaces
         /// <param name="session"></param>
         /// <param name="stage"></param>
         /// <returns></returns>
-        Result<ScriptMetaData> GetFallbackMetaData(Session session, string stage);
+        Result<ScriptMetaData> GetFallbackMetaData(Session session, SessionPhase stage);
 
         //Result<List<ScriptMetaData>> GetAvailableScripts(Session session, string type, string stage);
-        Result<List<ScriptMetaData>> GetAvailableScripts(DommePersonality domme, SubPersonality submissive, string type, string stage);
+        Result<List<ScriptMetaData>> GetAvailableScripts(DommePersonality domme, SubPersonality submissive, string type, SessionPhase stage);
 
         Result<Script> GetScript(ScriptMetaData value);
         /// <summary>

@@ -2,6 +2,7 @@
 Option Strict On
 Imports System.IO
 Imports TeaseAI.Common
+Imports TeaseAI.Common.Constants
 Imports TeaseAI.Common.Data
 Imports TeaseAI.Common.Interfaces
 
@@ -15,11 +16,13 @@ Public Class ScriptAccessor
     ''' <param name="type">one of Stroke or Interrupt </param>
     ''' <param name="stage">This varies.</param>
     ''' <returns></returns>
-    Public Function GetAvailableScripts(domme As DommePersonality, submissive As SubPersonality, type As String, stage As String) As Result(Of List(Of ScriptMetaData)) Implements IScriptAccessor.GetAvailableScripts
+    Public Function GetAvailableScripts(domme As DommePersonality, submissive As SubPersonality, type As String, stage As SessionPhase) As Result(Of List(Of ScriptMetaData)) Implements IScriptAccessor.GetAvailableScripts
         Dim searchSuffix As String = GetSearchSuffix(submissive)
         Dim scriptList As New List(Of ScriptMetaData)
 
-        For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath + "\Scripts\" + domme.PersonalityName + "\" + type + "\" + stage + "\", FileIO.SearchOption.SearchTopLevelOnly, searchSuffix)
+        Dim dirPath As String = Application.StartupPath + "\Scripts\" + domme.PersonalityName + "\" + type + "\" + stage.ToString() + "\"
+        dirPath = dirPath.Replace("\\", "\")
+        For Each foundFile As String In My.Computer.FileSystem.GetFiles(dirPath, FileIO.SearchOption.SearchTopLevelOnly, searchSuffix)
             Dim scriptName As String = Path.GetFileName(foundFile).Replace(".txt", "")
 
             Dim getScripts As Result(Of List(Of String)) = Result.Ok(GetAvailableScripts(domme, type, stage)) _
@@ -76,10 +79,10 @@ Public Class ScriptAccessor
         End Try
     End Function
 
-    Public Function GetFallbackMetaData(session As Session, stage As String) As Result(Of ScriptMetaData) Implements IScriptAccessor.GetFallbackMetaData
-        Dim path As String = Application.StartupPath + "\Scripts\" + session.Domme.PersonalityName + "\System\Scripts\" + stage + ".txt"
+    Public Function GetFallbackMetaData(session As Session, stage As SessionPhase) As Result(Of ScriptMetaData) Implements IScriptAccessor.GetFallbackMetaData
+        Dim path As String = Application.StartupPath + "\Scripts\" + session.Domme.PersonalityName + "\System\Scripts\" + stage.ToString() + ".txt"
         If (session.Sub.InChastity) Then
-            path = Application.StartupPath + "\Scripts\" + session.Domme.PersonalityName + "\System\Scripts\" + stage + "_CHASTITY.txt"
+            path = Application.StartupPath + "\Scripts\" + session.Domme.PersonalityName + "\System\Scripts\" + stage.ToString() + "_CHASTITY.txt"
         End If
 
         If (Not File.Exists(path)) Then
@@ -88,11 +91,20 @@ Public Class ScriptAccessor
         Return Result.Ok(CreateScriptMetaData(path))
     End Function
 
-    Private Function GetAvailableScripts(domme As DommePersonality, type As String, stage As String) As List(Of String)
+    Private Function GetAvailableScripts(domme As DommePersonality, type As String, stage As SessionPhase) As List(Of String)
         Dim baseDir As String = Application.StartupPath + "\Scripts\" + domme.PersonalityName + "\"
-        Dim scriptDir As String = baseDir + type + "\" + stage + "\"
-        Dim checkList As String = baseDir + "System\" + stage + "CheckList.cld"
+        Dim scriptDir As String = baseDir + type + "\" + stage.ToString() + "\"
+        Dim stageName As String = stage.ToString()
 
+        ' This if clause is required because of inconsistency in naming within the program. 
+        If stage = SessionPhase.Modules Then
+            stageName = "Module"
+        End If
+        Dim checkList As String = baseDir + "System\" + stageName + "CheckList.cld"
+
+        If Not File.Exists(checkList) Then
+            Throw New FileNotFoundException(checkList + " was not found, please report this to the script writer.")
+        End If
         Dim returnValue As List(Of String) = New List(Of String)()
         Using fs As New FileStream(checkList, FileMode.Open), binRead As New BinaryReader(fs)
             Do While fs.Position < fs.Length

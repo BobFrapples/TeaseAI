@@ -19018,8 +19018,6 @@ playLoop:
 
 NoPlaylistStartFile:
             mySession.BeginSession()
-
-            ssh.FileText = mySession.Session.Scripts.Peek().MetaData.Key
         Else
             Debug.Print("Start situation found")
             If ssh.PlaylistFile(0).Contains("Regular-TeaseAI-Script") Then
