@@ -280,6 +280,25 @@ namespace TeaseAI.Services
             return Result.Fail<IMessageProcessor>("Unable to process this message");
         }
 
+        private SessionPhase GetNextPhase(SessionPhase phase)
+        {
+            switch (phase)
+            {
+                case SessionPhase.BeforeSession:
+                    return SessionPhase.Start;
+                case SessionPhase.Start:
+                    return SessionPhase.Modules;
+                case SessionPhase.Modules:
+                    return SessionPhase.Link;
+                case SessionPhase.Link:
+                    return SessionPhase.End;
+                case SessionPhase.End:
+                    return SessionPhase.AfterSession;
+                default:
+                    return SessionPhase.End;
+            }
+        }
+
         private int GetTeaseDuration(Session session)
         {
             if (session.Domme.DomLevel == DomLevel.Gentle)
@@ -403,36 +422,6 @@ namespace TeaseAI.Services
             _scriptTimer.Enabled = false;
         }
 
-        private SessionPhase GetNextPhase(SessionPhase phase)
-        {
-            switch (phase)
-            {
-                case SessionPhase.BeforeSession:
-                    return SessionPhase.Start;
-                case SessionPhase.Start:
-                    return SessionPhase.Modules;
-                case SessionPhase.Modules:
-                    return SessionPhase.Link;
-                case SessionPhase.Link:
-                    return SessionPhase.End;
-                case SessionPhase.End:
-                    return SessionPhase.AfterSession;
-                default:
-                    return SessionPhase.End;
-            }
-        }
-
-        private string GetStage(Session session)
-        {
-            if (session.IsBeforeTease)
-                return "Start";
-            if (session.IsFirstRound)
-                return "Modules";
-            if (session.TimeRemaining > 0)
-                return "Link";
-            return "End";
-        }
-
         private void PlayVideoCommandProcessed(object sender, CommandProcessedEventArgs e)
         {
             var playEventArgs = (PlayVideoEventArgs)e.Parameter;
@@ -451,7 +440,6 @@ namespace TeaseAI.Services
             //StrokeTimer.Start()
             //StrokeTauntTimer.Start() 
         }
-
         #endregion
 
         #region Services

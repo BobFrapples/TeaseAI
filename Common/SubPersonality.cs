@@ -55,11 +55,14 @@ namespace TeaseAI.Common
                 CockSize = CockSize,
                 IsCircumsized = IsCircumsized,
                 IsCockPierced = IsCockPierced,
+                IsStroking = IsStroking,
+                IsOrgasmRestricted = IsOrgasmRestricted,
                 InChastity = InChastity,
                 Kinks = Kinks.ToList(),
                 Name = Name,
                 Safeword = Safeword,
                 ToyBox = ToyBox.ToList(),
+                WillBeAllowedToOrgasm = WillBeAllowedToOrgasm,
             };
         }
     }

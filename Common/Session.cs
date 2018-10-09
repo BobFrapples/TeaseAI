@@ -37,7 +37,6 @@ namespace TeaseAI.Common
 
             IsFirstRound = false;
             IsBeforeTease = false;
-            IsStroking = false;
 
             IsOrgasmAllowed = false;
             IsOrgasmRuined = false;
@@ -56,7 +55,6 @@ namespace TeaseAI.Common
             {
 
                 IsFirstRound = this.IsFirstRound,
-                IsStroking = this.IsStroking,
                 IsOrgasmAllowed = this.IsOrgasmAllowed,
                 IsOrgasmRuined = this.IsOrgasmRuined,
                 IsBeforeTease = this.IsBeforeTease,
@@ -75,8 +73,6 @@ namespace TeaseAI.Common
 
         #region deprecated
         public bool IsFirstRound { get; set; }
-        [Obsolete("Use Sub.IsStroking")]
-        public bool IsStroking { get; set; }
         public bool IsOrgasmAllowed { get; set; }
 
         public bool IsOrgasmRuined { get; set; }

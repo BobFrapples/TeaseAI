@@ -8,11 +8,11 @@ namespace TeaseAI.Services.CommandDetection
         {
             // stroking / not stroking
             if ((inputString.Contains("@Stroking") || inputString.Contains("@SubStroking"))
-                && !ssh.IsStroking)
+                && !ssh.Sub.IsStroking)
                 return false;
 
             if ((inputString.Contains("@NotStroking") || inputString.Contains("@SubNotStroking"))
-                && ssh.IsStroking)
+                && ssh.Sub.IsStroking)
                 return false;
 
             // Edging / not edging

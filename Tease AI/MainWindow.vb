@@ -18883,7 +18883,7 @@ playLoop:
 
     Public Function CreateSession() As Session
         Dim returnValue As Session = New Session(CreateDommePersonality(), CreateSubPersonality())
-        returnValue.IsStroking = ssh.SubStroking
+        returnValue.Sub.IsStroking = ssh.SubStroking
         returnValue.IsEdging = ssh.SubEdging
         returnValue.IsHoldingTheEdge = ssh.SubHoldingEdge
         returnValue.IsFirstRound = ssh.FirstRound
