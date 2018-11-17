@@ -11,26 +11,18 @@ using TeaseAI.Common.Interfaces.Accessors;
 
 namespace TeaseAI.Services.CommandProcessor
 {
-    public class StartStrokingCommandProcessor : ICommandProcessor
+    public class StartStrokingCommandProcessor : CommandProcessorBase
     {
         public StartStrokingCommandProcessor(IVariableAccessor variableAccessor)
         {
             _variableAccessor = variableAccessor;
         }
 
-        public event EventHandler<CommandProcessedEventArgs> CommandProcessed;
+        public override string DeleteCommandFrom(string line) => line.Replace(Keyword.StartStroking, string.Empty);
 
-        public string DeleteCommandFrom(string line)
-        {
-            return line.Replace(Keyword.StartStroking, string.Empty);
-        }
+        public override bool IsRelevant(Session session, string line) => line.Contains(Keyword.StartStroking);
 
-        public bool IsRelevant(Session session, string line)
-        {
-            return line.Contains(Keyword.StartStroking);
-        }
-
-        public Result<Session> PerformCommand(Session session, string line)
+        public override Result<Session> PerformCommand(Session session, string line)
         {
             var workingSession = session.Clone();
 
@@ -68,15 +60,27 @@ namespace TeaseAI.Services.CommandProcessor
             //End If
             workingSession.IsBeforeTease = false;
             workingSession.Sub.IsStroking = true;
+            workingSession.Sub.StrokePace = GetStrokePace();
 
-            workingSession.TimeRemaining = GetTimeLeft(workingSession);
+            workingSession.TimeRemaining = GetStrokeTime(workingSession);
 
             OnCommandProcessed(workingSession);
 
             return Result.Ok(workingSession);
         }
 
-        private int GetTimeLeft(Session workingSession)
+        /// <summary>
+        /// Get the Speed at which the sub should be stroking.
+        /// </summary>
+        /// <returns>value between 200 and 1000 in multiples of 50, stroke faster for lower numbers</returns>
+        private int GetStrokePace()
+        {
+            var pace = new Random().Next(200, 1000);
+            // This just
+            return 50 * (int)Math.Round(pace / 50m);
+        }
+
+        private int GetStrokeTime(Session workingSession)
         {
             // TODO: Add user ranges and worship mode.
             if (workingSession.Domme.DomLevel == DomLevel.Gentle)
@@ -109,11 +113,6 @@ namespace TeaseAI.Services.CommandProcessor
             //    ssh.StrokeTick = ssh.randomizer.Next(FrmSettings.NBTauntCycleMin.Value * 60, FrmSettings.NBTauntCycleMax.Value * 60)
             //    If ssh.WorshipMode = True Then ssh.StrokeTick = FrmSettings.NBTauntCycleMax.Value * 60
             //End If
-        }
-
-        protected virtual void OnCommandProcessed(Session session)
-        {
-            CommandProcessed?.Invoke(this, new CommandProcessedEventArgs() { Session = session });
         }
 
         private readonly IVariableAccessor _variableAccessor;

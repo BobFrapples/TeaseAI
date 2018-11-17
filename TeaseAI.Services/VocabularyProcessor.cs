@@ -43,6 +43,9 @@ namespace TeaseAI.Services
                 return string.Empty;
             else if (IsMatch("#SubName", key))
                 return key.Replace("#SubName", session.Sub.Name);
+            // TODO: Set #PetName based upon domme mood
+            else if (IsMatch("#PetName", key))
+                return key.Replace("#PetName", session.Sub.PetNames[new Random().Next(session.Sub.PetNames.Count)]);
             else if (IsMatch("#DommeName", key))
                 return key.Replace("#DommeName", session.Domme.Name);
             else if (IsMatch("#DomName", key))

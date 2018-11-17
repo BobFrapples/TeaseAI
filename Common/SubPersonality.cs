@@ -42,8 +42,20 @@ namespace TeaseAI.Common
         public string Safeword { get; set; }
         public bool? WillBeAllowedToOrgasm { get; set; }
         public bool IsOrgasmRestricted { get; set; }
+        public int StrokePace { get; set; }
+
+        /// <summary>
+        /// All pet names that might be used
+        /// </summary>
+        public List<string> PetNames
+        {
+            get { return _petNames ?? (_petNames = new List<string>()); }
+            set { _petNames = value; }
+        }
 
         private List<string> _toyBox;
+        private List<string> _petNames;
+
         internal SubPersonality Clone()
         {
             return new SubPersonality()
@@ -62,6 +74,7 @@ namespace TeaseAI.Common
                 Name = Name,
                 Safeword = Safeword,
                 ToyBox = ToyBox.ToList(),
+                PetNames = PetNames.ToList(),
                 WillBeAllowedToOrgasm = WillBeAllowedToOrgasm,
             };
         }

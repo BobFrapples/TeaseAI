@@ -18835,6 +18835,7 @@ playLoop:
         returnValue.IsCircumsized = FrmSettings.CBSubCircumcised.Checked
         returnValue.IsCockPierced = FrmSettings.CBSubPierced.Checked
 
+
         ' I don't know what these do, in theory, they should replace the slider setting
         'returnValue.BallsTortureLevel = TortureLevel.Create(ssh.CBTBallsCount).Value()
         'returnValue.CockTortureLevel = TortureLevel.Create(ssh.CBTCockCount).Value()
@@ -18876,6 +18877,38 @@ playLoop:
         End If
 #End Region
 
+#Region "Setup pet names"
+
+        ' Happy mood
+        If Not String.IsNullOrWhiteSpace(FrmSettings.petnameBox1.Text) Then
+            returnValue.PetNames.Add(FrmSettings.petnameBox1.Text)
+        End If
+        If Not String.IsNullOrWhiteSpace(FrmSettings.petnameBox2.Text) Then
+            returnValue.PetNames.Add(FrmSettings.petnameBox2.Text)
+        End If
+
+        ' Normal mood
+        If Not String.IsNullOrWhiteSpace(FrmSettings.petnameBox3.Text) Then
+            returnValue.PetNames.Add(FrmSettings.petnameBox3.Text)
+        End If
+        If Not String.IsNullOrWhiteSpace(FrmSettings.petnameBox4.Text) Then
+            returnValue.PetNames.Add(FrmSettings.petnameBox4.Text)
+        End If
+        If Not String.IsNullOrWhiteSpace(FrmSettings.petnameBox5.Text) Then
+            returnValue.PetNames.Add(FrmSettings.petnameBox5.Text)
+        End If
+        If Not String.IsNullOrWhiteSpace(FrmSettings.petnameBox6.Text) Then
+            returnValue.PetNames.Add(FrmSettings.petnameBox6.Text)
+        End If
+
+        ' Angry mood
+        If Not String.IsNullOrWhiteSpace(FrmSettings.petnameBox7.Text) Then
+            returnValue.PetNames.Add(FrmSettings.petnameBox7.Text)
+        End If
+        If Not String.IsNullOrWhiteSpace(FrmSettings.petnameBox8.Text) Then
+            returnValue.PetNames.Add(FrmSettings.petnameBox8.Text)
+        End If
+#End Region
         returnValue.InChastity = My.Settings.SubInChastity
 
         Return returnValue

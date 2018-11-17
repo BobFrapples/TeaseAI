@@ -18,6 +18,7 @@ namespace TeaseAI.Services
     /// </summary>
     public class SessionEngine
     {
+        //TODO: Setup filtering to ignore lines like @Crazy, @SelfYoung, etc.
         public Session Session { get; set; }
         /// <summary>
         /// Index command processor by keyword it handles. useful for binding events
