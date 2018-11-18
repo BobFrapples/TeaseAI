@@ -237,5 +237,7 @@ namespace TeaseAI.Common.Constants
         /// Call another script, if a second parameter is passed, will move directly to that bookmark in the new script
         /// </summary>
         public const string Call = @"@Call(";
+
+        public const string Edge = @"@Edge";
     }
 }

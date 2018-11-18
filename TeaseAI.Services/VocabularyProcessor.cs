@@ -52,6 +52,8 @@ namespace TeaseAI.Services
                 return key.Replace("#DomName", session.Domme.Name);
             else if (IsMatch("#GreetSub", key))
                 return GetGreetingReplacement(DateTime.Now);
+            else if (IsMatch("#EdgeTaunt", key))
+                return GetEdgeTaunt(session);
 
             // It wasn't a coded vocabulary word, look up in data
             var fileName = AppDomain.CurrentDomain.BaseDirectory + "Scripts\\" + session.Domme.PersonalityName + "\\Vocabulary\\" + key + ".txt";
@@ -62,11 +64,22 @@ namespace TeaseAI.Services
             return lines[new Random().Next(lines.Count)];
         }
 
+        private string GetEdgeTaunt(Session session)
+        {
+            var fileName = AppDomain.CurrentDomain.BaseDirectory + "Scripts\\" + session.Domme.PersonalityName + "\\Stroke\\Edge\\Edge.txt";
+            if (!File.Exists(fileName))
+                throw new Exception("No Taunt file found");
+
+            var lines = File.ReadAllLines(fileName).ToList();
+
+            return lines[new Random().Next(lines.Count)];
+        }
+
         private bool IsMatch(string tagName, string key)
         {
             return new Regex(tagName + "[^a-zA-Z]*").IsMatch(key);
         }
-        
+
         private string GetGreetingReplacement(DateTime time)
         {
             if (3 < time.Hour && time.Hour < 12)

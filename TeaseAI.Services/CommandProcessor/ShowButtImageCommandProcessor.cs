@@ -27,12 +27,11 @@ namespace TeaseAI.Services.CommandProcessor
 
         public Result<Session> PerformCommand(Session session, string line)
         {
-            Result<List<ImageMetaData>> images = _imageAccessor.GetImageMetaDataList(default(ImageSource?), ImageGenre.Butt);
-            var selected = images.Value[new Random().Next(images.Value.Count)];
-
-            OnCommandProcessed(session, selected);
-
-            return Result.Ok(session);
+            return _imageAccessor.GetImageMetaDataList(default(ImageSource?), ImageGenre.Butt)
+                .Ensure(data => data.Count > 0, "No  images of genre " + ImageGenre.Boobs.ToString() + " to load")
+                .OnSuccess(data => data[new Random().Next(data.Count)])
+                .OnSuccess(img => OnCommandProcessed(session, img))
+                .Map(img => session);
         }
 
         private void OnCommandProcessed(Session session, ImageMetaData selected)

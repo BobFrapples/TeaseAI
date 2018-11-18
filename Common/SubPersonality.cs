@@ -53,6 +53,9 @@ namespace TeaseAI.Common
             set { _petNames = value; }
         }
 
+        [Obsolete("Find out  what this is for and document")]
+        public bool IsAlreadyStrokingEdge { get; set; }
+
         private List<string> _toyBox;
         private List<string> _petNames;
 

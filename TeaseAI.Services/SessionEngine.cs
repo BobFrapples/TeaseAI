@@ -20,6 +20,8 @@ namespace TeaseAI.Services
     {
         //TODO: Setup filtering to ignore lines like @Crazy, @SelfYoung, etc.
         public Session Session { get; set; }
+
+
         /// <summary>
         /// Index command processor by keyword it handles. useful for binding events
         /// </summary>
@@ -33,11 +35,13 @@ namespace TeaseAI.Services
             , IFlagAccessor flagAccessor
             , IImageAccessor imageAccessor
             , IVideoAccessor videoAccessor
-            , IVariableAccessor variableAccessor)
+            , IVariableAccessor variableAccessor
+            , ITauntAccessor tauntAccessor)
         {
-            CommandProcessors = CreateCommandProcessors(scriptAccessor, flagAccessor, new LineService(), imageAccessor, videoAccessor, variableAccessor);
+            CommandProcessors = CreateCommandProcessors(scriptAccessor, flagAccessor, new LineService(), imageAccessor, videoAccessor, variableAccessor, tauntAccessor);
 
             CommandProcessors[Keyword.StartStroking].CommandProcessed += StartStrokingCommandProcessed;
+            CommandProcessors[Keyword.Edge].CommandProcessed += EdgeCommandProcessed;
             CommandProcessors[Keyword.End].CommandProcessed += EndCommandProcessed;
             CommandProcessors[Keyword.ShowImage].CommandProcessed += ShowImageCommandProcessed;
             CommandProcessors[Keyword.ShowButtImage].CommandProcessed += ShowImageCommandProcessed;
@@ -70,9 +74,20 @@ namespace TeaseAI.Services
             _scriptTimer = timerFactory.Create();
             _scriptTimer.Elapsed += _scriptTimer_Elapsed;
 
+            _tauntTimer = timerFactory.Create();
+            _tauntTimer.Elapsed += _tauntTimer_Elapsed;
+
             _teaseCountDown = timerFactory.Create();
             _teaseCountDown.Elapsed += _teaseCountDown_Elapsed;
+
             _vocabularyProcesser = new VocabularyProcessor();
+        }
+
+        private void EdgeCommandProcessed(object sender, CommandProcessedEventArgs e)
+        {
+            _teaseCountDown.Interval = 1000;
+            _teaseCountDown.AutoReset = true;
+            _teaseCountDown.Enabled = true;
         }
 
         #region events and OnEvent methods
@@ -195,11 +210,13 @@ namespace TeaseAI.Services
             , LineService lineService
             , IImageAccessor imageAccessor
             , IVideoAccessor videoAccessor
-            , IVariableAccessor variableAccessor)
+            , IVariableAccessor variableAccessor
+            , ITauntAccessor tauntAccessor)
         {
             var rVal = new Dictionary<string, ICommandProcessor>();
             rVal.Add(Keyword.Wait, new WaitCommandProcessor());
             rVal.Add(Keyword.StartStroking, new StartStrokingCommandProcessor(variableAccessor));
+            rVal.Add(Keyword.Edge, new EdgeCommandProcessor(lineService));
 
             // Image commands
             rVal.Add(Keyword.ShowImage, new ShowImageCommandProcessor(imageAccessor));
@@ -439,7 +456,7 @@ namespace TeaseAI.Services
         private void StartStrokingCommandProcessed(object sender, CommandProcessedEventArgs e)
         {
             //StrokeTimer.Start()
-            //StrokeTauntTimer.Start() 
+            //TauntTimer.Start();
         }
         #endregion
 
@@ -493,6 +510,11 @@ namespace TeaseAI.Services
 
             // We are all done, so go ahead and schedule a new timer.
             _scriptTimer.Enabled = true;
+        }
+
+        ITimer _tauntTimer;
+        private void _tauntTimer_Elapsed(object sender, EventArgs e)
+        {
         }
 
         ITimer _teaseCountDown;

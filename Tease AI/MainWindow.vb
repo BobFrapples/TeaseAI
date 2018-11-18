@@ -1266,7 +1266,7 @@ retryStart:
         End If
         ' this should happen on construction.
         If mySession Is Nothing Then
-            mySession = New SessionEngine(New SettingsAccessor(), New StringService(), New ScriptAccessor(), New TimerFactory(), New FlagAccessor(), New ImageAccessor(), New VideoAccessor(), New VariableAccessor())
+            mySession = New SessionEngine(New SettingsAccessor(), New StringService(), New ScriptAccessor(), New TimerFactory(), New FlagAccessor(), New ImageAccessor(), New VideoAccessor(), New VariableAccessor(), New TauntAccessor())
             mySession.Session = CreateSession()
             AddHandler mySession.DommeSaid, AddressOf mySession_DommeSaid
             AddHandler mySession.ShowImage, AddressOf mySession_ShowImage

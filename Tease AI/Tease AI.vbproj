@@ -205,6 +205,7 @@
     </Compile>
     <Compile Include="Services\FlagAccessor.vb" />
     <Compile Include="Services\ImageAccessor.vb" />
+    <Compile Include="Services\TauntAccessor.vb" />
     <Compile Include="Services\VariableAccessor.vb" />
     <Compile Include="Services\ScriptAccessor.vb" />
     <Compile Include="Services\ResponseAccessor.vb" />
