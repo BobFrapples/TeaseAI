@@ -1,16 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using TeaseAI.Common;
 using TeaseAI.Common.Constants;
+using TeaseAI.Common.Interfaces;
 
 namespace TeaseAI.Services
 {
     public class VocabularyProcessor
     {
-        public VocabularyProcessor()
+        public VocabularyProcessor(ILineCollectionFilter lineCollectionFilter)
         {
+            _lineCollectionFilter = lineCollectionFilter;
         }
 
         /// <summary>
@@ -60,7 +63,7 @@ namespace TeaseAI.Services
             if (!File.Exists(fileName))
                 return key;
             var lines = File.ReadAllLines(fileName).ToList();
-
+            lines = _lineCollectionFilter.FilterLines(session, lines);
             return lines[new Random().Next(lines.Count)];
         }
 
@@ -71,7 +74,7 @@ namespace TeaseAI.Services
                 throw new Exception("No Taunt file found");
 
             var lines = File.ReadAllLines(fileName).ToList();
-
+            lines = _lineCollectionFilter.FilterLines(session, lines);
             return lines[new Random().Next(lines.Count)];
         }
 
@@ -89,5 +92,8 @@ namespace TeaseAI.Services
             //if (17 < time.Hour && time.Hour < 4)
             return "#GoodEveningSub";
         }
+
+
+        private readonly ILineCollectionFilter _lineCollectionFilter;
     }
 }

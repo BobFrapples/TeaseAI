@@ -63,7 +63,7 @@ namespace TeaseAI.Services.CommandDetection
             if (inputString.ToLower().Contains("@bcup") && domme.CupSize != CupSize.BCup) return false;
             if (inputString.ToLower().Contains("@ccup") && domme.CupSize != CupSize.CCup) return false;
             if (inputString.ToLower().Contains("@dcup") && domme.CupSize != CupSize.DCup) return false;
-            if (inputString.ToLower().Contains("@ddcup") && domme.CupSize != CupSize.DDCup) return false;
+            if (inputString.ToLower().Contains("@ddcup") && domme.CupSize != CupSize.DdCup) return false;
             if (inputString.ToLower().Contains("@ddd+cup") && domme.CupSize != CupSize.DddCup) return false;
 
             // Personality flags

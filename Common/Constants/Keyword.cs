@@ -117,8 +117,6 @@ namespace TeaseAI.Common.Constants
         public const string Sadistic = @"@Sadistic";
         public const string SetFlag = @"@SetFlag(";
         public const string SetTempFlag = @"@TempFlag(";
-        public const string ShowButtImage = @"@ShowButtImage";
-        public const string ShowButtsImage = @"@ShowButtsImage";
 
         public const string Supremacist = @"@Supremacist";
 
@@ -168,10 +166,21 @@ namespace TeaseAI.Common.Constants
         /// </summary>
         public const string RT = @"@RT(";
 
+        public const string ShowButtImage = @"@ShowButtImage";
+        public const string ShowButtsImage = @"@ShowButtsImage";
         /// <summary>
         /// Show a random image local or blog
         /// </summary>
         public const string ShowImage = @"@ShowImage";
+        /// <summary>
+        /// Show a random local image.
+        /// </summary>
+        public const string ShowLocalImage = @"@ShowLocalImage";
+        /// <summary>
+        /// Show a local image in a category listed.
+        /// i.e. @ShowLocalImage(butt,femdom)
+        /// </summary>
+        public const string ShowLocalCategoryImage = @"@ShowLocalImage(";
 
         /// <summary>
         /// Show a random blog image
@@ -239,5 +248,33 @@ namespace TeaseAI.Common.Constants
         public const string Call = @"@Call(";
 
         public const string Edge = @"@Edge";
+
+        /// <summary>
+        /// Used to filter out lines in vocabulary files that have the LongEdge keyword
+        /// </summary>
+        public const string LongEdgeFilter = @"@LongEdge";
+
+        /// <summary>
+        /// Filter used when the sub's cock is considered big
+        /// </summary>
+        public const string BigCockFilter = @"@CockLarge";
+
+        /// <summary>
+        /// Filter used when the sub's cock is considered small
+        /// </summary>
+        public const string SmallCockFilter = @"@CockSmall";
+
+        public const string SubOldFilter = @"@SubOld";
+        public const string SubYoungFilter = @"@SubYoung";
+        public const string SelfOldFilter = @"@SelfOld";
+        public const string SelfYoungFilter = @"@SelfYoung";
+        public const string SubInChastity = @"@InChastity";
+
+        public const string CupSizeA = @"@ACup";
+        public const string CupSizeB = @"@BCup";
+        public const string CupSizeC = @"@CCup";
+        public const string CupSizeD = @"@DCup";
+        public const string CupSizeDD = @"@DDCup";
+        public const string CupSizeDDD = @"@DDD+Cup";
     }
 }

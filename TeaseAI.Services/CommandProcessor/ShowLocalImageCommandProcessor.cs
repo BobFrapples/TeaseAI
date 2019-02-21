@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using TeaseAI.Common;
 using TeaseAI.Common.Constants;
 using TeaseAI.Common.Data;
@@ -10,31 +11,39 @@ using TeaseAI.Common.Interfaces.Accessors;
 namespace TeaseAI.Services.CommandProcessor
 {
     /// <summary>
-    /// Process image commands for both ShowBoobImage and ShowBoobsImage
+    /// process both ShowLocalImage and ShowLocalCategoryImage
     /// </summary>
-    public class ShowBoobsImageCommandProcessor : ICommandProcessor
+    public class ShowLocalImageCommandProcessor : ICommandProcessor
     {
-        public ShowBoobsImageCommandProcessor(IImageAccessor imageAccessor)
+        public ShowLocalImageCommandProcessor(IImageAccessor imageAccessor, LineService lineService)
         {
             _imageAccessor = imageAccessor;
+            _lineService = lineService;
         }
 
         public event EventHandler<CommandProcessedEventArgs> CommandProcessed;
 
         public string DeleteCommandFrom(string line)
         {
-            return line.Replace(Keyword.ShowBoobImage, string.Empty).Replace(Keyword.ShowBoobsImage, string.Empty);
+            return line.Replace(Keyword.ShowLocalImage, string.Empty).Replace(Keyword.ShowLocalCategoryImage, string.Empty);
         }
 
-        public bool IsRelevant(Session session, string line) => line.Contains(Keyword.ShowBoobImage) || line.Contains(Keyword.ShowBoobsImage);
+        public bool IsRelevant(Session session, string line) => line.Contains(Keyword.ShowLocalImage);
 
         public Result<Session> PerformCommand(Session session, string line)
         {
-            return _imageAccessor.GetImageMetaDataList(default(ImageSource?), ImageGenre.Boobs)
+            var genres = line.Contains(Keyword.ShowLocalCategoryImage) ? GetCategoryies(line) : new List<string>();
+            return _imageAccessor.GetImageMetaDataList(ImageSource.Local, null)
                 .Ensure(data => data.Count > 0, "No  images of genre " + ImageGenre.Boobs.ToString() + " to load")
                 .OnSuccess(data => data[new Random().Next(data.Count)])
                 .OnSuccess(img => OnCommandProcessed(session, img))
                 .Map(img => session);
+        }
+
+        private List<string> GetCategoryies(string line)
+        {
+            var data = _lineService.GetParenData(line, Keyword.ShowLocalCategoryImage);
+            return data.GetResultOrDefault();
         }
 
         private void OnCommandProcessed(Session session, ImageMetaData selected)
@@ -43,5 +52,6 @@ namespace TeaseAI.Services.CommandProcessor
         }
 
         private readonly IImageAccessor _imageAccessor;
+        private readonly LineService _lineService;
     }
 }

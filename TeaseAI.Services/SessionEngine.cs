@@ -80,7 +80,7 @@ namespace TeaseAI.Services
             _teaseCountDown = timerFactory.Create();
             _teaseCountDown.Elapsed += _teaseCountDown_Elapsed;
 
-            _vocabularyProcesser = new VocabularyProcessor();
+            _vocabularyProcesser = new VocabularyProcessor( new LineCollectionFilter());
         }
 
         private void EdgeCommandProcessed(object sender, CommandProcessedEventArgs e)

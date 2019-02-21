@@ -23,10 +23,10 @@ namespace TeaseAI.Common.Constants
                     return Result.Ok(DCup);
                 case "DD":
                 case "DDCup":
-                    return Result.Ok(DDCup);
+                    return Result.Ok(DdCup);
                 case "DDD+":
                 case "DDD+Cup":
-                    return Result.Ok(DDCup);
+                    return Result.Ok(DdCup);
                 default:
                     return Result.Fail<CupSize>("value must be one of ACup, BCup, CCup, DCup, DDCup, DDD+Cup");
             }
@@ -45,7 +45,7 @@ namespace TeaseAI.Common.Constants
                 case 4:
                     return Result.Ok(DCup);
                 case 5:
-                    return Result.Ok(DDCup);
+                    return Result.Ok(DdCup);
                 case 6:
                     return Result.Ok(DddCup);
                 default:
@@ -67,7 +67,7 @@ namespace TeaseAI.Common.Constants
 
         public static CupSize DCup => new CupSize(4);
 
-        public static CupSize DDCup => new CupSize(5);
+        public static CupSize DdCup => new CupSize(5);
         public static CupSize DddCup => new CupSize(6);
         #endregion
 
@@ -100,7 +100,7 @@ namespace TeaseAI.Common.Constants
                 case 4:
                     return nameof(DCup);
                 case 5:
-                    return nameof(DDCup);
+                    return nameof(DdCup);
                 case 6:
                     return "DDD+Cup";
             }

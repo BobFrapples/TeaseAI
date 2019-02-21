@@ -84,6 +84,7 @@ namespace TeaseAI.Common
         /// This is for tracking to / from the UI. is true when the UI starts a video, is false when the video stops
         /// </summary>
         public bool IsVideoPlaying { get; set; }
+        public bool IsLongEdge { get; set; }
         //public StrokePace StrokePace { get; set; }
         #endregion
     }

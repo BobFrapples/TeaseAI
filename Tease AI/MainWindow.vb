@@ -28,7 +28,7 @@ Public Class MainWindow
     ''' </summary>
     Friend Shared ReadOnly pathUrlFileDir As String = Application.StartupPath & "\Images\System\URL Files\"
 
-    Friend Shared ReadOnly pathImageErrorOnLoading As String = Application.StartupPath & "\Images\System\ErrorLoadingImage.jpg"
+    Friend Shared ReadOnly PathImageErrorOnLoading As String = Application.StartupPath & "\Images\System\ErrorLoadingImage.jpg"
     Friend Shared ReadOnly pathImageErrorNoLocalImages As String = Application.StartupPath & "\Images\System\NoLocalImagesFound.jpg"
 
     Friend Shared ReadOnly SavedSessionDefaultPath As String = Application.StartupPath & "\System\SavedState.save"
