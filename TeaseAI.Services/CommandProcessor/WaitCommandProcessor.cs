@@ -10,6 +10,11 @@ namespace TeaseAI.Services.CommandProcessor
 {
     public class WaitCommandProcessor : ICommandProcessor
     {
+        public WaitCommandProcessor(LineService lineService)
+        {
+            _lineService = lineService;
+        }
+
         public event EventHandler<CommandProcessedEventArgs> CommandProcessed;
 
         public bool IsRelevant(Session session, string line)
@@ -19,8 +24,7 @@ namespace TeaseAI.Services.CommandProcessor
 
         public Result<Session> PerformCommand(Session session, string line)
         {
-            var ls = new LineService();
-            var data = ls.GetParenData(session.CurrentScript.CurrentLine, Keyword.Wait)
+            var data = _lineService.GetParenData(session.CurrentScript.CurrentLine, Keyword.Wait)
                  .Ensure(pd => pd.Count == 1, "CurrentLine is invalid")
                  .Map(pd => pd[0].ToLower())
                  .OnSuccess(time =>
@@ -40,10 +44,8 @@ namespace TeaseAI.Services.CommandProcessor
             return data;
         }
 
-        public string DeleteCommandFrom(string line)
-        {
-            var rgx = new Regex(Keyword.Wait + ".*" + ")");
-            return line;
-        }
+        public string DeleteCommandFrom(string line) => _lineService.DeleteCommand(line, Keyword.Wait);
+
+        private LineService _lineService;
     }
 }

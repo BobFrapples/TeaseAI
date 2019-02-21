@@ -214,7 +214,7 @@ namespace TeaseAI.Services
             , ITauntAccessor tauntAccessor)
         {
             var rVal = new Dictionary<string, ICommandProcessor>();
-            rVal.Add(Keyword.Wait, new WaitCommandProcessor());
+            rVal.Add(Keyword.Wait, new WaitCommandProcessor(lineService));
             rVal.Add(Keyword.StartStroking, new StartStrokingCommandProcessor(variableAccessor));
             rVal.Add(Keyword.Edge, new EdgeCommandProcessor(lineService));
 

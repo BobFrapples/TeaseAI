@@ -12,7 +12,7 @@ namespace TeaseAI.ServicesTests
         [TestInitialize]
         public void Initialize()
         {
-            _service = new VocabularyProcessor();
+            _service = new VocabularyProcessor(new LineCollectionFilter());
         }
 
         [TestMethod]
