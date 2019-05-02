@@ -20,22 +20,23 @@ Public Class ScriptAccessor
         Dim searchSuffix As String = GetSearchSuffix(submissive)
         Dim scriptList As New List(Of ScriptMetaData)
 
-        Dim dirPath As String = Application.StartupPath + "\Scripts\" + domme.PersonalityName + "\" + type + "\" + stage.ToString() + "\"
-        dirPath = dirPath.Replace("\\", "\")
+        Dim availableScripts As List(Of String) = GetAvailableScripts(domme, type, stage)
+
+        Dim dirPath As String = GetDirPath(domme, type, stage)
         For Each foundFile As String In My.Computer.FileSystem.GetFiles(dirPath, FileIO.SearchOption.SearchTopLevelOnly, searchSuffix)
             Dim scriptName As String = Path.GetFileName(foundFile).Replace(".txt", "")
 
-            Dim getScripts As Result(Of List(Of String)) = Result.Ok(GetAvailableScripts(domme, type, stage)) _
+            Dim getScripts As Result(Of List(Of String)) = Result.Ok(availableScripts) _
                 .Ensure(Function(sl) sl.Count > 0, "No available scripts") _
-                .OnSuccess(Sub(availableScripts)
-                               For x As Integer = 0 To availableScripts.Count - 1
+                .OnSuccess(Sub(ascripts)
+                               For x As Integer = 0 To ascripts.Count - 1
                                    'TODO: Figure out the BEG requirement
                                    If submissive.InChastity OrElse submissive.IsOrgasmRestricted Then
-                                       If availableScripts(x) = scriptName Then
+                                       If ascripts(x) = scriptName Then
                                            scriptList.Add(CreateScriptMetaData(foundFile))
                                        End If
                                    Else
-                                       If availableScripts(x) = scriptName AndAlso Not scriptName.Contains("_CHASTITY") AndAlso
+                                       If ascripts(x) = scriptName AndAlso Not scriptName.Contains("_CHASTITY") AndAlso
                                            Not scriptName.Contains("_RESTRICTED") AndAlso
                                            Not scriptName.Contains("_BEG") Then
                                            scriptList.Add(CreateScriptMetaData(foundFile))
@@ -45,6 +46,46 @@ Public Class ScriptAccessor
                            End Sub)
         Next
         Return Result.Ok(scriptList)
+    End Function
+
+    Private Function GetAvailableScripts(domme As DommePersonality, type As String, stage As SessionPhase) As List(Of String)
+        Dim baseDir As String = Application.StartupPath + "\Scripts\" + domme.PersonalityName + "\"
+        Dim scriptDir As String = GetDirPath(domme, type, stage)
+        Dim stageName As String = stage.ToString()
+
+        ' This if clause is required because of inconsistency in naming within the program. 
+        If stage = SessionPhase.Modules Then
+            stageName = "Module"
+        End If
+        Dim checkList As String = baseDir + "System\" + stageName + "CheckList.cld"
+
+        If Not File.Exists(checkList) Then
+            Throw New FileNotFoundException(checkList + " was not found, please report this to the script writer.")
+        End If
+        Dim returnValue As List(Of String) = New List(Of String)()
+        Using fs As New FileStream(checkList, FileMode.Open), binRead As New BinaryReader(fs)
+            Do While fs.Position < fs.Length
+                Dim fileName As String = binRead.ReadString()
+                Dim enabled As Boolean = binRead.ReadBoolean()
+                Dim fullFilePath As String = scriptDir + fileName + ".txt"
+
+                If File.Exists(fullFilePath) AndAlso enabled Then
+                    returnValue.Add(fileName)
+                End If
+            Loop
+        End Using
+        Return returnValue.Distinct().ToList()
+    End Function
+
+    Private Function GetDirPath(domme As DommePersonality, type As String, stage As SessionPhase) As String
+        Dim dirPath As String = Application.StartupPath + "\Scripts\" + domme.PersonalityName + "\"
+        If stage = SessionPhase.Modules Then
+            dirPath += "Modules\"
+        Else
+            dirPath += type + "\" + stage.ToString() + "\"
+        End If
+
+        Return dirPath
     End Function
 
     Private Function GetSearchSuffix(submissive As SubPersonality) As String
@@ -93,37 +134,9 @@ Public Class ScriptAccessor
         End If
 
         If (Not File.Exists(path)) Then
+            Return Result.Fail(Of ScriptMetaData)("No script available for " + stage.ToString())
         End If
         Return Result.Ok(CreateScriptMetaData(path))
-    End Function
-
-    Private Function GetAvailableScripts(domme As DommePersonality, type As String, stage As SessionPhase) As List(Of String)
-        Dim baseDir As String = Application.StartupPath + "\Scripts\" + domme.PersonalityName + "\"
-        Dim scriptDir As String = baseDir + type + "\" + stage.ToString() + "\"
-        Dim stageName As String = stage.ToString()
-
-        ' This if clause is required because of inconsistency in naming within the program. 
-        If stage = SessionPhase.Modules Then
-            stageName = "Module"
-        End If
-        Dim checkList As String = baseDir + "System\" + stageName + "CheckList.cld"
-
-        If Not File.Exists(checkList) Then
-            Throw New FileNotFoundException(checkList + " was not found, please report this to the script writer.")
-        End If
-        Dim returnValue As List(Of String) = New List(Of String)()
-        Using fs As New FileStream(checkList, FileMode.Open), binRead As New BinaryReader(fs)
-            Do While fs.Position < fs.Length
-                Dim fileName As String = binRead.ReadString()
-                Dim enabled As Boolean = binRead.ReadBoolean()
-                Dim fullFilePath As String = scriptDir + fileName + ".txt"
-
-                If File.Exists(fullFilePath) AndAlso enabled Then
-                    returnValue.Add(fileName)
-                End If
-            Loop
-        End Using
-        Return returnValue.Distinct().ToList()
     End Function
 
     Private Function CreateScriptMetaData(fileName As String) As ScriptMetaData
