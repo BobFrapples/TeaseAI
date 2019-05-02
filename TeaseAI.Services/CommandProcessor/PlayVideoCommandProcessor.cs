@@ -26,7 +26,7 @@ namespace TeaseAI.Services.CommandProcessor
 
         public bool IsRelevant(Session session, string line)
         {
-            return line.Contains(Keyword.PlayVideo) && !line.Contains(Keyword.PlaySpecificVideo);
+            return line.Contains(Keyword.PlayVideo) && !line.Contains(Keyword.PlaySpecificVideo) && !line.Contains(Keyword.PlaySpecificVideoSquareBrackets);
         }
 
         public Result<Session> PerformCommand(Session session, string line)

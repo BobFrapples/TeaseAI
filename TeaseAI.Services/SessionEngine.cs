@@ -63,6 +63,7 @@ namespace TeaseAI.Services
             CommandProcessors[Keyword.ShowBlogImage].CommandProcessed += ShowImageCommandProcessed;
             CommandProcessors[Keyword.NewBlogImage].CommandProcessed += ShowImageCommandProcessed;
             CommandProcessors[Keyword.PlayVideo].CommandProcessed += PlayVideoCommandProcessed;
+            CommandProcessors[Keyword.PlayJoiVideo].CommandProcessed += PlayVideoCommandProcessed;
 
             MessageProcessors = CreateMessageProcessors(settingsAccessor, stringService, new LineService());
 
@@ -80,7 +81,7 @@ namespace TeaseAI.Services
             _teaseCountDown = timerFactory.Create();
             _teaseCountDown.Elapsed += _teaseCountDown_Elapsed;
 
-            _vocabularyProcesser = new VocabularyProcessor( new LineCollectionFilter());
+            _vocabularyProcesser = new VocabularyProcessor( new LineCollectionFilter(), new LineService());
         }
 
         private void EdgeCommandProcessed(object sender, CommandProcessedEventArgs e)
@@ -149,6 +150,7 @@ namespace TeaseAI.Services
             var selectScript = _scriptAccessor.GetAvailableScripts(Session.Domme, Session.Sub, "Stroke", Session.Phase)
                 .OnSuccess(scripts =>
                 {
+                    return Result.Ok(scripts[9]);
                     if (scripts.Count == 0)
                         return _scriptAccessor.GetFallbackMetaData(Session, Session.Phase);
                     return Result.Ok(scripts[new Random().Next(scripts.Count)]);
@@ -178,18 +180,19 @@ namespace TeaseAI.Services
             _scriptTimer.AutoReset = false;
         }
 
+        /// <summary>
+        /// sub says something to the Domme.
+        /// </summary>
+        /// <param name="chatMessage"></param>
+        /// <returns></returns>
         public Result Say(ChatMessage chatMessage)
         {
+            if (Session.Domme.IsAfk)
+                return Result.Fail(Session.Domme.Name + " is AFK");
             return FindProcessor(Session, chatMessage)
                 .OnSuccess(proc => proc.ProcessMessage(Session, chatMessage))
                 .OnSuccess(reply => OnDommeSaid(Session.Domme, reply))
                 .Map();
-
-            //var responses = _responseAccessor.GetResponses(this);
-            //var response = responses.FirstOrDefault(resp =>
-            //resp.Phrases.Any(ph => ComputeLevenshtein(Normalize(ph), Normalize(chatMessage.Message)) < 1));
-            //if (response != null)
-            //    OnDommeSaid(Domme, response.Responses[PointInSession][new Random().Next(response.Phrases.Count - 1)]);
         }
 
         /// <summary>
@@ -238,9 +241,11 @@ namespace TeaseAI.Services
             rVal.Add(Keyword.ShowDislikedImage, new ShowDislikedImageCommandProcessor(imageAccessor));
             rVal.Add(Keyword.ShowBlogImage, new ShowBlogImageCommandProcessor(imageAccessor));
             rVal.Add(Keyword.NewBlogImage, new NewBlogImageCommandProcessor(imageAccessor));
+            rVal.Add(Keyword.ShowLocalImage, new ShowLocalImageCommandProcessor(imageAccessor, lineService));
 
             // Video commands
             rVal.Add(Keyword.PlayVideo, new PlayVideoCommandProcessor(videoAccessor));
+            rVal.Add(Keyword.PlayJoiVideo, new PlayJoiVideoCommandProcessor(videoAccessor));
 
             rVal.Add(Keyword.RandomText, new SearchImageBlogCommandProcessor(imageAccessor));
             rVal.Add(Keyword.IncreaseOrgasmChance, new IncreaseOrgasmChanceCommand());
@@ -255,9 +260,14 @@ namespace TeaseAI.Services
             rVal.Add(Keyword.NotFlag, new NotFlagCommandProcessor(flagAccessor, lineService));
             rVal.Add(Keyword.Flag, new FlagCommandProcessor(flagAccessor, lineService));
 
+            // Variable commands, similar to flags
+            rVal.Add(Keyword.SetVar, new SetVarCommandProcessor(lineService, variableAccessor));
+
             // Commands that affect Domme Messaging
             rVal.Add(Keyword.RapidCodeOn, new RapidCodeOnCommandProcessor());
             rVal.Add(Keyword.RapidCodeOff, new RapidCodeOffCommandProcessor());
+            rVal.Add(Keyword.AfkOn, new AfkOnCommandProcessor(lineService));
+            rVal.Add(Keyword.AfkOff, new AfkOffCommandProcessor(lineService));
 
             // Commands that move you to another part of the script should be checked after commands that operate on the current line
             rVal.Add(Keyword.Goto, new GotoCommandProcessor(lineService));

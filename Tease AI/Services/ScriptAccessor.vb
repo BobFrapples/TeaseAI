@@ -80,13 +80,19 @@ Public Class ScriptAccessor
     End Function
 
     Public Function GetFallbackMetaData(session As Session, stage As SessionPhase) As Result(Of ScriptMetaData) Implements IScriptAccessor.GetFallbackMetaData
-        Dim path As String = Application.StartupPath + "\Scripts\" + session.Domme.PersonalityName + "\System\Scripts\" + stage.ToString() + ".txt"
+        Dim fallbackFileName As String = stage.ToString()
+        If stage = SessionPhase.Modules Then
+            fallbackFileName = "module"
+        End If
+        Dim path As String = Application.StartupPath + "\Scripts\" + session.Domme.PersonalityName + "\System\Scripts\" + fallbackFileName + ".txt"
         If (session.Sub.InChastity) Then
-            path = Application.StartupPath + "\Scripts\" + session.Domme.PersonalityName + "\System\Scripts\" + stage.ToString() + "_CHASTITY.txt"
+            path = Application.StartupPath + "\Scripts\" + session.Domme.PersonalityName + "\System\Scripts\" + fallbackFileName + "_CHASTITY.txt"
+        End If
+        If (session.IsEdging) Then
+            path = Application.StartupPath + "\Scripts\" + session.Domme.PersonalityName + "\System\Scripts\" + fallbackFileName + "_EDGING.txt"
         End If
 
         If (Not File.Exists(path)) Then
-            Return Result.Fail(Of ScriptMetaData)("Fallback script not found")
         End If
         Return Result.Ok(CreateScriptMetaData(path))
     End Function

@@ -11,9 +11,34 @@ namespace TeaseAI.Services
 {
     public class VocabularyProcessor
     {
-        public VocabularyProcessor(ILineCollectionFilter lineCollectionFilter)
+        private Dictionary<string, Func<string, Session, string>> _codeVocabulary;
+
+        public VocabularyProcessor(ILineCollectionFilter lineCollectionFilter, LineService lineService)
         {
             _lineCollectionFilter = lineCollectionFilter;
+            _lineService = lineService;
+            _codeVocabulary = new Dictionary<string, Func<string, Session, string>>
+            {
+                { "#SubName", (line, session) => line.Replace("#SubName", session.Sub.Name) },
+                { "#PetName", (line, session) =>  line.Replace("#PetName", session.Sub.PetNames[new Random().Next(session.Sub.PetNames.Count)])  },
+                { "#DommeName", (line, session) => line.Replace("#DommeName", session.Domme.Name)  },
+                { "#DomName", (line, session) => line.Replace("#DomName", session.Domme.Name)  },
+                { "#GreetSub", (line, session) => line.Replace("#GreetSub",GetGreetingReplacement(DateTime.Now))  },
+                { "#EdgeTaunt", (line, session) => line.Replace("#EdgeTaunt", GetEdgeTaunt(session))  },
+                { "#GeneralTime", (line, session) => line.Replace("#GeneralTime", GetGeneralTime(DateTime.Now))  },
+                { "#Random(\\d,\\d)",  GetRandomString  },
+            };
+        }
+
+        private string GetRandomString(string line, Session session)
+        {
+            var resultString = Regex.Match(line, @"#Random(\\d,\\d)").Value;
+
+            var range = _lineService.GetParenData(resultString, "#Random").GetResultOrDefault(new List<string>());
+            int.TryParse(range[0], out int min);
+            int.TryParse(range[1], out int max);
+
+            return Regex.Replace(line, "#Random(\\d,\\d)",new Random().Next(min,max).ToString());
         }
 
         /// <summary>
@@ -27,10 +52,18 @@ namespace TeaseAI.Services
             var maxCycles = 10;
             while (IsRelevant(workingLine))
             {
-                var vocabularyWord = workingLine.Split(' ').First(l => l.StartsWith("#"));
-                var replacement = GetReplacement(session, vocabularyWord);
+                foreach (var key in _codeVocabulary.Keys)
+                {
+                    if (new Regex(key).IsMatch(workingLine))
+                        workingLine = _codeVocabulary[key](workingLine, session);
+                }
 
-                workingLine = workingLine.Replace(vocabularyWord, replacement);
+                var vocabularyWord = FindVocabularyWord(workingLine);
+                if (!string.IsNullOrWhiteSpace(vocabularyWord))
+                {
+                    var replacement = GetReplacement(session, vocabularyWord);
+                    workingLine = workingLine.Replace(vocabularyWord, replacement);
+                }
                 maxCycles--;
                 if (maxCycles == 0)
                     return "Unable to map the vocabulary word " + vocabularyWord;
@@ -40,23 +73,15 @@ namespace TeaseAI.Services
 
         public bool IsRelevant(string line) => line.Contains("#");
 
+        private string FindVocabularyWord(string workingLine)
+        {
+            return workingLine.Split(' ').FirstOrDefault(l => l.StartsWith("#"));
+        }
+
         private string GetReplacement(Session session, string key)
         {
             if (key == "#")
                 return string.Empty;
-            else if (IsMatch("#SubName", key))
-                return key.Replace("#SubName", session.Sub.Name);
-            // TODO: Set #PetName based upon domme mood
-            else if (IsMatch("#PetName", key))
-                return key.Replace("#PetName", session.Sub.PetNames[new Random().Next(session.Sub.PetNames.Count)]);
-            else if (IsMatch("#DommeName", key))
-                return key.Replace("#DommeName", session.Domme.Name);
-            else if (IsMatch("#DomName", key))
-                return key.Replace("#DomName", session.Domme.Name);
-            else if (IsMatch("#GreetSub", key))
-                return GetGreetingReplacement(DateTime.Now);
-            else if (IsMatch("#EdgeTaunt", key))
-                return GetEdgeTaunt(session);
 
             // It wasn't a coded vocabulary word, look up in data
             var fileName = AppDomain.CurrentDomain.BaseDirectory + "Scripts\\" + session.Domme.PersonalityName + "\\Vocabulary\\" + key + ".txt";
@@ -93,7 +118,17 @@ namespace TeaseAI.Services
             return "#GoodEveningSub";
         }
 
+        private string GetGeneralTime(DateTime time)
+        {
+            if (time.Hour > 3 && time.Hour < 11)
+                return "this morning";
+            if (time.Hour > 8 && time.Hour < 18)
+                return "today";
+            return "tonight";
+        }
 
         private readonly ILineCollectionFilter _lineCollectionFilter;
+        private readonly LineService _lineService;
+
     }
 }

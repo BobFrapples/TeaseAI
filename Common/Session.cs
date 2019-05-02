@@ -61,6 +61,9 @@ namespace TeaseAI.Common
                 IsEdging = this.IsEdging,
                 IsHoldingTheEdge = this.IsHoldingTheEdge,
                 Phase = this.Phase,
+                IsVideoPlaying = this.IsVideoPlaying,
+                IsLongEdge = this.IsLongEdge,
+                TimeRemaining = this.TimeRemaining,
             };
             var scripts = this.Scripts.ToArray().ToList();
             scripts.Reverse();

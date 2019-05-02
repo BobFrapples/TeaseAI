@@ -219,7 +219,12 @@ namespace TeaseAI.Common.Constants
         /// Plays a random video *not* in JOI or CH genre
         /// </summary>
         public static string PlayVideo = @"@PlayVideo";
+        /// <summary>
+        /// specifically play a Jerk Off Instruction Video
+        /// </summary>
+        public const string PlayJoiVideo = @"@PlayJOIVideo";
         public static string PlaySpecificVideo = @"@PlayVideo(";
+        public static string PlaySpecificVideoSquareBrackets = @"@PlayVideo[";
 
         /// <summary>
         /// When used in conjunction with a PlayVideo command, it will randomize the starting location,
@@ -276,5 +281,20 @@ namespace TeaseAI.Common.Constants
         public const string CupSizeD = @"@DCup";
         public const string CupSizeDD = @"@DDCup";
         public const string CupSizeDDD = @"@DDD+Cup";
+
+        /// <summary>
+        /// <code>@SetVar[png_know_you_better_questions_count]=[0]</code>
+        /// </summary>
+        public const string SetVar = @"@SetVar";
+
+        /// <summary>
+        /// Set the domme away from keyboard. 
+        /// </summary>
+        public const string AfkOn = @"@AFKOn";
+
+        /// <summary>
+        /// Set the domme back at keyboard
+        /// </summary>
+        public const string AfkOff = @"@AFKOff";
     }
 }

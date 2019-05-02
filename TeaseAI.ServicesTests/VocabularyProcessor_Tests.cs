@@ -12,7 +12,7 @@ namespace TeaseAI.ServicesTests
         [TestInitialize]
         public void Initialize()
         {
-            _service = new VocabularyProcessor(new LineCollectionFilter());
+            _service = new VocabularyProcessor(new LineCollectionFilter(), new LineService());
         }
 
         [TestMethod]
@@ -40,6 +40,15 @@ namespace TeaseAI.ServicesTests
             var actual = _service.ReplaceVocabulary(session, "#SubName...");
 
             Assert.AreEqual("Sub...", actual);
+        }
+
+        [TestMethod]
+        public void ReplaceVocabulary_ShouldReplaceRandomCorrectly_WhenNested()
+        {
+            var session = new Session(new DommePersonality(), new SubPersonality() { Name = "Sub" });
+            var actual = _service.ReplaceVocabulary(session, "@NullResponse @SetVar[png__start_busy_loop]=[#Random(10,10)]");
+
+            Assert.AreEqual("@NullResponse @SetVar[png__start_busy_loop]=[10]", actual);
         }
     }
 }

@@ -6,17 +6,17 @@ namespace TeaseAI.Common
     public class DommePersonality
     {
         /// <summary>
-        /// Age of the dom
+        /// Age of the Domme
         /// </summary>
         public ushort Age { get; set; }
 
         /// <summary>
-        /// Age under which the dom considers themself young
+        /// Age under which the Domme considers themself young
         /// </summary>
         public ushort AgeYoungLimit { get; set; }
 
         /// <summary>
-        /// Age over which the dom considers themself old
+        /// Age over which the Domme considers themself old
         /// </summary>
         public ushort AgeOldLimit { get; set; }
 
@@ -26,18 +26,18 @@ namespace TeaseAI.Common
         public DateTime BirthDay { get; set; }
 
         /// <summary>
-        /// Length over which the dom considers penises to be big
+        /// Length over which the Domme considers penises to be big
         /// </summary>
         public ushort CockBigLimit { get; set; }
 
         /// <summary>
-        /// Length under which the dom considers penises to be small
+        /// Length under which the Domme considers penises to be small
         /// </summary>
         public ushort CockSmallLimit { get; set; }
 
         public CupSize CupSize { get; set; }
         /// <summary>
-        /// Domination level, how mean the domme is.
+        /// Domination level, how mean the Domme is.
         /// </summary>
         public DomLevel DomLevel { get; set; }
 
@@ -67,7 +67,7 @@ namespace TeaseAI.Common
         public MoodLevel MoodHappy { get; set; }
 
         /// <summary>
-        /// the name of the domme
+        /// the name of the Domme
         /// </summary>
         public string Name { get; set; }
 
@@ -79,26 +79,30 @@ namespace TeaseAI.Common
         public RuinsOrgasms RuinsOrgasms { get; set; }
 
         /// <summary>
-        /// Age under which the dom considers the sub young
+        /// Age under which the Domme considers the sub young
         /// </summary>
         public ushort SubAgeYoungLimit { get; set; }
 
         /// <summary>
-        /// Age over which the dom considers the sub old
+        /// Age over which the Domme considers the sub old
         /// </summary>
         public ushort SubAgeOldLimit { get; set; }
         public bool RequiresHonorific { get; set; }
         public bool RequiresHonorificCapitalized { get; set; }
 
         /// <summary>
-        /// Was the domme greeted properly
+        /// Was the Domme greeted properly
         /// </summary>
         public bool WasGreeted { get; set; }
 
         /// <summary>
-        /// Time in milliseconds the domme will wait between reading lines in the script.
+        /// Time in milliseconds the Domme will wait between reading lines in the script.
         /// </summary>
         public int MessageTimer { get; set; } = 2000;
+        /// <summary>
+        /// Is the Domme marked away from keyboard
+        /// </summary>
+        public bool IsAfk { get; set; }
 
         public DommePersonality Clone()
         {
@@ -115,11 +119,13 @@ namespace TeaseAI.Common
                 CupSize = CupSize,
                 DomLevel = DomLevel,
                 Honorific = Honorific,
+                IsAfk = IsAfk,
                 IsCrazy = IsCrazy,
                 IsDegrading = IsDegrading,
                 IsSadistic = IsSadistic,
                 IsSupremacist = IsSupremacist,
                 IsVulgar = IsVulgar,
+                MessageTimer = MessageTimer,
                 MoodLevel = MoodLevel,
                 MoodAngry = MoodAngry,
                 MoodHappy = MoodHappy,
