@@ -62,6 +62,8 @@ namespace TeaseAI.Services
             CommandProcessors[Keyword.ShowDislikedImage].CommandProcessed += ShowImageCommandProcessed;
             CommandProcessors[Keyword.ShowBlogImage].CommandProcessed += ShowImageCommandProcessed;
             CommandProcessors[Keyword.NewBlogImage].CommandProcessed += ShowImageCommandProcessed;
+            CommandProcessors[Keyword.ShowLocalImage].CommandProcessed += ShowImageCommandProcessed;
+
             CommandProcessors[Keyword.PlayVideo].CommandProcessed += PlayVideoCommandProcessed;
             CommandProcessors[Keyword.PlayJoiVideo].CommandProcessed += PlayVideoCommandProcessed;
 
