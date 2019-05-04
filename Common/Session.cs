@@ -40,9 +40,6 @@ namespace TeaseAI.Common
 
             IsOrgasmAllowed = false;
             IsOrgasmRuined = false;
-
-            IsEdging = false;
-            IsHoldingTheEdge = false;
         }
 
         /// <summary>
@@ -58,8 +55,6 @@ namespace TeaseAI.Common
                 IsOrgasmAllowed = this.IsOrgasmAllowed,
                 IsOrgasmRuined = this.IsOrgasmRuined,
                 IsBeforeTease = this.IsBeforeTease,
-                IsEdging = this.IsEdging,
-                IsHoldingTheEdge = this.IsHoldingTheEdge,
                 Phase = this.Phase,
                 IsVideoPlaying = this.IsVideoPlaying,
                 IsLongEdge = this.IsLongEdge,
@@ -81,14 +76,11 @@ namespace TeaseAI.Common
         public bool IsOrgasmRuined { get; set; }
         public bool IsBeforeTease { get; set; }
 
-        public bool IsEdging { get; set; }
-        public bool IsHoldingTheEdge { get; set; }
         /// <summary>
         /// This is for tracking to / from the UI. is true when the UI starts a video, is false when the video stops
         /// </summary>
         public bool IsVideoPlaying { get; set; }
         public bool IsLongEdge { get; set; }
-        //public StrokePace StrokePace { get; set; }
         #endregion
     }
 }

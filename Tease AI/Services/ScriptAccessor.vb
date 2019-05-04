@@ -129,7 +129,7 @@ Public Class ScriptAccessor
         If (session.Sub.InChastity) Then
             path = Application.StartupPath + "\Scripts\" + session.Domme.PersonalityName + "\System\Scripts\" + fallbackFileName + "_CHASTITY.txt"
         End If
-        If (session.IsEdging) Then
+        If (session.Sub.IsEdging) Then
             path = Application.StartupPath + "\Scripts\" + session.Domme.PersonalityName + "\System\Scripts\" + fallbackFileName + "_EDGING.txt"
         End If
 

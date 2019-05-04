@@ -16,7 +16,21 @@ namespace TeaseAI.Common
         public bool InChastity { get; set; }
         public bool IsCircumsized { get; set; }
         public bool IsCockPierced { get; set; }
+
+        /// <summary>
+        /// Is the sub stroking
+        /// </summary>
         public bool IsStroking { get; set; }
+
+        /// <summary>
+        /// Is the sub edging
+        /// </summary>
+        public bool IsEdging { get; set; }
+
+        /// <summary>
+        /// Should the sub hold the edge
+        /// </summary>
+        public bool IsHoldingTheEdge { get; set; }
 
         public string Name { get; set; }
 
@@ -53,9 +67,6 @@ namespace TeaseAI.Common
             set { _petNames = value; }
         }
 
-        [Obsolete("Find out  what this is for and document")]
-        public bool IsAlreadyStrokingEdge { get; set; }
-
         private List<string> _toyBox;
         private List<string> _petNames;
 
@@ -71,6 +82,8 @@ namespace TeaseAI.Common
                 IsCircumsized = IsCircumsized,
                 IsCockPierced = IsCockPierced,
                 IsStroking = IsStroking,
+                IsEdging = IsEdging,
+                IsHoldingTheEdge = IsHoldingTheEdge,
                 IsOrgasmRestricted = IsOrgasmRestricted,
                 InChastity = InChastity,
                 Kinks = Kinks.ToList(),

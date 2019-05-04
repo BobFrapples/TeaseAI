@@ -152,7 +152,6 @@ namespace TeaseAI.Services
             var selectScript = _scriptAccessor.GetAvailableScripts(Session.Domme, Session.Sub, "Stroke", Session.Phase)
                 .OnSuccess(scripts =>
                 {
-                    return Result.Ok(scripts[9]);
                     if (scripts.Count == 0)
                         return _scriptAccessor.GetFallbackMetaData(Session, Session.Phase);
                     return Result.Ok(scripts[new Random().Next(scripts.Count)]);
@@ -401,6 +400,8 @@ namespace TeaseAI.Services
                 workingLine = p.DeleteCommandFrom(workingLine).Trim();
             }
 
+            workingLine = _vocabularyProcesser.ReplaceVocabulary(Session, workingLine);
+
             OnBeforeDommeSaid(e.Session.Domme, workingLine);
             // if the engine needs to pause here, then it can.
             OnDommeSaid(e.Session.Domme, workingLine);
@@ -409,7 +410,7 @@ namespace TeaseAI.Services
                 .OnSuccess(sesh =>
                 {
                     // if none of the commands advanced the script, then do so now.
-                    if (Session.CurrentScript.LineNumber == sesh.CurrentScript.LineNumber)
+                    if (Session.CurrentScript.LineNumber == sesh.CurrentScript.LineNumber && !sesh.CurrentScript.CurrentLine.StartsWith("["))
                     {
                         sesh.CurrentScript.LineNumber++;
                     }

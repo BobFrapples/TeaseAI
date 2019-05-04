@@ -24,7 +24,7 @@ namespace TeaseAI.Services.CommandProcessor
                 //TODO: Implement flags for Edge
             }
             if (workingSession.Sub.IsStroking)
-                workingSession.Sub.IsAlreadyStrokingEdge = true;
+                workingSession.Sub.IsEdging = true;
 
             var script = CreateTauntScript();
             workingSession.Scripts.Push(script);

@@ -17,20 +17,20 @@ namespace TeaseAI.Services.CommandDetection
 
             // Edging / not edging
             if ((inputString.Contains("@Edging") || inputString.Contains("@Edging"))
-                && !ssh.IsEdging)
+                && !ssh.Sub.IsEdging)
                 return false;
 
             if ((inputString.Contains("@NotEdging") || inputString.Contains("@SubNotEdging"))
-                && ssh.IsEdging)
+                && ssh.Sub.IsEdging)
                 return false;
 
             // holding edge / not holding edge
             if ((inputString.Contains("@HoldingTheEdge") || inputString.Contains("@SubHoldingTheEdge"))
-                && !ssh.IsHoldingTheEdge)
+                && !ssh.Sub.IsHoldingTheEdge)
                 return false;
 
             if ((inputString.Contains("@NotHoldingTheEdge") || inputString.Contains("@SubNotHoldingTheEdge"))
-                && ssh.IsHoldingTheEdge)
+                && ssh.Sub.IsHoldingTheEdge)
                 return false;
 
             if (inputString.ToLower().Contains("@firstround") &&

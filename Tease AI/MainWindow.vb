@@ -1392,7 +1392,7 @@ retryStart:
         If chatMessage.Message.StartsWith("@") Then
             Dim message As String = "<font face=""Cambria"" size=""2"" color=""Green"">"
             message += IIf(chatMessage.Message = "@", "::: TYPO :::<br>", chatMessage.Message.Replace("@", ""))
-            message += " ::: FileText = " + ssh.FileText + " ::: LineVal = " + ssh.StrokeTauntVal.ToString() + "<br>"
+            message += " ::: FileText = " + mySession.Session.CurrentScript.MetaData.Name + " ::: LineVal = " + mySession.Session.CurrentScript.CurrentLine.ToString() + "<br>"
             message += "::: TauntText = " + ssh.TauntText + " ::: LineVal = " + ssh.TauntTextCount.ToString() + "<br>"
             message += "::: ResponseFile = " + ssh.ResponseFile + " ::: LineVal = " + ssh.ResponseLine.ToString() + "<br></font>"
 
@@ -18917,8 +18917,8 @@ playLoop:
     Public Function CreateSession() As Session
         Dim returnValue As Session = New Session(CreateDommePersonality(), CreateSubPersonality())
         returnValue.Sub.IsStroking = ssh.SubStroking
-        returnValue.IsEdging = ssh.SubEdging
-        returnValue.IsHoldingTheEdge = ssh.SubHoldingEdge
+        returnValue.Sub.IsEdging = ssh.SubEdging
+        returnValue.Sub.IsHoldingTheEdge = ssh.SubHoldingEdge
         returnValue.IsFirstRound = ssh.FirstRound
         returnValue.IsOrgasmAllowed = ssh.OrgasmAllowed
         returnValue.IsOrgasmRuined = ssh.OrgasmRuined
@@ -21013,7 +21013,6 @@ OrgasmDecided:
             inputString = inputString.Replace("@DecideOrgasm", "")
         End If
 
-
         If inputString.Contains(Keyword.OrgasmRuin) Then
             ssh.FileGoto = "Orgasm Ruin"
             ssh.OrgasmRuined = True
@@ -21041,8 +21040,6 @@ OrgasmDecided:
             inputString = inputString.Replace(Keyword.Glitter & GlitterFlag & ")", "")
 
         End If
-
-
 
         If inputString.Contains("@WritingTask(") Then
 
@@ -21130,7 +21127,6 @@ OrgasmDecided:
 
         End If
 
-
         If inputString.Contains("@PlayJOIVideo") Then
 
             If Directory.Exists(My.Settings.VideoJOI) Or Directory.Exists(My.Settings.VideoJOID) Then
@@ -21154,9 +21150,6 @@ OrgasmDecided:
             inputString = inputString.Replace("@PlayCHVideo", "")
 
         End If
-
-
-
 
         If inputString.Contains("@GiveUpCheck") Then
 
@@ -21209,7 +21202,6 @@ OrgasmDecided:
             inputString = ResponseClean(inputString)
 
         End If
-
 
         If inputString.Contains(Keyword.EndTease) Then
             SetVariable("SYS_SubLeftEarly", 0)
@@ -21408,20 +21400,6 @@ OrgasmDecided:
             ssh.BookmarkLinkLine = ssh.StrokeTauntVal + 1
             inputString = inputString.Replace("@BookmarkLink", "")
         End If
-
-        If inputString.Contains("@AFKOn") Then
-            ssh.AFK = True
-            inputString = inputString.Replace("@AFKOn", "")
-        End If
-
-        If inputString.Contains("@AFKOff") Then
-            ssh.AFK = False
-            inputString = inputString.Replace("@AFKOff", "")
-        End If
-        'Dim commandRun = mySession.ScriptCommand(inputString)
-        'If (commandRun.IsSuccess) Then
-        '    inputString = commandRun.Value
-        'End If
 
         If inputString.Contains("@SendDailyTasks") Then
             CreateTaskLetter()
@@ -21882,7 +21860,6 @@ ExternalAudio:
 
         End If
 
-
         If inputString.Contains("@PlayVideo(") Then
 
 
@@ -21927,7 +21904,6 @@ ExternalAudio:
             End If
             inputString = inputString.Replace("@JumpVideo", "")
         End If
-
 
         If inputString.Contains("@AddStrokeTime(") Then
 
