@@ -38,10 +38,8 @@ Public Class SessionState
 
 	Public Property DomPersonality As String
 
-	Public Property Chat As String
-
-	Public Property randomizer As New Random
-	Public Property ScriptOperator As String
+    Public Property randomizer As New Random
+    Public Property ScriptOperator As String
 
 	Public Property DomTyping As Boolean
 
@@ -1046,17 +1044,13 @@ Public Class SessionState
 			' Hide Cencorshipbar , if no game is running 
 			If CensorshipGame = True Or CensorshipTimer_enabled = False Then .CensorshipBar.Visible = False
 
-			'▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
-			'							Set Chat and StrokePace
-			'▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
+            '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
+            '							Set Chat and StrokePace
+            '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
 
-			.ChatText.DocumentText = Chat
-			.ChatText2.DocumentText = Chat
-			.ChatReadyState()
-
-			' To update the threadsafe Metronome StrokePace 
-			' Only needs to be done on activation
-			.StrokePace = StrokePace
+            ' To update the threadsafe Metronome StrokePace 
+            ' Only needs to be done on activation
+            .StrokePace = StrokePace
 
 			'▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
 			'								Set Timer Intervals

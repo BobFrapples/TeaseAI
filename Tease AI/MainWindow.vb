@@ -37,10 +37,13 @@ Public Class MainWindow
     ' Github Patch  Public FormLoading As Boolean
     Friend FormLoading As Boolean = True
     Dim FormFinishedLoading As Boolean = False
+    Dim myChatLog As List(Of ChatMessage) = New List(Of ChatMessage)()
+    Dim myDommeMessages As Queue(Of ChatMessage) = New Queue(Of ChatMessage)()
 
     Dim parseTagDataService As ParseOldTagDataService = New ParseOldTagDataService()
     Dim myLineService As LineService = New LineService()
     Dim loadFileData As ILoadFileData = New LoadFileData()
+    Dim myChatLogToHtmlService As IChatLogToHtmlService = New ChatLogToHtmlService()
     Dim myStringService As StringService = New StringService()
     Dim myGetScripts As IScriptAccessor = New ScriptAccessor()
     Dim myImageTagReplaceHash As ImageTagReplaceHash = New ImageTagReplaceHash()
@@ -151,8 +154,6 @@ Public Class MainWindow
          (ByVal nVirtKey As Long) As Integer
     Private Const VK_LBUTTON = &H1
 
-
-
     <DllImport("urlmon.dll")>
     Public Shared Function CoInternetSetFeatureEnabled(
     ByVal FeatureEntry As Integer, <MarshalAs(UnmanagedType.U4)> ByVal dwFlags As Integer, ByVal fEnable As Boolean) As Integer
@@ -181,11 +182,6 @@ ByVal lpstrReturnString As String, ByVal uReturnLength As Integer, ByVal hwndCal
             UpdatesTimer.Stop()
             StrokeTimeTotalTimer.Stop()
             StopEverything()
-
-
-
-
-
 
             'If BeforeTease = False And My.Settings.Sys_SubLeftEarly <> 0 Then My.Settings.Sys_SubLeftEarlyTotal += 1
 
@@ -415,7 +411,6 @@ retryStart:
 
             CoInternetSetFeatureEnabled(DISABLE_SOUNDS, SET_FEATURE_ON_PROCESS, True)
 
-            ssh.Chat = ""
             IsTypingTimer.Start()
 
             FrmSplash.PBSplash.Value += 1
@@ -1395,9 +1390,7 @@ retryStart:
             message += " ::: FileText = " + mySession.Session.CurrentScript.MetaData.Name + " ::: LineVal = " + mySession.Session.CurrentScript.CurrentLine.ToString() + "<br>"
             message += "::: TauntText = " + ssh.TauntText + " ::: LineVal = " + ssh.TauntTextCount.ToString() + "<br>"
             message += "::: ResponseFile = " + ssh.ResponseFile + " ::: LineVal = " + ssh.ResponseLine.ToString() + "<br></font>"
-
-            AppendChatMessage(message, FrmSettings.CBAutosaveChatlog.Checked)
-
+            Throw New Exception("debug command")
             Return
         End If
 
@@ -1405,27 +1398,12 @@ retryStart:
             MsgBox("Please close the settings menu or disable ""Pause Program When Settings Menu is Visible"" option first!", , "Warning!")
             Return
         End If
-
-        Dim subMessagePreferences As ChatMessagePreferences = New ChatMessagePreferences()
-        subMessagePreferences.ShowTimeStamp = FrmSettings.timestampCheckBox.Checked
-        subMessagePreferences.FontName = FrmSettings.FontComboBox.Text
-        subMessagePreferences.FontSize = Convert.ToInt32(FrmSettings.NBFontSize.Value)
-        subMessagePreferences.FontColor = Color2Html(My.Settings.ChatTextColor)
-        subMessagePreferences.ShowSenderName = FrmSettings.shownamesCheckBox.Checked
-        subMessagePreferences.SenderColor = My.Settings.SubColor
-        subMessagePreferences.BackgroundColor = Color2Html(My.Settings.ChatWindowColor)
-
-        If ssh.WritingTaskFlag = True Then GoTo WritingTaskLine
-
-        AppendChatMessage(chatMessage, subMessagePreferences, FrmSettings.CBAutosaveChatlog.Checked)
-        ssh.SubWroteLast = True
-
-        If ssh.IsTyping Then
-            AppendChatMessage(ssh.Chat & "<font color=""DimGray""><i>" & domName.Text & " is typing...</i></font>", False)
-        End If
-
+        UpdateChatWindow(chatMessage)
         mySession.Say(chatMessage)
         Return
+
+        If ssh.WritingTaskFlag Then GoTo WritingTaskLine
+
         If Not mySession.Session.Domme.WasGreeted Then
             Return
         End If
@@ -1443,46 +1421,40 @@ WritingTaskLine:
                 LBLLinesRemaining.Text = ssh.WritingTaskLinesRemaining
 
                 If ssh.SubWroteLast = True And FrmSettings.shownamesCheckBox.Checked = False Then
-                    ssh.Chat = "<body bgcolor=""" & Color2Html(My.Settings.ChatWindowColor) & """>" & ssh.Chat & "</body>"
+                    'ssh.Chat = "<body bgcolor=""" & Color2Html(My.Settings.ChatWindowColor) & """>" & ssh.Chat & "</body>"
                     If CBWritingProgress.Checked = True Then
-                        ssh.Chat = "<font face=""" & FrmSettings.FontComboBox.Text & """ size=""" & FrmSettings.NBFontSize.Value & """ color=""#000000"">" & ssh.Chat & ssh.ChatString & "<br></font> " _
-                                        & "<font face=""" & FrmSettings.FontComboBox.Text & """ size=""" & FrmSettings.NBFontSize.Value & """ color=""#006400"">" & "Correct: " & ssh.WritingTaskLinesRemaining & " lines remaining<br></font>"
-                        If FrmSettings.TimedWriting.Checked = True And ssh.WritingTaskCurrentTime < 1 Then ssh.Chat = ssh.Chat.Replace("Correct: " & ssh.WritingTaskLinesRemaining & " lines remaining", "Time Expired")
-                        ssh.Chat = ssh.Chat.Replace(" 1 lines", " 1 line")
-                        ssh.Chat = ssh.Chat.Replace(" 0 lines remaining", " Task Completed")
-                    Else
-                        ssh.Chat = "<font face=""" & FrmSettings.FontComboBox.Text & """ size=""" & FrmSettings.NBFontSize.Value & """ color=""#000000"">" & ssh.Chat & ssh.ChatString & "<br></font>"
+                        'ssh.Chat = "<font face=""" & FrmSettings.FontComboBox.Text & """ size=""" & FrmSettings.NBFontSize.Value & """ color=""#000000"">" & ssh.Chat & ssh.ChatString & "<br></font> " _
+                        '& "<font face=""" & FrmSettings.FontComboBox.Text & """ size=""" & FrmSettings.NBFontSize.Value & """ color=""#006400"">" & "Correct: " & ssh.WritingTaskLinesRemaining & " lines remaining<br></font>"
+                        'If FrmSettings.TimedWriting.Checked = True And ssh.WritingTaskCurrentTime < 1 Then ssh.Chat = ssh.Chat.Replace("Correct: " & ssh.WritingTaskLinesRemaining & " lines remaining", "Time Expired")
+                        'ssh.Chat = ssh.Chat.Replace(" 1 lines", " 1 line")
+                        'ssh.Chat = ssh.Chat.Replace(" 0 lines remaining", " Task Completed")
+                        'Else
+                        'ssh.Chat = "<font face=""" & FrmSettings.FontComboBox.Text & """ size=""" & FrmSettings.NBFontSize.Value & """ color=""#000000"">" & ssh.Chat & ssh.ChatString & "<br></font>"
                     End If
-                    ChatText.DocumentText = ssh.Chat
-                    ChatText2.DocumentText = ssh.Chat
-                    ChatReadyState()
+                    'ChatText.DocumentText = ssh.Chat
+                    'ChatText2.DocumentText = ssh.Chat
 
                 Else
-                    ssh.Chat = "<body bgcolor=""" & Color2Html(My.Settings.ChatWindowColor) & """>" & ssh.Chat & "</body>"
+                    'ssh.Chat = "<body bgcolor=""" & Color2Html(My.Settings.ChatWindowColor) & """>" & ssh.Chat & "</body>"
 
                     If CBWritingProgress.Checked = True Then
-                        ssh.Chat = ssh.Chat & "<font face=""Cambria"" size=""3"" font color=""" &
-                         My.Settings.SubColor & """><b>" & subName.Text & ": </b></font><font face=""" & FrmSettings.FontComboBox.Text & """ size=""" & FrmSettings.NBFontSize.Value & """ color=""#000000"">" & ssh.ChatString & "<br></font>" _
-                         & "<font face=""" & FrmSettings.FontComboBox.Text & """ size=""" & FrmSettings.NBFontSize.Value & """ color=""#006400"">" & "Correct: " & ssh.WritingTaskLinesRemaining & " lines remaining<br></font>"
-                        If FrmSettings.TimedWriting.Checked = True And ssh.WritingTaskCurrentTime < 1 Then ssh.Chat = ssh.Chat.Replace("Correct: " & ssh.WritingTaskLinesRemaining & " lines remaining", "Time Expired")
-                        ssh.Chat = ssh.Chat.Replace(" 1 lines", " 1 line")
-                        ssh.Chat = ssh.Chat.Replace(" 0 lines remaining", " Task Completed")
+                        'ssh.Chat = ssh.Chat & "<font face=""Cambria"" size=""3"" font color=""" &
+                        'My.Settings.SubColor & """><b>" & subName.Text & ": </b></font><font face=""" & FrmSettings.FontComboBox.Text & """ size=""" & FrmSettings.NBFontSize.Value & """ color=""#000000"">" & ssh.ChatString & "<br></font>" _
+                        '& "<font face=""" & FrmSettings.FontComboBox.Text & """ size=""" & FrmSettings.NBFontSize.Value & """ color=""#006400"">" & "Correct: " & ssh.WritingTaskLinesRemaining & " lines remaining<br></font>"
+                        'If FrmSettings.TimedWriting.Checked = True And ssh.WritingTaskCurrentTime < 1 Then ssh.Chat = ssh.Chat.Replace("Correct: " & ssh.WritingTaskLinesRemaining & " lines remaining", "Time Expired")
+                        'ssh.Chat = ssh.Chat.Replace(" 1 lines", " 1 line")
+                        'ssh.Chat = ssh.Chat.Replace(" 0 lines remaining", " Task Completed")
                     Else
-                        ssh.Chat = ssh.Chat & "<font face=""Cambria"" size=""3"" font color=""" &
-                         My.Settings.SubColor & """><b>" & subName.Text & ": </b></font><font face=""" & FrmSettings.FontComboBox.Text & """ size=""" & FrmSettings.NBFontSize.Value & """ color=""#000000"">" & ssh.ChatString & "<br></font>"
+                        'ssh.Chat = ssh.Chat & "<font face=""Cambria"" size=""3"" font color=""" &
+                        'My.Settings.SubColor & """><b>" & subName.Text & ": </b></font><font face=""" & FrmSettings.FontComboBox.Text & """ size=""" & FrmSettings.NBFontSize.Value & """ color=""#000000"">" & ssh.ChatString & "<br></font>"
                     End If
 
-                    ChatText.DocumentText = ssh.Chat
-                    ChatText2.DocumentText = ssh.Chat
-                    ChatReadyState()
+                    'ChatText.DocumentText = ssh.Chat
+                    'ChatText2.DocumentText = ssh.Chat
 
                 End If
 
                 If FrmSettings.CBAutosaveChatlog.Checked = True Then My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Chatlogs\Autosave.html", ChatText.DocumentText, False)
-
-                If ssh.IsTyping Then
-                    AppendChatMessage("<font color=""DimGray""><i>" + domName.Text + " is typing...</i></font>", False)
-                End If
 
                 chatBox.Text = ""
                 ChatBox2.Text = ""
@@ -1511,50 +1483,46 @@ WritingTaskLine:
                 If ssh.SubWroteLast = True And FrmSettings.shownamesCheckBox.Checked = False Then
 
                     If CBWritingProgress.Checked = True Then
-                        ssh.Chat = "<font face=""" & FrmSettings.FontComboBox.Text & """ size=""" & FrmSettings.NBFontSize.Value & """ color=""#000000"">" & ssh.Chat & "</font><font color=""#FF0000"">" & ssh.ChatString & "<br></font>" &
-                        "<font face=""" & FrmSettings.FontComboBox.Text & """ size=""" & FrmSettings.NBFontSize.Value & """ color=""#CD0000"">" & "Wrong: " & (ssh.WritingTaskMistakesAllowed - ssh.WritingTaskMistakesMade) - 1 &
-                        " mistakes remaining<br></font>"
-                        If FrmSettings.TimedWriting.Checked = True And ssh.WritingTaskCurrentTime < 1 Then ssh.Chat = ssh.Chat.Replace("Wrong: " & (ssh.WritingTaskMistakesAllowed - ssh.WritingTaskMistakesMade) - 1 & " mistakes remaining", "Time Expired")
-                        ssh.Chat = ssh.Chat.Replace(" 1 mistakes", " 1 mistake")
-                        ssh.Chat = ssh.Chat.Replace(" 0 mistakes remaining", " Task Failed")
+                        'ssh.Chat = "<font face=""" & FrmSettings.FontComboBox.Text & """ size=""" & FrmSettings.NBFontSize.Value & """ color=""#000000"">" & ssh.Chat & "</font><font color=""#FF0000"">" & ssh.ChatString & "<br></font>" &
+                        '"<font face=""" & FrmSettings.FontComboBox.Text & """ size=""" & FrmSettings.NBFontSize.Value & """ color=""#CD0000"">" & "Wrong: " & (ssh.WritingTaskMistakesAllowed - ssh.WritingTaskMistakesMade) - 1 &
+                        '" mistakes remaining<br></font>"
+                        'If FrmSettings.TimedWriting.Checked = True And ssh.WritingTaskCurrentTime < 1 Then ssh.Chat = ssh.Chat.Replace("Wrong: " & (ssh.WritingTaskMistakesAllowed - ssh.WritingTaskMistakesMade) - 1 & " mistakes remaining", "Time Expired")
+                        'ssh.Chat = ssh.Chat.Replace(" 1 mistakes", " 1 mistake")
+                        'ssh.Chat = ssh.Chat.Replace(" 0 mistakes remaining", " Task Failed")
                     Else
-                        ssh.Chat = "<font face=""" & FrmSettings.FontComboBox.Text & """ size=""" & FrmSettings.NBFontSize.Value & """ color=""#000000"">" & ssh.Chat & "</font><font color=""#FF0000"">" & ssh.ChatString & "<br></font>"
+                        'ssh.Chat = "<font face=""" & FrmSettings.FontComboBox.Text & """ size=""" & FrmSettings.NBFontSize.Value & """ color=""#000000"">" & ssh.Chat & "</font><font color=""#FF0000"">" & ssh.ChatString & "<br></font>"
                     End If
 
-                    ssh.Chat = "<body bgcolor=""" & Color2Html(My.Settings.ChatWindowColor) & """>" & ssh.Chat & "</body>"
-                    ChatText.DocumentText = ssh.Chat
-                    ChatText2.DocumentText = ssh.Chat
-                    ChatReadyState()
+                    'ssh.Chat = "<body bgcolor=""" & Color2Html(My.Settings.ChatWindowColor) & """>" & ssh.Chat & "</body>"
+                    'ChatText.DocumentText = ssh.Chat
+                    'ChatText2.DocumentText = ssh.Chat
 
                 Else
 
                     If CBWritingProgress.Checked = True Then
-                        ssh.Chat = ssh.Chat & "<font face=""Cambria"" size=""3"" font color=""" &
-                           My.Settings.SubColor & """><b>" & subName.Text & ": </b></font><font face=""" & FrmSettings.FontComboBox.Text & """ size=""" & FrmSettings.NBFontSize.Value & """ color=""#FF0000"">" & ssh.ChatString & "<br></font>" &
-                          "<font face=""" & FrmSettings.FontComboBox.Text & """ size=""" & FrmSettings.NBFontSize.Value & """ color=""#CD0000"">" & "Wrong: " & (ssh.WritingTaskMistakesAllowed - ssh.WritingTaskMistakesMade) - 1 &
-                          " mistakes remaining<br></font>"
-                        If FrmSettings.TimedWriting.Checked = True And ssh.WritingTaskCurrentTime < 1 Then ssh.Chat = ssh.Chat.Replace("Wrong: " & (ssh.WritingTaskMistakesAllowed - ssh.WritingTaskMistakesMade) - 1 & " mistakes remaining", "Time Expired")
-                        ssh.Chat = ssh.Chat.Replace(" 1 mistakes", " 1 mistake")
-                        ssh.Chat = ssh.Chat.Replace(" 0 mistakes remaining", " Task Failed")
+                        'ssh.Chat = ssh.Chat & "<font face=""Cambria"" size=""3"" font color=""" &
+                        'My.Settings.SubColor & """><b>" & subName.Text & ": </b></font><font face=""" & FrmSettings.FontComboBox.Text & """ size=""" & FrmSettings.NBFontSize.Value & """ color=""#FF0000"">" & ssh.ChatString & "<br></font>" &
+                        '"<font face=""" & FrmSettings.FontComboBox.Text & """ size=""" & FrmSettings.NBFontSize.Value & """ color=""#CD0000"">" & "Wrong: " & (ssh.WritingTaskMistakesAllowed - ssh.WritingTaskMistakesMade) - 1 &
+                        '" mistakes remaining<br></font>"
+                        'If FrmSettings.TimedWriting.Checked = True And ssh.WritingTaskCurrentTime < 1 Then ssh.Chat = ssh.Chat.Replace("Wrong: " & (ssh.WritingTaskMistakesAllowed - ssh.WritingTaskMistakesMade) - 1 & " mistakes remaining", "Time Expired")
+                        'ssh.Chat = ssh.Chat.Replace(" 1 mistakes", " 1 mistake")
+                        'ssh.Chat = ssh.Chat.Replace(" 0 mistakes remaining", " Task Failed")
                     Else
-                        ssh.Chat = ssh.Chat & "<font face=""Cambria"" size=""3"" font color=""" &
-                         My.Settings.SubColor & """><b>" & subName.Text & ": </b></font><font face=""" & FrmSettings.FontComboBox.Text & """ size=""" & FrmSettings.NBFontSize.Value & """ color=""#FF0000"">" & ssh.ChatString & "<br></font>"
+                        'ssh.Chat = ssh.Chat & "<font face=""Cambria"" size=""3"" font color=""" &
+                        'My.Settings.SubColor & """><b>" & subName.Text & ": </b></font><font face=""" & FrmSettings.FontComboBox.Text & """ size=""" & FrmSettings.NBFontSize.Value & """ color=""#FF0000"">" & ssh.ChatString & "<br></font>"
                     End If
 
-                    ssh.Chat = "<body bgcolor=""" & Color2Html(My.Settings.ChatWindowColor) & """>" & ssh.Chat & "</body>"
-                    ChatText.DocumentText = ssh.Chat
-                    ChatText2.DocumentText = ssh.Chat
-                    ChatReadyState()
-
+                    'ssh.Chat = "<body bgcolor=""" & Color2Html(My.Settings.ChatWindowColor) & """>" & ssh.Chat & "</body>"
+                    'ChatText.DocumentText = ssh.Chat
+                    'ChatText2.DocumentText = ssh.Chat
                 End If
 
                 If FrmSettings.CBAutosaveChatlog.Checked = True Then My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Chatlogs\Autosave.html", ChatText.DocumentText, False)
 
                 If ssh.IsTyping = True Then
 
-                    ChatText.DocumentText = ssh.Chat & "<font color=""DimGray""><i>" & domName.Text & " is typing...</i></font>"
-                    ChatText2.DocumentText = ssh.Chat & "<font color=""DimGray""><i>" & domName.Text & " is typing...</i></font>"
-                    ChatReadyState()
+                    'ChatText.DocumentText = ssh.Chat & "<font color=""DimGray""><i>" & domName.Text & " is typing...</i></font>"
+                    'ChatText2.DocumentText = ssh.Chat & "<font color=""DimGray""><i>" & domName.Text & " is typing...</i></font>"
                 End If
 
                 ssh.SubWroteLast = True
@@ -2197,19 +2165,6 @@ DebugAwarenessStep2:
 
 FoundResponse:
 
-        ' ResponseYes = ""
-        ' ResponseNo = ""
-
-        'If frmApps.CBDebugAwareness.Checked = True Then
-        'If DebugAwarenessLine = "Domme does not recognize this statement" Then
-        'Chat = Chat & "<font color=""red"">" & DebugAwarenessLine & "<br>"
-        'Else
-        'Chat = Chat & "<font color=""green"">" & DebugAwarenessLine & "<br>"
-        'End If
-        'ChatText.DocumentText = Chat
-        'Return
-        'End If
-
         If StrokeTauntTimer.Enabled = True Then
             ssh.TempScriptCount = 0
             If FrmSettings.SliderSTF.Value = 1 Then ssh.StrokeTauntTick = ssh.randomizer.Next(120, 241)
@@ -2226,20 +2181,11 @@ FoundResponse:
             Return
         End If
 
-        'Debug.Print("DoNotDisturb = " & DoNotDisturb)
-        'Debug.Print("DomChat = " & DomChat)
-
         If ssh.DoNotDisturb = True Then
             If ssh.DomChat.Contains("@Interrupt") Or ssh.DomChat.Contains("@Call(") Or ssh.DomChat.Contains("@CallRandom(") Then
                 ssh.DomChat = "#SYS_InterruptsOff"
             End If
         End If
-
-
-
-
-        TypingDelay()
-
 
     End Sub
 
@@ -2706,8 +2652,6 @@ NullSkip:
 
         ssh.CBTBallsFirst = False
 
-        TypingDelayGeneric()
-
     End Sub
 
     Public Sub CBTCock()
@@ -2733,9 +2677,6 @@ NullSkip:
         End Try
 
         ssh.CBTCockFirst = False
-
-        TypingDelayGeneric()
-
     End Sub
 
     Public Sub CBTBoth()
@@ -2774,9 +2715,6 @@ NullSkip:
         End Try
 
         ssh.CBTBothFirst = False
-
-        TypingDelayGeneric()
-
     End Sub
 
     Public Sub RunCustomTask()
@@ -2799,8 +2737,6 @@ NullSkip:
         End Try
 
         ssh.CustomTaskFirst = False
-
-        TypingDelayGeneric()
 
     End Sub
 
@@ -2958,12 +2894,10 @@ NonModuleEnd:
                     If My.Settings.Chastity = True Then
                         'DomTask = "Now as I was saying @StartTaunts"
                         ssh.DomTask = "#Return_Chastity"
-                        TypingDelayGeneric()
                     Else
                         If ssh.SubStroking = False Then
                             'DomTask = "Get back to stroking @StartStroking"
                             ssh.DomTask = "#Return_Stroking"
-                            TypingDelayGeneric()
                         Else
                             StrokeTimer.Start()
                             StrokeTauntTimer.Start()
@@ -2975,8 +2909,6 @@ NonModuleEnd:
                     If ssh.SubEdging = False Then
                         'DomTask = "Start getting yourself to the edge again @Edge"
                         ssh.DomTask = "#Return_Edging"
-                        'SubStroking = True
-                        TypingDelayGeneric()
                     Else
                         EdgeTauntTimer.Start()
                         EdgeCountTimer.Start()
@@ -2986,8 +2918,6 @@ NonModuleEnd:
                     If ssh.SubEdging = False Then
                         'DomTask = "Start getting yourself to the edge again @EdgeHold"
                         ssh.DomTask = "#Return_Holding"
-                        'SubStroking = True
-                        TypingDelayGeneric()
                     Else
                         HoldEdgeTimer.Start()
                         HoldEdgeTauntTimer.Start()
@@ -2997,13 +2927,11 @@ NonModuleEnd:
                     'DomTask = "Now let's get back to busting those #Balls @CBTBalls"
                     ssh.DomTask = "#Return_CBTBalls"
                     ssh.CBTBallsFirst = False
-                    TypingDelayGeneric()
                 End If
                 If ssh.ReturnSubState = "CBTCock" Then
                     'DomTask = "Now let's get back to abusing that #Cock @CBTCock"
                     ssh.DomTask = "#Return_CBTCock"
                     ssh.CBTCockFirst = False
-                    TypingDelayGeneric()
                 End If
                 If ssh.ReturnSubState = "Rest" Then
                     ssh.DomTypeCheck = True
@@ -3011,7 +2939,6 @@ NonModuleEnd:
                     ScriptTimer.Start()
                     'DomTask = "Now as I was saying"
                     ssh.DomTask = "#Return_Rest"
-                    TypingDelayGeneric()
                     Return
                 End If
             End If
@@ -3081,7 +3008,6 @@ NonModuleEnd:
 
 
         If ssh.DomTask <> "" Then
-            TypingDelayGeneric()
         Else
             RunFileText()
         End If
@@ -3121,47 +3047,38 @@ NonModuleEnd:
         ssh.SkipGotoLine = False
     End Sub
 
-    <Obsolete("Use the version that passes in chatmessage")>
-    Public Sub TypingDelay()
-
-        'Debug.Print("Typing Delay Called " & StrokeTauntVal)
-        If My.Settings.OfflineMode = True Then
-            ssh.DomChat = OfflineConversion(ssh.DomChat)
+    ''' <summary>
+    ''' adds <paramref name="chatMessage"/> to <see cref="myChatLog"/>, then adds the log to the chat windows
+    ''' </summary>
+    ''' <param name="chatMessage"></param>
+    Private Sub UpdateChatWindow(chatMessage As ChatMessage)
+        Dim messagePreferences As Dictionary(Of String, ChatMessagePreferences) = New Dictionary(Of String, ChatMessagePreferences)()
+        messagePreferences(mySession.Session.Domme.Name) = CreateDommeMessagePreferences()
+        messagePreferences(mySession.Session.Sub.Name) = CreateSubMessagePreferences()
+        myChatLog.Add(chatMessage)
+        Dim chatlog As List(Of ChatMessage) = myChatLog.ToList()
+        If myDommeMessages.Any() Then
+            Dim typingMessage As ChatMessage = New ChatMessage()
+            typingMessage.Sender = mySession.Session.Domme.Name
+            typingMessage.TimeStamp = DateTime.Now
+            typingMessage.Message = "..."
+            chatlog.Add(typingMessage)
         End If
-        ssh.TypeDelay = ssh.StringLength
-        If ssh.TypeDelay > 60 Then ssh.TypeDelay = 60
+        Dim chatLogHtml As String = myChatLogToHtmlService.CreateHtml(myChatLog, messagePreferences)
+        AppendChatMessage(chatLogHtml, True)
 
-        If My.Settings.CBInstantType Or ssh.RapidCode Then ssh.TypeDelay = 0
-        SendTimer.Start()
-    End Sub
+        Try
+            ChatText.Document.Window.ScrollTo(Integer.MaxValue, Integer.MaxValue)
+        Catch
+        End Try
 
-    Public Sub TypingDelay(chatMessage As ChatMessage)
-        ssh.DomChat = chatMessage.Message
-
-        If My.Settings.OfflineMode = True Then
-            ssh.DomChat = OfflineConversion(ssh.DomChat)
-        End If
-
-        ssh.TypeDelay = ssh.StringLength
-        If ssh.TypeDelay > 60 Then ssh.TypeDelay = 60
-
-        If My.Settings.CBInstantType Or ssh.RapidCode Then ssh.TypeDelay = 0
-        ssh.TypeDelay = 0
-        'SendTimer_Tick(Nothing, Nothing)
-        AppendChatMessage(chatMessage, CreateDommeMessagePreferences(), True)
-    End Sub
-
-    Public Sub TypingDelayGeneric()
-        'Debug.Print("Typing Delay Generic Called " & StrokeTauntVal)
-        If My.Settings.OfflineMode = True Then
-            ssh.DomTask = OfflineConversion(ssh.DomTask)
-        End If
-        ssh.TypeDelay = ssh.StringLength
-        If ssh.TypeDelay > 60 Then ssh.TypeDelay = 60
-        If FrmSettings.typeinstantlyCheckBox.Checked = True Or ssh.RapidCode = True = True Then ssh.TypeDelay = 0
-        If ssh.HypnoGen = True And CBHypnoGenNoText.Checked = True Then ssh.TypeDelay = 0
-        Timer1.Start()
-
+        Try
+            ChatText2.Document.Window.ScrollTo(Integer.MaxValue, Integer.MaxValue)
+        Catch
+        End Try
+        'If My.Settings.OfflineMode = True Then
+        '    ssh.DomChat = OfflineConversion(ssh.DomChat)
+        'End If
     End Sub
 
     ''' <summary>
@@ -3231,22 +3148,6 @@ NonModuleEnd:
                         GoTo SkipIsTyping
                     End If
 
-                    ' If FrmSettings.CBWebtease.Checked = True Then GoTo SkipIsTyping
-
-                    If FrmSettings.CBWebtease.Checked = True Then
-
-                        ChatText.DocumentText = ssh.Chat & "<font color=""DimGray""><center><i>" & TypingName & " is typing...</i><center></font>"
-                        ChatText2.DocumentText = ssh.Chat & "<font color=""DimGray""><center><i>" & TypingName & " is typing...</i><center></font>"
-                        ChatReadyState()
-
-                    Else
-
-                        ChatText.DocumentText = ssh.Chat & "<font color=""DimGray""><i>" & TypingName & " is typing...</i></font>"
-                        ChatText2.DocumentText = ssh.Chat & "<font color=""DimGray""><i>" & TypingName & " is typing...</i></font>"
-                        ChatReadyState()
-
-                    End If
-
 SkipIsTyping:
 
                 End If
@@ -3263,7 +3164,6 @@ SkipIsTyping:
                 If ssh.RLGLGame = True Then ssh.StringLength = 0
                 If FrmSettings.typeinstantlyCheckBox.Checked = True Or ssh.RapidCode = True Then ssh.StringLength = 0
                 If ssh.HypnoGen = True And CBHypnoGenNoText.Checked = True Then ssh.StringLength = 0
-                TypingDelayGeneric()
             End If
 
         Else
@@ -3654,27 +3554,25 @@ NullResponse:
 
 
                     If ssh.SysMes = True Then
-                        ssh.Chat = "<body style=""word-wrap:break-word;"">" & "<font face=""" & "Cambria" & """ size=""" & "3" & """ color=""#000000"">" & ssh.Chat & "<font color=""SteelBlue""><b>" & ssh.DomTask & "</b><br></font></body>"
-                        ssh.SysMes = False
-                        ChatText.DocumentText = ssh.Chat
-                        ChatText2.DocumentText = ssh.Chat
-                        ChatReadyState()
+                        'ssh.Chat = "<body style=""word-wrap:break-word;"">" & "<font face=""" & "Cambria" & """ size=""" & "3" & """ color=""#000000"">" & ssh.Chat & "<font color=""SteelBlue""><b>" & ssh.DomTask & "</b><br></font></body>"
+                        'ssh.SysMes = False
+                        'ChatText.DocumentText = ssh.Chat
+                        'ChatText2.DocumentText = ssh.Chat
                         GoTo EndSysMes
                     End If
 
                     If ssh.EmoMes = True Then
-                        ssh.Chat = "<body style=""word-wrap:break-word;"">" & "<font face=""" & "Cambria" & """ size=""" & "3" & """ color=""#000000"">" & ssh.Chat & "<font color=""" &
-                           TypeColor & """><b><i>" & ssh.DomTask & "</i></b><br></font></body>"
-                        ssh.EmoMes = False
-                        ChatText.DocumentText = ssh.Chat
-                        ChatText2.DocumentText = ssh.Chat
-                        ChatReadyState()
+                        'ssh.Chat = "<body style=""word-wrap:break-word;"">" & "<font face=""" & "Cambria" & """ size=""" & "3" & """ color=""#000000"">" & ssh.Chat & "<font color=""" &
+                        'TypeColor & """><b><i>" & ssh.DomTask & "</i></b><br></font></body>"
+                        'ssh.EmoMes = False
+                        'ChatText.DocumentText = ssh.Chat
+                        'ChatText2.DocumentText = ssh.Chat
                         GoTo EndSysMes
                     End If
 
                     ' Add timestamps to domme response if the option is checked in the menu
                     If FrmSettings.timestampCheckBox.Checked = True And FrmSettings.CBWebtease.Checked = False Then
-                        ssh.Chat = ssh.Chat & "<font face=""Cambria"" size=""2"" color=""DimGray"">" & (Date.Now.ToString("hh:mm tt ")) & "</font>"
+                        'ssh.Chat = ssh.Chat & "<font face=""Cambria"" size=""2"" color=""DimGray"">" & (Date.Now.ToString("hh:mm tt ")) & "</font>"
                     End If
 
 
@@ -3683,17 +3581,16 @@ NullResponse:
 
 
                         If FrmSettings.CBWebtease.Checked = True Then
-                            ssh.Chat = "<body bgcolor=""" & Color2Html(My.Settings.ChatWindowColor) & """>" & "</body><body style=""word-wrap:break-word;"">" & "<font face=""" & FrmSettings.FontComboBoxD.Text & """ size=""" & FrmSettings.NBFontSizeD.Value & """ color=""" &
-                                 TextColor & """><center>" & ssh.DomTask & "</center><br></font></body>"
+                            'ssh.Chat = "<body bgcolor=""" & Color2Html(My.Settings.ChatWindowColor) & """>" & "</body><body style=""word-wrap:break-word;"">" & "<font face=""" & FrmSettings.FontComboBoxD.Text & """ size=""" & FrmSettings.NBFontSizeD.Value & """ color=""" &
+                            'TextColor & """><center>" & ssh.DomTask & "</center><br></font></body>"
                         Else
-                            ssh.Chat = "<body style=""word-wrap:break-word;"">" & "<font face=""" & FrmSettings.FontComboBoxD.Text & """ size=""" & FrmSettings.NBFontSizeD.Value & """ color=""" &
-                                 TextColor & """>" & ssh.Chat & ssh.DomTask & "<br></font></body>"
+                            'ssh.Chat = "<body style=""word-wrap:break-word;"">" & "<font face=""" & FrmSettings.FontComboBoxD.Text & """ size=""" & FrmSettings.NBFontSizeD.Value & """ color=""" &
+                            'TextColor & """>" & ssh.Chat & ssh.DomTask & "<br></font></body>"
                         End If
 
 
-                        ChatText.DocumentText = ssh.Chat
-                        ChatText2.DocumentText = ssh.Chat
-                        ChatReadyState()
+                        'ChatText.DocumentText = ssh.Chat
+                        'ChatText2.DocumentText = ssh.Chat
 
                         If ssh.RiskyDeal = True Then FrmCardList.WBRiskyChat.DocumentText = "<body style=""word-wrap:break-word;""><font face=""Cambria"" size=""3"" font color=""" &
                           TypeColor & """><b>" & TypeName & ": </b></font><font face=""" & TypeFont & """ size=""" & TypeSize & """ color=""" & TextColor & """>" & ssh.DomTask & "<br></font></body>"
@@ -3703,17 +3600,16 @@ NullResponse:
 
 
                         If FrmSettings.CBWebtease.Checked = True Then
-                            ssh.Chat = "<body bgcolor=""" & Color2Html(My.Settings.ChatWindowColor) & """>" & "</body><body style=""word-wrap:break-word;"">" & "<font face=""" & FrmSettings.FontComboBoxD.Text & """ size=""" & FrmSettings.NBFontSizeD.Value & """ color=""" &
-                              TextColor & """><center>" & ssh.DomTask & "</center><br></font></body>"
+                            'ssh.Chat = "<body bgcolor=""" & Color2Html(My.Settings.ChatWindowColor) & """>" & "</body><body style=""word-wrap:break-word;"">" & "<font face=""" & FrmSettings.FontComboBoxD.Text & """ size=""" & FrmSettings.NBFontSizeD.Value & """ color=""" &
+                            'TextColor & """><center>" & ssh.DomTask & "</center><br></font></body>"
                         Else
-                            ssh.Chat = "<body style=""word-wrap:break-word;"">" & ssh.Chat & "<font face=""Cambria"" size=""3"" font color=""" &
-                            TypeColor & """><b>" & TypeName & ": </b></font><font face=""" & TypeFont & """ size=""" & TypeSize & """ color=""" & TextColor & """>" & ssh.DomTask & "<br></font></body>"
+                            'ssh.Chat = "<body style=""word-wrap:break-word;"">" & ssh.Chat & "<font face=""Cambria"" size=""3"" font color=""" &
+                            'TypeColor & """><b>" & TypeName & ": </b></font><font face=""" & TypeFont & """ size=""" & TypeSize & """ color=""" & TextColor & """>" & ssh.DomTask & "<br></font></body>"
                         End If
 
                         ssh.TypeToggle = 0
-                        ChatText.DocumentText = ssh.Chat
-                        ChatText2.DocumentText = ssh.Chat
-                        ChatReadyState()
+                        'ChatText.DocumentText = ssh.Chat
+                        'ChatText2.DocumentText = ssh.Chat
 
                         If ssh.RiskyDeal = True Then FrmCardList.WBRiskyChat.DocumentText = "<body style=""word-wrap:break-word;""><font face=""Cambria"" size=""3"" font color=""" &
                           TypeColor & """><b>" & TypeName & ": </b></font><font face=""" & TypeFont & """ size=""" & TypeSize & """ color=""" & TextColor & """>" & ssh.DomTask & "<br></font></body>"
@@ -3822,7 +3718,6 @@ DommeSlideshowFallback:
                     ssh.CorrectedTypo = False
                     'DomTask = "*" & CorrectedWord
                     ssh.DomTask = LineSpeaker & "*" & ssh.CorrectedWord
-                    TypingDelayGeneric()
                     Return
                 End If
 
@@ -3874,7 +3769,6 @@ DommeSlideshowFallback:
                     ssh.DomTask = ssh.FollowUp
                     Debug.Print("FollowUp DomTask = " & ssh.DomTask)
                     ssh.FollowUp = ""
-                    TypingDelayGeneric()
                     Exit Sub
                 End If
 
@@ -4007,7 +3901,20 @@ DommeSlideshowFallback:
                                         ByVal cchBuffer As Int32) As Int32
     End Function
 
-    Private Sub SendTimer_Tick(sender As System.Object, e As System.EventArgs) Handles SendTimer.Tick
+    Private Async Sub SendTimer_Tick(sender As Object, e As EventArgs) Handles SendTimer.Tick
+        SendTimer.Enabled = False
+        Dim chatMessage As ChatMessage = myDommeMessages.Dequeue()
+
+        UpdateChatWindow(chatMessage)
+
+        Dim nextMessage As ChatMessage = myDommeMessages.FirstOrDefault()
+        If nextMessage IsNot Nothing Then
+            SendTimer.Interval = GetTypingDelay(nextMessage, My.Settings.CBInstantType)
+            SendTimer.Enabled = True
+        End If
+    End Sub
+
+    Private Sub SendTimer_Tick2(sender As System.Object, e As System.EventArgs) 'Handles SendTimer.Tick
         Dim domme As DommePersonality = mySession.Session.Domme
         Dim chatMessage = ssh.DomChat
         If chatMessage.Contains("@SlideshowOff") Then
@@ -4062,12 +3969,6 @@ DommeSlideshowFallback:
                     GoTo SkipIsTyping
                 End If
 
-                If FrmSettings.CBWebtease.Checked = True Then
-                    AppendChatMessage("<font color=""DimGray""><center><i>" & TypingName & " is typing...</i><center></font>", False)
-                Else
-                    AppendChatMessage("<font color=""DimGray""><i>" & TypingName & " is typing...</i></font>", False)
-                End If
-
 SkipIsTyping:
 
                 ssh.TypeToggle = 1
@@ -4077,7 +3978,6 @@ SkipIsTyping:
                     ssh.DivideText = False
                 End If
                 If FrmSettings.typeinstantlyCheckBox.Checked = True Or ssh.RapidCode = True Then ssh.StringLength = 0
-                TypingDelay()
             End If
 
         Else
@@ -4239,27 +4139,25 @@ TryNextWithTease:
                 Dim TextColor As String = Color2Html(My.Settings.ChatTextColor)
 
                 If ssh.SysMes = True Then
-                    ssh.Chat = "<body style=""word-wrap:break-word;"">" & "<font face=""" & "Cambria" & """ size=""" & "3" & """ color=""#000000"">" & ssh.Chat & "<font color=""SteelBlue""><b>" & chatMessage & "</b><br></font></body>"
-                    ssh.SysMes = False
-                    ChatText.DocumentText = ssh.Chat
-                    ChatText2.DocumentText = ssh.Chat
-                    ChatReadyState()
+                    'ssh.Chat = "<body style=""word-wrap:break-word;"">" & "<font face=""" & "Cambria" & """ size=""" & "3" & """ color=""#000000"">" & ssh.Chat & "<font color=""SteelBlue""><b>" & chatMessage & "</b><br></font></body>"
+                    'ssh.SysMes = False
+                    'ChatText.DocumentText = ssh.Chat
+                    'ChatText2.DocumentText = ssh.Chat
                     GoTo EndSysMes
                 End If
 
                 If ssh.EmoMes = True Then
-                    ssh.Chat = "<body style=""word-wrap:break-word;"">" & "<font face=""" & "Cambria" & """ size=""" & "3" & """ color=""#000000"">" & ssh.Chat & "<font color=""" &
-              TypeColor & """><b><i>" & chatMessage & "</i></b><br></font></body>"
-                    ssh.EmoMes = False
-                    ChatText.DocumentText = ssh.Chat
-                    ChatText2.DocumentText = ssh.Chat
-                    ChatReadyState()
+                    'ssh.Chat = "<body style=""word-wrap:break-word;"">" & "<font face=""" & "Cambria" & """ size=""" & "3" & """ color=""#000000"">" & ssh.Chat & "<font color=""" &
+                    'TypeColor & """><b><i>" & chatMessage & "</i></b><br></font></body>"
+                    'ssh.EmoMes = False
+                    'ChatText.DocumentText = ssh.Chat
+                    'ChatText2.DocumentText = ssh.Chat
                     GoTo EndSysMes
                 End If
 
                 ' Add timestamps to domme response if the option is checked in the menu
                 If FrmSettings.timestampCheckBox.Checked = True And FrmSettings.CBWebtease.Checked = False Then
-                    ssh.Chat = ssh.Chat & "<font face=""Cambria"" size=""2"" color=""DimGray"">" & (Date.Now.ToString("hh:mm tt ")) & "</font>"
+                    'ssh.Chat = ssh.Chat & "<font face=""Cambria"" size=""2"" color=""DimGray"">" & (Date.Now.ToString("hh:mm tt ")) & "</font>"
                 End If
 
                 'Debug.Print("DomChat = " & DomChat)
@@ -4268,17 +4166,16 @@ TryNextWithTease:
 
 
                     If FrmSettings.CBWebtease.Checked = True Then
-                        ssh.Chat = "<body bgcolor=""" & Color2Html(My.Settings.ChatWindowColor) & """>" & "</body><body style=""word-wrap:break-word;"">" & "<font face=""" & FrmSettings.FontComboBoxD.Text & """ size=""" & FrmSettings.NBFontSizeD.Value & """ color=""" &
-                          TextColor & """><center>" & chatMessage & "</center><br></font></body>"
+                        'ssh.Chat = "<body bgcolor=""" & Color2Html(My.Settings.ChatWindowColor) & """>" & "</body><body style=""word-wrap:break-word;"">" & "<font face=""" & FrmSettings.FontComboBoxD.Text & """ size=""" & FrmSettings.NBFontSizeD.Value & """ color=""" &
+                        'TextColor & """><center>" & chatMessage & "</center><br></font></body>"
                     Else
-                        ssh.Chat = "<body style=""word-wrap:break-word;"">" & "<font face=""" & FrmSettings.FontComboBoxD.Text & """ size=""" & FrmSettings.NBFontSizeD.Value & """ color=""" &
-                         TextColor & """>" & ssh.Chat & chatMessage & "<br></font></body>"
+                        'ssh.Chat = "<body style=""word-wrap:break-word;"">" & "<font face=""" & FrmSettings.FontComboBoxD.Text & """ size=""" & FrmSettings.NBFontSizeD.Value & """ color=""" &
+                        'TextColor & """>" & ssh.Chat & chatMessage & "<br></font></body>"
                     End If
 
 
-                    ChatText.DocumentText = ssh.Chat
-                    ChatText2.DocumentText = ssh.Chat
-                    ChatReadyState()
+                    'ChatText.DocumentText = ssh.Chat
+                    'ChatText2.DocumentText = ssh.Chat
 
                     If ssh.RiskyDeal = True Then FrmCardList.WBRiskyChat.DocumentText = "<body style=""word-wrap:break-word;""><font face=""Cambria"" size=""3"" font color=""" &
               TypeColor & """><b>" & TypeName & ": </b></font><font face=""" & TypeFont & """ size=""" & TypeSize & """ color=""" & TextColor & """>" & chatMessage & "<br></font></body>"
@@ -4286,17 +4183,16 @@ TryNextWithTease:
                 Else
 
                     If FrmSettings.CBWebtease.Checked = True Then
-                        ssh.Chat = "<body bgcolor=""" & Color2Html(My.Settings.ChatWindowColor) & """>" & "</body><body style=""word-wrap:break-word;"">" & "<font face=""" & FrmSettings.FontComboBoxD.Text & """ size=""" & FrmSettings.NBFontSizeD.Value & """ color=""" &
-                         TextColor & """><center>" & chatMessage & "</center><br></font></body>"
+                        'ssh.Chat = "<body bgcolor=""" & Color2Html(My.Settings.ChatWindowColor) & """>" & "</body><body style=""word-wrap:break-word;"">" & "<font face=""" & FrmSettings.FontComboBoxD.Text & """ size=""" & FrmSettings.NBFontSizeD.Value & """ color=""" &
+                        'TextColor & """><center>" & chatMessage & "</center><br></font></body>"
                     Else
-                        ssh.Chat = "<body style=""word-wrap:break-word;"">" & ssh.Chat & "<font face=""Cambria"" size=""3"" font color=""" &
-                TypeColor & """><b>" & TypeName & ": </b></font><font face=""" & TypeFont & """ size=""" & TypeSize & """ color=""" & TextColor & """>" & chatMessage & "<br></font></body>"
+                        'ssh.Chat = "<body style=""word-wrap:break-word;"">" & ssh.Chat & "<font face=""Cambria"" size=""3"" font color=""" &
+                        'TypeColor & """><b>" & TypeName & ": </b></font><font face=""" & TypeFont & """ size=""" & TypeSize & """ color=""" & TextColor & """>" & chatMessage & "<br></font></body>"
                     End If
 
                     ssh.TypeToggle = 0
-                    ChatText.DocumentText = ssh.Chat
-                    ChatText2.DocumentText = ssh.Chat
-                    ChatReadyState()
+                    'ChatText.DocumentText = ssh.Chat
+                    'ChatText2.DocumentText = ssh.Chat
 
                     If ssh.RiskyDeal = True Then FrmCardList.WBRiskyChat.DocumentText = "<body style=""word-wrap:break-word;""><font face=""Cambria"" size=""3"" font color=""" &
               TypeColor & """><b>" & TypeName & ": </b></font><font face=""" & TypeFont & """ size=""" & TypeSize & """ color=""" & TextColor & """>" & chatMessage & "<br></font></body>"
@@ -4410,7 +4306,6 @@ DommeSlideshowFallback:
                 If ssh.FollowUp <> "" Then
                     chatMessage = ssh.FollowUp
                     ssh.FollowUp = ""
-                    TypingDelay()
                     Exit Sub
                 End If
 
@@ -5117,7 +5012,6 @@ Retry:
             If InStr(UCase(ssh.DomTask), UCase("@CBT")) <> 0 Then
                 CBTScript()
             Else
-                TypingDelayGeneric()
             End If
 
 
@@ -5163,10 +5057,6 @@ Retry:
 
         CBTAmount = ssh.randomizer.Next(1, 6) * 2 * FrmSettings.DominationLevel.Value
         ssh.DomTask = ssh.DomTask.Replace("#CBTAmount", CBTAmount)
-
-        TypingDelayGeneric()
-
-
     End Sub
 
 
@@ -5552,10 +5442,6 @@ CensorConstant:
 
             Dim CensorLine As Integer
 
-
-
-
-
             Try
                 lines = FilterList(lines)
                 If lines.Count < 1 Then Return
@@ -5566,8 +5452,6 @@ CensorConstant:
                                CensorVideo, ex, "CensorshipTimer.Tick")
                 ssh.DomTask = "ERROR: Tease AI did not return a valid Censorship Sucks line"
             End Try
-
-            TypingDelayGeneric()
 
         End If
 
@@ -5620,8 +5504,6 @@ CensorConstant:
                                file2read, ex, "RLGLTimer.Tick")
                 ssh.DomTask = "ERROR: Tease AI did not return a valid RLGL line"
             End Try
-
-            TypingDelayGeneric()
         End If
     End Sub
 
@@ -9290,7 +9172,6 @@ OrgasmDecided:
                     ssh.DomChat = "@Contact3 #HoldTheEdge"
                     ' Github Patch Contact3Stroke = False
                 End If
-                TypingDelay()
 
                 ssh.HoldEdgeTick = ssh.HoldEdgeChance
 
@@ -9329,8 +9210,6 @@ OrgasmDecided:
                     ssh.DomChat = "@Contact3 #StopStrokingEdge"
                     ssh.Contact3Stroke = False
                 End If
-                TypingDelay()
-
             End If
 
             Do
@@ -12421,18 +12300,9 @@ SkipTextedTags:
 
             Dim AvoidTheEdgeLine As Integer
 
-            'Debug.Print("AvoidTheEdgeLineStart = " & AvoidTheEdgeLineStart)
-            'Debug.Print("AvoidTheEdgeLineEnd = " & AvoidTheEdgeLineEnd)
-
             AvoidTheEdgeLine = ssh.randomizer.Next(AvoidTheEdgeLineStart + 1, AvoidTheEdgeLineEnd)
 
             ssh.DomTask = lines(AvoidTheEdgeLine)
-
-            TypingDelayGeneric()
-
-
-
-
         End If
 
     End Sub
@@ -12912,8 +12782,6 @@ NoPlaylistLinkFile:
                 ssh.DomTask = "ERROR: Tease AI did not return a valid Edge Taunt"
             End Try
 
-            TypingDelayGeneric()
-
             ssh.EdgeTauntInt = ssh.randomizer.Next(30, 46)
 
         End If
@@ -13041,7 +12909,6 @@ NoRepeatFiles:
                 ssh.DomTask = "@Contact3 #StopStroking"
                 ssh.Contact3Edge = False
             End If
-            TypingDelayGeneric()
             Return
 
 RuinedOrgasm:
@@ -13123,7 +12990,6 @@ NoRepeatRFiles:
                 ssh.DomChat = "@Contact3 #RuinYourOrgasm"
                 ssh.Contact3Edge = False
             End If
-            TypingDelay()
             Return
 
 AllowedOrgasm:
@@ -13238,7 +13104,6 @@ NoRepeatOFiles:
                 ssh.DomChat = "@Contact3 #CumForMe"
                 ssh.Contact3Edge = False
             End If
-            TypingDelay()
             Return
 
         End If
@@ -13281,11 +13146,7 @@ NoRepeatOFiles:
                 ssh.DomTask = "ERROR: Tease AI did not return a valid Hold the Edge Taunt"
             End Try
 
-            TypingDelayGeneric()
-
             ssh.EdgeTauntInt = ssh.randomizer.Next(15, 31)
-
-
         End If
 
     End Sub
@@ -13555,7 +13416,6 @@ PoundLoop:
         myProcess.Dispose()
     End Function
 
-
     Public Sub BTNFileTransferOpen_Click(sender As System.Object, e As System.EventArgs) Handles BTNFileTransferOpen.Click
 
         ShellExecute(ssh.TaskTextDir)
@@ -13628,8 +13488,6 @@ TryNext:
         End If
 
     End Sub
-
-
 
     Private Sub EdgeCountTimer_Tick(sender As System.Object, e As System.EventArgs) Handles EdgeCountTimer.Tick
 
@@ -13911,7 +13769,6 @@ RestartFunction:
 
                     If WMPPos = PlayPos Then
                         ssh.DomTask = SubCheck(1)
-                        TypingDelayGeneric()
                         Debug.Print(SubList(i))
                     End If
                 Next
@@ -13940,7 +13797,6 @@ RestartFunction:
         End If
 
     End Sub
-
 
     Private Sub WaitTimer_Tick(sender As System.Object, e As System.EventArgs) Handles WaitTimer.Tick
         If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
@@ -14101,23 +13957,8 @@ RestartFunction:
                 ssh.DomTask = "ERROR: Tease AI did not return a valid Video Taunt"
             End Try
 
-            TypingDelayGeneric()
-
-
-
             ssh.VideoTauntTick = ssh.randomizer.Next(20, 31)
-
-
         End If
-
-
-
-
-
-
-
-
-
     End Sub
 
     Private Sub TeaseTimer_Tick(sender As System.Object, e As System.EventArgs) Handles TeaseTimer.Tick
@@ -14173,17 +14014,10 @@ RestartFunction:
                                VTDir, ex, "RLGLTauntTimer.Tick")
                 ssh.DomTask = "ERROR: Tease AI did not return a valid Video Taunt"
             End Try
-            TypingDelayGeneric()
-
-
 
             ssh.RLGLTauntTick = ssh.randomizer.Next(20, 31)
 
-
         End If
-
-
-
     End Sub
 
     Private Sub AvoidTheEdgeTaunts_Tick(sender As System.Object, e As System.EventArgs) Handles AvoidTheEdgeTaunts.Tick
@@ -14226,16 +14060,9 @@ RestartFunction:
                                VTDir, ex, "AvoidTheEdgeTaunts.Tick")
                 ssh.DomTask = "ERROR: Tease AI did not return a valid Video Taunt"
             End Try
-            TypingDelayGeneric()
-
-
 
             ssh.AvoidTheEdgeTick = ssh.randomizer.Next(20, 31)
-
-
         End If
-
-
     End Sub
 
 #Region "-------------------------------------------------- MainPictureBox ----------------------------------------------------"
@@ -14257,8 +14084,6 @@ RestartFunction:
 #End Region ' MainPictureBox
 
 #Region "-------------------------------------------------- PictureStrip ------------------------------------------------------"
-
-
 
     Private Sub PictureStrip_Opening(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles PictureStrip.Opening
 
@@ -14679,7 +14504,6 @@ saveImage:
         Return FormatClean
     End Function
 
-
     Private Sub CustomSlideshowTimer_Tick(sender As System.Object, e As System.EventArgs) Handles CustomSlideshowTimer.Tick
         If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
         Try
@@ -14746,17 +14570,15 @@ restartInstantly:
             If Not ssh.Group.Contains("1") Then
                 ssh.Group = ssh.Group & "1"
                 ssh.GlitterTease = True
-                ssh.Chat = "<body style=""word-wrap:break-word;"">" & "<font face=""" & "Cambria" & """ size=""" & "3" & """ color=""#000000"">" & ssh.Chat & "<font color=""SteelBlue""><b>" & My.Settings.Glitter1 & " has joined the Chat room</b>" & "<br></font></body>"
-                ChatText.DocumentText = ssh.Chat
-                ChatText2.DocumentText = ssh.Chat
-                ChatReadyState()
+                'ssh.Chat = "<body style=""word-wrap:break-word;"">" & "<font face=""" & "Cambria" & """ size=""" & "3" & """ color=""#000000"">" & ssh.Chat & "<font color=""SteelBlue""><b>" & My.Settings.Glitter1 & " has joined the Chat room</b>" & "<br></font></body>"
+                'ChatText.DocumentText = ssh.Chat
+                'ChatText2.DocumentText = ssh.Chat
             Else
                 ssh.Group = ssh.Group.Replace("1", "")
                 If ssh.Group = "D" Then ssh.GlitterTease = False
-                ssh.Chat = "<body style=""word-wrap:break-word;"">" & "<font face=""" & "Cambria" & """ size=""" & "3" & """ color=""#000000"">" & ssh.Chat & "<font color=""SteelBlue""><b>" & My.Settings.Glitter1 & " has left the Chat room</b>" & "<br></font></body>"
-                ChatText.DocumentText = ssh.Chat
-                ChatText2.DocumentText = ssh.Chat
-                ChatReadyState()
+                'ssh.Chat = "<body style=""word-wrap:break-word;"">" & "<font face=""" & "Cambria" & """ size=""" & "3" & """ color=""#000000"">" & ssh.Chat & "<font color=""SteelBlue""><b>" & My.Settings.Glitter1 & " has left the Chat room</b>" & "<br></font></body>"
+                'ChatText.DocumentText = ssh.Chat
+                'ChatText2.DocumentText = ssh.Chat
             End If
         End If
 
@@ -14771,17 +14593,15 @@ restartInstantly:
             If Not ssh.Group.Contains("2") Then
                 ssh.Group = ssh.Group & "2"
                 ssh.GlitterTease = True
-                ssh.Chat = "<body style=""word-wrap:break-word;"">" & "<font face=""" & "Cambria" & """ size=""" & "3" & """ color=""#000000"">" & ssh.Chat & "<font color=""SteelBlue""><b>" & My.Settings.Glitter2 & " has joined the Chat room</b>" & "<br></font></body>"
-                ChatText.DocumentText = ssh.Chat
-                ChatText2.DocumentText = ssh.Chat
-                ChatReadyState()
+                'ssh.Chat = "<body style=""word-wrap:break-word;"">" & "<font face=""" & "Cambria" & """ size=""" & "3" & """ color=""#000000"">" & ssh.Chat & "<font color=""SteelBlue""><b>" & My.Settings.Glitter2 & " has joined the Chat room</b>" & "<br></font></body>"
+                'ChatText.DocumentText = ssh.Chat
+                'ChatText2.DocumentText = ssh.Chat
             Else
                 ssh.Group = ssh.Group.Replace("2", "")
                 If ssh.Group = "D" Then ssh.GlitterTease = False
-                ssh.Chat = "<body style=""word-wrap:break-word;"">" & "<font face=""" & "Cambria" & """ size=""" & "3" & """ color=""#000000"">" & ssh.Chat & "<font color=""SteelBlue""><b>" & My.Settings.Glitter2 & " has left the Chat room</b>" & "<br></font></body>"
-                ChatText.DocumentText = ssh.Chat
-                ChatText2.DocumentText = ssh.Chat
-                ChatReadyState()
+                'ssh.Chat = "<body style=""word-wrap:break-word;"">" & "<font face=""" & "Cambria" & """ size=""" & "3" & """ color=""#000000"">" & ssh.Chat & "<font color=""SteelBlue""><b>" & My.Settings.Glitter2 & " has left the Chat room</b>" & "<br></font></body>"
+                'ChatText.DocumentText = ssh.Chat
+                'ChatText2.DocumentText = ssh.Chat
             End If
         End If
 
@@ -14796,17 +14616,15 @@ restartInstantly:
             If Not ssh.Group.Contains("3") Then
                 ssh.Group = ssh.Group & "3"
                 ssh.GlitterTease = True
-                ssh.Chat = "<body style=""word-wrap:break-word;"">" & "<font face=""" & "Cambria" & """ size=""" & "3" & """ color=""#000000"">" & ssh.Chat & "<font color=""SteelBlue""><b>" & My.Settings.Glitter3 & " has joined the Chat room</b>" & "<br></font></body>"
-                ChatText.DocumentText = ssh.Chat
-                ChatText2.DocumentText = ssh.Chat
-                ChatReadyState()
+                'ssh.Chat = "<body style=""word-wrap:break-word;"">" & "<font face=""" & "Cambria" & """ size=""" & "3" & """ color=""#000000"">" & ssh.Chat & "<font color=""SteelBlue""><b>" & My.Settings.Glitter3 & " has joined the Chat room</b>" & "<br></font></body>"
+                'ChatText.DocumentText = ssh.Chat
+                'ChatText2.DocumentText = ssh.Chat
             Else
                 ssh.Group = ssh.Group.Replace("3", "")
                 If ssh.Group = "D" Then ssh.GlitterTease = False
-                ssh.Chat = "<body style=""word-wrap:break-word;"">" & "<font face=""" & "Cambria" & """ size=""" & "3" & """ color=""#000000"">" & ssh.Chat & "<font color=""SteelBlue""><b>" & My.Settings.Glitter3 & " has left the Chat room</b>" & "<br></font></body>"
-                ChatText.DocumentText = ssh.Chat
-                ChatText2.DocumentText = ssh.Chat
-                ChatReadyState()
+                'ssh.Chat = "<body style=""word-wrap:break-word;"">" & "<font face=""" & "Cambria" & """ size=""" & "3" & """ color=""#000000"">" & ssh.Chat & "<font color=""SteelBlue""><b>" & My.Settings.Glitter3 & " has left the Chat room</b>" & "<br></font></body>"
+                'ChatText.DocumentText = ssh.Chat
+                'ChatText2.DocumentText = ssh.Chat
             End If
         End If
 
@@ -14823,17 +14641,15 @@ restartInstantly:
             If Not ssh.Group.Contains("D") Then
                 ssh.Group = ssh.Group & "D"
                 If ssh.Group = "D" Then ssh.GlitterTease = False
-                ssh.Chat = "<body style=""word-wrap:break-word;"">" & "<font face=""" & "Cambria" & """ size=""" & "3" & """ color=""#000000"">" & ssh.Chat & "<font color=""SteelBlue""><b>" & domName.Text & " has joined the Chat room</b>" & "<br></font></body>"
-                ChatText.DocumentText = ssh.Chat
-                ChatText2.DocumentText = ssh.Chat
-                ChatReadyState()
+                'ssh.Chat = "<body style=""word-wrap:break-word;"">" & "<font face=""" & "Cambria" & """ size=""" & "3" & """ color=""#000000"">" & ssh.Chat & "<font color=""SteelBlue""><b>" & domName.Text & " has joined the Chat room</b>" & "<br></font></body>"
+                'ChatText.DocumentText = ssh.Chat
+                'ChatText2.DocumentText = ssh.Chat
             Else
                 ssh.Group = ssh.Group.Replace("D", "")
                 ssh.GlitterTease = True
-                ssh.Chat = "<body style=""word-wrap:break-word;"">" & "<font face=""" & "Cambria" & """ size=""" & "3" & """ color=""#000000"">" & ssh.Chat & "<font color=""SteelBlue""><b>" & domName.Text & " has left the Chat room</b>" & "<br></font></body>"
-                ChatText.DocumentText = ssh.Chat
-                ChatText2.DocumentText = ssh.Chat
-                ChatReadyState()
+                'ssh.Chat = "<body style=""word-wrap:break-word;"">" & "<font face=""" & "Cambria" & """ size=""" & "3" & """ color=""#000000"">" & ssh.Chat & "<font color=""SteelBlue""><b>" & domName.Text & " has left the Chat room</b>" & "<br></font></body>"
+                'ChatText.DocumentText = ssh.Chat
+                'ChatText2.DocumentText = ssh.Chat
             End If
         End If
 
@@ -14847,7 +14663,6 @@ restartInstantly:
             StatusUpdatePost()
         End If
     End Sub
-
 
 
 #Region "------------------------------------------------------ MenuStuff -----------------------------------------------------"
@@ -15011,7 +14826,6 @@ restartInstantly:
 
         If ssh.DomTypeCheck = False Then
             ssh.DomTask = "<b>Tease AI has been reset</b>"
-            TypingDelayGeneric()
         End If
 
     End Sub
@@ -15715,7 +15529,6 @@ restartInstantly:
 
 
 #End Region ' Menu
-
 
     Private Sub Form1_ResizeEnd(sender As Object, e As System.EventArgs) Handles Me.ResizeEnd, Me.Resize
         If Me.IsHandleCreated = False Then Exit Sub
@@ -17795,7 +17608,6 @@ playLoop:
             If ssh.Contact1Edge = True Then ssh.DomChat = "@Contact1 #SYS_MultipleEdgesStart"
             If ssh.Contact2Edge = True Then ssh.DomChat = "@Contact2 #SYS_MultipleEdgesStart"
             If ssh.Contact3Edge = True Then ssh.DomChat = "@Contact3 #SYS_MultipleEdgesStart"
-            TypingDelay()
 
             ssh.MultipleEdgesMetronome = "START"
 
@@ -17993,19 +17805,7 @@ playLoop:
     End Sub
 
     Public Sub ClearChat()
-
-        ssh.Chat = "<body bgcolor=""" & Color2Html(My.Settings.ChatWindowColor) & """></body>"
-        ChatText.DocumentText = ssh.Chat
-        ChatText2.DocumentText = ssh.Chat
-        ChatReadyState()
-
-    End Sub
-
-    ''' <summary>
-    ''' This calls do events while things are working, then optionally saves the log
-    ''' </summary>
-    Public Sub ChatReadyState()
-        ScrollChatDown()
+        Throw New Exception("ClearChat")
     End Sub
 
     Public Function GetIf(ByVal CompareString As String) As Boolean
@@ -18093,87 +17893,6 @@ playLoop:
             MainMenuStrip.Visible = False
         End If
     End Sub
-
-#Region "Sending / recieving messages in the chat box"
-    ''' <summary>
-    ''' Append the message to the chat box and sets the value of ssh.SubWroteLast
-    ''' </summary>
-    Private Sub AppendChatMessage(chatMessage As ChatMessage, chatMessagePreferences As ChatMessagePreferences, shouldSave As Boolean)
-        Dim messageString As String = "<body style=""word-wrap:break-word;"" bgcolor=""" + chatMessagePreferences.BackgroundColor + """>"
-        Dim lastSender As String = IIf(ssh.SubWroteLast, subName.Text, domName.Text)
-
-        If chatMessagePreferences.ShowTimeStamp = True Then
-            messageString += "<font face=""Cambria"" size=""2"" color=""DimGray"">" + (chatMessage.TimeStamp.ToString("hh:mm tt ")) + "</font>"
-        End If
-
-        ' Show the sender if the option is checked and the sender changed
-        If FrmSettings.shownamesCheckBox.Checked AndAlso lastSender <> chatMessage.Sender Then
-            messageString += "<font face=""Cambria"" size=""3"" font color=""" & chatMessagePreferences.SenderColor & """><b>" & chatMessage.Sender & ": </b></font>"
-        End If
-
-        messageString += "<font face=""" + chatMessagePreferences.FontName + """ size=""" + chatMessagePreferences.FontSize.ToString() + """ color=""" + chatMessagePreferences.FontColor + """>" + chatMessage.Message + "<br></font>"
-
-        messageString += "</body>"
-        AppendChatMessage(messageString, shouldSave)
-
-        ChatReadyState()
-        ssh.SubWroteLast = subName.Text = chatMessage.Sender
-
-
-        'Debug.Print("Typing Delay Called " & StrokeTauntVal)
-        If My.Settings.OfflineMode = True Then
-            ssh.DomChat = OfflineConversion(ssh.DomChat)
-        End If
-
-    End Sub
-
-    Private Async Function MessageFromDomme(chatMessage As String, domme As DommePersonality, shouldSave As Boolean) As Task
-        Dim dommeChatPreferences As ChatMessagePreferences = CreateDommeMessagePreferences()
-
-        Dim messageDelay = Math.Min(chatMessage.Length, 60)
-        If FrmSettings.typeinstantlyCheckBox.Checked OrElse ssh.RapidCode Then
-            messageDelay = 0
-        End If
-
-        Await Sleep(messageDelay * 100)
-
-        Dim message As ChatMessage = New ChatMessage()
-
-        message.Message = IIf(FrmSettings.LCaseCheckBox.Checked, chatMessage.ToLower(), chatMessage)
-        message.Sender = domme.Name
-
-        AppendChatMessage(message, dommeChatPreferences, shouldSave)
-    End Function
-
-    Private Async Function MessageFromDomme(chatMessage As ChatMessage, chatMessagePreferences As ChatMessagePreferences, shouldSave As Boolean) As Task
-        Dim messageDelay = Math.Min(chatMessage.Message.Length, 60)
-        If FrmSettings.typeinstantlyCheckBox.Checked OrElse ssh.RapidCode Then
-            messageDelay = 0
-        End If
-
-        Await Sleep(messageDelay * 100)
-
-        AppendChatMessage(chatMessage, chatMessagePreferences, shouldSave)
-    End Function
-
-    ''' <summary>
-    ''' Updates the chat window with <paramref name="messageString"/>, then optionally saves the log
-    ''' </summary>
-    ''' <param name="messageString"></param>
-    ''' <param name="shouldSave"></param>
-    Private Sub AppendChatMessage(messageString As String, shouldSave As Boolean)
-        ChatText.DocumentText += messageString
-        ChatText2.DocumentText += messageString
-        If shouldSave Then
-            ssh.Chat = "<body bgcolor=""" & Color2Html(My.Settings.ChatWindowColor) & """>" + ssh.Chat + messageString + "</body>"
-        End If
-
-        ChatReadyState()
-        If shouldSave = True Then My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Chatlogs\Autosave.html", ChatText.DocumentText, False)
-
-    End Sub
-
-#End Region
 
 #Region "data marshalling For services"
     Private Function CreateDommePersonality() As DommePersonality
@@ -18330,10 +18049,21 @@ playLoop:
         Return messagePreferences
     End Function
 
+    Private Function CreateSubMessagePreferences() As ChatMessagePreferences
+        Dim messagePreferences As ChatMessagePreferences = New ChatMessagePreferences()
+        messagePreferences.ShowTimeStamp = FrmSettings.timestampCheckBox.Checked
+        messagePreferences.FontName = FrmSettings.FontComboBox.Text
+        messagePreferences.FontSize = Convert.ToInt32(FrmSettings.NBFontSize.Value)
+        messagePreferences.FontColor = Color2Html(My.Settings.ChatTextColor)
+        messagePreferences.ShowSenderName = FrmSettings.shownamesCheckBox.Checked
+        messagePreferences.SenderColor = My.Settings.SubColor
+        messagePreferences.BackgroundColor = Color2Html(My.Settings.ChatWindowColor)
+        Return messagePreferences
+    End Function
 #End Region
 
     ''' <summary>
-    ''' awaitable sleep.
+    ''' awaitable sleep. <paramref name="sleepTime"/> is ms
     ''' </summary>
     ''' <param name="sleepTime"></param>
     ''' <returns></returns>
@@ -18374,14 +18104,18 @@ playLoop:
     End Function
 #End Region
 
-#Region "Session Engine"
+#Region "Session Engine Events"
     Public Sub mySession_DommeSaid(sender As Object, e As DommeSaidEventArgs)
+        Dim session As SessionEngine = CType(sender, SessionEngine)
         If InvokeRequired Then
-            BeginInvoke(New MethodInvoker(Sub() TypingDelay(e.ChatMessage)))
+            BeginInvoke(New MethodInvoker(Sub() mySession_DommeSaid(sender, e)))
         Else
-            TypingDelay(e.ChatMessage)
+            If Not myDommeMessages.Any() Then
+                SendTimer.Enabled = True
+                SendTimer.Interval = GetTypingDelay(e.ChatMessage, My.Settings.CBInstantType)
+            End If
+            myDommeMessages.Enqueue(e.ChatMessage)
         End If
-        'MessageFromDomme(e.ChatMessage, CreateDommeMessagePreferences(), True).Wait()
     End Sub
 
     Private Sub mySession_ShowImage(sender As Object, e As ShowImageEventArgs)
@@ -18496,6 +18230,17 @@ NoPlaylistStartFile:
 #End Region
 
 #Region "Prepare for extraction to service"
+    ''' <summary>
+    ''' Updates the chat window with <paramref name="messageString"/>, then optionally saves the log
+    ''' </summary>
+    ''' <param name="messageString"></param>
+    ''' <param name="shouldSave"></param>
+    Private Sub AppendChatMessage(messageString As String, shouldSave As Boolean)
+        ChatText.DocumentText = messageString
+        ChatText2.DocumentText = messageString
+
+        If shouldSave = True Then My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Chatlogs\Autosave.html", messageString, False)
+    End Sub
 
     Private Function GetStartPostion(makeRandom As Boolean) As Int32
         Dim VideoLength As Integer = DomWMP.currentMedia.duration
@@ -20805,7 +20550,6 @@ OrgasmDecided:
             ssh.SubHoldingEdge = True
             EdgeTauntTimer.Stop()
             'DomChat = "#HoldTheEdge"
-            'TypingDelay()
 
             ssh.HoldEdgeTick = ssh.HoldEdgeChance
 
@@ -20851,7 +20595,6 @@ OrgasmDecided:
             ssh.SubStroking = False
             EdgeTauntTimer.Stop()
             'DomChat = "#StopStrokingEdge"
-            'TypingDelay()
 
             Do
                 Application.DoEvents()
@@ -20886,7 +20629,6 @@ OrgasmDecided:
                     ssh.DomChat = "@Contact3 #HoldTheEdge"
                     ' Github Patch Contact3Stroke = False
                 End If
-                TypingDelay()
 
                 ssh.HoldEdgeTick = ssh.HoldEdgeChance
 
@@ -20925,7 +20667,6 @@ OrgasmDecided:
                     ssh.DomChat = "@Contact3 #StopStrokingEdge"
                     ssh.Contact3Stroke = False
                 End If
-                TypingDelay()
 
             End If
 
@@ -22469,6 +22210,15 @@ VTSkip:
 
         Return inputString
 
+    End Function
+
+    Private Function GetTypingDelay(chatMessage As ChatMessage, isInstantType As Boolean) As Integer
+        Dim typeDelay As Integer = 0
+        If Not isInstantType Then
+            typeDelay = Math.Min(chatMessage.Message.Length, 60) * 300
+        End If
+
+        Return typeDelay
     End Function
 #End Region
 End Class
