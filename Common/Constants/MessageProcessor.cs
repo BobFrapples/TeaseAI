@@ -5,6 +5,7 @@
         Greeting,
         Safeword,
         RequestTask,
-        ScriptResponse
+        ScriptResponse,
+        EdgeDetection
     }
 }

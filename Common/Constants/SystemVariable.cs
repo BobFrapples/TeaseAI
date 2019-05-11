@@ -18,5 +18,10 @@
         /// keeps track of how many times the sub left before the session was complete
         /// </summary>
         public const string SubLeftEarly = "SYS_SubLeftEarly";
+
+        /// <summary>
+        /// How many times this session has the sub edged.
+        /// </summary>
+        public const string EdgeTotal = "SYS_EdgeTotal";
     }
 }

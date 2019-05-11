@@ -26,33 +26,34 @@ namespace TeaseAI.Services.MessageProcessors
             return (!session.Domme.WasGreeted && !string.IsNullOrWhiteSpace(greetingUsed));
         }
 
-        public Result<string> ProcessMessage(Session session, ChatMessage chatMessage)
+        public Result<MessageProcessedResult> ProcessMessage(Session session, ChatMessage chatMessage)
         {
             var greetingUsed = _settingsAccessor.GetGreetings()
                .FirstOrDefault(greet => _stringService.WordExists(chatMessage.Message.ToLower(), greet.ToLower()));
 
             // Not being greeted, so bump out
             if (greetingUsed == null)
-                return Result.Ok(string.Empty);
+                return Result.Ok(new MessageProcessedResult { Session = session, MessageBack = string.Empty });
 
             if (session.Domme.RequiresHonorific)
             {
                 if (!_stringService.WordExists(chatMessage.Message.ToLower(), session.Domme.Honorific.ToLower()))
                 {
-                    return Result.Ok(_stringService.Capitalize(greetingUsed + " what?"));
+                    return Result.Ok(new MessageProcessedResult { Session = session, MessageBack = _stringService.Capitalize(greetingUsed + " what?") });
                 }
 
                 if (session.Domme.RequiresHonorificCapitalized
                     && !_stringService.WordExists(chatMessage.Message, _stringService.Capitalize(session.Domme.Honorific)))
                 {
-                    return Result.Ok(_stringService.Capitalize("#CapitalizeHonorific"));
+                    return Result.Ok(new MessageProcessedResult { Session = session, MessageBack = _stringService.Capitalize("#CapitalizeHonorific") });
                 }
             }
+            // This is the *only* time we can get away with this
             session.Domme.WasGreeted = true;
 
             OnMessageProcessed(session);
-            return Result.Ok(string.Empty);
 
+            return Result.Ok(new MessageProcessedResult { Session = session, MessageBack = string.Empty });
         }
 
         private void OnMessageProcessed(Session session)

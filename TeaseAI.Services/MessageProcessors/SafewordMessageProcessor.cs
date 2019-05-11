@@ -14,10 +14,9 @@ namespace TeaseAI.Services.MessageProcessors
             return chatMessage.Message.ToLower() == session.Sub.Safeword;
         }
 
-        public Result<string> ProcessMessage(Session session, ChatMessage chatMessage)
+        public Result<MessageProcessedResult> ProcessMessage(Session session, ChatMessage chatMessage)
         {
-            OnMessageProcessed(session);
-            return Result.Ok(string.Empty);
+            return Result.Ok(new MessageProcessedResult { Session = session, MessageBack = string.Empty });
         }
 
         private void OnMessageProcessed(Session session)

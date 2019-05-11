@@ -103,6 +103,7 @@ namespace TeaseAI.Common
         /// Is the Domme marked away from keyboard
         /// </summary>
         public bool IsAfk { get; set; }
+        public int EdgesRequired { get; set; }
 
         public DommePersonality Clone()
         {

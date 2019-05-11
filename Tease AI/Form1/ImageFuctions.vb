@@ -607,8 +607,9 @@ NoNeFound:
             Log.WriteError(lazyText, New ArgumentNullException(lazyText), "ShowImage with no valid imagepath.")
             Throw New ArgumentNullException(NameOf(imageToShow), "No image file was specified.")
         End If
-
-        mainPictureBox.Image = Image.FromFile(imageToShow)
+        If System.IO.File.Exists(imageToShow) Then
+            mainPictureBox.Image = Image.FromFile(imageToShow)
+        End If
     End Sub
 
 #Region "---------------------------------------------------- BWimageSync -----------------------------------------------------"

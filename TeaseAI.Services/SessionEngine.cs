@@ -20,7 +20,7 @@ namespace TeaseAI.Services
     {
         //TODO: Setup filtering to ignore lines like @Crazy, @SelfYoung, etc.
         public Session Session { get; set; }
-
+        private object _sessionLock = new object();
 
         /// <summary>
         /// Index command processor by keyword it handles. useful for binding events
@@ -36,7 +36,8 @@ namespace TeaseAI.Services
             , IImageAccessor imageAccessor
             , IVideoAccessor videoAccessor
             , IVariableAccessor variableAccessor
-            , ITauntAccessor tauntAccessor)
+            , ITauntAccessor tauntAccessor
+            , ISystemVocabularyAccessor systemVocabularyAccessor)
         {
             CommandProcessors = CreateCommandProcessors(scriptAccessor, flagAccessor, new LineService(), imageAccessor, videoAccessor, variableAccessor, tauntAccessor);
 
@@ -67,9 +68,10 @@ namespace TeaseAI.Services
             CommandProcessors[Keyword.PlayVideo].CommandProcessed += PlayVideoCommandProcessed;
             CommandProcessors[Keyword.PlayJoiVideo].CommandProcessed += PlayVideoCommandProcessed;
 
-            MessageProcessors = CreateMessageProcessors(settingsAccessor, stringService, new LineService());
+            MessageProcessors = CreateMessageProcessors(settingsAccessor, stringService, new LineService(), systemVocabularyAccessor, variableAccessor, new RandomPercentService());
 
             MessageProcessors[MessageProcessor.ScriptResponse].MessageProcessed += ScriptResponse_MessageProcessed;
+            MessageProcessors[MessageProcessor.EdgeDetection].MessageProcessed += EdgeDetection_MessageProcessed;
 
             _scriptAccessor = scriptAccessor;
             _variableAccessor = variableAccessor;
@@ -83,7 +85,7 @@ namespace TeaseAI.Services
             _teaseCountDown = timerFactory.Create();
             _teaseCountDown.Elapsed += _teaseCountDown_Elapsed;
 
-            _vocabularyProcesser = new VocabularyProcessor( new LineCollectionFilter(), new LineService());
+            _vocabularyProcesser = new VocabularyProcessor(new LineCollectionFilter(), new LineService());
         }
 
         private void EdgeCommandProcessed(object sender, CommandProcessedEventArgs e)
@@ -188,12 +190,20 @@ namespace TeaseAI.Services
         /// <returns></returns>
         public Result Say(ChatMessage chatMessage)
         {
-            if (Session.Domme.IsAfk)
-                return Result.Fail(Session.Domme.Name + " is AFK");
-            return FindProcessor(Session, chatMessage)
-                .OnSuccess(proc => proc.ProcessMessage(Session, chatMessage))
-                .OnSuccess(reply => OnDommeSaid(Session.Domme, reply))
-                .Map();
+            lock (_sessionLock)
+            {
+                if (Session.Domme.IsAfk)
+                    return Result.Fail(Session.Domme.Name + " is AFK");
+                return FindProcessor(Session, chatMessage)
+                    .OnSuccess(proc => proc.ProcessMessage(Session, chatMessage))
+                    .OnSuccess(reply =>
+                    {
+                        Session = reply.Session;
+                        var workingLine = _vocabularyProcesser.ReplaceVocabulary(Session, reply.MessageBack);
+                        OnDommeSaid(Session.Domme, workingLine);
+                        return Result.Ok();
+                    });
+            }
         }
 
         /// <summary>
@@ -289,13 +299,19 @@ namespace TeaseAI.Services
             return rVal;
         }
 
-        private Dictionary<MessageProcessor, IMessageProcessor> CreateMessageProcessors(ISettingsAccessor settingsService, IStringService stringService, LineService lineService)
+        private Dictionary<MessageProcessor, IMessageProcessor> CreateMessageProcessors(ISettingsAccessor settingsService
+            , IStringService stringService
+            , LineService lineService
+            , ISystemVocabularyAccessor systemVocabularyAccessor
+            , IVariableAccessor variableAccessor
+            , IRandomPercentService randomPercentService)
         {
             var rval = new Dictionary<MessageProcessor, IMessageProcessor>();
             rval.Add(MessageProcessor.RequestTask, new RequestTaskMessageProcessor());
             rval.Add(MessageProcessor.Greeting, new GreetingMessageProcessor(settingsService, stringService));
             rval.Add(MessageProcessor.Safeword, new SafewordMessageProcessor());
             rval.Add(MessageProcessor.ScriptResponse, new ScriptResponseMessageProcessor(lineService));
+            rval.Add(MessageProcessor.EdgeDetection, new EdgeMessageProcessor(systemVocabularyAccessor, variableAccessor, randomPercentService));
             return rval;
         }
 
@@ -418,6 +434,36 @@ namespace TeaseAI.Services
                 })
                 .OnSuccess(sesh => Session = sesh);
         }
+
+        private void EdgeDetection_MessageProcessed(object sender, MessageProcessedEventArgs e)
+        {
+            //var response = e.Parameter as Response;
+
+            //var workingLine = response.Responses[Response.Edging].Single();
+            //foreach (var p in CommandProcessors.Values)
+            //{
+            //    workingLine = p.DeleteCommandFrom(workingLine).Trim();
+            //}
+
+            //workingLine = _vocabularyProcesser.ReplaceVocabulary(Session, workingLine);
+
+            //OnBeforeDommeSaid(e.Session.Domme, workingLine);
+
+            // if the engine needs to pause here, then it can.
+            //OnDommeSaid(e.Session.Domme, workingLine);
+            Session = e.Session;
+            //var doWork = ProcessCommands(e.Session, response.Responses[Response.Script].Single())
+            //    .OnSuccess(sesh =>
+            //    {
+            //        // if none of the commands advanced the script, then do so now.
+            //        if (Session.CurrentScript.LineNumber == sesh.CurrentScript.LineNumber && !sesh.CurrentScript.CurrentLine.StartsWith("["))
+            //        {
+            //            sesh.CurrentScript.LineNumber++;
+            //        }
+            //        return sesh;
+            //    })
+            //    .OnSuccess(sesh => Session = sesh);
+        }
         #endregion
 
         #region Command event handlers
@@ -425,7 +471,7 @@ namespace TeaseAI.Services
         {
             var sub = e.Session.Sub;
             e.Session.Phase = GetNextPhase(e.Session.Phase);
-            if(e.Session.Phase == SessionPhase.AfterSession)
+            if (e.Session.Phase == SessionPhase.AfterSession)
             {
                 e.Session.Scripts.Clear();
                 return;
@@ -483,46 +529,48 @@ namespace TeaseAI.Services
         ITimer _scriptTimer;
         private void _scriptTimer_Elapsed(object sender, EventArgs e)
         {
-
-            if (IsSessionBlocked(Session))
+            lock (_sessionLock)
             {
-                _scriptTimer.Enabled = true;
-                return;
-            }
-
-            // If we are on a bookmark, skip ahead one line
-            if (Session.CurrentScript.CurrentLine[0] == '(')
-                Session.CurrentScript.LineNumber++;
-
-            // First we replace the vocabulary
-            var workingLine = _vocabularyProcesser.ReplaceVocabulary(Session, Session.CurrentScript.CurrentLine);
-            var commandLine = workingLine;
-
-            // Strip out commands so the Domme can speak
-            foreach (var p in CommandProcessors.Values)
-            {
-                workingLine = p.DeleteCommandFrom(workingLine).Trim();
-            }
-
-            OnDommeSaid(Session.Domme, workingLine);
-
-            // Then we actually process the commands for this line
-            var doWork = ProcessCommands(Session, commandLine)
-                .OnSuccess(sesh =>
+                if (IsSessionBlocked(Session))
                 {
-                    // If there is a script, and it didn't advance yet, then do so now.
-                    if (sesh.CurrentScript != null && Session.CurrentScript.LineNumber == sesh.CurrentScript.LineNumber)
-                    {
-                        var script = sesh.Scripts.Pop();
-                        script.LineNumber++;
-                        sesh.Scripts.Push(script);
-                    }
-                    return sesh;
-                })
-                .OnSuccess(sesh => Session = sesh);
+                    _scriptTimer.Enabled = true;
+                    return;
+                }
 
-            // We are all done, so go ahead and schedule a new timer.
-            _scriptTimer.Enabled = true;
+                // If we are on a bookmark, skip ahead one line
+                if (Session.CurrentScript.CurrentLine[0] == '(')
+                    Session.CurrentScript.LineNumber++;
+
+                // First we replace the vocabulary
+                var workingLine = _vocabularyProcesser.ReplaceVocabulary(Session, Session.CurrentScript.CurrentLine);
+                var commandLine = workingLine;
+
+                // Strip out commands so the Domme can speak
+                foreach (var p in CommandProcessors.Values)
+                {
+                    workingLine = p.DeleteCommandFrom(workingLine).Trim();
+                }
+
+                OnDommeSaid(Session.Domme, workingLine);
+
+                // Then we actually process the commands for this line
+                var doWork = ProcessCommands(Session, commandLine)
+                    .OnSuccess(sesh =>
+                    {
+                        // If there is a script, and it didn't advance yet, then do so now.
+                        if (sesh.CurrentScript != null && Session.CurrentScript.LineNumber == sesh.CurrentScript.LineNumber)
+                        {
+                            var script = sesh.Scripts.Pop();
+                            script.LineNumber++;
+                            sesh.Scripts.Push(script);
+                        }
+                        return sesh;
+                    })
+                    .OnSuccess(sesh => Session = sesh);
+
+                // We are all done, so go ahead and schedule a new timer.
+                _scriptTimer.Enabled = true;
+            }
         }
 
         ITimer _tauntTimer;

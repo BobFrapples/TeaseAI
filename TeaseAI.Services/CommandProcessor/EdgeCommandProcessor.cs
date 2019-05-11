@@ -14,7 +14,7 @@ namespace TeaseAI.Services.CommandProcessor
 
         public override string DeleteCommandFrom(string line) => _lineService.DeleteCommand(line, Keyword.Edge);
 
-        public override bool IsRelevant(Session session, string line) => line.Contains(Keyword.Edge + "(") || line.Contains(Keyword.Edge);
+        public override bool IsRelevant(Session session, string line) => (line.Contains(Keyword.Edge + "(") || line.Contains(Keyword.Edge)) && !session.Sub.IsEdging;
 
         public override Result<Session> PerformCommand(Session session, string line)
         {
@@ -23,10 +23,10 @@ namespace TeaseAI.Services.CommandProcessor
             {
                 //TODO: Implement flags for Edge
             }
-            if (workingSession.Sub.IsStroking)
-                workingSession.Sub.IsEdging = true;
 
-            var script = CreateTauntScript();
+            var script = CreateTauntScript(workingSession.Sub.IsStroking);
+            workingSession.Sub.IsStroking = true;
+            workingSession.Sub.IsEdging = true;
             workingSession.Scripts.Push(script);
 
             OnCommandProcessed(workingSession, null);
@@ -34,15 +34,22 @@ namespace TeaseAI.Services.CommandProcessor
             return Result.Ok(workingSession);
         }
 
-        private Script CreateTauntScript()
+        private Script CreateTauntScript(bool isStroking)
         {
             var lines = new List<string>
             {
                 "(TauntSub)",
+            };
+            if (!isStroking)
+                lines.Add("#StartStroking");
+
+            lines.AddRange(new List<string>
+            {
                 "#EdgeTaunt",
                 "@Goto(TauntSub)",
                 "@End",
-            };
+            });
+
             var metaData = new ScriptMetaData
             {
                 Info = "Endless loop where Domme taunts the sub until the sub edges",

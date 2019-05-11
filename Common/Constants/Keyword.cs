@@ -237,6 +237,7 @@ namespace TeaseAI.Common.Constants
         /// Tell the sub to start stroking. also triggers taunts
         /// </summary>
         public const string StartStroking = @"@StartStroking";
+
         /// <summary>
         /// Process this line *only* if the specified flag is not set.
         /// </summary>

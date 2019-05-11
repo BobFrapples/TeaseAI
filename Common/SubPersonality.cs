@@ -28,9 +28,9 @@ namespace TeaseAI.Common
         public bool IsEdging { get; set; }
 
         /// <summary>
-        /// Should the sub hold the edge
+        /// Should the sub hold the edge, evaluates to HoldEdgeSeconds > 0
         /// </summary>
-        public bool IsHoldingTheEdge { get; set; }
+        public bool IsHoldingTheEdge => HoldEdgeSeconds > 0;
 
         public string Name { get; set; }
 
@@ -67,6 +67,9 @@ namespace TeaseAI.Common
             set { _petNames = value; }
         }
 
+        public int EdgeCount { get; set; }
+        public decimal HoldEdgeSeconds { get; set; }
+
         private List<string> _toyBox;
         private List<string> _petNames;
 
@@ -83,7 +86,7 @@ namespace TeaseAI.Common
                 IsCockPierced = IsCockPierced,
                 IsStroking = IsStroking,
                 IsEdging = IsEdging,
-                IsHoldingTheEdge = IsHoldingTheEdge,
+                HoldEdgeSeconds = HoldEdgeSeconds,
                 IsOrgasmRestricted = IsOrgasmRestricted,
                 InChastity = InChastity,
                 Kinks = Kinks.ToList(),

@@ -23,6 +23,13 @@ Public Class VariableAccessor
         Return Result.Ok()
     End Function
 
+    Public Function AddToVariable(domme As DommePersonality, variableName As String, add As Integer) As Result Implements IVariableAccessor.AddToVariable
+        Return GetVariable(domme, variableName) _
+            .OnSuccess(Function(variable) As Result
+                           Return SetVariable(domme, variable, Convert.ToInt16(variable) + add)
+                       End Function)
+    End Function
+
     Private Function GetFileName(domme As DommePersonality, variableName As String) As String
         Return Application.StartupPath + "\Scripts\" + domme.PersonalityName + "\System\Variables\" + variableName
     End Function

@@ -27,7 +27,7 @@ namespace TeaseAI.Services.MessageProcessors
             return session.CurrentScript.CurrentLine.StartsWith("[");
         }
 
-        public Result<string> ProcessMessage(Session session, ChatMessage chatMessage)
+        public Result<MessageProcessedResult> ProcessMessage(Session session, ChatMessage chatMessage)
         {
             var _stringService = new StringService();
             var workingSession = session.Clone();
@@ -39,7 +39,7 @@ namespace TeaseAI.Services.MessageProcessors
                 var workingLine = workingSession.CurrentScript.CurrentLine;
                 var keywords = _lineService.GetParenData(workingLine, "[");
                 if (keywords.IsFailure)
-                    return Result.Fail<string>(keywords.Error);
+                    return Result.Fail<MessageProcessedResult>(keywords.Error);
 
                 var response = new Response(string.Empty);
                 response.Phrases.AddRange(keywords.Value);
@@ -54,22 +54,27 @@ namespace TeaseAI.Services.MessageProcessors
 
             if (foundResponse == null)
             {
-                foundResponse = new Response(string.Empty);
-                foundResponse.Phrases.Add(chatMessage.Message);
-                if (workingSession.CurrentScript.CurrentLine.StartsWith(Keyword.DifferentAnswer))
-                {
-                    foundResponse.Responses.Add(Response.Script, new List<string>() { workingSession.CurrentScript.CurrentLine.Replace(Keyword.DifferentAnswer, string.Empty) });
-                    OnMessageProcessed(session, foundResponse);
-                }
-                else if (workingSession.CurrentScript.CurrentLine.StartsWith(Keyword.AcceptAnswer))
-                {
-                    foundResponse.Responses.Add(Response.Script, new List<string>() { workingSession.CurrentScript.CurrentLine.Replace(Keyword.AcceptAnswer, string.Empty) });
-                    OnMessageProcessed(workingSession, foundResponse);
-                }
-                else
-                    return Result.Fail<string>("Unknown responsed and no @DifferentAnswer or @AcceptAnswer tag set");
+                var isDifferentAnswer = GetCodedAnswer(workingSession, Keyword.DifferentAnswer)
+                    .OnSuccess(resp =>
+                    {
+                        //workingSession.CurrentScript.LineNumber++;
+                        return new MessageProcessedResult { Session = session, MessageBack = resp };
+                    });
 
-                // Error
+                if (isDifferentAnswer.IsSuccess)
+                    return isDifferentAnswer;
+
+                var isAcceptAnswer = GetCodedAnswer(workingSession, Keyword.AcceptAnswer)
+                    .OnSuccess(resp =>
+                    {
+                        workingSession.CurrentScript.LineNumber++;
+                        return new MessageProcessedResult { Session = workingSession, MessageBack = resp };
+                    }); ;
+
+                if (isAcceptAnswer.IsSuccess)
+                    return isAcceptAnswer;
+
+                return Result.Fail<MessageProcessedResult>("Unknown response and no @DifferentAnswer or @AcceptAnswer tag set");
             }
             else
             {
@@ -77,23 +82,34 @@ namespace TeaseAI.Services.MessageProcessors
                 if (phrase == null)
                     phrase = foundResponse.Phrases.FirstOrDefault(phr => phr.ToLower() == "no");
 
-                if (phrase == null)
+                if (phrase != null)
                 {
                     if (workingSession.Domme.RequiresHonorific)
                     {
                         if (!_stringService.WordExists(chatMessage.Message.ToUpper(), workingSession.Domme.Honorific.ToUpper()))
-                            return Result.Ok(_stringService.Capitalize(phrase + " what?"));
+                            return Result.Ok(new MessageProcessedResult { Session = workingSession, MessageBack = _stringService.Capitalize(phrase + " what?") });
 
                         if (workingSession.Domme.RequiresHonorificCapitalized
                             && !_stringService.WordExists(chatMessage.Message, _stringService.Capitalize(workingSession.Domme.Honorific.ToLower())))
-                            return Result.Ok("#CapitalizeHonorific");
+                            return Result.Ok(new MessageProcessedResult { Session = workingSession, MessageBack = "#CapitalizeHonorific" });
                     }
                 }
+                while (workingSession.CurrentScript.CurrentLine.StartsWith(Keyword.AcceptAnswer) ||
+                    workingSession.CurrentScript.CurrentLine.StartsWith(Keyword.DifferentAnswer))
+                    workingSession.CurrentScript.LineNumber++;
+
                 OnMessageProcessed(workingSession, foundResponse);
             }
 
             // If Everything went well, the event handler will finish processing any commands
-            return Result.Ok(string.Empty);
+            return Result.Ok(new MessageProcessedResult { Session = workingSession, MessageBack = null });
+        }
+
+        Result<string> GetCodedAnswer(Session session, string command)
+        {
+            return Result.Ok(session.CurrentScript.CurrentLine)
+                .Ensure(line => line.StartsWith(command), "Not " + command)
+                .OnSuccess(line => line.Replace(command, string.Empty));
         }
 
         private Response FindMatchingResponse(ChatMessage chatMessage, List<Response> expectedResponses)
