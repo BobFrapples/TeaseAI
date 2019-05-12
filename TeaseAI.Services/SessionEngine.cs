@@ -623,6 +623,67 @@ namespace TeaseAI.Services
             Session.TimeRemaining = Math.Min(0, Session.TimeRemaining - 1);
         }
 
+        public void EndSession()
+        {
+        //    StrokePace = 0
+
+        //If Directory.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Flags\Temp\") Then
+        //    My.Computer.FileSystem.DeleteDirectory(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Flags\Temp\", FileIO.DeleteDirectoryOption.DeleteAllContents)
+        //End If
+
+        //System.IO.Directory.CreateDirectory(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Flags\Temp\")
+
+        //ssh.TauntEdging = False
+
+        //ssh.CBTBallsFirst = True
+        //ssh.CBTCockFirst = True
+        //ssh.CBTBothFirst = True
+        //ssh.CustomTaskFirst = True
+
+        //ssh.VideoType = "General"
+
+        //ssh.UpdatesTick = 120
+        //UpdatesTimer.Start()
+
+        //Me.ActiveControl = Me.chatBox
+
+        //ssh.JustShowedBlogImage = False
+
+        //mySession.Session.Domme.WasGreeted = False
+        //ssh.SubWroteLast = False
+        //ssh.WritingTaskFlag = False
+
+        //ssh.OrgasmYesNo = False
+
+        //FrmSettings.LockOrgasmChances(False)
+
+        //ssh.ShowModule = False
+        //ssh.BookmarkLink = False
+        //ssh.BookmarkModule = False
+        //ssh.YesOrNo = False
+
+        //ssh.StartStrokingCount = 0
+
+
+        //ssh.StrokeTauntVal = -1
+
+        //ssh.EdgeToRuinSecret = True
+
+        //TeaseTimer.Stop()
+
+        //DeleteVariable("SYS_StrokeRound")
+
+        //mainPictureBox.Image = Nothing
+        //ssh.SlideshowLoaded = False
+
+        //FrmSettings.DominationLevel.Value = My.Settings.DomLevel
+        //FrmSettings.NBEmpathy.Value = My.Settings.DomEmpathy
+
+        //' Github Patch
+        //BTNPlaylist.Enabled = True
+
+        //If PNLWritingTask.Visible Then CloseApp(PNLWritingTask)
+        }
         #endregion
     }
 }
