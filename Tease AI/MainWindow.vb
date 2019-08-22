@@ -49,6 +49,7 @@ Public Class MainWindow
     Dim myImageTagReplaceHash As ImageTagReplaceHash = New ImageTagReplaceHash()
     Dim myFlagService As FlagService = New FlagService(New FlagAccessor())
     Dim myGotoProcessor As GotoProcessor = New GotoProcessor(New ScriptAccessor())
+    Dim mySettingsAccessor As Accessors.ISettingsAccessor = New SettingsAccessor()
     Dim WithEvents mySession As SessionEngine
 
 
@@ -289,48 +290,43 @@ ByVal lpstrReturnString As String, ByVal uReturnLength As Integer, ByVal hwndCal
         MyBase.OnClosing(e)
     End Sub
 
+    Private Function GetDommePersonalities(basePath As String) As List(Of String)
+        Dim returnValue As List(Of String) = New List(Of String)()
+        For Each personalityDir As String In myDirectory.GetDirectories(basePath)
+            Dim personalityName As String = Path.GetFileName(personalityDir)
+            returnValue.Add(personalityName)
+        Next
+        Return returnValue
+    End Function
+
+    Private Sub UpdateSplashText(displayString As String)
+        FrmSplash.PBSplash.Value += 1
+        FrmSplash.LBLSplash.Text = displayString
+        FrmSplash.Refresh()
+    End Sub
+
     Private Sub Form1_Load(sender As Object, e As System.EventArgs) Handles Me.Load
         Try
 retryStart:
-            FrmSplash.PBSplash.Value = 0
-            Debug.Print("Form 2 Opened")
 
             Dim tv As Version = My.Application.Info.Version
             Me.Text = String.Format("Tease A.I. - PATCH {0}.{1}{2}",
                                 tv.Minor,
                                 tv.Build,
                                 If(tv.MinorRevision > 0, "." & tv.MinorRevision, ""))
-
             FormLoading = True
-
+            FrmSplash.PBSplash.Value = 0
             FrmSplash.Show()
 
-            FrmSplash.PBSplash.Value += 1
-            FrmSplash.LBLSplash.Text = "Checking orgasm limit..."     ' 1
-            FrmSplash.Refresh()
+            UpdateSplashText("checking orgasm limit...")
+            If My.Settings.OrgasmLockDate = Nothing Then
+                My.Settings.OrgasmLockDate = FormatDateTime(Now, DateFormat.ShortDate)
+            End If
 
-            If My.Settings.OrgasmLockDate = Nothing Then My.Settings.OrgasmLockDate = FormatDateTime(Now, DateFormat.ShortDate)
-            Debug.Print("OrgasmLockDate = " & My.Settings.OrgasmLockDate)
-
-
-
-            FrmSplash.PBSplash.Value += 1
-            FrmSplash.LBLSplash.Text = "Clearing Metronome settings..."
-            FrmSplash.Refresh()
-
-
+            UpdateSplashText("Clearing Metronome settings...")
             StrokePace = 0
 
-            FrmSplash.PBSplash.Value += 1
-            FrmSplash.LBLSplash.Text = "Checking terms and conditions..."
-            FrmSplash.Refresh()
-
-
-            ' If My.Settings.TCAgreed = True Then
-            'frmApps.ClearAgree()
-            'End If
-
-
+            UpdateSplashText("Checking terms and conditions...")
             If My.Settings.TC2Agreed = False Then
                 Form7.Show()
                 Do
@@ -338,63 +334,32 @@ retryStart:
                 Loop Until My.Settings.TC2Agreed = True
             End If
 
+            UpdateSplashText("Checking installed personalities...")
 
-            FrmSplash.PBSplash.Value += 1
-            FrmSplash.LBLSplash.Text = "Checking installed Personalities..."
-            FrmSplash.Refresh()
-
-            Dim PersonType As String
-
-            'dompersonalityComboBox.Items.Clear()
-
-            Debug.Print(My.Settings.DomPersonality)
-            'dompersonalityComboBox.Text = My.Settings.DomPersonality
-
-            'dompersonalityComboBox.Text = My.Settings.DomPersonality
-
-
-            For Each Dir As String In myDirectory.GetDirectories(Application.StartupPath & "\Scripts\")
-                PersonType = Dir
-
-                Dim DirSplit As String() = PersonType.Split("\")
-                PersonType = DirSplit(DirSplit.Length - 1)
-                Debug.Print("PersonType = " & PersonType)
-                'Do While PersonType.Contains("\")
-                'PersonType = PersonType.Remove(0, 1)
-                'Loop
-                Try
-                    dompersonalitycombobox.Items.Add(PersonType)
-                Catch
-                End Try
-            Next
-
-            If dompersonalitycombobox.Items.Count < 1 Then
+            Dim personalities As List(Of String) = GetDommePersonalities(Application.StartupPath & "\Scripts\")
+            dompersonalitycombobox.Items.AddRange(personalities.ToArray())
+            If dompersonalitycombobox.Items.Count = 0 Then
                 MessageBox.Show(Me, "No domme Personalities were found! Many aspects of this program will not work correctly until at least one Personality is installed.", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Else
-                Try
-                    dompersonalitycombobox.Text = My.Settings.DomPersonality
-                Catch ex As Exception
+                Dim domme As String = mySettingsAccessor.GetDommePersonality()
+                If personalities.Contains(domme) Then
+                    dompersonalitycombobox.Text = domme
+                Else
                     dompersonalitycombobox.Text = dompersonalitycombobox.Items(0)
-                End Try
+                End If
             End If
 
-
             FrmSettings.FrmSettingsLoading = True
-
             FrmSettings.FrmSettingStartUp()
 
             Do
                 Application.DoEvents()
             Loop Until FrmSettings.FrmSettingsLoading = False
 
-
             ssh.StrokeTimeTotal = My.Settings.StrokeTimeTotal
             StrokeTimeTotalTimer.Start()
 
-            FrmSplash.PBSplash.Value += 1
-            FrmSplash.LBLSplash.Text = "Calculating total stroke time..."
-            FrmSplash.Refresh()
-
+            UpdateSplashText("Calculating total stroke time...")
             Dim STT As TimeSpan = TimeSpan.FromSeconds(ssh.StrokeTimeTotal)
             FrmSettings.LBLStrokeTimeTotal.Text = String.Format("{0:0000}:{1:00}:{2:00}:{3:00}", STT.Days, STT.Hours, STT.Minutes, STT.Seconds)
 
@@ -411,51 +376,37 @@ retryStart:
 
             IsTypingTimer.Start()
 
-            FrmSplash.PBSplash.Value += 1
-            FrmSplash.LBLSplash.Text = "Loading Domme and Sub avatar images..."
-            FrmSplash.Refresh()
-
-            If File.Exists(My.Settings.DomAvatarSave) Then domAvatar.Image = Image.FromFile(My.Settings.DomAvatarSave)
+            UpdateSplashText("Loading Domme and Sub avatar images...")
+            Dim avatar As String = mySettingsAccessor.GetDommeAvatarImageName()
+            If File.Exists(avatar) Then
+                domAvatar.Image = Image.FromFile(avatar)
+            End If
             'If File.Exists(My.Settings.SubAvatarSave) Then subAvatar.Image = Image.FromFile(My.Settings.SubAvatarSave)
 
-
-            FrmSplash.PBSplash.Value += 1
-            FrmSplash.LBLSplash.Text = "Checking recent slideshows..."
-            FrmSplash.Refresh()
+            UpdateSplashText("Checking recent slideshows...")
 
             For Each path As String In My.Settings.RecentSlideshows
                 If Directory.Exists(path) Then ImageFolderComboBox.Items.Add(path)
             Next
-            ' because Specialized.StringCollections are crap, 
-            ' we have to clear And refill it using For-Each...
             My.Settings.RecentSlideshows.Clear()
 
             For Each comboitem As String In ImageFolderComboBox.Items
                 My.Settings.RecentSlideshows.Add(comboitem)
             Next
 
-            FrmSplash.PBSplash.Value += 1
-            FrmSplash.LBLSplash.Text = "Checking local videos..."
-            FrmSplash.Refresh()
-
+            UpdateSplashText("Checking local videos...")
             ' Checks all folders and Sets the VideoCount as LabelText
             FrmSettings.Video_CheckAllFolders()
 
             ssh.VideoType = "General"
 
-            FrmSplash.PBSplash.Value += 1
-            FrmSplash.LBLSplash.Text = "Loading Glitter avatar images..."
-            FrmSplash.Refresh()
-
+            UpdateSplashText("Loading Glitter avatar images...")
             If File.Exists(My.Settings.GlitterAV) Then FrmSettings.GlitterAV.Image = Image.FromFile(My.Settings.GlitterAV)
             If File.Exists(My.Settings.GlitterAV1) Then FrmSettings.GlitterAV1.Image = Image.FromFile(My.Settings.GlitterAV1)
             If File.Exists(My.Settings.GlitterAV2) Then FrmSettings.GlitterAV2.Image = Image.FromFile(My.Settings.GlitterAV2)
             If File.Exists(My.Settings.GlitterAV3) Then FrmSettings.GlitterAV3.Image = Image.FromFile(My.Settings.GlitterAV3)
 
-            FrmSplash.PBSplash.Value += 1
-            FrmSplash.LBLSplash.Text = "Loading Glitter settings..."
-            FrmSplash.Refresh()
-
+            UpdateSplashText("Loading Glitter settings...")
             ssh.UpdatesTick = 120
             UpdatesTimer.Start()
 
@@ -475,16 +426,10 @@ retryStart:
                 My.Settings.CBGlitterFeedOff = True
             End If
 
+            UpdateSplashText("Loading names...")
 
-            FrmSplash.PBSplash.Value += 1
-            FrmSplash.LBLSplash.Text = "Loading names..."
-            FrmSplash.Refresh()
-
-
-
-            If My.Settings.DomName <> "" Then domName.Text = My.Settings.DomName
-            If My.Settings.SubName <> "" Then subName.Text = My.Settings.SubName
-
+            domName.Text = mySettingsAccessor.GetDommeName()
+            subName.Text = mySettingsAccessor.GetSubName()
 
             FrmSettings.petnameBox1.Text = My.Settings.pnSetting1
             FrmSettings.petnameBox2.Text = My.Settings.pnSetting2
@@ -495,9 +440,7 @@ retryStart:
             FrmSettings.petnameBox7.Text = My.Settings.pnSetting7
             FrmSettings.petnameBox8.Text = My.Settings.pnSetting8
 
-            FrmSplash.PBSplash.Value += 1
-            FrmSplash.LBLSplash.Text = "Loading General settings..."
-            FrmSplash.Refresh()
+            UpdateSplashText("Loading General Settings...")
 
             If My.Settings.CBTimeStamps = True Then
                 FrmSettings.timestampCheckBox.Checked = True
@@ -5425,9 +5368,6 @@ StatusUpdateEnd:
     End Sub
 
     Public Function SysKeywordClean(ByVal StringClean As String) As String
-
-
-
         If FrmSettings.CBCockToClit.Checked = True Then
             StringClean = StringClean.Replace("#Cock", "#CockToClit")
             StringClean = StringClean.Replace("stroking", "#StrokingToRubbing")
@@ -5437,8 +5377,6 @@ StatusUpdateEnd:
             StringClean = StringClean.Replace("those #Balls", "that #Balls")
             StringClean = StringClean.Replace("#Balls", "#BallsToPussy")
         End If
-
-
 
         StringClean = StringClean.Replace("#DomHonorific", FrmSettings.TBHonorific.Text)
 

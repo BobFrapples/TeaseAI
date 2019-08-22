@@ -246,43 +246,43 @@ Public NotInheritable Class myDirectory
 
 #Region "----------------------------------------- GetDirectories Standard ----------------------------------------------------"
 
-	''' <summary>
-	''' Returns the names of subdirectories (including their paths) in the specified directory.
-	''' This Function creates the Root-directory if it doesn't extists and is a subdirectory of the 
-	''' Applications StartupPath. 
-	''' </summary>
-	''' <param name="path">The relative or absolute path to the directory to search. This string is not 
-	''' case-sensitive.</param>
-	''' 
-	''' <returns></returns>
-	''' <remarks>IO.Directory.GetDirectories throws a Directory not FoundException, if the Directory of the file cannot 
-	''' be found. This Functions create the Directory, as long as it is in die Application.StartupPath.
-	''' </remarks>
-	''' <seealso cref="System.IO.Directory.GetDirectories(String) "/>
-	Public Shared Function GetDirectories(path As String) As String()
-		' IF directory-check has failed return an empty String.Array
-		If DirectoryCheck(path) = False Then Return New List(Of String)().ToArray
+    ''' <summary>
+    ''' Returns the names of subdirectories (including their paths) in the specified directory.
+    ''' This Function creates the Root-directory if it doesn't extists and is a subdirectory of the 
+    ''' Applications StartupPath. 
+    ''' </summary>
+    ''' <param name="path">The relative or absolute path to the directory to search. This string is not 
+    ''' case-sensitive.</param>
+    ''' 
+    ''' <returns></returns>
+    ''' <remarks>IO.Directory.GetDirectories throws a Directory not FoundException, if the Directory of the file cannot 
+    ''' be found. This Functions create the Directory, as long as it is in die Application.StartupPath.
+    ''' </remarks>
+    ''' <seealso cref="System.IO.Directory.GetDirectories(String) "/>
+    Public Shared Function GetDirectories(path As String) As String()
+        ' IF directory-check has failed return an empty String.Array
+        If DirectoryCheck(path) = False Then Return New List(Of String)().ToArray
 
-		Return System.IO.Directory.GetDirectories(path)
-	End Function
+        Return System.IO.Directory.GetDirectories(path)
+    End Function
 
-	''' <summary>
-	''' Returns the names of the subdirectories (including their paths) that match the specified search 
-	''' pattern in the specified directory, and optionally searches subdirectories. This Function creates 
-	''' the Root-directory if it doesn't extists and is a subdirectory of the Applications StartupPath. 
-	''' </summary>
-	''' 
-	''' <param name="path">The relative or absolute path to the directory to search. This string is not 
-	''' case-sensitive.</param>
-	''' 
-	''' <param name="searchPattern">The search string to match against the names of subdirectories in path. 
-	''' This parameter can contain a combination of valid literal and wildcard characters (see Remarks), 
-	''' but doesn't support regular expressions.</param>
-	''' 
-	''' <returns>An array of the full names (including paths) of the subdirectories that match the specified 
-	''' criteria, or an empty array if no directories are found.</returns>
-	''' <seealso cref="System.IO.Directory.GetDirectories(String, String, IO.SearchOption)"/>
-	Public Shared Function GetDirectories(path As String, searchPattern As String) As String()
+    ''' <summary>
+    ''' Returns the names of the subdirectories (including their paths) that match the specified search 
+    ''' pattern in the specified directory, and optionally searches subdirectories. This Function creates 
+    ''' the Root-directory if it doesn't extists and is a subdirectory of the Applications StartupPath. 
+    ''' </summary>
+    ''' 
+    ''' <param name="path">The relative or absolute path to the directory to search. This string is not 
+    ''' case-sensitive.</param>
+    ''' 
+    ''' <param name="searchPattern">The search string to match against the names of subdirectories in path. 
+    ''' This parameter can contain a combination of valid literal and wildcard characters (see Remarks), 
+    ''' but doesn't support regular expressions.</param>
+    ''' 
+    ''' <returns>An array of the full names (including paths) of the subdirectories that match the specified 
+    ''' criteria, or an empty array if no directories are found.</returns>
+    ''' <seealso cref="System.IO.Directory.GetDirectories(String, String, IO.SearchOption)"/>
+    Public Shared Function GetDirectories(path As String, searchPattern As String) As String()
 		' IF directory-check has failed return an empty String.Array
 		If DirectoryCheck(path) = False Then Return New List(Of String)().ToArray
 
