@@ -1,5 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using System.Collections.Generic;
 using TeaseAI.Common;
+using TeaseAI.Common.Interfaces.Accessors;
 using TeaseAI.Services;
 
 namespace TeaseAI.ServicesTests
@@ -8,11 +11,17 @@ namespace TeaseAI.ServicesTests
     public class VocabularyProcessor_Tests
     {
         VocabularyProcessor _service;
+        Mock<IVocabularyAccessor> _vocabularyAccessor;
+        Mock<IImageAccessor> _imageAccessor;
+        Mock<RandomNumberService> _randomNumberService;
 
         [TestInitialize]
         public void Initialize()
         {
-            _service = new VocabularyProcessor(new LineCollectionFilter(), new LineService());
+            _vocabularyAccessor = new Mock<IVocabularyAccessor>();
+            _imageAccessor = new Mock<IImageAccessor>();
+            _randomNumberService = new Mock<RandomNumberService>();
+            _service = new VocabularyProcessor(new LineCollectionFilter(), new LineService(), _vocabularyAccessor.Object, _imageAccessor.Object, _randomNumberService.Object);
         }
 
         [TestMethod]
@@ -43,12 +52,14 @@ namespace TeaseAI.ServicesTests
         }
 
         [TestMethod]
-        public void ReplaceVocabulary_ShouldReplaceRandomCorrectly_WhenNested()
+        public void ReplaceVocabulary_ShouldReplaceCockCorrectly_WhenSubCallsCockAClit()
         {
-            var session = new Session(new DommePersonality(), new SubPersonality() { Name = "Sub" });
-            var actual = _service.ReplaceVocabulary(session, "@NullResponse @SetVar[png__start_busy_loop]=[#Random(10,10)]");
+            var session = new Session(new DommePersonality(), new SubPersonality() { CallCockAClit = true });
+            _vocabularyAccessor.Setup(obj => obj.GetVocabulary(session.Domme, "#CockToClit"))
+                .Returns(Result.Ok(new List<string> { "clit" }));
+            var actual = _service.ReplaceVocabulary(session, "Rub your #Cock");
 
-            Assert.AreEqual("@NullResponse @SetVar[png__start_busy_loop]=[10]", actual);
+            Assert.AreEqual("Rub your clit", actual);
         }
     }
 }

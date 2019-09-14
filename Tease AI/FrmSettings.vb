@@ -354,10 +354,7 @@ Public Class FrmSettings
 		TeaseLengthDommeDetermined.Checked = My.Settings.CBTeaseLengthDD
 		CBTauntCycleDD.Checked = My.Settings.CBTauntCycleDD
 
-
-
-
-		If My.Settings.OrgasmsLocked = True Then
+        If My.Settings.OrgasmsLocked = True Then
 			Debug.Print("Form2 Orgasm Lock Date = " & My.Settings.OrgasmLockDate)
 			If MainWindow.CompareDates(My.Settings.OrgasmLockDate) <= 0 Then
 				My.Settings.OrgasmsLocked = False

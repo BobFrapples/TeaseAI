@@ -14,7 +14,7 @@ namespace TeaseAI.Services.MessageProcessors
 
         public EdgeMessageProcessor(ISystemVocabularyAccessor systemVocabularyAccessor
             , IVariableAccessor variableAccessor
-            , IRandomPercentService randomPercentService)
+            , IRandomNumberService randomPercentService)
         {
             _systemVocabularyAccessor = systemVocabularyAccessor;
             _variableAccessor = variableAccessor;
@@ -552,6 +552,6 @@ namespace TeaseAI.Services.MessageProcessors
 
         private readonly ISystemVocabularyAccessor _systemVocabularyAccessor;
         private readonly IVariableAccessor _variableAccessor;
-        private readonly IRandomPercentService _randomPercentService;
+        private readonly IRandomNumberService _randomPercentService;
     }
 }

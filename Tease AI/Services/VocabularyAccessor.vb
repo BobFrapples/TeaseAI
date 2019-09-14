@@ -6,7 +6,7 @@ Imports TeaseAI.Common.Interfaces.Accessors
 
 Public Class VocabularyAccessor
     Implements IVocabularyAccessor
-
+'TODO: Implement filter
     Public Function GetVocabulary(domme As DommePersonality, keyword As String) As Result(Of List(Of String)) Implements IVocabularyAccessor.GetVocabulary
 
         Dim filepath As String = Application.StartupPath & "\Scripts\" & domme.PersonalityName & "\Vocabulary\" & keyword & ".txt"

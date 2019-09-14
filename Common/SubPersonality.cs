@@ -69,6 +69,12 @@ namespace TeaseAI.Common
 
         public int EdgeCount { get; set; }
         public decimal HoldEdgeSeconds { get; set; }
+        public bool CallCockAClit { get; set; }
+        public bool CallBallsAPussy { get; set; }
+        public string EyeColor { get; set; }
+        public string HairColor { get; set; }
+        public int WritingTaskMin { get; set; }
+        public int WritingTaskMax { get; set; }
 
         private List<string> _toyBox;
         private List<string> _petNames;

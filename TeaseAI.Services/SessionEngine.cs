@@ -37,7 +37,11 @@ namespace TeaseAI.Services
             , IVideoAccessor videoAccessor
             , IVariableAccessor variableAccessor
             , ITauntAccessor tauntAccessor
-            , ISystemVocabularyAccessor systemVocabularyAccessor)
+            , ISystemVocabularyAccessor systemVocabularyAccessor
+            , IVocabularyAccessor vocabularyAccessor
+            , ILineCollectionFilter lineCollectionFilter
+            , IRandomNumberService randomNumberService
+            )
         {
             CommandProcessors = CreateCommandProcessors(scriptAccessor, flagAccessor, new LineService(), imageAccessor, videoAccessor, variableAccessor, tauntAccessor);
 
@@ -68,7 +72,7 @@ namespace TeaseAI.Services
             CommandProcessors[Keyword.PlayVideo].CommandProcessed += PlayVideoCommandProcessed;
             CommandProcessors[Keyword.PlayJoiVideo].CommandProcessed += PlayVideoCommandProcessed;
 
-            MessageProcessors = CreateMessageProcessors(settingsAccessor, stringService, new LineService(), systemVocabularyAccessor, variableAccessor, new RandomPercentService());
+            MessageProcessors = CreateMessageProcessors(settingsAccessor, stringService, new LineService(), systemVocabularyAccessor, variableAccessor, new RandomNumberService());
 
             MessageProcessors[MessageProcessor.ScriptResponse].MessageProcessed += ScriptResponse_MessageProcessed;
             MessageProcessors[MessageProcessor.EdgeDetection].MessageProcessed += EdgeDetection_MessageProcessed;
@@ -85,7 +89,7 @@ namespace TeaseAI.Services
             _teaseCountDown = timerFactory.Create();
             _teaseCountDown.Elapsed += _teaseCountDown_Elapsed;
 
-            _vocabularyProcesser = new VocabularyProcessor(new LineCollectionFilter(), new LineService());
+            _vocabularyProcesser = new VocabularyProcessor(lineCollectionFilter, new LineService(), vocabularyAccessor, imageAccessor, randomNumberService);
         }
 
         private void EdgeCommandProcessed(object sender, CommandProcessedEventArgs e)
@@ -289,7 +293,7 @@ namespace TeaseAI.Services
             , LineService lineService
             , ISystemVocabularyAccessor systemVocabularyAccessor
             , IVariableAccessor variableAccessor
-            , IRandomPercentService randomPercentService)
+            , IRandomNumberService randomPercentService)
         {
             var rval = new Dictionary<MessageProcessor, IMessageProcessor>();
             rval.Add(MessageProcessor.RequestTask, new RequestTaskMessageProcessor());

@@ -1119,7 +1119,7 @@ retryStart:
         End If
         ' this should happen on construction.
         If mySession Is Nothing Then
-            mySession = New SessionEngine(New SettingsAccessor(), New StringService(), New ScriptAccessor(), New TimerFactory(), New FlagAccessor(), New ImageAccessor(), New VideoAccessor(), New VariableAccessor(), New TauntAccessor(), New SystemVocabularyAccessor())
+            mySession = New SessionEngine(New SettingsAccessor(), New StringService(), New ScriptAccessor(), New TimerFactory(), New FlagAccessor(), New ImageAccessor(), New VideoAccessor(), New VariableAccessor(), New TauntAccessor(), New SystemVocabularyAccessor(), New VocabularyAccessor(), New LineCollectionFilter(), New RandomNumberService())
             mySession.Session = CreateSession()
             AddHandler mySession.DommeSaid, AddressOf mySession_DommeSaid
             AddHandler mySession.ShowImage, AddressOf mySession_ShowImage
@@ -1319,7 +1319,6 @@ WritingTaskLine:
 
                 ssh.SubWroteLast = True
 
-
                 If ssh.WritingTaskLinesRemaining = 0 Then
                     ClearWriteTask()
                     ssh.ScriptTick = 3
@@ -1334,8 +1333,6 @@ WritingTaskLine:
                     ssh.ScriptTick = 4
                     ScriptTimer.Start()
                 End If
-
-
             Else
 
                 If ssh.SubWroteLast = True And FrmSettings.shownamesCheckBox.Checked = False Then
@@ -2400,9 +2397,6 @@ NonModuleEnd:
             ChatText2.Document.Window.ScrollTo(Integer.MaxValue, Integer.MaxValue)
         Catch
         End Try
-        'If My.Settings.OfflineMode = True Then
-        '    ssh.DomChat = OfflineConversion(ssh.DomChat)
-        'End If
     End Sub
 
     ''' <summary>
@@ -4066,7 +4060,6 @@ Retry:
 
 #End Region
 
-
     Private Sub StrokeTimer_Tick(sender As System.Object, e As System.EventArgs) Handles StrokeTimer.Tick
 
 
@@ -4600,7 +4593,6 @@ GetAnotherRandomVideo:
         Return Result.Ok()
     End Function
 
-
     Friend Sub PlayRandomJOI()
         'ISSUE: there is no control, if a Domme-Video or a Regular JOI is played.
         'ISSUE: Redundant Code
@@ -4637,7 +4629,6 @@ GetAnotherRandomVideo:
 
 
     End Sub
-
 
     Friend Sub PlayRandomCH()
         'ISSUE: there is no control, if a Domme-Video or a Regular JOI is played.
@@ -4832,7 +4823,6 @@ CensorConstant:
     Private Sub subName_Leave(sender As System.Object, e As System.EventArgs) Handles subName.Leave
         My.Settings.SubName = subName.Text
     End Sub
-
 
     Public Sub StatusUpdatePost()
 
@@ -5367,157 +5357,10 @@ StatusUpdateEnd:
 
     End Sub
 
+    <Obsolete("In Progress")>
     Public Function SysKeywordClean(ByVal StringClean As String) As String
-        If FrmSettings.CBCockToClit.Checked = True Then
-            StringClean = StringClean.Replace("#Cock", "#CockToClit")
-            StringClean = StringClean.Replace("stroking", "#StrokingToRubbing")
-        End If
-
-        If FrmSettings.CBBallsToPussy.Checked = True Then
-            StringClean = StringClean.Replace("those #Balls", "that #Balls")
-            StringClean = StringClean.Replace("#Balls", "#BallsToPussy")
-        End If
-
-        StringClean = StringClean.Replace("#DomHonorific", FrmSettings.TBHonorific.Text)
-
-        StringClean = StringClean.Replace("#DomAge", FrmSettings.domageNumBox.Value)
-
-        StringClean = StringClean.Replace("#DomLevel", FrmSettings.DominationLevel.Value)
-
-        StringClean = StringClean.Replace("#DomApathy", FrmSettings.NBEmpathy.Value)
-
-        StringClean = StringClean.Replace("#DomHair", FrmSettings.TBDomHairColor.Text)
-
-        StringClean = StringClean.Replace("#DomHairLength", FrmSettings.domhairlengthComboBox.Text)
-
-        StringClean = StringClean.Replace("#DomEyes", FrmSettings.TBDomEyeColor.Text)
-
-        StringClean = StringClean.Replace("#DomCup", FrmSettings.boobComboBox.Text)
-
-        StringClean = StringClean.Replace("#DomMoodMin", FrmSettings.NBDomMoodMin.Value)
-
-        StringClean = StringClean.Replace("#DomMoodMax", FrmSettings.NBDomMoodMax.Value)
-
-        StringClean = StringClean.Replace("#DomMood", ssh.DommeMood)
-
-        StringClean = StringClean.Replace("#DomAvgCockMin", FrmSettings.NBAvgCockMin.Value)
-
-        StringClean = StringClean.Replace("#DomAvgCockMax", FrmSettings.NBAvgCockMax.Value)
-
-        StringClean = StringClean.Replace("#DomSmallCockMax", FrmSettings.NBAvgCockMin.Value - 1)
-
-        StringClean = StringClean.Replace("#DomLargeCockMin", FrmSettings.NBAvgCockMax.Value + 1)
-
-        StringClean = StringClean.Replace("#DomSelfAgeMin", FrmSettings.NBSelfAgeMin.Value)
-
-        StringClean = StringClean.Replace("#DomSelfAgeMax", FrmSettings.NBSelfAgeMax.Value)
-
-        StringClean = StringClean.Replace("#DomSubAgeMin", FrmSettings.NBSubAgeMin.Value)
-
-        StringClean = StringClean.Replace("#DomSubAgeMax", FrmSettings.NBSubAgeMax.Value)
-
-        StringClean = StringClean.Replace("#DomOrgasmRate", LCase(FrmSettings.alloworgasmComboBox.Text).Replace("allows", "allow"))
-
-        StringClean = StringClean.Replace("#DomRuinRate", LCase(FrmSettings.ruinorgasmComboBox.Text).Replace("ruins", "ruin"))
-
-        StringClean = StringClean.Replace("#SubAge", FrmSettings.subAgeNumBox.Value)
-
-        StringClean = StringClean.Replace("#SubBirthdayMonth", FrmSettings.NBBirthdayMonth.Value)
-
-        StringClean = StringClean.Replace("#SubBirthdayDay", FrmSettings.NBBirthdayDay.Value)
-
-        StringClean = StringClean.Replace("#DomBirthdayMonth", FrmSettings.NBDomBirthdayMonth.Value)
-
-        StringClean = StringClean.Replace("#DomBirthdayDay", FrmSettings.NBDomBirthdayDay.Value)
-
-        StringClean = StringClean.Replace("#SubHair", FrmSettings.TBSubHairColor.Text)
-
-        StringClean = StringClean.Replace("#SubEyes", FrmSettings.TBSubEyeColor.Text)
-
-        StringClean = StringClean.Replace("#SubCockSize", FrmSettings.CockSizeNumBox.Value)
-
-        StringClean = StringClean.Replace("#SubWritingTaskMin", FrmSettings.NBWritingTaskMin.Value)
-
-        StringClean = StringClean.Replace("#SubWritingTaskMax", FrmSettings.NBWritingTaskMax.Value)
 
         ' StringClean = StringClean.Replace("#SubWritingTaskRAND", randomizer.Next(NBWritingTaskMin.Value / 10, (NBWritingTaskMax.Value / 10) + 1)) * 10
-
-        StringClean = StringClean.Replace("#ShortName", My.Settings.GlitterSN)
-
-        StringClean = StringClean.Replace("#GlitterContact1", My.Settings.Glitter1)
-        StringClean = StringClean.Replace("#Contact1", My.Settings.Glitter1)
-        StringClean = StringClean.Replace("#GlitterContact2", My.Settings.Glitter2)
-        StringClean = StringClean.Replace("#Contact2", My.Settings.Glitter2)
-        StringClean = StringClean.Replace("#GlitterContact3", My.Settings.Glitter3)
-        StringClean = StringClean.Replace("#Contact3", My.Settings.Glitter3)
-
-        StringClean = StringClean.Replace("#CBTCockCount", ssh.CBTCockCount)
-        StringClean = StringClean.Replace("#CBTBallsCount", ssh.CBTBallsCount)
-
-        If My.Settings.OrgasmsLocked = True Then
-            StringClean = StringClean.Replace("#OrgasmLockDate", My.Settings.OrgasmLockDate.Date.ToString())
-        Else
-            StringClean = StringClean.Replace("#OrgasmLockDate", "later")
-        End If
-
-        If StringClean.Contains("#RandomRound100(") Then
-
-            Dim RandomFlag As String = GetParentheses(StringClean, "#RandomRound100(")
-            Dim OriginalFlag As String = RandomFlag
-            RandomFlag = FixCommas(RandomFlag)
-            Dim RandInt As Integer
-            Dim FlagArray() As String = RandomFlag.Split(",")
-
-            RandInt = ssh.randomizer.Next(Val(FlagArray(0)), Val(FlagArray(1)) + 1)
-            If RandInt >= 100 Then RandInt = 100 * Math.Round(RandInt / 100)
-            StringClean = StringClean.Replace("#RandomRound100(" & OriginalFlag & ")", RandInt)
-
-        End If
-
-        If StringClean.Contains("#RandomRound10(") Then
-
-
-            Dim RandomFlag As String = GetParentheses(StringClean, "#RandomRound10(")
-            Dim OriginalFlag As String = RandomFlag
-            RandomFlag = FixCommas(RandomFlag)
-            Dim RandInt As Integer
-            Dim FlagArray() As String = RandomFlag.Split(",")
-
-            RandInt = ssh.randomizer.Next(Val(FlagArray(0)), Val(FlagArray(1)) + 1)
-            If RandInt >= 10 Then RandInt = 10 * Math.Round(RandInt / 10)
-            StringClean = StringClean.Replace("#RandomRound10(" & OriginalFlag & ")", RandInt)
-
-        End If
-
-
-        If StringClean.Contains("#RandomRound5(") Then
-
-
-            Dim RandomFlag As String = GetParentheses(StringClean, "#RandomRound5(")
-            Dim OriginalFlag As String = RandomFlag
-            RandomFlag = FixCommas(RandomFlag)
-            Dim RandInt As Integer
-            Dim FlagArray() As String = RandomFlag.Split(",")
-
-            RandInt = ssh.randomizer.Next(Val(FlagArray(0)), Val(FlagArray(1)) + 1)
-            If RandInt >= 5 Then RandInt = 5 * Math.Round(RandInt / 5)
-            StringClean = StringClean.Replace("#RandomRound5(" & OriginalFlag & ")", RandInt)
-
-        End If
-
-
-        If StringClean.Contains("#Random(") Then
-
-            Dim RandomFlag As String = GetParentheses(StringClean, "#Random(")
-            Dim OriginalFlag As String = RandomFlag
-            RandomFlag = FixCommas(RandomFlag)
-            Dim RandInt As Integer
-            Dim FlagArray() As String = RandomFlag.Split(",")
-
-            RandInt = ssh.randomizer.Next(Val(FlagArray(0)), Val(FlagArray(1)) + 1)
-            StringClean = StringClean.Replace("#Random(" & OriginalFlag & ")", RandInt)
-
-        End If
 
         If StringClean.Contains("#DateDifference(") Then
 
@@ -5541,65 +5384,10 @@ StatusUpdateEnd:
         End If
 
 
-
-        Dim PetNameVal As Integer = ssh.randomizer.Next(1, 5)
-
-        If PetNameVal = 1 Then ssh.PetName = FrmSettings.petnameBox3.Text
-        If PetNameVal = 2 Then ssh.PetName = FrmSettings.petnameBox4.Text
-        If PetNameVal = 3 Then ssh.PetName = FrmSettings.petnameBox5.Text
-        If PetNameVal = 4 Then ssh.PetName = FrmSettings.petnameBox6.Text
-
-        If ssh.DommeMood < FrmSettings.NBDomMoodMin.Value Then
-            PetNameVal = ssh.randomizer.Next(1, 3)
-            If PetNameVal = 1 Then ssh.PetName = FrmSettings.petnameBox7.Text
-            If PetNameVal = 2 Then ssh.PetName = FrmSettings.petnameBox8.Text
-        End If
-
-
-        If ssh.DommeMood > FrmSettings.NBDomMoodMax.Value Then
-            PetNameVal = ssh.randomizer.Next(1, 3)
-            If PetNameVal = 1 Then ssh.PetName = FrmSettings.petnameBox1.Text
-            If PetNameVal = 2 Then ssh.PetName = FrmSettings.petnameBox2.Text
-        End If
-
-
-        StringClean = StringClean.Replace("#PetName", ssh.PetName)
-
-        If Hour(Date.Now) < 4 Then StringClean = StringClean.Replace("#GeneralTime", "tonight")
-        If Hour(Date.Now) > 3 And Hour(Date.Now) < 11 Then StringClean = StringClean.Replace("#GeneralTime", "this morning")
-        If Hour(Date.Now) > 10 And Hour(Date.Now) < 18 Then StringClean = StringClean.Replace("#GeneralTime", "today")
-        If Hour(Date.Now) > 17 Then StringClean = StringClean.Replace("#GeneralTime", "tonight")
-
         If ssh.AssImage = True Then StringClean = StringClean.Replace("#TnAFastSlidesResult", "#BBnB_Ass")
         If ssh.BoobImage = True Then StringClean = StringClean.Replace("#TnAFastSlidesResult", "#BBnB_Boobs")
 
-        If StringClean.Contains("#RANDNumberLow") Then
-            ' ### Number between 3-5 , 5-25
-            ssh.TempVal = ssh.randomizer.Next(1, 6) * FrmSettings.DominationLevel.Value
-            If ssh.TempVal > 10 Then ssh.TempVal = 5 * Math.Round(ssh.TempVal / 5)
-            If ssh.TempVal < 3 Then ssh.TempVal = 3
-            StringClean = StringClean.Replace("#RNDNumberLow", ssh.TempVal)
-        End If
-
-
-        If StringClean.Contains("#RANDNumberHigh") Then
-            ' ### Number between 5-25 , 25-100
-            ssh.TempVal = ssh.randomizer.Next(5, 21) * FrmSettings.DominationLevel.Value
-            If ssh.TempVal > 10 Then ssh.TempVal = 5 * Math.Round(ssh.TempVal / 5)
-            StringClean = StringClean.Replace("#RNDNumberHigh", ssh.TempVal)
-        End If
-
-
-        If StringClean.Contains("#RANDNumber") Then
-            ' ### Number between 3-10 , 5-50
-            ssh.TempVal = ssh.randomizer.Next(1, 11) * FrmSettings.DominationLevel.Value
-            If ssh.TempVal > 10 Then ssh.TempVal = 5 * Math.Round(ssh.TempVal / 5)
-            If ssh.TempVal < 3 Then ssh.TempVal = 3
-            StringClean = StringClean.Replace("#RNDNumber", ssh.TempVal)
-        End If
-
-
-
+#Region "Risky Pick Game"
         StringClean = StringClean.Replace("#RP_ChosenCase", FrmCardList.RiskyPickNumber)
         StringClean = StringClean.Replace("#RP_RespondCase", FrmCardList.RiskyResponse)
         'StringClean = StringClean.Replace("#RP_CaseNumber", FrmCardList.RiskyCase)
@@ -5613,14 +5401,11 @@ StatusUpdateEnd:
         StringClean = StringClean.Replace("#RP_TokenOffer", FrmCardList.RiskyTokenOffer)
         StringClean = StringClean.Replace("#RP_EdgesOwed", FrmCardList.EdgesOwed)
         StringClean = StringClean.Replace("#RP_TokensPaid", FrmCardList.TokensPaid)
+#End Region
 
         StringClean = StringClean.Replace("#BronzeTokens", ssh.BronzeTokens)
         StringClean = StringClean.Replace("#SilverTokens", ssh.SilverTokens)
         StringClean = StringClean.Replace("#GoldTokens", ssh.GoldTokens)
-
-        StringClean = StringClean.Replace("#SessionEdges", ssh.SessionEdges)
-        StringClean = StringClean.Replace("#SessionCBTCock", ssh.CBTCockCount)
-        StringClean = StringClean.Replace("#SessionCBTBalls", ssh.CBTBallsCount)
 
         'StringClean = StringClean.Replace("#Sys_SubLeftEarly", My.Settings.Sys_SubLeftEarly)
         'StringClean = StringClean.Replace("#Sys_SubLeftEarlyTotal", My.Settings.Sys_SubLeftEarlyTotal)
@@ -5629,14 +5414,6 @@ StatusUpdateEnd:
         StringClean = StringClean.Replace("#SlideshowCurrent", ssh.CustomSlideshow.Index)
         StringClean = StringClean.Replace("#SlideshowRemaining", (ssh.CustomSlideshow.Count - 1) - ssh.CustomSlideshow.Index)
 
-        StringClean = StringClean.Replace("#CurrentTime", Format(Now, "h:mm"))
-        StringClean = StringClean.Replace("#CurrentDay", Format(Now, "dddd"))
-        StringClean = StringClean.Replace("#CurrentMonth", Format(Now, "MMMMM"))
-        StringClean = StringClean.Replace("#CurrentYear", Format(Now, "yyyy"))
-        StringClean = StringClean.Replace("#CurrentDate", FormatDateTime(Date.Now, DateFormat.ShortDate))
-        ' StringClean = StringClean.Replace("#CurrentDate", Format(Now, "MM/dd/yyyy"))
-
-        ' 
         If StringClean.Contains("#Var[") Then
 
             'Dim VarSplit As String() = StringClean.Split("]")
@@ -5660,98 +5437,6 @@ StatusUpdateEnd:
         'BUG: #RandomSlideshowCategory does not work! The Variable RandomSlideshowCategory is never set.
         If StringClean.Contains("#RandomSlideshowCategory") Then StringClean = StringClean.Replace("#RandomSlideshowCategory", ssh.RandomSlideshowCategory)
 
-        '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
-        '                                   ImageCount
-        '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
-        If StringClean.Contains("#LocalImageCount") Then
-            Dim temp As Dictionary(Of ImageGenre, ImageDataContainer) = GetImageData()
-            Dim counter As Integer = 0
-
-            For Each genre As ImageGenre In temp.Keys
-                counter += temp(genre).CountImages(ImageSourceType.Local)
-            Next
-
-            StringClean = StringClean.Replace("#LocalImageCount", counter)
-        End If
-
-        If StringClean.Contains("#BlogImageCount") Then
-            StringClean = StringClean.Replace("#BlogImageCount", GetImageData(ImageGenre.Blog).CountImages())
-        End If
-
-        If StringClean.Contains("#ButtImageCount") Then
-            StringClean = StringClean.Replace("#ButtImageCount", GetImageData(ImageGenre.Butt).CountImages())
-        End If
-
-        If StringClean.Contains("#ButtsImageCount") Then
-            StringClean = StringClean.Replace("#ButtsImageCount", GetImageData(ImageGenre.Butt).CountImages())
-        End If
-
-        If StringClean.Contains("#BoobImageCount") Then
-            StringClean = StringClean.Replace("#BoobImageCount", GetImageData(ImageGenre.Boobs).CountImages())
-        End If
-
-        If StringClean.Contains("#BoobsImageCount") Then
-            StringClean = StringClean.Replace("#BoobsImageCount", GetImageData(ImageGenre.Boobs).CountImages())
-        End If
-
-        If StringClean.Contains("#HardcoreImageCount") Then
-            StringClean = StringClean.Replace("#HardcoreImageCount", GetImageData(ImageGenre.Hardcore).CountImages())
-        End If
-
-        If StringClean.Contains("#HardcoreImageCount") Then
-            StringClean = StringClean.Replace("#HardcoreImageCount", GetImageData(ImageGenre.Hardcore).CountImages())
-        End If
-
-        If StringClean.Contains("#SoftcoreImageCount") Then
-            StringClean = StringClean.Replace("#SoftcoreImageCount", GetImageData(ImageGenre.Softcore).CountImages())
-        End If
-
-        If StringClean.Contains("#LesbianImageCount") Then
-            StringClean = StringClean.Replace("#LesbianImageCount", GetImageData(ImageGenre.Lesbian).CountImages())
-        End If
-
-        If StringClean.Contains("#BlowjobImageCount") Then
-            StringClean = StringClean.Replace("#BlowjobImageCount", GetImageData(ImageGenre.Blowjob).CountImages())
-        End If
-
-        If StringClean.Contains("#FemdomImageCount") Then
-            StringClean = StringClean.Replace("#FemdomImageCount", GetImageData(ImageGenre.Femdom).CountImages())
-        End If
-
-        If StringClean.Contains("#LezdomImageCount") Then
-            StringClean = StringClean.Replace("#LezdomImageCount", GetImageData(ImageGenre.Lezdom).CountImages())
-        End If
-
-        If StringClean.Contains("#HentaiImageCount") Then
-            StringClean = StringClean.Replace("#HentaiImageCount", GetImageData(ImageGenre.Hentai).CountImages())
-        End If
-
-        If StringClean.Contains("#GayImageCount") Then
-            StringClean = StringClean.Replace("#GayImageCount", GetImageData(ImageGenre.Gay).CountImages())
-        End If
-
-        If StringClean.Contains("#MaledomImageCount") Then
-            StringClean = StringClean.Replace("#MaledomImageCount", GetImageData(ImageGenre.Maledom).CountImages())
-        End If
-
-        If StringClean.Contains("#CaptionsImageCount") Then
-            StringClean = StringClean.Replace("#CaptionsImageCount", GetImageData(ImageGenre.Captions).CountImages())
-        End If
-
-        If StringClean.Contains("#GeneralImageCount") Then
-            StringClean = StringClean.Replace("#GeneralImageCount", GetImageData(ImageGenre.General).CountImages())
-        End If
-
-        If StringClean.Contains("#LikedImageCount") Then
-            StringClean = StringClean.Replace("#LikedImageCount", GetImageData(ImageGenre.Liked).CountImages())
-        End If
-
-        If StringClean.Contains("#DislikedImageCount") Then
-            StringClean = StringClean.Replace("#DislikedImageCount", GetImageData(ImageGenre.Disliked).CountImages())
-        End If
-        '▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
-        ' ImageCount - End
-        '▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
         If StringClean.Contains("#EdgeHold") Then
             Dim i As Integer = FrmSettings.NBHoldTheEdgeMin.Value
             If FrmSettings.LBLMinHold.Text = "minutes" Then i *= 60
@@ -10621,7 +10306,6 @@ VTSkip:
         End If
     End Function
 
-
     Friend Sub ContactEdgeCheck(ByVal EdgeCheck As String)
         If EdgeCheck.Contains("@Contact1") Then ssh.Contact1Edge = True
         If EdgeCheck.Contains("@Contact2") Then ssh.Contact2Edge = True
@@ -11415,7 +11099,6 @@ SkipTextedTags:
     Private Sub ChatText_DocumentCompleted(sender As Object, e As System.Windows.Forms.WebBrowserDocumentCompletedEventArgs) Handles ChatText.DocumentCompleted
         ScrollChatDown()
     End Sub
-
 
     Private Sub ChatText2_DocumentCompleted(sender As Object, e As System.Windows.Forms.WebBrowserDocumentCompletedEventArgs) Handles ChatText2.DocumentCompleted
         Try
@@ -13713,11 +13396,6 @@ saveImage:
         Catch
         End Try
     End Sub
-
-    Public Function WordExists(ByVal searchString As String, ByVal findString As String) As Boolean
-        Dim returnValue As Boolean = Regex.Matches(searchString, "\b" & findString & "\b").Count > 0
-        Return returnValue
-    End Function
 
     Public Function CompareDates(ByVal CheckDate As Date) As Integer
 
@@ -16520,7 +16198,7 @@ playLoop:
         If InvokeRequired Then
             BeginInvoke(New MethodInvoker(Sub() mySession_DommeSaid(sender, e)))
         Else
-            If Not myDommeMessages.Any() Then
+            If myDommeMessages.Any() Then
                 SendTimer.Enabled = True
                 SendTimer.Interval = GetTypingDelay(e.ChatMessage, My.Settings.CBInstantType)
             End If
@@ -21508,7 +21186,7 @@ VTSkip:
     Private Function GetTypingDelay(chatMessage As ChatMessage, isInstantType As Boolean) As Integer
         Dim typeDelay As Integer = 0
         If Not isInstantType Then
-            typeDelay = Math.Min(chatMessage.Message.Length, 60) * 300
+            typeDelay = Math.Min(chatMessage.Message.Length, 60)
         End If
 
         Return typeDelay

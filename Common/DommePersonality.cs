@@ -104,6 +104,9 @@ namespace TeaseAI.Common
         /// </summary>
         public bool IsAfk { get; set; }
         public int EdgesRequired { get; set; }
+        public string HairColor { get; set; }
+        public int HairLength { get; set; }
+        public string EyeColor { get; set; }
 
         public DommePersonality Clone()
         {
