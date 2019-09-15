@@ -72,11 +72,11 @@ Partial Class FrmSettings
         Me.LBLSubColor = New System.Windows.Forms.Label()
         Me.NBFontSize = New System.Windows.Forms.NumericUpDown()
         Me.Label2 = New System.Windows.Forms.Label()
-        Me.FontComboBox = New System.Windows.Forms.ComboBox()
+        Me.SubMessageFontCB = New System.Windows.Forms.ComboBox()
         Me.GBDommeFont = New System.Windows.Forms.GroupBox()
         Me.BTNDomColor = New System.Windows.Forms.Button()
         Me.LBLDomColor = New System.Windows.Forms.Label()
-        Me.FontComboBoxD = New System.Windows.Forms.ComboBox()
+        Me.DommeMessageFontCB = New System.Windows.Forms.ComboBox()
         Me.NBFontSizeD = New System.Windows.Forms.NumericUpDown()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.CBInputIcon = New System.Windows.Forms.CheckBox()
@@ -189,10 +189,10 @@ Partial Class FrmSettings
         Me.Label75 = New System.Windows.Forms.Label()
         Me.Label77 = New System.Windows.Forms.Label()
         Me.GroupBox45 = New System.Windows.Forms.GroupBox()
-        Me.LBLCBTSlider = New System.Windows.Forms.Label()
-        Me.CBCBTBalls = New System.Windows.Forms.CheckBox()
-        Me.CBCBTCock = New System.Windows.Forms.CheckBox()
-        Me.CBTSlider = New System.Windows.Forms.TrackBar()
+        Me.CockAndBallTortureLevelLbl = New System.Windows.Forms.Label()
+        Me.BallTortureEnabledCB = New System.Windows.Forms.CheckBox()
+        Me.CockTortureEnabledCB = New System.Windows.Forms.CheckBox()
+        Me.CockAndBallTortureLevelSlider = New System.Windows.Forms.TrackBar()
         Me.GroupBox35 = New System.Windows.Forms.GroupBox()
         Me.GroupBox39 = New System.Windows.Forms.GroupBox()
         Me.CBHonorificInclude = New System.Windows.Forms.CheckBox()
@@ -210,34 +210,34 @@ Partial Class FrmSettings
         Me.GroupBox7 = New System.Windows.Forms.GroupBox()
         Me.LBLMaxExtremeHold = New System.Windows.Forms.Label()
         Me.LBLMinExtremeHold = New System.Windows.Forms.Label()
-        Me.NBExtremeHoldMin = New System.Windows.Forms.NumericUpDown()
+        Me.ExtremeEdgeHoldMinimum = New System.Windows.Forms.NumericUpDown()
         Me.Label133 = New System.Windows.Forms.Label()
-        Me.NBExtremeHoldMax = New System.Windows.Forms.NumericUpDown()
+        Me.ExtremeEdgeHoldMaximum = New System.Windows.Forms.NumericUpDown()
         Me.LBLMaxLongHold = New System.Windows.Forms.Label()
         Me.Label78 = New System.Windows.Forms.Label()
         Me.LBLMinLongHold = New System.Windows.Forms.Label()
-        Me.NBLongHoldMin = New System.Windows.Forms.NumericUpDown()
+        Me.LongEdgeHoldMinimum = New System.Windows.Forms.NumericUpDown()
         Me.Label129 = New System.Windows.Forms.Label()
-        Me.NBLongHoldMax = New System.Windows.Forms.NumericUpDown()
+        Me.LongEdgeHoldMaximum = New System.Windows.Forms.NumericUpDown()
         Me.LBLMaxHold = New System.Windows.Forms.Label()
         Me.Label79 = New System.Windows.Forms.Label()
         Me.NBLongEdge = New System.Windows.Forms.NumericUpDown()
-        Me.LBLMinHold = New System.Windows.Forms.Label()
-        Me.CBEdgeUseAvg = New System.Windows.Forms.CheckBox()
-        Me.CBLongEdgeInterrupts = New System.Windows.Forms.CheckBox()
-        Me.NBHoldTheEdgeMin = New System.Windows.Forms.NumericUpDown()
+        Me.HoldEdgeMinimumUnits = New System.Windows.Forms.Label()
+        Me.UseAverageEdgeThresholdCB = New System.Windows.Forms.CheckBox()
+        Me.AllowLongEdgeInterruptCB = New System.Windows.Forms.CheckBox()
+        Me.HoldEdgeMinimum = New System.Windows.Forms.NumericUpDown()
         Me.Label55 = New System.Windows.Forms.Label()
         Me.Label81 = New System.Windows.Forms.Label()
         Me.Label5 = New System.Windows.Forms.Label()
-        Me.NBHoldTheEdgeMax = New System.Windows.Forms.NumericUpDown()
-        Me.CBLongEdgeTaunts = New System.Windows.Forms.CheckBox()
+        Me.HoldEdgeMaximum = New System.Windows.Forms.NumericUpDown()
+        Me.AllowLongEdgeTauntCB = New System.Windows.Forms.CheckBox()
         Me.Label131 = New System.Windows.Forms.Label()
         Me.PictureBox12 = New System.Windows.Forms.PictureBox()
         Me.GroupBox32 = New System.Windows.Forms.GroupBox()
         Me.LBLSubBdayFormat = New System.Windows.Forms.Label()
-        Me.CBChastitySpikes = New System.Windows.Forms.CheckBox()
+        Me.ChastityDeviceContainsSpikesCB = New System.Windows.Forms.CheckBox()
         Me.CBOwnChastity = New System.Windows.Forms.CheckBox()
-        Me.CBChastityPA = New System.Windows.Forms.CheckBox()
+        Me.DoesChastityDeviceRequirePiercingCB = New System.Windows.Forms.CheckBox()
         Me.CBHimHer = New System.Windows.Forms.CheckBox()
         Me.CBBallsToPussy = New System.Windows.Forms.CheckBox()
         Me.CBCockToClit = New System.Windows.Forms.CheckBox()
@@ -875,7 +875,7 @@ Partial Class FrmSettings
         Me.Label92 = New System.Windows.Forms.Label()
         Me.NBRuinRarely = New System.Windows.Forms.NumericUpDown()
         Me.NBRuinOften = New System.Windows.Forms.NumericUpDown()
-        Me.CBRangeRuin = New System.Windows.Forms.CheckBox()
+        Me.DommeDecideRuinCB = New System.Windows.Forms.CheckBox()
         Me.GroupBox17 = New System.Windows.Forms.GroupBox()
         Me.GroupBox19 = New System.Windows.Forms.GroupBox()
         Me.Label110 = New System.Windows.Forms.Label()
@@ -906,8 +906,8 @@ Partial Class FrmSettings
         Me.Label86 = New System.Windows.Forms.Label()
         Me.Label82 = New System.Windows.Forms.Label()
         Me.NBAllowRarely = New System.Windows.Forms.NumericUpDown()
-        Me.NBAllowOften = New System.Windows.Forms.NumericUpDown()
-        Me.CBRangeOrgasm = New System.Windows.Forms.CheckBox()
+        Me.AllowOrgasmOftenNB = New System.Windows.Forms.NumericUpDown()
+        Me.DommeDecideOrgasmCB = New System.Windows.Forms.CheckBox()
         Me.PictureBox8 = New System.Windows.Forms.PictureBox()
         Me.Label38 = New System.Windows.Forms.Label()
         Me.TabPage13 = New System.Windows.Forms.TabPage()
@@ -1107,266 +1107,266 @@ Partial Class FrmSettings
         Me.TxbImgUrlHardcore = New System.Windows.Forms.TextBox()
         Me.TextBox2 = New System.Windows.Forms.TextBox()
         Me.BWURLFiles = New Tease_AI.URL_Files.URL_File_BGW()
-        Me.SettingsPanel.SuspendLayout()
-        Me.SettingsTabs.SuspendLayout()
-        Me.TabPage1.SuspendLayout()
-        Me.PNLGeneralSettings.SuspendLayout()
-        Me.GroupBox64.SuspendLayout()
-        Me.GBDommeImages.SuspendLayout()
-        CType(Me.slideshowNumBox, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GBGeneralTextToSpeech.SuspendLayout()
-        CType(Me.SliderVRate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.SliderVVolume, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GBSafeword.SuspendLayout()
-        Me.GBGeneralSystem.SuspendLayout()
-        Me.GBGeneralImages.SuspendLayout()
-        CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GBGeneralSettings.SuspendLayout()
-        Me.GBSubFont.SuspendLayout()
-        CType(Me.NBFontSize, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GBDommeFont.SuspendLayout()
-        CType(Me.NBFontSizeD, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.TabPage2.SuspendLayout()
-        Me.Panel3.SuspendLayout()
-        CType(Me.PictureBox4, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GBDomTypingStyle.SuspendLayout()
-        CType(Me.NBTypoChance, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox63.SuspendLayout()
-        Me.GBDomRanges.SuspendLayout()
-        CType(Me.NBDomMoodMax, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBDomMoodMin, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBSubAgeMax, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBSubAgeMin, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBSelfAgeMax, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBSelfAgeMin, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBAvgCockMax, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBAvgCockMin, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GBDomStats.SuspendLayout()
-        CType(Me.NBEmpathy, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBDomBirthdayDay, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.domageNumBox, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBDomBirthdayMonth, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.DominationLevel, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GBDomPersonality.SuspendLayout()
-        Me.GBDomOrgasms.SuspendLayout()
-        CType(Me.orgasmsPerNumBox, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GBDomPetNames.SuspendLayout()
-        Me.TabPage10.SuspendLayout()
-        Me.Panel2.SuspendLayout()
-        Me.GroupBox22.SuspendLayout()
-        CType(Me.NBWritingTaskMax, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBWritingTaskMin, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox45.SuspendLayout()
-        CType(Me.CBTSlider, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox35.SuspendLayout()
-        Me.GroupBox39.SuspendLayout()
-        Me.GroupBox38.SuspendLayout()
-        Me.GroupBox37.SuspendLayout()
-        Me.GroupBox36.SuspendLayout()
-        Me.GroupBox13.SuspendLayout()
-        Me.GroupBox7.SuspendLayout()
-        CType(Me.NBExtremeHoldMin, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBExtremeHoldMax, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBLongHoldMin, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBLongHoldMax, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBLongEdge, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBHoldTheEdgeMin, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBHoldTheEdgeMax, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.PictureBox12, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox32.SuspendLayout()
-        CType(Me.NBBirthdayDay, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.subAgeNumBox, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBBirthdayMonth, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.CockSizeNumBox, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.TabPage16.SuspendLayout()
-        Me.Panel9.SuspendLayout()
-        Me.GroupBox31.SuspendLayout()
-        Me.TCScripts.SuspendLayout()
-        Me.TabPage21.SuspendLayout()
-        Me.TabPage17.SuspendLayout()
-        Me.TabPage18.SuspendLayout()
-        Me.TabPage19.SuspendLayout()
-        Me.GroupBox42.SuspendLayout()
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox43.SuspendLayout()
-        Me.TabPage7.SuspendLayout()
-        Me.TabControl4.SuspendLayout()
-        Me.TpImagesUrlFiles.SuspendLayout()
-        Me.GroupBox66.SuspendLayout()
-        CType(Me.PBURLPreview, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.TpImagesGenre.SuspendLayout()
-        Me.GrbImageUrlFiles.SuspendLayout()
-        Me.TlpImageUrls.SuspendLayout()
-        Me.GbxImagesGenre.SuspendLayout()
-        Me.TableLayoutPanel1.SuspendLayout()
-        Me.TabPage33.SuspendLayout()
-        Me.TabControl5.SuspendLayout()
-        Me.TabPage34.SuspendLayout()
-        CType(Me.ImageTagPictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.TabPage35.SuspendLayout()
-        Me.GroupBox55.SuspendLayout()
-        Me.GroupBox53.SuspendLayout()
-        Me.GroupBox49.SuspendLayout()
-        Me.GroupBox46.SuspendLayout()
-        Me.GroupBox54.SuspendLayout()
-        Me.GroupBox51.SuspendLayout()
-        Me.GroupBox50.SuspendLayout()
-        Me.GroupBox48.SuspendLayout()
-        Me.TabPage11.SuspendLayout()
-        Me.Panel7.SuspendLayout()
-        CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.WebPictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.TpVideoSettings.SuspendLayout()
-        Me.PnlVideoSettings.SuspendLayout()
-        CType(Me.PbBannerVideoSettings, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GbxVideoGeneralD.SuspendLayout()
-        Me.GbxVideoSpecialD.SuspendLayout()
-        Me.GbxVideoGenreD.SuspendLayout()
-        Me.GbxVideoDescription.SuspendLayout()
-        Me.GbxVideoGeneral.SuspendLayout()
-        Me.GbxVideoSpecial.SuspendLayout()
-        Me.GbxVideoGenre.SuspendLayout()
-        Me.TabPage20.SuspendLayout()
-        Me.TabControl1.SuspendLayout()
-        Me.TabPage22.SuspendLayout()
-        Me.PNLGlitter.SuspendLayout()
-        Me.GBGlitterD.SuspendLayout()
-        Me.GrbGlitterfeed.SuspendLayout()
-        CType(Me.GlitterSlider, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.GlitterAV, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GBGlitter1.SuspendLayout()
-        CType(Me.GlitterSlider1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.GlitterAV1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GBGlitter3.SuspendLayout()
-        CType(Me.GlitterSlider3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.GlitterAV3, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GBGlitter2.SuspendLayout()
-        CType(Me.GlitterSlider2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.GlitterAV2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.TpGames.SuspendLayout()
-        Me.GbxCardsGold.SuspendLayout()
-        CType(Me.GP6, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.GP2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.GP5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.GP1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.GP3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.GP4, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GbxCardsBackground.SuspendLayout()
-        CType(Me.CardBack, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GbxCardsBronze.SuspendLayout()
-        CType(Me.BP3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BP6, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BP5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BP2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BP4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BP1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GbxCardsSilver.SuspendLayout()
-        CType(Me.SP6, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.SP2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.SP5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.SP1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.SP3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.SP4, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.TabPage6.SuspendLayout()
-        Me.Panel10.SuspendLayout()
-        CType(Me.NBWishlistCost, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.PNLWishList.SuspendLayout()
-        CType(Me.WishlistCostSilver, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.WishlistCostGold, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.WishlistPreview, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.TabPage26.SuspendLayout()
-        Me.Panel12.SuspendLayout()
-        Me.GroupBox9.SuspendLayout()
-        CType(Me.PictureBox10, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox5.SuspendLayout()
-        Me.GroupBox11.SuspendLayout()
-        Me.GroupBox1.SuspendLayout()
-        CType(Me.PBBackgroundPreview, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.TabPage4.SuspendLayout()
-        Me.Panel6.SuspendLayout()
-        Me.GroupBox69.SuspendLayout()
-        CType(Me.TypeSpeedSlider, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox68.SuspendLayout()
-        CType(Me.NBTasksMax, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBTasksMin, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox67.SuspendLayout()
-        CType(Me.NBTaskCBTTimeMax, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBTaskCBTTimeMin, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBTaskEdgeHoldTimeMax, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBTaskEdgeHoldTimeMin, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBTaskEdgesMax, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBTaskEdgesMin, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBTaskStrokingTimeMax, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBTaskStrokingTimeMin, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBTaskStrokesMax, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBTaskStrokesMin, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox10.SuspendLayout()
-        CType(Me.NBNextImageChance, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox57.SuspendLayout()
-        CType(Me.NBTauntEdging, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.SliderSTF, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TauntSlider, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBTauntCycleMax, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBTauntCycleMin, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBTeaseLengthMax, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBTeaseLengthMin, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GBRangeRuinChance.SuspendLayout()
-        CType(Me.NBRuinSometimes, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBRuinRarely, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBRuinOften, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox17.SuspendLayout()
-        Me.GroupBox19.SuspendLayout()
-        CType(Me.NBGreenLightMax, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBGreenLightMin, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBRedLightMax, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBRedLightMin, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox18.SuspendLayout()
-        CType(Me.NBCensorShowMin, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBCensorHideMax, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBCensorHideMin, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBCensorShowMax, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GBRangeOrgasmChance.SuspendLayout()
-        CType(Me.NBAllowSometimes, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBAllowRarely, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NBAllowOften, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.PictureBox8, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.TabPage13.SuspendLayout()
-        Me.TabControl2.SuspendLayout()
-        Me.TabPage27.SuspendLayout()
-        Me.TabPage14.SuspendLayout()
-        Me.TabPage24.SuspendLayout()
-        Me.TabPage8.SuspendLayout()
-        Me.GroupBox29.SuspendLayout()
-        Me.GroupBox28.SuspendLayout()
-        Me.GroupBox30.SuspendLayout()
-        Me.TabPage15.SuspendLayout()
-        Me.GroupBox34.SuspendLayout()
-        Me.TabPage25.SuspendLayout()
-        Me.Panel11.SuspendLayout()
-        Me.GroupBox62.SuspendLayout()
-        Me.GroupBox33.SuspendLayout()
-        Me.GroupBox27.SuspendLayout()
-        Me.GroupBox20.SuspendLayout()
-        Me.GroupBox15.SuspendLayout()
-        CType(Me.PictureBox9, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.TabPage28.SuspendLayout()
-        Me.TabControl3.SuspendLayout()
-        Me.TabPage29.SuspendLayout()
-        Me.GroupBox26.SuspendLayout()
-        Me.TabPage30.SuspendLayout()
-        Me.TabPage5.SuspendLayout()
-        Me.Panel5.SuspendLayout()
-        CType(Me.PictureBox3, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox47.SuspendLayout()
-        Me.GroupBox41.SuspendLayout()
-        Me.GroupBox44.SuspendLayout()
-        Me.GroupBox6.SuspendLayout()
-        Me.GroupBox21.SuspendLayout()
-        Me.GroupBox12.SuspendLayout()
-        Me.GroupBox65.SuspendLayout()
-        CType(Me.TrackBar1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TrackBar2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SuspendLayout()
+        Me.SettingsPanel.SuspendLayout
+        Me.SettingsTabs.SuspendLayout
+        Me.TabPage1.SuspendLayout
+        Me.PNLGeneralSettings.SuspendLayout
+        Me.GroupBox64.SuspendLayout
+        Me.GBDommeImages.SuspendLayout
+        CType(Me.slideshowNumBox, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GBGeneralTextToSpeech.SuspendLayout
+        CType(Me.SliderVRate, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.SliderVVolume, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GBSafeword.SuspendLayout
+        Me.GBGeneralSystem.SuspendLayout
+        Me.GBGeneralImages.SuspendLayout
+        CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GBGeneralSettings.SuspendLayout
+        Me.GBSubFont.SuspendLayout
+        CType(Me.NBFontSize, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GBDommeFont.SuspendLayout
+        CType(Me.NBFontSizeD, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.TabPage2.SuspendLayout
+        Me.Panel3.SuspendLayout
+        CType(Me.PictureBox4, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GBDomTypingStyle.SuspendLayout
+        CType(Me.NBTypoChance, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GroupBox63.SuspendLayout
+        Me.GBDomRanges.SuspendLayout
+        CType(Me.NBDomMoodMax, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBDomMoodMin, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBSubAgeMax, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBSubAgeMin, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBSelfAgeMax, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBSelfAgeMin, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBAvgCockMax, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBAvgCockMin, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GBDomStats.SuspendLayout
+        CType(Me.NBEmpathy, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBDomBirthdayDay, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.domageNumBox, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBDomBirthdayMonth, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.DominationLevel, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GBDomPersonality.SuspendLayout
+        Me.GBDomOrgasms.SuspendLayout
+        CType(Me.orgasmsPerNumBox, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GBDomPetNames.SuspendLayout
+        Me.TabPage10.SuspendLayout
+        Me.Panel2.SuspendLayout
+        Me.GroupBox22.SuspendLayout
+        CType(Me.NBWritingTaskMax, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBWritingTaskMin, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GroupBox45.SuspendLayout
+        CType(Me.CockAndBallTortureLevelSlider, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GroupBox35.SuspendLayout
+        Me.GroupBox39.SuspendLayout
+        Me.GroupBox38.SuspendLayout
+        Me.GroupBox37.SuspendLayout
+        Me.GroupBox36.SuspendLayout
+        Me.GroupBox13.SuspendLayout
+        Me.GroupBox7.SuspendLayout
+        CType(Me.ExtremeEdgeHoldMinimum, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.ExtremeEdgeHoldMaximum, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.LongEdgeHoldMinimum, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.LongEdgeHoldMaximum, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBLongEdge, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.HoldEdgeMinimum, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.HoldEdgeMaximum, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.PictureBox12, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GroupBox32.SuspendLayout
+        CType(Me.NBBirthdayDay, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.subAgeNumBox, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBBirthdayMonth, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.CockSizeNumBox, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.TabPage16.SuspendLayout
+        Me.Panel9.SuspendLayout
+        Me.GroupBox31.SuspendLayout
+        Me.TCScripts.SuspendLayout
+        Me.TabPage21.SuspendLayout
+        Me.TabPage17.SuspendLayout
+        Me.TabPage18.SuspendLayout
+        Me.TabPage19.SuspendLayout
+        Me.GroupBox42.SuspendLayout
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GroupBox43.SuspendLayout
+        Me.TabPage7.SuspendLayout
+        Me.TabControl4.SuspendLayout
+        Me.TpImagesUrlFiles.SuspendLayout
+        Me.GroupBox66.SuspendLayout
+        CType(Me.PBURLPreview, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.TpImagesGenre.SuspendLayout
+        Me.GrbImageUrlFiles.SuspendLayout
+        Me.TlpImageUrls.SuspendLayout
+        Me.GbxImagesGenre.SuspendLayout
+        Me.TableLayoutPanel1.SuspendLayout
+        Me.TabPage33.SuspendLayout
+        Me.TabControl5.SuspendLayout
+        Me.TabPage34.SuspendLayout
+        CType(Me.ImageTagPictureBox, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.TabPage35.SuspendLayout
+        Me.GroupBox55.SuspendLayout
+        Me.GroupBox53.SuspendLayout
+        Me.GroupBox49.SuspendLayout
+        Me.GroupBox46.SuspendLayout
+        Me.GroupBox54.SuspendLayout
+        Me.GroupBox51.SuspendLayout
+        Me.GroupBox50.SuspendLayout
+        Me.GroupBox48.SuspendLayout
+        Me.TabPage11.SuspendLayout
+        Me.Panel7.SuspendLayout
+        CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.WebPictureBox, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.TpVideoSettings.SuspendLayout
+        Me.PnlVideoSettings.SuspendLayout
+        CType(Me.PbBannerVideoSettings, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GbxVideoGeneralD.SuspendLayout
+        Me.GbxVideoSpecialD.SuspendLayout
+        Me.GbxVideoGenreD.SuspendLayout
+        Me.GbxVideoDescription.SuspendLayout
+        Me.GbxVideoGeneral.SuspendLayout
+        Me.GbxVideoSpecial.SuspendLayout
+        Me.GbxVideoGenre.SuspendLayout
+        Me.TabPage20.SuspendLayout
+        Me.TabControl1.SuspendLayout
+        Me.TabPage22.SuspendLayout
+        Me.PNLGlitter.SuspendLayout
+        Me.GBGlitterD.SuspendLayout
+        Me.GrbGlitterfeed.SuspendLayout
+        CType(Me.GlitterSlider, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.GlitterAV, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GBGlitter1.SuspendLayout
+        CType(Me.GlitterSlider1, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.GlitterAV1, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GBGlitter3.SuspendLayout
+        CType(Me.GlitterSlider3, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.GlitterAV3, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GBGlitter2.SuspendLayout
+        CType(Me.GlitterSlider2, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.GlitterAV2, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.TpGames.SuspendLayout
+        Me.GbxCardsGold.SuspendLayout
+        CType(Me.GP6, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.GP2, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.GP5, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.GP1, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.GP3, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.GP4, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GbxCardsBackground.SuspendLayout
+        CType(Me.CardBack, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GbxCardsBronze.SuspendLayout
+        CType(Me.BP3, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BP6, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BP5, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BP2, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BP4, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.BP1, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GbxCardsSilver.SuspendLayout
+        CType(Me.SP6, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.SP2, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.SP5, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.SP1, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.SP3, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.SP4, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.TabPage6.SuspendLayout
+        Me.Panel10.SuspendLayout
+        CType(Me.NBWishlistCost, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.PNLWishList.SuspendLayout
+        CType(Me.WishlistCostSilver, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.WishlistCostGold, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.WishlistPreview, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.TabPage26.SuspendLayout
+        Me.Panel12.SuspendLayout
+        Me.GroupBox9.SuspendLayout
+        CType(Me.PictureBox10, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GroupBox5.SuspendLayout
+        Me.GroupBox11.SuspendLayout
+        Me.GroupBox1.SuspendLayout
+        CType(Me.PBBackgroundPreview, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.TabPage4.SuspendLayout
+        Me.Panel6.SuspendLayout
+        Me.GroupBox69.SuspendLayout
+        CType(Me.TypeSpeedSlider, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GroupBox68.SuspendLayout
+        CType(Me.NBTasksMax, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBTasksMin, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GroupBox67.SuspendLayout
+        CType(Me.NBTaskCBTTimeMax, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBTaskCBTTimeMin, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBTaskEdgeHoldTimeMax, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBTaskEdgeHoldTimeMin, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBTaskEdgesMax, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBTaskEdgesMin, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBTaskStrokingTimeMax, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBTaskStrokingTimeMin, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBTaskStrokesMax, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBTaskStrokesMin, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GroupBox10.SuspendLayout
+        CType(Me.NBNextImageChance, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GroupBox57.SuspendLayout
+        CType(Me.NBTauntEdging, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.SliderSTF, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TauntSlider, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBTauntCycleMax, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBTauntCycleMin, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBTeaseLengthMax, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBTeaseLengthMin, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GBRangeRuinChance.SuspendLayout
+        CType(Me.NBRuinSometimes, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBRuinRarely, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBRuinOften, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GroupBox17.SuspendLayout
+        Me.GroupBox19.SuspendLayout
+        CType(Me.NBGreenLightMax, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBGreenLightMin, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBRedLightMax, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBRedLightMin, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GroupBox18.SuspendLayout
+        CType(Me.NBCensorShowMin, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBCensorHideMax, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBCensorHideMin, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBCensorShowMax, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GBRangeOrgasmChance.SuspendLayout
+        CType(Me.NBAllowSometimes, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBAllowRarely, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.AllowOrgasmOftenNB, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.PictureBox8, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.TabPage13.SuspendLayout
+        Me.TabControl2.SuspendLayout
+        Me.TabPage27.SuspendLayout
+        Me.TabPage14.SuspendLayout
+        Me.TabPage24.SuspendLayout
+        Me.TabPage8.SuspendLayout
+        Me.GroupBox29.SuspendLayout
+        Me.GroupBox28.SuspendLayout
+        Me.GroupBox30.SuspendLayout
+        Me.TabPage15.SuspendLayout
+        Me.GroupBox34.SuspendLayout
+        Me.TabPage25.SuspendLayout
+        Me.Panel11.SuspendLayout
+        Me.GroupBox62.SuspendLayout
+        Me.GroupBox33.SuspendLayout
+        Me.GroupBox27.SuspendLayout
+        Me.GroupBox20.SuspendLayout
+        Me.GroupBox15.SuspendLayout
+        CType(Me.PictureBox9, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.TabPage28.SuspendLayout
+        Me.TabControl3.SuspendLayout
+        Me.TabPage29.SuspendLayout
+        Me.GroupBox26.SuspendLayout
+        Me.TabPage30.SuspendLayout
+        Me.TabPage5.SuspendLayout
+        Me.Panel5.SuspendLayout
+        CType(Me.PictureBox3, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GroupBox47.SuspendLayout
+        Me.GroupBox41.SuspendLayout
+        Me.GroupBox44.SuspendLayout
+        Me.GroupBox6.SuspendLayout
+        Me.GroupBox21.SuspendLayout
+        Me.GroupBox12.SuspendLayout
+        Me.GroupBox65.SuspendLayout
+        CType(Me.TrackBar1, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TrackBar2, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.SuspendLayout
         '
         'SettingsPanel
         '
@@ -1926,10 +1926,10 @@ Partial Class FrmSettings
         Me.GBSubFont.Controls.Add(Me.LBLSubColor)
         Me.GBSubFont.Controls.Add(Me.NBFontSize)
         Me.GBSubFont.Controls.Add(Me.Label2)
-        Me.GBSubFont.Controls.Add(Me.FontComboBox)
+        Me.GBSubFont.Controls.Add(Me.SubMessageFontCB)
         Me.GBSubFont.Location = New System.Drawing.Point(6, 219)
         Me.GBSubFont.Name = "GBSubFont"
-        Me.GBSubFont.Size = New System.Drawing.Size(200, 77)
+        Me.GBSubFont.Size = New System.Drawing.Size(200, 86)
         Me.GBSubFont.TabIndex = 0
         Me.GBSubFont.TabStop = False
         Me.GBSubFont.Text = "Sub Font Settings"
@@ -1985,19 +1985,22 @@ Partial Class FrmSettings
         Me.Label2.Text = "Size:"
         Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'FontComboBox
+        'SubMessageFontCB
         '
-        Me.FontComboBox.FormattingEnabled = True
-        Me.FontComboBox.Location = New System.Drawing.Point(6, 46)
-        Me.FontComboBox.Name = "FontComboBox"
-        Me.FontComboBox.Size = New System.Drawing.Size(110, 21)
-        Me.FontComboBox.TabIndex = 9
+        Me.SubMessageFontCB.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.SubMessageFontCB.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SubMessageFontCB.FormattingEnabled = True
+        Me.SubMessageFontCB.ItemHeight = 20
+        Me.SubMessageFontCB.Location = New System.Drawing.Point(6, 46)
+        Me.SubMessageFontCB.Name = "SubMessageFontCB"
+        Me.SubMessageFontCB.Size = New System.Drawing.Size(110, 26)
+        Me.SubMessageFontCB.TabIndex = 9
         '
         'GBDommeFont
         '
         Me.GBDommeFont.Controls.Add(Me.BTNDomColor)
         Me.GBDommeFont.Controls.Add(Me.LBLDomColor)
-        Me.GBDommeFont.Controls.Add(Me.FontComboBoxD)
+        Me.GBDommeFont.Controls.Add(Me.DommeMessageFontCB)
         Me.GBDommeFont.Controls.Add(Me.NBFontSizeD)
         Me.GBDommeFont.Controls.Add(Me.Label7)
         Me.GBDommeFont.Location = New System.Drawing.Point(6, 142)
@@ -2033,13 +2036,16 @@ Partial Class FrmSettings
         Me.LBLDomColor.Text = "Preview"
         Me.LBLDomColor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'FontComboBoxD
+        'DommeMessageFontCB
         '
-        Me.FontComboBoxD.FormattingEnabled = True
-        Me.FontComboBoxD.Location = New System.Drawing.Point(6, 46)
-        Me.FontComboBoxD.Name = "FontComboBoxD"
-        Me.FontComboBoxD.Size = New System.Drawing.Size(110, 21)
-        Me.FontComboBoxD.TabIndex = 6
+        Me.DommeMessageFontCB.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.DommeMessageFontCB.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.DommeMessageFontCB.FormattingEnabled = True
+        Me.DommeMessageFontCB.ItemHeight = 20
+        Me.DommeMessageFontCB.Location = New System.Drawing.Point(6, 46)
+        Me.DommeMessageFontCB.Name = "DommeMessageFontCB"
+        Me.DommeMessageFontCB.Size = New System.Drawing.Size(110, 26)
+        Me.DommeMessageFontCB.TabIndex = 6
         '
         'NBFontSizeD
         '
@@ -3461,10 +3467,10 @@ Partial Class FrmSettings
         'GroupBox45
         '
         Me.GroupBox45.BackColor = System.Drawing.Color.LightGray
-        Me.GroupBox45.Controls.Add(Me.LBLCBTSlider)
-        Me.GroupBox45.Controls.Add(Me.CBCBTBalls)
-        Me.GroupBox45.Controls.Add(Me.CBCBTCock)
-        Me.GroupBox45.Controls.Add(Me.CBTSlider)
+        Me.GroupBox45.Controls.Add(Me.CockAndBallTortureLevelLbl)
+        Me.GroupBox45.Controls.Add(Me.BallTortureEnabledCB)
+        Me.GroupBox45.Controls.Add(Me.CockTortureEnabledCB)
+        Me.GroupBox45.Controls.Add(Me.CockAndBallTortureLevelSlider)
         Me.GroupBox45.ForeColor = System.Drawing.Color.Black
         Me.GroupBox45.Location = New System.Drawing.Point(440, 294)
         Me.GroupBox45.Name = "GroupBox45"
@@ -3473,47 +3479,47 @@ Partial Class FrmSettings
         Me.GroupBox45.TabStop = False
         Me.GroupBox45.Text = "CBT"
         '
-        'LBLCBTSlider
+        'CockAndBallTortureLevelLbl
         '
-        Me.LBLCBTSlider.BackColor = System.Drawing.Color.Transparent
-        Me.LBLCBTSlider.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LBLCBTSlider.ForeColor = System.Drawing.Color.Black
-        Me.LBLCBTSlider.Location = New System.Drawing.Point(134, 30)
-        Me.LBLCBTSlider.Name = "LBLCBTSlider"
-        Me.LBLCBTSlider.Size = New System.Drawing.Size(110, 17)
-        Me.LBLCBTSlider.TabIndex = 168
-        Me.LBLCBTSlider.Text = "CBT Level: 3"
-        Me.LBLCBTSlider.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.CockAndBallTortureLevelLbl.BackColor = System.Drawing.Color.Transparent
+        Me.CockAndBallTortureLevelLbl.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CockAndBallTortureLevelLbl.ForeColor = System.Drawing.Color.Black
+        Me.CockAndBallTortureLevelLbl.Location = New System.Drawing.Point(134, 30)
+        Me.CockAndBallTortureLevelLbl.Name = "CockAndBallTortureLevelLbl"
+        Me.CockAndBallTortureLevelLbl.Size = New System.Drawing.Size(110, 17)
+        Me.CockAndBallTortureLevelLbl.TabIndex = 168
+        Me.CockAndBallTortureLevelLbl.Text = "CBT Level: 3"
+        Me.CockAndBallTortureLevelLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'CBCBTBalls
+        'BallTortureEnabledCB
         '
-        Me.CBCBTBalls.Location = New System.Drawing.Point(69, 13)
-        Me.CBCBTBalls.Name = "CBCBTBalls"
-        Me.CBCBTBalls.Size = New System.Drawing.Size(66, 31)
-        Me.CBCBTBalls.TabIndex = 1
-        Me.CBCBTBalls.Text = "Ball Torture"
-        Me.CBCBTBalls.UseVisualStyleBackColor = True
+        Me.BallTortureEnabledCB.Location = New System.Drawing.Point(69, 13)
+        Me.BallTortureEnabledCB.Name = "BallTortureEnabledCB"
+        Me.BallTortureEnabledCB.Size = New System.Drawing.Size(66, 31)
+        Me.BallTortureEnabledCB.TabIndex = 1
+        Me.BallTortureEnabledCB.Text = "Ball Torture"
+        Me.BallTortureEnabledCB.UseVisualStyleBackColor = True
         '
-        'CBCBTCock
+        'CockTortureEnabledCB
         '
-        Me.CBCBTCock.Location = New System.Drawing.Point(9, 13)
-        Me.CBCBTCock.Name = "CBCBTCock"
-        Me.CBCBTCock.Size = New System.Drawing.Size(68, 31)
-        Me.CBCBTCock.TabIndex = 0
-        Me.CBCBTCock.Text = "Cock Torture"
-        Me.CBCBTCock.UseVisualStyleBackColor = True
+        Me.CockTortureEnabledCB.Location = New System.Drawing.Point(9, 13)
+        Me.CockTortureEnabledCB.Name = "CockTortureEnabledCB"
+        Me.CockTortureEnabledCB.Size = New System.Drawing.Size(68, 31)
+        Me.CockTortureEnabledCB.TabIndex = 0
+        Me.CockTortureEnabledCB.Text = "Cock Torture"
+        Me.CockTortureEnabledCB.UseVisualStyleBackColor = True
         '
-        'CBTSlider
+        'CockAndBallTortureLevelSlider
         '
-        Me.CBTSlider.AutoSize = False
-        Me.CBTSlider.LargeChange = 1
-        Me.CBTSlider.Location = New System.Drawing.Point(134, 13)
-        Me.CBTSlider.Maximum = 5
-        Me.CBTSlider.Minimum = 1
-        Me.CBTSlider.Name = "CBTSlider"
-        Me.CBTSlider.Size = New System.Drawing.Size(110, 25)
-        Me.CBTSlider.TabIndex = 166
-        Me.CBTSlider.Value = 3
+        Me.CockAndBallTortureLevelSlider.AutoSize = False
+        Me.CockAndBallTortureLevelSlider.LargeChange = 1
+        Me.CockAndBallTortureLevelSlider.Location = New System.Drawing.Point(134, 13)
+        Me.CockAndBallTortureLevelSlider.Maximum = 5
+        Me.CockAndBallTortureLevelSlider.Minimum = 1
+        Me.CockAndBallTortureLevelSlider.Name = "CockAndBallTortureLevelSlider"
+        Me.CockAndBallTortureLevelSlider.Size = New System.Drawing.Size(110, 25)
+        Me.CockAndBallTortureLevelSlider.TabIndex = 166
+        Me.CockAndBallTortureLevelSlider.Value = 3
         '
         'GroupBox35
         '
@@ -3668,27 +3674,27 @@ Partial Class FrmSettings
         '
         Me.GroupBox7.Controls.Add(Me.LBLMaxExtremeHold)
         Me.GroupBox7.Controls.Add(Me.LBLMinExtremeHold)
-        Me.GroupBox7.Controls.Add(Me.NBExtremeHoldMin)
+        Me.GroupBox7.Controls.Add(Me.ExtremeEdgeHoldMinimum)
         Me.GroupBox7.Controls.Add(Me.Label133)
-        Me.GroupBox7.Controls.Add(Me.NBExtremeHoldMax)
+        Me.GroupBox7.Controls.Add(Me.ExtremeEdgeHoldMaximum)
         Me.GroupBox7.Controls.Add(Me.LBLMaxLongHold)
         Me.GroupBox7.Controls.Add(Me.Label78)
         Me.GroupBox7.Controls.Add(Me.LBLMinLongHold)
-        Me.GroupBox7.Controls.Add(Me.NBLongHoldMin)
+        Me.GroupBox7.Controls.Add(Me.LongEdgeHoldMinimum)
         Me.GroupBox7.Controls.Add(Me.Label129)
-        Me.GroupBox7.Controls.Add(Me.NBLongHoldMax)
+        Me.GroupBox7.Controls.Add(Me.LongEdgeHoldMaximum)
         Me.GroupBox7.Controls.Add(Me.LBLMaxHold)
         Me.GroupBox7.Controls.Add(Me.Label79)
         Me.GroupBox7.Controls.Add(Me.NBLongEdge)
-        Me.GroupBox7.Controls.Add(Me.LBLMinHold)
-        Me.GroupBox7.Controls.Add(Me.CBEdgeUseAvg)
-        Me.GroupBox7.Controls.Add(Me.CBLongEdgeInterrupts)
-        Me.GroupBox7.Controls.Add(Me.NBHoldTheEdgeMin)
+        Me.GroupBox7.Controls.Add(Me.HoldEdgeMinimumUnits)
+        Me.GroupBox7.Controls.Add(Me.UseAverageEdgeThresholdCB)
+        Me.GroupBox7.Controls.Add(Me.AllowLongEdgeInterruptCB)
+        Me.GroupBox7.Controls.Add(Me.HoldEdgeMinimum)
         Me.GroupBox7.Controls.Add(Me.Label55)
         Me.GroupBox7.Controls.Add(Me.Label81)
         Me.GroupBox7.Controls.Add(Me.Label5)
-        Me.GroupBox7.Controls.Add(Me.NBHoldTheEdgeMax)
-        Me.GroupBox7.Controls.Add(Me.CBLongEdgeTaunts)
+        Me.GroupBox7.Controls.Add(Me.HoldEdgeMaximum)
+        Me.GroupBox7.Controls.Add(Me.AllowLongEdgeTauntCB)
         Me.GroupBox7.Controls.Add(Me.Label131)
         Me.GroupBox7.Location = New System.Drawing.Point(7, 201)
         Me.GroupBox7.Name = "GroupBox7"
@@ -3717,15 +3723,15 @@ Partial Class FrmSettings
         Me.LBLMinExtremeHold.Text = "minutes"
         Me.LBLMinExtremeHold.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'NBExtremeHoldMin
+        'ExtremeEdgeHoldMinimum
         '
-        Me.NBExtremeHoldMin.Location = New System.Drawing.Point(128, 104)
-        Me.NBExtremeHoldMin.Maximum = New Decimal(New Integer() {3600, 0, 0, 0})
-        Me.NBExtremeHoldMin.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NBExtremeHoldMin.Name = "NBExtremeHoldMin"
-        Me.NBExtremeHoldMin.Size = New System.Drawing.Size(44, 20)
-        Me.NBExtremeHoldMin.TabIndex = 189
-        Me.NBExtremeHoldMin.Value = New Decimal(New Integer() {60, 0, 0, 0})
+        Me.ExtremeEdgeHoldMinimum.Location = New System.Drawing.Point(128, 104)
+        Me.ExtremeEdgeHoldMinimum.Maximum = New Decimal(New Integer() {3600, 0, 0, 0})
+        Me.ExtremeEdgeHoldMinimum.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.ExtremeEdgeHoldMinimum.Name = "ExtremeEdgeHoldMinimum"
+        Me.ExtremeEdgeHoldMinimum.Size = New System.Drawing.Size(44, 20)
+        Me.ExtremeEdgeHoldMinimum.TabIndex = 189
+        Me.ExtremeEdgeHoldMinimum.Value = New Decimal(New Integer() {60, 0, 0, 0})
         '
         'Label133
         '
@@ -3739,15 +3745,15 @@ Partial Class FrmSettings
         Me.Label133.Text = "Min Extreme Hold Time:"
         Me.Label133.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'NBExtremeHoldMax
+        'ExtremeEdgeHoldMaximum
         '
-        Me.NBExtremeHoldMax.Location = New System.Drawing.Point(128, 126)
-        Me.NBExtremeHoldMax.Maximum = New Decimal(New Integer() {3600, 0, 0, 0})
-        Me.NBExtremeHoldMax.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
-        Me.NBExtremeHoldMax.Name = "NBExtremeHoldMax"
-        Me.NBExtremeHoldMax.Size = New System.Drawing.Size(44, 20)
-        Me.NBExtremeHoldMax.TabIndex = 188
-        Me.NBExtremeHoldMax.Value = New Decimal(New Integer() {60, 0, 0, 0})
+        Me.ExtremeEdgeHoldMaximum.Location = New System.Drawing.Point(128, 126)
+        Me.ExtremeEdgeHoldMaximum.Maximum = New Decimal(New Integer() {3600, 0, 0, 0})
+        Me.ExtremeEdgeHoldMaximum.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
+        Me.ExtremeEdgeHoldMaximum.Name = "ExtremeEdgeHoldMaximum"
+        Me.ExtremeEdgeHoldMaximum.Size = New System.Drawing.Size(44, 20)
+        Me.ExtremeEdgeHoldMaximum.TabIndex = 188
+        Me.ExtremeEdgeHoldMaximum.Value = New Decimal(New Integer() {60, 0, 0, 0})
         '
         'LBLMaxLongHold
         '
@@ -3781,15 +3787,15 @@ Partial Class FrmSettings
         Me.LBLMinLongHold.Text = "minutes"
         Me.LBLMinLongHold.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'NBLongHoldMin
+        'LongEdgeHoldMinimum
         '
-        Me.NBLongHoldMin.Location = New System.Drawing.Point(128, 60)
-        Me.NBLongHoldMin.Maximum = New Decimal(New Integer() {3600, 0, 0, 0})
-        Me.NBLongHoldMin.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NBLongHoldMin.Name = "NBLongHoldMin"
-        Me.NBLongHoldMin.Size = New System.Drawing.Size(44, 20)
-        Me.NBLongHoldMin.TabIndex = 183
-        Me.NBLongHoldMin.Value = New Decimal(New Integer() {60, 0, 0, 0})
+        Me.LongEdgeHoldMinimum.Location = New System.Drawing.Point(128, 60)
+        Me.LongEdgeHoldMinimum.Maximum = New Decimal(New Integer() {3600, 0, 0, 0})
+        Me.LongEdgeHoldMinimum.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.LongEdgeHoldMinimum.Name = "LongEdgeHoldMinimum"
+        Me.LongEdgeHoldMinimum.Size = New System.Drawing.Size(44, 20)
+        Me.LongEdgeHoldMinimum.TabIndex = 183
+        Me.LongEdgeHoldMinimum.Value = New Decimal(New Integer() {60, 0, 0, 0})
         '
         'Label129
         '
@@ -3803,15 +3809,15 @@ Partial Class FrmSettings
         Me.Label129.Text = "Min Long Hold Time:"
         Me.Label129.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'NBLongHoldMax
+        'LongEdgeHoldMaximum
         '
-        Me.NBLongHoldMax.Location = New System.Drawing.Point(128, 82)
-        Me.NBLongHoldMax.Maximum = New Decimal(New Integer() {3600, 0, 0, 0})
-        Me.NBLongHoldMax.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
-        Me.NBLongHoldMax.Name = "NBLongHoldMax"
-        Me.NBLongHoldMax.Size = New System.Drawing.Size(44, 20)
-        Me.NBLongHoldMax.TabIndex = 182
-        Me.NBLongHoldMax.Value = New Decimal(New Integer() {60, 0, 0, 0})
+        Me.LongEdgeHoldMaximum.Location = New System.Drawing.Point(128, 82)
+        Me.LongEdgeHoldMaximum.Maximum = New Decimal(New Integer() {3600, 0, 0, 0})
+        Me.LongEdgeHoldMaximum.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
+        Me.LongEdgeHoldMaximum.Name = "LongEdgeHoldMaximum"
+        Me.LongEdgeHoldMaximum.Size = New System.Drawing.Size(44, 20)
+        Me.LongEdgeHoldMaximum.TabIndex = 182
+        Me.LongEdgeHoldMaximum.Value = New Decimal(New Integer() {60, 0, 0, 0})
         '
         'LBLMaxHold
         '
@@ -3845,48 +3851,48 @@ Partial Class FrmSettings
         Me.NBLongEdge.TabIndex = 152
         Me.NBLongEdge.Value = New Decimal(New Integer() {120, 0, 0, 0})
         '
-        'LBLMinHold
+        'HoldEdgeMinimumUnits
         '
-        Me.LBLMinHold.AutoSize = True
-        Me.LBLMinHold.Location = New System.Drawing.Point(173, 18)
-        Me.LBLMinHold.Name = "LBLMinHold"
-        Me.LBLMinHold.Size = New System.Drawing.Size(47, 13)
-        Me.LBLMinHold.TabIndex = 177
-        Me.LBLMinHold.Text = "seconds"
-        Me.LBLMinHold.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.HoldEdgeMinimumUnits.AutoSize = True
+        Me.HoldEdgeMinimumUnits.Location = New System.Drawing.Point(173, 18)
+        Me.HoldEdgeMinimumUnits.Name = "HoldEdgeMinimumUnits"
+        Me.HoldEdgeMinimumUnits.Size = New System.Drawing.Size(47, 13)
+        Me.HoldEdgeMinimumUnits.TabIndex = 177
+        Me.HoldEdgeMinimumUnits.Text = "seconds"
+        Me.HoldEdgeMinimumUnits.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'CBEdgeUseAvg
+        'UseAverageEdgeThresholdCB
         '
-        Me.CBEdgeUseAvg.AutoSize = True
-        Me.CBEdgeUseAvg.Enabled = False
-        Me.CBEdgeUseAvg.Location = New System.Drawing.Point(9, 170)
-        Me.CBEdgeUseAvg.Name = "CBEdgeUseAvg"
-        Me.CBEdgeUseAvg.Size = New System.Drawing.Size(185, 17)
-        Me.CBEdgeUseAvg.TabIndex = 174
-        Me.CBEdgeUseAvg.Text = "Use Avg Edge Time as Threshold"
-        Me.CBEdgeUseAvg.UseVisualStyleBackColor = True
+        Me.UseAverageEdgeThresholdCB.AutoSize = True
+        Me.UseAverageEdgeThresholdCB.Enabled = False
+        Me.UseAverageEdgeThresholdCB.Location = New System.Drawing.Point(9, 170)
+        Me.UseAverageEdgeThresholdCB.Name = "UseAverageEdgeThresholdCB"
+        Me.UseAverageEdgeThresholdCB.Size = New System.Drawing.Size(185, 17)
+        Me.UseAverageEdgeThresholdCB.TabIndex = 174
+        Me.UseAverageEdgeThresholdCB.Text = "Use Avg Edge Time as Threshold"
+        Me.UseAverageEdgeThresholdCB.UseVisualStyleBackColor = True
         '
-        'CBLongEdgeInterrupts
+        'AllowLongEdgeInterruptCB
         '
-        Me.CBLongEdgeInterrupts.Checked = True
-        Me.CBLongEdgeInterrupts.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CBLongEdgeInterrupts.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CBLongEdgeInterrupts.ForeColor = System.Drawing.Color.Black
-        Me.CBLongEdgeInterrupts.Location = New System.Drawing.Point(9, 204)
-        Me.CBLongEdgeInterrupts.Name = "CBLongEdgeInterrupts"
-        Me.CBLongEdgeInterrupts.Size = New System.Drawing.Size(177, 21)
-        Me.CBLongEdgeInterrupts.TabIndex = 169
-        Me.CBLongEdgeInterrupts.Text = "Allow Long Edge Interrupts"
-        Me.CBLongEdgeInterrupts.UseVisualStyleBackColor = True
+        Me.AllowLongEdgeInterruptCB.Checked = True
+        Me.AllowLongEdgeInterruptCB.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.AllowLongEdgeInterruptCB.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.AllowLongEdgeInterruptCB.ForeColor = System.Drawing.Color.Black
+        Me.AllowLongEdgeInterruptCB.Location = New System.Drawing.Point(9, 204)
+        Me.AllowLongEdgeInterruptCB.Name = "AllowLongEdgeInterruptCB"
+        Me.AllowLongEdgeInterruptCB.Size = New System.Drawing.Size(177, 21)
+        Me.AllowLongEdgeInterruptCB.TabIndex = 169
+        Me.AllowLongEdgeInterruptCB.Text = "Allow Long Edge Interrupts"
+        Me.AllowLongEdgeInterruptCB.UseVisualStyleBackColor = True
         '
-        'NBHoldTheEdgeMin
+        'HoldEdgeMinimum
         '
-        Me.NBHoldTheEdgeMin.Location = New System.Drawing.Point(128, 16)
-        Me.NBHoldTheEdgeMin.Maximum = New Decimal(New Integer() {3600, 0, 0, 0})
-        Me.NBHoldTheEdgeMin.Name = "NBHoldTheEdgeMin"
-        Me.NBHoldTheEdgeMin.Size = New System.Drawing.Size(44, 20)
-        Me.NBHoldTheEdgeMin.TabIndex = 176
-        Me.NBHoldTheEdgeMin.Value = New Decimal(New Integer() {60, 0, 0, 0})
+        Me.HoldEdgeMinimum.Location = New System.Drawing.Point(128, 16)
+        Me.HoldEdgeMinimum.Maximum = New Decimal(New Integer() {3600, 0, 0, 0})
+        Me.HoldEdgeMinimum.Name = "HoldEdgeMinimum"
+        Me.HoldEdgeMinimum.Size = New System.Drawing.Size(44, 20)
+        Me.HoldEdgeMinimum.TabIndex = 176
+        Me.HoldEdgeMinimum.Value = New Decimal(New Integer() {60, 0, 0, 0})
         '
         'Label55
         '
@@ -3922,27 +3928,27 @@ Partial Class FrmSettings
         Me.Label5.Text = "minutes"
         Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'NBHoldTheEdgeMax
+        'HoldEdgeMaximum
         '
-        Me.NBHoldTheEdgeMax.Location = New System.Drawing.Point(128, 38)
-        Me.NBHoldTheEdgeMax.Maximum = New Decimal(New Integer() {3600, 0, 0, 0})
-        Me.NBHoldTheEdgeMax.Name = "NBHoldTheEdgeMax"
-        Me.NBHoldTheEdgeMax.Size = New System.Drawing.Size(44, 20)
-        Me.NBHoldTheEdgeMax.TabIndex = 155
-        Me.NBHoldTheEdgeMax.Value = New Decimal(New Integer() {60, 0, 0, 0})
+        Me.HoldEdgeMaximum.Location = New System.Drawing.Point(128, 38)
+        Me.HoldEdgeMaximum.Maximum = New Decimal(New Integer() {3600, 0, 0, 0})
+        Me.HoldEdgeMaximum.Name = "HoldEdgeMaximum"
+        Me.HoldEdgeMaximum.Size = New System.Drawing.Size(44, 20)
+        Me.HoldEdgeMaximum.TabIndex = 155
+        Me.HoldEdgeMaximum.Value = New Decimal(New Integer() {60, 0, 0, 0})
         '
-        'CBLongEdgeTaunts
+        'AllowLongEdgeTauntCB
         '
-        Me.CBLongEdgeTaunts.Checked = True
-        Me.CBLongEdgeTaunts.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CBLongEdgeTaunts.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CBLongEdgeTaunts.ForeColor = System.Drawing.Color.Black
-        Me.CBLongEdgeTaunts.Location = New System.Drawing.Point(9, 186)
-        Me.CBLongEdgeTaunts.Name = "CBLongEdgeTaunts"
-        Me.CBLongEdgeTaunts.Size = New System.Drawing.Size(163, 21)
-        Me.CBLongEdgeTaunts.TabIndex = 172
-        Me.CBLongEdgeTaunts.Text = "Allow Long Edge Taunts"
-        Me.CBLongEdgeTaunts.UseVisualStyleBackColor = True
+        Me.AllowLongEdgeTauntCB.Checked = True
+        Me.AllowLongEdgeTauntCB.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.AllowLongEdgeTauntCB.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.AllowLongEdgeTauntCB.ForeColor = System.Drawing.Color.Black
+        Me.AllowLongEdgeTauntCB.Location = New System.Drawing.Point(9, 186)
+        Me.AllowLongEdgeTauntCB.Name = "AllowLongEdgeTauntCB"
+        Me.AllowLongEdgeTauntCB.Size = New System.Drawing.Size(163, 21)
+        Me.AllowLongEdgeTauntCB.TabIndex = 172
+        Me.AllowLongEdgeTauntCB.Text = "Allow Long Edge Taunts"
+        Me.AllowLongEdgeTauntCB.UseVisualStyleBackColor = True
         '
         'Label131
         '
@@ -3971,9 +3977,9 @@ Partial Class FrmSettings
         '
         Me.GroupBox32.BackColor = System.Drawing.Color.LightGray
         Me.GroupBox32.Controls.Add(Me.LBLSubBdayFormat)
-        Me.GroupBox32.Controls.Add(Me.CBChastitySpikes)
+        Me.GroupBox32.Controls.Add(Me.ChastityDeviceContainsSpikesCB)
         Me.GroupBox32.Controls.Add(Me.CBOwnChastity)
-        Me.GroupBox32.Controls.Add(Me.CBChastityPA)
+        Me.GroupBox32.Controls.Add(Me.DoesChastityDeviceRequirePiercingCB)
         Me.GroupBox32.Controls.Add(Me.CBHimHer)
         Me.GroupBox32.Controls.Add(Me.CBBallsToPussy)
         Me.GroupBox32.Controls.Add(Me.CBCockToClit)
@@ -4011,16 +4017,16 @@ Partial Class FrmSettings
         Me.LBLSubBdayFormat.Text = "mm/dd"
         Me.LBLSubBdayFormat.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'CBChastitySpikes
+        'ChastityDeviceContainsSpikesCB
         '
-        Me.CBChastitySpikes.AutoSize = True
-        Me.CBChastitySpikes.Enabled = False
-        Me.CBChastitySpikes.Location = New System.Drawing.Point(191, 140)
-        Me.CBChastitySpikes.Name = "CBChastitySpikes"
-        Me.CBChastitySpikes.Size = New System.Drawing.Size(179, 17)
-        Me.CBChastitySpikes.TabIndex = 4
-        Me.CBChastitySpikes.Text = "Chastity Device Contains Spikes"
-        Me.CBChastitySpikes.UseVisualStyleBackColor = True
+        Me.ChastityDeviceContainsSpikesCB.AutoSize = True
+        Me.ChastityDeviceContainsSpikesCB.Enabled = False
+        Me.ChastityDeviceContainsSpikesCB.Location = New System.Drawing.Point(191, 140)
+        Me.ChastityDeviceContainsSpikesCB.Name = "ChastityDeviceContainsSpikesCB"
+        Me.ChastityDeviceContainsSpikesCB.Size = New System.Drawing.Size(179, 17)
+        Me.ChastityDeviceContainsSpikesCB.TabIndex = 4
+        Me.ChastityDeviceContainsSpikesCB.Text = "Chastity Device Contains Spikes"
+        Me.ChastityDeviceContainsSpikesCB.UseVisualStyleBackColor = True
         '
         'CBOwnChastity
         '
@@ -4032,16 +4038,16 @@ Partial Class FrmSettings
         Me.CBOwnChastity.Text = "Own Device a Chastity Device"
         Me.CBOwnChastity.UseVisualStyleBackColor = True
         '
-        'CBChastityPA
+        'DoesChastityDeviceRequirePiercingCB
         '
-        Me.CBChastityPA.AutoSize = True
-        Me.CBChastityPA.Enabled = False
-        Me.CBChastityPA.Location = New System.Drawing.Point(191, 115)
-        Me.CBChastityPA.Name = "CBChastityPA"
-        Me.CBChastityPA.Size = New System.Drawing.Size(195, 17)
-        Me.CBChastityPA.TabIndex = 3
-        Me.CBChastityPA.Text = "Chastity Device Requires a Piercing"
-        Me.CBChastityPA.UseVisualStyleBackColor = True
+        Me.DoesChastityDeviceRequirePiercingCB.AutoSize = True
+        Me.DoesChastityDeviceRequirePiercingCB.Enabled = False
+        Me.DoesChastityDeviceRequirePiercingCB.Location = New System.Drawing.Point(191, 115)
+        Me.DoesChastityDeviceRequirePiercingCB.Name = "DoesChastityDeviceRequirePiercingCB"
+        Me.DoesChastityDeviceRequirePiercingCB.Size = New System.Drawing.Size(195, 17)
+        Me.DoesChastityDeviceRequirePiercingCB.TabIndex = 3
+        Me.DoesChastityDeviceRequirePiercingCB.Text = "Chastity Device Requires a Piercing"
+        Me.DoesChastityDeviceRequirePiercingCB.UseVisualStyleBackColor = True
         '
         'CBHimHer
         '
@@ -12256,7 +12262,7 @@ Partial Class FrmSettings
         Me.GBRangeRuinChance.Controls.Add(Me.Label92)
         Me.GBRangeRuinChance.Controls.Add(Me.NBRuinRarely)
         Me.GBRangeRuinChance.Controls.Add(Me.NBRuinOften)
-        Me.GBRangeRuinChance.Controls.Add(Me.CBRangeRuin)
+        Me.GBRangeRuinChance.Controls.Add(Me.DommeDecideRuinCB)
         Me.GBRangeRuinChance.Location = New System.Drawing.Point(236, 159)
         Me.GBRangeRuinChance.Name = "GBRangeRuinChance"
         Me.GBRangeRuinChance.Size = New System.Drawing.Size(166, 122)
@@ -12333,16 +12339,16 @@ Partial Class FrmSettings
         Me.NBRuinOften.TabIndex = 168
         Me.NBRuinOften.Value = New Decimal(New Integer() {75, 0, 0, 0})
         '
-        'CBRangeRuin
+        'DommeDecideRuinCB
         '
-        Me.CBRangeRuin.AutoSize = True
-        Me.CBRangeRuin.ForeColor = System.Drawing.Color.Black
-        Me.CBRangeRuin.Location = New System.Drawing.Point(9, 19)
-        Me.CBRangeRuin.Name = "CBRangeRuin"
-        Me.CBRangeRuin.Size = New System.Drawing.Size(99, 17)
-        Me.CBRangeRuin.TabIndex = 159
-        Me.CBRangeRuin.Text = "Domme Decide"
-        Me.CBRangeRuin.UseVisualStyleBackColor = True
+        Me.DommeDecideRuinCB.AutoSize = True
+        Me.DommeDecideRuinCB.ForeColor = System.Drawing.Color.Black
+        Me.DommeDecideRuinCB.Location = New System.Drawing.Point(9, 19)
+        Me.DommeDecideRuinCB.Name = "DommeDecideRuinCB"
+        Me.DommeDecideRuinCB.Size = New System.Drawing.Size(99, 17)
+        Me.DommeDecideRuinCB.TabIndex = 159
+        Me.DommeDecideRuinCB.Text = "Domme Decide"
+        Me.DommeDecideRuinCB.UseVisualStyleBackColor = True
         '
         'GroupBox17
         '
@@ -12635,8 +12641,8 @@ Partial Class FrmSettings
         Me.GBRangeOrgasmChance.Controls.Add(Me.Label86)
         Me.GBRangeOrgasmChance.Controls.Add(Me.Label82)
         Me.GBRangeOrgasmChance.Controls.Add(Me.NBAllowRarely)
-        Me.GBRangeOrgasmChance.Controls.Add(Me.NBAllowOften)
-        Me.GBRangeOrgasmChance.Controls.Add(Me.CBRangeOrgasm)
+        Me.GBRangeOrgasmChance.Controls.Add(Me.AllowOrgasmOftenNB)
+        Me.GBRangeOrgasmChance.Controls.Add(Me.DommeDecideOrgasmCB)
         Me.GBRangeOrgasmChance.Location = New System.Drawing.Point(236, 31)
         Me.GBRangeOrgasmChance.Name = "GBRangeOrgasmChance"
         Me.GBRangeOrgasmChance.Size = New System.Drawing.Size(166, 122)
@@ -12702,27 +12708,27 @@ Partial Class FrmSettings
         Me.NBAllowRarely.TabIndex = 170
         Me.NBAllowRarely.Value = New Decimal(New Integer() {20, 0, 0, 0})
         '
-        'NBAllowOften
+        'AllowOrgasmOftenNB
         '
-        Me.NBAllowOften.Enabled = False
-        Me.NBAllowOften.Location = New System.Drawing.Point(113, 42)
-        Me.NBAllowOften.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
-        Me.NBAllowOften.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NBAllowOften.Name = "NBAllowOften"
-        Me.NBAllowOften.Size = New System.Drawing.Size(44, 20)
-        Me.NBAllowOften.TabIndex = 168
-        Me.NBAllowOften.Value = New Decimal(New Integer() {75, 0, 0, 0})
+        Me.AllowOrgasmOftenNB.Enabled = False
+        Me.AllowOrgasmOftenNB.Location = New System.Drawing.Point(113, 42)
+        Me.AllowOrgasmOftenNB.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
+        Me.AllowOrgasmOftenNB.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.AllowOrgasmOftenNB.Name = "AllowOrgasmOftenNB"
+        Me.AllowOrgasmOftenNB.Size = New System.Drawing.Size(44, 20)
+        Me.AllowOrgasmOftenNB.TabIndex = 168
+        Me.AllowOrgasmOftenNB.Value = New Decimal(New Integer() {75, 0, 0, 0})
         '
-        'CBRangeOrgasm
+        'DommeDecideOrgasmCB
         '
-        Me.CBRangeOrgasm.AutoSize = True
-        Me.CBRangeOrgasm.ForeColor = System.Drawing.Color.Black
-        Me.CBRangeOrgasm.Location = New System.Drawing.Point(9, 19)
-        Me.CBRangeOrgasm.Name = "CBRangeOrgasm"
-        Me.CBRangeOrgasm.Size = New System.Drawing.Size(99, 17)
-        Me.CBRangeOrgasm.TabIndex = 159
-        Me.CBRangeOrgasm.Text = "Domme Decide"
-        Me.CBRangeOrgasm.UseVisualStyleBackColor = True
+        Me.DommeDecideOrgasmCB.AutoSize = True
+        Me.DommeDecideOrgasmCB.ForeColor = System.Drawing.Color.Black
+        Me.DommeDecideOrgasmCB.Location = New System.Drawing.Point(9, 19)
+        Me.DommeDecideOrgasmCB.Name = "DommeDecideOrgasmCB"
+        Me.DommeDecideOrgasmCB.Size = New System.Drawing.Size(99, 17)
+        Me.DommeDecideOrgasmCB.TabIndex = 159
+        Me.DommeDecideOrgasmCB.Text = "Domme Decide"
+        Me.DommeDecideOrgasmCB.UseVisualStyleBackColor = True
         '
         'PictureBox8
         '
@@ -14797,94 +14803,94 @@ Partial Class FrmSettings
         Me.SettingsTabs.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         Me.PNLGeneralSettings.ResumeLayout(False)
-        Me.PNLGeneralSettings.PerformLayout()
+        Me.PNLGeneralSettings.PerformLayout
         Me.GroupBox64.ResumeLayout(False)
-        Me.GroupBox64.PerformLayout()
+        Me.GroupBox64.PerformLayout
         Me.GBDommeImages.ResumeLayout(False)
-        Me.GBDommeImages.PerformLayout()
-        CType(Me.slideshowNumBox, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GBDommeImages.PerformLayout
+        CType(Me.slideshowNumBox, System.ComponentModel.ISupportInitialize).EndInit
         Me.GBGeneralTextToSpeech.ResumeLayout(False)
-        Me.GBGeneralTextToSpeech.PerformLayout()
-        CType(Me.SliderVRate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.SliderVVolume, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GBGeneralTextToSpeech.PerformLayout
+        CType(Me.SliderVRate, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.SliderVVolume, System.ComponentModel.ISupportInitialize).EndInit
         Me.GBSafeword.ResumeLayout(False)
-        Me.GBSafeword.PerformLayout()
+        Me.GBSafeword.PerformLayout
         Me.GBGeneralSystem.ResumeLayout(False)
-        Me.GBGeneralSystem.PerformLayout()
+        Me.GBGeneralSystem.PerformLayout
         Me.GBGeneralImages.ResumeLayout(False)
-        Me.GBGeneralImages.PerformLayout()
-        CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GBGeneralImages.PerformLayout
+        CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).EndInit
         Me.GBGeneralSettings.ResumeLayout(False)
-        Me.GBGeneralSettings.PerformLayout()
+        Me.GBGeneralSettings.PerformLayout
         Me.GBSubFont.ResumeLayout(False)
-        CType(Me.NBFontSize, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.NBFontSize, System.ComponentModel.ISupportInitialize).EndInit
         Me.GBDommeFont.ResumeLayout(False)
-        CType(Me.NBFontSizeD, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.NBFontSizeD, System.ComponentModel.ISupportInitialize).EndInit
         Me.TabPage2.ResumeLayout(False)
         Me.Panel3.ResumeLayout(False)
-        Me.Panel3.PerformLayout()
-        CType(Me.PictureBox4, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Panel3.PerformLayout
+        CType(Me.PictureBox4, System.ComponentModel.ISupportInitialize).EndInit
         Me.GBDomTypingStyle.ResumeLayout(False)
-        Me.GBDomTypingStyle.PerformLayout()
-        CType(Me.NBTypoChance, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GBDomTypingStyle.PerformLayout
+        CType(Me.NBTypoChance, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox63.ResumeLayout(False)
-        Me.GroupBox63.PerformLayout()
+        Me.GroupBox63.PerformLayout
         Me.GBDomRanges.ResumeLayout(False)
-        CType(Me.NBDomMoodMax, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBDomMoodMin, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBSubAgeMax, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBSubAgeMin, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBSelfAgeMax, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBSelfAgeMin, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBAvgCockMax, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBAvgCockMin, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.NBDomMoodMax, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBDomMoodMin, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBSubAgeMax, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBSubAgeMin, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBSelfAgeMax, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBSelfAgeMin, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBAvgCockMax, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBAvgCockMin, System.ComponentModel.ISupportInitialize).EndInit
         Me.GBDomStats.ResumeLayout(False)
-        Me.GBDomStats.PerformLayout()
-        CType(Me.NBEmpathy, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBDomBirthdayDay, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.domageNumBox, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBDomBirthdayMonth, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.DominationLevel, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GBDomStats.PerformLayout
+        CType(Me.NBEmpathy, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBDomBirthdayDay, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.domageNumBox, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBDomBirthdayMonth, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.DominationLevel, System.ComponentModel.ISupportInitialize).EndInit
         Me.GBDomPersonality.ResumeLayout(False)
-        Me.GBDomPersonality.PerformLayout()
+        Me.GBDomPersonality.PerformLayout
         Me.GBDomOrgasms.ResumeLayout(False)
-        Me.GBDomOrgasms.PerformLayout()
-        CType(Me.orgasmsPerNumBox, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GBDomOrgasms.PerformLayout
+        CType(Me.orgasmsPerNumBox, System.ComponentModel.ISupportInitialize).EndInit
         Me.GBDomPetNames.ResumeLayout(False)
-        Me.GBDomPetNames.PerformLayout()
+        Me.GBDomPetNames.PerformLayout
         Me.TabPage10.ResumeLayout(False)
         Me.Panel2.ResumeLayout(False)
         Me.GroupBox22.ResumeLayout(False)
-        CType(Me.NBWritingTaskMax, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBWritingTaskMin, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.NBWritingTaskMax, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBWritingTaskMin, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox45.ResumeLayout(False)
-        CType(Me.CBTSlider, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.CockAndBallTortureLevelSlider, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox35.ResumeLayout(False)
         Me.GroupBox39.ResumeLayout(False)
-        Me.GroupBox39.PerformLayout()
+        Me.GroupBox39.PerformLayout
         Me.GroupBox38.ResumeLayout(False)
-        Me.GroupBox38.PerformLayout()
+        Me.GroupBox38.PerformLayout
         Me.GroupBox37.ResumeLayout(False)
-        Me.GroupBox37.PerformLayout()
+        Me.GroupBox37.PerformLayout
         Me.GroupBox36.ResumeLayout(False)
-        Me.GroupBox36.PerformLayout()
+        Me.GroupBox36.PerformLayout
         Me.GroupBox13.ResumeLayout(False)
         Me.GroupBox7.ResumeLayout(False)
-        Me.GroupBox7.PerformLayout()
-        CType(Me.NBExtremeHoldMin, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBExtremeHoldMax, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBLongHoldMin, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBLongHoldMax, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBLongEdge, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBHoldTheEdgeMin, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBHoldTheEdgeMax, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.PictureBox12, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GroupBox7.PerformLayout
+        CType(Me.ExtremeEdgeHoldMinimum, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.ExtremeEdgeHoldMaximum, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.LongEdgeHoldMinimum, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.LongEdgeHoldMaximum, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBLongEdge, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.HoldEdgeMinimum, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.HoldEdgeMaximum, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.PictureBox12, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox32.ResumeLayout(False)
-        Me.GroupBox32.PerformLayout()
-        CType(Me.NBBirthdayDay, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.subAgeNumBox, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBBirthdayMonth, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.CockSizeNumBox, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GroupBox32.PerformLayout
+        CType(Me.NBBirthdayDay, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.subAgeNumBox, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBBirthdayMonth, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.CockSizeNumBox, System.ComponentModel.ISupportInitialize).EndInit
         Me.TabPage16.ResumeLayout(False)
         Me.Panel9.ResumeLayout(False)
         Me.GroupBox31.ResumeLayout(False)
@@ -14894,234 +14900,234 @@ Partial Class FrmSettings
         Me.TabPage18.ResumeLayout(False)
         Me.TabPage19.ResumeLayout(False)
         Me.GroupBox42.ResumeLayout(False)
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox43.ResumeLayout(False)
         Me.TabPage7.ResumeLayout(False)
         Me.TabControl4.ResumeLayout(False)
         Me.TpImagesUrlFiles.ResumeLayout(False)
-        Me.TpImagesUrlFiles.PerformLayout()
+        Me.TpImagesUrlFiles.PerformLayout
         Me.GroupBox66.ResumeLayout(False)
-        CType(Me.PBURLPreview, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PBURLPreview, System.ComponentModel.ISupportInitialize).EndInit
         Me.TpImagesGenre.ResumeLayout(False)
         Me.GrbImageUrlFiles.ResumeLayout(False)
         Me.TlpImageUrls.ResumeLayout(False)
-        Me.TlpImageUrls.PerformLayout()
+        Me.TlpImageUrls.PerformLayout
         Me.GbxImagesGenre.ResumeLayout(False)
         Me.TableLayoutPanel1.ResumeLayout(False)
-        Me.TableLayoutPanel1.PerformLayout()
+        Me.TableLayoutPanel1.PerformLayout
         Me.TabPage33.ResumeLayout(False)
         Me.TabControl5.ResumeLayout(False)
         Me.TabPage34.ResumeLayout(False)
-        Me.TabPage34.PerformLayout()
-        CType(Me.ImageTagPictureBox, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.TabPage34.PerformLayout
+        CType(Me.ImageTagPictureBox, System.ComponentModel.ISupportInitialize).EndInit
         Me.TabPage35.ResumeLayout(False)
-        Me.TabPage35.PerformLayout()
+        Me.TabPage35.PerformLayout
         Me.GroupBox55.ResumeLayout(False)
-        Me.GroupBox55.PerformLayout()
+        Me.GroupBox55.PerformLayout
         Me.GroupBox53.ResumeLayout(False)
-        Me.GroupBox53.PerformLayout()
+        Me.GroupBox53.PerformLayout
         Me.GroupBox49.ResumeLayout(False)
-        Me.GroupBox49.PerformLayout()
+        Me.GroupBox49.PerformLayout
         Me.GroupBox46.ResumeLayout(False)
-        Me.GroupBox46.PerformLayout()
+        Me.GroupBox46.PerformLayout
         Me.GroupBox54.ResumeLayout(False)
-        Me.GroupBox54.PerformLayout()
+        Me.GroupBox54.PerformLayout
         Me.GroupBox51.ResumeLayout(False)
-        Me.GroupBox51.PerformLayout()
+        Me.GroupBox51.PerformLayout
         Me.GroupBox50.ResumeLayout(False)
-        Me.GroupBox50.PerformLayout()
+        Me.GroupBox50.PerformLayout
         Me.GroupBox48.ResumeLayout(False)
-        Me.GroupBox48.PerformLayout()
+        Me.GroupBox48.PerformLayout
         Me.TabPage11.ResumeLayout(False)
         Me.Panel7.ResumeLayout(False)
-        Me.Panel7.PerformLayout()
-        CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.WebPictureBox, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Panel7.PerformLayout
+        CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.WebPictureBox, System.ComponentModel.ISupportInitialize).EndInit
         Me.TpVideoSettings.ResumeLayout(False)
         Me.PnlVideoSettings.ResumeLayout(False)
-        CType(Me.PbBannerVideoSettings, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PbBannerVideoSettings, System.ComponentModel.ISupportInitialize).EndInit
         Me.GbxVideoGeneralD.ResumeLayout(False)
-        Me.GbxVideoGeneralD.PerformLayout()
+        Me.GbxVideoGeneralD.PerformLayout
         Me.GbxVideoSpecialD.ResumeLayout(False)
-        Me.GbxVideoSpecialD.PerformLayout()
+        Me.GbxVideoSpecialD.PerformLayout
         Me.GbxVideoGenreD.ResumeLayout(False)
-        Me.GbxVideoGenreD.PerformLayout()
+        Me.GbxVideoGenreD.PerformLayout
         Me.GbxVideoDescription.ResumeLayout(False)
         Me.GbxVideoGeneral.ResumeLayout(False)
-        Me.GbxVideoGeneral.PerformLayout()
+        Me.GbxVideoGeneral.PerformLayout
         Me.GbxVideoSpecial.ResumeLayout(False)
-        Me.GbxVideoSpecial.PerformLayout()
+        Me.GbxVideoSpecial.PerformLayout
         Me.GbxVideoGenre.ResumeLayout(False)
-        Me.GbxVideoGenre.PerformLayout()
+        Me.GbxVideoGenre.PerformLayout
         Me.TabPage20.ResumeLayout(False)
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage22.ResumeLayout(False)
         Me.PNLGlitter.ResumeLayout(False)
-        Me.PNLGlitter.PerformLayout()
+        Me.PNLGlitter.PerformLayout
         Me.GBGlitterD.ResumeLayout(False)
-        Me.GBGlitterD.PerformLayout()
+        Me.GBGlitterD.PerformLayout
         Me.GrbGlitterfeed.ResumeLayout(False)
-        Me.GrbGlitterfeed.PerformLayout()
-        CType(Me.GlitterSlider, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.GlitterAV, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GrbGlitterfeed.PerformLayout
+        CType(Me.GlitterSlider, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.GlitterAV, System.ComponentModel.ISupportInitialize).EndInit
         Me.GBGlitter1.ResumeLayout(False)
-        Me.GBGlitter1.PerformLayout()
-        CType(Me.GlitterSlider1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.GlitterAV1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GBGlitter1.PerformLayout
+        CType(Me.GlitterSlider1, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.GlitterAV1, System.ComponentModel.ISupportInitialize).EndInit
         Me.GBGlitter3.ResumeLayout(False)
-        Me.GBGlitter3.PerformLayout()
-        CType(Me.GlitterSlider3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.GlitterAV3, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GBGlitter3.PerformLayout
+        CType(Me.GlitterSlider3, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.GlitterAV3, System.ComponentModel.ISupportInitialize).EndInit
         Me.GBGlitter2.ResumeLayout(False)
-        Me.GBGlitter2.PerformLayout()
-        CType(Me.GlitterSlider2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.GlitterAV2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GBGlitter2.PerformLayout
+        CType(Me.GlitterSlider2, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.GlitterAV2, System.ComponentModel.ISupportInitialize).EndInit
         Me.TpGames.ResumeLayout(False)
-        Me.TpGames.PerformLayout()
+        Me.TpGames.PerformLayout
         Me.GbxCardsGold.ResumeLayout(False)
-        Me.GbxCardsGold.PerformLayout()
-        CType(Me.GP6, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.GP2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.GP5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.GP1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.GP3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.GP4, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GbxCardsGold.PerformLayout
+        CType(Me.GP6, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.GP2, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.GP5, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.GP1, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.GP3, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.GP4, System.ComponentModel.ISupportInitialize).EndInit
         Me.GbxCardsBackground.ResumeLayout(False)
-        CType(Me.CardBack, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.CardBack, System.ComponentModel.ISupportInitialize).EndInit
         Me.GbxCardsBronze.ResumeLayout(False)
-        Me.GbxCardsBronze.PerformLayout()
-        CType(Me.BP3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BP6, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BP5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BP2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BP4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BP1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GbxCardsBronze.PerformLayout
+        CType(Me.BP3, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BP6, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BP5, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BP2, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BP4, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.BP1, System.ComponentModel.ISupportInitialize).EndInit
         Me.GbxCardsSilver.ResumeLayout(False)
-        Me.GbxCardsSilver.PerformLayout()
-        CType(Me.SP6, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.SP2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.SP5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.SP1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.SP3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.SP4, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GbxCardsSilver.PerformLayout
+        CType(Me.SP6, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.SP2, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.SP5, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.SP1, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.SP3, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.SP4, System.ComponentModel.ISupportInitialize).EndInit
         Me.TabPage6.ResumeLayout(False)
         Me.Panel10.ResumeLayout(False)
-        Me.Panel10.PerformLayout()
-        CType(Me.NBWishlistCost, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Panel10.PerformLayout
+        CType(Me.NBWishlistCost, System.ComponentModel.ISupportInitialize).EndInit
         Me.PNLWishList.ResumeLayout(False)
-        CType(Me.WishlistCostSilver, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.WishlistCostGold, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.WishlistPreview, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.WishlistCostSilver, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.WishlistCostGold, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.WishlistPreview, System.ComponentModel.ISupportInitialize).EndInit
         Me.TabPage26.ResumeLayout(False)
         Me.Panel12.ResumeLayout(False)
         Me.GroupBox9.ResumeLayout(False)
-        CType(Me.PictureBox10, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PictureBox10, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox5.ResumeLayout(False)
-        Me.GroupBox5.PerformLayout()
+        Me.GroupBox5.PerformLayout
         Me.GroupBox11.ResumeLayout(False)
         Me.GroupBox1.ResumeLayout(False)
-        CType(Me.PBBackgroundPreview, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PBBackgroundPreview, System.ComponentModel.ISupportInitialize).EndInit
         Me.TabPage4.ResumeLayout(False)
         Me.Panel6.ResumeLayout(False)
         Me.GroupBox69.ResumeLayout(False)
-        Me.GroupBox69.PerformLayout()
-        CType(Me.TypeSpeedSlider, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GroupBox69.PerformLayout
+        CType(Me.TypeSpeedSlider, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox68.ResumeLayout(False)
-        CType(Me.NBTasksMax, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBTasksMin, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.NBTasksMax, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBTasksMin, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox67.ResumeLayout(False)
-        CType(Me.NBTaskCBTTimeMax, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBTaskCBTTimeMin, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBTaskEdgeHoldTimeMax, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBTaskEdgeHoldTimeMin, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBTaskEdgesMax, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBTaskEdgesMin, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBTaskStrokingTimeMax, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBTaskStrokingTimeMin, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBTaskStrokesMax, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBTaskStrokesMin, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.NBTaskCBTTimeMax, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBTaskCBTTimeMin, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBTaskEdgeHoldTimeMax, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBTaskEdgeHoldTimeMin, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBTaskEdgesMax, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBTaskEdgesMin, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBTaskStrokingTimeMax, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBTaskStrokingTimeMin, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBTaskStrokesMax, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBTaskStrokesMin, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox10.ResumeLayout(False)
-        CType(Me.NBNextImageChance, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.NBNextImageChance, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox57.ResumeLayout(False)
-        Me.GroupBox57.PerformLayout()
-        CType(Me.NBTauntEdging, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.SliderSTF, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TauntSlider, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBTauntCycleMax, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBTauntCycleMin, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBTeaseLengthMax, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBTeaseLengthMin, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GroupBox57.PerformLayout
+        CType(Me.NBTauntEdging, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.SliderSTF, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TauntSlider, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBTauntCycleMax, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBTauntCycleMin, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBTeaseLengthMax, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBTeaseLengthMin, System.ComponentModel.ISupportInitialize).EndInit
         Me.GBRangeRuinChance.ResumeLayout(False)
-        Me.GBRangeRuinChance.PerformLayout()
-        CType(Me.NBRuinSometimes, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBRuinRarely, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBRuinOften, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GBRangeRuinChance.PerformLayout
+        CType(Me.NBRuinSometimes, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBRuinRarely, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBRuinOften, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox17.ResumeLayout(False)
         Me.GroupBox19.ResumeLayout(False)
-        CType(Me.NBGreenLightMax, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBGreenLightMin, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBRedLightMax, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBRedLightMin, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.NBGreenLightMax, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBGreenLightMin, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBRedLightMax, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBRedLightMin, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox18.ResumeLayout(False)
-        Me.GroupBox18.PerformLayout()
-        CType(Me.NBCensorShowMin, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBCensorHideMax, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBCensorHideMin, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBCensorShowMax, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GroupBox18.PerformLayout
+        CType(Me.NBCensorShowMin, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBCensorHideMax, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBCensorHideMin, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBCensorShowMax, System.ComponentModel.ISupportInitialize).EndInit
         Me.GBRangeOrgasmChance.ResumeLayout(False)
-        Me.GBRangeOrgasmChance.PerformLayout()
-        CType(Me.NBAllowSometimes, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBAllowRarely, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NBAllowOften, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.PictureBox8, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GBRangeOrgasmChance.PerformLayout
+        CType(Me.NBAllowSometimes, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBAllowRarely, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.AllowOrgasmOftenNB, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.PictureBox8, System.ComponentModel.ISupportInitialize).EndInit
         Me.TabPage13.ResumeLayout(False)
         Me.TabControl2.ResumeLayout(False)
         Me.TabPage27.ResumeLayout(False)
-        Me.TabPage27.PerformLayout()
+        Me.TabPage27.PerformLayout
         Me.TabPage14.ResumeLayout(False)
-        Me.TabPage14.PerformLayout()
+        Me.TabPage14.PerformLayout
         Me.TabPage24.ResumeLayout(False)
-        Me.TabPage24.PerformLayout()
+        Me.TabPage24.PerformLayout
         Me.TabPage8.ResumeLayout(False)
         Me.GroupBox29.ResumeLayout(False)
         Me.GroupBox28.ResumeLayout(False)
         Me.GroupBox30.ResumeLayout(False)
         Me.TabPage15.ResumeLayout(False)
-        Me.TabPage15.PerformLayout()
+        Me.TabPage15.PerformLayout
         Me.GroupBox34.ResumeLayout(False)
         Me.TabPage25.ResumeLayout(False)
         Me.Panel11.ResumeLayout(False)
         Me.GroupBox62.ResumeLayout(False)
-        Me.GroupBox62.PerformLayout()
+        Me.GroupBox62.PerformLayout
         Me.GroupBox33.ResumeLayout(False)
         Me.GroupBox27.ResumeLayout(False)
-        Me.GroupBox27.PerformLayout()
+        Me.GroupBox27.PerformLayout
         Me.GroupBox20.ResumeLayout(False)
-        Me.GroupBox20.PerformLayout()
+        Me.GroupBox20.PerformLayout
         Me.GroupBox15.ResumeLayout(False)
-        Me.GroupBox15.PerformLayout()
-        CType(Me.PictureBox9, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GroupBox15.PerformLayout
+        CType(Me.PictureBox9, System.ComponentModel.ISupportInitialize).EndInit
         Me.TabPage28.ResumeLayout(False)
         Me.TabControl3.ResumeLayout(False)
         Me.TabPage29.ResumeLayout(False)
         Me.GroupBox26.ResumeLayout(False)
-        Me.GroupBox26.PerformLayout()
+        Me.GroupBox26.PerformLayout
         Me.TabPage30.ResumeLayout(False)
         Me.TabPage5.ResumeLayout(False)
         Me.Panel5.ResumeLayout(False)
-        Me.Panel5.PerformLayout()
-        CType(Me.PictureBox3, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Panel5.PerformLayout
+        CType(Me.PictureBox3, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox47.ResumeLayout(False)
         Me.GroupBox41.ResumeLayout(False)
         Me.GroupBox44.ResumeLayout(False)
         Me.GroupBox6.ResumeLayout(False)
-        Me.GroupBox6.PerformLayout()
+        Me.GroupBox6.PerformLayout
         Me.GroupBox21.ResumeLayout(False)
         Me.GroupBox12.ResumeLayout(False)
         Me.GroupBox65.ResumeLayout(False)
-        Me.GroupBox65.PerformLayout()
-        CType(Me.TrackBar1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TrackBar2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GroupBox65.PerformLayout
+        CType(Me.TrackBar1, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TrackBar2, System.ComponentModel.ISupportInitialize).EndInit
         Me.ResumeLayout(False)
 
     End Sub
@@ -15234,7 +15240,7 @@ Partial Class FrmSettings
     Friend WithEvents NBWritingTaskMin As System.Windows.Forms.NumericUpDown
     Friend WithEvents Label75 As System.Windows.Forms.Label
     Friend WithEvents Label77 As System.Windows.Forms.Label
-    Friend WithEvents NBHoldTheEdgeMax As System.Windows.Forms.NumericUpDown
+    Friend WithEvents HoldEdgeMaximum As System.Windows.Forms.NumericUpDown
     Friend WithEvents Label81 As System.Windows.Forms.Label
     Friend WithEvents NBLongEdge As System.Windows.Forms.NumericUpDown
     Friend WithEvents LBLStrokeTimeTotal As System.Windows.Forms.Label
@@ -15499,10 +15505,10 @@ Partial Class FrmSettings
     Friend WithEvents slideshowNumBox As System.Windows.Forms.NumericUpDown
     Friend WithEvents timedRadio As System.Windows.Forms.RadioButton
     Friend WithEvents Label2 As System.Windows.Forms.Label
-    Friend WithEvents FontComboBox As System.Windows.Forms.ComboBox
+    Friend WithEvents SubMessageFontCB As System.Windows.Forms.ComboBox
     Friend WithEvents NBFontSize As System.Windows.Forms.NumericUpDown
     Friend WithEvents Label7 As System.Windows.Forms.Label
-    Friend WithEvents FontComboBoxD As System.Windows.Forms.ComboBox
+    Friend WithEvents DommeMessageFontCB As System.Windows.Forms.ComboBox
     Friend WithEvents NBFontSizeD As System.Windows.Forms.NumericUpDown
     Friend WithEvents GBDommeFont As System.Windows.Forms.GroupBox
     Friend WithEvents GBSubFont As System.Windows.Forms.GroupBox
@@ -15594,18 +15600,18 @@ Partial Class FrmSettings
 	Friend WithEvents BTNScriptNone As System.Windows.Forms.Button
 	Friend WithEvents BTNScriptAll As System.Windows.Forms.Button
 	Friend WithEvents GroupBox45 As System.Windows.Forms.GroupBox
-	Friend WithEvents CBCBTBalls As System.Windows.Forms.CheckBox
-	Friend WithEvents CBCBTCock As System.Windows.Forms.CheckBox
+	Friend WithEvents BallTortureEnabledCB As System.Windows.Forms.CheckBox
+	Friend WithEvents CockTortureEnabledCB As System.Windows.Forms.CheckBox
 	Friend WithEvents TabPage8 As System.Windows.Forms.TabPage
 	Friend WithEvents OpenSettingsDialog As System.Windows.Forms.OpenFileDialog
 	Friend WithEvents SaveSettingsDialog As System.Windows.Forms.SaveFileDialog
-	Friend WithEvents CBChastitySpikes As System.Windows.Forms.CheckBox
-	Friend WithEvents CBChastityPA As System.Windows.Forms.CheckBox
-	Friend WithEvents CBLongEdgeInterrupts As System.Windows.Forms.CheckBox
+	Friend WithEvents ChastityDeviceContainsSpikesCB As System.Windows.Forms.CheckBox
+	Friend WithEvents DoesChastityDeviceRequirePiercingCB As System.Windows.Forms.CheckBox
+	Friend WithEvents AllowLongEdgeInterruptCB As System.Windows.Forms.CheckBox
 	Friend WithEvents Label55 As System.Windows.Forms.Label
-	Friend WithEvents CBLongEdgeTaunts As System.Windows.Forms.CheckBox
-	Friend WithEvents LBLCBTSlider As System.Windows.Forms.Label
-	Friend WithEvents CBTSlider As System.Windows.Forms.TrackBar
+	Friend WithEvents AllowLongEdgeTauntCB As System.Windows.Forms.CheckBox
+	Friend WithEvents CockAndBallTortureLevelLbl As System.Windows.Forms.Label
+	Friend WithEvents CockAndBallTortureLevelSlider As System.Windows.Forms.TrackBar
 	Friend WithEvents TBDomEyeColor As System.Windows.Forms.TextBox
 	Friend WithEvents TBDomHairColor As System.Windows.Forms.TextBox
 	Friend WithEvents TBSubEyeColor As System.Windows.Forms.TextBox
@@ -15624,8 +15630,8 @@ Partial Class FrmSettings
 	Friend WithEvents Label86 As System.Windows.Forms.Label
 	Friend WithEvents Label82 As System.Windows.Forms.Label
 	Friend WithEvents NBAllowRarely As System.Windows.Forms.NumericUpDown
-	Friend WithEvents NBAllowOften As System.Windows.Forms.NumericUpDown
-	Friend WithEvents CBRangeOrgasm As System.Windows.Forms.CheckBox
+	Friend WithEvents AllowOrgasmOftenNB As System.Windows.Forms.NumericUpDown
+	Friend WithEvents DommeDecideOrgasmCB As System.Windows.Forms.CheckBox
 	Friend WithEvents GBRangeRuinChance As System.Windows.Forms.GroupBox
 	Friend WithEvents Label90 As System.Windows.Forms.Label
 	Friend WithEvents NBRuinSometimes As System.Windows.Forms.NumericUpDown
@@ -15633,7 +15639,7 @@ Partial Class FrmSettings
 	Friend WithEvents Label92 As System.Windows.Forms.Label
 	Friend WithEvents NBRuinRarely As System.Windows.Forms.NumericUpDown
 	Friend WithEvents NBRuinOften As System.Windows.Forms.NumericUpDown
-	Friend WithEvents CBRangeRuin As System.Windows.Forms.CheckBox
+	Friend WithEvents DommeDecideRuinCB As System.Windows.Forms.CheckBox
 	Friend WithEvents GroupBox57 As System.Windows.Forms.GroupBox
 	Friend WithEvents LBLSafeword As System.Windows.Forms.Label
 	Friend WithEvents TBSafeword As System.Windows.Forms.TextBox
@@ -15685,7 +15691,7 @@ Partial Class FrmSettings
 	Friend WithEvents CBGameSounds As System.Windows.Forms.CheckBox
 	Friend WithEvents LblCardsSetupNote As System.Windows.Forms.Label
 	Friend WithEvents TabPage5 As System.Windows.Forms.TabPage
-	Friend WithEvents CBEdgeUseAvg As System.Windows.Forms.CheckBox
+	Friend WithEvents UseAverageEdgeThresholdCB As System.Windows.Forms.CheckBox
 	Friend WithEvents LBLLastRuined As System.Windows.Forms.Label
 	Friend WithEvents TabPage24 As System.Windows.Forms.TabPage
 	Friend WithEvents Button4 As System.Windows.Forms.Button
@@ -15861,8 +15867,8 @@ Partial Class FrmSettings
 	Friend WithEvents GroupBox13 As System.Windows.Forms.GroupBox
 	Friend WithEvents TimeBoxWakeUp As System.Windows.Forms.DateTimePicker
 	Friend WithEvents Label5 As System.Windows.Forms.Label
-	Friend WithEvents LBLMinHold As System.Windows.Forms.Label
-	Friend WithEvents NBHoldTheEdgeMin As System.Windows.Forms.NumericUpDown
+	Friend WithEvents HoldEdgeMinimumUnits As System.Windows.Forms.Label
+	Friend WithEvents HoldEdgeMinimum As System.Windows.Forms.NumericUpDown
 	Friend WithEvents LBLMaxHold As System.Windows.Forms.Label
 	Friend WithEvents Label79 As System.Windows.Forms.Label
 	Friend WithEvents GroupBox22 As System.Windows.Forms.GroupBox
@@ -15882,15 +15888,15 @@ Partial Class FrmSettings
 	Friend WithEvents Label68 As System.Windows.Forms.Label
 	Friend WithEvents LBLMaxExtremeHold As System.Windows.Forms.Label
 	Friend WithEvents LBLMinExtremeHold As System.Windows.Forms.Label
-	Friend WithEvents NBExtremeHoldMin As System.Windows.Forms.NumericUpDown
+	Friend WithEvents ExtremeEdgeHoldMinimum As System.Windows.Forms.NumericUpDown
 	Friend WithEvents Label133 As System.Windows.Forms.Label
-	Friend WithEvents NBExtremeHoldMax As System.Windows.Forms.NumericUpDown
+	Friend WithEvents ExtremeEdgeHoldMaximum As System.Windows.Forms.NumericUpDown
 	Friend WithEvents LBLMaxLongHold As System.Windows.Forms.Label
 	Friend WithEvents Label78 As System.Windows.Forms.Label
 	Friend WithEvents LBLMinLongHold As System.Windows.Forms.Label
-	Friend WithEvents NBLongHoldMin As System.Windows.Forms.NumericUpDown
+	Friend WithEvents LongEdgeHoldMinimum As System.Windows.Forms.NumericUpDown
 	Friend WithEvents Label129 As System.Windows.Forms.Label
-	Friend WithEvents NBLongHoldMax As System.Windows.Forms.NumericUpDown
+	Friend WithEvents LongEdgeHoldMaximum As System.Windows.Forms.NumericUpDown
 	Friend WithEvents Label131 As System.Windows.Forms.Label
 	Friend WithEvents CBWebtease As System.Windows.Forms.CheckBox
 	Friend WithEvents TabPage28 As System.Windows.Forms.TabPage

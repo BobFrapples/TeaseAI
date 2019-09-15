@@ -4,4 +4,10 @@
 		Trace.WriteLine(LBLSplash.Text)
 #End If
 	End Sub
+
+    Public Sub UpdateText(displayString As String)
+        PBSplash.Value += 1
+        LBLSplash.Text = displayString
+        Refresh()
+    End Sub
 End Class

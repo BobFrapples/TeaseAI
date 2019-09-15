@@ -4786,43 +4786,19 @@ Namespace My
                 Me("HoldTheEdgeMin") = value
             End Set
         End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("seconds")>  _
-        Public Property HoldTheEdgeMinAmount() As String
-            Get
-                Return CType(Me("HoldTheEdgeMinAmount"),String)
-            End Get
-            Set
-                Me("HoldTheEdgeMinAmount") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("minutes")>  _
-        Public Property HoldTheEdgeMaxAmount() As String
-            Get
-                Return CType(Me("HoldTheEdgeMaxAmount"),String)
-            End Get
-            Set
-                Me("HoldTheEdgeMaxAmount") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("200")>  _
+
+        <Global.System.Configuration.UserScopedSettingAttribute(),
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
+         Global.System.Configuration.DefaultSettingValueAttribute("200")>
         Public Property MaxPace() As Integer
             Get
-                Return CType(Me("MaxPace"),Integer)
+                Return CType(Me("MaxPace"), Integer)
             End Get
             Set
-                Me("MaxPace") = value
+                Me("MaxPace") = Value
             End Set
         End Property
-        
+
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("1000")>  _
@@ -5064,41 +5040,41 @@ Namespace My
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("5")>  _
-        Public Property LongHoldMax() As String
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
+         Global.System.Configuration.DefaultSettingValueAttribute("5")>
+        Public Property LongHoldMax() As Integer
             Get
-                Return CType(Me("LongHoldMax"),String)
+                Return CType(Me("LongHoldMax"), Integer)
             End Get
             Set
-                Me("LongHoldMax") = value
+                Me("LongHoldMax") = Value
             End Set
         End Property
-        
+
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("5")>  _
-        Public Property ExtremeHoldMin() As String
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
+         Global.System.Configuration.DefaultSettingValueAttribute("5")>
+        Public Property ExtremeHoldMin() As Integer
             Get
-                Return CType(Me("ExtremeHoldMin"),String)
+                Return CType(Me("ExtremeHoldMin"), Integer)
             End Get
             Set
-                Me("ExtremeHoldMin") = value
+                Me("ExtremeHoldMin") = Value
             End Set
         End Property
-        
+
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("10")>  _
-        Public Property ExtremeHoldMax() As String
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
+         Global.System.Configuration.DefaultSettingValueAttribute("10")>
+        Public Property ExtremeHoldMax() As Integer
             Get
-                Return CType(Me("ExtremeHoldMax"),String)
+                Return CType(Me("ExtremeHoldMax"), Integer)
             End Get
             Set
-                Me("ExtremeHoldMax") = value
+                Me("ExtremeHoldMax") = Value
             End Set
         End Property
-        
+
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("False")>  _

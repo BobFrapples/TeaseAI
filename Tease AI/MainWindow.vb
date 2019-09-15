@@ -299,12 +299,6 @@ ByVal lpstrReturnString As String, ByVal uReturnLength As Integer, ByVal hwndCal
         Return returnValue
     End Function
 
-    Private Sub UpdateSplashText(displayString As String)
-        FrmSplash.PBSplash.Value += 1
-        FrmSplash.LBLSplash.Text = displayString
-        FrmSplash.Refresh()
-    End Sub
-
     Private Sub Form1_Load(sender As Object, e As System.EventArgs) Handles Me.Load
         Try
 retryStart:
@@ -318,15 +312,15 @@ retryStart:
             FrmSplash.PBSplash.Value = 0
             FrmSplash.Show()
 
-            UpdateSplashText("checking orgasm limit...")
+            FrmSplash.UpdateText("checking orgasm limit...")
             If My.Settings.OrgasmLockDate = Nothing Then
                 My.Settings.OrgasmLockDate = FormatDateTime(Now, DateFormat.ShortDate)
             End If
 
-            UpdateSplashText("Clearing Metronome settings...")
+            FrmSplash.UpdateText("Clearing Metronome settings...")
             StrokePace = 0
 
-            UpdateSplashText("Checking terms and conditions...")
+            FrmSplash.UpdateText("Checking terms and conditions...")
             If My.Settings.TC2Agreed = False Then
                 Form7.Show()
                 Do
@@ -334,7 +328,7 @@ retryStart:
                 Loop Until My.Settings.TC2Agreed = True
             End If
 
-            UpdateSplashText("Checking installed personalities...")
+            FrmSplash.UpdateText("Checking installed personalities...")
 
             Dim personalities As List(Of String) = GetDommePersonalities(Application.StartupPath & "\Scripts\")
             dompersonalitycombobox.Items.AddRange(personalities.ToArray())
@@ -359,7 +353,7 @@ retryStart:
             ssh.StrokeTimeTotal = My.Settings.StrokeTimeTotal
             StrokeTimeTotalTimer.Start()
 
-            UpdateSplashText("Calculating total stroke time...")
+            FrmSplash.UpdateText("Calculating total stroke time...")
             Dim STT As TimeSpan = TimeSpan.FromSeconds(ssh.StrokeTimeTotal)
             FrmSettings.LBLStrokeTimeTotal.Text = String.Format("{0:0000}:{1:00}:{2:00}:{3:00}", STT.Days, STT.Hours, STT.Minutes, STT.Seconds)
 
@@ -376,14 +370,14 @@ retryStart:
 
             IsTypingTimer.Start()
 
-            UpdateSplashText("Loading Domme and Sub avatar images...")
+            FrmSplash.UpdateText("Loading Domme and Sub avatar images...")
             Dim avatar As String = mySettingsAccessor.GetDommeAvatarImageName()
             If File.Exists(avatar) Then
                 domAvatar.Image = Image.FromFile(avatar)
             End If
             'If File.Exists(My.Settings.SubAvatarSave) Then subAvatar.Image = Image.FromFile(My.Settings.SubAvatarSave)
 
-            UpdateSplashText("Checking recent slideshows...")
+            FrmSplash.UpdateText("Checking recent slideshows...")
 
             For Each path As String In My.Settings.RecentSlideshows
                 If Directory.Exists(path) Then ImageFolderComboBox.Items.Add(path)
@@ -394,19 +388,19 @@ retryStart:
                 My.Settings.RecentSlideshows.Add(comboitem)
             Next
 
-            UpdateSplashText("Checking local videos...")
+            FrmSplash.UpdateText("Checking local videos...")
             ' Checks all folders and Sets the VideoCount as LabelText
             FrmSettings.Video_CheckAllFolders()
 
             ssh.VideoType = "General"
 
-            UpdateSplashText("Loading Glitter avatar images...")
+            FrmSplash.UpdateText("Loading Glitter avatar images...")
             If File.Exists(My.Settings.GlitterAV) Then FrmSettings.GlitterAV.Image = Image.FromFile(My.Settings.GlitterAV)
             If File.Exists(My.Settings.GlitterAV1) Then FrmSettings.GlitterAV1.Image = Image.FromFile(My.Settings.GlitterAV1)
             If File.Exists(My.Settings.GlitterAV2) Then FrmSettings.GlitterAV2.Image = Image.FromFile(My.Settings.GlitterAV2)
             If File.Exists(My.Settings.GlitterAV3) Then FrmSettings.GlitterAV3.Image = Image.FromFile(My.Settings.GlitterAV3)
 
-            UpdateSplashText("Loading Glitter settings...")
+            FrmSplash.UpdateText("Loading Glitter settings...")
             ssh.UpdatesTick = 120
             UpdatesTimer.Start()
 
@@ -426,7 +420,7 @@ retryStart:
                 My.Settings.CBGlitterFeedOff = True
             End If
 
-            UpdateSplashText("Loading names...")
+            FrmSplash.UpdateText("Loading names...")
 
             domName.Text = mySettingsAccessor.GetDommeName()
             subName.Text = mySettingsAccessor.GetSubName()
@@ -440,7 +434,7 @@ retryStart:
             FrmSettings.petnameBox7.Text = My.Settings.pnSetting7
             FrmSettings.petnameBox8.Text = My.Settings.pnSetting8
 
-            UpdateSplashText("Loading General Settings...")
+            FrmSplash.UpdateText("Loading General Settings...")
 
             If My.Settings.CBTimeStamps = True Then
                 FrmSettings.timestampCheckBox.Checked = True
@@ -741,9 +735,9 @@ retryStart:
             FrmSettings.TBSubEyeColor.Text = My.Settings.SubEyes
 
 
-            FrmSettings.FontComboBoxD.Text = My.Settings.DomFont
+            FrmSettings.DommeMessageFontCB.Text = My.Settings.DomFont
             FrmSettings.NBFontSizeD.Text = My.Settings.DomFontSize
-            FrmSettings.FontComboBox.Text = My.Settings.SubFont
+            FrmSettings.SubMessageFontCB.Text = My.Settings.SubFont
             FrmSettings.NBFontSize.Text = My.Settings.SubFontSize
 
             FrmSplash.PBSplash.Value += 1
@@ -5438,10 +5432,10 @@ StatusUpdateEnd:
         If StringClean.Contains("#RandomSlideshowCategory") Then StringClean = StringClean.Replace("#RandomSlideshowCategory", ssh.RandomSlideshowCategory)
 
         If StringClean.Contains("#EdgeHold") Then
-            Dim i As Integer = FrmSettings.NBHoldTheEdgeMin.Value
-            If FrmSettings.LBLMinHold.Text = "minutes" Then i *= 60
+            Dim i As Integer = FrmSettings.HoldEdgeMinimum.Value
+            If FrmSettings.HoldEdgeMinimumUnits.Text = "minutes" Then i *= 60
 
-            Dim x As Integer = FrmSettings.NBHoldTheEdgeMax.Value
+            Dim x As Integer = FrmSettings.HoldEdgeMaximum.Value
             If FrmSettings.LBLMaxHold.Text = "minutes" Then x *= 60
 
             Dim t As Integer = ssh.randomizer.Next(i, x + 1)
@@ -5451,8 +5445,8 @@ StatusUpdateEnd:
         End If
 
         If StringClean.Contains("#LongHold") Then
-            Dim i As Integer = FrmSettings.NBLongHoldMin.Value
-            Dim x As Integer = FrmSettings.NBLongHoldMax.Value
+            Dim i As Integer = FrmSettings.LongEdgeHoldMinimum.Value
+            Dim x As Integer = FrmSettings.LongEdgeHoldMaximum.Value
             Dim t As Integer = ssh.randomizer.Next(i, x + 1)
             t *= 60
             If t >= 5 Then t = 5 * Math.Round(t / 5)
@@ -5461,8 +5455,8 @@ StatusUpdateEnd:
         End If
 
         If StringClean.Contains("#ExtremeHold") Then
-            Dim i As Integer = FrmSettings.NBExtremeHoldMin.Value
-            Dim x As Integer = FrmSettings.NBExtremeHoldMax.Value
+            Dim i As Integer = FrmSettings.ExtremeEdgeHoldMinimum.Value
+            Dim x As Integer = FrmSettings.ExtremeEdgeHoldMaximum.Value
             Dim t As Integer = ssh.randomizer.Next(i, x + 1)
             t *= 60
             If t >= 5 Then t = 5 * Math.Round(t / 5)
@@ -7501,7 +7495,7 @@ TaskCleanSet:
         End If
 
         If StringClean.Contains("@CBTBalls") Then
-            If FrmSettings.CBCBTBalls.Checked = True Then
+            If FrmSettings.BallTortureEnabledCB.Checked = True Then
                 ssh.CBTBallsActive = True
                 ssh.CBTBallsFlag = True
                 ssh.TasksCount = ssh.randomizer.Next(FrmSettings.NBTasksMin.Value, FrmSettings.NBTasksMax.Value + 1)
@@ -7510,7 +7504,7 @@ TaskCleanSet:
         End If
 
         If StringClean.Contains("@CBTCock") Then
-            If FrmSettings.CBCBTCock.Checked = True Then
+            If FrmSettings.CockTortureEnabledCB.Checked = True Then
                 ssh.CBTCockActive = True
                 ssh.CBTCockFlag = True
                 ssh.TasksCount = ssh.randomizer.Next(FrmSettings.NBTasksMin.Value, FrmSettings.NBTasksMax.Value + 1)
@@ -7520,7 +7514,7 @@ TaskCleanSet:
 
         If StringClean.Contains("@CBT") And Not StringClean.Contains("@CBTLevel") Then
 
-            If FrmSettings.CBCBTCock.Checked = True And FrmSettings.CBCBTBalls.Checked = True Then
+            If FrmSettings.CockTortureEnabledCB.Checked = True And FrmSettings.BallTortureEnabledCB.Checked = True Then
                 ssh.CBTBothActive = True
                 ssh.CBTBothFlag = True
                 ssh.TasksCount = ssh.randomizer.Next(FrmSettings.NBTasksMin.Value, FrmSettings.NBTasksMax.Value + 1)
@@ -7599,14 +7593,14 @@ TaskCleanSet:
             If FrmSettings.alloworgasmComboBox.Text = "Never Allows" Then OrgasmThreshold = 0
             If FrmSettings.alloworgasmComboBox.Text = "Always Allows" Then OrgasmThreshold = 1000
 
-            If FrmSettings.CBRangeOrgasm.Checked = True Then
+            If FrmSettings.DommeDecideOrgasmCB.Checked = True Then
                 If FrmSettings.alloworgasmComboBox.Text = "Rarely Allows" Then OrgasmThreshold = 20
                 If FrmSettings.alloworgasmComboBox.Text = "Sometimes Allows" Then OrgasmThreshold = 50
                 If FrmSettings.alloworgasmComboBox.Text = "Often Allows" Then OrgasmThreshold = 75
             Else
                 If FrmSettings.alloworgasmComboBox.Text = "Rarely Allows" Then OrgasmThreshold = FrmSettings.NBAllowRarely.Value
                 If FrmSettings.alloworgasmComboBox.Text = "Sometimes Allows" Then OrgasmThreshold = FrmSettings.NBAllowSometimes.Value
-                If FrmSettings.alloworgasmComboBox.Text = "Often Allows" Then OrgasmThreshold = FrmSettings.NBAllowOften.Value
+                If FrmSettings.alloworgasmComboBox.Text = "Often Allows" Then OrgasmThreshold = FrmSettings.AllowOrgasmOftenNB.Value
             End If
 
 
@@ -7624,7 +7618,7 @@ TaskCleanSet:
             If FrmSettings.ruinorgasmComboBox.Text = "Always Ruins" Then RuinThreshold = 1000
 
 
-            If FrmSettings.CBRangeRuin.Checked = True Then
+            If FrmSettings.DommeDecideRuinCB.Checked = True Then
                 If FrmSettings.ruinorgasmComboBox.Text = "Rarely Ruins" Then RuinThreshold = 20
                 If FrmSettings.ruinorgasmComboBox.Text = "Sometimes Ruins" Then RuinThreshold = 50
                 If FrmSettings.ruinorgasmComboBox.Text = "Often Ruins" Then RuinThreshold = 75
@@ -8091,20 +8085,20 @@ OrgasmDecided:
 
             ssh.HoldEdgeTick = ssh.HoldEdgeChance
 
-            Dim HoldEdgeMin As Integer = FrmSettings.NBHoldTheEdgeMin.Value
-            If FrmSettings.LBLMinHold.Text = "minutes" Then HoldEdgeMin *= 60
+            Dim HoldEdgeMin As Integer = FrmSettings.HoldEdgeMinimum.Value
+            If FrmSettings.HoldEdgeMinimumUnits.Text = "minutes" Then HoldEdgeMin *= 60
 
-            Dim HoldEdgeMax As Integer = FrmSettings.NBHoldTheEdgeMax.Value
+            Dim HoldEdgeMax As Integer = FrmSettings.HoldEdgeMaximum.Value
             If FrmSettings.LBLMaxHold.Text = "minutes" Then HoldEdgeMax *= 60
 
             If ssh.ExtremeHold = True Then
-                HoldEdgeMin = FrmSettings.NBExtremeHoldMin.Value * 60
-                HoldEdgeMax = FrmSettings.NBExtremeHoldMax.Value * 60
+                HoldEdgeMin = FrmSettings.ExtremeEdgeHoldMinimum.Value * 60
+                HoldEdgeMax = FrmSettings.ExtremeEdgeHoldMaximum.Value * 60
             End If
 
             If ssh.LongHold = True Then
-                HoldEdgeMin = FrmSettings.NBLongHoldMin.Value * 60
-                HoldEdgeMax = FrmSettings.NBLongHoldMax.Value * 60
+                HoldEdgeMin = FrmSettings.LongEdgeHoldMinimum.Value * 60
+                HoldEdgeMax = FrmSettings.LongEdgeHoldMaximum.Value * 60
             End If
 
 
@@ -8171,10 +8165,10 @@ OrgasmDecided:
 
                 ssh.HoldEdgeTick = ssh.HoldEdgeChance
 
-                Dim HoldEdgeMin As Integer = FrmSettings.NBHoldTheEdgeMin.Value
-                If FrmSettings.LBLMinHold.Text = "minutes" Then HoldEdgeMin *= 60
+                Dim HoldEdgeMin As Integer = FrmSettings.HoldEdgeMinimum.Value
+                If FrmSettings.HoldEdgeMinimumUnits.Text = "minutes" Then HoldEdgeMin *= 60
 
-                Dim HoldEdgeMax As Integer = FrmSettings.NBHoldTheEdgeMax.Value
+                Dim HoldEdgeMax As Integer = FrmSettings.HoldEdgeMaximum.Value
                 If FrmSettings.LBLMaxHold.Text = "minutes" Then HoldEdgeMax *= 60
 
                 If HoldEdgeMax < HoldEdgeMin Then HoldEdgeMax = HoldEdgeMin + 1
@@ -8728,10 +8722,10 @@ ExternalAudio:
         If StringClean.Contains("@AddEdgeHoldTime") Then
 
             If HoldEdgeTimer.Enabled = True Then
-                Dim HoldEdgeMin As Integer = FrmSettings.NBHoldTheEdgeMin.Value
-                If FrmSettings.LBLMinHold.Text = "minutes" Then HoldEdgeMin *= 60
+                Dim HoldEdgeMin As Integer = FrmSettings.HoldEdgeMinimum.Value
+                If FrmSettings.HoldEdgeMinimumUnits.Text = "minutes" Then HoldEdgeMin *= 60
 
-                Dim HoldEdgeMax As Integer = FrmSettings.NBHoldTheEdgeMax.Value
+                Dim HoldEdgeMax As Integer = FrmSettings.HoldEdgeMaximum.Value
                 If FrmSettings.LBLMaxHold.Text = "minutes" Then HoldEdgeMax *= 60
 
                 If HoldEdgeMax < HoldEdgeMin Then HoldEdgeMax = HoldEdgeMin + 1
@@ -10702,10 +10696,10 @@ SkipTextedTags:
             End If
 
             If FilterString.Contains("@LongEdge") Then
-                If ssh.LongEdge = False Or FrmSettings.CBLongEdgeTaunts.Checked = False Then Return False
+                If ssh.LongEdge = False Or FrmSettings.AllowLongEdgeTauntCB.Checked = False Then Return False
             End If
             If FilterString.Contains("@InterruptLongEdge") Then
-                If ssh.LongEdge = False Or FrmSettings.CBLongEdgeInterrupts.Checked = False Or ssh.TeaseTick < 1 Or ssh.RiskyEdges = True Then Return False
+                If ssh.LongEdge = False Or FrmSettings.AllowLongEdgeInterruptCB.Checked = False Or ssh.TeaseTick < 1 Or ssh.RiskyEdges = True Then Return False
             End If
 
             If FilterString.Contains("@1MinuteHold") Then
@@ -10739,11 +10733,11 @@ SkipTextedTags:
                 If ssh.SubHoldingEdge = False Or ssh.HoldEdgeTime < 3600 Then Return False
             End If
 
-            If FilterString.Contains("@CBTLevel1") And FrmSettings.CBTSlider.Value <> 1 Then Return False
-            If FilterString.Contains("@CBTLevel2") And FrmSettings.CBTSlider.Value <> 2 Then Return False
-            If FilterString.Contains("@CBTLevel3") And FrmSettings.CBTSlider.Value <> 3 Then Return False
-            If FilterString.Contains("@CBTLevel4") And FrmSettings.CBTSlider.Value <> 4 Then Return False
-            If FilterString.Contains("@CBTLevel5") And FrmSettings.CBTSlider.Value <> 5 Then Return False
+            If FilterString.Contains("@CBTLevel1") And FrmSettings.CockAndBallTortureLevelSlider.Value <> 1 Then Return False
+            If FilterString.Contains("@CBTLevel2") And FrmSettings.CockAndBallTortureLevelSlider.Value <> 2 Then Return False
+            If FilterString.Contains("@CBTLevel3") And FrmSettings.CockAndBallTortureLevelSlider.Value <> 3 Then Return False
+            If FilterString.Contains("@CBTLevel4") And FrmSettings.CockAndBallTortureLevelSlider.Value <> 4 Then Return False
+            If FilterString.Contains("@CBTLevel5") And FrmSettings.CockAndBallTortureLevelSlider.Value <> 5 Then Return False
             If FilterString.Contains("@BeforeTease") And ssh.BeforeTease = False Then Return False
 
             If FilterString.Contains("@VitalSub") And CBVitalSub.Checked = False Then Return False
@@ -10898,8 +10892,8 @@ SkipTextedTags:
                 .Add("@NotNeverAllowsOrgasm", FrmSettings.alloworgasmComboBox.Text = "Never Allows")
                 .Add("@NotAlwaysRuinsOrgasm", FrmSettings.ruinorgasmComboBox.Text = "Always Ruins")
                 .Add("@NotNeverRuinsOrgasm", FrmSettings.ruinorgasmComboBox.Text = "Never Allows")
-                .Add("@LongEdge", ssh.LongEdge = False Or FrmSettings.CBLongEdgeTaunts.Checked = False)
-                .Add("@InterruptLongEdge", ssh.LongEdge = False Or FrmSettings.CBLongEdgeInterrupts.Checked = False Or ssh.TeaseTick < 1 Or ssh.RiskyEdges = True)
+                .Add("@LongEdge", ssh.LongEdge = False Or FrmSettings.AllowLongEdgeTauntCB.Checked = False)
+                .Add("@InterruptLongEdge", ssh.LongEdge = False Or FrmSettings.AllowLongEdgeInterruptCB.Checked = False Or ssh.TeaseTick < 1 Or ssh.RiskyEdges = True)
                 .Add("@ShowHardcoreImage", Not Directory.Exists(My.Settings.IHardcore) Or My.Settings.CBIHardcore = False Or ssh.CustomSlideEnabled = True Or FlagExists("SYS_NoPornAllowed") = True Or ssh.LockImage = True)
                 .Add("@ShowSoftcoreImage", Not Directory.Exists(My.Settings.ISoftcore) Or My.Settings.CBISoftcore = False Or ssh.CustomSlideEnabled = True Or FlagExists("SYS_NoPornAllowed") = True Or ssh.LockImage = True)
                 .Add("@ShowLesbianImage", Not Directory.Exists(My.Settings.ILesbian) Or My.Settings.CBILesbian = False Or ssh.CustomSlideEnabled = True Or FlagExists("SYS_NoPornAllowed") = True Or ssh.LockImage = True)
@@ -10931,11 +10925,11 @@ SkipTextedTags:
                 .Add("@30MinuteHold", ssh.SubHoldingEdge = False Or ssh.HoldEdgeTime < 1800 Or ssh.HoldEdgeTime > 2699)
                 .Add("@45MinuteHold", ssh.SubHoldingEdge = False Or ssh.HoldEdgeTime < 2700 Or ssh.HoldEdgeTime > 3599)
                 .Add("@60MinuteHold", ssh.SubHoldingEdge = False Or ssh.HoldEdgeTime < 3600)
-                .Add("@CBTLevel1", FrmSettings.CBTSlider.Value <> 1)
-                .Add("@CBTLevel2", FrmSettings.CBTSlider.Value <> 2)
-                .Add("@CBTLevel3", FrmSettings.CBTSlider.Value <> 3)
-                .Add("@CBTLevel4", FrmSettings.CBTSlider.Value <> 4)
-                .Add("@CBTLevel5", FrmSettings.CBTSlider.Value <> 5)
+                .Add("@CBTLevel1", FrmSettings.CockAndBallTortureLevelSlider.Value <> 1)
+                .Add("@CBTLevel2", FrmSettings.CockAndBallTortureLevelSlider.Value <> 2)
+                .Add("@CBTLevel3", FrmSettings.CockAndBallTortureLevelSlider.Value <> 3)
+                .Add("@CBTLevel4", FrmSettings.CockAndBallTortureLevelSlider.Value <> 4)
+                .Add("@CBTLevel5", FrmSettings.CockAndBallTortureLevelSlider.Value <> 5)
                 .Add("@SubCircumcised", FrmSettings.CBSubCircumcised.Checked = False)
                 .Add("@SubNotCircumcised", FrmSettings.CBSubCircumcised.Checked = True)
                 .Add("@SubPierced", FrmSettings.CBSubPierced.Checked = False)
@@ -10954,8 +10948,8 @@ SkipTextedTags:
                 .Add("@NotInChastity", My.Settings.Chastity = True)
                 .Add("@HasChastity", FrmSettings.CBOwnChastity.Checked = False)
                 .Add("@DoesNotHaveChastity", FrmSettings.CBOwnChastity.Checked = True)
-                .Add("@ChastityPA", FrmSettings.CBChastityPA.Checked = False)
-                .Add("@ChastitySpikes", FrmSettings.CBChastitySpikes.Checked = False)
+                .Add("@ChastityPA", FrmSettings.DoesChastityDeviceRequirePiercingCB.Checked = False)
+                .Add("@ChastitySpikes", FrmSettings.ChastityDeviceContainsSpikesCB.Checked = False)
                 .Add("@VitalSub", CBVitalSub.Checked = False)
                 .Add("@VitalSubAssignment", CBVitalSub.Checked = False Or CBVitalSubDomTask.Checked = False)
                 .Add("@RuinTaunt", ssh.EdgeToRuin = False Or ssh.EdgeToRuinSecret = True)
@@ -10975,8 +10969,8 @@ SkipTextedTags:
                 .Add("@VideoFemdomDomme", ssh.VideoTease = False Or ssh.VideoType <> "FemdomD")
                 .Add("@VideoFemsubDomme", ssh.VideoTease = False Or ssh.VideoType <> "FemsubD")
                 .Add("@VideoGeneralDomme", ssh.VideoTease = False Or ssh.VideoType <> "GeneralD")
-                .Add("@CockTorture", FrmSettings.CBCBTCock.Checked = False)
-                .Add("@BallTorture", FrmSettings.CBCBTBalls.Checked = False)
+                .Add("@CockTorture", FrmSettings.CockTortureEnabledCB.Checked = False)
+                .Add("@BallTorture", FrmSettings.BallTortureEnabledCB.Checked = False)
                 .Add("@BallTorture0", ssh.CBTBallsCount <> 0)
                 .Add("@BallTorture1", ssh.CBTBallsCount <> 1)
                 .Add("@BallTorture2", ssh.CBTBallsCount <> 2)
@@ -12484,7 +12478,7 @@ TryNext:
 
         ssh.EdgeCountTick += 1
 
-        If FrmSettings.CBEdgeUseAvg.Checked = True Then
+        If FrmSettings.UseAverageEdgeThresholdCB.Checked = True Then
             If ssh.EdgeCountTick > ssh.EdgeTickCheck Then ssh.LongEdge = True
         Else
             If ssh.EdgeCountTick > FrmSettings.NBLongEdge.Value * 60 Then ssh.LongEdge = True
@@ -16048,18 +16042,18 @@ playLoop:
         ' I don't know what these do, in theory, they should replace the slider setting
         'returnValue.BallsTortureLevel = TortureLevel.Create(ssh.CBTBallsCount).Value()
         'returnValue.CockTortureLevel = TortureLevel.Create(ssh.CBTCockCount).Value()
-        returnValue.BallsTortureLevel = TortureLevel.Create(FrmSettings.CBTSlider.Value).Value()
-        returnValue.CockTortureLevel = TortureLevel.Create(FrmSettings.CBTSlider.Value).Value()
+        returnValue.BallsTortureLevel = TortureLevel.Create(FrmSettings.CockAndBallTortureLevelSlider.Value).Value()
+        returnValue.CockTortureLevel = TortureLevel.Create(FrmSettings.CockAndBallTortureLevelSlider.Value).Value()
         returnValue.Safeword = My.Settings.Safeword
 
 #Region "Setup Kinks"
-        If FrmSettings.CBCBTCock.Checked Then
+        If FrmSettings.CockTortureEnabledCB.Checked Then
             returnValue.Kinks.Add(Kink.CockTorture)
         Else
             returnValue.Kinks.Remove(Kink.CockTorture)
         End If
 
-        If FrmSettings.CBCBTBalls.Checked Then
+        If FrmSettings.BallTortureEnabledCB.Checked Then
             returnValue.Kinks.Add(Kink.BallTorture)
         Else
             returnValue.Kinks.Remove(Kink.BallTorture)
@@ -16073,13 +16067,13 @@ playLoop:
             returnValue.ToyBox.Remove(Toy.ChastityDevice)
         End If
 
-        If FrmSettings.CBChastityPA.Checked Then
+        If FrmSettings.DoesChastityDeviceRequirePiercingCB.Checked Then
             returnValue.ToyBox.Add(Toy.ChastityDeviceRequiresPiercing)
         Else
             returnValue.ToyBox.Remove(Toy.ChastityDeviceRequiresPiercing)
         End If
 
-        If FrmSettings.CBChastitySpikes.Checked Then
+        If FrmSettings.ChastityDeviceContainsSpikesCB.Checked Then
             returnValue.ToyBox.Add(Toy.ChastityDeviceWithSpikes)
         Else
             returnValue.ToyBox.Remove(Toy.ChastityDeviceWithSpikes)
@@ -16138,7 +16132,7 @@ playLoop:
     Private Function CreateDommeMessagePreferences() As ChatMessagePreferences
         Dim messagePreferences As ChatMessagePreferences = New ChatMessagePreferences()
         messagePreferences.ShowTimeStamp = FrmSettings.timestampCheckBox.Checked
-        messagePreferences.FontName = FrmSettings.FontComboBox.Text
+        messagePreferences.FontName = FrmSettings.SubMessageFontCB.Text
         messagePreferences.FontSize = Convert.ToInt32(FrmSettings.NBFontSize.Value)
         messagePreferences.FontColor = Color2Html(My.Settings.ChatTextColor)
         messagePreferences.ShowSenderName = FrmSettings.shownamesCheckBox.Checked
@@ -16150,7 +16144,7 @@ playLoop:
     Private Function CreateSubMessagePreferences() As ChatMessagePreferences
         Dim messagePreferences As ChatMessagePreferences = New ChatMessagePreferences()
         messagePreferences.ShowTimeStamp = FrmSettings.timestampCheckBox.Checked
-        messagePreferences.FontName = FrmSettings.FontComboBox.Text
+        messagePreferences.FontName = FrmSettings.SubMessageFontCB.Text
         messagePreferences.FontSize = Convert.ToInt32(FrmSettings.NBFontSize.Value)
         messagePreferences.FontColor = Color2Html(My.Settings.ChatTextColor)
         messagePreferences.ShowSenderName = FrmSettings.shownamesCheckBox.Checked
@@ -16353,7 +16347,7 @@ NoPlaylistStartFile:
 
             ssh.DomPersonality = dompersonalitycombobox.Text
 
-            FrmSettings.LoadStartScripts()
+            FrmSettings.StartScripts_GotFocus()
             FrmSettings.LoadModuleScripts()
             FrmSettings.LoadLinkScripts()
             FrmSettings.LoadEndScripts()
@@ -18970,7 +18964,7 @@ TaskCleanSet:
         End If
 
         If inputString.Contains("@CBTBalls") Then
-            If FrmSettings.CBCBTBalls.Checked = True Then
+            If FrmSettings.BallTortureEnabledCB.Checked = True Then
                 ssh.CBTBallsActive = True
                 ssh.CBTBallsFlag = True
                 ssh.TasksCount = ssh.randomizer.Next(FrmSettings.NBTasksMin.Value, FrmSettings.NBTasksMax.Value + 1)
@@ -18979,7 +18973,7 @@ TaskCleanSet:
         End If
 
         If inputString.Contains("@CBTCock") Then
-            If FrmSettings.CBCBTCock.Checked = True Then
+            If FrmSettings.CockTortureEnabledCB.Checked = True Then
                 ssh.CBTCockActive = True
                 ssh.CBTCockFlag = True
                 ssh.TasksCount = ssh.randomizer.Next(FrmSettings.NBTasksMin.Value, FrmSettings.NBTasksMax.Value + 1)
@@ -18989,7 +18983,7 @@ TaskCleanSet:
 
         If inputString.Contains("@CBT") And Not inputString.Contains("@CBTLevel") Then
 
-            If FrmSettings.CBCBTCock.Checked = True And FrmSettings.CBCBTBalls.Checked = True Then
+            If FrmSettings.CockTortureEnabledCB.Checked = True And FrmSettings.BallTortureEnabledCB.Checked = True Then
                 ssh.CBTBothActive = True
                 ssh.CBTBothFlag = True
                 ssh.TasksCount = ssh.randomizer.Next(FrmSettings.NBTasksMin.Value, FrmSettings.NBTasksMax.Value + 1)
@@ -19068,14 +19062,14 @@ TaskCleanSet:
             If FrmSettings.alloworgasmComboBox.Text = "Never Allows" Then OrgasmThreshold = 0
             If FrmSettings.alloworgasmComboBox.Text = "Always Allows" Then OrgasmThreshold = 1000
 
-            If FrmSettings.CBRangeOrgasm.Checked = True Then
+            If FrmSettings.DommeDecideOrgasmCB.Checked = True Then
                 If FrmSettings.alloworgasmComboBox.Text = "Rarely Allows" Then OrgasmThreshold = 20
                 If FrmSettings.alloworgasmComboBox.Text = "Sometimes Allows" Then OrgasmThreshold = 50
                 If FrmSettings.alloworgasmComboBox.Text = "Often Allows" Then OrgasmThreshold = 75
             Else
                 If FrmSettings.alloworgasmComboBox.Text = "Rarely Allows" Then OrgasmThreshold = FrmSettings.NBAllowRarely.Value
                 If FrmSettings.alloworgasmComboBox.Text = "Sometimes Allows" Then OrgasmThreshold = FrmSettings.NBAllowSometimes.Value
-                If FrmSettings.alloworgasmComboBox.Text = "Often Allows" Then OrgasmThreshold = FrmSettings.NBAllowOften.Value
+                If FrmSettings.alloworgasmComboBox.Text = "Often Allows" Then OrgasmThreshold = FrmSettings.AllowOrgasmOftenNB.Value
             End If
 
 
@@ -19093,7 +19087,7 @@ TaskCleanSet:
             If FrmSettings.ruinorgasmComboBox.Text = "Always Ruins" Then RuinThreshold = 1000
 
 
-            If FrmSettings.CBRangeRuin.Checked = True Then
+            If FrmSettings.DommeDecideRuinCB.Checked = True Then
                 If FrmSettings.ruinorgasmComboBox.Text = "Rarely Ruins" Then RuinThreshold = 20
                 If FrmSettings.ruinorgasmComboBox.Text = "Sometimes Ruins" Then RuinThreshold = 50
                 If FrmSettings.ruinorgasmComboBox.Text = "Often Ruins" Then RuinThreshold = 75
@@ -19524,20 +19518,20 @@ OrgasmDecided:
 
             ssh.HoldEdgeTick = ssh.HoldEdgeChance
 
-            Dim HoldEdgeMin As Integer = FrmSettings.NBHoldTheEdgeMin.Value
-            If FrmSettings.LBLMinHold.Text = "minutes" Then HoldEdgeMin *= 60
+            Dim HoldEdgeMin As Integer = FrmSettings.HoldEdgeMinimum.Value
+            If FrmSettings.HoldEdgeMinimumUnits.Text = "minutes" Then HoldEdgeMin *= 60
 
-            Dim HoldEdgeMax As Integer = FrmSettings.NBHoldTheEdgeMax.Value
+            Dim HoldEdgeMax As Integer = FrmSettings.HoldEdgeMaximum.Value
             If FrmSettings.LBLMaxHold.Text = "minutes" Then HoldEdgeMax *= 60
 
             If ssh.ExtremeHold = True Then
-                HoldEdgeMin = FrmSettings.NBExtremeHoldMin.Value * 60
-                HoldEdgeMax = FrmSettings.NBExtremeHoldMax.Value * 60
+                HoldEdgeMin = FrmSettings.ExtremeEdgeHoldMinimum.Value * 60
+                HoldEdgeMax = FrmSettings.ExtremeEdgeHoldMaximum.Value * 60
             End If
 
             If ssh.LongHold = True Then
-                HoldEdgeMin = FrmSettings.NBLongHoldMin.Value * 60
-                HoldEdgeMax = FrmSettings.NBLongHoldMax.Value * 60
+                HoldEdgeMin = FrmSettings.LongEdgeHoldMinimum.Value * 60
+                HoldEdgeMax = FrmSettings.LongEdgeHoldMaximum.Value * 60
             End If
 
 
@@ -19603,10 +19597,10 @@ OrgasmDecided:
 
                 ssh.HoldEdgeTick = ssh.HoldEdgeChance
 
-                Dim HoldEdgeMin As Integer = FrmSettings.NBHoldTheEdgeMin.Value
-                If FrmSettings.LBLMinHold.Text = "minutes" Then HoldEdgeMin *= 60
+                Dim HoldEdgeMin As Integer = FrmSettings.HoldEdgeMinimum.Value
+                If FrmSettings.HoldEdgeMinimumUnits.Text = "minutes" Then HoldEdgeMin *= 60
 
-                Dim HoldEdgeMax As Integer = FrmSettings.NBHoldTheEdgeMax.Value
+                Dim HoldEdgeMax As Integer = FrmSettings.HoldEdgeMaximum.Value
                 If FrmSettings.LBLMaxHold.Text = "minutes" Then HoldEdgeMax *= 60
 
                 If HoldEdgeMax < HoldEdgeMin Then HoldEdgeMax = HoldEdgeMin + 1
@@ -20159,10 +20153,10 @@ ExternalAudio:
         If inputString.Contains("@AddEdgeHoldTime") Then
 
             If HoldEdgeTimer.Enabled = True Then
-                Dim HoldEdgeMin As Integer = FrmSettings.NBHoldTheEdgeMin.Value
-                If FrmSettings.LBLMinHold.Text = "minutes" Then HoldEdgeMin *= 60
+                Dim HoldEdgeMin As Integer = FrmSettings.HoldEdgeMinimum.Value
+                If FrmSettings.HoldEdgeMinimumUnits.Text = "minutes" Then HoldEdgeMin *= 60
 
-                Dim HoldEdgeMax As Integer = FrmSettings.NBHoldTheEdgeMax.Value
+                Dim HoldEdgeMax As Integer = FrmSettings.HoldEdgeMaximum.Value
                 If FrmSettings.LBLMaxHold.Text = "minutes" Then HoldEdgeMax *= 60
 
                 If HoldEdgeMax < HoldEdgeMin Then HoldEdgeMax = HoldEdgeMin + 1

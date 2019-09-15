@@ -1,11 +1,330 @@
-﻿Imports Tease_AI.My
+﻿Option Strict On
+Option Infer Off
+
+Imports Tease_AI.My
+Imports TeaseAI.Common.Constants
 Imports TeaseAI.Common.Interfaces.Accessors
 
 Public Class SettingsAccessor
     Implements ISettingsAccessor
 
+    Public Property IsBallTortureEnabled As Boolean Implements ISettingsAccessor.IsBallTortureEnabled
+        Get
+            Return Settings.CBTCock
+        End Get
+        Set(value As Boolean)
+            Settings.CBTCock = value
+        End Set
+    End Property
+
+    Public Property IsCockTortureEnabled As Boolean Implements ISettingsAccessor.IsCockTortureEnabled
+        Get
+            Return Settings.CBTCock
+        End Get
+        Set(value As Boolean)
+            Settings.CBTCock = value
+        End Set
+    End Property
+
+    Public Property DoesChastityDeviceRequirePiercing As Boolean Implements ISettingsAccessor.DoesChastityDeviceRequirePiercing
+        Get
+            Return Settings.ChastityPA
+        End Get
+        Set(value As Boolean)
+            Settings.ChastityPA = value
+        End Set
+    End Property
+
+    Public Property DoesChastityDeviceContainSpikes As Boolean Implements ISettingsAccessor.DoesChastityDeviceContainSpikes
+        Get
+            Return Settings.ChastitySpikes
+        End Get
+        Set(value As Boolean)
+            Settings.ChastitySpikes = value
+        End Set
+    End Property
+
+    Public Property CanInterruptLongEdge As Boolean Implements ISettingsAccessor.CanInterruptLongEdge
+        Get
+            Return Settings.CBLongEdgeInterrupt
+        End Get
+        Set(value As Boolean)
+            Settings.CBLongEdgeInterrupt = value
+        End Set
+    End Property
+
+    Public Property HoldEdgeMinimum As Integer Implements ISettingsAccessor.HoldEdgeMinimum
+        Get
+            Return Settings.HoldTheEdgeMin
+        End Get
+        Set(value As Integer)
+            Settings.HoldTheEdgeMin = value
+        End Set
+    End Property
+
+    Public Property LongHoldEdgeMinimum As Integer Implements ISettingsAccessor.LongHoldEdgeMinimum
+        Get
+            Return Settings.LongHoldMax
+        End Get
+        Set(value As Integer)
+            Settings.LongHoldMax = value
+        End Set
+    End Property
+
+    Public Property HoldEdgeMaximum As Integer Implements ISettingsAccessor.HoldEdgeMaximum
+        Get
+            Return Settings.HoldTheEdgeMax
+        End Get
+        Set(value As Integer)
+            Settings.HoldTheEdgeMax = value
+        End Set
+    End Property
+
+    Public Property LongHoldEdgeMaximum As Integer Implements ISettingsAccessor.LongHoldEdgeMaximum
+        Get
+            Return Settings.LongHoldMin
+        End Get
+        Set(value As Integer)
+            Settings.LongHoldMin = value
+        End Set
+    End Property
+
+    Public Property ExtremeHoldEdgeMaximum As Integer Implements ISettingsAccessor.ExtremeHoldEdgeMaximum
+        Get
+            Return Settings.ExtremeHoldMax
+        End Get
+        Set(value As Integer)
+            Settings.ExtremeHoldMax = value
+        End Set
+    End Property
+
+    Public Property ExtremeHoldEdgeMinimum As Integer Implements ISettingsAccessor.ExtremeHoldEdgeMinimum
+        Get
+            Return Settings.ExtremeHoldMin
+        End Get
+        Set(value As Integer)
+            Settings.ExtremeHoldMin = value
+        End Set
+    End Property
+
+    Public Property CockAndBallTortureLevel As TortureLevel Implements ISettingsAccessor.CockAndBallTortureLevel
+        Get
+            Return TortureLevel.Create(Settings.CBTSlider).Value
+        End Get
+        Set(value As TortureLevel)
+            Settings.CBTSlider = value
+        End Set
+    End Property
+
+    Public Property IsSubCircumcised As Boolean Implements ISettingsAccessor.IsSubCircumcised
+        Get
+            Return Settings.SubCircumcised
+        End Get
+        Set(value As Boolean)
+            Settings.SubCircumcised = value
+        End Set
+    End Property
+
+    Public Property IsSubPierced As Boolean Implements ISettingsAccessor.IsSubPierced
+        Get
+            Return Settings.SubPierced
+        End Get
+        Set(value As Boolean)
+            Settings.SubPierced = value
+        End Set
+    End Property
+
+    Public Property DominationLevel As DomLevel Implements ISettingsAccessor.DominationLevel
+        Get
+            Return DomLevel.Create(Settings.DomLevel).Value
+        End Get
+        Set(value As DomLevel)
+            Settings.DomLevel = value
+        End Set
+    End Property
+
+    Public Property ApathLevel As ApathyLevel Implements ISettingsAccessor.ApathLevel
+        Get
+            Return ApathyLevel.Create(Settings.DomEmpathy).Value
+        End Get
+        Set(value As ApathyLevel)
+            Settings.DomEmpathy = value
+        End Set
+    End Property
+
+    Public Property DoesDommeDecideOrgasmRange As Boolean Implements ISettingsAccessor.DoesDommeDecideOrgasmRange
+        Get
+            Return Settings.RangeOrgasm
+        End Get
+        Set(value As Boolean)
+            Settings.RangeOrgasm = value
+        End Set
+    End Property
+
+    Public Property DoesDommeDecideRuinRange As Boolean Implements ISettingsAccessor.DoesDommeDecideRuinRange
+        Get
+            Return Settings.RangeRuin
+        End Get
+        Set(value As Boolean)
+            Settings.RangeRuin = value
+        End Set
+    End Property
+
+    Public Property AllowOrgasmOftenPercent As Integer Implements ISettingsAccessor.AllowOrgasmOftenPercent
+        Get
+            Return Settings.AllowOften
+        End Get
+        Set(value As Integer)
+            Settings.AllowOften = value
+        End Set
+    End Property
+
+    Public Property AllowOrgasmSometimesPercent As Integer Implements ISettingsAccessor.AllowOrgasmSometimesPercent
+        Get
+            Return Settings.AllowSometimes
+        End Get
+        Set(value As Integer)
+            Settings.AllowSometimes = value
+        End Set
+    End Property
+
+    Public Property AllowOrgasmRarelyPercent As Integer Implements ISettingsAccessor.AllowOrgasmRarelyPercent
+        Get
+            Return Settings.AllowRarely
+        End Get
+        Set(value As Integer)
+            Settings.AllowRarely = value
+        End Set
+    End Property
+
+    Public Property RuinOrgasmOftenPercent As Integer Implements ISettingsAccessor.RuinOrgasmOftenPercent
+        Get
+            Return Settings.RuinOften
+        End Get
+        Set(value As Integer)
+            Settings.RuinOften = value
+        End Set
+    End Property
+
+    Public Property RuinOrgasmSometimesPercent As Integer Implements ISettingsAccessor.RuinOrgasmSometimesPercent
+        Get
+            Return Settings.RuinSometimes
+        End Get
+        Set(value As Integer)
+            Settings.RuinSometimes = value
+        End Set
+    End Property
+
+    Public Property RuinOrgasmRarelyPercent As Integer Implements ISettingsAccessor.RuinOrgasmRarelyPercent
+        Get
+            Return Settings.RuinRarely
+        End Get
+        Set(value As Integer)
+            Settings.RuinRarely = value
+        End Set
+    End Property
+
+    Public Property SafeWord As String Implements ISettingsAccessor.SafeWord
+        Get
+            Return Settings.Safeword
+        End Get
+        Set(value As String)
+            Settings.Safeword = value
+        End Set
+    End Property
+
+    Public Property UseAverageEdgeTimeAsThreshold As Boolean Implements ISettingsAccessor.UseAverageEdgeTimeAsThreshold
+        Get
+            Return Settings.CBEdgeUseAvg
+        End Get
+        Set(value As Boolean)
+            Settings.CBEdgeUseAvg = value
+        End Set
+    End Property
+
+    Public Property AllowsLongEdgeTaunts As Boolean Implements ISettingsAccessor.AllowsLongEdgeTaunts
+        Get
+            Return Settings.CBLongEdgeTaunts
+        End Get
+        Set(value As Boolean)
+            Settings.CBLongEdgeTaunts = value
+        End Set
+    End Property
+
+    Public Property AllowsLongEdgeInterrupts As Boolean Implements ISettingsAccessor.AllowsLongEdgeInterrupts
+        Get
+            Return Settings.CBLongEdgeInterrupts
+        End Get
+        Set(value As Boolean)
+            Settings.CBLongEdgeInterrupts = value
+        End Set
+    End Property
+
+    Public Property IsTeaseLengthDommeDetermined As Boolean Implements ISettingsAccessor.IsTeaseLengthDommeDetermined
+        Get
+            Return Settings.CBTeaseLengthDD
+        End Get
+        Set(value As Boolean)
+            Settings.CBTeaseLengthDD = value
+        End Set
+    End Property
+
+    Public Property IsTauntCycleDommeDetermined As Boolean Implements ISettingsAccessor.IsTauntCycleDommeDetermined
+        Get
+            Return Settings.CBTauntCycleDD
+        End Get
+        Set(value As Boolean)
+            Settings.CBTauntCycleDD = value
+        End Set
+    End Property
+
+    Public Property HasChastityDevice As Boolean Implements ISettingsAccessor.HasChastityDevice
+        Get
+            Return Settings.CBOwnChastity
+        End Get
+        Set(value As Boolean)
+            Settings.CBOwnChastity = value
+        End Set
+    End Property
+
+    Public Property CallCockAClit As Boolean Implements ISettingsAccessor.CallCockAClit
+        Get
+            Return Settings.CockToClit
+        End Get
+        Set(value As Boolean)
+            Settings.CockToClit = value
+        End Set
+    End Property
+
+    Public Property CallBallsPussy As Boolean Implements ISettingsAccessor.CallBallsPussy
+        Get
+            Return Settings.BallsToPussy
+        End Get
+        Set(value As Boolean)
+            Settings.BallsToPussy = value
+        End Set
+    End Property
+
+    Public Property CanDommeDeleteFiles As Boolean Implements ISettingsAccessor.CanDommeDeleteFiles
+        Get
+            Return Settings.DomDeleteMedia
+        End Get
+        Set(value As Boolean)
+            Settings.DomDeleteMedia = value
+        End Set
+    End Property
+
+    Public Property IsSubFemale As Boolean Implements ISettingsAccessor.IsSubFemale
+        Get
+            Return Settings.CBHimHer
+        End Get
+        Set(value As Boolean)
+            Settings.CBHimHer = value
+        End Set
+    End Property
+
     Public Function GetGreetings() As List(Of String) Implements ISettingsAccessor.GetGreetings
-        Return MySettings.Default.SubGreeting.Split(",").Select(Function(str) str.Trim()).ToList()
+        Return MySettings.Default.SubGreeting.Split(","(0)).Select(Function(str) str.Trim()).ToList()
     End Function
 
     Public Function GetDommePersonality() As String Implements ISettingsAccessor.GetDommePersonality
@@ -23,4 +342,41 @@ Public Class SettingsAccessor
     Friend Function GetDommeAvatarImageName() As String Implements ISettingsAccessor.GetDommeAvatarImageName
         Return MySettings.Default.DomAvatarSave
     End Function
+
+    Public Property TeaseLengthMinimum As Integer Implements ISettingsAccessor.TeaseLengthMinimum
+        Get
+            Return Settings.TeaseLengthMin
+        End Get
+        Set(value As Integer)
+            Settings.TeaseLengthMin = value
+        End Set
+    End Property
+
+    Public Property TeaseLengthMaximum As Integer Implements ISettingsAccessor.TeaseLengthMaximum
+        Get
+            Return Settings.TeaseLengthMax
+        End Get
+        Set(value As Integer)
+            Settings.TeaseLengthMax = value
+        End Set
+    End Property
+
+    Public Property TauntCycleMinimum As Integer Implements ISettingsAccessor.TauntCycleMinimum
+        Get
+            Return Settings.TauntCycleMin
+        End Get
+        Set(value As Integer)
+            Settings.TauntCycleMin = value
+        End Set
+    End Property
+
+    Public Property TauntCycleMaximum As Integer Implements ISettingsAccessor.TauntCycleMaximum
+        Get
+            Return Settings.TauntCycleMax
+        End Get
+        Set(value As Integer)
+            Settings.TauntCycleMax = value
+        End Set
+    End Property
+
 End Class
