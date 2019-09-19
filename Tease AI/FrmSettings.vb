@@ -1,8 +1,10 @@
 ﻿Imports System.ComponentModel
 Imports System.IO
 Imports System.Speech.Synthesis
+Imports Tease_AI
 Imports Tease_AI.URL_Files
 Imports TeaseAI.Common
+Imports TeaseAI.Common.Data
 Imports TeaseAI.Common.Interfaces.Accessors
 
 Public Class FrmSettings
@@ -17,7 +19,7 @@ Public Class FrmSettings
     End Property
 
     Public URLFileIncludeList As New List(Of String)
-    Private FrmSettingsLoading As Boolean
+    Public FrmSettingsLoading As Boolean
     Public AvailFail As Boolean
     Public AvailList As New List(Of String)
     Dim ScriptList As New List(Of String)
@@ -68,7 +70,7 @@ Public Class FrmSettings
 
     Public Sub FrmSettingStartUp()
         mySettingsAccessor = New SettingsAccessor()
-
+        myBlogAccessor = New BlogImageAccessor()
         FrmSettingsLoading = True
 
         FrmSplash.UpdateText("Checking installed voices...")
@@ -85,41 +87,13 @@ Public Class FrmSettings
         oSpeech.Dispose()
 
         FrmSplash.UpdateText("Checking URL Files...")
+        Dim blogMetaDatas As List(Of BlogMetaData) = myBlogAccessor.GetBlogMetaData()
 
-
-        If File.Exists(Application.StartupPath & "\Images\System\URLFileCheckList.cld") Then
-            URLFileList.Items.Clear()
-            Dim FileStream As New System.IO.FileStream(Application.StartupPath & "\Images\System\URLFileCheckList.cld", IO.FileMode.Open)
-            Dim BinaryReader As New System.IO.BinaryReader(FileStream)
-            URLFileList.BeginUpdate()
-            Do While FileStream.Position < FileStream.Length
-                URLFileList.Items.Add(BinaryReader.ReadString)
-                URLFileList.SetItemChecked(URLFileList.Items.Count - 1, BinaryReader.ReadBoolean)
-            Loop
-            URLFileList.EndUpdate()
-            BinaryReader.Close()
-            FileStream.Dispose()
-            RefreshURLList()
-        Else
-            URLFileList.Items.Clear()
-            For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Images\System\URL Files\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
-                Dim TempUrl As String = foundFile
-                TempUrl = Path.GetFileName(TempUrl).Replace(".txt", "")
-                URLFileList.Items.Add(TempUrl)
-            Next
-            For i As Integer = 0 To URLFileList.Items.Count - 1
-                URLFileList.SetItemChecked(i, True)
-            Next
-            Dim FileStream As New System.IO.FileStream(Application.StartupPath & "\Images\System\URLFileCheckList.cld", IO.FileMode.Create)
-            Dim BinaryWriter As New System.IO.BinaryWriter(FileStream)
-            For i = 0 To URLFileList.Items.Count - 1
-                BinaryWriter.Write(CStr(URLFileList.Items(i)))
-                BinaryWriter.Write(CBool(URLFileList.GetItemChecked(i)))
-            Next
-            BinaryWriter.Close()
-            FileStream.Dispose()
-        End If
-
+        URLFileList.Items.Clear()
+        For Each blogMetaData In blogMetaDatas
+            URLFileList.Items.Add(blogMetaData.FileName, blogMetaData.IsEnabled)
+        Next
+        URLFileList.Refresh()
 
         FrmSplash.UpdateText("Checking Local Image settings...")
 
@@ -5463,27 +5437,15 @@ checkFolder:
     ''' </summary>
     ''' <param name="URL_FileName"></param>
     Private Sub URL_File_Set(ByVal URL_FileName As String)
-        Try
-            ' Set the new URL-File
-            If Not URLFileList.Items.Contains(URL_FileName) Then
-                URLFileList.Items.Add(URL_FileName)
-                For i As Integer = 0 To URLFileList.Items.Count - 1
-                    If URLFileList.Items(i) = URL_FileName Then URLFileList.SetItemChecked(i, True)
-                Next
-            End If
-            ' Save ListState
-            Using FileStream As New System.IO.FileStream(Application.StartupPath & "\Images\System\URLFileCheckList.cld", IO.FileMode.Create)
-                Using BinaryWriter As New System.IO.BinaryWriter(FileStream)
-                    For i = 0 To URLFileList.Items.Count - 1
-                        BinaryWriter.Write(CStr(URLFileList.Items(i)))
-                        BinaryWriter.Write(CBool(URLFileList.GetItemChecked(i)))
-                    Next
-                    BinaryWriter.Close()
-                End Using
-            End Using
-        Catch ex As Exception
-            Throw
-        End Try
+        ' Set the new URL-File
+        If Not URLFileList.Items.Contains(URL_FileName) Then
+            URLFileList.Items.Add(URL_FileName)
+            For i As Integer = 0 To URLFileList.Items.Count - 1
+                If URLFileList.Items(i) = URL_FileName Then URLFileList.SetItemChecked(i, True)
+            Next
+        End If
+        ' Save ListState
+        SaveURLFileSelection()
     End Sub
 
     Private Sub SliderSTF_Scroll(sender As System.Object, e As System.EventArgs) Handles SliderSTF.Scroll
@@ -6111,9 +6073,6 @@ checkFolder:
 
     End Sub
 
-
-
-
     Function InstrCount(StringToSearch As String,
            StringToFind As String) As Long
 
@@ -6123,9 +6082,6 @@ checkFolder:
 
         Return InstrCount
     End Function
-
-
-
 
     Private Sub TBTagDir_MouseClick(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles TBTagDir.MouseClick
         TBTagDir.SelectionStart = 0
@@ -6137,86 +6093,17 @@ checkFolder:
         TBWIDirectory.SelectionLength = Len(TBWIDirectory.Text)
     End Sub
 
-
-
-
-
-    Public Sub RefreshURLList()
-
-
-        For i As Integer = URLFileList.Items.Count - 1 To 0 Step -1
-            'Debug.Print(Application.StartupPath & "\Images\System\URL Files\" & URLFileList.Items(i) & ".txt")
-            If Not File.Exists(Application.StartupPath & "\Images\System\URL Files\" & URLFileList.Items(i) & ".txt") Then
-                URLFileList.Items.Remove(URLFileList.Items(i))
-                Exit For
-            End If
-        Next
-
-        Dim FileStream As New System.IO.FileStream(Application.StartupPath & "\Images\System\URLFileCheckList.cld", IO.FileMode.Create)
-        Dim BinaryWriter As New System.IO.BinaryWriter(FileStream)
-        For i = 0 To URLFileList.Items.Count - 1
-            BinaryWriter.Write(CStr(URLFileList.Items(i)))
-            BinaryWriter.Write(CBool(URLFileList.GetItemChecked(i)))
-        Next
-        BinaryWriter.Close()
-        FileStream.Dispose()
-
-        If File.Exists(Application.StartupPath & "\Images\System\URLFileCheckList.cld") Then
-            URLFileList.Items.Clear()
-            Dim FileStream2 As New System.IO.FileStream(Application.StartupPath & "\Images\System\URLFileCheckList.cld", IO.FileMode.Open)
-            Dim BinaryReader As New System.IO.BinaryReader(FileStream2)
-            URLFileList.BeginUpdate()
-            Do While FileStream2.Position < FileStream2.Length
-                URLFileList.Items.Add(BinaryReader.ReadString)
-                URLFileList.SetItemChecked(URLFileList.Items.Count - 1, BinaryReader.ReadBoolean)
-            Loop
-            URLFileList.EndUpdate()
-            BinaryReader.Close()
-            FileStream2.Dispose()
-            If URLFileList.Items.Count > 0 Then
-                For i As Integer = 0 To URLFileList.Items.Count - 1 Step -1
-                    If Not File.Exists(Application.StartupPath & "\Images\System\URL Files\" & URLFileList.Items(i) & ".txt") Then URLFileList.Items.Remove(URLFileList.Items(i))
-                Next
-            End If
-        Else
-            URLFileList.Items.Clear()
-            For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Images\System\URL Files\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
-                Dim TempUrl As String = foundFile
-                TempUrl = Path.GetFileName(TempUrl).Replace(".txt", "")
-                'TempUrl = TempUrl.Replace(".txt", "")
-                'Do Until Not TempUrl.Contains("\")
-                'TempUrl = TempUrl.Remove(0, 1)
-                'Loop
-                URLFileList.Items.Add(TempUrl)
-            Next
-            For i As Integer = 0 To URLFileList.Items.Count - 1
-                URLFileList.SetItemChecked(i, True)
-            Next
-            Dim FileStream3 As New System.IO.FileStream(Application.StartupPath & "\Images\System\URLFileCheckList.cld", IO.FileMode.Create)
-            Dim BinaryWriter3 As New System.IO.BinaryWriter(FileStream3)
-            For i = 0 To URLFileList.Items.Count - 1
-                BinaryWriter3.Write(CStr(URLFileList.Items(i)))
-                BinaryWriter3.Write(CBool(URLFileList.GetItemChecked(i)))
-            Next
-            BinaryWriter3.Close()
-            FileStream3.Dispose()
-        End If
-
-    End Sub
-
     Private Sub SaveURLFileSelection()
-
         If FrmSettingsLoading = True Then Return
 
-        Dim FileStream As New System.IO.FileStream(Application.StartupPath & "\Images\System\URLFileCheckList.cld", IO.FileMode.Create)
-        Dim BinaryWriter As New System.IO.BinaryWriter(FileStream)
+        Dim blogMetaData As List(Of BlogMetaData) = New List(Of BlogMetaData)()
         For i = 0 To URLFileList.Items.Count - 1
-            BinaryWriter.Write(CStr(URLFileList.Items(i)))
-            BinaryWriter.Write(CBool(URLFileList.GetItemChecked(i)))
+            blogMetaData.Add(New BlogMetaData With {
+                             .FileName = CStr(URLFileList.Items(i)),
+                             .IsEnabled = URLFileList.GetItemChecked(i)
+                             })
         Next
-        BinaryWriter.Close()
-        FileStream.Dispose()
-
+        myBlogAccessor.SaveBlogMetaData(blogMetaData)
     End Sub
 
     Private Sub URLFileList_LostFocus(sender As Object, e As System.EventArgs) Handles URLFileList.LostFocus
@@ -6225,15 +6112,14 @@ checkFolder:
 
 
     Private Sub URLFileList_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles URLFileList.SelectedIndexChanged
-
-        If CBURLPreview.Checked = True Then
-            Dim PreviewList As New List(Of String)
-            PreviewList = Txt2List(Application.StartupPath & "\Images\System\URL Files\" & URLFileList.SelectedItem & ".txt")
-            PBURLPreview.Image = New System.Drawing.Bitmap(New IO.MemoryStream(New System.Net.WebClient().DownloadData(PreviewList(MainWindow.ssh.randomizer.Next(0, PreviewList.Count)))))
+        If CBURLPreview.Checked Then
+            Dim blogMetaData = myBlogAccessor.GetBlogMetaData().First(Function(x) x.FileName.Equals(URLFileList.SelectedItem.ToString()))
+            Dim imageMetaDatas = myBlogAccessor.GetImageMetaData(blogMetaData)
+            Dim imageUrl As ImageMetaData = imageMetaDatas(MainWindow.ssh.randomizer.Next(0, imageMetaDatas.Count))
+            PBURLPreview.Image = New Bitmap(New MemoryStream(New Net.WebClient().DownloadData(imageUrl.ItemName)))
         End If
 
         SaveURLFileSelection()
-
     End Sub
 
     Private Sub BTNURLFilesAll_Click(sender As System.Object, e As System.EventArgs) Handles BTNURLFilesAll.Click
@@ -10093,4 +9979,5 @@ checkFolder:
     End Function
 
     Private mySettingsAccessor As ISettingsAccessor
+    Private myBlogAccessor As BlogImageAccessor
 End Class
