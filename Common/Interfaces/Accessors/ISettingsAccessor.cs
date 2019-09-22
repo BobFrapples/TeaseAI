@@ -57,5 +57,8 @@ namespace TeaseAI.Common.Interfaces.Accessors
         int TauntCycleMinimum { get; set; }
         bool CallCockAClit { get; set; }
         bool CallBallsPussy { get; set; }
+        Dictionary<ImageGenre, bool> ImageGenreIncludeSubDirectory { get; }
+        Dictionary<ImageGenre, bool> IsImageGenreEnabled { get; }
+        Dictionary<ImageGenre, string> ImageGenreFolder { get; }
     }
 }

@@ -98,7 +98,7 @@ Public Class FrmSettings
         FrmSplash.UpdateText("Checking Local Image settings...")
 
         ' Check image Folders
-        ImagesHardcore_CheckFolder()
+        CheckImageFolder(Constants.ImageGenre.Hardcore)
         ImagesSoftcore_CheckFolder()
         ImagesLesbian_CheckFolder()
         ImagesBlowjob_CheckFolder()
@@ -3861,34 +3861,86 @@ checkFolder:
         '▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
     End Function
 
+    Private Function CheckFolderSettings(directoryDescription As String, directoryPath As String, defaultPath As String, includeSubDirectories As Boolean) As Tuple(Of Boolean, String)
+        Dim rtnPath As String
+
+        If directoryPath = defaultPath Then
+            Return Tuple.Create(False, defaultPath)
+        End If
+
+        If Directory.Exists(directoryPath) Then
+            rtnPath = directoryPath
+        ElseIf MessageBox.Show(ActiveForm,
+                           "The directory """ & directoryPath & """ was not found." & vbCrLf & "Do you want to search for it?",
+                           directoryDescription & " image directory not found.",
+                           MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) <> DialogResult.Yes Then
+            Return Tuple.Create(includeSubDirectories, defaultPath)
+        Else
+setNewFolder:
+            Dim parentDirectory As String = directoryPath
+            Do Until Directory.Exists(parentDirectory) OrElse parentDirectory Is Nothing
+                parentDirectory = Path.GetDirectoryName(parentDirectory)
+            Loop
+
+            Dim folderBrowser As New FolderBrowserDialog With {.SelectedPath = parentDirectory, .Description = "Select " & directoryDescription & " image folder."}
+            If folderBrowser.ShowDialog(ActiveForm) = DialogResult.OK Then
+                rtnPath = folderBrowser.SelectedPath
+            Else
+                Return Tuple.Create(False, defaultPath)
+            End If
+        End If
+
+checkFolder:
+        Dim count_top As Integer = myDirectory.GetFilesImages(rtnPath, SearchOption.TopDirectoryOnly).Count
+        Dim count_all As Integer = myDirectory.GetFilesImages(rtnPath, SearchOption.AllDirectories).Count
+
+        If count_top > 0 AndAlso count_all > 0 Then
+            Return Tuple.Create(includeSubDirectories, rtnPath)
+        End If
+        If count_top = 0 AndAlso count_all = 0 Then
+            If MessageBox.Show(ActiveForm,
+                   "The directory """ & directoryPath & """ doesn't contain images." & Environment.NewLine & "Do you want to set a new folder?",
+                   directoryDescription & " image folder empty",
+                   MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
+                GoTo setNewFolder
+            End If
+        ElseIf count_top = 0 AndAlso count_all > count_top AndAlso Not includeSubDirectories Then
+            If MessageBox.Show(ActiveForm,
+                   "The directory """ & directoryPath & """ doesn't contain images, but it's " &
+                   "subdirectories. Do you want to include subdirectories? If you click no the " &
+                   "default value will be set.",
+                   directoryDescription & " image folder empty",
+                   MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+                Return Tuple.Create(True, rtnPath)
+            End If
+        End If
+
+        Return Tuple.Create(includeSubDirectories, defaultPath)
+    End Function
+
+    Private Function CheckImageFolder(imageGenre As Constants.ImageGenre) As Boolean
+        Dim isSubdir As Boolean = mySettingsAccessor.ImageGenreIncludeSubDirectory(imageGenre)
+        Dim imageFolder As String = mySettingsAccessor.ImageGenreFolder(imageGenre)
+
+        Dim def As String = String.Empty
+
+        Dim folderCheck As Tuple(Of Boolean, String) = CheckFolderSettings(imageGenre.ToString(), imageFolder, def, isSubdir)
+
+        mySettingsAccessor.ImageGenreFolder(imageGenre) = folderCheck.Item2
+        mySettingsAccessor.IsImageGenreEnabled(imageGenre) = Not (folderCheck.Item2 = def)
+        mySettingsAccessor.ImageGenreIncludeSubDirectory(imageGenre) = folderCheck.Item1
+
+        Return mySettingsAccessor.IsImageGenreEnabled(imageGenre)
+    End Function
+
 #Region "------------------------------------- Hardcore Images -------------------------------------------"
 
-    Private Sub BTNIHardcore_Click(sender As System.Object, e As System.EventArgs) Handles BTNIHardcore.Click
+    Private Sub BTNIHardcore_Click(sender As Object, e As EventArgs) Handles BTNIHardcore.Click
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-            My.Settings.IHardcore = FolderBrowserDialog1.SelectedPath
-            ImagesHardcore_CheckFolder()
+            mySettingsAccessor.ImageGenreFolder(Constants.ImageGenre.Hardcore) = FolderBrowserDialog1.SelectedPath
+            CheckImageFolder(Constants.ImageGenre.Hardcore)
         End If
     End Sub
-
-    Friend Shared Function ImagesHardcore_CheckFolder() As Boolean
-        Dim subdir As Boolean = My.Settings.IHardcoreSD
-
-        Dim def As String =
-            My.Settings.PropertyValues("IHardcore").Property.DefaultValue
-
-        My.Settings.IHardcore =
-            Image_FolderCheck("Hardcore", My.Settings.IHardcore, def, subdir)
-
-        If My.Settings.IHardcore = def Then
-            My.Settings.CBIHardcore = False
-            My.Settings.IHardcoreSD = My.Settings.PropertyValues("IHardcoreSD").Property.DefaultValue
-        Else
-            My.Settings.CBIHardcore = True
-            My.Settings.IHardcoreSD = subdir
-        End If
-
-        Return My.Settings.CBIHardcore
-    End Function
 
 #End Region ' Hardcore
 

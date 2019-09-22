@@ -378,5 +378,34 @@ Public Class SettingsAccessor
             Settings.TauntCycleMax = value
         End Set
     End Property
+    Public ReadOnly Property IsImageGenreEnabled As Dictionary(Of ImageGenre, Boolean) Implements ISettingsAccessor.IsImageGenreEnabled
+        Get
+            Dim returnValue As Dictionary(Of ImageGenre, Boolean) = New Dictionary(Of ImageGenre, Boolean)()
 
+            returnValue(ImageGenre.Blowjob) = Settings.IBlowjobSD
+            returnValue(ImageGenre.Hardcore) = Settings.IHardcoreSD
+
+            Return returnValue
+        End Get
+    End Property
+    Public ReadOnly Property ImageGenreIncludeSubDirectory As Dictionary(Of ImageGenre, Boolean) Implements ISettingsAccessor.ImageGenreIncludeSubDirectory
+        Get
+            Dim returnValue As Dictionary(Of ImageGenre, Boolean) = New Dictionary(Of ImageGenre, Boolean)()
+
+            returnValue(ImageGenre.Blowjob) = Settings.CBIBlowjob
+            returnValue(ImageGenre.Hardcore) = Settings.CBIHardcore
+
+            Return returnValue
+        End Get
+    End Property
+
+    Public ReadOnly Property ImageGenreFolder As Dictionary(Of ImageGenre, String) Implements ISettingsAccessor.ImageGenreFolder
+        Get
+            Dim returnValue As Dictionary(Of ImageGenre, String) = New Dictionary(Of ImageGenre, String)()
+            returnValue(ImageGenre.Blowjob) = Settings.IBlowjob
+            returnValue(ImageGenre.Hardcore) = Settings.IHardcore
+
+            Return returnValue
+        End Get
+    End Property
 End Class
