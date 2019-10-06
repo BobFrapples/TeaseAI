@@ -17,7 +17,17 @@ namespace TeaseAI.Common.Interfaces
         //Result<List<ScriptMetaData>> GetAvailableScripts(Session session, string type, string stage);
         Result<List<ScriptMetaData>> GetAvailableScripts(DommePersonality domme, SubPersonality submissive, string type, SessionPhase stage);
 
+        /// <summary>
+        /// Get all scripts for <paramref name="domme"/>
+        /// </summary>
+        /// <param name="domme"></param>
+        /// <param name="type"></param>
+        /// <param name="stage"></param>
+        /// <returns></returns>
+        List<ScriptMetaData> GetAllScripts(string dommePersonalityName, string type, SessionPhase stage, bool isEnabledDefault);
+
         Result<Script> GetScript(ScriptMetaData value);
+
         /// <summary>
         /// Get a script using the path relative to <paramref name="domme"/> personality.
         /// </summary>
@@ -25,5 +35,13 @@ namespace TeaseAI.Common.Interfaces
         /// <param name="fileName"></param>
         /// <returns></returns>
         Result<Script> GetScript(DommePersonality domme, string fileName);
+        /// <summary>
+        /// Save all script information for <paramref name="dommePersonalityName"/>
+        /// </summary>
+        /// <param name="scripts"></param>
+        /// <param name="dommePersonalityName"></param>
+        /// <param name="type"></param>
+        /// <param name="stage"></param>
+        void Save(List<ScriptMetaData> scripts, string dommePersonalityName, string type, SessionPhase stage);
     }
 }

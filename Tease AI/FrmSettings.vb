@@ -5,6 +5,7 @@ Imports Tease_AI
 Imports Tease_AI.URL_Files
 Imports TeaseAI.Common
 Imports TeaseAI.Common.Data
+Imports TeaseAI.Common.Interfaces
 Imports TeaseAI.Common.Interfaces.Accessors
 
 Public Class FrmSettings
@@ -71,6 +72,8 @@ Public Class FrmSettings
     Public Sub FrmSettingStartUp()
         mySettingsAccessor = New SettingsAccessor()
         myBlogAccessor = New BlogImageAccessor()
+        myCldAccessor = New CldAccessor()
+        myScriptAccessor = New ScriptAccessor(New CldAccessor())
         FrmSettingsLoading = True
 
         FrmSplash.UpdateText("Checking installed voices...")
@@ -98,20 +101,19 @@ Public Class FrmSettings
         FrmSplash.UpdateText("Checking Local Image settings...")
 
         ' Check image Folders
+        CheckImageFolder(Constants.ImageGenre.Blowjob)
+        CheckImageFolder(Constants.ImageGenre.Boobs)
+        CheckImageFolder(Constants.ImageGenre.Butt)
+        CheckImageFolder(Constants.ImageGenre.Captions)
+        CheckImageFolder(Constants.ImageGenre.Femdom)
+        CheckImageFolder(Constants.ImageGenre.Gay)
+        CheckImageFolder(Constants.ImageGenre.General)
         CheckImageFolder(Constants.ImageGenre.Hardcore)
-        ImagesSoftcore_CheckFolder()
-        ImagesLesbian_CheckFolder()
-        ImagesBlowjob_CheckFolder()
-        ImagesFemdom_CheckFolder()
-        ImagesLezdom_CheckFolder()
-        ImagesHentai_CheckFolder()
-        ImagesGay_CheckFolder()
-        ImagesMaledom_CheckFolder()
-        ImagesGeneral_CheckFolder()
-        ImagesCaptions_CheckFolder()
-        ImagesBoobs_CheckFolder()
-        ImagesButts_CheckFolder()
-
+        CheckImageFolder(Constants.ImageGenre.Hentai)
+        CheckImageFolder(Constants.ImageGenre.Softcore)
+        CheckImageFolder(Constants.ImageGenre.Lesbian)
+        CheckImageFolder(Constants.ImageGenre.Lezdom)
+        CheckImageFolder(Constants.ImageGenre.Maledom)
 
         FrmSplash.UpdateText("Checking installed fonts...")
 
@@ -121,7 +123,8 @@ Public Class FrmSettings
 
         FrmSplash.UpdateText("Checking available scripts...")
 
-        StartScripts_GotFocus()
+        DoChecked(StartScripts, mySettingsAccessor.DommePersonality, "Stroke", Constants.SessionPhase.Start, True)
+
         LoadModuleScripts()
         LoadLinkScripts()
         LoadEndScripts()
@@ -263,9 +266,9 @@ Public Class FrmSettings
 
         FrmSplash.UpdateText("Auditing scripts...")
 
-        CBAuditStartup.Checked = My.Settings.AuditStartup
+        CBAuditStartup.Checked = mySettingsAccessor.ShouldAuditScripts
 
-        If CBAuditStartup.Checked = True Then AuditScripts()
+        If CBAuditStartup.Checked Then AuditScripts()
 
         TBWebStart.Text = My.Settings.WebToyStart
         TBWebStop.Text = My.Settings.WebToyStop
@@ -274,7 +277,6 @@ Public Class FrmSettings
         FrmSplash.UpdateText("Calculating space of saved session images...")
 
         CalculateSessionImages()
-
 
         FrmSplash.UpdateText("Loading Settings Menu options...")
         SaveSettingsDialog.InitialDirectory = Application.StartupPath & "\System"
@@ -715,11 +717,7 @@ Public Class FrmSettings
     End Sub
 
     Private Sub CBJackInTheBox_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles CBAuditStartup.MouseClick
-        If CBAuditStartup.Checked = True Then
-            My.Settings.AuditStartup = True
-        Else
-            My.Settings.AuditStartup = False
-        End If
+        mySettingsAccessor.ShouldAuditScripts = CBAuditStartup.Checked
     End Sub
 
     Private Sub CBSlideshowSubDir_LostFocus(sender As System.Object, e As System.EventArgs) Handles CBSlideshowSubDir.LostFocus
@@ -1457,8 +1455,6 @@ Public Class FrmSettings
         My.Settings.TBEmoteEnd = TBEmoteEnd.Text
     End Sub
 
-
-
     Private Sub TBEmote_MouseHover(sender As System.Object, e As System.EventArgs) Handles TBEmote.MouseHover
         TTDir.SetToolTip(TBEmote, "This determines what symbol(s) the domme uses to begin an emote.")
     End Sub
@@ -1466,8 +1462,6 @@ Public Class FrmSettings
     Private Sub TBEmoteEnd_MouseHover(sender As System.Object, e As System.EventArgs) Handles TBEmoteEnd.MouseHover
         TTDir.SetToolTip(TBEmoteEnd, "This determines what symbol(s) the domme uses to end an emote.")
     End Sub
-
-
 
     Private Sub LockOrgasmChances_MouseHover(sender As System.Object, e As System.EventArgs) Handles CBLockOrgasmChances.MouseHover
         TTDir.SetToolTip(CBLockOrgasmChances, "If checked the orgasm chances will be locked and unchangeable once you start the tease." & Environment.NewLine & Environment.NewLine &
@@ -1529,8 +1523,6 @@ Public Class FrmSettings
                                                 "This will not be finalized until the Limit box is checked and you click ""Lock Selected""." & Environment.NewLine &
                                                 "Once an orgasm limit has been finalized, it cannot be undone until the period of time is up!")
     End Sub
-
-
 
     Private Sub LockRandomOrgasm_MouseHover(sender As System.Object, e As System.EventArgs) Handles orgasmlockrandombutton.MouseHover
 
@@ -1698,12 +1690,10 @@ Public Class FrmSettings
                                      "All pet name boxes must be filled in.")
     End Sub
 
-
     Private Sub PetNameBox7_Enter(sender As Object, e As System.EventArgs) Handles petnameBox7.MouseHover
         TTDir.SetToolTip(petnameBox7, "Enter a pet name that the domme will call you when she's in a bad mood." & Environment.NewLine & Environment.NewLine &
                                      "All pet name boxes must be filled in.")
     End Sub
-
 
     Private Sub PetNameBox8_Enter(sender As Object, e As System.EventArgs) Handles petnameBox8.MouseHover
         TTDir.SetToolTip(petnameBox8, "Enter a pet name that the domme will call you when she's in a bad mood." & Environment.NewLine & Environment.NewLine &
@@ -1717,7 +1707,6 @@ Public Class FrmSettings
     Private Sub BTNLoadDomSet_MouseHover(sender As Object, e As System.EventArgs) Handles BTNLoadDomSet.MouseHover
         TTDir.SetToolTip(BTNLoadDomSet, "Click to load a custom Domme Settings file you have previously created.")
     End Sub
-
 
     Private Sub NBEmpathy_LostFocus(sender As System.Object, e As System.EventArgs) Handles NBEmpathy.LostFocus
 
@@ -1843,9 +1832,9 @@ Public Class FrmSettings
     End Sub
 
     Private Sub loadCheckedListBox(target As CheckedListBox,
-                                   ByVal loadPath As String,
-                                   ByVal scriptDir As String,
-                                   ByVal Optional preEnable As Boolean = True)
+                                    loadPath As String,
+                                    scriptDir As String,
+                                    Optional preEnable As Boolean = True)
         Try
             Dim Modified As Boolean = False
 
@@ -1909,16 +1898,12 @@ SkipDeserializing:
     End Sub
 
     Public Sub StartScripts_GotFocus() Handles StartScripts.GotFocus
-        Try
-            If InvokeRequired Then
-                Invoke(New Action(AddressOf StartScripts_GotFocus))
-                Exit Sub
-            End If
+        If InvokeRequired Then
+            Invoke(New Action(AddressOf StartScripts_GotFocus))
+            Exit Sub
+        End If
 
-            loadCheckedListBox(StartScripts, Ssh.Files.StartChecklist, Ssh.Folders.StartScripts)
-        Catch ex As Exception
-            Throw
-        End Try
+        loadCheckedListBox(StartScripts, Ssh.Files.StartChecklist, Ssh.Folders.StartScripts)
     End Sub
 
     Public Sub LoadModuleScripts() Handles CLBModuleList.GotFocus
@@ -1998,7 +1983,6 @@ SkipDeserializing:
             MessageBox.Show(ex.Message, "Error on changing Item", MessageBoxButtons.OK, MessageBoxIcon.Hand)
         End Try
     End Sub
-
 
     ''' <summary>
     ''' This Procedure enables or disables the Controls to view a script status.
@@ -2331,8 +2315,6 @@ SkipDeserializing:
         End Try
     End Sub
 
-
-
     Private Sub BtnScriptsOpen_Click(sender As System.Object, e As System.EventArgs) Handles BTNScriptOpen.Click
         Dim Filepath As String = ""
         Try
@@ -2359,7 +2341,6 @@ SkipDeserializing:
             MessageBox.Show(ex.Message, "Error opening Script", MessageBoxButtons.OK, MessageBoxIcon.Hand)
         End Try
     End Sub
-
 
     Private Sub BtnScriptsSelectAutomated_Click(sender As System.Object, e As System.EventArgs) Handles BTNScriptAvailable.Click, BTNScriptNone.Click, BTNScriptAll.Click
         ' Lock Buttons to prevent double trigger
@@ -2704,6 +2685,30 @@ SkipDeserializing:
         Catch ex As Exception
             Throw
         End Try
+    End Sub
+
+    'loadCheckedListBox(StartScripts, Ssh.Files.StartChecklist, Ssh.Folders.StartScripts)
+    Private Sub DoChecked(target As CheckedListBox, dommePersonalityName As String, type As String, stage As Constants.SessionPhase, isEnabledByDefault As Boolean)
+        Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(dommePersonalityName, type, stage, isEnabledByDefault)
+        myScriptAccessor.Save(scripts, dommePersonalityName, type, stage)
+
+        Dim lastIndex As Integer = target.SelectedIndex
+        Dim lastItem As String = target.SelectedItem
+
+        target.BeginUpdate()
+        target.Items.Clear()
+        For Each cldFile In scripts
+            target.Items.Add(cldFile.Name, cldFile.IsEnabled)
+        Next
+
+        If lastIndex = -1 Then
+            ScriptStatusUnlock(False)
+        ElseIf target.Items.Count >= lastIndex Then
+            target.SelectedIndex = lastIndex
+        ElseIf target.Items.Contains(lastItem) Then
+            target.SelectedItem = lastItem
+        End If
+        target.EndUpdate()
     End Sub
 
 #End Region ' Scripts
@@ -8589,6 +8594,7 @@ checkFolder:
 
     End Sub
 
+    <Obsolete("This needs rewritten")>
     Public Sub AuditScripts()
 
         PBMaintenance.Maximum = My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text, FileIO.SearchOption.SearchAllSubDirectories, "*.txt").Count +
@@ -10032,4 +10038,6 @@ checkFolder:
 
     Private mySettingsAccessor As ISettingsAccessor
     Private myBlogAccessor As BlogImageAccessor
+    Private myCldAccessor As ICldAccessor
+    Private myScriptAccessor As IScriptAccessor
 End Class

@@ -327,21 +327,36 @@ Public Class SettingsAccessor
         Return MySettings.Default.SubGreeting.Split(","(0)).Select(Function(str) str.Trim()).ToList()
     End Function
 
-    Public Function GetDommePersonality() As String Implements ISettingsAccessor.GetDommePersonality
-        Return MySettings.Default.DomPersonality
-    End Function
+    Public Property DommePersonality As String Implements ISettingsAccessor.DommePersonality
+        Get
+            Return Settings.DomPersonality
+        End Get
+        Set(value As String)
+            Settings.DomPersonality = value
+        End Set
+    End Property
 
-    Public Function GetDommeName() As String Implements ISettingsAccessor.GetDommeName
-        Return MySettings.Default.DomName
-    End Function
+    Public Property DommeName As String Implements ISettingsAccessor.DommeName
+        Get
+            Return Settings.DomName
+        End Get
+        Set(value As String)
+            Settings.DomName = value
+        End Set
+    End Property
 
     Public Function GetSubName() As String Implements ISettingsAccessor.GetSubName
         Return MySettings.Default.SubName
     End Function
 
-    Friend Function GetDommeAvatarImageName() As String Implements ISettingsAccessor.GetDommeAvatarImageName
-        Return MySettings.Default.DomAvatarSave
-    End Function
+    Friend Property tDommeAvatarImageName As String Implements ISettingsAccessor.DommeAvatarImageName
+        Get
+            Return Settings.DomPersonality
+        End Get
+        Set(value As String)
+            Settings.DomAvatarSave = value
+        End Set
+    End Property
 
     Public Property TeaseLengthMinimum As Integer Implements ISettingsAccessor.TeaseLengthMinimum
         Get
@@ -378,6 +393,7 @@ Public Class SettingsAccessor
             Settings.TauntCycleMax = value
         End Set
     End Property
+
     Public ReadOnly Property IsImageGenreEnabled As Dictionary(Of ImageGenre, Boolean) Implements ISettingsAccessor.IsImageGenreEnabled
         Get
             Dim returnValue As Dictionary(Of ImageGenre, Boolean) = New Dictionary(Of ImageGenre, Boolean)()
@@ -388,6 +404,7 @@ Public Class SettingsAccessor
             Return returnValue
         End Get
     End Property
+
     Public ReadOnly Property ImageGenreIncludeSubDirectory As Dictionary(Of ImageGenre, Boolean) Implements ISettingsAccessor.ImageGenreIncludeSubDirectory
         Get
             Dim returnValue As Dictionary(Of ImageGenre, Boolean) = New Dictionary(Of ImageGenre, Boolean)()
@@ -407,5 +424,14 @@ Public Class SettingsAccessor
 
             Return returnValue
         End Get
+    End Property
+
+    Public Property ShouldAuditScripts As Boolean Implements ISettingsAccessor.ShouldAuditScripts
+        Get
+            Return Settings.AuditStartup
+        End Get
+        Set(value As Boolean)
+            Settings.AuditStartup = value
+        End Set
     End Property
 End Class

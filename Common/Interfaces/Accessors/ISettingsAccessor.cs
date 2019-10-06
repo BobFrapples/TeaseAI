@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TeaseAI.Common.Constants;
 
 namespace TeaseAI.Common.Interfaces.Accessors
@@ -6,9 +7,6 @@ namespace TeaseAI.Common.Interfaces.Accessors
     public interface ISettingsAccessor
     {
         List<string> GetGreetings();
-        string GetDommePersonality();
-        string GetDommeAvatarImageName();
-        string GetDommeName();
         string GetSubName();
 
         #region Sub settings
@@ -29,6 +27,9 @@ namespace TeaseAI.Common.Interfaces.Accessors
         #endregion
 
         #region Domme settings
+        string DommePersonality { get; set; }
+        string DommeAvatarImageName { get; set; }
+        string DommeName { get; set; }
         DomLevel DominationLevel { get; set; }
         ApathyLevel ApathLevel { get; set; }
         bool DoesDommeDecideOrgasmRange { get; set; }
@@ -60,5 +61,9 @@ namespace TeaseAI.Common.Interfaces.Accessors
         Dictionary<ImageGenre, bool> ImageGenreIncludeSubDirectory { get; }
         Dictionary<ImageGenre, bool> IsImageGenreEnabled { get; }
         Dictionary<ImageGenre, string> ImageGenreFolder { get; }
+        /// <summary>
+        /// Should the scripts be audited on startup
+        /// </summary>
+        bool ShouldAuditScripts { get; set; }
     }
 }

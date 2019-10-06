@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TeaseAI.Common.Data
+﻿namespace TeaseAI.Common.Data
 {
     /// <summary>
     /// Information about scripts, but not the actual script or where the domme is in the script
@@ -13,7 +11,7 @@ namespace TeaseAI.Common.Data
         public string Name { get; set; }
 
         /// <summary>
-        /// Key to find the script
+        /// Key to find the script, currently the fill path to the file
         /// </summary>
         public string Key { get; set; }
 
@@ -22,6 +20,11 @@ namespace TeaseAI.Common.Data
         /// </summary>
         public string Info { get; set; }
 
+        /// <summary>
+        /// Is this script enabled or not
+        /// </summary>
+        public bool IsEnabled { get; set; }
+
         public ScriptMetaData Clone()
         {
             return new ScriptMetaData()
@@ -29,6 +32,7 @@ namespace TeaseAI.Common.Data
                 Name = Name,
                 Key = Key,
                 Info = Info,
+                IsEnabled = IsEnabled,
             };
         }
     }

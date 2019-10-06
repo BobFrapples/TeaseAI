@@ -45,10 +45,10 @@ Public Class MainWindow
     Dim loadFileData As ILoadFileData = New LoadFileData()
     Dim myChatLogToHtmlService As IChatLogToHtmlService = New ChatLogToHtmlService()
     Dim myStringService As StringService = New StringService()
-    Dim myGetScripts As IScriptAccessor = New ScriptAccessor()
+    Dim myGetScripts As IScriptAccessor = New ScriptAccessor(New CldAccessor())
     Dim myImageTagReplaceHash As ImageTagReplaceHash = New ImageTagReplaceHash()
     Dim myFlagService As FlagService = New FlagService(New FlagAccessor())
-    Dim myGotoProcessor As GotoProcessor = New GotoProcessor(New ScriptAccessor())
+    Dim myGotoProcessor As GotoProcessor = New GotoProcessor(New ScriptAccessor(New CldAccessor()))
     Dim mySettingsAccessor As Accessors.ISettingsAccessor = New SettingsAccessor()
     Dim WithEvents mySession As SessionEngine
 
@@ -335,7 +335,7 @@ retryStart:
             If dompersonalitycombobox.Items.Count = 0 Then
                 MessageBox.Show(Me, "No domme Personalities were found! Many aspects of this program will not work correctly until at least one Personality is installed.", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Else
-                Dim domme As String = mySettingsAccessor.GetDommePersonality()
+                Dim domme As String = mySettingsAccessor.DommePersonality()
                 If personalities.Contains(domme) Then
                     dompersonalitycombobox.Text = domme
                 Else
@@ -371,7 +371,7 @@ retryStart:
             IsTypingTimer.Start()
 
             FrmSplash.UpdateText("Loading Domme and Sub avatar images...")
-            Dim avatar As String = mySettingsAccessor.GetDommeAvatarImageName()
+            Dim avatar As String = mySettingsAccessor.DommeAvatarImageName()
             If File.Exists(avatar) Then
                 domAvatar.Image = Image.FromFile(avatar)
             End If
@@ -422,7 +422,7 @@ retryStart:
 
             FrmSplash.UpdateText("Loading names...")
 
-            domName.Text = mySettingsAccessor.GetDommeName()
+            domName.Text = mySettingsAccessor.DommeName()
             subName.Text = mySettingsAccessor.GetSubName()
 
             FrmSettings.petnameBox1.Text = My.Settings.pnSetting1
@@ -1113,7 +1113,7 @@ retryStart:
         End If
         ' this should happen on construction.
         If mySession Is Nothing Then
-            mySession = New SessionEngine(New SettingsAccessor(), New StringService(), New ScriptAccessor(), New TimerFactory(), New FlagAccessor(), New ImageAccessor(), New VideoAccessor(), New VariableAccessor(), New TauntAccessor(), New SystemVocabularyAccessor(), New VocabularyAccessor(), New LineCollectionFilter(), New RandomNumberService())
+            mySession = New SessionEngine(New SettingsAccessor(), New StringService(), New ScriptAccessor(New CldAccessor()), New TimerFactory(), New FlagAccessor(), New ImageAccessor(), New VideoAccessor(), New VariableAccessor(), New TauntAccessor(), New SystemVocabularyAccessor(), New VocabularyAccessor(), New LineCollectionFilter(), New RandomNumberService())
             mySession.Session = CreateSession()
             AddHandler mySession.DommeSaid, AddressOf mySession_DommeSaid
             AddHandler mySession.ShowImage, AddressOf mySession_ShowImage

@@ -204,6 +204,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Services\BlogImageAccessor.vb" />
+    <Compile Include="Services\CldAccessor.vb" />
     <Compile Include="Services\FlagAccessor.vb" />
     <Compile Include="Services\ImageAccessor.vb" />
     <Compile Include="Services\SystemVocabularyAccessor.vb" />
