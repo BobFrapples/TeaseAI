@@ -267,16 +267,16 @@ Partial Class FrmSettings
         Me.GroupBox31 = New System.Windows.Forms.GroupBox()
         Me.RTBScriptReq = New System.Windows.Forms.RichTextBox()
         Me.TCScripts = New System.Windows.Forms.TabControl()
-        Me.TabPage21 = New System.Windows.Forms.TabPage()
+        Me.ScriptsStartTab = New System.Windows.Forms.TabPage()
         Me.StartScripts = New System.Windows.Forms.CheckedListBox()
-        Me.TabPage17 = New System.Windows.Forms.TabPage()
-        Me.CLBModuleList = New System.Windows.Forms.CheckedListBox()
-        Me.TabPage18 = New System.Windows.Forms.TabPage()
-        Me.CLBLinkList = New System.Windows.Forms.CheckedListBox()
-        Me.TabPage19 = New System.Windows.Forms.TabPage()
+        Me.ScriptsModuleTab = New System.Windows.Forms.TabPage()
+        Me.ModuleScripts = New System.Windows.Forms.CheckedListBox()
+        Me.ScriptsLinkTab = New System.Windows.Forms.TabPage()
+        Me.LinkScripts = New System.Windows.Forms.CheckedListBox()
+        Me.ScriptsEndTab = New System.Windows.Forms.TabPage()
         Me.CLBEndList = New System.Windows.Forms.CheckedListBox()
         Me.GroupBox42 = New System.Windows.Forms.GroupBox()
-        Me.RTBScriptDesc = New System.Windows.Forms.RichTextBox()
+        Me.ScriptInfoTextArea = New System.Windows.Forms.RichTextBox()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.GroupBox43 = New System.Windows.Forms.GroupBox()
         Me.Label98 = New System.Windows.Forms.Label()
@@ -1182,10 +1182,10 @@ Partial Class FrmSettings
         Me.Panel9.SuspendLayout
         Me.GroupBox31.SuspendLayout
         Me.TCScripts.SuspendLayout
-        Me.TabPage21.SuspendLayout
-        Me.TabPage17.SuspendLayout
-        Me.TabPage18.SuspendLayout
-        Me.TabPage19.SuspendLayout
+        Me.ScriptsStartTab.SuspendLayout
+        Me.ScriptsModuleTab.SuspendLayout
+        Me.ScriptsLinkTab.SuspendLayout
+        Me.ScriptsEndTab.SuspendLayout
         Me.GroupBox42.SuspendLayout
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GroupBox43.SuspendLayout
@@ -4372,26 +4372,26 @@ Partial Class FrmSettings
         '
         'TCScripts
         '
-        Me.TCScripts.Controls.Add(Me.TabPage21)
-        Me.TCScripts.Controls.Add(Me.TabPage17)
-        Me.TCScripts.Controls.Add(Me.TabPage18)
-        Me.TCScripts.Controls.Add(Me.TabPage19)
+        Me.TCScripts.Controls.Add(Me.ScriptsStartTab)
+        Me.TCScripts.Controls.Add(Me.ScriptsModuleTab)
+        Me.TCScripts.Controls.Add(Me.ScriptsLinkTab)
+        Me.TCScripts.Controls.Add(Me.ScriptsEndTab)
         Me.TCScripts.Location = New System.Drawing.Point(9, 31)
         Me.TCScripts.Name = "TCScripts"
         Me.TCScripts.SelectedIndex = 0
         Me.TCScripts.Size = New System.Drawing.Size(299, 248)
         Me.TCScripts.TabIndex = 154
         '
-        'TabPage21
+        'ScriptsStartTab
         '
-        Me.TabPage21.BackColor = System.Drawing.Color.Silver
-        Me.TabPage21.Controls.Add(Me.StartScripts)
-        Me.TabPage21.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage21.Name = "TabPage21"
-        Me.TabPage21.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage21.Size = New System.Drawing.Size(291, 222)
-        Me.TabPage21.TabIndex = 4
-        Me.TabPage21.Text = "Start"
+        Me.ScriptsStartTab.BackColor = System.Drawing.Color.Silver
+        Me.ScriptsStartTab.Controls.Add(Me.StartScripts)
+        Me.ScriptsStartTab.Location = New System.Drawing.Point(4, 22)
+        Me.ScriptsStartTab.Name = "ScriptsStartTab"
+        Me.ScriptsStartTab.Padding = New System.Windows.Forms.Padding(3)
+        Me.ScriptsStartTab.Size = New System.Drawing.Size(291, 222)
+        Me.ScriptsStartTab.TabIndex = 4
+        Me.ScriptsStartTab.Text = "Start"
         '
         'StartScripts
         '
@@ -4402,56 +4402,56 @@ Partial Class FrmSettings
         Me.StartScripts.Sorted = True
         Me.StartScripts.TabIndex = 155
         '
-        'TabPage17
+        'ScriptsModuleTab
         '
-        Me.TabPage17.BackColor = System.Drawing.Color.Silver
-        Me.TabPage17.Controls.Add(Me.CLBModuleList)
-        Me.TabPage17.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage17.Name = "TabPage17"
-        Me.TabPage17.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage17.Size = New System.Drawing.Size(291, 222)
-        Me.TabPage17.TabIndex = 5
-        Me.TabPage17.Text = "Modules"
+        Me.ScriptsModuleTab.BackColor = System.Drawing.Color.Silver
+        Me.ScriptsModuleTab.Controls.Add(Me.ModuleScripts)
+        Me.ScriptsModuleTab.Location = New System.Drawing.Point(4, 22)
+        Me.ScriptsModuleTab.Name = "ScriptsModuleTab"
+        Me.ScriptsModuleTab.Padding = New System.Windows.Forms.Padding(3)
+        Me.ScriptsModuleTab.Size = New System.Drawing.Size(291, 222)
+        Me.ScriptsModuleTab.TabIndex = 5
+        Me.ScriptsModuleTab.Text = "Modules"
         '
-        'CLBModuleList
+        'ModuleScripts
         '
-        Me.CLBModuleList.FormattingEnabled = True
-        Me.CLBModuleList.Location = New System.Drawing.Point(4, 4)
-        Me.CLBModuleList.Name = "CLBModuleList"
-        Me.CLBModuleList.Size = New System.Drawing.Size(283, 214)
-        Me.CLBModuleList.Sorted = True
-        Me.CLBModuleList.TabIndex = 156
+        Me.ModuleScripts.FormattingEnabled = True
+        Me.ModuleScripts.Location = New System.Drawing.Point(4, 4)
+        Me.ModuleScripts.Name = "ModuleScripts"
+        Me.ModuleScripts.Size = New System.Drawing.Size(283, 214)
+        Me.ModuleScripts.Sorted = True
+        Me.ModuleScripts.TabIndex = 156
         '
-        'TabPage18
+        'ScriptsLinkTab
         '
-        Me.TabPage18.BackColor = System.Drawing.Color.Silver
-        Me.TabPage18.Controls.Add(Me.CLBLinkList)
-        Me.TabPage18.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage18.Name = "TabPage18"
-        Me.TabPage18.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage18.Size = New System.Drawing.Size(291, 222)
-        Me.TabPage18.TabIndex = 6
-        Me.TabPage18.Text = "Link"
+        Me.ScriptsLinkTab.BackColor = System.Drawing.Color.Silver
+        Me.ScriptsLinkTab.Controls.Add(Me.LinkScripts)
+        Me.ScriptsLinkTab.Location = New System.Drawing.Point(4, 22)
+        Me.ScriptsLinkTab.Name = "ScriptsLinkTab"
+        Me.ScriptsLinkTab.Padding = New System.Windows.Forms.Padding(3)
+        Me.ScriptsLinkTab.Size = New System.Drawing.Size(291, 222)
+        Me.ScriptsLinkTab.TabIndex = 6
+        Me.ScriptsLinkTab.Text = "Link"
         '
         'CLBLinkList
         '
-        Me.CLBLinkList.FormattingEnabled = True
-        Me.CLBLinkList.Location = New System.Drawing.Point(4, 4)
-        Me.CLBLinkList.Name = "CLBLinkList"
-        Me.CLBLinkList.Size = New System.Drawing.Size(283, 214)
-        Me.CLBLinkList.Sorted = True
-        Me.CLBLinkList.TabIndex = 156
+        Me.LinkScripts.FormattingEnabled = True
+        Me.LinkScripts.Location = New System.Drawing.Point(4, 4)
+        Me.LinkScripts.Name = "CLBLinkList"
+        Me.LinkScripts.Size = New System.Drawing.Size(283, 214)
+        Me.LinkScripts.Sorted = True
+        Me.LinkScripts.TabIndex = 156
         '
-        'TabPage19
+        'ScriptsEndTab
         '
-        Me.TabPage19.BackColor = System.Drawing.Color.Silver
-        Me.TabPage19.Controls.Add(Me.CLBEndList)
-        Me.TabPage19.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage19.Name = "TabPage19"
-        Me.TabPage19.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage19.Size = New System.Drawing.Size(291, 222)
-        Me.TabPage19.TabIndex = 7
-        Me.TabPage19.Text = "End"
+        Me.ScriptsEndTab.BackColor = System.Drawing.Color.Silver
+        Me.ScriptsEndTab.Controls.Add(Me.CLBEndList)
+        Me.ScriptsEndTab.Location = New System.Drawing.Point(4, 22)
+        Me.ScriptsEndTab.Name = "ScriptsEndTab"
+        Me.ScriptsEndTab.Padding = New System.Windows.Forms.Padding(3)
+        Me.ScriptsEndTab.Size = New System.Drawing.Size(291, 222)
+        Me.ScriptsEndTab.TabIndex = 7
+        Me.ScriptsEndTab.Text = "End"
         '
         'CLBEndList
         '
@@ -4464,7 +4464,7 @@ Partial Class FrmSettings
         '
         'GroupBox42
         '
-        Me.GroupBox42.Controls.Add(Me.RTBScriptDesc)
+        Me.GroupBox42.Controls.Add(Me.ScriptInfoTextArea)
         Me.GroupBox42.Location = New System.Drawing.Point(314, 53)
         Me.GroupBox42.Name = "GroupBox42"
         Me.GroupBox42.Size = New System.Drawing.Size(385, 110)
@@ -4472,14 +4472,14 @@ Partial Class FrmSettings
         Me.GroupBox42.TabStop = False
         Me.GroupBox42.Text = "Description"
         '
-        'RTBScriptDesc
+        'ScriptInfoTextArea
         '
-        Me.RTBScriptDesc.Location = New System.Drawing.Point(6, 16)
-        Me.RTBScriptDesc.Name = "RTBScriptDesc"
-        Me.RTBScriptDesc.ReadOnly = True
-        Me.RTBScriptDesc.Size = New System.Drawing.Size(373, 85)
-        Me.RTBScriptDesc.TabIndex = 0
-        Me.RTBScriptDesc.Text = ""
+        Me.ScriptInfoTextArea.Location = New System.Drawing.Point(6, 16)
+        Me.ScriptInfoTextArea.Name = "ScriptInfoTextArea"
+        Me.ScriptInfoTextArea.ReadOnly = True
+        Me.ScriptInfoTextArea.Size = New System.Drawing.Size(373, 85)
+        Me.ScriptInfoTextArea.TabIndex = 0
+        Me.ScriptInfoTextArea.Text = ""
         '
         'PictureBox1
         '
@@ -14895,10 +14895,10 @@ Partial Class FrmSettings
         Me.Panel9.ResumeLayout(False)
         Me.GroupBox31.ResumeLayout(False)
         Me.TCScripts.ResumeLayout(False)
-        Me.TabPage21.ResumeLayout(False)
-        Me.TabPage17.ResumeLayout(False)
-        Me.TabPage18.ResumeLayout(False)
-        Me.TabPage19.ResumeLayout(False)
+        Me.ScriptsStartTab.ResumeLayout(False)
+        Me.ScriptsModuleTab.ResumeLayout(False)
+        Me.ScriptsLinkTab.ResumeLayout(False)
+        Me.ScriptsEndTab.ResumeLayout(False)
         Me.GroupBox42.ResumeLayout(False)
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox43.ResumeLayout(False)
@@ -15578,11 +15578,11 @@ Partial Class FrmSettings
     Friend WithEvents TabPage16 As System.Windows.Forms.TabPage
     Friend WithEvents Panel9 As System.Windows.Forms.Panel
     Friend WithEvents TCScripts As System.Windows.Forms.TabControl
-    Friend WithEvents TabPage21 As System.Windows.Forms.TabPage
+    Friend WithEvents ScriptsStartTab As System.Windows.Forms.TabPage
     Friend WithEvents StartScripts As System.Windows.Forms.CheckedListBox
-    Friend WithEvents TabPage17 As System.Windows.Forms.TabPage
-	Friend WithEvents TabPage18 As System.Windows.Forms.TabPage
-	Friend WithEvents TabPage19 As System.Windows.Forms.TabPage
+    Friend WithEvents ScriptsModuleTab As System.Windows.Forms.TabPage
+	Friend WithEvents ScriptsLinkTab As System.Windows.Forms.TabPage
+	Friend WithEvents ScriptsEndTab As System.Windows.Forms.TabPage
 	Friend WithEvents GroupBox42 As System.Windows.Forms.GroupBox
 	Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
 	Friend WithEvents GroupBox43 As System.Windows.Forms.GroupBox
@@ -15590,10 +15590,10 @@ Partial Class FrmSettings
 	Friend WithEvents Label104 As System.Windows.Forms.Label
 	Friend WithEvents GroupBox31 As System.Windows.Forms.GroupBox
 	Friend WithEvents RTBScriptReq As System.Windows.Forms.RichTextBox
-	Friend WithEvents RTBScriptDesc As System.Windows.Forms.RichTextBox
+	Friend WithEvents ScriptInfoTextArea As System.Windows.Forms.RichTextBox
 	Friend WithEvents LBLScriptReq As System.Windows.Forms.Label
-	Friend WithEvents CLBModuleList As System.Windows.Forms.CheckedListBox
-	Friend WithEvents CLBLinkList As System.Windows.Forms.CheckedListBox
+	Friend WithEvents ModuleScripts As System.Windows.Forms.CheckedListBox
+	Friend WithEvents LinkScripts As System.Windows.Forms.CheckedListBox
 	Friend WithEvents CLBEndList As System.Windows.Forms.CheckedListBox
 	Friend WithEvents BTNScriptOpen As System.Windows.Forms.Button
 	Friend WithEvents BTNScriptAvailable As System.Windows.Forms.Button

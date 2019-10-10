@@ -55,7 +55,7 @@ Public Class ScriptAccessor
     End Function
 
     Public Function GetAllScripts(dommePersonalityName As String, type As String, stage As SessionPhase, isDefaultEnabled As Boolean) As List(Of ScriptMetaData) Implements IScriptAccessor.GetAllScripts
-        Dim baseDir As String = Application.StartupPath + "\Scripts\" + dommePersonalityName + "\"
+        Dim baseDir As String = GetDommeBaseDir(dommePersonalityName)
         Dim checkListFile As String = baseDir + "System\" + stage.ToString() + "CheckList.cld"
 
         Dim cldData As List(Of ScriptMetaData) = myCldAccessor.ReadCld(checkListFile).GetResultOrDefault(New List(Of ScriptMetaData))
@@ -65,8 +65,8 @@ Public Class ScriptAccessor
         Dim finalCld As List(Of ScriptMetaData) = cldData.Where(Function(cld) File.Exists(cld.Key)).ToList()
         finalCld.ForEach(Function(cld) cld.Info = GetScriptInfo(cld.Key))
 
-        Dim fileData As List(Of ScriptMetaData) = GetScriptFiles(dommePersonalityName, type, stage, isDefaultEnabled) _
-            .Where(Function(file) finalCld.Any(Function(cld) cld.Key <> file.Key)).ToList()
+        Dim fileData As List(Of ScriptMetaData) = GetScriptFiles(dommePersonalityName, type, stage, isDefaultEnabled)
+        fileData = fileData.Where(Function(file) Not finalCld.Any(Function(cld) cld.Key = file.Key)).ToList()
         finalCld.AddRange(fileData)
 
         Return finalCld.OrderBy(Function(cld) cld.Name).ToList()

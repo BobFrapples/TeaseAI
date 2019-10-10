@@ -11381,17 +11381,17 @@ NoPlaylistModuleFile:
                         Loop
                     End If
 
-                    For x As Integer = 0 To FrmSettings.CLBModuleList.Items.Count - 1
+                    For x As Integer = 0 To FrmSettings.ModuleScripts.Items.Count - 1
                         If My.Settings.Chastity = True Then
-                            If FrmSettings.CLBModuleList.Items(x) = TempModule And FrmSettings.CLBModuleList.GetItemChecked(x) = True And Not foundFile.Contains("_EDGING") Then
+                            If FrmSettings.ModuleScripts.Items(x) = TempModule And FrmSettings.ModuleScripts.GetItemChecked(x) = True And Not foundFile.Contains("_EDGING") Then
                                 ModuleList.Add(foundFile)
                             End If
                         ElseIf IsEdging Then
-                            If FrmSettings.CLBModuleList.Items(x) = TempModule And FrmSettings.CLBModuleList.GetItemChecked(x) = True And foundFile.Contains("_EDGING") Then
+                            If FrmSettings.ModuleScripts.Items(x) = TempModule And FrmSettings.ModuleScripts.GetItemChecked(x) = True And foundFile.Contains("_EDGING") Then
                                 ModuleList.Add(foundFile)
                             End If
                         Else
-                            If FrmSettings.CLBModuleList.Items(x) = TempModule And FrmSettings.CLBModuleList.GetItemChecked(x) = True And Not foundFile.Contains("_EDGING") And Not foundFile.Contains("_CHASTITY") Then
+                            If FrmSettings.ModuleScripts.Items(x) = TempModule And FrmSettings.ModuleScripts.GetItemChecked(x) = True And Not foundFile.Contains("_EDGING") And Not foundFile.Contains("_CHASTITY") Then
                                 ModuleList.Add(foundFile)
                             End If
                         End If
@@ -11497,13 +11497,13 @@ NoPlaylistLinkFile:
                     Do Until Not TempLink.Contains("\")
                         TempLink = TempLink.Remove(0, 1)
                     Loop
-                    For x As Integer = 0 To FrmSettings.CLBLinkList.Items.Count - 1
+                    For x As Integer = 0 To FrmSettings.LinkScripts.Items.Count - 1
                         If My.Settings.Chastity = True Then
-                            If FrmSettings.CLBLinkList.Items(x) = TempLink And FrmSettings.CLBLinkList.GetItemChecked(x) = True Then
+                            If FrmSettings.LinkScripts.Items(x) = TempLink And FrmSettings.LinkScripts.GetItemChecked(x) = True Then
                                 LinkList.Add(foundFile)
                             End If
                         Else
-                            If FrmSettings.CLBLinkList.Items(x) = TempLink And FrmSettings.CLBLinkList.GetItemChecked(x) = True And Not TempLink.Contains("_CHASTITY") Then
+                            If FrmSettings.LinkScripts.Items(x) = TempLink And FrmSettings.LinkScripts.GetItemChecked(x) = True And Not TempLink.Contains("_CHASTITY") Then
                                 LinkList.Add(foundFile)
                             End If
                         End If
@@ -16341,17 +16341,12 @@ NoPlaylistStartFile:
         If FormLoading = True Then Exit Sub
 
         Try
-            My.Settings.DomPersonality = dompersonalitycombobox.Text
-
+            mySettingsAccessor.DommePersonality = dompersonalitycombobox.Text
             FrmSettings.LBLGlitModDomType.Text = dompersonalitycombobox.Text
 
             ssh.DomPersonality = dompersonalitycombobox.Text
 
-            FrmSettings.StartScripts_GotFocus()
-            FrmSettings.LoadModuleScripts()
-            FrmSettings.LoadLinkScripts()
-            FrmSettings.LoadEndScripts()
-
+            FrmSettings.FrmSettingStartUp()
 
             If File.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Apps\Glitter\Contact_Descriptions.txt") Then
                 Dim ContactList As New List(Of String)
