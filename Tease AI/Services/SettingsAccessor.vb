@@ -481,4 +481,40 @@ Public Class SettingsAccessor
             Settings.OfflineMode = value
         End Set
     End Property
+
+    Public Property IsTimeStampEnabled As Boolean Implements ISettingsAccessor.IsTimeStampEnabled
+        Get
+            Return Settings.CBTimeStamps
+        End Get
+        Set(value As Boolean)
+            Settings.CBTimeStamps = value
+        End Set
+    End Property
+
+    Public Property ShowNames As Boolean Implements ISettingsAccessor.ShowNames
+        Get
+            Return Settings.CBShowNames
+        End Get
+        Set(value As Boolean)
+            Settings.CBShowNames = value
+        End Set
+    End Property
+
+    Public Property DoesDommeTypeInstantly As Boolean Implements ISettingsAccessor.DoesDommeTypeInstantly
+        Get
+            Return Settings.CBInstantType
+        End Get
+        Set(value As Boolean)
+            Settings.CBInstantType = value
+        End Set
+    End Property
+
+    Public Property WebTeaseModeEnabled As Boolean Implements ISettingsAccessor.WebTeaseModeEnabled
+        Get
+            Return Settings.CBWebtease
+        End Get
+        Set(value As Boolean)
+            Settings.CBWebtease = value
+        End Set
+    End Property
 End Class

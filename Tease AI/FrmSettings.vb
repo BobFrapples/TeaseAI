@@ -49,6 +49,14 @@ Public Class FrmSettings
 
     Dim TagImageFolder As String
 
+    Public Sub New()
+        mySettingsAccessor = New SettingsAccessor()
+        myBlogAccessor = New BlogImageAccessor()
+        myCldAccessor = New CldAccessor()
+        myScriptAccessor = New ScriptAccessor(New CldAccessor())
+        InitializeComponent()
+    End Sub
+
     Private Sub frmProgramma_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
         Visible = False
         MainWindow.BtnToggleSettings.Text = "Open Settings Menu"
@@ -63,10 +71,6 @@ Public Class FrmSettings
     ''' Called when we want to validate everything
     ''' </summary>
     Public Sub FrmSettingStartUp()
-        mySettingsAccessor = New SettingsAccessor()
-        myBlogAccessor = New BlogImageAccessor()
-        myCldAccessor = New CldAccessor()
-        myScriptAccessor = New ScriptAccessor(New CldAccessor())
         FrmSettingsLoading = True
 
         FrmSplash.UpdateText("Checking installed voices...")
@@ -314,11 +318,8 @@ Public Class FrmSettings
         Visible = False
     End Sub
 
-    Private Sub SettingsTabs_TabIndexChanged(sender As Object, e As System.EventArgs) Handles SettingsTabs.SelectedIndexChanged
-
-        ' If current Tab is Scripts force focus onto CheckedListBoxes.
+    Private Sub SettingsTabs_TabIndexChanged(sender As Object, e As EventArgs) Handles SettingsTabs.SelectedIndexChanged
         If SettingsTabs.SelectedTab Is TabPage16 Then TCScripts_TabIndexChanged(TCScripts, Nothing)
-
     End Sub
 
 #Region "------------------------------------- GeneralTab -----------------------------------------------"
@@ -327,131 +328,65 @@ Public Class FrmSettings
         My.MySettings.importOnRestart()
     End Sub
 
-    Private Sub timestampCheckBox_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles timestampCheckBox.MouseClick
-
-        If timestampCheckBox.Checked = True Then
-            My.Settings.CBTimeStamps = True
-        Else
-            My.Settings.CBTimeStamps = False
-        End If
-
-
-
+    Private Sub TimeStampCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles TimeStampCheckBox.CheckedChanged
+        mySettingsAccessor.IsTimeStampEnabled = TimeStampCheckBox.Checked
     End Sub
 
-    Private Sub shownamesCheckBox_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles shownamesCheckBox.MouseClick
-
-        If shownamesCheckBox.Checked = True Then
-            My.Settings.CBShowNames = True
-        Else
-            My.Settings.CBShowNames = False
-        End If
-
+    Private Sub ShowNamesCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles ShowNamesCheckBox.CheckedChanged
+        mySettingsAccessor.ShowNames = ShowNamesCheckBox.Checked
     End Sub
 
-    Private Sub typeinstantlyCheckBox_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles typeinstantlyCheckBox.MouseClick
-
-        If typeinstantlyCheckBox.Checked = True Then
-            My.Settings.CBInstantType = True
-        Else
-            My.Settings.CBInstantType = False
-        End If
-
-
+    Private Sub TypeInstantlyCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles TypeInstantlyCheckBox.CheckedChanged
+        mySettingsAccessor.DoesDommeTypeInstantly = TypeInstantlyCheckBox.Checked
     End Sub
 
-    Private Sub CBWebtease_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles CBWebtease.MouseClick
-
-        If CBWebtease.Checked = True Then
-            My.Settings.CBWebtease = True
-        Else
-            My.Settings.CBWebtease = False
-        End If
-
-
+    Private Sub CBWebtease_CheckedChanged(sender As Object, e As EventArgs) Handles WebTeaseMode.CheckedChanged
+        mySettingsAccessor.WebTeaseModeEnabled = WebTeaseMode.Checked
     End Sub
 
-    Private Sub CBBlogImageWindow_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles CBBlogImageWindow.MouseClick
-        If CBBlogImageWindow.Checked = True Then
-            My.Settings.CBBlogImageMain = True
-        Else
-            My.Settings.CBBlogImageMain = False
-        End If
+    Private Sub CBBlogImageWindow_CheckedChanged(sender As Object, e As EventArgs) Handles CBBlogImageWindow.CheckedChanged
+        My.Settings.CBBlogImageMain = CBBlogImageWindow.Checked
     End Sub
 
-    Private Sub landscapeCheckBox_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles landscapeCheckBox.MouseClick
-        If landscapeCheckBox.Checked = True Then
-            My.Settings.CBStretchLandscape = True
-        Else
-            My.Settings.CBStretchLandscape = False
-        End If
+    Private Sub LandscapeCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles LandscapeCheckBox.CheckedChanged
+        My.Settings.CBStretchLandscape = LandscapeCheckBox.Checked
     End Sub
 
-    Private Sub CBSettingsPause_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles CBSettingsPause.MouseClick
-        If CBSettingsPause.Checked = True Then
-            My.Settings.CBSettingsPause = True
-        Else
-            My.Settings.CBSettingsPause = False
-        End If
+    Private Sub CBSettingsPause_CheckedChanged(sender As Object, e As EventArgs) Handles CBSettingsPause.CheckedChanged
+        My.Settings.CBSettingsPause = CBSettingsPause.Checked
     End Sub
 
-    Private Sub timestampCheckBox_CheckedChanged_1(sender As System.Object, e As System.EventArgs) Handles timestampCheckBox.MouseHover
+#Region "set tooltips"
+    Private Sub TimeStampCheckBox_MouseHover(sender As Object, e As EventArgs) Handles TimeStampCheckBox.MouseHover
 
-        If RBEnglish.Checked = True Then TTDir.SetToolTip(timestampCheckBox, "When this is selected, a timestamp will appear" & Environment.NewLine &
+        If RBEnglish.Checked Then TTDir.SetToolTip(TimeStampCheckBox, "When this is selected, a timestamp will appear" & Environment.NewLine &
                                                                              "with each message you and the domme send.")
-        If RBGerman.Checked = True Then TTDir.SetToolTip(timestampCheckBox, "Wenn dies aktiviert ist, wird mit jeder Nachricht die" & Environment.NewLine &
+        If RBGerman.Checked Then TTDir.SetToolTip(TimeStampCheckBox, "Wenn dies aktiviert ist, wird mit jeder Nachricht die" & Environment.NewLine &
                                                                             "du oder die Domina sendet ein Zeitstempel angezeigt")
-
-
-
-        'LBLGeneralSettingsDescription.Text = "When this is selected, a timestamp will appear with each message you and the domme send."
-        'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = "Wenn dies aktiviert ist, wird mit jeder Nachricht die du oder die Domina sendet ein Zeitstempel angezeigt"
-
     End Sub
 
-    Private Sub shownamesCheckBox_CheckedChanged_1(sender As System.Object, e As System.EventArgs) Handles shownamesCheckBox.MouseHover
+    Private Sub ShowNamesCheckBox_MouseHover(sender As Object, e As EventArgs) Handles ShowNamesCheckBox.MouseHover
 
-        If RBEnglish.Checked = True Then TTDir.SetToolTip(shownamesCheckBox, "When this is selected, the names of you and the" & Environment.NewLine &
+        If RBEnglish.Checked Then TTDir.SetToolTip(ShowNamesCheckBox, "When this is selected, the names of you and the" & Environment.NewLine &
                                                                               "domme will appear with every message you send." & Environment.NewLine & Environment.NewLine &
                                                                               "If it is unselected, names will only appear" & Environment.NewLine &
                                                                               "when you were not the last one to type.")
-        If RBGerman.Checked = True Then TTDir.SetToolTip(shownamesCheckBox, "Wenn dies aktiviert ist, wird mit jeder Nachricht" & Environment.NewLine &
+        If RBGerman.Checked Then TTDir.SetToolTip(ShowNamesCheckBox, "Wenn dies aktiviert ist, wird mit jeder Nachricht" & Environment.NewLine &
                                                                             "die du oder die Domina sendet der Name angezeigt." & Environment.NewLine & Environment.NewLine &
                                                                             "Wenn dies deaktiviert ist, Namen werden nur erscheinen" & Environment.NewLine &
                                                                             "wenn du nicht der letzte warst, der geschrieben hat.")
-
-
-
-
-        'LBLGeneralSettingsDescription.Text = "When this is selected, the names of you and the domme will appear with every message you send. If it is unselected, names will only appear when you were not the last one to type."
-
-        'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = "Wenn dies aktiviert ist, wird mit jeder Nachricht die du oder die Domina sendet der Name angezeigt. Wenn dies deaktiviert ist," _
-        '   & " Namen werden nur erscheinen wenn du nicht der letzte warst, der geschrieben hat."
-
     End Sub
 
-    Private Sub typeinstantlyCheckBox_CheckedChanged_1(sender As System.Object, e As System.EventArgs) Handles typeinstantlyCheckBox.MouseHover
-
-
-        If RBEnglish.Checked = True Then TTDir.SetToolTip(typeinstantlyCheckBox, "This program simulates a chat environment, so a brief delay appears before each post the domme makes." & Environment.NewLine &
+    Private Sub TypeInstantlyCheckBox_MouseHover(sender As Object, e As EventArgs) Handles TypeInstantlyCheckBox.MouseHover
+        If RBEnglish.Checked Then TTDir.SetToolTip(TypeInstantlyCheckBox, "This program simulates a chat environment, so a brief delay appears before each post the domme makes." & Environment.NewLine &
                                                                                  "This delay is determined by the length of what she is saying and will be accompanied by the text ""[Dom Name] is typing...""" & Environment.NewLine & Environment.NewLine &
                                                                                  "When this is selected, the typing delay is removed and the domme's messages become instantaneous.")
-        If RBGerman.Checked = True Then TTDir.SetToolTip(typeinstantlyCheckBox, "Dieses Programm simuliert eine Chat Umgebung, daher erscheint eine kurze Verzögerung vor jedem Beitrag den die Domina macht." & Environment.NewLine &
+        If RBGerman.Checked Then TTDir.SetToolTip(TypeInstantlyCheckBox, "Dieses Programm simuliert eine Chat Umgebung, daher erscheint eine kurze Verzögerung vor jedem Beitrag den die Domina macht." & Environment.NewLine &
                                                                                 "Diese Verzögerung hängt von der Länge ab, was sie schreibt und wird begleitet mit dem text „[Dom Name] is typing…"" für einen besseren Effekt." & Environment.NewLine & Environment.NewLine &
                                                                                 "Wenn dies deaktiviert ist, ist die „Tippen"" Verzögerung entfernt und die Domina Beiträge erschein sofort")
-
-
-
-        ' LBLGeneralSettingsDescription.Text = "This program simulates a chat environment, so a brief delay appears before each post the domme makes. This delay is determined by the length of what she is saying and will " _
-        '  & "be accompanied by the text ""[Dom Name] is typing..."" for added effect. When this is unselected, the typing delay is removed and the domme's messages become instantaneous."
-
-        'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = "Dieses Programm simuliert eine Chat Umgebung, daher erscheint eine kurze Verzögerung vor jedem Beitrag den die Domina macht. Diese Verzögerung hängt von der Länge ab, was sie schreibt und wird begleitet mit dem text „[Dom Name] is typing…"" für einen besseren Effekt."
-        ' Wenn dies deaktiviert ist, ist die „Tippen"" Verzögerung entfernt und die Domina Beiträge erschein sofort"
-
     End Sub
 
-    Private Sub CBLockWindow_CheckedChanged_1(sender As System.Object, e As System.EventArgs) Handles CBInputIcon.MouseHover
-
+    Private Sub CBInputIcon_MouseHover(sender As Object, e As EventArgs) Handles CBInputIcon.MouseHover
         TTDir.SetToolTip(CBInputIcon, "When this is selected, a small question mark icon will appear next to the" & Environment.NewLine &
                                       "domme's question when your exact response will be saved to a variable.")
         'If RBGerman.Checked = True Then TTDir.SetToolTip(CBInputIcon, "Wenn dies aktiviert ist, wird mit jeder Nachricht die" & Environment.NewLine & _
@@ -460,38 +395,31 @@ Public Class FrmSettings
         'LBLGeneralSettingsDescription.Text = "When this is selected, a small question mark icon will appear next to domme's question when your exact response will be saved to a variable."
 
         'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = "Wenn dies aktiviert ist, kann der Teilungsbalken zwischen Chat Fenster und Bildfenster nicht verstellt werden."
-
     End Sub
 
-    Private Sub CBBlogImageWindow_CheckedChanged_1(sender As System.Object, e As System.EventArgs) Handles CBBlogImageWindow.MouseHover
-
-        If RBEnglish.Checked = True Then TTDir.SetToolTip(CBBlogImageWindow, "When this is selected, any blog images the domme shows you will" & Environment.NewLine &
+    Private Sub CBBlogImageWindow_MouseHover(sender As Object, e As EventArgs) Handles CBBlogImageWindow.MouseHover
+        If RBEnglish.Checked Then TTDir.SetToolTip(CBBlogImageWindow, "When this is selected, any blog images the domme shows you will" & Environment.NewLine &
                                                                              "automatically be saved to ""[root folder]\Images\Session Images\"".")
-        If RBGerman.Checked = True Then TTDir.SetToolTip(CBBlogImageWindow, "Wenn dies aktiviert ist, wird jedes Blog Bild, welches die Domina dir zeigt" & Environment.NewLine &
+        If RBGerman.Checked Then TTDir.SetToolTip(CBBlogImageWindow, "Wenn dies aktiviert ist, wird jedes Blog Bild, welches die Domina dir zeigt" & Environment.NewLine &
                                                                             "automatisch gespeichert in „…\Tease AI Open Beta\Images\Session Images\""")
-
-
         'LBLGeneralSettingsDescription.Text = "When this is selected, any blog images the domme shows you will automatically be saved to ""[root folder]\Images\Session Images\""."
 
         'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = "Wenn dies aktiviert ist, wird jedes Blog Bild, welches die Domina dir zeigt automatisch gespeichert in „…\Tease AI Open Beta\Images\Session Images\"""
     End Sub
 
-    Private Sub landscapeCheckBox_CheckedChanged_1(sender As System.Object, e As System.EventArgs) Handles landscapeCheckBox.MouseHover
-
-        If RBEnglish.Checked = True Then TTDir.SetToolTip(landscapeCheckBox, "When this is selected, images that appear in the main window will be" & Environment.NewLine &
+    Private Sub LandscapeCheckBox_MouseHover(sender As Object, e As EventArgs) Handles LandscapeCheckBox.MouseHover
+        If RBEnglish.Checked Then TTDir.SetToolTip(LandscapeCheckBox, "When this is selected, images that appear in the main window will be" & Environment.NewLine &
                                                                              "stretched to fit the screen if their width is greater than their height.")
-        If RBGerman.Checked = True Then TTDir.SetToolTip(landscapeCheckBox, "Wenn dies aktiviert ist, werden die Bilder(welche Angezeigt" & Environment.NewLine &
+        If RBGerman.Checked Then TTDir.SetToolTip(LandscapeCheckBox, "Wenn dies aktiviert ist, werden die Bilder(welche Angezeigt" & Environment.NewLine &
                                                                             "werden) gestreckt, wenn ihre Breite größer als ihre Höhe ist.")
-
-
         'LBLGeneralSettingsDescription.Text = "When this is selected, images that appear in the main window will be stretched to fit the screen if their width is greater than their height."
         'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = "Wenn dies aktiviert ist, werden die Bilder(welche Angezeigt werden) gestreckt, wenn ihre Breite größer als ihre Höhe ist"
     End Sub
-    Private Sub CBImageInfo_CheckedChanged_1(sender As System.Object, e As System.EventArgs) Handles CBImageInfo.MouseHover
 
-        If RBEnglish.Checked = True Then TTDir.SetToolTip(CBImageInfo, "When this is selected, the local filepath or URL address of each image displayed" & Environment.NewLine &
+    Private Sub CBImageInfo_MouseHover(sender As Object, e As EventArgs) Handles CBImageInfo.MouseHover
+        If RBEnglish.Checked Then TTDir.SetToolTip(CBImageInfo, "When this is selected, the local filepath or URL address of each image displayed" & Environment.NewLine &
                                                                        "in the main window will appear in the upper left hand corner of the screen.")
-        If RBGerman.Checked = True Then TTDir.SetToolTip(CBImageInfo, "Wenn dies aktiviert ist, wird der Lokale Dateipfad oder die URL-Adresse" & Environment.NewLine &
+        If RBGerman.Checked Then TTDir.SetToolTip(CBImageInfo, "Wenn dies aktiviert ist, wird der Lokale Dateipfad oder die URL-Adresse" & Environment.NewLine &
                                                                       "von jedem Bild in der oberen linken Ecke des Bildschirms angezeigt.")
 
         'LBLGeneralSettingsDescription.Text = "When this is selected, the local filepath or URL address of each image displayed in the main window will appear in the upper left hand corner of the screen."
@@ -499,13 +427,12 @@ Public Class FrmSettings
         'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = "Wenn dies aktiviert ist, wird der Lokale Dateipfad oder die URL-Adresse von jedem Bild in der oberen linken Ecke des Bildschirms angezeigt."
     End Sub
 
-    Private Sub BTNDomImageDir_MouseHover(sender As System.Object, e As System.EventArgs) Handles BTNDomImageDir.MouseHover
-
-        If RBEnglish.Checked = True Then TTDir.SetToolTip(BTNDomImageDir, "Use this button to select a directory containing several image" & Environment.NewLine &
+    Private Sub BTNDomImageDir_MouseHover(sender As Object, e As EventArgs) Handles BTNDomImageDir.MouseHover
+        If RBEnglish.Checked Then TTDir.SetToolTip(BTNDomImageDir, "Use this button to select a directory containing several image" & Environment.NewLine &
                                                                              "set folders of the same model you're using as your domme." & Environment.NewLine & Environment.NewLine &
                                                                              "Once a valid directory has been set, any time you say hello to the domme, one of" & Environment.NewLine &
                                                                              "those folders will automatically be selected at random and used for the slideshow.")
-        If RBGerman.Checked = True Then TTDir.SetToolTip(BTNDomImageDir, "Benutze diese Schaltfläche um einen Ordner zu wählen, welcher mehre" & Environment.NewLine &
+        If RBGerman.Checked Then TTDir.SetToolTip(BTNDomImageDir, "Benutze diese Schaltfläche um einen Ordner zu wählen, welcher mehre" & Environment.NewLine &
                                                                             "Bildersets von dem selben Model enthält, die du als Domina benutzt." & Environment.NewLine & Environment.NewLine &
                                                                             "Nachdem einmal ein gültiges Verzeichnis gesetzt wurde, wird nachdem du Hello" & Environment.NewLine &
                                                                             "zu der Domina gesagt hast, automatisch zufällig eine Diashow ausgewählt.")
@@ -518,11 +445,10 @@ Public Class FrmSettings
         ' die du als Domina benutzt. Nachdem einmal ein gültiges Verzeichnis gesetzt wurde, wird nachdem du Hello zu der Domina gesagt hast, automatisch zufällig eine Diashow ausgewählt."
     End Sub
 
-    Private Sub offRadio_MouseHover(sender As System.Object, e As System.EventArgs) Handles offRadio.MouseHover
-
-        If RBEnglish.Checked = True Then TTDir.SetToolTip(offRadio, "When this is set, any domme slideshow you have selected will not advance during the" & Environment.NewLine &
+    Private Sub offRadio_MouseHover(sender As Object, e As EventArgs) Handles ManualSlideShowRadio.MouseHover
+        If RBEnglish.Checked Then TTDir.SetToolTip(ManualSlideShowRadio, "When this is set, any domme slideshow you have selected will not advance during the" & Environment.NewLine &
                                                                     "tease. Use the Previous and Next buttons on the Media Bar to change the images.")
-        If RBGerman.Checked = True Then TTDir.SetToolTip(offRadio, "Wenn dies aktiviert ist, wird jede Diashow nicht automatisch die Bilder wechseln." & Environment.NewLine &
+        If RBGerman.Checked Then TTDir.SetToolTip(ManualSlideShowRadio, "Wenn dies aktiviert ist, wird jede Diashow nicht automatisch die Bilder wechseln." & Environment.NewLine &
                                                                    "Nutze die Vor- und Zurückschaltflächen in der media bar um die Bilder zu wechseln.")
 
         'LBLGeneralSettingsDescription.Text = "When this is set, any slideshow you have selected will not advance during the tease. Use the Previous and Next buttons on the Media Bar to change the images."
@@ -530,9 +456,9 @@ Public Class FrmSettings
         'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = "Wenn dies aktiviert ist, wird jede Diashow nicht automatisch die Bilder wechseln. Nutze die Vor- und Zurückschaltflächen in der media bar um die Bilder zu wechseln"
     End Sub
 
-    Private Sub timedRadio_MouseHover(sender As System.Object, e As System.EventArgs) Handles timedRadio.MouseHover
+    Private Sub TimedRadio_MouseHover(sender As Object, e As EventArgs) Handles TimedSlideShowRadio.MouseHover
 
-        TTDir.SetToolTip(timedRadio, "When this is set, any slideshow you have selected will advance the image" & Environment.NewLine &
+        TTDir.SetToolTip(TimedSlideShowRadio, "When this is set, any slideshow you have selected will advance the image" & Environment.NewLine &
                                      "every number of seconds displayed in the box to the right of this option.")
 
         'LBLGeneralSettingsDescription.Text = "When this is set, any slideshow you have selected will advance the image every number of seconds displayed in the box to the right of this option."
@@ -540,9 +466,9 @@ Public Class FrmSettings
         'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = ""
     End Sub
 
-    Private Sub SlideshowNumBox_MouseHover(sender As System.Object, e As System.EventArgs) Handles slideshowNumBox.MouseHover
+    Private Sub SlideShowNumBox_MouseHover(sender As Object, e As EventArgs) Handles SlideShowNumBox.MouseHover
 
-        TTDir.SetToolTip(slideshowNumBox, "The number of seconds between image changes" & Environment.NewLine &
+        TTDir.SetToolTip(SlideShowNumBox, "The number of seconds between image changes" & Environment.NewLine &
                                           "when the ""Timed"" slideshow option is checked.")
 
         'LBLGeneralSettingsDescription.Text = "The number of seconds between image changes when the ""Timed"" slideshow option is checked."
@@ -550,19 +476,13 @@ Public Class FrmSettings
         'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = ""
     End Sub
 
-    Private Sub Radio_LostFocus(sender As Object, e As System.EventArgs) Handles teaseRadio.LostFocus, offRadio.LostFocus, timedRadio.LostFocus
-        If teaseRadio.Checked = True Then My.Settings.SlideshowMode = "Tease"
-        If timedRadio.Checked = True Then My.Settings.SlideshowMode = "Timed"
-        If offRadio.Checked = True Then My.Settings.SlideshowMode = "Manual"
-    End Sub
+    Private Sub TeaseSlideShowRadio_MouseHover(sender As Object, e As EventArgs) Handles TeaseSlideShowRadio.MouseHover
 
-    Private Sub teaseRadio_MouseHover(sender As System.Object, e As System.EventArgs) Handles teaseRadio.MouseHover
-
-        If RBEnglish.Checked = True Then TTDir.SetToolTip(teaseRadio, "When this is set, any slideshow you have selected will advance automatically when the domme " & Environment.NewLine &
+        If RBEnglish.Checked Then TTDir.SetToolTip(TeaseSlideShowRadio, "When this is set, any slideshow you have selected will advance automatically when the domme " & Environment.NewLine &
                                                                       "types. The slideshow may move forward or backward, but will not loop either direction." & Environment.NewLine & Environment.NewLine &
                                                                       "You can change the odds of which way the slideshow will move in" & Environment.NewLine &
                                                                       "the Ranges tab. This is the default slideshow mode for Tease AI.")
-        If RBGerman.Checked = True Then TTDir.SetToolTip(teaseRadio, "Wenn dies aktiviert ist, wird die Diashow automatisch die Bilder wechseln wenn die Domina schreibt." & Environment.NewLine &
+        If RBGerman.Checked Then TTDir.SetToolTip(TeaseSlideShowRadio, "Wenn dies aktiviert ist, wird die Diashow automatisch die Bilder wechseln wenn die Domina schreibt." & Environment.NewLine &
                                                                      "Die Diashow kann vorwärts oder rückwärts laufen, aber wird keine Richtung wiederholen." & Environment.NewLine & Environment.NewLine &
                                                                      "Du kannst die Wahrscheinlichkeit in welche Richtung die Diashow läuft im Wertebereichs" & Environment.NewLine &
                                                                      "„Reiter"" ändern. Dies ist der Standart Diashow modus in Tease AI.")
@@ -576,11 +496,11 @@ Public Class FrmSettings
         'Diashow läuft im Wertebereichs „Reiter"" ändern. Dies ist der Standart Diashow modus in Tease AI "
     End Sub
 
-    Private Sub CBSettingsPause_CheckedChanged_1(sender As System.Object, e As System.EventArgs) Handles CBSettingsPause.MouseHover
+    Private Sub CBSettingsPause_MouseHover(sender As Object, e As System.EventArgs) Handles CBSettingsPause.MouseHover
 
-        If RBEnglish.Checked = True Then TTDir.SetToolTip(CBSettingsPause, "When this is selected, the program will pause any time" & Environment.NewLine &
+        If RBEnglish.Checked Then TTDir.SetToolTip(CBSettingsPause, "When this is selected, the program will pause any time" & Environment.NewLine &
                                                                            "the settings menu is open and resume once it is closed.")
-        If RBGerman.Checked = True Then TTDir.SetToolTip(CBSettingsPause, "Wenn dies aktiviert ist, wird das Programm immer in Pause" & Environment.NewLine &
+        If RBGerman.Checked Then TTDir.SetToolTip(CBSettingsPause, "Wenn dies aktiviert ist, wird das Programm immer in Pause" & Environment.NewLine &
                                                                           "springen solange das Einstellungsmenü geöffnet ist.")
 
         'LBLGeneralSettingsDescription.Text = "When this is selected, the program will pause any time the settings menu is open and resume once it is closed."
@@ -588,13 +508,13 @@ Public Class FrmSettings
         'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = "Wenn dies aktiviert ist, wird das Programm immer in Pause springen solange das Einstellungsmenü geöffnet ist."
     End Sub
 
-    Private Sub BTNDomColor_MouseHover(sender As Object, e As System.EventArgs) Handles BTNDomColor.MouseHover
+    Private Sub BTNDomColor_MouseHover(sender As Object, e As EventArgs) Handles BTNDomColor.MouseHover
 
-        If RBEnglish.Checked = True Then TTDir.SetToolTip(BTNDomColor, "This button allows you to change the color of the" & Environment.NewLine &
+        If RBEnglish.Checked Then TTDir.SetToolTip(BTNDomColor, "This button allows you to change the color of the" & Environment.NewLine &
                                                                        "domme's name as it appears in the chat window." & Environment.NewLine & Environment.NewLine &
                                                                        "A preview will appear in the text box next to this" & Environment.NewLine &
                                                                        "button once a color has been selected.")
-        If RBGerman.Checked = True Then TTDir.SetToolTip(BTNDomColor, "Diese Schaltfläche erlaubt dir die Farbe des Domina Namens" & Environment.NewLine &
+        If RBGerman.Checked Then TTDir.SetToolTip(BTNDomColor, "Diese Schaltfläche erlaubt dir die Farbe des Domina Namens" & Environment.NewLine &
                                                                       "zu ändern in der er im Chat Fenster angezeigt wird." & Environment.NewLine & Environment.NewLine &
                                                                       "Eine Vorschau wird in der Textbox neben dieser Schaltfläche" & Environment.NewLine &
                                                                       "angezeigt, nachdem eine Farbe ausgewählt wurde.")
@@ -605,13 +525,13 @@ Public Class FrmSettings
         'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = "Diese Schaltfläche erlaubt dir die Farbe des Domina Namens zu ändern in der er im Chat Fenster angezeigt wird. Eine Vorschau wird in der Textbox neben dieser Schaltfläche angezeigt, nachdem eine Farbe ausgewählt wurde."
     End Sub
 
-    Private Sub BTNSubColor_MouseHover(sender As Object, e As System.EventArgs) Handles BTNSubColor.MouseHover
+    Private Sub BTNSubColor_MouseHover(sender As Object, e As EventArgs) Handles BTNSubColor.MouseHover
 
-        If RBEnglish.Checked = True Then TTDir.SetToolTip(BTNSubColor, "This button allows you to change the color of" & Environment.NewLine &
+        If RBEnglish.Checked Then TTDir.SetToolTip(BTNSubColor, "This button allows you to change the color of" & Environment.NewLine &
                                                                        "your name as it appears in the chat window." & Environment.NewLine & Environment.NewLine &
                                                                        "A preview will appear in the text box next to this" & Environment.NewLine &
                                                                        "button once a color has been selected.")
-        If RBGerman.Checked = True Then TTDir.SetToolTip(BTNSubColor, "Diese Schaltfläche erlaubt dir die Farbe des Sklaven Namens" & Environment.NewLine &
+        If RBGerman.Checked Then TTDir.SetToolTip(BTNSubColor, "Diese Schaltfläche erlaubt dir die Farbe des Sklaven Namens" & Environment.NewLine &
                                                                       "zu ändern in der er im Chat Fenster angezeigt wird." & Environment.NewLine & Environment.NewLine &
                                                                       "Eine Vorschau wird in der Textbox neben dieser Schaltfläche" & Environment.NewLine &
                                                                       "angezeigt, nachdem eine Farbe ausgewählt wurde.")
@@ -621,11 +541,11 @@ Public Class FrmSettings
         'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = "Diese Schaltfläche erlaubt dir die Farbe  des Sklaven Namens zu ändern in der er im Chat Fenster angezeigt wird. Eine Vorschau wird in der Textbox neben dieser Schaltfläche angezeigt, nachdem eine Farbe ausgewählt wurde."
     End Sub
 
-    Private Sub LBLDomColor_Click(sender As System.Object, e As System.EventArgs) Handles LBLDomColor.MouseHover
+    Private Sub LBLDomColor_MouseHover(sender As Object, e As EventArgs) Handles LBLDomColor.MouseHover
 
-        If RBEnglish.Checked = True Then TTDir.SetToolTip(LBLDomColor, "After clicking the ""Domme Name Color"" button to the" & Environment.NewLine &
+        If RBEnglish.Checked Then TTDir.SetToolTip(LBLDomColor, "After clicking the ""Domme Name Color"" button to the" & Environment.NewLine &
                                                                        "left, a preview of the selected color will appear here.")
-        If RBGerman.Checked = True Then TTDir.SetToolTip(LBLDomColor, "Nachdem Klicken der Schaltfläche ""Domina Farbe für Namen"" zur" & Environment.NewLine &
+        If RBGerman.Checked Then TTDir.SetToolTip(LBLDomColor, "Nachdem Klicken der Schaltfläche ""Domina Farbe für Namen"" zur" & Environment.NewLine &
                                                                       "linken, eine Vorschau der ausgewählten Farbe erscheint hier.")
 
         'LBLGeneralSettingsDescription.Text = "After clicking the ""Domme Name Color"" button to the left, a preview of the selected color will appear here."
@@ -633,11 +553,11 @@ Public Class FrmSettings
         'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = "Nachdem Klicken der Schaltfläche ""Domina Farbe für Namen"" zur linken, eine Vorschau der ausgewählten Farbe erscheint hier"
     End Sub
 
-    Private Sub LBLSubColor_Click(sender As System.Object, e As System.EventArgs) Handles LBLSubColor.MouseHover
+    Private Sub LBLSubColor_MouseHover(sender As Object, e As EventArgs) Handles LBLSubColor.MouseHover
 
-        If RBEnglish.Checked = True Then TTDir.SetToolTip(LBLSubColor, "After clicking the ""Sub Name Color"" button to the" & Environment.NewLine &
+        If RBEnglish.Checked Then TTDir.SetToolTip(LBLSubColor, "After clicking the ""Sub Name Color"" button to the" & Environment.NewLine &
                                                                       "left, a preview of the selected color will appear here.")
-        If RBGerman.Checked = True Then TTDir.SetToolTip(LBLSubColor, "Nachdem Klicken der Schaltfläche ""Sklaven Farbe für Namen"" zur" & Environment.NewLine &
+        If RBGerman.Checked Then TTDir.SetToolTip(LBLSubColor, "Nachdem Klicken der Schaltfläche ""Sklaven Farbe für Namen"" zur" & Environment.NewLine &
                                                                       "linken, eine Vorschau der ausgewählten Farbe erscheint hier.")
 
 
@@ -646,13 +566,13 @@ Public Class FrmSettings
         'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = "Nachdem Klicken der Schaltfläche ""Sklaven Farbe für Namen"" zur linken, eine Vorschau der ausgewählten Farbe erscheint hier"
     End Sub
 
-    Private Sub CBDomDel_Click(sender As System.Object, e As System.EventArgs) Handles CBDomDel.MouseHover
+    Private Sub CBDomDel_MouseHover(sender As Object, e As EventArgs) Handles CBDomDel.MouseHover
 
-        If RBEnglish.Checked = True Then TTDir.SetToolTip(CBDomDel, "When this box is checked, the domme will be able to permanently delete" & Environment.NewLine &
+        If RBEnglish.Checked Then TTDir.SetToolTip(CBDomDel, "When this box is checked, the domme will be able to permanently delete" & Environment.NewLine &
                                                                     "media from your hard drive when such Commands are used in scripts." & Environment.NewLine & Environment.NewLine &
                                                                     "When this box is NOT checked, media will not actually be deleted. Images will still" & Environment.NewLine &
                                                                     "disappear from the window, but they will not be deleted from the hard drive.")
-        If RBGerman.Checked = True Then TTDir.SetToolTip(CBDomDel, "Wenn dies aktiviert ist, ist die Domina dazu in der Lage Medien permanent von" & Environment.NewLine &
+        If RBGerman.Checked Then TTDir.SetToolTip(CBDomDel, "Wenn dies aktiviert ist, ist die Domina dazu in der Lage Medien permanent von" & Environment.NewLine &
                                                                    "deiner Festplatte zu löschen, wenn solche Kommandos in dem Script genutzt werden." & Environment.NewLine & Environment.NewLine &
                                                                    "Wenn dies deaktiviert ist, werden Bilder vom Bildschirm" & Environment.NewLine &
                                                                    "verschwinden, aber nicht von der Festplatte gelöscht.")
@@ -666,42 +586,16 @@ Public Class FrmSettings
         'Kommandos in dem Script genutzt werden. Wenn dies deaktiviert ist, werden Bilder vom Bildschirm verschwinden, aber nicht von der Festplatte gelöscht."
     End Sub
 
-    Private Sub CBAutosaveChatlog_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles CBAutosaveChatlog.MouseClick
-        If CBAutosaveChatlog.Checked = True Then
-            My.Settings.CBAutosaveChatlog = True
-        Else
-            My.Settings.CBAutosaveChatlog = False
-        End If
-    End Sub
+    Private Sub CBSlideshowSubDir_MouseHover(sender As Object, e As EventArgs) Handles CBSlideshowSubDir.MouseHover
 
-    Private Sub CBSaveChatlogExit_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles CBSaveChatlogExit.MouseClick
-        If CBSaveChatlogExit.Checked = True Then
-            My.Settings.CBExitSaveChatlog = True
-        Else
-            My.Settings.CBExitSaveChatlog = False
-        End If
-    End Sub
-
-    Private Sub CBSlideshowSubDir_LostFocus(sender As System.Object, e As System.EventArgs) Handles CBSlideshowSubDir.LostFocus
-        If CBSlideshowSubDir.Checked = True Then
-            My.Settings.CBSlideshowSubDir = True
-        Else
-            My.Settings.CBSlideshowSubDir = False
-        End If
-    End Sub
-
-    Private Sub CBSlideshowSubDir_MouseHover(sender As System.Object, e As System.EventArgs) Handles CBSlideshowSubDir.MouseHover
-
-        If RBEnglish.Checked = True Then TTDir.SetToolTip(CBSlideshowSubDir, "When this is selected, the program will include all subdirectories" & Environment.NewLine &
+        If RBEnglish.Checked Then TTDir.SetToolTip(CBSlideshowSubDir, "When this is selected, the program will include all subdirectories" & Environment.NewLine &
                                                                              "when you select a folder for domme slideshow images" & Environment.NewLine & Environment.NewLine &
                                                                              "When it is unselected, only the images in the top" & Environment.NewLine &
                                                                              "level of the folder will be used.")
-        If RBGerman.Checked = True Then TTDir.SetToolTip(CBSlideshowSubDir, "Wenn dies aktiviert ist, wird das Programm alle Unterordner mit" & Environment.NewLine &
+        If RBGerman.Checked Then TTDir.SetToolTip(CBSlideshowSubDir, "Wenn dies aktiviert ist, wird das Programm alle Unterordner mit" & Environment.NewLine &
                                                                             "einbeziehn wenn du ein Ordner für Diashow bilder gewählt hast." & Environment.NewLine & Environment.NewLine &
                                                                             "Wenn dies deaktiviert ist. Werden nur Bilder" & Environment.NewLine &
                                                                             "des ausgewählten Ordners benutzt.")
-
-
 
         'LBLGeneralSettingsDescription.Text = "When this is selected, the program will include all subdirectories when you select a folder for slideshow images. When it is unselected, only the images in the top " & _
         '   "level of the folder will be used."
@@ -710,19 +604,11 @@ Public Class FrmSettings
         'Wenn dies deaktiviert ist. Werden nur Bilder des ausgewählten Ordners benutzt"
     End Sub
 
-    Private Sub CBSlideshowRandom_LostFocus(sender As System.Object, e As System.EventArgs) Handles CBSlideshowRandom.LostFocus
-        If CBSlideshowRandom.Checked = True Then
-            My.Settings.CBSlideshowRandom = True
-        Else
-            My.Settings.CBSlideshowRandom = False
-        End If
-    End Sub
+    Private Sub CBSlideshowRandom_MouseHover(sender As Object, e As EventArgs) Handles CBSlideshowRandom.MouseHover
 
-    Private Sub CBSlideshowRandom_MouseHover(sender As System.Object, e As System.EventArgs) Handles CBSlideshowRandom.MouseHover
-
-        If RBEnglish.Checked = True Then TTDir.SetToolTip(CBSlideshowRandom, "When this is selected, the slideshow will display images randomly." & Environment.NewLine &
+        If RBEnglish.Checked Then TTDir.SetToolTip(CBSlideshowRandom, "When this is selected, the slideshow will display images randomly." & Environment.NewLine &
                                                                              "When it is unselected, it will display images in order of their filename.")
-        If RBGerman.Checked = True Then TTDir.SetToolTip(CBSlideshowRandom, "Wenn dies aktiviert ist, werden Diashow Bilder zufällig angezeigt." & Environment.NewLine &
+        If RBGerman.Checked Then TTDir.SetToolTip(CBSlideshowRandom, "Wenn dies aktiviert ist, werden Diashow Bilder zufällig angezeigt." & Environment.NewLine &
                                                                             " Wenn dies deaktiviert ist, werden die Bilder in Reihenfolge ihrer Dateinamen gezeigt.")
 
 
@@ -731,13 +617,13 @@ Public Class FrmSettings
 
     End Sub
 
-    Private Sub CBAutosaveChatlog_MouseHover(sender As System.Object, e As System.EventArgs) Handles CBAutosaveChatlog.MouseHover
+    Private Sub CBAutosaveChatlog_MouseHover(sender As Object, e As EventArgs) Handles CBAutosaveChatlog.MouseHover
 
-        If RBEnglish.Checked = True Then TTDir.SetToolTip(CBAutosaveChatlog, "When this is selected, the program will save a chatlog called" & Environment.NewLine &
+        If RBEnglish.Checked Then TTDir.SetToolTip(CBAutosaveChatlog, "When this is selected, the program will save a chatlog called" & Environment.NewLine &
                                                                              """Autosave.html"" any time you or the domme post a message." & Environment.NewLine & Environment.NewLine &
                                                                              "This log is overwritten each time, so it will only display a record of the current session." & Environment.NewLine &
                                                                              "This log can be found in the ""Chatlogs"" directory in the root folder of the program.")
-        If RBGerman.Checked = True Then TTDir.SetToolTip(CBAutosaveChatlog, "Wenn dies aktiviert ist, speichert das Programm einen Chatlog" & Environment.NewLine &
+        If RBGerman.Checked Then TTDir.SetToolTip(CBAutosaveChatlog, "Wenn dies aktiviert ist, speichert das Programm einen Chatlog" & Environment.NewLine &
                                                                             "(„Autosave.html"") immer wenn du oder die Domina eine Nachricht senden." & Environment.NewLine & Environment.NewLine &
                                                                             "Dieses Log wird jedes Mal überschrieben, so das es nur die Aktuelle Session aufnimmt/anzeigt." & Environment.NewLine &
                                                                             "Dieses Log befindet sich im Ordner „Chatlogs"" in dem Tease AI Ordner.")
@@ -751,15 +637,14 @@ Public Class FrmSettings
 
     End Sub
 
-    Private Sub CBSaveChatlogExit_MouseHover(sender As System.Object, e As System.EventArgs) Handles CBSaveChatlogExit.MouseHover
+    Private Sub CBSaveChatlogExit_MouseHover(sender As Object, e As EventArgs) Handles CBSaveChatlogExit.MouseHover
 
-        If RBEnglish.Checked = True Then TTDir.SetToolTip(CBSaveChatlogExit, "When this is selected, a unique chatlog that includes the" & Environment.NewLine &
+        If RBEnglish.Checked Then TTDir.SetToolTip(CBSaveChatlogExit, "When this is selected, a unique chatlog that includes the" & Environment.NewLine &
                                                                              "date and time will be created whenever you exit the program." & Environment.NewLine & Environment.NewLine &
                                                                              "This log can be found in the ""Chatlogs"" directory in the root folder of the program.")
-        If RBGerman.Checked = True Then TTDir.SetToolTip(CBSaveChatlogExit, "Wenn dies aktiviert ist, speichert das Programm einen einzigartigen Chatlog," & Environment.NewLine &
+        If RBGerman.Checked Then TTDir.SetToolTip(CBSaveChatlogExit, "Wenn dies aktiviert ist, speichert das Programm einen einzigartigen Chatlog," & Environment.NewLine &
                                                                             "der Datum und Zeit beinhaltet, immer dann wenn du das Programm beendest." & Environment.NewLine & Environment.NewLine &
                                                                             "Dieses Log befindet sich im Ordner „Chatlogs"" in dem Tease AI Ordner.")
-
 
         ' LBLGeneralSettingsDescription.Text = "When this is selected, a unique chatlog that includes the date and time will be created whenever you exit the program. This log can be found in the ""Chatlogs"" directory in " & _
         '    "the root folder of the program."
@@ -768,11 +653,11 @@ Public Class FrmSettings
         'Programm beendest. Dieses Log befindet sich im Ordner „Chatlogs"" in dem Tease AI Ordner."
     End Sub
 
-    Private Sub CBJackInTheBox_MouseHover(sender As System.Object, e As System.EventArgs) Handles CBAuditStartup.MouseHover
+    Private Sub CBJackInTheBox_MouseHover(sender As Object, e As EventArgs) Handles CBAuditStartup.MouseHover
 
-        If RBEnglish.Checked = True Then TTDir.SetToolTip(CBAuditStartup, "When this is checked, the program will automatically audit all" & Environment.NewLine &
+        If RBEnglish.Checked Then TTDir.SetToolTip(CBAuditStartup, "When this is checked, the program will automatically audit all" & Environment.NewLine &
                                                                           "scripts in the current domme's directory and fix common errors.")
-        If RBGerman.Checked = True Then TTDir.SetToolTip(CBAuditStartup, "Wenn dies aktiviert ist, wird das Programm automatisch alle" & Environment.NewLine &
+        If RBGerman.Checked Then TTDir.SetToolTip(CBAuditStartup, "Wenn dies aktiviert ist, wird das Programm automatisch alle" & Environment.NewLine &
                                                                          "Scripts im domina Ordner prüfen und häufige Fehler beheben.")
 
 
@@ -781,12 +666,12 @@ Public Class FrmSettings
         'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = "Wenn dies aktiviert ist, wird das Programm automatisch alle Scripts im domina Ordner prüfen und häufige Fehler beheben"
     End Sub
 
-    Private Sub TBSafeword_MouseHover(sender As System.Object, e As System.EventArgs) Handles TBSafeword.MouseHover
+    Private Sub TBSafeword_MouseHover(sender As Object, e As EventArgs) Handles TBSafeword.MouseHover
 
-        If RBEnglish.Checked = True Then TTDir.SetToolTip(TBSafeword, "Use this to set the word you would like to use as your safeword." & Environment.NewLine & Environment.NewLine &
+        If RBEnglish.Checked Then TTDir.SetToolTip(TBSafeword, "Use this to set the word you would like to use as your safeword." & Environment.NewLine & Environment.NewLine &
                                                                       "When used by itself during interaction with the domme, it will stop all activity" & Environment.NewLine &
                                                                       "and begin an Interrupt script where the domme makes sure you're okay to continue.")
-        If RBGerman.Checked = True Then TTDir.SetToolTip(TBSafeword, "Gebe hier dein Safeword ein, welches alle Aktivitäten der Domina stopt," & Environment.NewLine &
+        If RBGerman.Checked Then TTDir.SetToolTip(TBSafeword, "Gebe hier dein Safeword ein, welches alle Aktivitäten der Domina stopt," & Environment.NewLine &
                                                                      "bis sie sicher ist, das du weiter machen kannst.")
 
         'LBLGeneralSettingsDescription.Text = "Use this to set the word you would like to use as your safeword. When used by itself during interaction with the domme, it will stop all activity and begin an Interrupt" _
@@ -795,14 +680,14 @@ Public Class FrmSettings
         'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = "Gebe hier dein Safeword ein, welches alle Aktivitäten der Domina stopt, bis sie sicher ist, das du weiter machen kannst."
     End Sub
 
-    Private Sub TTSCheckbox_MouseHover(sender As System.Object, e As System.EventArgs) Handles TTSCheckBox.MouseHover
+    Private Sub TTSCheckbox_MouseHover(sender As Object, e As EventArgs) Handles TTSCheckBox.MouseHover
 
 
-        If RBEnglish.Checked = True Then TTDir.SetToolTip(TTSCheckBox, "When this is selected, the domme will ""speak"" her lines using whichever TTS voice you have selected." & Environment.NewLine &
+        If RBEnglish.Checked Then TTDir.SetToolTip(TTSCheckBox, "When this is selected, the domme will ""speak"" her lines using whichever TTS voice you have selected." & Environment.NewLine &
                                                                        "This setting must be manually checked to make the most out of the Hypnotic Guide app." & Environment.NewLine & Environment.NewLine &
                                                                        "For privacy reasons, this setting will not be saved through multiple uses of the program." & Environment.NewLine &
                                                                        "It must be selected each time you start Tease AI and wish to use it.")
-        If RBGerman.Checked = True Then TTDir.SetToolTip(TTSCheckBox, "Wenn dies Aktiviert ist, wird die Domina ihre Zeilen ""sprechen"" mit welcher TTS stimme du gewählt hast." & Environment.NewLine &
+        If RBGerman.Checked Then TTDir.SetToolTip(TTSCheckBox, "Wenn dies Aktiviert ist, wird die Domina ihre Zeilen ""sprechen"" mit welcher TTS stimme du gewählt hast." & Environment.NewLine &
                                                                       "Diese Einstellung muss Manuel gewählt werden um das meiste aus der Hypnotic Guide app zu machen." & Environment.NewLine & Environment.NewLine &
                                                                       "Wegen der Privatsphäre wird diese Einstellung nicht gespeichert," & Environment.NewLine &
                                                                       "sondern muss bei jedem Start von Tease AI gesondert gewählt werden.")
@@ -816,7 +701,7 @@ Public Class FrmSettings
         '   sondern muss bei jedem Start von Tease AI gesondert gewählt werden."
     End Sub
 
-    Private Sub TTSComboBox_MouseHover(sender As System.Object, e As System.EventArgs) Handles TTSComboBox.MouseHover
+    Private Sub TTSComboBox_MouseHover(sender As Object, e As EventArgs) Handles TTSComboBox.MouseHover
 
         TTDir.SetToolTip(TTSComboBox, "Make a selection from the Text-to-Speech voices installed on your computer.")
 
@@ -825,256 +710,113 @@ Public Class FrmSettings
         'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = ""
     End Sub
 
-    'Private Sub GBGeneralSystem_MouseEnter(sender As System.Object, e As System.EventArgs) Handles GBGeneralSystem.MouseEnter
-    '   LBLGeneralSettingsDescription.Text = "Hover over any setting in the menu for a more detailed description of its function."
+#End Region
 
-    '    If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = "Ziehe die Maus über irgendeine Einstellung um eine genaure Beschreibung der Einstellung zu bekommen."
-    'End Sub
-
-    Private Sub CBLockWindow_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles CBInputIcon.LostFocus
-        If CBInputIcon.Checked = True Then
-            My.Settings.CBInputIcon = True
-        Else
-            My.Settings.CBInputIcon = False
-        End If
+    Private Sub Radio_LostFocus(sender As Object, e As EventArgs) Handles TeaseSlideShowRadio.LostFocus, ManualSlideShowRadio.LostFocus, TimedSlideShowRadio.LostFocus
+        If TeaseSlideShowRadio.Checked Then My.Settings.SlideshowMode = "Tease"
+        If TimedSlideShowRadio.Checked Then My.Settings.SlideshowMode = "Timed"
+        If ManualSlideShowRadio.Checked Then My.Settings.SlideshowMode = "Manual"
     End Sub
 
-    Private Sub BTNDomColor_Click(sender As System.Object, e As System.EventArgs) Handles BTNDomColor.Click
+    Private Sub CBAutosaveChatlog_CheckedChanged(sender As Object, e As EventArgs) Handles CBAutosaveChatlog.CheckedChanged
+        My.Settings.CBAutosaveChatlog = CBAutosaveChatlog.Checked
+    End Sub
 
+    Private Sub CBSaveChatlogExit_CheckedChanged(sender As Object, e As EventArgs) Handles CBSaveChatlogExit.CheckedChanged
+        My.Settings.CBExitSaveChatlog = CBSaveChatlogExit.Checked
+    End Sub
+
+    Private Sub CBSlideshowSubDir_CheckedChanged(sender As Object, e As EventArgs) Handles CBSlideshowSubDir.CheckedChanged
+        My.Settings.CBSlideshowSubDir = CBSlideshowSubDir.Checked
+    End Sub
+
+    Private Sub CBSlideshowRandom_CheckedChanged(sender As Object, e As EventArgs) Handles CBSlideshowRandom.CheckedChanged
+        My.Settings.CBSlideshowRandom = CBSlideshowRandom.Checked
+    End Sub
+
+    Private Sub CBLockWindow_CheckedChanged(sender As Object, e As EventArgs) Handles CBInputIcon.CheckedChanged
+        My.Settings.CBInputIcon = CBInputIcon.Checked
+    End Sub
+
+    Private Sub BTNDomColor_Click(sender As Object, e As EventArgs) Handles BTNDomColor.Click
         If GetColor.ShowDialog() = DialogResult.OK Then
             My.Settings.DomColorColor = GetColor.Color
             LBLDomColor.ForeColor = GetColor.Color
             My.Settings.DomColor = Color2Html(GetColor.Color)
         End If
-
-
     End Sub
 
-    Private Sub BTNSubColor_Click(sender As System.Object, e As System.EventArgs) Handles BTNSubColor.Click
-
+    Private Sub BTNSubColor_Click(sender As Object, e As EventArgs) Handles BTNSubColor.Click
         If GetColor.ShowDialog() = DialogResult.OK Then
             My.Settings.SubColorColor = GetColor.Color
             LBLSubColor.ForeColor = GetColor.Color
             My.Settings.SubColor = Color2Html(GetColor.Color)
         End If
-
     End Sub
 
-
-
-    Private Sub timedRadio_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles timedRadio.CheckedChanged
-        If MainWindow.ssh.SlideshowLoaded = True And timedRadio.Checked = True Then
-            MainWindow.ssh.SlideshowTimerTick = slideshowNumBox.Value
+    Private Sub TimedSlideShowRadio_CheckedChanged(sender As Object, e As EventArgs) Handles TimedSlideShowRadio.CheckedChanged
+        If MainWindow.ssh.SlideshowLoaded AndAlso TimedSlideShowRadio.Checked Then
+            MainWindow.ssh.SlideshowTimerTick = SlideShowNumBox.Value
             MainWindow.SlideshowTimer.Start()
         End If
     End Sub
 
-    Private Sub teaseRadio_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles teaseRadio.CheckedChanged
-        If timedRadio.Checked = False And MainWindow.FormLoading = False Then
+    Private Sub TeaseSlideShowRadio_CheckedChanged(sender As Object, e As EventArgs) Handles TeaseSlideShowRadio.CheckedChanged
+        If Not TimedSlideShowRadio.Checked AndAlso Not MainWindow.FormLoading Then
             MainWindow.SlideshowTimer.Stop()
         End If
     End Sub
 
-    Private Sub offRadio_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles offRadio.CheckedChanged
-        If timedRadio.Checked = False Then
+    Private Sub ManualSlideShowRadio_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles ManualSlideShowRadio.CheckedChanged
+        If Not TimedSlideShowRadio.Checked Then
             MainWindow.SlideshowTimer.Stop()
         End If
     End Sub
 
-    Private Sub FontComboBoxD_LostFocus(sender As System.Object, e As System.EventArgs) Handles DommeMessageFontCB.LostFocus
+    Private Sub DommeMessageFontCB_SelectedValueChanged(sender As Object, e As EventArgs) Handles DommeMessageFontCB.SelectedValueChanged
         My.Settings.DomFont = DommeMessageFontCB.Text
     End Sub
 
-    Private Sub FontComboBox_LostFocus(sender As System.Object, e As System.EventArgs) Handles SubMessageFontCB.LostFocus
+    Private Sub SubMessageFontCB_LostFocus(sender As Object, e As EventArgs) Handles SubMessageFontCB.LostFocus
         My.Settings.SubFont = SubMessageFontCB.Text
     End Sub
 
-    Private Sub NBFontSizeD_LostFocus(sender As System.Object, e As System.EventArgs) Handles NBFontSizeD.LostFocus
+    Private Sub NBFontSizeD_LostFocus(sender As Object, e As EventArgs) Handles NBFontSizeD.LostFocus
         My.Settings.DomFontSize = NBFontSizeD.Value
     End Sub
 
-    Private Sub NBFontSize_LostFocus(sender As System.Object, e As System.EventArgs) Handles NBFontSize.LostFocus
+    Private Sub NBFontSize_LostFocus(sender As Object, e As EventArgs) Handles NBFontSize.LostFocus
         My.Settings.SubFontSize = NBFontSize.Value
     End Sub
 
-
-
-
-    Private Sub CBImageInfo_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles CBImageInfo.CheckedChanged
-        If CBImageInfo.Checked = True Then
-            MainWindow.LBLImageInfo.Visible = True
-            'Form1.ShowImageInfo()
-            My.Settings.CBImageInfo = True
-        Else
-            MainWindow.LBLImageInfo.Visible = False
-            'Form1.LBLImageInfo.Text = ""
-            My.Settings.CBImageInfo = False
-        End If
+    Private Sub CBImageInfo_CheckedChanged(sender As Object, e As EventArgs) Handles CBImageInfo.CheckedChanged
+        MainWindow.LBLImageInfo.Visible = CBImageInfo.Checked
+        My.Settings.CBImageInfo = Not CBImageInfo.Checked
     End Sub
-
 #End Region ' General
 
 #Region "-------------------------------------- Domme Tab -----------------------------------------------"
 
 #Region "Save PetNames"
 
-    Private Sub petnameBox1_LostFocus(sender As System.Object, e As System.EventArgs) Handles petnameBox1.LostFocus
+    Private Sub PetNameBox1_LostFocus(sender As Object, e As EventArgs) Handles PetNameBox1.LostFocus, petnameBox2.LostFocus, petnameBox3.LostFocus, petnameBox4.LostFocus, petnameBox5.LostFocus, petnameBox6.LostFocus, petnameBox7.LostFocus, petnameBox8.LostFocus
+        Dim defaultPetNames As List(Of String) = New List(Of String)
+        defaultPetNames.Add("stroker")
+        defaultPetNames.Add("loser")
+        defaultPetNames.Add("slave")
+        defaultPetNames.Add("bitch boy")
+        defaultPetNames.Add("wanker")
 
-        Dim BlankName As String
-        BlankName = "stroker"
-        Dim NameVal As Integer
-        NameVal = MainWindow.ssh.randomizer.Next(1, 6)
+        Dim workingPetNameBox As TextBox
+        workingPetNameBox = CType(sender, TextBox)
 
-        If NameVal = 1 Then BlankName = "stroker"
-        If NameVal = 2 Then BlankName = "loser"
-        If NameVal = 3 Then BlankName = "slave"
-        If NameVal = 4 Then BlankName = "bitch boy"
-        If NameVal = 5 Then BlankName = "wanker"
-
-        If petnameBox1.Text = "" Then petnameBox1.Text = BlankName
+        If String.IsNullOrWhiteSpace(workingPetNameBox.Text) Then workingPetNameBox.Text = defaultPetNames(MainWindow.ssh.randomizer.Next(0, 5))
 
         SavePetNames()
-
     End Sub
-
-
-    Private Sub petnameBox2_LostFocus(sender As System.Object, e As System.EventArgs) Handles petnameBox3.LostFocus
-
-        Dim BlankName As String
-        BlankName = "stroker"
-        Dim NameVal As Integer
-        NameVal = MainWindow.ssh.randomizer.Next(1, 6)
-
-        If NameVal = 1 Then BlankName = "stroker"
-        If NameVal = 2 Then BlankName = "loser"
-        If NameVal = 3 Then BlankName = "slave"
-        If NameVal = 4 Then BlankName = "bitch boy"
-        If NameVal = 5 Then BlankName = "wanker"
-
-        If petnameBox3.Text = "" Then petnameBox3.Text = BlankName
-
-        SavePetNames()
-
-    End Sub
-
-    Private Sub petnameBox3_LostFocus(sender As System.Object, e As System.EventArgs) Handles petnameBox4.LostFocus
-
-        Dim BlankName As String
-        BlankName = "stroker"
-        Dim NameVal As Integer
-        NameVal = MainWindow.ssh.randomizer.Next(1, 6)
-
-        If NameVal = 1 Then BlankName = "stroker"
-        If NameVal = 2 Then BlankName = "loser"
-        If NameVal = 3 Then BlankName = "slave"
-        If NameVal = 4 Then BlankName = "bitch boy"
-        If NameVal = 5 Then BlankName = "wanker"
-
-        If petnameBox4.Text = "" Then petnameBox4.Text = BlankName
-
-        SavePetNames()
-
-    End Sub
-
-    Private Sub petnameBox4_LostFocus(sender As System.Object, e As System.EventArgs) Handles petnameBox7.LostFocus
-
-        Dim BlankName As String
-        BlankName = "stroker"
-        Dim NameVal As Integer
-        NameVal = MainWindow.ssh.randomizer.Next(1, 6)
-
-        If NameVal = 1 Then BlankName = "stroker"
-        If NameVal = 2 Then BlankName = "loser"
-        If NameVal = 3 Then BlankName = "slave"
-        If NameVal = 4 Then BlankName = "bitch boy"
-        If NameVal = 5 Then BlankName = "wanker"
-
-        If petnameBox7.Text = "" Then petnameBox7.Text = BlankName
-
-        SavePetNames()
-
-    End Sub
-
-    Private Sub petnameBox5_LostFocus(sender As System.Object, e As System.EventArgs) Handles petnameBox2.LostFocus
-
-        Dim BlankName As String
-        BlankName = "stroker"
-        Dim NameVal As Integer
-        NameVal = MainWindow.ssh.randomizer.Next(1, 6)
-
-        If NameVal = 1 Then BlankName = "stroker"
-        If NameVal = 2 Then BlankName = "loser"
-        If NameVal = 3 Then BlankName = "slave"
-        If NameVal = 4 Then BlankName = "bitch boy"
-        If NameVal = 5 Then BlankName = "wanker"
-
-        If petnameBox2.Text = "" Then petnameBox2.Text = BlankName
-
-        SavePetNames()
-
-    End Sub
-
-    Private Sub petnameBox6_LostFocus(sender As System.Object, e As System.EventArgs) Handles petnameBox5.LostFocus
-
-        Dim BlankName As String
-        BlankName = "stroker"
-        Dim NameVal As Integer
-        NameVal = MainWindow.ssh.randomizer.Next(1, 6)
-
-        If NameVal = 1 Then BlankName = "stroker"
-        If NameVal = 2 Then BlankName = "loser"
-        If NameVal = 3 Then BlankName = "slave"
-        If NameVal = 4 Then BlankName = "bitch boy"
-        If NameVal = 5 Then BlankName = "wanker"
-
-        If petnameBox5.Text = "" Then petnameBox5.Text = BlankName
-
-        SavePetNames()
-
-    End Sub
-
-    Private Sub petnameBox7_LostFocus(sender As System.Object, e As System.EventArgs) Handles petnameBox6.LostFocus
-
-        Dim BlankName As String
-        BlankName = "stroker"
-        Dim NameVal As Integer
-        NameVal = MainWindow.ssh.randomizer.Next(1, 6)
-
-        If NameVal = 1 Then BlankName = "stroker"
-        If NameVal = 2 Then BlankName = "slave"
-        If NameVal = 3 Then BlankName = "pet"
-        If NameVal = 4 Then BlankName = "bitch boy"
-        If NameVal = 5 Then BlankName = "wanker"
-
-        If petnameBox6.Text = "" Then petnameBox6.Text = BlankName
-
-        SavePetNames()
-
-    End Sub
-
-    Private Sub petnameBox8_LostFocus(sender As System.Object, e As System.EventArgs) Handles petnameBox8.LostFocus
-
-        Dim BlankName As String
-        BlankName = "stroker"
-        Dim NameVal As Integer
-        NameVal = MainWindow.ssh.randomizer.Next(1, 6)
-
-        If NameVal = 1 Then BlankName = "stroker"
-        If NameVal = 2 Then BlankName = "slave"
-        If NameVal = 3 Then BlankName = "pet"
-        If NameVal = 4 Then BlankName = "bitch boy"
-        If NameVal = 5 Then BlankName = "wanker"
-
-        If petnameBox8.Text = "" Then petnameBox8.Text = BlankName
-
-        SavePetNames()
-
-    End Sub
-
 
     Public Sub SavePetNames()
-
-        My.Settings.pnSetting1 = petnameBox1.Text
+        My.Settings.pnSetting1 = PetNameBox1.Text
         My.Settings.pnSetting2 = petnameBox2.Text
         My.Settings.pnSetting3 = petnameBox3.Text
         My.Settings.pnSetting4 = petnameBox4.Text
@@ -1082,12 +824,9 @@ Public Class FrmSettings
         My.Settings.pnSetting6 = petnameBox6.Text
         My.Settings.pnSetting7 = petnameBox7.Text
         My.Settings.pnSetting8 = petnameBox8.Text
-
-
     End Sub
 
 #End Region
-
 
     ''' <summary>
     ''' Locks the Orgasm Chances.
@@ -1102,7 +841,6 @@ Public Class FrmSettings
         GBRangeRuinChance.Enabled = Not lock
 
     End Sub
-
 
     Private Sub domlevelNumBox_LostFocus(sender As System.Object, e As System.EventArgs) Handles DominationLevel.LostFocus
         My.Settings.DomLevel = DominationLevel.Value
@@ -1622,8 +1360,8 @@ Public Class FrmSettings
         If NBSubAgeMax.Value < NBSubAgeMin.Value Then NBSubAgeMax.Value = NBSubAgeMin.Value
     End Sub
 
-    Private Sub PetNameBox1_Enter(sender As Object, e As System.EventArgs) Handles petnameBox1.MouseHover
-        TTDir.SetToolTip(petnameBox1, "Enter a pet name that the domme will call you when she's in a great mood." & Environment.NewLine & Environment.NewLine &
+    Private Sub PetNameBox1_Enter(sender As Object, e As System.EventArgs) Handles PetNameBox1.MouseHover
+        TTDir.SetToolTip(PetNameBox1, "Enter a pet name that the domme will call you when she's in a great mood." & Environment.NewLine & Environment.NewLine &
                                       "All pet name boxes must be filled in.")
     End Sub
 
@@ -6928,7 +6666,7 @@ checkFolder:
             SettingsList.Add("Crazy: " & crazyCheckBox.Checked)
             SettingsList.Add("Vulgar: " & vulgarCheckBox.Checked)
             SettingsList.Add("Supremacist: " & supremacistCheckBox.Checked)
-            SettingsList.Add("Pet Name 1: " & petnameBox1.Text)
+            SettingsList.Add("Pet Name 1: " & PetNameBox1.Text)
             SettingsList.Add("Pet Name 2: " & petnameBox2.Text)
             SettingsList.Add("Pet Name 3: " & petnameBox3.Text)
             SettingsList.Add("Pet Name 4: " & petnameBox4.Text)
@@ -7017,7 +6755,7 @@ checkFolder:
                 crazyCheckBox.Checked = SettingsList(13).Replace("Crazy: ", "")
                 vulgarCheckBox.Checked = SettingsList(14).Replace("Vulgar: ", "")
                 supremacistCheckBox.Checked = SettingsList(15).Replace("Supremacist: ", "")
-                petnameBox1.Text = SettingsList(16).Replace("Pet Name 1: ", "")
+                PetNameBox1.Text = SettingsList(16).Replace("Pet Name 1: ", "")
                 petnameBox2.Text = SettingsList(17).Replace("Pet Name 2: ", "")
                 petnameBox3.Text = SettingsList(18).Replace("Pet Name 3: ", "")
                 petnameBox4.Text = SettingsList(19).Replace("Pet Name 4: ", "")
@@ -7090,7 +6828,7 @@ checkFolder:
         My.Settings.DomSupremacist = supremacistCheckBox.Checked
         My.Settings.DomSadistic = sadisticCheckBox.Checked
         My.Settings.DomDegrading = degradingCheckBox.Checked
-        My.Settings.pnSetting1 = petnameBox1.Text
+        My.Settings.pnSetting1 = PetNameBox1.Text
         My.Settings.pnSetting2 = petnameBox2.Text
         My.Settings.pnSetting3 = petnameBox3.Text
         My.Settings.pnSetting4 = petnameBox4.Text
@@ -7146,7 +6884,7 @@ checkFolder:
         supremacistCheckBox.Checked = My.Settings.DomSupremacist
         sadisticCheckBox.Checked = My.Settings.DomSadistic
         degradingCheckBox.Checked = My.Settings.DomDegrading
-        petnameBox1.Text = My.Settings.pnSetting1
+        PetNameBox1.Text = My.Settings.pnSetting1
         petnameBox2.Text = My.Settings.pnSetting2
         petnameBox3.Text = My.Settings.pnSetting3
         petnameBox4.Text = My.Settings.pnSetting4
@@ -8813,9 +8551,9 @@ checkFolder:
 
         GBGeneralSettings.Text = "Chat Window"
 
-        timestampCheckBox.Text = "Show Timestamps"
-        shownamesCheckBox.Text = "Always Show Names"
-        typeinstantlyCheckBox.Text = "Domme Types Instantly"
+        TimeStampCheckBox.Text = "Show Timestamps"
+        ShowNamesCheckBox.Text = "Always Show Names"
+        TypeInstantlyCheckBox.Text = "Domme Types Instantly"
         CBInputIcon.Text = "Show Icon During Input Questions"
 
         GBDommeFont.Text = "Domme Font Settings"
@@ -8831,15 +8569,15 @@ checkFolder:
         CBBlogImageWindow.Text = "Save Blog Images From Session"
         CBSlideshowSubDir.Text = "Slideshow Includes Subdirectories"
         CBSlideshowRandom.Text = "Display Slideshow Pictures Randomly"
-        landscapeCheckBox.Text = "Stretch Landscape Images"
+        LandscapeCheckBox.Text = "Stretch Landscape Images"
         CBImageInfo.Text = "Display Image Information"
 
         GBDommeImages.Text = "Slideshow Options"
         BTNDomImageDir.Text = "Set Domme Images Directory"
 
         'GBSlideshowOptions.Text = "Slideshow Options"
-        offRadio.Text = "Manual"
-        teaseRadio.Text = "Tease"
+        ManualSlideShowRadio.Text = "Manual"
+        TeaseSlideShowRadio.Text = "Tease"
 
         GBGeneralSystem.Text = "System"
         CBAuditStartup.Text = "Audit Scripts on Startup"
@@ -8864,9 +8602,9 @@ checkFolder:
 
         GBGeneralSettings.Text = "Chat Fenster"
 
-        timestampCheckBox.Text = "Zeige Zeitstempel"
-        shownamesCheckBox.Text = "Zeige immer die Namen"
-        typeinstantlyCheckBox.Text = "Domina Schreibt sofort"
+        TimeStampCheckBox.Text = "Zeige Zeitstempel"
+        ShowNamesCheckBox.Text = "Zeige immer die Namen"
+        TypeInstantlyCheckBox.Text = "Domina Schreibt sofort"
         'CBInputIcon.Text = "Deaktiviere Chat Fenster Verstellung"
 
         GBDommeFont.Text = "Domina Schrift Einstellungen"
@@ -8882,14 +8620,14 @@ checkFolder:
         CBBlogImageWindow.Text = "Speichere Blog Bilder von Sitzung"
         CBSlideshowSubDir.Text = "Diashows enthalten Unterordner"
         CBSlideshowRandom.Text = "Zeige Diashow Bilder zufällig"
-        landscapeCheckBox.Text = "Strecke „Landschaftsbilder"""
+        LandscapeCheckBox.Text = "Strecke „Landschaftsbilder"""
         CBImageInfo.Text = "Zeige Bild Informationen"
 
         GBDommeImages.Text = "Diashow Einstellungen"
         BTNDomImageDir.Text = "Wähle Domina Bilder Speicherpfad"
 
-        offRadio.Text = "Manual"
-        teaseRadio.Text = "Tease"
+        ManualSlideShowRadio.Text = "Manual"
+        TeaseSlideShowRadio.Text = "Tease"
 
         GBGeneralSystem.Text = "System"
         CBAuditStartup.Text = "Prüfen der Scripts beim Starten"
@@ -9190,8 +8928,8 @@ checkFolder:
     End Sub
 
 
-    Private Sub CBWebtease_CheckedChanged_1(sender As System.Object, e As System.EventArgs) Handles CBWebtease.CheckedChanged
-        If CBWebtease.Checked = True Then
+    Private Sub CBWebtease_CheckedChanged_1(sender As System.Object, e As System.EventArgs) Handles WebTeaseMode.CheckedChanged
+        If WebTeaseMode.Checked = True Then
             MainWindow.WebteaseModeToolStripMenuItem.Checked = True
             MainWindow.ChatText.ScrollBarsEnabled = False
             MainWindow.ChatText2.ScrollBarsEnabled = False

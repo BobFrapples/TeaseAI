@@ -33,12 +33,12 @@ Partial Class FrmSettings
         Me.GroupBox64 = New System.Windows.Forms.GroupBox()
         Me.CBMuteMedia = New System.Windows.Forms.CheckBox()
         Me.GBDommeImages = New System.Windows.Forms.GroupBox()
-        Me.slideshowNumBox = New System.Windows.Forms.NumericUpDown()
-        Me.teaseRadio = New System.Windows.Forms.RadioButton()
+        Me.SlideShowNumBox = New System.Windows.Forms.NumericUpDown()
+        Me.TeaseSlideShowRadio = New System.Windows.Forms.RadioButton()
         Me.CBNewSlideshow = New System.Windows.Forms.CheckBox()
-        Me.offRadio = New System.Windows.Forms.RadioButton()
+        Me.ManualSlideShowRadio = New System.Windows.Forms.RadioButton()
         Me.BTNDomImageDir = New System.Windows.Forms.Button()
-        Me.timedRadio = New System.Windows.Forms.RadioButton()
+        Me.TimedSlideShowRadio = New System.Windows.Forms.RadioButton()
         Me.TbxDomImageDir = New System.Windows.Forms.TextBox()
         Me.GBGeneralTextToSpeech = New System.Windows.Forms.GroupBox()
         Me.LBLVRate = New System.Windows.Forms.Label()
@@ -61,12 +61,12 @@ Partial Class FrmSettings
         Me.GBGeneralImages = New System.Windows.Forms.GroupBox()
         Me.CBImageInfo = New System.Windows.Forms.CheckBox()
         Me.CBSlideshowRandom = New System.Windows.Forms.CheckBox()
-        Me.landscapeCheckBox = New System.Windows.Forms.CheckBox()
+        Me.LandscapeCheckBox = New System.Windows.Forms.CheckBox()
         Me.CBBlogImageWindow = New System.Windows.Forms.CheckBox()
         Me.CBSlideshowSubDir = New System.Windows.Forms.CheckBox()
         Me.PictureBox2 = New System.Windows.Forms.PictureBox()
         Me.GBGeneralSettings = New System.Windows.Forms.GroupBox()
-        Me.CBWebtease = New System.Windows.Forms.CheckBox()
+        Me.WebTeaseMode = New System.Windows.Forms.CheckBox()
         Me.GBSubFont = New System.Windows.Forms.GroupBox()
         Me.BTNSubColor = New System.Windows.Forms.Button()
         Me.LBLSubColor = New System.Windows.Forms.Label()
@@ -80,9 +80,9 @@ Partial Class FrmSettings
         Me.NBFontSizeD = New System.Windows.Forms.NumericUpDown()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.CBInputIcon = New System.Windows.Forms.CheckBox()
-        Me.typeinstantlyCheckBox = New System.Windows.Forms.CheckBox()
-        Me.timestampCheckBox = New System.Windows.Forms.CheckBox()
-        Me.shownamesCheckBox = New System.Windows.Forms.CheckBox()
+        Me.TypeInstantlyCheckBox = New System.Windows.Forms.CheckBox()
+        Me.TimeStampCheckBox = New System.Windows.Forms.CheckBox()
+        Me.ShowNamesCheckBox = New System.Windows.Forms.CheckBox()
         Me.LBLGeneralSettings = New System.Windows.Forms.Label()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -172,7 +172,7 @@ Partial Class FrmSettings
         Me.Label74 = New System.Windows.Forms.Label()
         Me.petnameBox7 = New System.Windows.Forms.TextBox()
         Me.petnameBox8 = New System.Windows.Forms.TextBox()
-        Me.petnameBox1 = New System.Windows.Forms.TextBox()
+        Me.PetNameBox1 = New System.Windows.Forms.TextBox()
         Me.Label15 = New System.Windows.Forms.Label()
         Me.petnameBox4 = New System.Windows.Forms.TextBox()
         Me.petnameBox6 = New System.Windows.Forms.TextBox()
@@ -1113,7 +1113,7 @@ Partial Class FrmSettings
         Me.PNLGeneralSettings.SuspendLayout
         Me.GroupBox64.SuspendLayout
         Me.GBDommeImages.SuspendLayout
-        CType(Me.slideshowNumBox, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.SlideShowNumBox, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GBGeneralTextToSpeech.SuspendLayout
         CType(Me.SliderVRate, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.SliderVVolume, System.ComponentModel.ISupportInitialize).BeginInit
@@ -1490,12 +1490,12 @@ Partial Class FrmSettings
         'GBDommeImages
         '
         Me.GBDommeImages.BackColor = System.Drawing.Color.LightGray
-        Me.GBDommeImages.Controls.Add(Me.slideshowNumBox)
-        Me.GBDommeImages.Controls.Add(Me.teaseRadio)
+        Me.GBDommeImages.Controls.Add(Me.SlideShowNumBox)
+        Me.GBDommeImages.Controls.Add(Me.TeaseSlideShowRadio)
         Me.GBDommeImages.Controls.Add(Me.CBNewSlideshow)
-        Me.GBDommeImages.Controls.Add(Me.offRadio)
+        Me.GBDommeImages.Controls.Add(Me.ManualSlideShowRadio)
         Me.GBDommeImages.Controls.Add(Me.BTNDomImageDir)
-        Me.GBDommeImages.Controls.Add(Me.timedRadio)
+        Me.GBDommeImages.Controls.Add(Me.TimedSlideShowRadio)
         Me.GBDommeImages.Controls.Add(Me.TbxDomImageDir)
         Me.GBDommeImages.ForeColor = System.Drawing.Color.Black
         Me.GBDommeImages.Location = New System.Drawing.Point(224, 179)
@@ -1507,30 +1507,30 @@ Partial Class FrmSettings
         '
         'slideshowNumBox
         '
-        Me.slideshowNumBox.BackColor = System.Drawing.Color.White
-        Me.slideshowNumBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.slideshowNumBox.ForeColor = System.Drawing.Color.Black
-        Me.slideshowNumBox.Location = New System.Drawing.Point(93, 20)
-        Me.slideshowNumBox.Maximum = New Decimal(New Integer() {120, 0, 0, 0})
-        Me.slideshowNumBox.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.slideshowNumBox.Name = "slideshowNumBox"
-        Me.slideshowNumBox.Size = New System.Drawing.Size(47, 20)
-        Me.slideshowNumBox.TabIndex = 20
-        Me.slideshowNumBox.Value = New Decimal(New Integer() {30, 0, 0, 0})
+        Me.SlideShowNumBox.BackColor = System.Drawing.Color.White
+        Me.SlideShowNumBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SlideShowNumBox.ForeColor = System.Drawing.Color.Black
+        Me.SlideShowNumBox.Location = New System.Drawing.Point(93, 20)
+        Me.SlideShowNumBox.Maximum = New Decimal(New Integer() {120, 0, 0, 0})
+        Me.SlideShowNumBox.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.SlideShowNumBox.Name = "slideshowNumBox"
+        Me.SlideShowNumBox.Size = New System.Drawing.Size(47, 20)
+        Me.SlideShowNumBox.TabIndex = 20
+        Me.SlideShowNumBox.Value = New Decimal(New Integer() {30, 0, 0, 0})
         '
         'teaseRadio
         '
-        Me.teaseRadio.AutoSize = True
-        Me.teaseRadio.Checked = True
-        Me.teaseRadio.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.teaseRadio.ForeColor = System.Drawing.Color.Black
-        Me.teaseRadio.Location = New System.Drawing.Point(149, 21)
-        Me.teaseRadio.Name = "teaseRadio"
-        Me.teaseRadio.Size = New System.Drawing.Size(55, 17)
-        Me.teaseRadio.TabIndex = 21
-        Me.teaseRadio.TabStop = True
-        Me.teaseRadio.Text = "Tease"
-        Me.teaseRadio.UseVisualStyleBackColor = True
+        Me.TeaseSlideShowRadio.AutoSize = True
+        Me.TeaseSlideShowRadio.Checked = True
+        Me.TeaseSlideShowRadio.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TeaseSlideShowRadio.ForeColor = System.Drawing.Color.Black
+        Me.TeaseSlideShowRadio.Location = New System.Drawing.Point(149, 21)
+        Me.TeaseSlideShowRadio.Name = "teaseRadio"
+        Me.TeaseSlideShowRadio.Size = New System.Drawing.Size(55, 17)
+        Me.TeaseSlideShowRadio.TabIndex = 21
+        Me.TeaseSlideShowRadio.TabStop = True
+        Me.TeaseSlideShowRadio.Text = "Tease"
+        Me.TeaseSlideShowRadio.UseVisualStyleBackColor = True
         '
         'CBNewSlideshow
         '
@@ -1548,15 +1548,15 @@ Partial Class FrmSettings
         '
         'offRadio
         '
-        Me.offRadio.AutoSize = True
-        Me.offRadio.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.offRadio.ForeColor = System.Drawing.Color.Black
-        Me.offRadio.Location = New System.Drawing.Point(6, 21)
-        Me.offRadio.Name = "offRadio"
-        Me.offRadio.Size = New System.Drawing.Size(60, 17)
-        Me.offRadio.TabIndex = 18
-        Me.offRadio.Text = "Manual"
-        Me.offRadio.UseVisualStyleBackColor = True
+        Me.ManualSlideShowRadio.AutoSize = True
+        Me.ManualSlideShowRadio.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ManualSlideShowRadio.ForeColor = System.Drawing.Color.Black
+        Me.ManualSlideShowRadio.Location = New System.Drawing.Point(6, 21)
+        Me.ManualSlideShowRadio.Name = "offRadio"
+        Me.ManualSlideShowRadio.Size = New System.Drawing.Size(60, 17)
+        Me.ManualSlideShowRadio.TabIndex = 18
+        Me.ManualSlideShowRadio.Text = "Manual"
+        Me.ManualSlideShowRadio.UseVisualStyleBackColor = True
         '
         'BTNDomImageDir
         '
@@ -1572,14 +1572,14 @@ Partial Class FrmSettings
         '
         'timedRadio
         '
-        Me.timedRadio.AutoSize = True
-        Me.timedRadio.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.timedRadio.ForeColor = System.Drawing.Color.Black
-        Me.timedRadio.Location = New System.Drawing.Point(72, 23)
-        Me.timedRadio.Name = "timedRadio"
-        Me.timedRadio.Size = New System.Drawing.Size(14, 13)
-        Me.timedRadio.TabIndex = 19
-        Me.timedRadio.UseVisualStyleBackColor = True
+        Me.TimedSlideShowRadio.AutoSize = True
+        Me.TimedSlideShowRadio.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TimedSlideShowRadio.ForeColor = System.Drawing.Color.Black
+        Me.TimedSlideShowRadio.Location = New System.Drawing.Point(72, 23)
+        Me.TimedSlideShowRadio.Name = "timedRadio"
+        Me.TimedSlideShowRadio.Size = New System.Drawing.Size(14, 13)
+        Me.TimedSlideShowRadio.TabIndex = 19
+        Me.TimedSlideShowRadio.UseVisualStyleBackColor = True
         '
         'TbxDomImageDir
         '
@@ -1805,7 +1805,7 @@ Partial Class FrmSettings
         '
         Me.GBGeneralImages.Controls.Add(Me.CBImageInfo)
         Me.GBGeneralImages.Controls.Add(Me.CBSlideshowRandom)
-        Me.GBGeneralImages.Controls.Add(Me.landscapeCheckBox)
+        Me.GBGeneralImages.Controls.Add(Me.LandscapeCheckBox)
         Me.GBGeneralImages.Controls.Add(Me.CBBlogImageWindow)
         Me.GBGeneralImages.Controls.Add(Me.CBSlideshowSubDir)
         Me.GBGeneralImages.Location = New System.Drawing.Point(224, 33)
@@ -1841,15 +1841,15 @@ Partial Class FrmSettings
         '
         'landscapeCheckBox
         '
-        Me.landscapeCheckBox.AutoSize = True
-        Me.landscapeCheckBox.ForeColor = System.Drawing.Color.Black
-        Me.landscapeCheckBox.Location = New System.Drawing.Point(6, 87)
-        Me.landscapeCheckBox.Name = "landscapeCheckBox"
-        Me.landscapeCheckBox.Size = New System.Drawing.Size(153, 17)
-        Me.landscapeCheckBox.TabIndex = 15
-        Me.landscapeCheckBox.TabStop = False
-        Me.landscapeCheckBox.Text = "Stretch Landscape Images"
-        Me.landscapeCheckBox.UseVisualStyleBackColor = True
+        Me.LandscapeCheckBox.AutoSize = True
+        Me.LandscapeCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.LandscapeCheckBox.Location = New System.Drawing.Point(6, 87)
+        Me.LandscapeCheckBox.Name = "landscapeCheckBox"
+        Me.LandscapeCheckBox.Size = New System.Drawing.Size(153, 17)
+        Me.LandscapeCheckBox.TabIndex = 15
+        Me.LandscapeCheckBox.TabStop = False
+        Me.LandscapeCheckBox.Text = "Stretch Landscape Images"
+        Me.LandscapeCheckBox.UseVisualStyleBackColor = True
         '
         'CBBlogImageWindow
         '
@@ -1893,13 +1893,13 @@ Partial Class FrmSettings
         'GBGeneralSettings
         '
         Me.GBGeneralSettings.BackColor = System.Drawing.Color.LightGray
-        Me.GBGeneralSettings.Controls.Add(Me.CBWebtease)
+        Me.GBGeneralSettings.Controls.Add(Me.WebTeaseMode)
         Me.GBGeneralSettings.Controls.Add(Me.GBSubFont)
         Me.GBGeneralSettings.Controls.Add(Me.GBDommeFont)
         Me.GBGeneralSettings.Controls.Add(Me.CBInputIcon)
-        Me.GBGeneralSettings.Controls.Add(Me.typeinstantlyCheckBox)
-        Me.GBGeneralSettings.Controls.Add(Me.timestampCheckBox)
-        Me.GBGeneralSettings.Controls.Add(Me.shownamesCheckBox)
+        Me.GBGeneralSettings.Controls.Add(Me.TypeInstantlyCheckBox)
+        Me.GBGeneralSettings.Controls.Add(Me.TimeStampCheckBox)
+        Me.GBGeneralSettings.Controls.Add(Me.ShowNamesCheckBox)
         Me.GBGeneralSettings.ForeColor = System.Drawing.Color.Black
         Me.GBGeneralSettings.Location = New System.Drawing.Point(7, 33)
         Me.GBGeneralSettings.Name = "GBGeneralSettings"
@@ -1910,15 +1910,15 @@ Partial Class FrmSettings
         '
         'CBWebtease
         '
-        Me.CBWebtease.AutoSize = True
-        Me.CBWebtease.ForeColor = System.Drawing.Color.Black
-        Me.CBWebtease.Location = New System.Drawing.Point(6, 110)
-        Me.CBWebtease.Name = "CBWebtease"
-        Me.CBWebtease.Size = New System.Drawing.Size(105, 17)
-        Me.CBWebtease.TabIndex = 5
-        Me.CBWebtease.TabStop = False
-        Me.CBWebtease.Text = "Webtease Mode"
-        Me.CBWebtease.UseVisualStyleBackColor = True
+        Me.WebTeaseMode.AutoSize = True
+        Me.WebTeaseMode.ForeColor = System.Drawing.Color.Black
+        Me.WebTeaseMode.Location = New System.Drawing.Point(6, 110)
+        Me.WebTeaseMode.Name = "CBWebtease"
+        Me.WebTeaseMode.Size = New System.Drawing.Size(105, 17)
+        Me.WebTeaseMode.TabIndex = 5
+        Me.WebTeaseMode.TabStop = False
+        Me.WebTeaseMode.Text = "Webtease Mode"
+        Me.WebTeaseMode.UseVisualStyleBackColor = True
         '
         'GBSubFont
         '
@@ -2088,43 +2088,43 @@ Partial Class FrmSettings
         '
         'typeinstantlyCheckBox
         '
-        Me.typeinstantlyCheckBox.AutoSize = True
-        Me.typeinstantlyCheckBox.ForeColor = System.Drawing.Color.Black
-        Me.typeinstantlyCheckBox.Location = New System.Drawing.Point(6, 64)
-        Me.typeinstantlyCheckBox.Name = "typeinstantlyCheckBox"
-        Me.typeinstantlyCheckBox.Size = New System.Drawing.Size(136, 17)
-        Me.typeinstantlyCheckBox.TabIndex = 3
-        Me.typeinstantlyCheckBox.TabStop = False
-        Me.typeinstantlyCheckBox.Text = "Domme Types Instantly"
-        Me.typeinstantlyCheckBox.UseVisualStyleBackColor = True
+        Me.TypeInstantlyCheckBox.AutoSize = True
+        Me.TypeInstantlyCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.TypeInstantlyCheckBox.Location = New System.Drawing.Point(6, 64)
+        Me.TypeInstantlyCheckBox.Name = "typeinstantlyCheckBox"
+        Me.TypeInstantlyCheckBox.Size = New System.Drawing.Size(136, 17)
+        Me.TypeInstantlyCheckBox.TabIndex = 3
+        Me.TypeInstantlyCheckBox.TabStop = False
+        Me.TypeInstantlyCheckBox.Text = "Domme Types Instantly"
+        Me.TypeInstantlyCheckBox.UseVisualStyleBackColor = True
         '
         'timestampCheckBox
         '
-        Me.timestampCheckBox.AutoSize = True
-        Me.timestampCheckBox.Checked = True
-        Me.timestampCheckBox.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.timestampCheckBox.ForeColor = System.Drawing.Color.Black
-        Me.timestampCheckBox.Location = New System.Drawing.Point(6, 18)
-        Me.timestampCheckBox.Name = "timestampCheckBox"
-        Me.timestampCheckBox.Size = New System.Drawing.Size(112, 17)
-        Me.timestampCheckBox.TabIndex = 1
-        Me.timestampCheckBox.TabStop = False
-        Me.timestampCheckBox.Text = "Show Timestamps"
-        Me.timestampCheckBox.UseVisualStyleBackColor = True
+        Me.TimeStampCheckBox.AutoSize = True
+        Me.TimeStampCheckBox.Checked = True
+        Me.TimeStampCheckBox.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.TimeStampCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.TimeStampCheckBox.Location = New System.Drawing.Point(6, 18)
+        Me.TimeStampCheckBox.Name = "timestampCheckBox"
+        Me.TimeStampCheckBox.Size = New System.Drawing.Size(112, 17)
+        Me.TimeStampCheckBox.TabIndex = 1
+        Me.TimeStampCheckBox.TabStop = False
+        Me.TimeStampCheckBox.Text = "Show Timestamps"
+        Me.TimeStampCheckBox.UseVisualStyleBackColor = True
         '
         'shownamesCheckBox
         '
-        Me.shownamesCheckBox.AutoSize = True
-        Me.shownamesCheckBox.Checked = True
-        Me.shownamesCheckBox.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.shownamesCheckBox.ForeColor = System.Drawing.Color.Black
-        Me.shownamesCheckBox.Location = New System.Drawing.Point(6, 41)
-        Me.shownamesCheckBox.Name = "shownamesCheckBox"
-        Me.shownamesCheckBox.Size = New System.Drawing.Size(125, 17)
-        Me.shownamesCheckBox.TabIndex = 2
-        Me.shownamesCheckBox.TabStop = False
-        Me.shownamesCheckBox.Text = "Always Show Names"
-        Me.shownamesCheckBox.UseVisualStyleBackColor = True
+        Me.ShowNamesCheckBox.AutoSize = True
+        Me.ShowNamesCheckBox.Checked = True
+        Me.ShowNamesCheckBox.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ShowNamesCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.ShowNamesCheckBox.Location = New System.Drawing.Point(6, 41)
+        Me.ShowNamesCheckBox.Name = "shownamesCheckBox"
+        Me.ShowNamesCheckBox.Size = New System.Drawing.Size(125, 17)
+        Me.ShowNamesCheckBox.TabIndex = 2
+        Me.ShowNamesCheckBox.TabStop = False
+        Me.ShowNamesCheckBox.Text = "Always Show Names"
+        Me.ShowNamesCheckBox.UseVisualStyleBackColor = True
         '
         'LBLGeneralSettings
         '
@@ -3216,7 +3216,7 @@ Partial Class FrmSettings
         Me.GBDomPetNames.Controls.Add(Me.Label74)
         Me.GBDomPetNames.Controls.Add(Me.petnameBox7)
         Me.GBDomPetNames.Controls.Add(Me.petnameBox8)
-        Me.GBDomPetNames.Controls.Add(Me.petnameBox1)
+        Me.GBDomPetNames.Controls.Add(Me.PetNameBox1)
         Me.GBDomPetNames.Controls.Add(Me.Label15)
         Me.GBDomPetNames.Controls.Add(Me.petnameBox4)
         Me.GBDomPetNames.Controls.Add(Me.petnameBox6)
@@ -3270,15 +3270,15 @@ Partial Class FrmSettings
         '
         'petnameBox1
         '
-        Me.petnameBox1.BackColor = System.Drawing.Color.White
-        Me.petnameBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.petnameBox1.ForeColor = System.Drawing.Color.Black
-        Me.petnameBox1.Location = New System.Drawing.Point(8, 32)
-        Me.petnameBox1.Name = "petnameBox1"
-        Me.petnameBox1.Size = New System.Drawing.Size(114, 23)
-        Me.petnameBox1.TabIndex = 7
-        Me.petnameBox1.Text = "stroker"
-        Me.petnameBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.PetNameBox1.BackColor = System.Drawing.Color.White
+        Me.PetNameBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.PetNameBox1.ForeColor = System.Drawing.Color.Black
+        Me.PetNameBox1.Location = New System.Drawing.Point(8, 32)
+        Me.PetNameBox1.Name = "petnameBox1"
+        Me.PetNameBox1.Size = New System.Drawing.Size(114, 23)
+        Me.PetNameBox1.TabIndex = 7
+        Me.PetNameBox1.Text = "stroker"
+        Me.PetNameBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'Label15
         '
@@ -14808,7 +14808,7 @@ Partial Class FrmSettings
         Me.GroupBox64.PerformLayout
         Me.GBDommeImages.ResumeLayout(False)
         Me.GBDommeImages.PerformLayout
-        CType(Me.slideshowNumBox, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.SlideShowNumBox, System.ComponentModel.ISupportInitialize).EndInit
         Me.GBGeneralTextToSpeech.ResumeLayout(False)
         Me.GBGeneralTextToSpeech.PerformLayout
         CType(Me.SliderVRate, System.ComponentModel.ISupportInitialize).EndInit
@@ -15146,7 +15146,7 @@ Partial Class FrmSettings
     Friend WithEvents CBAutosaveChatlog As System.Windows.Forms.CheckBox
     Friend WithEvents GBGeneralImages As System.Windows.Forms.GroupBox
     Friend WithEvents CBSlideshowRandom As System.Windows.Forms.CheckBox
-    Friend WithEvents landscapeCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents LandscapeCheckBox As System.Windows.Forms.CheckBox
     Friend WithEvents CBBlogImageWindow As System.Windows.Forms.CheckBox
     Friend WithEvents CBSlideshowSubDir As System.Windows.Forms.CheckBox
     Friend WithEvents PictureBox2 As System.Windows.Forms.PictureBox
@@ -15155,9 +15155,9 @@ Partial Class FrmSettings
     Friend WithEvents TTSComboBox As System.Windows.Forms.ComboBox
     Friend WithEvents GBGeneralSettings As System.Windows.Forms.GroupBox
     Friend WithEvents CBInputIcon As System.Windows.Forms.CheckBox
-    Friend WithEvents typeinstantlyCheckBox As System.Windows.Forms.CheckBox
-    Friend WithEvents timestampCheckBox As System.Windows.Forms.CheckBox
-    Friend WithEvents shownamesCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents TypeInstantlyCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents TimeStampCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents ShowNamesCheckBox As System.Windows.Forms.CheckBox
     Friend WithEvents LBLGeneralSettings As System.Windows.Forms.Label
     Friend WithEvents TabPage2 As System.Windows.Forms.TabPage
     Friend WithEvents Panel3 As System.Windows.Forms.Panel
@@ -15215,7 +15215,7 @@ Partial Class FrmSettings
     Friend WithEvents ruinorgasmComboBox As System.Windows.Forms.ComboBox
     Friend WithEvents GBDomPetNames As System.Windows.Forms.GroupBox
     Friend WithEvents petnameBox7 As System.Windows.Forms.TextBox
-    Friend WithEvents petnameBox1 As System.Windows.Forms.TextBox
+    Friend WithEvents PetNameBox1 As System.Windows.Forms.TextBox
     Friend WithEvents petnameBox4 As System.Windows.Forms.TextBox
     Friend WithEvents petnameBox8 As System.Windows.Forms.TextBox
     Friend WithEvents petnameBox2 As System.Windows.Forms.TextBox
@@ -15500,10 +15500,10 @@ Partial Class FrmSettings
     Friend WithEvents WebImageFileDialog As System.Windows.Forms.OpenFileDialog
     Friend WithEvents SaveFileDialog1 As System.Windows.Forms.SaveFileDialog
     Friend WithEvents OpenScriptDialog As System.Windows.Forms.OpenFileDialog
-    Friend WithEvents teaseRadio As System.Windows.Forms.RadioButton
-    Friend WithEvents offRadio As System.Windows.Forms.RadioButton
-    Friend WithEvents slideshowNumBox As System.Windows.Forms.NumericUpDown
-    Friend WithEvents timedRadio As System.Windows.Forms.RadioButton
+    Friend WithEvents TeaseSlideShowRadio As System.Windows.Forms.RadioButton
+    Friend WithEvents ManualSlideShowRadio As System.Windows.Forms.RadioButton
+    Friend WithEvents SlideShowNumBox As System.Windows.Forms.NumericUpDown
+    Friend WithEvents TimedSlideShowRadio As System.Windows.Forms.RadioButton
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents SubMessageFontCB As System.Windows.Forms.ComboBox
     Friend WithEvents NBFontSize As System.Windows.Forms.NumericUpDown
@@ -15898,7 +15898,7 @@ Partial Class FrmSettings
 	Friend WithEvents Label129 As System.Windows.Forms.Label
 	Friend WithEvents LongEdgeHoldMaximum As System.Windows.Forms.NumericUpDown
 	Friend WithEvents Label131 As System.Windows.Forms.Label
-	Friend WithEvents CBWebtease As System.Windows.Forms.CheckBox
+	Friend WithEvents WebTeaseMode As System.Windows.Forms.CheckBox
 	Friend WithEvents TabPage28 As System.Windows.Forms.TabPage
 	Friend WithEvents TabControl3 As System.Windows.Forms.TabControl
 	Friend WithEvents TabPage29 As System.Windows.Forms.TabPage

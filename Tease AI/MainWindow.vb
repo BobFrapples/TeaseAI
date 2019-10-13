@@ -425,7 +425,7 @@ retryStart:
             domName.Text = mySettingsAccessor.DommeName()
             subName.Text = mySettingsAccessor.GetSubName()
 
-            FrmSettings.petnameBox1.Text = My.Settings.pnSetting1
+            FrmSettings.PetNameBox1.Text = My.Settings.pnSetting1
             FrmSettings.petnameBox2.Text = My.Settings.pnSetting2
             FrmSettings.petnameBox3.Text = My.Settings.pnSetting3
             FrmSettings.petnameBox4.Text = My.Settings.pnSetting4
@@ -437,26 +437,26 @@ retryStart:
             FrmSplash.UpdateText("Loading General Settings...")
 
             If My.Settings.CBTimeStamps = True Then
-                FrmSettings.timestampCheckBox.Checked = True
+                FrmSettings.TimeStampCheckBox.Checked = True
             Else
-                FrmSettings.timestampCheckBox.Checked = False
+                FrmSettings.TimeStampCheckBox.Checked = False
             End If
 
             If My.Settings.CBShowNames = True Then
-                FrmSettings.shownamesCheckBox.Checked = True
+                FrmSettings.ShowNamesCheckBox.Checked = True
             Else
-                FrmSettings.shownamesCheckBox.Checked = False
+                FrmSettings.ShowNamesCheckBox.Checked = False
             End If
 
             If My.Settings.CBInstantType = True Then
-                FrmSettings.typeinstantlyCheckBox.Checked = True
+                FrmSettings.TypeInstantlyCheckBox.Checked = True
             Else
-                FrmSettings.typeinstantlyCheckBox.Checked = False
+                FrmSettings.TypeInstantlyCheckBox.Checked = False
             End If
 
-            FrmSettings.CBWebtease.Checked = My.Settings.CBWebtease
+            FrmSettings.WebTeaseMode.Checked = My.Settings.CBWebtease
 
-            If FrmSettings.CBWebtease.Checked = True Then WebteaseModeToolStripMenuItem.Checked = True
+            If FrmSettings.WebTeaseMode.Checked = True Then WebteaseModeToolStripMenuItem.Checked = True
 
 
             FrmSettings.CBInputIcon.Checked = My.Settings.CBInputIcon
@@ -480,9 +480,9 @@ retryStart:
             End If
 
             If My.Settings.CBStretchLandscape = True Then
-                FrmSettings.landscapeCheckBox.Checked = True
+                FrmSettings.LandscapeCheckBox.Checked = True
             Else
-                FrmSettings.landscapeCheckBox.Checked = False
+                FrmSettings.LandscapeCheckBox.Checked = False
             End If
 
 
@@ -1272,7 +1272,7 @@ WritingTaskLine:
                 LBLLinesWritten.Text = ssh.WritingTaskLinesWritten
                 LBLLinesRemaining.Text = ssh.WritingTaskLinesRemaining
 
-                If ssh.SubWroteLast = True And FrmSettings.shownamesCheckBox.Checked = False Then
+                If ssh.SubWroteLast = True And FrmSettings.ShowNamesCheckBox.Checked = False Then
                     'ssh.Chat = "<body bgcolor=""" & Color2Html(My.Settings.ChatWindowColor) & """>" & ssh.Chat & "</body>"
                     If CBWritingProgress.Checked = True Then
                         'ssh.Chat = "<font face=""" & FrmSettings.FontComboBox.Text & """ size=""" & FrmSettings.NBFontSize.Value & """ color=""#000000"">" & ssh.Chat & ssh.ChatString & "<br></font> " _
@@ -1329,7 +1329,7 @@ WritingTaskLine:
                 End If
             Else
 
-                If ssh.SubWroteLast = True And FrmSettings.shownamesCheckBox.Checked = False Then
+                If ssh.SubWroteLast = True And FrmSettings.ShowNamesCheckBox.Checked = False Then
 
                     If CBWritingProgress.Checked = True Then
                         'ssh.Chat = "<font face=""" & FrmSettings.FontComboBox.Text & """ size=""" & FrmSettings.NBFontSize.Value & """ color=""#000000"">" & ssh.Chat & "</font><font color=""#FF0000"">" & ssh.ChatString & "<br></font>" &
@@ -2474,7 +2474,7 @@ SkipIsTyping:
                     ssh.DivideText = False
                 End If
                 If ssh.RLGLGame = True Then ssh.StringLength = 0
-                If FrmSettings.typeinstantlyCheckBox.Checked = True Or ssh.RapidCode = True Then ssh.StringLength = 0
+                If FrmSettings.TypeInstantlyCheckBox.Checked = True Or ssh.RapidCode = True Then ssh.StringLength = 0
                 If ssh.HypnoGen = True And CBHypnoGenNoText.Checked = True Then ssh.StringLength = 0
             End If
 
@@ -2526,7 +2526,7 @@ SkipIsTyping:
                 If ssh.GlitterTease = True And ssh.JustShowedBlogImage = False And ssh.LockImage = False Then GoTo TryNextWithTease
 
 
-                If FrmSettings.teaseRadio.Checked = True And ssh.JustShowedBlogImage = False And ssh.TeaseVideo = False And Not ssh.DomTask.Contains("@NewBlogImage") And ssh.NullResponse = False _
+                If FrmSettings.TeaseSlideShowRadio.Checked = True And ssh.JustShowedBlogImage = False And ssh.TeaseVideo = False And Not ssh.DomTask.Contains("@NewBlogImage") And ssh.NullResponse = False _
                      And ssh.SlideshowLoaded = True And Not ssh.DomTask.Contains("@ShowButtImage") And Not ssh.DomTask.Contains("@ShowBoobsImage") And Not ssh.DomTask.Contains("@ShowButtsImage") _
                      And Not ssh.DomTask.Contains("@ShowBoobsImage") And ssh.LockImage = False And ssh.CustomSlideEnabled = False And ssh.RapidFire = False _
                      And UCase(ssh.DomTask) <> "<B>TEASE AI HAS BEEN RESET</B>" And ssh.JustShowedSlideshowImage = False Then
@@ -2883,16 +2883,16 @@ NullResponse:
                     End If
 
                     ' Add timestamps to domme response if the option is checked in the menu
-                    If FrmSettings.timestampCheckBox.Checked = True And FrmSettings.CBWebtease.Checked = False Then
+                    If FrmSettings.TimeStampCheckBox.Checked = True And FrmSettings.WebTeaseMode.Checked = False Then
                         'ssh.Chat = ssh.Chat & "<font face=""Cambria"" size=""2"" color=""DimGray"">" & (Date.Now.ToString("hh:mm tt ")) & "</font>"
                     End If
 
 
 
-                    If ssh.SubWroteLast = False And FrmSettings.shownamesCheckBox.Checked = False Then
+                    If ssh.SubWroteLast = False And FrmSettings.ShowNamesCheckBox.Checked = False Then
 
 
-                        If FrmSettings.CBWebtease.Checked = True Then
+                        If FrmSettings.WebTeaseMode.Checked = True Then
                             'ssh.Chat = "<body bgcolor=""" & Color2Html(My.Settings.ChatWindowColor) & """>" & "</body><body style=""word-wrap:break-word;"">" & "<font face=""" & FrmSettings.FontComboBoxD.Text & """ size=""" & FrmSettings.NBFontSizeD.Value & """ color=""" &
                             'TextColor & """><center>" & ssh.DomTask & "</center><br></font></body>"
                         Else
@@ -2911,7 +2911,7 @@ NullResponse:
                     Else
 
 
-                        If FrmSettings.CBWebtease.Checked = True Then
+                        If FrmSettings.WebTeaseMode.Checked = True Then
                             'ssh.Chat = "<body bgcolor=""" & Color2Html(My.Settings.ChatWindowColor) & """>" & "</body><body style=""word-wrap:break-word;"">" & "<font face=""" & FrmSettings.FontComboBoxD.Text & """ size=""" & FrmSettings.NBFontSizeD.Value & """ color=""" &
                             'TextColor & """><center>" & ssh.DomTask & "</center><br></font></body>"
                         Else
@@ -3289,7 +3289,7 @@ SkipIsTyping:
                     ssh.StringLength /= 3
                     ssh.DivideText = False
                 End If
-                If FrmSettings.typeinstantlyCheckBox.Checked = True Or ssh.RapidCode = True Then ssh.StringLength = 0
+                If FrmSettings.TypeInstantlyCheckBox.Checked = True Or ssh.RapidCode = True Then ssh.StringLength = 0
             End If
 
         Else
@@ -3319,7 +3319,7 @@ NullResponseLine:
 
                 If ssh.GlitterTease = True And ssh.JustShowedBlogImage = False Then GoTo TryNextWithTease
 
-                If FrmSettings.teaseRadio.Checked = True And ssh.JustShowedBlogImage = False And ssh.TeaseVideo = False And Not chatMessage.Contains("@NewBlogImage") And ssh.NullResponse = False _
+                If FrmSettings.TeaseSlideShowRadio.Checked = True And ssh.JustShowedBlogImage = False And ssh.TeaseVideo = False And Not chatMessage.Contains("@NewBlogImage") And ssh.NullResponse = False _
                     And ssh.SlideshowLoaded = True And Not chatMessage.Contains("@ShowButtImage") And Not chatMessage.Contains("@ShowBoobsImage") And Not chatMessage.Contains("@ShowButtsImage") _
                     And Not chatMessage.Contains("@ShowBoobImage") And ssh.LockImage = False And ssh.CustomSlideEnabled = False And ssh.RapidFire = False _
                     And UCase(chatMessage) <> "<B>TEASE AI HAS BEEN RESET</B>" And ssh.JustShowedSlideshowImage = False Then
@@ -3468,16 +3468,16 @@ TryNextWithTease:
                 End If
 
                 ' Add timestamps to domme response if the option is checked in the menu
-                If FrmSettings.timestampCheckBox.Checked = True And FrmSettings.CBWebtease.Checked = False Then
+                If FrmSettings.TimeStampCheckBox.Checked = True And FrmSettings.WebTeaseMode.Checked = False Then
                     'ssh.Chat = ssh.Chat & "<font face=""Cambria"" size=""2"" color=""DimGray"">" & (Date.Now.ToString("hh:mm tt ")) & "</font>"
                 End If
 
                 'Debug.Print("DomChat = " & DomChat)
 
-                If ssh.SubWroteLast = False And FrmSettings.shownamesCheckBox.Checked = False Then
+                If ssh.SubWroteLast = False And FrmSettings.ShowNamesCheckBox.Checked = False Then
 
 
-                    If FrmSettings.CBWebtease.Checked = True Then
+                    If FrmSettings.WebTeaseMode.Checked = True Then
                         'ssh.Chat = "<body bgcolor=""" & Color2Html(My.Settings.ChatWindowColor) & """>" & "</body><body style=""word-wrap:break-word;"">" & "<font face=""" & FrmSettings.FontComboBoxD.Text & """ size=""" & FrmSettings.NBFontSizeD.Value & """ color=""" &
                         'TextColor & """><center>" & chatMessage & "</center><br></font></body>"
                     Else
@@ -3494,7 +3494,7 @@ TryNextWithTease:
 
                 Else
 
-                    If FrmSettings.CBWebtease.Checked = True Then
+                    If FrmSettings.WebTeaseMode.Checked = True Then
                         'ssh.Chat = "<body bgcolor=""" & Color2Html(My.Settings.ChatWindowColor) & """>" & "</body><body style=""word-wrap:break-word;"">" & "<font face=""" & FrmSettings.FontComboBoxD.Text & """ size=""" & FrmSettings.NBFontSizeD.Value & """ color=""" &
                         'TextColor & """><center>" & chatMessage & "</center><br></font></body>"
                     Else
@@ -3833,8 +3833,8 @@ chooseComboboxText:
                 DomWMP.Ctlcontrols.pause()
                 mainPictureBox.Visible = True
 
-                FrmSettings.timedRadio.Enabled = True
-                FrmSettings.teaseRadio.Enabled = True
+                FrmSettings.TimedSlideShowRadio.Enabled = True
+                FrmSettings.TeaseSlideShowRadio.Enabled = True
 
                 ssh.SlideshowLoaded = False
 
@@ -3869,8 +3869,8 @@ chooseComboboxText:
                     DomWMP.Ctlcontrols.pause()
                     mainPictureBox.Visible = True
 
-                    FrmSettings.timedRadio.Enabled = True
-                    FrmSettings.teaseRadio.Enabled = True
+                    FrmSettings.TimedSlideShowRadio.Enabled = True
+                    FrmSettings.TeaseSlideShowRadio.Enabled = True
 
                     ssh.SlideshowLoaded = False
 
@@ -3909,8 +3909,8 @@ listLoaded:
             ssh.JustShowedBlogImage = False
 
             'TODO: FrmSettings.timedRadio.Checked - Remove CrossForm DataAccess
-            If FrmSettings.timedRadio.Checked = True Then
-                ssh.SlideshowTimerTick = FrmSettings.slideshowNumBox.Value
+            If FrmSettings.TimedSlideShowRadio.Checked = True Then
+                ssh.SlideshowTimerTick = FrmSettings.SlideShowNumBox.Value
                 SlideshowTimer.Start()
             End If
 
@@ -12415,7 +12415,7 @@ PoundLoop:
         'TODO: Remove CrossForm data access
         If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
 
-        If ssh.SlideshowLoaded = False Or FrmSettings.timedRadio.Checked = False Or ssh.TeaseVideo = True Or ssh.LockImage = True Or ssh.JustShowedBlogImage = True Or ssh.CustomSlideEnabled = True Then Return
+        If ssh.SlideshowLoaded = False Or FrmSettings.TimedSlideShowRadio.Checked = False Or ssh.TeaseVideo = True Or ssh.LockImage = True Or ssh.JustShowedBlogImage = True Or ssh.CustomSlideEnabled = True Then Return
 
         ssh.SlideshowTimerTick -= 1
 
@@ -12445,7 +12445,7 @@ TryNext:
             End Try
 
 
-            ssh.SlideshowTimerTick = FrmSettings.slideshowNumBox.Value
+            ssh.SlideshowTimerTick = FrmSettings.SlideShowNumBox.Value
         End If
 
     End Sub
@@ -13359,8 +13359,8 @@ saveImage:
 
         If ssh.RiskyDeal = True Then FrmCardList.PBRiskyPic.Image = Image.FromFile(ssh.SlideshowMain.CurrentImage)
 
-        If FrmSettings.timedRadio.Checked = True Then
-            ssh.SlideshowTimerTick = FrmSettings.slideshowNumBox.Value
+        If FrmSettings.TimedSlideShowRadio.Checked = True Then
+            ssh.SlideshowTimerTick = FrmSettings.SlideShowNumBox.Value
             SlideshowTimer.Start()
         End If
 
@@ -16084,8 +16084,8 @@ playLoop:
 #Region "Setup pet names"
 
         ' Happy mood
-        If Not String.IsNullOrWhiteSpace(FrmSettings.petnameBox1.Text) Then
-            returnValue.PetNames.Add(FrmSettings.petnameBox1.Text)
+        If Not String.IsNullOrWhiteSpace(FrmSettings.PetNameBox1.Text) Then
+            returnValue.PetNames.Add(FrmSettings.PetNameBox1.Text)
         End If
         If Not String.IsNullOrWhiteSpace(FrmSettings.petnameBox2.Text) Then
             returnValue.PetNames.Add(FrmSettings.petnameBox2.Text)
@@ -16132,11 +16132,11 @@ playLoop:
 
     Private Function CreateDommeMessagePreferences() As ChatMessagePreferences
         Dim messagePreferences As ChatMessagePreferences = New ChatMessagePreferences()
-        messagePreferences.ShowTimeStamp = FrmSettings.timestampCheckBox.Checked
+        messagePreferences.ShowTimeStamp = FrmSettings.TimeStampCheckBox.Checked
         messagePreferences.FontName = FrmSettings.SubMessageFontCB.Text
         messagePreferences.FontSize = Convert.ToInt32(FrmSettings.NBFontSize.Value)
         messagePreferences.FontColor = Color2Html(My.Settings.ChatTextColor)
-        messagePreferences.ShowSenderName = FrmSettings.shownamesCheckBox.Checked
+        messagePreferences.ShowSenderName = FrmSettings.ShowNamesCheckBox.Checked
         messagePreferences.SenderColor = My.Settings.DomColor
         messagePreferences.BackgroundColor = Color2Html(My.Settings.ChatWindowColor)
         Return messagePreferences
@@ -16144,11 +16144,11 @@ playLoop:
 
     Private Function CreateSubMessagePreferences() As ChatMessagePreferences
         Dim messagePreferences As ChatMessagePreferences = New ChatMessagePreferences()
-        messagePreferences.ShowTimeStamp = FrmSettings.timestampCheckBox.Checked
+        messagePreferences.ShowTimeStamp = FrmSettings.TimeStampCheckBox.Checked
         messagePreferences.FontName = FrmSettings.SubMessageFontCB.Text
         messagePreferences.FontSize = Convert.ToInt32(FrmSettings.NBFontSize.Value)
         messagePreferences.FontColor = Color2Html(My.Settings.ChatTextColor)
-        messagePreferences.ShowSenderName = FrmSettings.shownamesCheckBox.Checked
+        messagePreferences.ShowSenderName = FrmSettings.ShowNamesCheckBox.Checked
         messagePreferences.SenderColor = My.Settings.SubColor
         messagePreferences.BackgroundColor = Color2Html(My.Settings.ChatWindowColor)
         Return messagePreferences
@@ -17038,15 +17038,15 @@ NoPlaylistStartFile:
     End Sub
 
     Private Sub WebteaseModeToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles WebteaseModeToolStripMenuItem.Click
-        If FrmSettings.CBWebtease.Checked = True Then
+        If FrmSettings.WebTeaseMode.Checked = True Then
             WebteaseModeToolStripMenuItem.Checked = False
-            FrmSettings.CBWebtease.Checked = False
+            FrmSettings.WebTeaseMode.Checked = False
         Else
             WebteaseModeToolStripMenuItem.Checked = True
-            FrmSettings.CBWebtease.Checked = True
+            FrmSettings.WebTeaseMode.Checked = True
         End If
 
-        My.Settings.CBWebtease = FrmSettings.CBWebtease.Checked
+        My.Settings.CBWebtease = FrmSettings.WebTeaseMode.Checked
 
     End Sub
 
