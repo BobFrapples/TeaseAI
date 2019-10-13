@@ -27,6 +27,9 @@ namespace TeaseAI.Common.Interfaces.Accessors
         #endregion
 
         #region Domme settings
+        /// <summary>
+        /// Name of the domme personality.
+        /// </summary>
         string DommePersonality { get; set; }
         string DommeAvatarImageName { get; set; }
         string DommeName { get; set; }
@@ -50,6 +53,9 @@ namespace TeaseAI.Common.Interfaces.Accessors
         bool IsTeaseLengthDommeDetermined { get; set; }
         bool IsTauntCycleDommeDetermined { get; set; }
         bool HasChastityDevice { get; set; }
+        /// <summary>
+        /// Does the sub identify as female
+        /// </summary>
         bool IsSubFemale { get; set; }
         bool CanDommeDeleteFiles { get; set; }
         int TeaseLengthMinimum { get; set; }
@@ -61,9 +67,16 @@ namespace TeaseAI.Common.Interfaces.Accessors
         Dictionary<ImageGenre, bool> ImageGenreIncludeSubDirectory { get; }
         Dictionary<ImageGenre, bool> IsImageGenreEnabled { get; }
         Dictionary<ImageGenre, string> ImageGenreFolder { get; }
+
         /// <summary>
-        /// Should the scripts be audited on startup
+        /// Are orgasms currently locked. true if <see cref="OrgasmLockDate"/> is in the future
         /// </summary>
-        bool ShouldAuditScripts { get; set; }
+        bool AreOrgasmsLocked { get; }
+
+        /// <summary>
+        /// Date orgasms are locked until
+        /// </summary>
+        DateTime OrgasmLockDate { get; set; }
+        bool IsOnline { get; set; }
     }
 }

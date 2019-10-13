@@ -4156,30 +4156,18 @@ Namespace My
                 Me("OrgasmLockDate") = value
             End Set
         End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
-        Public Property AuditStartup() As Boolean
-            Get
-                Return CType(Me("AuditStartup"),Boolean)
-            End Get
-            Set
-                Me("AuditStartup") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
+
+        <Global.System.Configuration.UserScopedSettingAttribute(),
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>
         Public Property WishlistDate() As Date
             Get
-                Return CType(Me("WishlistDate"),Date)
+                Return CType(Me("WishlistDate"), Date)
             End Get
             Set
-                Me("WishlistDate") = value
+                Me("WishlistDate") = Value
             End Set
         End Property
-        
+
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
         Public Property LastOrgasm() As Date

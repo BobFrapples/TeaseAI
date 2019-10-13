@@ -13391,12 +13391,13 @@ saveImage:
         End Try
     End Sub
 
-    Public Function CompareDates(ByVal CheckDate As Date) As Integer
-
-        Dim result As Integer = DateTime.Compare(FormatDateTime(CheckDate, DateFormat.ShortDate), FormatDateTime(Now, DateFormat.ShortDate))
-        Debug.Print("Compare dates: " & FormatDateTime(CheckDate, DateFormat.ShortDate) & " <-> " & FormatDateTime(Now, DateFormat.ShortDate) & " = " & result)
-        Return result
-
+    ''' <summary>
+    ''' Compare <paramref name="checkDate"/> with today
+    ''' </summary>
+    ''' <param name="checkDate"></param>
+    ''' <returns></returns>
+    Public Function CompareDates(ByVal checkDate As Date) As Integer
+        Return Date.Compare(checkDate.Date, Now.Date)
     End Function
 
     Public Function CompareDatesWithTime(ByVal CheckDate As Date) As Integer

@@ -458,12 +458,27 @@ Public Class SettingsAccessor
         End Get
     End Property
 
-    Public Property ShouldAuditScripts As Boolean Implements ISettingsAccessor.ShouldAuditScripts
+    Public ReadOnly Property AreOrgasmsLocked As Boolean Implements ISettingsAccessor.AreOrgasmsLocked
         Get
-            Return Settings.AuditStartup
+            Return Settings.OrgasmLockDate <= DateTime.Now.Date
+        End Get
+    End Property
+
+    Public Property OrgasmLockDate As Date Implements ISettingsAccessor.OrgasmLockDate
+        Get
+            Return Settings.OrgasmLockDate
+        End Get
+        Set(value As Date)
+            Settings.OrgasmLockDate = value
+        End Set
+    End Property
+
+    Public Property IsOnline As Boolean Implements ISettingsAccessor.IsOnline
+        Get
+            Return Settings.OfflineMode
         End Get
         Set(value As Boolean)
-            Settings.AuditStartup = value
+            Settings.OfflineMode = value
         End Set
     End Property
 End Class

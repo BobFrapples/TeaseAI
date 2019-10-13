@@ -4433,11 +4433,11 @@ Partial Class FrmSettings
         Me.ScriptsLinkTab.TabIndex = 6
         Me.ScriptsLinkTab.Text = "Link"
         '
-        'CLBLinkList
+        'LinkScripts
         '
         Me.LinkScripts.FormattingEnabled = True
         Me.LinkScripts.Location = New System.Drawing.Point(4, 4)
-        Me.LinkScripts.Name = "CLBLinkList"
+        Me.LinkScripts.Name = "LinkScripts"
         Me.LinkScripts.Size = New System.Drawing.Size(283, 214)
         Me.LinkScripts.Sorted = True
         Me.LinkScripts.TabIndex = 156

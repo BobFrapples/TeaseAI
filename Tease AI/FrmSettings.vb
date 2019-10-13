@@ -49,27 +49,19 @@ Public Class FrmSettings
 
     Dim TagImageFolder As String
 
-    ' Protected Overrides ReadOnly Property CreateParams() As CreateParams
-    '    Get
-    ' Dim param As CreateParams = MyBase.CreateParams
-    '        param.ClassStyle = param.ClassStyle Or &H200
-    '       Return param
-    '  End Get
-    'End Property
-
     Private Sub frmProgramma_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
-
-        Me.Visible = False
+        Visible = False
         MainWindow.BtnToggleSettings.Text = "Open Settings Menu"
         e.Cancel = True
-
     End Sub
-
 
     Private Sub FrmSettings_LostFocus(sender As Object, e As EventArgs) Handles Me.Deactivate
         My.Settings.Save()
     End Sub
 
+    ''' <summary>
+    ''' Called when we want to validate everything
+    ''' </summary>
     Public Sub FrmSettingStartUp()
         mySettingsAccessor = New SettingsAccessor()
         myBlogAccessor = New BlogImageAccessor()
@@ -181,11 +173,11 @@ Public Class FrmSettings
         CBSubPierced.Checked = mySettingsAccessor.IsSubPierced
 
         FrmSplash.UpdateText("Loading Domme settings...")
-        Dim domLevel As Constants.DomLevel = mySettingsAccessor.DominationLevel
+        Dim domLevel As DomLevel = mySettingsAccessor.DominationLevel
         DominationLevel.Value = domLevel
         DomLevelDescLabel.Text = domLevel.ToString()
 
-        Dim apathyLevel As Constants.ApathyLevel = mySettingsAccessor.ApathLevel
+        Dim apathyLevel As ApathyLevel = mySettingsAccessor.ApathLevel
         NBEmpathy.Value = apathyLevel
         LBLEmpathy.Text = apathyLevel.ToString()
 
@@ -207,15 +199,10 @@ Public Class FrmSettings
 
         TBSafeword.Text = mySettingsAccessor.SafeWord
 
-        '===============================================================================
-        '								Card images & names
-        '===============================================================================
         FrmSplash.UpdateText("Loading card images...")
 
         MainWindow.GamesToolStripMenuItem1.Enabled = CardGameCheck()
-        '===============================================================================
-        '								User settings
-        '===============================================================================
+
         FrmSplash.UpdateText("Checking user settings...")
 
         CBOwnChastity.Checked = mySettingsAccessor.HasChastityDevice
@@ -232,19 +219,14 @@ Public Class FrmSettings
         TeaseLengthDommeDetermined.Checked = mySettingsAccessor.IsTeaseLengthDommeDetermined
         CBTauntCycleDD.Checked = mySettingsAccessor.IsTauntCycleDommeDetermined
 
-        If My.Settings.OrgasmsLocked = True Then
-            Debug.Print("Form2 Orgasm Lock Date = " & My.Settings.OrgasmLockDate)
-            If MainWindow.CompareDates(My.Settings.OrgasmLockDate) <= 0 Then
-                My.Settings.OrgasmsLocked = False
-            Else
-                limitcheckbox.Checked = True
-                limitcheckbox.Enabled = False
-                orgasmsPerNumBox.Enabled = False
-                orgasmsperComboBox.Enabled = False
-                orgasmsperlockButton.Enabled = False
-                orgasmlockrandombutton.Enabled = False
-            End If
-
+        ' If orgasms are locked, then check the lock until date and possibly unlock them
+        If Not mySettingsAccessor.AreOrgasmsLocked Then
+            limitcheckbox.Checked = True
+            limitcheckbox.Enabled = False
+            orgasmsPerNumBox.Enabled = False
+            orgasmsperComboBox.Enabled = False
+            orgasmsperlockButton.Enabled = False
+            orgasmlockrandombutton.Enabled = False
         End If
 
         CBHimHer.Checked = mySettingsAccessor.IsSubFemale
@@ -266,17 +248,7 @@ Public Class FrmSettings
         NBGreenLightMin.Value = My.Settings.GreenLightMin
         NBGreenLightMax.Value = My.Settings.GreenLightMax
 
-        ' teaseRadio.Checked = True
-
-        ' If My.Settings.SlideshowMode - "Tease" Then teaseRadio.Checked = True
-        'If My.Settings.SlideshowMode = "Manual" Then offRadio.Checked = True
-        'If My.Settings.SlideshowMode = "Timer" Then timedRadio.Checked = True
-
         FrmSplash.UpdateText("Auditing scripts...")
-
-        CBAuditStartup.Checked = mySettingsAccessor.ShouldAuditScripts
-
-        If CBAuditStartup.Checked Then AuditScripts()
 
         TBWebStart.Text = My.Settings.WebToyStart
         TBWebStop.Text = My.Settings.WebToyStop
@@ -284,26 +256,25 @@ Public Class FrmSettings
 
         FrmSplash.UpdateText("Calculating space of saved session images...")
 
-        CalculateSessionImages()
+        Dim imageInfo As Tuple(Of Integer, Long) = GetImageCountSize(Application.StartupPath & "\Images\Session Images\")
+        LBLSesFiles.Text = imageInfo.Item1.ToString()
+        LBLSesSpace.Text = FormatBytes(imageInfo.Item2)
 
         FrmSplash.UpdateText("Loading Settings Menu options...")
         SaveSettingsDialog.InitialDirectory = Application.StartupPath & "\System"
         OpenSettingsDialog.InitialDirectory = Application.StartupPath & "\System"
 
-        WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Playlist\Start\")
-
+        WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & mySettingsAccessor.DommePersonality & "\Playlist\Start\")
 
         For Each tmptbx As TextBox In New List(Of TextBox) From {TbxContact1ImageDir, TbxContact2ImageDir, TbxContact3ImageDir, TbxDomImageDir}
             If tmptbx.DataBindings("Text") Is Nothing Then
-                Throw New Exception("There is no databinding set on """ & tmptbx.Name &
-                    """'s text-property. Set the databinding and recompile!")
+                Throw New Exception("There is no databinding set on """ & tmptbx.Name & """'s text-property. Set the databinding and recompile!")
             End If
         Next
 
         For Each tmptbx As CheckBox In New List(Of CheckBox) From {CBGlitter1, CBGlitter2, CBGlitter3}
             If tmptbx.DataBindings("Checked") Is Nothing Then
-                Throw New Exception("There is no databinding set on """ & tmptbx.Name &
-                    """'s checked-property. Set the databinding and recompile!")
+                Throw New Exception("There is no databinding set on """ & tmptbx.Name & """'s checked-property. Set the databinding and recompile!")
             End If
         Next
 
@@ -323,7 +294,7 @@ Public Class FrmSettings
         LBLVVolume.Text = SliderVVolume.Value
         LBLVRate.Text = SliderVRate.Value
 
-        If My.Settings.OfflineMode = False Then
+        If mySettingsAccessor.IsOnline Then
             LBLOfflineMode.Text = "OFF"
             LBLOfflineMode.ForeColor = Color.Red
         Else
@@ -340,7 +311,6 @@ Public Class FrmSettings
         TypesSpeedVal.Text = TypeSpeedSlider.Value
 
         FrmSettingsLoading = False
-
         Visible = False
     End Sub
 
@@ -357,7 +327,6 @@ Public Class FrmSettings
         My.MySettings.importOnRestart()
     End Sub
 
-
     Private Sub timestampCheckBox_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles timestampCheckBox.MouseClick
 
         If timestampCheckBox.Checked = True Then
@@ -369,7 +338,6 @@ Public Class FrmSettings
 
 
     End Sub
-
 
     Private Sub shownamesCheckBox_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles shownamesCheckBox.MouseClick
 
@@ -461,7 +429,6 @@ Public Class FrmSettings
         '   & " Namen werden nur erscheinen wenn du nicht der letzte warst, der geschrieben hat."
 
     End Sub
-
 
     Private Sub typeinstantlyCheckBox_CheckedChanged_1(sender As System.Object, e As System.EventArgs) Handles typeinstantlyCheckBox.MouseHover
 
@@ -609,8 +576,6 @@ Public Class FrmSettings
         'Diashow läuft im Wertebereichs „Reiter"" ändern. Dies ist der Standart Diashow modus in Tease AI "
     End Sub
 
-
-
     Private Sub CBSettingsPause_CheckedChanged_1(sender As System.Object, e As System.EventArgs) Handles CBSettingsPause.MouseHover
 
         If RBEnglish.Checked = True Then TTDir.SetToolTip(CBSettingsPause, "When this is selected, the program will pause any time" & Environment.NewLine &
@@ -701,13 +666,6 @@ Public Class FrmSettings
         'Kommandos in dem Script genutzt werden. Wenn dies deaktiviert ist, werden Bilder vom Bildschirm verschwinden, aber nicht von der Festplatte gelöscht."
     End Sub
 
-    ' Private Sub GBGeneralSettings_MouseHover(sender As Object, e As System.EventArgs) Handles GBGeneralSettings.MouseEnter, PNLGeneralSettings.MouseEnter
-    '    LBLGeneralSettingsDescription.Text = "Hover over any setting in the menu for a more detailed description of its function."
-
-    '   If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = "Ziehe die Maus über irgendeine Einstellung um eine genaure Beschreibung der Einstellung zu bekommen."
-    'End Sub
-
-
     Private Sub CBAutosaveChatlog_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles CBAutosaveChatlog.MouseClick
         If CBAutosaveChatlog.Checked = True Then
             My.Settings.CBAutosaveChatlog = True
@@ -722,10 +680,6 @@ Public Class FrmSettings
         Else
             My.Settings.CBExitSaveChatlog = False
         End If
-    End Sub
-
-    Private Sub CBJackInTheBox_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles CBAuditStartup.MouseClick
-        mySettingsAccessor.ShouldAuditScripts = CBAuditStartup.Checked
     End Sub
 
     Private Sub CBSlideshowSubDir_LostFocus(sender As System.Object, e As System.EventArgs) Handles CBSlideshowSubDir.LostFocus
@@ -2930,7 +2884,6 @@ Public Class FrmSettings
         {BP1, BP2, BP3, BP4, BP5, BP6, SP1, SP2, SP3, SP4, SP5, SP6,
         GP1, GP2, GP3, GP4, GP5, GP6, CardBack}
 
-            ' Check if the Databinding is properly set.
             If tmpPicBox.DataBindings.Item("ImageLocation") Is Nothing Then
                 Throw New Exception("There is no databinding set on """ & tmpPicBox.Name &
                                     """'s image location. Set the databinding and recompile!")
@@ -2948,7 +2901,6 @@ Public Class FrmSettings
             End If
         Next
 
-        '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Card names <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
         For Each tmpTbx As TextBox In New List(Of TextBox) From
                 {BN1, BN2, BN3, BN4, BN5, BN6,
                 SN1, SN2, SN3, SN4, SN5, SN6,
@@ -5350,6 +5302,7 @@ checkFolder:
 
     End Sub
 
+#Region "Lost focus / save values"
     Private Sub TauntSlider_LostFocus(sender As System.Object, e As System.EventArgs) Handles TauntSlider.LostFocus
         My.Settings.TimerVTF = TauntSlider.Value
 
@@ -5892,7 +5845,6 @@ checkFolder:
         My.Settings.DomBirthDay = NBDomBirthdayDay.Value
     End Sub
 
-
     Private Sub NBBirthdayMonth_LostFocus(sender As System.Object, e As System.EventArgs) Handles NBBirthdayMonth.LostFocus
         My.Settings.SubBirthMonth = NBBirthdayMonth.Value
     End Sub
@@ -5908,6 +5860,7 @@ checkFolder:
     Private Sub TBSubEyeColor_LostFocus(sender As System.Object, e As System.EventArgs) Handles TBSubEyeColor.LostFocus
         My.Settings.SubEyes = TBSubEyeColor.Text
     End Sub
+#End Region
 
     Private Sub Button37_Click_1(sender As System.Object, e As System.EventArgs) Handles Button37.Click
         If TBKeywordPreview.Text = "" Then Return
@@ -5994,7 +5947,6 @@ checkFolder:
         SaveURLFileSelection()
     End Sub
 
-
     Private Sub URLFileList_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles URLFileList.SelectedIndexChanged
         If CBURLPreview.Checked Then
             Dim blogMetaData = myBlogAccessor.GetBlogMetaData().First(Function(x) x.FileName.Equals(URLFileList.SelectedItem.ToString()))
@@ -6006,73 +5958,52 @@ checkFolder:
         SaveURLFileSelection()
     End Sub
 
-    Private Sub BTNURLFilesAll_Click(sender As System.Object, e As System.EventArgs) Handles BTNURLFilesAll.Click
+    Private Sub BTNURLFilesAll_Click(sender As Object, e As EventArgs) Handles BTNURLFilesAll.Click
         For i As Integer = 0 To URLFileList.Items.Count - 1
             URLFileList.SetItemChecked(i, True)
         Next
         SaveURLFileSelection()
     End Sub
 
-    Private Sub BTNURLFilesNone_Click(sender As System.Object, e As System.EventArgs) Handles BTNURLFilesNone.Click
+    Private Sub BTNURLFilesNone_Click(sender As Object, e As EventArgs) Handles BTNURLFilesNone.Click
         For i As Integer = 0 To URLFileList.Items.Count - 1
             URLFileList.SetItemChecked(i, False)
         Next
         SaveURLFileSelection()
     End Sub
 
-    Private Sub CBCBTCock_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles CockTortureEnabledCB.LostFocus
-        If CockTortureEnabledCB.Checked = True Then
-            My.Settings.CBTCock = True
-        Else
-            My.Settings.CBTCock = False
-        End If
+    Private Sub CBCBTCock_CheckedChanged(sender As Object, e As EventArgs) Handles CockTortureEnabledCB.LostFocus
+        mySettingsAccessor.IsCockTortureEnabled = CockTortureEnabledCB.Checked
     End Sub
 
-    Private Sub CBCBTBalls_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles BallTortureEnabledCB.LostFocus
-        If BallTortureEnabledCB.Checked = True Then
-            My.Settings.CBTBalls = True
-        Else
-            My.Settings.CBTBalls = False
-        End If
+    Private Sub CBCBTBalls_CheckedChanged(sender As Object, e As EventArgs) Handles BallTortureEnabledCB.LostFocus
+        mySettingsAccessor.IsBallTortureEnabled = BallTortureEnabledCB.Checked
     End Sub
 
-    Private Sub Button9_Click_1(sender As System.Object, e As System.EventArgs) Handles BTNLocalTagDir.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-
-
-            ' BTNTagSave.Text = "Save and Display Next Image"
-
+    Private Sub Button9_Click_1(sender As Object, e As EventArgs) Handles BTNLocalTagDir.Click
+        Dim folderBrowser As FolderBrowserDialog = New FolderBrowserDialog()
+        If (folderBrowser.ShowDialog() = DialogResult.OK) Then
             LocalImageTagDir.Clear()
 
-            Dim TagLocalImageFolder As String = FolderBrowserDialog1.SelectedPath
-
+            Dim tagLocalImageFolder As String = folderBrowser.SelectedPath
             Dim supportedExtensions As String = "*.png,*.jpg,*.gif,*.bmp,*.jpeg"
-            Dim files As String()
-
-            files = myDirectory.GetFiles(TagLocalImageFolder, "*.*")
-
-            Array.Sort(files)
+            Dim files As List(Of String) = myDirectory.GetFiles(tagLocalImageFolder, "*.*").ToList()
+            files.Sort()
 
             For Each fi As String In files
-                If supportedExtensions.Contains(Path.GetExtension(LCase(fi))) Then
+                If supportedExtensions.Contains(Path.GetExtension(fi.ToLower())) Then
                     LocalImageTagDir.Add(fi)
                 End If
             Next
 
-            If LocalImageTagDir.Count < 1 Then
+            If Not LocalImageTagDir.Any() Then
                 MessageBox.Show(Me, "There are no images in the specified folder.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Return
             End If
 
             MainWindow.mainPictureBox.LoadAsync(LocalImageTagDir(0))
-
-
             CurrentLocalImageTagImage = LocalImageTagDir(0)
-
-
             CheckLocalTagList()
-
-
 
             LocalTagCount = 1
             LBLLocalTagCount.Text = LocalTagCount & "/" & LocalImageTagDir.Count
@@ -6091,9 +6022,6 @@ checkFolder:
             LBLLocalTagCount.Enabled = True
 
         End If
-
-
-
     End Sub
 
     Private Sub BTNLocalTagNext_Click(sender As System.Object, e As System.EventArgs) Handles BTNLocalTagNext.Click
@@ -6114,6 +6042,9 @@ checkFolder:
 
     End Sub
 
+    ''' <summary>
+    ''' Set all image tag checkboxes to disabled
+    ''' </summary>
     Public Sub ClearLocalTagList()
 
         CBTagHardcore.Checked = False
@@ -6836,11 +6767,9 @@ checkFolder:
 
     End Sub
 
-
     Private Sub NBLongEdge_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBLongEdge.LostFocus
         My.Settings.LongEdge = NBLongEdge.Value
     End Sub
-
 
     Private Sub NBHoldTheEdgeMax_LostFocus(sender As Object, e As System.EventArgs) Handles HoldEdgeMaximum.LostFocus
         mySettingsAccessor.HoldEdgeMaximum = ConvertHoldTime(HoldEdgeMaximum.Value, LBLMaxHold.Text)
@@ -6912,7 +6841,6 @@ checkFolder:
         End If
     End Sub
 
-
     Private Sub NBExtremeHoldMax_LostFocus(sender As Object, e As System.EventArgs) Handles ExtremeEdgeHoldMaximum.LostFocus
         My.Settings.ExtremeHoldMax = ExtremeEdgeHoldMaximum.Value
     End Sub
@@ -6940,7 +6868,6 @@ checkFolder:
             End If
         End If
     End Sub
-
 
     Private Sub CBTSlider_Scroll(sender As System.Object, e As System.EventArgs) Handles CockAndBallTortureLevelSlider.Scroll
         If FrmSettingsLoading = False Then
@@ -7419,8 +7346,6 @@ checkFolder:
         My.Settings.Safeword = TBSafeword.Text
     End Sub
 
-
-
     Private Sub Button4_Click_5(sender As System.Object, e As System.EventArgs) Handles Button4.Click
 
         TBResponses.Text = ""
@@ -7599,12 +7524,6 @@ checkFolder:
         End If
 
 
-    End Sub
-
-
-    Private Sub subAgeNumBox_MouseHover(sender As Object, e As System.EventArgs) Handles subAgeNumBox.MouseEnter
-        TTDir.SetToolTip(subAgeNumBox, "Set your age.")
-        'LBLSubSettingsDescription.Text = "Set your age."
     End Sub
 
     Private Sub NBBirthdayMonth_MouseHover(sender As Object, e As System.EventArgs) Handles NBBirthdayMonth.MouseEnter
@@ -7791,8 +7710,6 @@ checkFolder:
     Private Sub NBNextImageChance_LostFocus(sender As Object, e As System.EventArgs) Handles NBNextImageChance.LostFocus
         My.Settings.NextImageChance = NBNextImageChance.Value
     End Sub
-
-
 
     Private Sub orgasmsperlockButton_Click(sender As System.Object, e As System.EventArgs) Handles orgasmsperlockButton.Click
 
@@ -8143,8 +8060,6 @@ checkFolder:
         LBLRangeSettingsDescription.Text = "Hover over any setting in the menu for a more detailed description of its function."
     End Sub
 
-
-
     Private Sub TextBox2_TextChanged(sender As System.Object, e As System.EventArgs) Handles TBWishlistURL.TextChanged
         Try
             WishlistPreview.Image.Dispose()
@@ -8266,7 +8181,6 @@ checkFolder:
     Private Sub Button1_Click_1(sender As System.Object, e As System.EventArgs) Handles BTNMaintenanceCancel.Click
         If BWURLFiles.IsBusy Then BWURLFiles.CancelAsync()
     End Sub
-
 
     Private Sub Button3_Click_1(sender As System.Object, e As System.EventArgs) Handles BTNMaintenanceScripts.Click
 
@@ -8421,184 +8335,43 @@ checkFolder:
 
     End Sub
 
-    <Obsolete("This needs rewritten")>
-    Public Sub AuditScripts()
-
-        PBMaintenance.Maximum = My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text, FileIO.SearchOption.SearchAllSubDirectories, "*.txt").Count +
-       My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Images\System\", FileIO.SearchOption.SearchAllSubDirectories, "*.txt").Count
-        PBMaintenance.Value = 0
-        Dim BlankAudit As Integer = 0
-        Dim ErrorAudit As Integer = 0
-
-        BTNMaintenanceRebuild.Enabled = False
-        BTNMaintenanceRefresh.Enabled = False
-
-        For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text, FileIO.SearchOption.SearchAllSubDirectories, "*.txt")
-
-            LBLMaintenance.Text = "Checking " & Path.GetFileName(foundFile) & "..."
-            PBMaintenance.Value += 1
-            Dim CheckFiles As String() = File.ReadAllLines(foundFile)
-
-            Dim GoodLines As New List(Of String)
-
-            For Each line As String In CheckFiles
-                If Not line = "" Then
-                    GoodLines.Add(line)
-                Else
-                    BlankAudit += 1
-                End If
-            Next
-
-            For i As Integer = 0 To GoodLines.Count - 1
-                If GoodLines(i).Contains(" ]") Then
-                    ErrorAudit += 1
-                    Do
-                        GoodLines(i) = GoodLines(i).Replace(" ]", "]")
-                    Loop Until Not GoodLines(i).Contains(" ]")
-                End If
-                If GoodLines(i).Contains("[ ") Then
-                    ErrorAudit += 1
-                    Do
-                        GoodLines(i) = GoodLines(i).Replace("[ ", "[")
-                    Loop Until Not GoodLines(i).Contains("[ ")
-                End If
-                If GoodLines(i).Contains(",,") Then
-                    ErrorAudit += 1
-                    Do
-
-                        GoodLines(i) = GoodLines(i).Replace(",,", ",")
-                    Loop Until Not GoodLines(i).Contains(",,")
-                End If
-                If GoodLines(i).Contains(",]") Then
-                    ErrorAudit += 1
-                    Do
-
-                        GoodLines(i) = GoodLines(i).Replace(",]", "]")
-                    Loop Until Not GoodLines(i).Contains(",]")
-                End If
-                If GoodLines(i).Contains(" ,") Then
-                    ErrorAudit += 1
-                    Do
-
-                        GoodLines(i) = GoodLines(i).Replace(" ,", ",")
-                    Loop Until Not GoodLines(i).Contains(" ,")
-                End If
-                If foundFile.Contains("Suffering") Then Debug.Print(GoodLines(i))
-
-                If GoodLines(i).Contains("@ShowBoobImage") Then
-                    ErrorAudit += 1
-                    GoodLines(i) = GoodLines(i).Replace("@ShowBoobImage", "@ShowBoobsImage")
-                End If
-
-            Next
-
-
-
-
-            Dim fs As New FileStream(foundFile, FileMode.Create)
-            Dim sw As New StreamWriter(fs)
-
-
-            For i As Integer = 0 To GoodLines.Count - 1
-                If i <> GoodLines.Count - 1 Then
-                    sw.WriteLine(GoodLines(i))
-                Else
-                    sw.Write(GoodLines(i))
-                End If
-            Next
-
-
-            sw.Close()
-            sw.Dispose()
-
-            fs.Close()
-            fs.Dispose()
-
-        Next
-
-
-        For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Images\System\", FileIO.SearchOption.SearchAllSubDirectories, "*.txt")
-
-            LBLMaintenance.Text = "Checking " & Path.GetFileName(foundFile) & "..."
-            PBMaintenance.Value += 1
-            Dim CheckFiles As String() = File.ReadAllLines(foundFile)
-
-            Dim GoodLines As New List(Of String)
-
-            For Each line As String In CheckFiles
-                If Not line = "" Then
-                    GoodLines.Add(line)
-                Else
-                    BlankAudit += 1
-                End If
-            Next
-
-            Dim fs As New FileStream(foundFile, FileMode.Create)
-            Dim sw As New StreamWriter(fs)
-
-
-            For i As Integer = 0 To GoodLines.Count - 1
-                If i <> GoodLines.Count - 1 Then
-                    sw.WriteLine(GoodLines(i))
-                Else
-                    sw.Write(GoodLines(i))
-                End If
-            Next
-
-            sw.Close()
-            sw.Dispose()
-
-            fs.Close()
-            fs.Dispose()
-
-        Next
-
-
-        Debug.Print("done")
-
-        MessageBox.Show(If(Me.Visible, Me, FrmSplash), PBMaintenance.Maximum & " scripts have been audited." & Environment.NewLine & Environment.NewLine &
-                        "Blank lines cleared: " & BlankAudit & Environment.NewLine & Environment.NewLine &
-                        "Script errors corrected: " & ErrorAudit, "Success!", MessageBoxButtons.OK, MessageBoxIcon.Information)
-
-        PBMaintenance.Value = 0
-
-        LBLMaintenance.Text = ""
-
-        BTNMaintenanceRebuild.Enabled = True
-        BTNMaintenanceRefresh.Enabled = True
-
-    End Sub
-
-    Private Sub TBWebStart_LostFocus(sender As Object, e As System.EventArgs) Handles TBWebStart.LostFocus
+    Private Sub TBWebStart_LostFocus(sender As Object, e As EventArgs) Handles TBWebStart.LostFocus
         My.Settings.WebToyStart = TBWebStart.Text
     End Sub
 
-    Private Sub TBWebStop_LostFocus(sender As Object, e As System.EventArgs) Handles TBWebStop.LostFocus
+    Private Sub TBWebStop_LostFocus(sender As Object, e As EventArgs) Handles TBWebStop.LostFocus
         My.Settings.WebToyStop = TBWebStop.Text
     End Sub
 
-    Private Sub Button3_Click_2(sender As System.Object, e As System.EventArgs) Handles Button3.Click
+    Private Sub Button3_Click_2(sender As Object, e As EventArgs) Handles Button3.Click
         Process.Start(Application.StartupPath & "\Images\Session Images\")
     End Sub
 
-    Public Sub CalculateSessionImages()
+    ''' <summary>
+    ''' Returns a tuple (Count, SpaceBytes)
+    ''' </summary>
+    ''' <param name="folder"></param>
+    ''' <returns></returns>
+    Public Function GetImageCountSize(folder As String) As Tuple(Of Int32, Int64)
+        Dim imageCount As Integer = 0
+        Dim imageSpace As Long = 0
 
-        Dim SesImgCount As Integer = 0
-        Dim SesImgSpace As Long = 0
-
-        For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Images\Session Images\", FileIO.SearchOption.SearchAllSubDirectories, "*.*")
-            SesImgCount += 1
-            SesImgSpace += My.Computer.FileSystem.GetFileInfo(foundFile).Length
+        For Each foundFile As String In My.Computer.FileSystem.GetFiles(folder, FileIO.SearchOption.SearchAllSubDirectories, "*.*")
+            imageCount += 1
+            imageSpace += My.Computer.FileSystem.GetFileInfo(foundFile).Length
         Next
 
-        LBLSesFiles.Text = SesImgCount
-        LBLSesSpace.Text = FormatBytes(SesImgSpace)
+        Return Tuple.Create(imageCount, imageSpace)
+    End Function
 
-    End Sub
-
-    Private Function FormatBytes(ByVal Bytes As Long) As String
+    ''' <summary>
+    ''' Format a value in bytes in human readable format (KB, MB, etc)
+    ''' </summary>
+    ''' <param name="bytes"></param>
+    ''' <returns></returns>
+    Private Function FormatBytes(ByVal bytes As Long) As String
         Try
-            Dim dblBytes As Double = Bytes
+            Dim dblBytes As Double = bytes
             Dim Size As String() = {"bytes", "KB", "MB", "GB", "TB", "PB"}
             Dim SizeCounter As Integer = 0
             While dblBytes > 768
@@ -8608,43 +8381,32 @@ checkFolder:
             dblBytes = CType(CType(dblBytes * 100, Integer), Double) * 0.01
             Return dblBytes.ToString & " " & Size(SizeCounter)
         Catch ex As Exception
-            Return Bytes.ToString
+            Return bytes.ToString()
         End Try
     End Function
 
-    Private Sub Button6_Click_2(sender As System.Object, e As System.EventArgs) Handles Button6.Click
-
-        Dim result As Integer = MessageBox.Show("This will permanently delete all files in the Session Images folder." & Environment.NewLine & Environment.NewLine &
+    Private Sub Button6_Click_2(sender As Object, e As EventArgs) Handles Button6.Click
+        Dim result As DialogResult = MessageBox.Show("This will permanently delete all files in the Session Images folder." & Environment.NewLine & Environment.NewLine &
                                                 "Are you sure you wish to continue?", "Warning!", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation)
-        If result = DialogResult.No Then
-
-        ElseIf result = DialogResult.Yes Then
-            For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Images\Session Images\", Microsoft.VisualBasic.FileIO.SearchOption.SearchTopLevelOnly, "*.*")
-
+        If result = DialogResult.Yes Then
+            For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Images\Session Images\", FileIO.SearchOption.SearchTopLevelOnly, "*.*")
                 My.Computer.FileSystem.DeleteFile(foundFile)
-
             Next
 
-            CalculateSessionImages()
+            Dim imageInfo As Tuple(Of Int32, Int64) = GetImageCountSize(Application.StartupPath & "\Images\Session Images\")
+            LBLSesFiles.Text = imageInfo.Item1.ToString()
+            LBLSesSpace.Text = FormatBytes(imageInfo.Item2)
         End If
     End Sub
 
-
-
-
-
-
     Private Sub Button1_Click(sender As System.Object, e As System.EventArgs) Handles Button1.Click
 
-        Dim result As Integer = MessageBox.Show("This will permanently reset all saved Tease AI settings back to their default value!" & Environment.NewLine & Environment.NewLine &
+        Dim result As DialogResult = MessageBox.Show("This will permanently reset all saved Tease AI settings back to their default value!" & Environment.NewLine & Environment.NewLine &
                                               "Are you sure you wish to continue?", "Warning!", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation)
-        If result = DialogResult.No Then
-
-        ElseIf result = DialogResult.Yes Then
+        If result = DialogResult.Yes Then
             My.Settings.Reset()
             MessageBox.Show(Me, "Tease AI settings have been reverted back to default values.", "Success!", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
-
     End Sub
 
     Private Sub CBCockToClit_LostFocus(sender As Object, e As System.EventArgs) Handles CBCockToClit.LostFocus
@@ -8703,15 +8465,12 @@ checkFolder:
         End If
     End Function
 
-
     Private Function StripBlankLines(ByVal SpaceClean As List(Of String)) As List(Of String)
         For i As Integer = SpaceClean.Count - 1 To 0 Step -1
             If SpaceClean(i) = "" Then SpaceClean.Remove(SpaceClean(i))
         Next
         Return SpaceClean
     End Function
-
-
 
     Private Sub BTNPlaylistEnd_Click(sender As System.Object, e As System.EventArgs) Handles BTNPlaylistEnd.Click
 
@@ -9048,8 +8807,6 @@ checkFolder:
 
     End Sub
 
-
-
     Public Sub EnglishMenu()
 
         LBLGeneralSettings.Text = "General Settings"
@@ -9103,8 +8860,6 @@ checkFolder:
     End Sub
 
     Public Sub GermanMenu()
-
-
         LBLGeneralSettings.Text = "Allgemeine Einstellung"
 
         GBGeneralSettings.Text = "Chat Fenster"
@@ -9133,7 +8888,6 @@ checkFolder:
         GBDommeImages.Text = "Diashow Einstellungen"
         BTNDomImageDir.Text = "Wähle Domina Bilder Speicherpfad"
 
-        'GBSlideshowOptions.Text = "Diashow Einstellungen"
         offRadio.Text = "Manual"
         teaseRadio.Text = "Tease"
 
@@ -9149,13 +8903,7 @@ checkFolder:
 
         GBGeneralTextToSpeech.Text = "Text zu Sprache"
         TTSCheckBox.Text = "Aktiv"
-
-        'GBGeneralDesc.Text = "Beschreibung"
-        'LBLGeneralSettingsDescription.Text = "Ziehe die Maus über irgendeine Einstellung um eine genaure Beschreibung der Einstellung zu bekommen."
-
     End Sub
-
-
 
     Private Sub RBGerman_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles RBGerman.CheckedChanged, RBEnglish.CheckedChanged
         If FrmSettingsLoading = False Then
@@ -9204,8 +8952,6 @@ checkFolder:
         GC.Collect()
         My.Settings.BackgroundImage = ""
     End Sub
-
-
 
     Private Sub Button31_Click(sender As System.Object, e As System.EventArgs) Handles Button31.Click
         OpenScriptDialog.Title = "Select a Theme settings file"
@@ -9259,25 +9005,13 @@ checkFolder:
         End If
     End Sub
 
-
     Private Sub CBStretchBack_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles CBStretchBack.CheckedChanged
         My.Settings.BackgroundStretch = CBStretchBack.Checked
     End Sub
 
-
-
-
     Private Sub CBTransparentTime_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles CBTransparentTime.CheckedChanged
         My.Settings.CBDateTransparent = CBTransparentTime.Checked
     End Sub
-
-
-
-
-
-
-
-
 
     Private Sub CheckBox1_CheckedChanged_1(sender As System.Object, e As System.EventArgs) Handles CBFlipBack.CheckedChanged
 

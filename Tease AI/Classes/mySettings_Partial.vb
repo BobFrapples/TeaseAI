@@ -404,27 +404,23 @@ Error_All:
 
 #End Region  ' Import file
 
-		''' =========================================================================================================
-		''' <summary>
-		''' Resets a field using a databound control.
-		''' </summary>
-		''' <param name="cntl">The databound control, containing the databinding.</param>
-		''' <param name="prop">The controls databound property to reset.</param>
-		Friend Sub ResetField(ByVal cntl As Control, prop As String)
-			Try
-				Dim bindingField As String = cntl.DataBindings.Item(prop).BindingMemberInfo.BindingField
-				My.Settings(bindingField) = My.Settings.PropertyValues(bindingField).Property.DefaultValue
-			Catch ex As Exception
-				Throw
-			End Try
-		End Sub
+        ''' =========================================================================================================
+        ''' <summary>
+        ''' Resets a field using a databound control.
+        ''' </summary>
+        ''' <param name="cntl">The databound control, containing the databinding.</param>
+        ''' <param name="prop">The controls databound property to reset.</param>
+        Friend Sub ResetField(ByVal cntl As Control, prop As String)
+            Dim bindingField As String = cntl.DataBindings.Item(prop).BindingMemberInfo.BindingField
+            My.Settings(bindingField) = My.Settings.PropertyValues(bindingField).Property.DefaultValue
+        End Sub
 
-		''' =========================================================================================================
-		''' <summary>
-		''' Returns the initial value of a Member.
-		''' </summary>
-		''' <param name="Member">The Name of the Member, to retrieve the initial value.</param>
-		Friend Function GetDefault(ByVal Member As String) As String
+        ''' =========================================================================================================
+        ''' <summary>
+        ''' Returns the initial value of a Member.
+        ''' </summary>
+        ''' <param name="Member">The Name of the Member, to retrieve the initial value.</param>
+        Friend Function GetDefault(ByVal Member As String) As String
 			Return My.Settings.PropertyValues(Member).Property.DefaultValue
 		End Function
 		''' =========================================================================================================
