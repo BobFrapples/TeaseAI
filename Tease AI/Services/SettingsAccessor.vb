@@ -143,7 +143,7 @@ Public Class SettingsAccessor
         End Set
     End Property
 
-    Public Property ApathLevel As ApathyLevel Implements ISettingsAccessor.ApathLevel
+    Public Property ApathyLevel As ApathyLevel Implements ISettingsAccessor.ApathyLevel
         Get
             Return ApathyLevel.Create(Settings.DomEmpathy).Value
         End Get

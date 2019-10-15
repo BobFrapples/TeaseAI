@@ -1,7 +1,6 @@
 ﻿Imports System.ComponentModel
 Imports System.IO
 Imports System.Speech.Synthesis
-Imports Tease_AI
 Imports Tease_AI.URL_Files
 Imports TeaseAI.Common
 Imports TeaseAI.Common.Constants
@@ -57,7 +56,7 @@ Public Class FrmSettings
         InitializeComponent()
     End Sub
 
-    Private Sub frmProgramma_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+    Private Sub frmProgramma_FormClosing(ByVal sender As Object, ByVal e As Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
         Visible = False
         MainWindow.BtnToggleSettings.Text = "Open Settings Menu"
         e.Cancel = True
@@ -181,7 +180,7 @@ Public Class FrmSettings
         DominationLevel.Value = domLevel
         DomLevelDescLabel.Text = domLevel.ToString()
 
-        Dim apathyLevel As ApathyLevel = mySettingsAccessor.ApathLevel
+        Dim apathyLevel As ApathyLevel = mySettingsAccessor.ApathyLevel
         NBEmpathy.Value = apathyLevel
         LBLEmpathy.Text = apathyLevel.ToString()
 
@@ -316,65 +315,35 @@ Public Class FrmSettings
 
         FrmSettingsLoading = False
         Visible = False
+        Dim languageCode As String = "en"
+        If RBGerman.Checked Then
+            languageCode = "de"
+        End If
+        SetToolTips(languageCode)
     End Sub
 
     Private Sub SettingsTabs_TabIndexChanged(sender As Object, e As EventArgs) Handles SettingsTabs.SelectedIndexChanged
         If SettingsTabs.SelectedTab Is TabPage16 Then TCScripts_TabIndexChanged(TCScripts, Nothing)
     End Sub
 
-#Region "------------------------------------- GeneralTab -----------------------------------------------"
-
-    Private Sub BtnImportSettings_Click(sender As Object, e As EventArgs) Handles BtnImportSettings.Click
-        My.MySettings.importOnRestart()
-    End Sub
-
-    Private Sub TimeStampCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles TimeStampCheckBox.CheckedChanged
-        mySettingsAccessor.IsTimeStampEnabled = TimeStampCheckBox.Checked
-    End Sub
-
-    Private Sub ShowNamesCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles ShowNamesCheckBox.CheckedChanged
-        mySettingsAccessor.ShowNames = ShowNamesCheckBox.Checked
-    End Sub
-
-    Private Sub TypeInstantlyCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles TypeInstantlyCheckBox.CheckedChanged
-        mySettingsAccessor.DoesDommeTypeInstantly = TypeInstantlyCheckBox.Checked
-    End Sub
-
-    Private Sub CBWebtease_CheckedChanged(sender As Object, e As EventArgs) Handles WebTeaseMode.CheckedChanged
-        mySettingsAccessor.WebTeaseModeEnabled = WebTeaseMode.Checked
-    End Sub
-
-    Private Sub CBBlogImageWindow_CheckedChanged(sender As Object, e As EventArgs) Handles CBBlogImageWindow.CheckedChanged
-        My.Settings.CBBlogImageMain = CBBlogImageWindow.Checked
-    End Sub
-
-    Private Sub LandscapeCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles LandscapeCheckBox.CheckedChanged
-        My.Settings.CBStretchLandscape = LandscapeCheckBox.Checked
-    End Sub
-
-    Private Sub CBSettingsPause_CheckedChanged(sender As Object, e As EventArgs) Handles CBSettingsPause.CheckedChanged
-        My.Settings.CBSettingsPause = CBSettingsPause.Checked
-    End Sub
-
 #Region "set tooltips"
-    Private Sub TimeStampCheckBox_MouseHover(sender As Object, e As EventArgs) Handles TimeStampCheckBox.MouseHover
-
-        If RBEnglish.Checked Then TTDir.SetToolTip(TimeStampCheckBox, "When this is selected, a timestamp will appear" & Environment.NewLine &
-                                                                             "with each message you and the domme send.")
-        If RBGerman.Checked Then TTDir.SetToolTip(TimeStampCheckBox, "Wenn dies aktiviert ist, wird mit jeder Nachricht die" & Environment.NewLine &
-                                                                            "du oder die Domina sendet ein Zeitstempel angezeigt")
+    Private Sub SetToolTips(languageCode As String)
+        Dim langData As TranslationService = New TranslationService()
+        TTDir.SetToolTip(TimeStampCheckBox, langData.GetString(languageCode, NameOf(TimeStampCheckBox)))
+        TTDir.SetToolTip(ShowNamesCheckBox, langData.GetString(languageCode, NameOf(ShowNamesCheckBox)))
     End Sub
 
-    Private Sub ShowNamesCheckBox_MouseHover(sender As Object, e As EventArgs) Handles ShowNamesCheckBox.MouseHover
+    Private Sub TypeSpeedSlider_MouseHover(sender As Object, e As EventArgs) Handles TypeSpeedSlider.MouseHover
+        TTDir.SetToolTip(TypeSpeedSlider, "Adjust your typing speed. It determines how much time you will have during Writing Tasks to accomplish them." & vbCrLf & "(There is a 3-fold difference in time granted between slowest and fastest typing speed")
+    End Sub
 
-        If RBEnglish.Checked Then TTDir.SetToolTip(ShowNamesCheckBox, "When this is selected, the names of you and the" & Environment.NewLine &
-                                                                              "domme will appear with every message you send." & Environment.NewLine & Environment.NewLine &
-                                                                              "If it is unselected, names will only appear" & Environment.NewLine &
-                                                                              "when you were not the last one to type.")
-        If RBGerman.Checked Then TTDir.SetToolTip(ShowNamesCheckBox, "Wenn dies aktiviert ist, wird mit jeder Nachricht" & Environment.NewLine &
-                                                                            "die du oder die Domina sendet der Name angezeigt." & Environment.NewLine & Environment.NewLine &
-                                                                            "Wenn dies deaktiviert ist, Namen werden nur erscheinen" & Environment.NewLine &
-                                                                            "wenn du nicht der letzte warst, der geschrieben hat.")
+    Private Sub TimedWriting_CheckedChanged_1(sender As Object, e As EventArgs) Handles TimedWriting.MouseHover
+
+        If RBEnglish.Checked = True Then TTDir.SetToolTip(TimedWriting, "When selected, you will need to complete Writing Tasks in a certain amount of time, based on sentence length and Typing Speed value" & Environment.NewLine &
+      "When unselected, Writing Tasks failure will only be based on errors made")
+        If RBGerman.Checked = True Then TTDir.SetToolTip(TimedWriting, "Wenn diese Option aktiviert , müssen Sie Schreibaufgaben in einer bestimmten Zeit zu vervollständigen, basierend auf Satzlängeund Typing Speed ​​Wert" & Environment.NewLine &
+         "Wenn diese Option deaktiviert, Schreibaufgaben Fehler wird nur auf Fehler beruhen gemacht")
+
     End Sub
 
     Private Sub TypeInstantlyCheckBox_MouseHover(sender As Object, e As EventArgs) Handles TypeInstantlyCheckBox.MouseHover
@@ -496,7 +465,7 @@ Public Class FrmSettings
         'Diashow läuft im Wertebereichs „Reiter"" ändern. Dies ist der Standart Diashow modus in Tease AI "
     End Sub
 
-    Private Sub CBSettingsPause_MouseHover(sender As Object, e As System.EventArgs) Handles CBSettingsPause.MouseHover
+    Private Sub CBSettingsPause_MouseHover(sender As Object, e As EventArgs) Handles CBSettingsPause.MouseHover
 
         If RBEnglish.Checked Then TTDir.SetToolTip(CBSettingsPause, "When this is selected, the program will pause any time" & Environment.NewLine &
                                                                            "the settings menu is open and resume once it is closed.")
@@ -710,7 +679,734 @@ Public Class FrmSettings
         'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = ""
     End Sub
 
+    Private Sub DominationLevel_MouseHover(sender As Object, e As EventArgs) Handles DominationLevel.MouseHover
+
+        TTDir.SetToolTip(DominationLevel, "Sets the Domme's level (1-5)." & Environment.NewLine & Environment.NewLine &
+                         "This setting affects the difficulty of the tasks the domme will subject you to.")
+
+        'LblDommeSettingsDescription.Text = "Sets the Domme's level (1-5)." & Environment.NewLine & Environment.NewLine & "This setting affects the difficulty of the tasks the domme will subject you to. For example, a domme with a higher level may make you hold edges for " _
+        '   & "longer periods of time, while a domme with a lower level may not make you edge that often. The domme's level is a general guideline of how easy-going or sadistic she can be, not necessarily what she will " _
+        '  & "choose for you every time."
+    End Sub
+
+    Private Sub NBEmpathy_MouseHover(sender As Object, e As EventArgs) Handles NBEmpathy.MouseHover
+
+        TTDir.SetToolTip(NBEmpathy, "Sets the Domme's Apathy level (1-5)." & Environment.NewLine & Environment.NewLine &
+                       "This setting affects how merciless the domme is likely to be with you")
+
+        'LblDommeSettingsDescription.Text = "Sets the Domme's Apathy level (1-5)." & Environment.NewLine & Environment.NewLine & "This setting affects how lenient the domme is likely to be with you. For example, a domme with a higher level may rarely take mercy on you or let " _
+        '   & "you stop a task, while a domme with a lower level may never attempt to push your limits."
+    End Sub
+
+    Private Sub NBDomBirthdayMonth_MouseHover(sender As Object, e As EventArgs) Handles NBDomBirthdayMonth.MouseHover
+
+        TTDir.SetToolTip(NBDomBirthdayMonth, "Sets the month the domme was born.")
+
+        'LblDommeSettingsDescription.Text = "Sets the month the domme was born."
+    End Sub
+
+    Private Sub NBDomBirthdayDay_MouseHover(sender As Object, e As EventArgs) Handles NBDomBirthdayDay.MouseHover
+
+        TTDir.SetToolTip(NBDomBirthdayDay, "Sets the day the domme was born.")
+
+        'LblDommeSettingsDescription.Text = "Sets the day the domme was born."
+    End Sub
+
+    Private Sub domageNumBox_MouseHover(sender As Object, e As EventArgs) Handles domageNumBox.MouseHover
+
+        TTDir.SetToolTip(domageNumBox, "Sets the Domme's age (18-99 years old).")
+
+        'LblDommeSettingsDescription.Text = "Sets the Domme's age (18-99 years old)." & Environment.NewLine & Environment.NewLine & "This setting mainly affects how the domme describes herself in random conversation. For example, a younger domme might refer to her skin " _
+        ' & "as tight or smooth, while an older domme might choose words like sensuous. Scripts may also contain keywords and variables that will limit certain paths to certain age groups."
+    End Sub
+
+    Private Sub domhairComboBox_MouseHover(sender As Object, e As EventArgs) Handles TBDomHairColor.MouseHover
+
+        TTDir.SetToolTip(TBDomHairColor, "Sets the domme's hair color.")
+
+        'LblDommeSettingsDescription.Text = "Sets the Domme's hair color." & Environment.NewLine & Environment.NewLine & "The domme may sometimes refer to her hair color over the course of the tease. Set this value to the color " & _
+        ' "of the slideshow model's hair to enhance immersion."
+    End Sub
+
+    Private Sub boobComboBox_MouseHover(sender As Object, e As EventArgs) Handles boobComboBox.MouseHover
+
+        TTDir.SetToolTip(boobComboBox, "Sets the Domme's cup size.")
+
+        'LblDommeSettingsDescription.Text = "Sets the Domme's cup size." & Environment.NewLine & Environment.NewLine & "The domme may sometimes refer to the size of her breasts over the course of the tease. Set this value to the " & _
+        '   "slideshow model's cup size to enhance immersion."
+    End Sub
+
+    Private Sub domhairlengthComboBox_MouseHover(sender As Object, e As EventArgs) Handles domhairlengthComboBox.MouseHover
+
+        TTDir.SetToolTip(domhairlengthComboBox, "Sets the domme's hair length.")
+
+        'LblDommeSettingsDescription.Text = "Sets the Domme's hair length." & Environment.NewLine & Environment.NewLine & "The domme may sometimes refer to her hair length over the course of the tease. Set this value to the length " & _
+        '   "of the slideshow model's hair to enhance immersion."
+    End Sub
+
+    Private Sub domeyesComboBox_MouseHover(sender As Object, e As EventArgs) Handles TBDomEyeColor.MouseHover
+
+        TTDir.SetToolTip(TBDomEyeColor, "Sets the domme's eye color.")
+
+        'LblDommeSettingsDescription.Text = "Sets the Domme's eye color." & Environment.NewLine & Environment.NewLine & "The domme may sometimes refer to her eye color over the course of the tease. Set this value to the color " & _
+        '   "of the slideshow model's eyes to enhance immersion."
+    End Sub
+
+    Private Sub dompubichairComboBox_MouseHover(sender As Object, e As EventArgs) Handles dompubichairComboBox.MouseHover
+
+        TTDir.SetToolTip(dompubichairComboBox, "Sets description of the Domme's pubic hair.")
+
+        'LblDommeSettingsDescription.Text = "Sets description of the Domme's pubic hair." & Environment.NewLine & Environment.NewLine & "The domme may sometimes refer to her pubic hair over the course of the tease. Set this value to a description " & _
+        '  "of the slideshow model's pubic hair to enhance immersion."
+    End Sub
+
+    Private Sub crazyCheckBox_MouseHover(sender As Object, e As EventArgs) Handles crazyCheckBox.MouseHover
+
+        TTDir.SetToolTip(crazyCheckBox, "Gives the Domme the Crazy trait." & Environment.NewLine & Environment.NewLine &
+                     "This will open up dialogue options that suggest the domme is a little unhinged.")
+
+        'LblDommeSettingsDescription.Text = "Gives the Domme the Crazy trait." & Environment.NewLine & Environment.NewLine & "This will open up dialogue options that suggest the domme is a little unhinged. " & _
+        '   "Scripts may also contain keywords and variables that will limit certain paths to this trait."
+    End Sub
+
+    Private Sub CBDomTattoos_MouseHover(sender As Object, e As EventArgs) Handles CBDomTattoos.MouseHover
+
+        TTDir.SetToolTip(CBDomTattoos, "Sets whether the domme has tattoos.")
+
+        'LblDommeSettingsDescription.Text = "Sets whether the domme has tattoos." & Environment.NewLine & Environment.NewLine & "This will open up dialogue options that involve the domme being tattooed. " & _
+        ' "Scripts may also contain keywords and variables that will limit certain paths to this trait."
+    End Sub
+
+    Private Sub CBDomFreckles_MouseHover(sender As Object, e As EventArgs) Handles CBDomFreckles.MouseHover
+
+        TTDir.SetToolTip(CBDomTattoos, "Sets whether the domme has freckles.")
+
+        'LblDommeSettingsDescription.Text = "Sets whether the domme has freckles." & Environment.NewLine & Environment.NewLine & "This will open up dialogue options that involve the domme having freckles. " & _
+        '   "Scripts may also contain keywords and variables that will limit certain paths to this trait."
+    End Sub
+
+    Private Sub vulgarCheckBox_MouseHover(sender As Object, e As EventArgs) Handles vulgarCheckBox.MouseHover
+
+        TTDir.SetToolTip(vulgarCheckBox, "Gives the Domme the Vulgar trait." & Environment.NewLine & Environment.NewLine &
+                  "This will open up vulgar dialogue options for the domme.")
+
+        'LblDommeSettingsDescription.Text = "Gives the Domme the Vulgar trait." & Environment.NewLine & Environment.NewLine & "This will open up vulgar dialogue options for the domme. She will include words like ""titties"" and " & _
+        ' """gonads"" while a more reserved domme may limit herself to ""tits"" and ""balls"". Scripts may also contain keywords and variables that will limit certain paths to this trait."
+    End Sub
+
+    Private Sub supremacistCheckBox_MouseHover(sender As Object, e As EventArgs) Handles supremacistCheckBox.MouseHover
+
+        TTDir.SetToolTip(supremacistCheckBox, "Gives the Domme the Supremacist trait." & Environment.NewLine & Environment.NewLine &
+                                         "This will open up dialogue options that suggest the" & Environment.NewLine &
+                                         "domme considers herself inherently superior to you.")
+
+        ' LblDommeSettingsDescription.Text = "Gives the Domme the Supremacist trait." & Environment.NewLine & Environment.NewLine & "This will open up dialogue options that suggest the domme considers herself inherently superior " & _
+        '    "to you. Scripts may also contain keywords and variables that will limit certain paths to this trait."
+    End Sub
+
+    Private Sub alloworgasmComboBox_MouseHover(sender As Object, e As EventArgs) Handles alloworgasmComboBox.MouseHover
+
+        TTDir.SetToolTip(alloworgasmComboBox, "Sets how often the domme allows the user to have an orgasm during End scripts." & Environment.NewLine & Environment.NewLine &
+                                              "To further define these parameters, use the options in the Ranges tab.")
+
+
+        'LblDommeSettingsDescription.Text = "Sets how often the domme allows the user to have an orgasm during End scripts." & Environment.NewLine & Environment.NewLine & "To further define these parameters, use the options in the Ranges tab."
+    End Sub
+
+    Private Sub ruinorgasmComboBox_MouseHover(sender As Object, e As EventArgs) Handles ruinorgasmComboBox.MouseHover
+
+        TTDir.SetToolTip(ruinorgasmComboBox, "Sets how often the domme will ruin the user's orgasm during End scripts." & Environment.NewLine & Environment.NewLine &
+                                              "To further define these parameters, use the options in the Ranges tab.")
+
+        'LblDommeSettingsDescription.Text = "Sets how often the domme will ruin the user's orgasm during End scripts." & Environment.NewLine & Environment.NewLine & "To further define these parameters, use the options in the Ranges tab."
+    End Sub
+
+    Private Sub LCaseCheckBox_MouseHover(sender As Object, e As EventArgs) Handles LCaseCheckBox.MouseHover
+
+        TTDir.SetToolTip(LCaseCheckBox, "When this is checked, the domme won't use capital letters when she types." & Environment.NewLine & Environment.NewLine &
+                                         "She will still capitalize Me/My/Mine if that box is checked.")
+
+
+        'LblDommeSettingsDescription.Text = "When this is checked, the domme won't use capital letters when she types." & Environment.NewLine & Environment.NewLine & "She will still capitalize Me/My/Mine if that box is checked."
+    End Sub
+
+    Private Sub commaCheckBox_MouseHover(sender As Object, e As EventArgs) Handles commaCheckBox.MouseHover
+
+        TTDir.SetToolTip(commaCheckBox, "When this is checked, the domme won't use commas when she types.")
+
+        'LblDommeSettingsDescription.Text = "When this is checked, the domme won't use commas when she types."
+    End Sub
+
+    Private Sub periodCheckBox_MouseHover(sender As Object, e As EventArgs) Handles periodCheckBox.MouseHover
+
+        TTDir.SetToolTip(periodCheckBox, "When this is checked, the domme won't use periods when she types.")
+
+        'LblDommeSettingsDescription.Text = "When this is checked, the domme won't use periods when she types."
+    End Sub
+
+    Private Sub CBMeMyMine_MouseHover(sender As Object, e As EventArgs) Handles CBMeMyMine.MouseHover
+        TTDir.SetToolTip(CBMeMyMine, "When this is checked, the domme will always capitalize ""Me, My and Mine""." & Environment.NewLine & Environment.NewLine &
+           "If the lowercase typing option is checked, she will also capitalize ""I, I'm, I'd and I'll"".")
+    End Sub
+
+    Private Sub TBEmote_MouseHover(sender As Object, e As EventArgs) Handles TBEmote.MouseHover
+        TTDir.SetToolTip(TBEmote, "This determines what symbol(s) the domme uses to begin an emote.")
+    End Sub
+
+    Private Sub TBEmoteEnd_MouseHover(sender As Object, e As EventArgs) Handles TBEmoteEnd.MouseHover
+        TTDir.SetToolTip(TBEmoteEnd, "This determines what symbol(s) the domme uses to end an emote.")
+    End Sub
+
+    Private Sub LockOrgasmChances_MouseHover(sender As Object, e As EventArgs) Handles CBLockOrgasmChances.MouseHover
+        TTDir.SetToolTip(CBLockOrgasmChances, "If checked the orgasm chances will be locked and unchangeable once you start the tease." & Environment.NewLine & Environment.NewLine &
+            "Orgasm chances will be changeable and unlocked when out of a tease.")
+    End Sub
+
+    Private Sub CBDomDenialEnds_MouseHover(sender As Object, e As EventArgs) Handles CBDomDenialEnds.MouseHover
+        TTDir.SetToolTip(CBDomDenialEnds, "Determines whether the domme will keep teasing you after you have been denied." & Environment.NewLine & Environment.NewLine &
+            "If this box is checked, she will end the tease after she decides to deny your orgasm." & Environment.NewLine &
+            "If it is unchecked, she may choose to start teasing you all over again.")
+    End Sub
+
+    Private Sub CBDomOrgasmEnds_MouseHover(sender As Object, e As EventArgs) Handles CBDomOrgasmEnds.MouseHover
+        TTDir.SetToolTip(CBDomOrgasmEnds, "Determines whether the domme will keep teasing you after you have an orgasm." & Environment.NewLine & Environment.NewLine &
+             "If this box is checked, she will end the tease after she allows you to cum." & Environment.NewLine &
+             "If it is unchecked, she may choose to start teasing you all over again.")
+    End Sub
+
+    Private Sub LockOrgasm_MouseHover(sender As Object, e As EventArgs) Handles orgasmsperlockButton.MouseHover
+        TTDir.SetToolTip(orgasmsperlockButton, "When this arrangement is selected, the domme will limit the number of" & Environment.NewLine &
+                                                "orgasms she allows you to have according to the parameters you set." & Environment.NewLine & Environment.NewLine &
+                                                "This will not be finalized until the Limit box is checked and you click ""Lock Selected""." & Environment.NewLine &
+                                                "Once an orgasm limit has been finalized, it cannot be undone until the period of time is up!")
+    End Sub
+
+    Private Sub limitcheckbox_MouseHover(sender As Object, e As EventArgs) Handles limitcheckbox.MouseHover
+        TTDir.SetToolTip(limitcheckbox, "When this arrangement is selected, the domme will limit the number of" & Environment.NewLine &
+                                                "orgasms she allows you to have according to the parameters you set." & Environment.NewLine & Environment.NewLine &
+                                                "This will not be finalized until the Limit box is checked and you click ""Lock Selected""." & Environment.NewLine &
+                                                "Once an orgasm limit has been finalized, it cannot be undone until the period of time is up!")
+    End Sub
+
+    Private Sub orgasmsPerNumBox_MouseHover(sender As Object, e As EventArgs) Handles orgasmsPerNumBox.MouseHover
+        TTDir.SetToolTip(orgasmsPerNumBox, "When this arrangement is selected, the domme will limit the number of" & Environment.NewLine &
+                                                "orgasms she allows you to have according to the parameters you set." & Environment.NewLine & Environment.NewLine &
+                                                "This will not be finalized until the Limit box is checked and you click ""Lock Selected""." & Environment.NewLine &
+                                                "Once an orgasm limit has been finalized, it cannot be undone until the period of time is up!")
+    End Sub
+
+    Private Sub orgasmsperComboBox_MouseHover(sender As Object, e As EventArgs) Handles orgasmsperComboBox.MouseHover
+        TTDir.SetToolTip(orgasmsperComboBox, "When this arrangement is selected, the domme will limit the number of" & Environment.NewLine &
+                                                "orgasms she allows you to have according to the parameters you set." & Environment.NewLine & Environment.NewLine &
+                                                "This will not be finalized until the Limit box is checked and you click ""Lock Selected""." & Environment.NewLine &
+                                                "Once an orgasm limit has been finalized, it cannot be undone until the period of time is up!")
+    End Sub
+
+    Private Sub LockRandomOrgasm_MouseHover(sender As Object, e As EventArgs) Handles orgasmlockrandombutton.MouseHover
+
+        TTDir.SetToolTip(orgasmsperComboBox, "When this arrangement is selected, the domme will randomly limit the" & Environment.NewLine &
+                                              "number of orgasms she allows you to have for a random period of time." & Environment.NewLine & Environment.NewLine &
+                                              "Once you confirm this choice, it cannot be undone until the period of time is up!")
+
+        'LblDommeSettingsDescription.Text = "When this button is clicked, the domme will randomly limit the number of orgasms she allows you to have for a random period of time." & Environment.NewLine & Environment.NewLine & _
+        '   "Her choice will be based on her level, so be careful. A higher level domme could limit the amount of orgasms you have for up to a year! Once you confirm this choice, it cannot be undone until the period of time is up!"
+    End Sub
+
+    Private Sub NBDomMoodMin_MouseHover(sender As Object, e As EventArgs) Handles NBDomMoodMin.MouseHover
+
+        TTDir.SetToolTip(NBDomMoodMin, "Determines the low range of the domme's mood index." & Environment.NewLine &
+                                       "The domme's mood may affect certain dialogue choices or outcomes." & Environment.NewLine & Environment.NewLine &
+                                       "The higher this number is, the easier it is to put her in a bad mood." & Environment.NewLine &
+                                       "Setting this value to ""1"" will prevent the domme from ever being in a bad mood.")
+
+
+
+        'LblDommeSettingsDescription.Text = "Determines the low range of the domme's mood index. The domme's mood may affect certain dialogue choices or outcomes." & Environment.NewLine & Environment.NewLine & _
+        '   "The higher this number is, the easier it is to put her in a bad mood. Setting this value to ""1"" will prevent the domme from ever being in a bad mood."
+    End Sub
+
+    Private Sub NBAvgCockMin_MouseHover(sender As Object, e As EventArgs) Handles NBAvgCockMin.MouseHover
+        TTDir.SetToolTip(NBAvgCockMin, "Determines the lowest range of what the domme considers an average cock size." & Environment.NewLine & Environment.NewLine &
+                                       "If your cock size is lower then this, the domme will consider it small.")
+    End Sub
+
+    Private Sub NBSelfAgeMin_Enter(sender As Object, e As EventArgs) Handles NBSelfAgeMin.MouseHover
+
+        TTDir.SetToolTip(NBSelfAgeMin, "This is the age range that the domme considers ""not that young, but not that old""." & Environment.NewLine & Environment.NewLine &
+                                       "If the domme's age is below this number, she will use dialogue options that suggest" & Environment.NewLine &
+                                       "having the maturity and body of a girl in her early twenties.")
+    End Sub
+
+    Private Sub NBSelfAgeMax_Enter(sender As Object, e As EventArgs) Handles NBSelfAgeMax.MouseHover
+
+        TTDir.SetToolTip(NBSelfAgeMax, "This is the age range that the domme considers ""not that young, but not that old""." & Environment.NewLine & Environment.NewLine &
+               "If the domme's age is above this number, she will use dialogue options that suggest" & Environment.NewLine &
+               "an exceptional amount of maturity, or having an aging body.")
+    End Sub
+
+    Private Sub apostropheCheckBox_MouseHover(sender As Object, e As EventArgs) Handles apostropheCheckBox.MouseHover
+
+        TTDir.SetToolTip(apostropheCheckBox, "When this is checked, the domme won't use apostrophes when she types.")
+
+        'LblDommeSettingsDescription.Text = "When this is checked, the domme won't use apostrophes when she types."
+    End Sub
+
+    Private Sub NBDomMoodMax_MouseHover(sender As Object, e As EventArgs) Handles NBDomMoodMax.MouseHover
+
+        TTDir.SetToolTip(NBDomMoodMax, "Determines the high range of the domme's mood index." & Environment.NewLine &
+                                    "The domme's mood may affect certain dialogue choices or outcomes." & Environment.NewLine & Environment.NewLine &
+                                    "The lower this number is, the easier it is to put her in a good mood." & Environment.NewLine &
+                                    "Setting this value to ""10"" will prevent the domme from ever being in an especially great mood.")
+
+
+
+        'LblDommeSettingsDescription.Text = "Determines the high range of the domme's mood index. The domme's mood may affect certain dialogue choices or outcomes." & Environment.NewLine & Environment.NewLine & _
+        '   "The lower this number is, the easier it is to put her in an especially great mood. Setting this value to ""10"" will prevent the domme from ever being in an especially great mood."
+    End Sub
+
+    Private Sub NBAvgCockMax_MouseHover(sender As Object, e As EventArgs) Handles NBAvgCockMax.MouseHover
+        TTDir.SetToolTip(NBAvgCockMin, "Determines the highest range of what the domme considers an average cock size." & Environment.NewLine & Environment.NewLine &
+           "If your cock size is higher than this, the domme will consider it big.")
+    End Sub
+
+    Private Sub NBSubAgeMin_Enter(sender As Object, e As EventArgs) Handles NBSubAgeMin.MouseHover
+        TTDir.SetToolTip(NBSubAgeMin, "This is the age range that the domme considers ""not that young, but not that old""." & Environment.NewLine & Environment.NewLine &
+            "If your age is below this number, the domme will use dialogue options that suggest" & Environment.NewLine &
+            "you have the virility and body of a male in his early twenties.")
+    End Sub
+
+    Private Sub NBSubAgeMax_Enter(sender As Object, e As EventArgs) Handles NBSubAgeMax.MouseHover
+        TTDir.SetToolTip(NBSubAgeMax, "This is the age range that the domme considers ""not that young, but not that old""." & Environment.NewLine & Environment.NewLine &
+                                      "If your age is above this number, the domme will use dialogue options that suggest" & Environment.NewLine &
+                                      "you're over the hill.")
+    End Sub
+
+    Private Sub PetNameBox1_Enter(sender As Object, e As EventArgs) Handles PetNameBox1.MouseHover
+        TTDir.SetToolTip(PetNameBox1, "Enter a pet name that the domme will call you when she's in a great mood." & Environment.NewLine & Environment.NewLine &
+                                      "All pet name boxes must be filled in.")
+    End Sub
+
+    Private Sub PetNameBox2_Enter(sender As Object, e As EventArgs) Handles petnameBox2.MouseHover
+        TTDir.SetToolTip(petnameBox2, "Enter a pet name that the domme will call you when she's in a great mood." & Environment.NewLine & Environment.NewLine &
+                                        "All pet name boxes must be filled in.")
+    End Sub
+
+    Private Sub PetNameBox3_Enter(sender As Object, e As EventArgs) Handles petnameBox3.MouseHover
+        TTDir.SetToolTip(petnameBox3, "Enter a pet name that the domme will call you when she's in a neutral mood." & Environment.NewLine & Environment.NewLine &
+                                       "All pet name boxes must be filled in.")
+    End Sub
+
+    Private Sub PetNameBox4_Enter(sender As Object, e As EventArgs) Handles petnameBox4.MouseHover
+        TTDir.SetToolTip(petnameBox4, "Enter a pet name that the domme will call you when she's in a neutral mood." & Environment.NewLine & Environment.NewLine &
+                                      "All pet name boxes must be filled in.")
+    End Sub
+
+    Private Sub PetNameBox5_Enter(sender As Object, e As EventArgs) Handles petnameBox5.MouseHover
+        TTDir.SetToolTip(petnameBox5, "Enter a pet name that the domme will call you when she's in a neutral mood." & Environment.NewLine & Environment.NewLine &
+                                             "All pet name boxes must be filled in.")
+    End Sub
+
+    Private Sub PetNameBox6_Enter(sender As Object, e As EventArgs) Handles petnameBox6.MouseHover
+        TTDir.SetToolTip(petnameBox6, "Enter a pet name that the domme will call you when she's in a neutral mood." & Environment.NewLine & Environment.NewLine &
+                                     "All pet name boxes must be filled in.")
+    End Sub
+
+    Private Sub PetNameBox7_Enter(sender As Object, e As EventArgs) Handles petnameBox7.MouseHover
+        TTDir.SetToolTip(petnameBox7, "Enter a pet name that the domme will call you when she's in a bad mood." & Environment.NewLine & Environment.NewLine &
+                                     "All pet name boxes must be filled in.")
+    End Sub
+
+    Private Sub PetNameBox8_Enter(sender As Object, e As EventArgs) Handles petnameBox8.MouseHover
+        TTDir.SetToolTip(petnameBox8, "Enter a pet name that the domme will call you when she's in a bad mood." & Environment.NewLine & Environment.NewLine &
+                                     "All pet name boxes must be filled in.")
+    End Sub
+
+    Private Sub BTNSaveDomSet_MouseHover(sender As Object, e As EventArgs) Handles BTNSaveDomSet.MouseHover
+        TTDir.SetToolTip(BTNSaveDomSet, "Click to save this configuration of Domme Settings to a file that you can load at any time.")
+    End Sub
+
+    Private Sub BTNLoadDomSet_MouseHover(sender As Object, e As EventArgs) Handles BTNLoadDomSet.MouseHover
+        TTDir.SetToolTip(BTNLoadDomSet, "Click to load a custom Domme Settings file you have previously created.")
+    End Sub
+
+
+    Private Sub BTNGlitterD_MouseHover(sender As Object, e As EventArgs) Handles BTNGlitterD.MouseHover
+        TTDir.SetToolTip(BTNGlitterD, "This button allows you to change the color of the domme's name as it appears in the Glitter app." & Environment.NewLine &
+                                      "A preview will appear in the text box below this button once a color has been selected.")
+    End Sub
+    Private Sub GlitterAV_MouseHover(sender As Object, e As EventArgs) Handles GlitterAV.MouseHover
+        TTDir.SetToolTip(GlitterAV, "Click here to set the image the domme will use as her Glitter avatar.")
+    End Sub
+    Private Sub LBLGlitterNCDomme_Click(sender As Object, e As EventArgs) Handles LBLGlitterNCDomme.MouseHover, LBLGlitterNC1.MouseHover, LBLGlitterNC2.MouseHover, LBLGlitterNC3.MouseHover
+        TTDir.SetToolTip(sender, "After clicking the ""Choose Name Color"" button above, a preview of the selected color will appear here.")
+    End Sub
+    Private Sub TBGlitterShortName_MouseHover(sender As Object, e As EventArgs) Handles TBGlitterShortName.MouseHover
+        TTDir.SetToolTip(TBGlitterShortName, "This is the name that the domme's contacts will refer to her as in the Glitter feed.")
+    End Sub
+    Private Sub CBTease_MouseHover(sender As Object, e As EventArgs) Handles CBTease.MouseHover
+        TTDir.SetToolTip(CBTease, "When this box is checked, the domme will make posts referencing your ongoing teasing and denial.")
+    End Sub
+    Private Sub CBEgotist_MouseHover(sender As Object, e As EventArgs) Handles CBEgotist.MouseHover
+        TTDir.SetToolTip(CBEgotist, "When this box is checked, the domme will make self-centered posts stating how amazing she is.")
+    End Sub
+    Private Sub CBTrivia_MouseHover(sender As Object, e As EventArgs) Handles CBTrivia.MouseHover
+        TTDir.SetToolTip(CBTrivia, "When this box is checked, the domme will make posts containing quotes or general trivia.")
+    End Sub
+    Private Sub CBDaily_MouseHover(sender As Object, e As EventArgs) Handles CBDaily.MouseHover
+        TTDir.SetToolTip(CBDaily, "When this box is checked, the domme will make mundane posts about her day.")
+    End Sub
+    Private Sub CBCustom1_MouseHover(sender As Object, e As EventArgs) Handles CBCustom1.MouseHover
+        TTDir.SetToolTip(CBCustom1, "When this box is checked, the domme will make posts taken from Custom 1" & Environment.NewLine &
+                                  "folder in the Glitter scripts directory for her personality style.")
+    End Sub
+    Private Sub CBCustom2_MouseHover(sender As Object, e As EventArgs) Handles CBCustom2.MouseHover
+        TTDir.SetToolTip(CBCustom2, "When this box is checked, the domme will make posts taken from Custom 2" & Environment.NewLine &
+                                  "folder in the Glitter scripts directory for her personality style.")
+    End Sub
+    Private Sub GlitterSlider_MouseHover(sender As Object, e As EventArgs) Handles GlitterSlider.MouseHover
+        TTDir.SetToolTip(GlitterSlider, "This slider determines how often the domme makes Glitter posts on her own." & Environment.NewLine &
+                                             "The further to the right the slider is, the more often she posts.")
+    End Sub
+    Private Sub LBLGlitterSlider_MouseHover(sender As Object, e As EventArgs) Handles LBLGlitterSlider.MouseHover
+        TTDir.SetToolTip(LBLGlitterSlider, "This slider determines how often the domme makes Glitter posts on her own." & Environment.NewLine &
+                                             "The further to the right the slider is, the more often she posts.")
+    End Sub
+
+    Private Sub TBGlitter1_MouseHover(sender As Object, e As EventArgs) Handles TBGlitter1.MouseHover, TBGlitter2.MouseHover, TBGlitter3.MouseHover
+        TTDir.SetToolTip(sender, "This will be the name of this contact as it appears in the Glitter feed.")
+    End Sub
+    Private Sub GlitterSlider1_MouseHover(sender As Object, e As EventArgs) Handles GlitterSlider1.MouseHover, GlitterSlider2.MouseHover, GlitterSlider3.MouseHover, LBLGlitterSlider1.MouseHover, LBLGlitterSlider2.MouseHover, LBLGlitterSlider3.MouseHover
+        TTDir.SetToolTip(sender, "This slider determines how often this contact responds to the domme's Glitter posts." & Environment.NewLine &
+                                         "The further to the right the slider is, the more often she responds.")
+    End Sub
+    Private Sub GlitterAV1_MouseHover(sender As Object, e As EventArgs) Handles GlitterAV1.MouseHover, GlitterAV2.MouseHover, GlitterAV3.MouseHover
+        TTDir.SetToolTip(sender, "Click here to set the image that this contact will use as her Glitter avatar.")
+    End Sub
+    Private Sub CBGlitter1_MouseHover(sender As Object, e As EventArgs) Handles CBGlitter1.MouseHover, CBGlitter2.MouseHover, CBGlitter3.MouseHover
+        TTDir.SetToolTip(sender, "This check box enables this contact's participation in the Glitter feed.")
+    End Sub
+    Private Sub BTNGlitter1_MouseHover(sender As Object, e As EventArgs) Handles BTNGlitter1.MouseHover, BTNGlitter2.MouseHover, BTNGlitter3.MouseHover
+        TTDir.SetToolTip(sender, "This button allows you to change the color of this contact's name as it appears in the Glitter app.")
+    End Sub
+
+    Private Sub LBLContact1ImageDir_MouseHover(sender As Object, e As EventArgs) Handles TbxContact1ImageDir.MouseHover, TbxContact2ImageDir.MouseHover, TbxContact3ImageDir.MouseHover, TbxDomImageDir.MouseHover
+        TTDir.SetToolTip(sender, CType(sender, TextBox).Text)
+    End Sub
+
+    Private Sub Button2_MouseHover(sender As Object, e As EventArgs) Handles BtnContact1ImageDir.MouseHover, BtnContact2ImageDir.MouseHover, BtnContact3ImageDir.MouseHover
+
+        If RBEnglish.Checked = True Then TTDir.SetToolTip(sender, "Use this button to select a directory containing several image" & Environment.NewLine &
+"set folders of the same model you're using as your contact.")
+        If RBGerman.Checked = True Then TTDir.SetToolTip(sender, "Benutze diese Schaltfläche um einen Ordner zu wählen, welcher mehre" & Environment.NewLine &
+"Bildersets von dem selben Model enthält, die du als Kontakt benutzt.")
+    End Sub
+
+    Private Sub LBLIHardcore_MouseHover(sender As Object, e As EventArgs) Handles TbxIHardcore.MouseHover
+        TTDir.SetToolTip(TbxIHardcore, TbxIHardcore.Text)
+    End Sub
+    Private Sub LBLISoftcore_MouseHover(sender As Object, e As EventArgs) Handles TbxISoftcore.MouseHover
+        TTDir.SetToolTip(TbxISoftcore, TbxISoftcore.Text)
+    End Sub
+    Private Sub LBLILesbian_MouseHover(sender As Object, e As EventArgs) Handles TbxILesbian.MouseHover
+        TTDir.SetToolTip(TbxILesbian, TbxILesbian.Text)
+    End Sub
+    Private Sub LBLIBlowjob_MouseHover(sender As Object, e As EventArgs) Handles TbxIBlowjob.MouseHover
+        TTDir.SetToolTip(TbxIBlowjob, TbxIBlowjob.Text)
+    End Sub
+    Private Sub LBLIFemdom_MouseHover(sender As Object, e As EventArgs) Handles TbxIFemdom.MouseHover
+        TTDir.SetToolTip(TbxIFemdom, TbxIFemdom.Text)
+    End Sub
+    Private Sub LBLILezdom_MouseHover(sender As Object, e As EventArgs) Handles TbxILezdom.MouseHover
+        TTDir.SetToolTip(TbxILezdom, TbxILezdom.Text)
+    End Sub
+    Private Sub LBLIHentai_MouseHover(sender As Object, e As EventArgs) Handles TbxIHentai.MouseHover
+        TTDir.SetToolTip(TbxIHentai, TbxIHentai.Text)
+    End Sub
+    Private Sub LBLIGay_MouseHover(sender As Object, e As EventArgs) Handles TbxIGay.MouseHover
+        TTDir.SetToolTip(TbxIGay, TbxIGay.Text)
+    End Sub
+    Private Sub LBLIMaledom_MouseHover(sender As Object, e As EventArgs) Handles TbxIMaledom.MouseHover
+        TTDir.SetToolTip(TbxIMaledom, TbxIMaledom.Text)
+    End Sub
+    Private Sub LBLICaptions_MouseHover(sender As Object, e As EventArgs) Handles TbxICaptions.MouseHover
+        TTDir.SetToolTip(TbxICaptions, TbxICaptions.Text)
+    End Sub
+    Private Sub LBLIGeneral_MouseHover(sender As Object, e As EventArgs) Handles TbxIGeneral.MouseHover
+        TTDir.SetToolTip(TbxIGeneral, TbxIGeneral.Text)
+    End Sub
+
+    Private Sub LBLBoobPath_MouseHover(sender As Object, e As EventArgs) Handles TbxIBoobs.MouseHover
+        TTDir.SetToolTip(TbxIBoobs, TbxIBoobs.Text)
+    End Sub
+
+    Private Sub LBLButtPath_MouseHover(sender As Object, e As EventArgs) Handles TbxIButts.MouseHover
+        TTDir.SetToolTip(TbxIButts, TbxIButts.Text)
+    End Sub
+
+
+    Private Sub TxbVideoFolder_MouseHover(sender As Object, e As EventArgs) Handles TxbVideoHardCore.MouseHover,
+                TxbVideoHardCoreD.MouseHover, TxbVideoSoftCore.MouseHover, TxbVideoSoftCoreD.MouseHover, TxbVideoLesbian.MouseHover,
+                TxbVideoLesbianD.MouseHover, TxbVideoBlowjob.MouseHover, TxbVideoBlowjobD.MouseHover, TxbVideoFemdom.MouseHover,
+                TxbVideoFemdomD.MouseHover, TxbVideoFemsub.MouseHover, TxbVideoFemsubD.MouseHover, TxbVideoJOI.MouseHover,
+                TxbVideoJOID.MouseHover, TxbVideoCH.MouseHover, TxbVideoCHD.MouseHover, TxbVideoGeneral.MouseHover, TxbVideoGeneralD.MouseHover
+
+        TTDir.SetToolTip(sender, CType(sender, TextBox).Text)
+    End Sub
+
+    Private Sub BTNRefreshVideos_MouseHover(sender As Object, e As EventArgs) Handles BTNRefreshVideos.MouseHover
+        TTDir.SetToolTip(BTNRefreshVideos, "Use this button to refresh video paths.")
+    End Sub
+
+    Private Sub NBBirthdayMonth_MouseHover(sender As Object, e As EventArgs) Handles NBBirthdayMonth.MouseEnter
+        TTDir.SetToolTip(NBBirthdayMonth, "Set the month you were born.")
+        'LBLSubSettingsDescription.Text = "Set the month you were born."
+    End Sub
+
+    Private Sub Birthday_MouseHover(sender As Object, e As EventArgs) Handles LBLSubBirthday.MouseHover
+        TTDir.SetToolTip(LBLSubBirthday, "Set your birthday with the format mm/dd.")
+        'LBLSubSettingsDescription.Text = "Set the day you were born."
+    End Sub
+
+    Private Sub NBBirthdayDay_MouseHover(sender As Object, e As EventArgs) Handles NBBirthdayDay.MouseEnter
+        TTDir.SetToolTip(NBBirthdayDay, "Set the day you were born.")
+        'LBLSubSettingsDescription.Text = "Set the day you were born."
+    End Sub
+
+    Private Sub TBSubHairColor_MouseHover(sender As Object, e As EventArgs) Handles TBSubHairColor.MouseHover
+        TTDir.SetToolTip(TBSubHairColor, "Enter your hair color using all lower case letters.")
+        'LBLSubSettingsDescription.Text = "Enter your hair color using all lower case letters."
+    End Sub
+
+    Private Sub TBSubEyeColor_MouseHover(sender As Object, e As EventArgs) Handles TBSubEyeColor.MouseHover
+        TTDir.SetToolTip(TBSubEyeColor, "Enter your eye color using all lower case letters.")
+        'LBLSubSettingsDescription.Text = "Enter your eye color using all lower case letters."
+    End Sub
+
+    Private Sub CockSizeNumBox_MouseHover(sender As Object, e As EventArgs) Handles CockSizeNumBox.MouseEnter
+        TTDir.SetToolTip(CockSizeNumBox, "Set your cock size in inches.")
+        'LBLSubSettingsDescription.Text = "Set your cock size in inches."
+    End Sub
+
+    Private Sub CBSubCircumcised_MouseHover(sender As Object, e As EventArgs) Handles CBSubCircumcised.MouseHover
+        TTDir.SetToolTip(CBSubCircumcised, "Check this box if your cock is circumcised.")
+        'LBLSubSettingsDescription.Text = "Check this box if your cock is circumcised."
+    End Sub
+
+    Private Sub CBSubPierced_MouseHover(sender As Object, e As EventArgs) Handles CBSubPierced.MouseHover
+        TTDir.SetToolTip(CBSubPierced, "Check this box if your cock is pierced.")
+        'LBLSubSettingsDescription.Text = "Check this box if your cock is pierced."
+    End Sub
+
+    Private Sub CBCBTCock_MouseHover(sender As Object, e As EventArgs) Handles CockTortureEnabledCB.MouseHover
+
+        TTDir.SetToolTip(CockTortureEnabledCB, "Check this box to enable cock torture." & Environment.NewLine & Environment.NewLine &
+                                     "If this box is unchecked, the domme may still state that you're about to endure cock torture," & Environment.NewLine &
+                                     "but the program will simply move to the next line instead of making you perform it.")
+
+
+
+        'LBLSubSettingsDescription.Text = "Check this box to enabled cock torture." & Environment.NewLine & Environment.NewLine & "If this box is unchecked, the domme may still state that you're about to endure" _
+        ' & " cock torture, but the program will simply move to the next line instead of making you perform it."
+    End Sub
+
+    Private Sub CBCBTBall_MouseHover(sender As Object, e As EventArgs) Handles BallTortureEnabledCB.MouseHover
+
+        TTDir.SetToolTip(BallTortureEnabledCB, "Check this box to enable ball torture." & Environment.NewLine & Environment.NewLine &
+                                  "If this box is unchecked, the domme may still state that you're about to endure ball torture," & Environment.NewLine &
+                                  "but the program will simply move to the next line instead of making you perform it.")
+
+        'LBLSubSettingsDescription.Text = "Check this box to enabled ball torture." & Environment.NewLine & Environment.NewLine & "If this box is unchecked, the domme may still state that you're about to endure" _
+        '   & " ball torture, but the program will simply move to the next line instead of making you perform it."
+    End Sub
+
+    Private Sub CBTSlider_MouseHover(sender As Object, e As EventArgs) Handles CockAndBallTortureLevelSlider.MouseHover
+
+        TTDir.SetToolTip(CockAndBallTortureLevelSlider, "This affects the severity of the CBT tasks you will be asked to perform." & Environment.NewLine & Environment.NewLine &
+                                  "The higher this slider, the more severe the tasks will be.")
+
+        'LBLSubSettingsDescription.Text = "This affects the severity of the CBT tasks you will be asked to perform. The higher this slider, the more severe the tasks will be."
+    End Sub
+
+    Private Sub GBPerformance_MouseHover(sender As Object, e As EventArgs)
+        LBLSubSettingsDescription.Text = "This area keeps track of several statistics related to your time with the program."
+    End Sub
+
+    Private Sub CBOwnChastity_MouseHover(sender As Object, e As EventArgs) Handles CBOwnChastity.MouseHover
+
+        TTDir.SetToolTip(CBOwnChastity, "Check this box if you own a chastity device and wish to run scripts" & Environment.NewLine &
+                                        "where the domme places you in chastity.")
+        'LBLSubSettingsDescription.Text = "Check this box if you own a chastity device. This allows the program to use that fact in various scripts."
+    End Sub
+
+    Private Sub CBChastityPA_MouseHover(sender As Object, e As EventArgs) Handles DoesChastityDeviceRequirePiercingCB.MouseHover
+        TTDir.SetToolTip(DoesChastityDeviceRequirePiercingCB, "Check this box if your chastity device requires a piercing.")
+        'LBLSubSettingsDescription.Text = "Check this box if your chastity device requires a piercing."
+    End Sub
+
+    Private Sub CBChastitySpikes_MouseHover(sender As Object, e As EventArgs) Handles ChastityDeviceContainsSpikesCB.MouseHover
+
+        TTDir.SetToolTip(ChastityDeviceContainsSpikesCB, "Check this box if your chastity device contains spikes.")
+        'LBLSubSettingsDescription.Text = "Check this box if your chastity device contains spikes."
+
+    End Sub
+
+    Private Sub TBGreeting_MouseHover(sender As Object, e As EventArgs) Handles TBGreeting.MouseHover
+
+        TTDir.SetToolTip(TBGreeting, "Enter any number of words or phrases, separated by commas." & Environment.NewLine & Environment.NewLine &
+                                  "When you use any of these words/phrases by themselves after starting the" & Environment.NewLine &
+                                  "program, the domme will recognize it as a greeting and begin the tease.")
+    End Sub
+
+    Private Sub TBYes_MouseHover(sender As Object, e As EventArgs) Handles TBYes.MouseHover
+
+        TTDir.SetToolTip(TBYes, "Enter any number of words or phrases, separated by commas." & Environment.NewLine & Environment.NewLine &
+                                    "The domme will recognize these as ""yes"" answers to Multiple Choice sections.")
+
+        ' LBLSubSettingsDescription.Text = "Enter any number of words or phrases, separated by commas. The domme will recognize these as ""yes"" answers to Multiple Choice sections."
+    End Sub
+
+    Private Sub TBNo_MouseHover(sender As Object, e As EventArgs) Handles TBNo.MouseHover
+
+        TTDir.SetToolTip(TBNo, "Enter any number of words or phrases, separated by commas." & Environment.NewLine & Environment.NewLine &
+                                 "The domme will recognize these as ""no"" answers to Multiple Choice sections.")
+
+        'LBLSubSettingsDescription.Text = "Enter any number of words or phrases, separated by commas. The domme will recognize these as ""no"" answers to Multiple Choice sections."
+    End Sub
+
+    Private Sub TBHonorific_MouseHover(sender As Object, e As EventArgs) Handles TBHonorific.MouseHover
+
+        TTDir.SetToolTip(TBHonorific, "Enter an honorific to use for the domme, such as Mistress, Goddess, Princess, etc.")
+
+        'LBLSubSettingsDescription.Text = "Enter an honorific to use for the domme, such as Mistress, Goddess, Princess, etc."
+    End Sub
+
+    Private Sub CBHonorificInclude_MouseHover(sender As Object, e As EventArgs) Handles CBHonorificInclude.MouseHover
+
+        TTDir.SetToolTip(CBHonorificInclude, "When this box is checked, the domme's honorific must be included with" & Environment.NewLine &
+                                             "greetings and yes or no responses used during multiple choice segments.")
+
+        'LBLSubSettingsDescription.Text = "When this box is checked, the domme's honorific must be included with greetings and yes or no responses used during multiple choice segments."
+    End Sub
+    Private Sub CBHonorificCapitalized_MouseHover(sender As Object, e As EventArgs) Handles CBHonorificCapitalized.MouseHover
+
+        TTDir.SetToolTip(CBHonorificCapitalized, "When this box is checked, the domme's honorific must be capitalized where it is required.")
+        'LBLSubSettingsDescription.Text = "When this box is checked, the domme's honorific must be capitalized where it is required."
+    End Sub
+
+    Private Sub NBLongEdge_MouseHover(sender As Object, e As EventArgs) Handles NBLongEdge.MouseEnter
+        LBLSubSettingsDescription.Text = "Sets how long (in seconds) it will take after being told to edge for the domme to believe you have been trying to reach the edge for too long."
+    End Sub
+
+    Private Sub BTNWICreateURL_MouseHover(sender As Object, e As EventArgs) Handles BTNWICreateURL.MouseHover
+        TTDir.SetToolTip(BTNWICreateURL, "Click here to create a new URL File." & Environment.NewLine & Environment.NewLine &
+                                         "URL Files create a txt file containing the URL address" & Environment.NewLine &
+                                         "of every image posted at the image blog you specify.")
+    End Sub
+
+    Private Sub CBWIreview_MouseHover(sender As Object, e As EventArgs) Handles CBWIReview.MouseHover
+        TTDir.SetToolTip(CBWIReview, "When this is checked, you'll need to review" & Environment.NewLine &
+                                     "each image before it's added to the URL File.")
+    End Sub
+
+    Private Sub CBWISavetoDisk_MouseHover(sender As Object, e As EventArgs) Handles CBWISaveToDisk.MouseHover
+        TTDir.SetToolTip(CBWISaveToDisk, "When this is checked, images will also be saved" & Environment.NewLine &
+                                         "to the specified HDD directory as they are added.")
+    End Sub
+
+    Private Sub BTNWIAddandContinue_MouseHover(sender As Object, e As EventArgs) Handles BTNWIAddandContinue.MouseHover
+        TTDir.SetToolTip(BTNWIAddandContinue, "When reviewing images, click this button to add the" & Environment.NewLine &
+                                              "current image to the URL File and continue to the next.")
+    End Sub
+
+    Private Sub BTNWIContinue_MouseHover(sender As Object, e As EventArgs) Handles BTNWIContinue.MouseHover
+        TTDir.SetToolTip(BTNWIContinue, "When reviewing images, click this button to skip the" & Environment.NewLine &
+                                        "current image without adding it to the URL File.")
+    End Sub
+
+    Private Sub BTNWICancel_MouseHover(sender As Object, e As EventArgs) Handles BTNWICancel.MouseHover
+        TTDir.SetToolTip(BTNWICancel, "Use this button to cancel URL File creation.")
+    End Sub
+
+    Private Sub BTNWIOpenURL_MouseHover(sender As Object, e As EventArgs) Handles BTNWIOpenURL.MouseHover
+        TTDir.SetToolTip(BTNWIOpenURL, "Use this button to view a URL File you have previously created.")
+    End Sub
+
+    Private Sub BTNWIPrevious_MouseHover(sender As Object, e As EventArgs) Handles BTNWIPrevious.MouseHover
+        TTDir.SetToolTip(BTNWIPrevious, "Use this button to view the previous image of a URL File.")
+    End Sub
+
+    Private Sub BTNWINext_MouseHover(sender As Object, e As EventArgs) Handles BTNWINext.MouseHover
+        TTDir.SetToolTip(BTNWINext, "Use this button to view the next image of a URL File.")
+    End Sub
+
+    Private Sub BTNWIRemove_MouseHover(sender As Object, e As EventArgs) Handles BTNWIRemove.MouseHover
+        TTDir.SetToolTip(BTNWIRemove, "Use this button to remove an image from a URL File.")
+    End Sub
+
+    Private Sub BTNWILiked_MouseHover(sender As Object, e As EventArgs) Handles BTNWILiked.MouseHover
+        TTDir.SetToolTip(BTNWILiked, "Use this button to add the current image to your Liked URL Files list.")
+    End Sub
+
+    Private Sub BTNWIDisliked_MouseHover(sender As Object, e As EventArgs) Handles BTNWIDisliked.MouseHover
+        TTDir.SetToolTip(BTNWIDisliked, "Use this button to add the current image to your Disliked URL Files list.")
+    End Sub
+
+    Private Sub BTNWISave_MouseHover(sender As Object, e As EventArgs) Handles BTNWISave.MouseHover
+        TTDir.SetToolTip(BTNWISave, "Use this button to save the current image to your hard drive.")
+    End Sub
+
+    Private Sub TBWIDirectory_MouseHover(sender As Object, e As EventArgs) Handles TBWIDirectory.MouseHover
+        TTDir.SetToolTip(TBWIDirectory, "This is where images will be saved if ""Save Images to Disk"" is checked.")
+    End Sub
+
+    Private Sub BTNWIBrowse_MouseHover(sender As Object, e As EventArgs) Handles BTNWIBrowse.MouseHover
+        TTDir.SetToolTip(BTNWIBrowse, "Select the directory where images will be saved to disk.")
+    End Sub
+
+    Private Sub SliderVVolume_MouseHover(sender As Object, e As EventArgs) Handles SliderVVolume.MouseHover
+        TTDir.SetToolTip(SliderVVolume, "Adusts the volume of the domme's TTS voice.")
+    End Sub
+
+    Private Sub SliderVRate_MouseHover(sender As Object, e As EventArgs) Handles SliderVRate.MouseHover
+        TTDir.SetToolTip(SliderVRate, "Adusts the speed of the domme's TTS voice.")
+    End Sub
+
+
 #End Region
+
+#Region "------------------------------------- GeneralTab -----------------------------------------------"
+
+    Private Sub BtnImportSettings_Click(sender As Object, e As EventArgs) Handles BtnImportSettings.Click
+        My.MySettings.importOnRestart()
+    End Sub
+
+    Private Sub TimeStampCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles TimeStampCheckBox.CheckedChanged
+        mySettingsAccessor.IsTimeStampEnabled = TimeStampCheckBox.Checked
+    End Sub
+
+    Private Sub ShowNamesCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles ShowNamesCheckBox.CheckedChanged
+        mySettingsAccessor.ShowNames = ShowNamesCheckBox.Checked
+    End Sub
+
+    Private Sub TypeInstantlyCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles TypeInstantlyCheckBox.CheckedChanged
+        mySettingsAccessor.DoesDommeTypeInstantly = TypeInstantlyCheckBox.Checked
+    End Sub
+
+    Private Sub CBWebtease_CheckedChanged(sender As Object, e As EventArgs) Handles WebTeaseMode.CheckedChanged
+        mySettingsAccessor.WebTeaseModeEnabled = WebTeaseMode.Checked
+    End Sub
+
+    Private Sub CBBlogImageWindow_CheckedChanged(sender As Object, e As EventArgs) Handles CBBlogImageWindow.CheckedChanged
+        My.Settings.CBBlogImageMain = CBBlogImageWindow.Checked
+    End Sub
+
+    Private Sub LandscapeCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles LandscapeCheckBox.CheckedChanged
+        My.Settings.CBStretchLandscape = LandscapeCheckBox.Checked
+    End Sub
+
+    Private Sub CBSettingsPause_CheckedChanged(sender As Object, e As EventArgs) Handles CBSettingsPause.CheckedChanged
+        My.Settings.CBSettingsPause = CBSettingsPause.Checked
+    End Sub
 
     Private Sub Radio_LostFocus(sender As Object, e As EventArgs) Handles TeaseSlideShowRadio.LostFocus, ManualSlideShowRadio.LostFocus, TimedSlideShowRadio.LostFocus
         If TeaseSlideShowRadio.Checked Then My.Settings.SlideshowMode = "Tease"
@@ -767,7 +1463,7 @@ Public Class FrmSettings
         End If
     End Sub
 
-    Private Sub ManualSlideShowRadio_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles ManualSlideShowRadio.CheckedChanged
+    Private Sub ManualSlideShowRadio_CheckedChanged(sender As Object, e As EventArgs) Handles ManualSlideShowRadio.CheckedChanged
         If Not TimedSlideShowRadio.Checked Then
             MainWindow.SlideshowTimer.Stop()
         End If
@@ -793,12 +1489,10 @@ Public Class FrmSettings
         MainWindow.LBLImageInfo.Visible = CBImageInfo.Checked
         My.Settings.CBImageInfo = Not CBImageInfo.Checked
     End Sub
+
 #End Region ' General
 
 #Region "-------------------------------------- Domme Tab -----------------------------------------------"
-
-#Region "Save PetNames"
-
     Private Sub PetNameBox1_LostFocus(sender As Object, e As EventArgs) Handles PetNameBox1.LostFocus, petnameBox2.LostFocus, petnameBox3.LostFocus, petnameBox4.LostFocus, petnameBox5.LostFocus, petnameBox6.LostFocus, petnameBox7.LostFocus, petnameBox8.LostFocus
         Dim defaultPetNames As List(Of String) = New List(Of String)
         defaultPetNames.Add("stroker")
@@ -812,10 +1506,6 @@ Public Class FrmSettings
 
         If String.IsNullOrWhiteSpace(workingPetNameBox.Text) Then workingPetNameBox.Text = defaultPetNames(MainWindow.ssh.randomizer.Next(0, 5))
 
-        SavePetNames()
-    End Sub
-
-    Public Sub SavePetNames()
         My.Settings.pnSetting1 = PetNameBox1.Text
         My.Settings.pnSetting2 = petnameBox2.Text
         My.Settings.pnSetting3 = petnameBox3.Text
@@ -825,8 +1515,6 @@ Public Class FrmSettings
         My.Settings.pnSetting7 = petnameBox7.Text
         My.Settings.pnSetting8 = petnameBox8.Text
     End Sub
-
-#End Region
 
     ''' <summary>
     ''' Locks the Orgasm Chances.
@@ -842,606 +1530,172 @@ Public Class FrmSettings
 
     End Sub
 
-    Private Sub domlevelNumBox_LostFocus(sender As System.Object, e As System.EventArgs) Handles DominationLevel.LostFocus
-        My.Settings.DomLevel = DominationLevel.Value
+    Private Sub DominationLevel_ValueChanged(sender As Object, e As EventArgs) Handles DominationLevel.ValueChanged
+        mySettingsAccessor.DominationLevel = DomLevel.Create(Convert.ToInt32(DominationLevel.Value)).Value
     End Sub
 
-    Private Sub alloworgasmComboBox_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles alloworgasmComboBox.LostFocus
-
-
-
+    Private Sub alloworgasmComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles alloworgasmComboBox.SelectedIndexChanged
         My.Settings.OrgasmAllow = alloworgasmComboBox.Text
     End Sub
 
-    Private Sub ruinorgasmComboBox_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles ruinorgasmComboBox.LostFocus
-
-
-
+    Private Sub ruinorgasmComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ruinorgasmComboBox.SelectedIndexChanged
         My.Settings.OrgasmRuin = ruinorgasmComboBox.Text
-
-
-
     End Sub
 
-    Private Sub domageNumBox_LostFocus(sender As System.Object, e As System.EventArgs) Handles domageNumBox.LostFocus
+    Private Sub DomAgeNumBox_ValueChanged(sender As Object, e As EventArgs) Handles domageNumBox.ValueChanged
         My.Settings.DomAge = domageNumBox.Value
     End Sub
 
-    Private Sub domageNumBox_MouseHover(sender As Object, e As System.EventArgs) Handles domageNumBox.MouseHover
-
-        TTDir.SetToolTip(domageNumBox, "Sets the Domme's age (18-99 years old).")
-
-        'LblDommeSettingsDescription.Text = "Sets the Domme's age (18-99 years old)." & Environment.NewLine & Environment.NewLine & "This setting mainly affects how the domme describes herself in random conversation. For example, a younger domme might refer to her skin " _
-        ' & "as tight or smooth, while an older domme might choose words like sensuous. Scripts may also contain keywords and variables that will limit certain paths to certain age groups."
-    End Sub
-
-
-    Private Sub domlevelNumBox_MouseHover(sender As System.Object, e As System.EventArgs) Handles DominationLevel.MouseHover
-
-        TTDir.SetToolTip(DominationLevel, "Sets the Domme's level (1-5)." & Environment.NewLine & Environment.NewLine &
-                         "This setting affects the difficulty of the tasks the domme will subject you to.")
-
-        'LblDommeSettingsDescription.Text = "Sets the Domme's level (1-5)." & Environment.NewLine & Environment.NewLine & "This setting affects the difficulty of the tasks the domme will subject you to. For example, a domme with a higher level may make you hold edges for " _
-        '   & "longer periods of time, while a domme with a lower level may not make you edge that often. The domme's level is a general guideline of how easy-going or sadistic she can be, not necessarily what she will " _
-        '  & "choose for you every time."
-    End Sub
-
-    Private Sub NBEmpathy_MouseHover(sender As System.Object, e As System.EventArgs) Handles NBEmpathy.MouseHover
-
-        TTDir.SetToolTip(NBEmpathy, "Sets the Domme's Apathy level (1-5)." & Environment.NewLine & Environment.NewLine &
-                       "This setting affects how merciless the domme is likely to be with you")
-
-        'LblDommeSettingsDescription.Text = "Sets the Domme's Apathy level (1-5)." & Environment.NewLine & Environment.NewLine & "This setting affects how lenient the domme is likely to be with you. For example, a domme with a higher level may rarely take mercy on you or let " _
-        '   & "you stop a task, while a domme with a lower level may never attempt to push your limits."
-    End Sub
-
-    Private Sub NBDomBirthdayMonth_MouseHover(sender As Object, e As System.EventArgs) Handles NBDomBirthdayMonth.MouseHover
-
-        TTDir.SetToolTip(NBDomBirthdayMonth, "Sets the month the domme was born.")
-
-        'LblDommeSettingsDescription.Text = "Sets the month the domme was born."
-    End Sub
-
-    Private Sub NBDomBirthdayDay_MouseHover(sender As Object, e As System.EventArgs) Handles NBDomBirthdayDay.MouseHover
-
-        TTDir.SetToolTip(NBDomBirthdayDay, "Sets the day the domme was born.")
-
-        'LblDommeSettingsDescription.Text = "Sets the day the domme was born."
-    End Sub
-
-    Private Sub TBDomHairColor_LostFocus(sender As System.Object, e As System.EventArgs) Handles TBDomHairColor.LostFocus
+    Private Sub TBDomHairColor_LostFocus(sender As Object, e As EventArgs) Handles TBDomHairColor.LostFocus
         My.Settings.DomHair = TBDomHairColor.Text
     End Sub
 
-    Private Sub domhairComboBox_MouseHover(sender As System.Object, e As System.EventArgs) Handles TBDomHairColor.MouseHover
-
-        TTDir.SetToolTip(TBDomHairColor, "Sets the domme's hair color.")
-
-        'LblDommeSettingsDescription.Text = "Sets the Domme's hair color." & Environment.NewLine & Environment.NewLine & "The domme may sometimes refer to her hair color over the course of the tease. Set this value to the color " & _
-        ' "of the slideshow model's hair to enhance immersion."
-    End Sub
-
-    Private Sub domhairlengthComboBox_LostFocus(sender As System.Object, e As System.EventArgs) Handles domhairlengthComboBox.LostFocus
+    Private Sub domhairlengthComboBox_LostFocus(sender As Object, e As EventArgs) Handles domhairlengthComboBox.LostFocus
         My.Settings.DomHairLength = domhairlengthComboBox.Text
     End Sub
 
-    Private Sub domhairlengthComboBox_MouseHover(sender As System.Object, e As System.EventArgs) Handles domhairlengthComboBox.MouseHover
-
-        TTDir.SetToolTip(domhairlengthComboBox, "Sets the domme's hair length.")
-
-        'LblDommeSettingsDescription.Text = "Sets the Domme's hair length." & Environment.NewLine & Environment.NewLine & "The domme may sometimes refer to her hair length over the course of the tease. Set this value to the length " & _
-        '   "of the slideshow model's hair to enhance immersion."
-    End Sub
-
-    Private Sub TBDomEyeColor_LostFocus(sender As System.Object, e As System.EventArgs) Handles TBDomEyeColor.LostFocus
+    Private Sub TBDomEyeColor_LostFocus(sender As Object, e As EventArgs) Handles TBDomEyeColor.LostFocus
         My.Settings.DomEyes = TBDomEyeColor.Text
     End Sub
 
-    Private Sub domeyesComboBox_MouseHover(sender As System.Object, e As System.EventArgs) Handles TBDomEyeColor.MouseHover
-
-        TTDir.SetToolTip(TBDomEyeColor, "Sets the domme's eye color.")
-
-        'LblDommeSettingsDescription.Text = "Sets the Domme's eye color." & Environment.NewLine & Environment.NewLine & "The domme may sometimes refer to her eye color over the course of the tease. Set this value to the color " & _
-        '   "of the slideshow model's eyes to enhance immersion."
-    End Sub
-
-    Private Sub boobComboBox_LostFocus(sender As System.Object, e As System.EventArgs) Handles boobComboBox.LostFocus
+    Private Sub boobComboBox_LostFocus(sender As Object, e As EventArgs) Handles boobComboBox.LostFocus
         My.Settings.DomCup = boobComboBox.Text
     End Sub
 
-    Private Sub boobComboBox_MouseHover(sender As System.Object, e As System.EventArgs) Handles boobComboBox.MouseHover
-
-        TTDir.SetToolTip(boobComboBox, "Sets the Domme's cup size.")
-
-        'LblDommeSettingsDescription.Text = "Sets the Domme's cup size." & Environment.NewLine & Environment.NewLine & "The domme may sometimes refer to the size of her breasts over the course of the tease. Set this value to the " & _
-        '   "slideshow model's cup size to enhance immersion."
-    End Sub
-
-    Private Sub dompubichairComboBox_LostFocus(sender As System.Object, e As System.EventArgs) Handles dompubichairComboBox.LostFocus
+    Private Sub dompubichairComboBox_LostFocus(sender As Object, e As EventArgs) Handles dompubichairComboBox.LostFocus
         My.Settings.DomPubicHair = dompubichairComboBox.Text
     End Sub
 
-    Private Sub dompubichairComboBox_MouseHover(sender As System.Object, e As System.EventArgs) Handles dompubichairComboBox.MouseHover
-
-        TTDir.SetToolTip(dompubichairComboBox, "Sets description of the Domme's pubic hair.")
-
-        'LblDommeSettingsDescription.Text = "Sets description of the Domme's pubic hair." & Environment.NewLine & Environment.NewLine & "The domme may sometimes refer to her pubic hair over the course of the tease. Set this value to a description " & _
-        '  "of the slideshow model's pubic hair to enhance immersion."
+    Private Sub crazyCheckBox_LostFocus(sender As Object, e As EventArgs) Handles crazyCheckBox.LostFocus
+        My.Settings.DomCrazy = crazyCheckBox.Checked
     End Sub
 
-
-    Private Sub crazyCheckBox_LostFocus(sender As System.Object, e As System.EventArgs) Handles crazyCheckBox.LostFocus
-        If crazyCheckBox.Checked = True Then
-            My.Settings.DomCrazy = True
-        Else
-            My.Settings.DomCrazy = False
-        End If
+    Private Sub CBDomTattoos_LostFocus(sender As Object, e As EventArgs) Handles CBDomTattoos.LostFocus
+        My.Settings.DomTattoos = CBDomTattoos.Checked
     End Sub
 
-    Private Sub crazyCheckBox_MouseHover(sender As System.Object, e As System.EventArgs) Handles crazyCheckBox.MouseHover
-
-        TTDir.SetToolTip(crazyCheckBox, "Gives the Domme the Crazy trait." & Environment.NewLine & Environment.NewLine &
-                     "This will open up dialogue options that suggest the domme is a little unhinged.")
-
-        'LblDommeSettingsDescription.Text = "Gives the Domme the Crazy trait." & Environment.NewLine & Environment.NewLine & "This will open up dialogue options that suggest the domme is a little unhinged. " & _
-        '   "Scripts may also contain keywords and variables that will limit certain paths to this trait."
+    Private Sub CBDomFreckles_LostFocus(sender As Object, e As EventArgs) Handles CBDomFreckles.LostFocus
+        My.Settings.DomFreckles = CBDomFreckles.Checked
     End Sub
 
-    Private Sub CBDomTattoos_LostFocus(sender As System.Object, e As System.EventArgs) Handles CBDomTattoos.LostFocus
-        If CBDomTattoos.Checked = True Then
-            My.Settings.DomTattoos = True
-        Else
-            My.Settings.DomTattoos = False
-        End If
+    Private Sub vulgarCheckBox_LostFocus(sender As Object, e As EventArgs) Handles vulgarCheckBox.LostFocus
+        My.Settings.DomVulgar = vulgarCheckBox.Checked
     End Sub
 
-    Private Sub CBDomTattoos_MouseHover(sender As System.Object, e As System.EventArgs) Handles CBDomTattoos.MouseHover
-
-        TTDir.SetToolTip(CBDomTattoos, "Sets whether the domme has tattoos.")
-
-        'LblDommeSettingsDescription.Text = "Sets whether the domme has tattoos." & Environment.NewLine & Environment.NewLine & "This will open up dialogue options that involve the domme being tattooed. " & _
-        ' "Scripts may also contain keywords and variables that will limit certain paths to this trait."
+    Private Sub supremacistCheckBox_LostFocus(sender As Object, e As EventArgs) Handles supremacistCheckBox.LostFocus
+        My.Settings.DomSupremacist = supremacistCheckBox.Checked
     End Sub
 
-
-    Private Sub CBDomFreckles_LostFocus(sender As System.Object, e As System.EventArgs) Handles CBDomFreckles.LostFocus
-        If CBDomFreckles.Checked = True Then
-            My.Settings.DomFreckles = True
-        Else
-            My.Settings.DomFreckles = False
-        End If
+    Private Sub LCaseCheckBoxCheckBox_LostFocus(sender As Object, e As EventArgs) Handles LCaseCheckBox.LostFocus
+        My.Settings.DomLowercase = LCaseCheckBox.Checked
     End Sub
 
-    Private Sub CBDomFreckles_MouseHover(sender As System.Object, e As System.EventArgs) Handles CBDomFreckles.MouseHover
-
-        TTDir.SetToolTip(CBDomTattoos, "Sets whether the domme has freckles.")
-
-        'LblDommeSettingsDescription.Text = "Sets whether the domme has freckles." & Environment.NewLine & Environment.NewLine & "This will open up dialogue options that involve the domme having freckles. " & _
-        '   "Scripts may also contain keywords and variables that will limit certain paths to this trait."
+    Private Sub apostropheCheckBox_LostFocus(sender As Object, e As EventArgs) Handles apostropheCheckBox.LostFocus
+        My.Settings.DomNoApostrophes = apostropheCheckBox.Checked
     End Sub
 
-    Private Sub vulgarCheckBox_LostFocus(sender As System.Object, e As System.EventArgs) Handles vulgarCheckBox.LostFocus
-        If vulgarCheckBox.Checked = True Then
-            My.Settings.DomVulgar = True
-        Else
-            My.Settings.DomVulgar = False
-        End If
+    Private Sub commaCheckBox_LostFocus(sender As Object, e As EventArgs) Handles commaCheckBox.LostFocus
+        My.Settings.DomNoCommas = commaCheckBox.Checked
     End Sub
 
-    Private Sub vulgarCheckBox_MouseHover(sender As System.Object, e As System.EventArgs) Handles vulgarCheckBox.MouseHover
-
-        TTDir.SetToolTip(vulgarCheckBox, "Gives the Domme the Vulgar trait." & Environment.NewLine & Environment.NewLine &
-                  "This will open up vulgar dialogue options for the domme.")
-
-        'LblDommeSettingsDescription.Text = "Gives the Domme the Vulgar trait." & Environment.NewLine & Environment.NewLine & "This will open up vulgar dialogue options for the domme. She will include words like ""titties"" and " & _
-        ' """gonads"" while a more reserved domme may limit herself to ""tits"" and ""balls"". Scripts may also contain keywords and variables that will limit certain paths to this trait."
+    Private Sub periodCheckBox_LostFocus(sender As Object, e As EventArgs) Handles periodCheckBox.LostFocus
+        My.Settings.DomNoPeriods = periodCheckBox.Checked
     End Sub
 
-    Private Sub supremacistCheckBox_LostFocus(sender As System.Object, e As System.EventArgs) Handles supremacistCheckBox.LostFocus
-        If supremacistCheckBox.Checked = True Then
-            My.Settings.DomSupremacist = True
-        Else
-            My.Settings.DomSupremacist = False
-        End If
-    End Sub
-
-    Private Sub supremacistCheckBox_MouseHover(sender As System.Object, e As System.EventArgs) Handles supremacistCheckBox.MouseHover
-
-        TTDir.SetToolTip(supremacistCheckBox, "Gives the Domme the Supremacist trait." & Environment.NewLine & Environment.NewLine &
-                                         "This will open up dialogue options that suggest the" & Environment.NewLine &
-                                         "domme considers herself inherently superior to you.")
-
-        ' LblDommeSettingsDescription.Text = "Gives the Domme the Supremacist trait." & Environment.NewLine & Environment.NewLine & "This will open up dialogue options that suggest the domme considers herself inherently superior " & _
-        '    "to you. Scripts may also contain keywords and variables that will limit certain paths to this trait."
-    End Sub
-
-    Private Sub LCaseCheckBoxCheckBox_LostFocus(sender As System.Object, e As System.EventArgs) Handles LCaseCheckBox.LostFocus
-        If LCaseCheckBox.Checked = True Then
-            My.Settings.DomLowercase = True
-        Else
-            My.Settings.DomLowercase = False
-        End If
-    End Sub
-
-    Private Sub alloworgasmComboBox_MouseHover(sender As Object, e As System.EventArgs) Handles alloworgasmComboBox.MouseHover
-
-        TTDir.SetToolTip(alloworgasmComboBox, "Sets how often the domme allows the user to have an orgasm during End scripts." & Environment.NewLine & Environment.NewLine &
-                                              "To further define these parameters, use the options in the Ranges tab.")
-
-
-        'LblDommeSettingsDescription.Text = "Sets how often the domme allows the user to have an orgasm during End scripts." & Environment.NewLine & Environment.NewLine & "To further define these parameters, use the options in the Ranges tab."
-    End Sub
-
-    Private Sub ruinorgasmComboBox_MouseHover(sender As Object, e As System.EventArgs) Handles ruinorgasmComboBox.MouseHover
-
-        TTDir.SetToolTip(ruinorgasmComboBox, "Sets how often the domme will ruin the user's orgasm during End scripts." & Environment.NewLine & Environment.NewLine &
-                                              "To further define these parameters, use the options in the Ranges tab.")
-
-        'LblDommeSettingsDescription.Text = "Sets how often the domme will ruin the user's orgasm during End scripts." & Environment.NewLine & Environment.NewLine & "To further define these parameters, use the options in the Ranges tab."
-    End Sub
-
-    Private Sub LCaseCheckBox_MouseHover(sender As System.Object, e As System.EventArgs) Handles LCaseCheckBox.MouseHover
-
-        TTDir.SetToolTip(LCaseCheckBox, "When this is checked, the domme won't use capital letters when she types." & Environment.NewLine & Environment.NewLine &
-                                         "She will still capitalize Me/My/Mine if that box is checked.")
-
-
-        'LblDommeSettingsDescription.Text = "When this is checked, the domme won't use capital letters when she types." & Environment.NewLine & Environment.NewLine & "She will still capitalize Me/My/Mine if that box is checked."
-    End Sub
-
-    Private Sub apostropheCheckBox_LostFocus(sender As System.Object, e As System.EventArgs) Handles apostropheCheckBox.LostFocus
-        If apostropheCheckBox.Checked = True Then
-            My.Settings.DomNoApostrophes = True
-        Else
-            My.Settings.DomNoApostrophes = False
-        End If
-    End Sub
-
-    Private Sub apostropheCheckBox_MouseHover(sender As System.Object, e As System.EventArgs) Handles apostropheCheckBox.MouseHover
-
-        TTDir.SetToolTip(apostropheCheckBox, "When this is checked, the domme won't use apostrophes when she types.")
-
-        'LblDommeSettingsDescription.Text = "When this is checked, the domme won't use apostrophes when she types."
-    End Sub
-
-    Private Sub commaCheckBox_LostFocus(sender As System.Object, e As System.EventArgs) Handles commaCheckBox.LostFocus
-        If commaCheckBox.Checked = True Then
-            My.Settings.DomNoCommas = True
-        Else
-            My.Settings.DomNoCommas = False
-        End If
-    End Sub
-
-    Private Sub commaCheckBox_MouseHover(sender As System.Object, e As System.EventArgs) Handles commaCheckBox.MouseHover
-
-        TTDir.SetToolTip(commaCheckBox, "When this is checked, the domme won't use commas when she types.")
-
-        'LblDommeSettingsDescription.Text = "When this is checked, the domme won't use commas when she types."
-    End Sub
-
-    Private Sub periodCheckBox_LostFocus(sender As System.Object, e As System.EventArgs) Handles periodCheckBox.LostFocus
-        If periodCheckBox.Checked = True Then
-            My.Settings.DomNoPeriods = True
-        Else
-            My.Settings.DomNoPeriods = False
-        End If
-    End Sub
-
-    Private Sub periodCheckBox_MouseHover(sender As System.Object, e As System.EventArgs) Handles periodCheckBox.MouseHover
-
-        TTDir.SetToolTip(periodCheckBox, "When this is checked, the domme won't use periods when she types.")
-
-        'LblDommeSettingsDescription.Text = "When this is checked, the domme won't use periods when she types."
-    End Sub
-
-    Private Sub CBMeMyMine_LostFocus(sender As System.Object, e As System.EventArgs) Handles CBMeMyMine.LostFocus
-        If CBMeMyMine.Checked = True Then
-            My.Settings.DomMeMyMine = True
-        Else
-            My.Settings.DomMeMyMine = False
-        End If
-    End Sub
-
-    Private Sub CBMeMyMine_MouseHover(sender As System.Object, e As System.EventArgs) Handles CBMeMyMine.MouseHover
-        TTDir.SetToolTip(CBMeMyMine, "When this is checked, the domme will always capitalize ""Me, My and Mine""." & Environment.NewLine & Environment.NewLine &
-           "If the lowercase typing option is checked, she will also capitalize ""I, I'm, I'd and I'll"".")
-    End Sub
-
-    Private Sub TBEmote_LostFocus(sender As System.Object, e As System.EventArgs) Handles TBEmote.LostFocus
+    Private Sub TBEmote_LostFocus(sender As Object, e As EventArgs) Handles TBEmote.LostFocus
         My.Settings.TBEmote = TBEmote.Text
     End Sub
 
-    Private Sub TBEmoteEnd_LostFocus(sender As System.Object, e As System.EventArgs) Handles TBEmoteEnd.LostFocus
+    Private Sub TBEmoteEnd_LostFocus(sender As Object, e As EventArgs) Handles TBEmoteEnd.LostFocus
         My.Settings.TBEmoteEnd = TBEmoteEnd.Text
     End Sub
 
-    Private Sub TBEmote_MouseHover(sender As System.Object, e As System.EventArgs) Handles TBEmote.MouseHover
-        TTDir.SetToolTip(TBEmote, "This determines what symbol(s) the domme uses to begin an emote.")
+    Private Sub CBMeMyMine_LostFocus(sender As Object, e As EventArgs) Handles CBMeMyMine.LostFocus
+        My.Settings.DomMeMyMine = CBMeMyMine.Checked
     End Sub
 
-    Private Sub TBEmoteEnd_MouseHover(sender As System.Object, e As System.EventArgs) Handles TBEmoteEnd.MouseHover
-        TTDir.SetToolTip(TBEmoteEnd, "This determines what symbol(s) the domme uses to end an emote.")
+    Private Sub CBDomDenialEnds_LostFocus(sender As Object, e As EventArgs) Handles CBDomDenialEnds.LostFocus
+        My.Settings.DomDenialEnd = CBDomDenialEnds.Checked
     End Sub
 
-    Private Sub LockOrgasmChances_MouseHover(sender As System.Object, e As System.EventArgs) Handles CBLockOrgasmChances.MouseHover
-        TTDir.SetToolTip(CBLockOrgasmChances, "If checked the orgasm chances will be locked and unchangeable once you start the tease." & Environment.NewLine & Environment.NewLine &
-            "Orgasm chances will be changeable and unlocked when out of a tease.")
+    Private Sub CBDomOrgasmEnds_LostFocus(sender As Object, e As EventArgs) Handles CBDomOrgasmEnds.LostFocus
+        My.Settings.DomOrgasmEnd = CBDomOrgasmEnds.Checked
     End Sub
 
-    Private Sub CBDomDenialEnds_LostFocus(sender As System.Object, e As System.EventArgs) Handles CBDomDenialEnds.LostFocus
-        If CBDomDenialEnds.Checked = True Then
-            My.Settings.DomDenialEnd = True
-        Else
-            My.Settings.DomDenialEnd = False
-        End If
-    End Sub
-
-    Private Sub CBDomDenialEnds_MouseHover(sender As System.Object, e As System.EventArgs) Handles CBDomDenialEnds.MouseHover
-        TTDir.SetToolTip(CBDomDenialEnds, "Determines whether the domme will keep teasing you after you have been denied." & Environment.NewLine & Environment.NewLine &
-            "If this box is checked, she will end the tease after she decides to deny your orgasm." & Environment.NewLine &
-            "If it is unchecked, she may choose to start teasing you all over again.")
-    End Sub
-
-    Private Sub CBDomOrgasmEnds_LostFocus(sender As System.Object, e As System.EventArgs) Handles CBDomOrgasmEnds.LostFocus
-        If CBDomOrgasmEnds.Checked = True Then
-            My.Settings.DomOrgasmEnd = True
-        Else
-            My.Settings.DomOrgasmEnd = False
-        End If
-    End Sub
-
-    Private Sub CBDomOrgasmEnds_MouseHover(sender As System.Object, e As System.EventArgs) Handles CBDomOrgasmEnds.MouseHover
-        TTDir.SetToolTip(CBDomOrgasmEnds, "Determines whether the domme will keep teasing you after you have an orgasm." & Environment.NewLine & Environment.NewLine &
-             "If this box is checked, she will end the tease after she allows you to cum." & Environment.NewLine &
-             "If it is unchecked, she may choose to start teasing you all over again.")
-    End Sub
-
-    Private Sub LockOrgasm_MouseHover(sender As System.Object, e As System.EventArgs) Handles orgasmsperlockButton.MouseHover
-        TTDir.SetToolTip(orgasmsperlockButton, "When this arrangement is selected, the domme will limit the number of" & Environment.NewLine &
-                                                "orgasms she allows you to have according to the parameters you set." & Environment.NewLine & Environment.NewLine &
-                                                "This will not be finalized until the Limit box is checked and you click ""Lock Selected""." & Environment.NewLine &
-                                                "Once an orgasm limit has been finalized, it cannot be undone until the period of time is up!")
-    End Sub
-
-    Private Sub limitcheckbox_MouseHover(sender As System.Object, e As System.EventArgs) Handles limitcheckbox.MouseHover
-        TTDir.SetToolTip(limitcheckbox, "When this arrangement is selected, the domme will limit the number of" & Environment.NewLine &
-                                                "orgasms she allows you to have according to the parameters you set." & Environment.NewLine & Environment.NewLine &
-                                                "This will not be finalized until the Limit box is checked and you click ""Lock Selected""." & Environment.NewLine &
-                                                "Once an orgasm limit has been finalized, it cannot be undone until the period of time is up!")
-    End Sub
-
-    Private Sub orgasmsPerNumBox_MouseHover(sender As System.Object, e As System.EventArgs) Handles orgasmsPerNumBox.MouseHover
-        TTDir.SetToolTip(orgasmsPerNumBox, "When this arrangement is selected, the domme will limit the number of" & Environment.NewLine &
-                                                "orgasms she allows you to have according to the parameters you set." & Environment.NewLine & Environment.NewLine &
-                                                "This will not be finalized until the Limit box is checked and you click ""Lock Selected""." & Environment.NewLine &
-                                                "Once an orgasm limit has been finalized, it cannot be undone until the period of time is up!")
-    End Sub
-
-    Private Sub orgasmsperComboBox_MouseHover(sender As System.Object, e As System.EventArgs) Handles orgasmsperComboBox.MouseHover
-        TTDir.SetToolTip(orgasmsperComboBox, "When this arrangement is selected, the domme will limit the number of" & Environment.NewLine &
-                                                "orgasms she allows you to have according to the parameters you set." & Environment.NewLine & Environment.NewLine &
-                                                "This will not be finalized until the Limit box is checked and you click ""Lock Selected""." & Environment.NewLine &
-                                                "Once an orgasm limit has been finalized, it cannot be undone until the period of time is up!")
-    End Sub
-
-    Private Sub LockRandomOrgasm_MouseHover(sender As System.Object, e As System.EventArgs) Handles orgasmlockrandombutton.MouseHover
-
-        TTDir.SetToolTip(orgasmsperComboBox, "When this arrangement is selected, the domme will randomly limit the" & Environment.NewLine &
-                                              "number of orgasms she allows you to have for a random period of time." & Environment.NewLine & Environment.NewLine &
-                                              "Once you confirm this choice, it cannot be undone until the period of time is up!")
-
-        'LblDommeSettingsDescription.Text = "When this button is clicked, the domme will randomly limit the number of orgasms she allows you to have for a random period of time." & Environment.NewLine & Environment.NewLine & _
-        '   "Her choice will be based on her level, so be careful. A higher level domme could limit the amount of orgasms you have for up to a year! Once you confirm this choice, it cannot be undone until the period of time is up!"
-    End Sub
-
-    Private Sub NBDomMoodMin_LostFocus(sender As System.Object, e As System.EventArgs) Handles NBDomMoodMin.LostFocus
+    Private Sub NBDomMoodMin_LostFocus(sender As Object, e As EventArgs) Handles NBDomMoodMin.LostFocus
         My.Settings.DomMoodMin = NBDomMoodMin.Value
     End Sub
 
-    Private Sub NBDomMoodMin_MouseHover(sender As System.Object, e As System.EventArgs) Handles NBDomMoodMin.MouseHover
-
-        TTDir.SetToolTip(NBDomMoodMin, "Determines the low range of the domme's mood index." & Environment.NewLine &
-                                       "The domme's mood may affect certain dialogue choices or outcomes." & Environment.NewLine & Environment.NewLine &
-                                       "The higher this number is, the easier it is to put her in a bad mood." & Environment.NewLine &
-                                       "Setting this value to ""1"" will prevent the domme from ever being in a bad mood.")
-
-
-
-        'LblDommeSettingsDescription.Text = "Determines the low range of the domme's mood index. The domme's mood may affect certain dialogue choices or outcomes." & Environment.NewLine & Environment.NewLine & _
-        '   "The higher this number is, the easier it is to put her in a bad mood. Setting this value to ""1"" will prevent the domme from ever being in a bad mood."
-    End Sub
-
-    Private Sub NBDomMoodMax_LostFocus(sender As System.Object, e As System.EventArgs) Handles NBDomMoodMax.LostFocus
+    Private Sub NBDomMoodMax_LostFocus(sender As Object, e As EventArgs) Handles NBDomMoodMax.LostFocus
         My.Settings.DomMoodMax = NBDomMoodMax.Value
     End Sub
 
-    Private Sub NBDomMoodMax_MouseHover(sender As System.Object, e As System.EventArgs) Handles NBDomMoodMax.MouseHover
-
-        TTDir.SetToolTip(NBDomMoodMax, "Determines the high range of the domme's mood index." & Environment.NewLine &
-                                    "The domme's mood may affect certain dialogue choices or outcomes." & Environment.NewLine & Environment.NewLine &
-                                    "The lower this number is, the easier it is to put her in a good mood." & Environment.NewLine &
-                                    "Setting this value to ""10"" will prevent the domme from ever being in an especially great mood.")
-
-
-
-        'LblDommeSettingsDescription.Text = "Determines the high range of the domme's mood index. The domme's mood may affect certain dialogue choices or outcomes." & Environment.NewLine & Environment.NewLine & _
-        '   "The lower this number is, the easier it is to put her in an especially great mood. Setting this value to ""10"" will prevent the domme from ever being in an especially great mood."
-    End Sub
-
-    Private Sub NBDomMoodMin_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBDomMoodMin.ValueChanged
+    Private Sub NBDomMoodMin_ValueChanged(sender As Object, e As EventArgs) Handles NBDomMoodMin.ValueChanged
         If NBDomMoodMin.Value > NBDomMoodMax.Value Then NBDomMoodMin.Value = NBDomMoodMax.Value
     End Sub
 
-    Private Sub NBDomMoodMax_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBDomMoodMax.ValueChanged
+    Private Sub NBDomMoodMax_ValueChanged(sender As Object, e As EventArgs) Handles NBDomMoodMax.ValueChanged
         If NBDomMoodMax.Value < NBDomMoodMin.Value Then NBDomMoodMax.Value = NBDomMoodMin.Value
     End Sub
 
-    Private Sub NBAvgCockMin_LostFocus(sender As System.Object, e As System.EventArgs) Handles NBAvgCockMin.LostFocus
+    Private Sub NBAvgCockMin_LostFocus(sender As Object, e As EventArgs) Handles NBAvgCockMin.LostFocus
         My.Settings.AvgCockMin = NBAvgCockMin.Value
     End Sub
 
-    Private Sub NBAvgCockMin_MouseHover(sender As System.Object, e As System.EventArgs) Handles NBAvgCockMin.MouseHover
-        TTDir.SetToolTip(NBAvgCockMin, "Determines the lowest range of what the domme considers an average cock size." & Environment.NewLine & Environment.NewLine &
-                                       "If your cock size is lower then this, the domme will consider it small.")
-    End Sub
-
-    Private Sub NBAvgCockMax_LostFocus(sender As System.Object, e As System.EventArgs) Handles NBAvgCockMax.LostFocus
+    Private Sub NBAvgCockMax_LostFocus(sender As Object, e As EventArgs) Handles NBAvgCockMax.LostFocus
         My.Settings.AvgCockMax = NBAvgCockMax.Value
     End Sub
 
-    Private Sub NBAvgCockMax_MouseHover(sender As System.Object, e As System.EventArgs) Handles NBAvgCockMax.MouseHover
-        TTDir.SetToolTip(NBAvgCockMin, "Determines the highest range of what the domme considers an average cock size." & Environment.NewLine & Environment.NewLine &
-           "If your cock size is higher than this, the domme will consider it big.")
-    End Sub
-
-    Private Sub NBAvgCockMin_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBAvgCockMin.ValueChanged
+    Private Sub NBAvgCockMin_ValueChanged(sender As Object, e As EventArgs) Handles NBAvgCockMin.ValueChanged
         If NBAvgCockMin.Value > NBAvgCockMax.Value Then NBAvgCockMin.Value = NBAvgCockMax.Value
     End Sub
 
-    Private Sub NBAvgCockMax_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBAvgCockMax.ValueChanged
+    Private Sub NBAvgCockMax_ValueChanged(sender As Object, e As EventArgs) Handles NBAvgCockMax.ValueChanged
         If NBAvgCockMax.Value < NBAvgCockMin.Value Then NBAvgCockMax.Value = NBAvgCockMin.Value
     End Sub
 
-    Private Sub NBSelfAgeMin_LostFocus(sender As System.Object, e As System.EventArgs) Handles NBSelfAgeMin.LostFocus
+    Private Sub NBSelfAgeMin_LostFocus(sender As Object, e As EventArgs) Handles NBSelfAgeMin.LostFocus
         My.Settings.SelfAgeMin = NBSelfAgeMin.Value
     End Sub
 
-    Private Sub NBSelfAgeMin_Enter(sender As Object, e As System.EventArgs) Handles NBSelfAgeMin.MouseHover
-
-        TTDir.SetToolTip(NBSelfAgeMin, "This is the age range that the domme considers ""not that young, but not that old""." & Environment.NewLine & Environment.NewLine &
-                                       "If the domme's age is below this number, she will use dialogue options that suggest" & Environment.NewLine &
-                                       "having the maturity and body of a girl in her early twenties.")
-    End Sub
-
-    Private Sub NBSelfAgeMax_LostFocus(sender As System.Object, e As System.EventArgs) Handles NBSelfAgeMax.LostFocus
+    Private Sub NBSelfAgeMax_LostFocus(sender As Object, e As EventArgs) Handles NBSelfAgeMax.LostFocus
         My.Settings.SelfAgeMax = NBSelfAgeMax.Value
     End Sub
 
-    Private Sub NBSelfAgeMax_Enter(sender As Object, e As System.EventArgs) Handles NBSelfAgeMax.MouseHover
-
-        TTDir.SetToolTip(NBSelfAgeMax, "This is the age range that the domme considers ""not that young, but not that old""." & Environment.NewLine & Environment.NewLine &
-               "If the domme's age is above this number, she will use dialogue options that suggest" & Environment.NewLine &
-               "an exceptional amount of maturity, or having an aging body.")
-    End Sub
-
-    Private Sub NBSelfAgeMin_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBSelfAgeMin.ValueChanged
+    Private Sub NBSelfAgeMin_ValueChanged(sender As Object, e As EventArgs) Handles NBSelfAgeMin.ValueChanged
         If NBSelfAgeMin.Value > NBSelfAgeMax.Value Then NBSelfAgeMin.Value = NBSelfAgeMax.Value
     End Sub
 
-    Private Sub NBSelfAgeMax_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBSelfAgeMax.ValueChanged
+    Private Sub NBSelfAgeMax_ValueChanged(sender As Object, e As EventArgs) Handles NBSelfAgeMax.ValueChanged
         If NBSelfAgeMax.Value < NBSelfAgeMin.Value Then NBSelfAgeMax.Value = NBSelfAgeMin.Value
     End Sub
 
-    Private Sub NBSubAgeMin_LostFocus(sender As System.Object, e As System.EventArgs) Handles NBSubAgeMin.LostFocus
+    Private Sub NBSubAgeMin_LostFocus(sender As Object, e As EventArgs) Handles NBSubAgeMin.LostFocus
         My.Settings.SubAgeMin = NBSubAgeMin.Value
     End Sub
 
-    Private Sub NBSubAgeMin_Enter(sender As Object, e As System.EventArgs) Handles NBSubAgeMin.MouseHover
-        TTDir.SetToolTip(NBSubAgeMin, "This is the age range that the domme considers ""not that young, but not that old""." & Environment.NewLine & Environment.NewLine &
-            "If your age is below this number, the domme will use dialogue options that suggest" & Environment.NewLine &
-            "you have the virility and body of a male in his early twenties.")
-    End Sub
-
-    Private Sub NBSubAgeMax_LostFocus(sender As System.Object, e As System.EventArgs) Handles NBSubAgeMax.LostFocus
+    Private Sub NBSubAgeMax_LostFocus(sender As Object, e As EventArgs) Handles NBSubAgeMax.LostFocus
         My.Settings.SubAgeMax = NBSubAgeMax.Value
     End Sub
 
-    Private Sub NBSubAgeMax_Enter(sender As Object, e As System.EventArgs) Handles NBSubAgeMax.MouseHover
-        TTDir.SetToolTip(NBSubAgeMax, "This is the age range that the domme considers ""not that young, but not that old""." & Environment.NewLine & Environment.NewLine &
-                                      "If your age is above this number, the domme will use dialogue options that suggest" & Environment.NewLine &
-                                      "you're over the hill.")
-    End Sub
-
-    Private Sub NBSubAgeMin_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBSubAgeMin.ValueChanged
+    Private Sub NBSubAgeMin_ValueChanged(sender As Object, e As EventArgs) Handles NBSubAgeMin.ValueChanged
         If NBSubAgeMin.Value > NBSubAgeMax.Value Then NBSubAgeMin.Value = NBSubAgeMax.Value
     End Sub
 
-    Private Sub NBSubAgeMax_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBSubAgeMax.ValueChanged
+    Private Sub NBSubAgeMax_ValueChanged(sender As Object, e As EventArgs) Handles NBSubAgeMax.ValueChanged
         If NBSubAgeMax.Value < NBSubAgeMin.Value Then NBSubAgeMax.Value = NBSubAgeMin.Value
     End Sub
 
-    Private Sub PetNameBox1_Enter(sender As Object, e As System.EventArgs) Handles PetNameBox1.MouseHover
-        TTDir.SetToolTip(PetNameBox1, "Enter a pet name that the domme will call you when she's in a great mood." & Environment.NewLine & Environment.NewLine &
-                                      "All pet name boxes must be filled in.")
+    Private Sub NBEmpathy_LostFocus(sender As Object, e As EventArgs) Handles NBEmpathy.LostFocus
+        mySettingsAccessor.ApathyLevel = ApathyLevel.Create(CType(NBEmpathy.Value, Integer)).Value
     End Sub
 
-    Private Sub PetNameBox2_Enter(sender As Object, e As System.EventArgs) Handles petnameBox2.MouseHover
-        TTDir.SetToolTip(petnameBox2, "Enter a pet name that the domme will call you when she's in a great mood." & Environment.NewLine & Environment.NewLine &
-                                        "All pet name boxes must be filled in.")
+    Private Sub domlevelNumBox_ValueChanged(sender As Object, e As EventArgs) Handles DominationLevel.ValueChanged
+        DomLevelDescLabel.Text = mySettingsAccessor.DominationLevel.ToString()
     End Sub
 
-    Private Sub PetNameBox3_Enter(sender As Object, e As System.EventArgs) Handles petnameBox3.MouseHover
-        TTDir.SetToolTip(petnameBox3, "Enter a pet name that the domme will call you when she's in a neutral mood." & Environment.NewLine & Environment.NewLine &
-                                       "All pet name boxes must be filled in.")
-    End Sub
-
-    Private Sub PetNameBox4_Enter(sender As Object, e As System.EventArgs) Handles petnameBox4.MouseHover
-        TTDir.SetToolTip(petnameBox4, "Enter a pet name that the domme will call you when she's in a neutral mood." & Environment.NewLine & Environment.NewLine &
-                                      "All pet name boxes must be filled in.")
-    End Sub
-
-    Private Sub PetNameBox5_Enter(sender As Object, e As System.EventArgs) Handles petnameBox5.MouseHover
-        TTDir.SetToolTip(petnameBox5, "Enter a pet name that the domme will call you when she's in a neutral mood." & Environment.NewLine & Environment.NewLine &
-                                             "All pet name boxes must be filled in.")
-    End Sub
-
-    Private Sub PetNameBox6_Enter(sender As Object, e As System.EventArgs) Handles petnameBox6.MouseHover
-        TTDir.SetToolTip(petnameBox6, "Enter a pet name that the domme will call you when she's in a neutral mood." & Environment.NewLine & Environment.NewLine &
-                                     "All pet name boxes must be filled in.")
-    End Sub
-
-    Private Sub PetNameBox7_Enter(sender As Object, e As System.EventArgs) Handles petnameBox7.MouseHover
-        TTDir.SetToolTip(petnameBox7, "Enter a pet name that the domme will call you when she's in a bad mood." & Environment.NewLine & Environment.NewLine &
-                                     "All pet name boxes must be filled in.")
-    End Sub
-
-    Private Sub PetNameBox8_Enter(sender As Object, e As System.EventArgs) Handles petnameBox8.MouseHover
-        TTDir.SetToolTip(petnameBox8, "Enter a pet name that the domme will call you when she's in a bad mood." & Environment.NewLine & Environment.NewLine &
-                                     "All pet name boxes must be filled in.")
-    End Sub
-
-    Private Sub BTNSaveDomSet_MouseHover(sender As Object, e As System.EventArgs) Handles BTNSaveDomSet.MouseHover
-        TTDir.SetToolTip(BTNSaveDomSet, "Click to save this configuration of Domme Settings to a file that you can load at any time.")
-    End Sub
-
-    Private Sub BTNLoadDomSet_MouseHover(sender As Object, e As System.EventArgs) Handles BTNLoadDomSet.MouseHover
-        TTDir.SetToolTip(BTNLoadDomSet, "Click to load a custom Domme Settings file you have previously created.")
-    End Sub
-
-    Private Sub NBEmpathy_LostFocus(sender As System.Object, e As System.EventArgs) Handles NBEmpathy.LostFocus
-
-        If NBEmpathy.Value = 1 Then My.Settings.DomEmpathy = 1
-        If NBEmpathy.Value = 2 Then My.Settings.DomEmpathy = 2
-        If NBEmpathy.Value = 3 Then My.Settings.DomEmpathy = 3
-        If NBEmpathy.Value = 4 Then My.Settings.DomEmpathy = 4
-        If NBEmpathy.Value = 5 Then My.Settings.DomEmpathy = 5
-
-
-        Debug.Print(My.Settings.DomEmpathy)
-
-
-
-
-    End Sub
-
-    Private Sub domlevelNumBox_ValueChanged(sender As System.Object, e As System.EventArgs) Handles DominationLevel.ValueChanged
-        If FrmSettingsLoading = False Then
-            If DominationLevel.Value = 1 Then DomLevelDescLabel.Text = "Gentle"
-            If DominationLevel.Value = 2 Then DomLevelDescLabel.Text = "Lenient"
-            If DominationLevel.Value = 3 Then DomLevelDescLabel.Text = "Tease"
-            If DominationLevel.Value = 4 Then DomLevelDescLabel.Text = "Rough"
-            If DominationLevel.Value = 5 Then DomLevelDescLabel.Text = "Sadistic"
-        End If
-    End Sub
-
-    Private Sub NBEmpathy_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBEmpathy.ValueChanged
-        If FrmSettingsLoading = False Then
-            If NBEmpathy.Value = 1 Then LBLEmpathy.Text = "Cautious"
-            If NBEmpathy.Value = 2 Then LBLEmpathy.Text = "Caring"
-            If NBEmpathy.Value = 3 Then LBLEmpathy.Text = "Moderate"
-            If NBEmpathy.Value = 4 Then LBLEmpathy.Text = "Cruel"
-            If NBEmpathy.Value = 5 Then LBLEmpathy.Text = "Merciless"
-        End If
+    Private Sub NBEmpathy_ValueChanged(sender As Object, e As EventArgs) Handles NBEmpathy.ValueChanged
+        LBLEmpathy.Text = mySettingsAccessor.ApathyLevel.ToString()
     End Sub
 
 #End Region ' Domme
@@ -1453,8 +1707,7 @@ Public Class FrmSettings
     ''' </summary>
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
-    Private Sub TCScripts_TabIndexChanged(sender As Object, e As System.EventArgs) Handles TCScripts.SelectedIndexChanged
-
+    Private Sub TCScripts_TabIndexChanged(sender As Object, e As EventArgs) Handles TCScripts.SelectedIndexChanged
         If TCScripts.SelectedTab Is ScriptsStartTab Then
             StartScripts.Focus()
         ElseIf TCScripts.SelectedTab Is ScriptsModuleTab Then
@@ -1467,68 +1720,31 @@ Public Class FrmSettings
     End Sub
 
     Public Shared Sub saveCheckedListBox(target As CheckedListBox, filePath As String)
-        Try
-            If Not Directory.Exists(Path.GetDirectoryName(filePath)) Then _
-                Directory.CreateDirectory(Path.GetDirectoryName(filePath))
+        If Not Directory.Exists(Path.GetDirectoryName(filePath)) Then _
+            Directory.CreateDirectory(Path.GetDirectoryName(filePath))
 
-            Using fs As New FileStream(filePath, IO.FileMode.Create), BinWrite As New BinaryWriter(fs)
-                For i = 0 To target.Items.Count - 1
-                    BinWrite.Write(CStr(target.Items(i)))
-                    BinWrite.Write(CBool(target.GetItemChecked(i)))
-                Next
-            End Using
-
-        Catch ex As Exception
-            Throw
-        End Try
+        Using fs As New FileStream(filePath, IO.FileMode.Create), BinWrite As New BinaryWriter(fs)
+            For i = 0 To target.Items.Count - 1
+                BinWrite.Write(CStr(target.Items(i)))
+                BinWrite.Write(CBool(target.GetItemChecked(i)))
+            Next
+        End Using
     End Sub
 
     Private Sub SaveStartScripts() Handles StartScripts.LostFocus
-        Try
-            saveCheckedListBox(StartScripts, Ssh.Files.StartChecklist)
-        Catch ex As Exception
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-            '                                            All Errors
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-            Log.WriteError(ex.Message, ex, "Error on saving checkstate")
-            MessageBox.Show(ex.Message, "Error on saving checkstate", MessageBoxButtons.OK, MessageBoxIcon.Hand)
-        End Try
+        saveCheckedListBox(StartScripts, Ssh.Files.StartChecklist)
     End Sub
 
     Private Sub SaveModuleScripts() Handles ModuleScripts.LostFocus
-        Try
-            saveCheckedListBox(ModuleScripts, Ssh.Files.ModuleChecklist)
-        Catch ex As Exception
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-            '                                            All Errors
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-            Log.WriteError(ex.Message, ex, "Error on saving checkstate")
-            MessageBox.Show(ex.Message, "Error on saving checkstate", MessageBoxButtons.OK, MessageBoxIcon.Hand)
-        End Try
+        saveCheckedListBox(ModuleScripts, Ssh.Files.ModuleChecklist)
     End Sub
 
     Private Sub SaveLinkScripts() Handles LinkScripts.LostFocus
-        Try
-            saveCheckedListBox(LinkScripts, Ssh.Files.LinkChecklist)
-        Catch ex As Exception
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-            '                                            All Errors
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-            Log.WriteError(ex.Message, ex, "Error on saving checkstate")
-            MessageBox.Show(ex.Message, "Error on saving checkstate", MessageBoxButtons.OK, MessageBoxIcon.Hand)
-        End Try
+        saveCheckedListBox(LinkScripts, Ssh.Files.LinkChecklist)
     End Sub
 
     Private Sub SaveEndScripts() Handles CLBEndList.LostFocus
-        Try
-            saveCheckedListBox(CLBEndList, Ssh.Files.EndChecklist)
-        Catch ex As Exception
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-            '                                            All Errors
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-            Log.WriteError(ex.Message, ex, "Error on saving checkstate")
-            MessageBox.Show(ex.Message, "Error on saving checkstate", MessageBoxButtons.OK, MessageBoxIcon.Hand)
-        End Try
+        saveCheckedListBox(CLBEndList, Ssh.Files.EndChecklist)
     End Sub
 
     Public Sub ScriptsStartTab_VisibleChanged() Handles ScriptsStartTab.VisibleChanged
@@ -1825,7 +2041,7 @@ Public Class FrmSettings
         End Try
     End Sub
 
-    Private Sub BtnScriptsOpen_Click(sender As System.Object, e As System.EventArgs) Handles BTNScriptOpen.Click
+    Private Sub BtnScriptsOpen_Click(sender As Object, e As EventArgs) Handles BTNScriptOpen.Click
         Dim Filepath As String = ""
         Try
             If StartScripts.Visible = True Then
@@ -1852,7 +2068,7 @@ Public Class FrmSettings
         End Try
     End Sub
 
-    Private Sub BtnScriptsSelectAutomated_Click(sender As System.Object, e As System.EventArgs) Handles BTNScriptAvailable.Click, BTNScriptNone.Click, BTNScriptAll.Click
+    Private Sub BtnScriptsSelectAutomated_Click(sender As Object, e As EventArgs) Handles BTNScriptAvailable.Click, BTNScriptNone.Click, BTNScriptAll.Click
         ' Lock Buttons to prevent double trigger
         BTNScriptAvailable.Enabled = False
         BTNScriptNone.Enabled = False
@@ -2236,7 +2452,7 @@ Public Class FrmSettings
 
 #Region "----------------------------------------- Glitter ----------------------------------------------"
 
-    Private Sub GlitterAV_Click_1(sender As System.Object, e As System.EventArgs) Handles GlitterAV.Click
+    Private Sub GlitterAV_Click_1(sender As Object, e As EventArgs) Handles GlitterAV.Click
         If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
             Try
                 GlitterAV.Image.Dispose()
@@ -2248,7 +2464,7 @@ Public Class FrmSettings
             My.Settings.GlitterAV = OpenFileDialog1.FileName
         End If
     End Sub
-    Private Sub GlitterAV1_Click(sender As System.Object, e As System.EventArgs) Handles GlitterAV1.Click
+    Private Sub GlitterAV1_Click(sender As Object, e As EventArgs) Handles GlitterAV1.Click
         If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
             Try
                 GlitterAV1.Image.Dispose()
@@ -2260,7 +2476,7 @@ Public Class FrmSettings
             My.Settings.GlitterAV1 = OpenFileDialog1.FileName
         End If
     End Sub
-    Private Sub GlitterAV2_Click(sender As System.Object, e As System.EventArgs) Handles GlitterAV2.Click
+    Private Sub GlitterAV2_Click(sender As Object, e As EventArgs) Handles GlitterAV2.Click
         If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
             Try
                 GlitterAV2.Image.Dispose()
@@ -2272,7 +2488,7 @@ Public Class FrmSettings
             My.Settings.GlitterAV2 = OpenFileDialog1.FileName
         End If
     End Sub
-    Private Sub GlitterAV3_Click(sender As System.Object, e As System.EventArgs) Handles GlitterAV3.Click
+    Private Sub GlitterAV3_Click(sender As Object, e As EventArgs) Handles GlitterAV3.Click
         If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
             Try
                 GlitterAV3.Image.Dispose()
@@ -2286,28 +2502,28 @@ Public Class FrmSettings
     End Sub
 
 
-    Private Sub BTNDomImageDir_Click(sender As System.Object, e As System.EventArgs) Handles BTNDomImageDir.Click
+    Private Sub BTNDomImageDir_Click(sender As Object, e As EventArgs) Handles BTNDomImageDir.Click
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             My.Settings.DomImageDir = FolderBrowserDialog1.SelectedPath
             My.Application.Session.SlideshowMain = New ContactData(ContactType.Domme)
         End If
     End Sub
 
-    Private Sub BtnContact1ImageDir_Click(sender As System.Object, e As System.EventArgs) Handles BtnContact1ImageDir.Click
+    Private Sub BtnContact1ImageDir_Click(sender As Object, e As EventArgs) Handles BtnContact1ImageDir.Click
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             My.Settings.Contact1ImageDir = FolderBrowserDialog1.SelectedPath
             My.Application.Session.SlideshowContact1 = New ContactData(ContactType.Contact1)
         End If
     End Sub
 
-    Private Sub BtnContact2ImageDir_Click(sender As System.Object, e As System.EventArgs) Handles BtnContact2ImageDir.Click
+    Private Sub BtnContact2ImageDir_Click(sender As Object, e As EventArgs) Handles BtnContact2ImageDir.Click
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             My.Settings.Contact2ImageDir = FolderBrowserDialog1.SelectedPath
             My.Application.Session.SlideshowContact2 = New ContactData(ContactType.Contact2)
         End If
     End Sub
 
-    Private Sub BtnContact3ImageDir_Click(sender As System.Object, e As System.EventArgs) Handles BtnContact3ImageDir.Click
+    Private Sub BtnContact3ImageDir_Click(sender As Object, e As EventArgs) Handles BtnContact3ImageDir.Click
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             My.Settings.Contact3ImageDir = FolderBrowserDialog1.SelectedPath
             My.Application.Session.SlideshowContact3 = New ContactData(ContactType.Contact3)
@@ -2315,28 +2531,28 @@ Public Class FrmSettings
     End Sub
 
 
-    Private Sub Button35_Click(sender As System.Object, e As System.EventArgs) Handles BTNGlitterD.Click
+    Private Sub Button35_Click(sender As Object, e As EventArgs) Handles BTNGlitterD.Click
         If GetColor.ShowDialog() = DialogResult.OK Then
             LBLGlitterNCDomme.ForeColor = GetColor.Color
         End If
     End Sub
-    Private Sub Button27_Click(sender As System.Object, e As System.EventArgs) Handles BTNGlitter1.Click
+    Private Sub Button27_Click(sender As Object, e As EventArgs) Handles BTNGlitter1.Click
         If GetColor.ShowDialog() = DialogResult.OK Then
             LBLGlitterNC1.ForeColor = GetColor.Color
         End If
     End Sub
-    Private Sub Button4_Click_3(sender As System.Object, e As System.EventArgs) Handles BTNGlitter2.Click
+    Private Sub Button4_Click_3(sender As Object, e As EventArgs) Handles BTNGlitter2.Click
         If GetColor.ShowDialog() = DialogResult.OK Then
             LBLGlitterNC2.ForeColor = GetColor.Color
         End If
     End Sub
-    Private Sub Button26_Click(sender As System.Object, e As System.EventArgs) Handles BTNGlitter3.Click
+    Private Sub Button26_Click(sender As Object, e As EventArgs) Handles BTNGlitter3.Click
         If GetColor.ShowDialog() = DialogResult.OK Then
             LBLGlitterNC3.ForeColor = GetColor.Color
         End If
     End Sub
 
-    Private Sub CBGlitterFeed_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles CBGlitterFeed.Click, CBGlitterFeedScripts.Click, CBGlitterFeedOff.Click
+    Private Sub CBGlitterFeed_CheckedChanged(sender As Object, e As EventArgs) Handles CBGlitterFeed.Click, CBGlitterFeedScripts.Click, CBGlitterFeedOff.Click
         If MainWindow.FormLoading = False Then
             ' In order to prevent wrong values, we have to change the DataSourceUpdateMode.
             ' Since the Designer will reset this value, we have to undo this changes.
@@ -2359,93 +2575,22 @@ Public Class FrmSettings
         End If
     End Sub
 
-    Private Sub BTNGlitterD_MouseHover(sender As Object, e As System.EventArgs) Handles BTNGlitterD.MouseHover
-        TTDir.SetToolTip(BTNGlitterD, "This button allows you to change the color of the domme's name as it appears in the Glitter app." & Environment.NewLine &
-                                      "A preview will appear in the text box below this button once a color has been selected.")
-    End Sub
-    Private Sub GlitterAV_MouseHover(sender As Object, e As System.EventArgs) Handles GlitterAV.MouseHover
-        TTDir.SetToolTip(GlitterAV, "Click here to set the image the domme will use as her Glitter avatar.")
-    End Sub
-    Private Sub LBLGlitterNCDomme_Click(sender As System.Object, e As System.EventArgs) Handles LBLGlitterNCDomme.MouseHover, LBLGlitterNC1.MouseHover, LBLGlitterNC2.MouseHover, LBLGlitterNC3.MouseHover
-        TTDir.SetToolTip(sender, "After clicking the ""Choose Name Color"" button above, a preview of the selected color will appear here.")
-    End Sub
-    Private Sub TBGlitterShortName_MouseHover(sender As System.Object, e As System.EventArgs) Handles TBGlitterShortName.MouseHover
-        TTDir.SetToolTip(TBGlitterShortName, "This is the name that the domme's contacts will refer to her as in the Glitter feed.")
-    End Sub
-    Private Sub CBTease_MouseHover(sender As Object, e As System.EventArgs) Handles CBTease.MouseHover
-        TTDir.SetToolTip(CBTease, "When this box is checked, the domme will make posts referencing your ongoing teasing and denial.")
-    End Sub
-    Private Sub CBEgotist_MouseHover(sender As Object, e As System.EventArgs) Handles CBEgotist.MouseHover
-        TTDir.SetToolTip(CBEgotist, "When this box is checked, the domme will make self-centered posts stating how amazing she is.")
-    End Sub
-    Private Sub CBTrivia_MouseHover(sender As Object, e As System.EventArgs) Handles CBTrivia.MouseHover
-        TTDir.SetToolTip(CBTrivia, "When this box is checked, the domme will make posts containing quotes or general trivia.")
-    End Sub
-    Private Sub CBDaily_MouseHover(sender As Object, e As System.EventArgs) Handles CBDaily.MouseHover
-        TTDir.SetToolTip(CBDaily, "When this box is checked, the domme will make mundane posts about her day.")
-    End Sub
-    Private Sub CBCustom1_MouseHover(sender As Object, e As System.EventArgs) Handles CBCustom1.MouseHover
-        TTDir.SetToolTip(CBCustom1, "When this box is checked, the domme will make posts taken from Custom 1" & Environment.NewLine &
-                                  "folder in the Glitter scripts directory for her personality style.")
-    End Sub
-    Private Sub CBCustom2_MouseHover(sender As Object, e As System.EventArgs) Handles CBCustom2.MouseHover
-        TTDir.SetToolTip(CBCustom2, "When this box is checked, the domme will make posts taken from Custom 2" & Environment.NewLine &
-                                  "folder in the Glitter scripts directory for her personality style.")
-    End Sub
-    Private Sub GlitterSlider_MouseHover(sender As Object, e As System.EventArgs) Handles GlitterSlider.MouseHover
-        TTDir.SetToolTip(GlitterSlider, "This slider determines how often the domme makes Glitter posts on her own." & Environment.NewLine &
-                                             "The further to the right the slider is, the more often she posts.")
-    End Sub
-    Private Sub LBLGlitterSlider_MouseHover(sender As Object, e As System.EventArgs) Handles LBLGlitterSlider.MouseHover
-        TTDir.SetToolTip(LBLGlitterSlider, "This slider determines how often the domme makes Glitter posts on her own." & Environment.NewLine &
-                                             "The further to the right the slider is, the more often she posts.")
-    End Sub
-
-    Private Sub TBGlitter1_MouseHover(sender As Object, e As System.EventArgs) Handles TBGlitter1.MouseHover, TBGlitter2.MouseHover, TBGlitter3.MouseHover
-        TTDir.SetToolTip(sender, "This will be the name of this contact as it appears in the Glitter feed.")
-    End Sub
-    Private Sub GlitterSlider1_MouseHover(sender As Object, e As System.EventArgs) Handles GlitterSlider1.MouseHover, GlitterSlider2.MouseHover, GlitterSlider3.MouseHover, LBLGlitterSlider1.MouseHover, LBLGlitterSlider2.MouseHover, LBLGlitterSlider3.MouseHover
-        TTDir.SetToolTip(sender, "This slider determines how often this contact responds to the domme's Glitter posts." & Environment.NewLine &
-                                         "The further to the right the slider is, the more often she responds.")
-    End Sub
-    Private Sub GlitterAV1_MouseHover(sender As Object, e As System.EventArgs) Handles GlitterAV1.MouseHover, GlitterAV2.MouseHover, GlitterAV3.MouseHover
-        TTDir.SetToolTip(sender, "Click here to set the image that this contact will use as her Glitter avatar.")
-    End Sub
-    Private Sub CBGlitter1_MouseHover(sender As Object, e As System.EventArgs) Handles CBGlitter1.MouseHover, CBGlitter2.MouseHover, CBGlitter3.MouseHover
-        TTDir.SetToolTip(sender, "This check box enables this contact's participation in the Glitter feed.")
-    End Sub
-    Private Sub BTNGlitter1_MouseHover(sender As Object, e As System.EventArgs) Handles BTNGlitter1.MouseHover, BTNGlitter2.MouseHover, BTNGlitter3.MouseHover
-        TTDir.SetToolTip(sender, "This button allows you to change the color of this contact's name as it appears in the Glitter app.")
-    End Sub
-
-    Private Sub LBLContact1ImageDir_MouseHover(sender As Object, e As System.EventArgs) Handles TbxContact1ImageDir.MouseHover, TbxContact2ImageDir.MouseHover, TbxContact3ImageDir.MouseHover, TbxDomImageDir.MouseHover
-        TTDir.SetToolTip(sender, CType(sender, TextBox).Text)
-    End Sub
-
-    Private Sub Button2_MouseHover(sender As System.Object, e As System.EventArgs) Handles BtnContact1ImageDir.MouseHover, BtnContact2ImageDir.MouseHover, BtnContact3ImageDir.MouseHover
-
-        If RBEnglish.Checked = True Then TTDir.SetToolTip(sender, "Use this button to select a directory containing several image" & Environment.NewLine &
-"set folders of the same model you're using as your contact.")
-        If RBGerman.Checked = True Then TTDir.SetToolTip(sender, "Benutze diese Schaltfläche um einen Ordner zu wählen, welcher mehre" & Environment.NewLine &
-"Bildersets von dem selben Model enthält, die du als Kontakt benutzt.")
-    End Sub
-
-    Private Sub BtnContact1ImageDirClear_Click(sender As System.Object, e As System.EventArgs) Handles BtnContact1ImageDirClear.Click
+    Private Sub BtnContact1ImageDirClear_Click(sender As Object, e As EventArgs) Handles BtnContact1ImageDirClear.Click
         My.Settings.ResetField(TbxContact1ImageDir, "Text")
         My.Application.Session.SlideshowContact1 = New ContactData()
     End Sub
 
-    Private Sub BtnContact2ImageDirClear_Click(sender As System.Object, e As System.EventArgs) Handles BtnContact2ImageDirClear.Click
+    Private Sub BtnContact2ImageDirClear_Click(sender As Object, e As EventArgs) Handles BtnContact2ImageDirClear.Click
         My.Settings.ResetField(TbxContact2ImageDir, "Text")
         My.Application.Session.SlideshowContact2 = New ContactData()
     End Sub
 
-    Private Sub BtnContact3ImageDirClear_Click(sender As System.Object, e As System.EventArgs) Handles BtnContact3ImageDirClear.Click
+    Private Sub BtnContact3ImageDirClear_Click(sender As Object, e As EventArgs) Handles BtnContact3ImageDirClear.Click
         My.Settings.ResetField(TbxContact3ImageDir, "Text")
         My.Application.Session.SlideshowContact3 = New ContactData()
     End Sub
 
-    Private Sub Button16_Click(sender As System.Object, e As System.EventArgs) Handles Button16.Click
+    Private Sub Button16_Click(sender As Object, e As EventArgs) Handles Button16.Click
 
         SaveSettingsDialog.Title = "Select a location to save current Glitter settings"
         SaveSettingsDialog.InitialDirectory = Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\System\"
@@ -2511,7 +2656,7 @@ Public Class FrmSettings
 
     End Sub
 
-    Private Sub Button15_Click(sender As System.Object, e As System.EventArgs) Handles Button15.Click
+    Private Sub Button15_Click(sender As Object, e As EventArgs) Handles Button15.Click
         'ISSUE: Loading a corrupted textfile results in half loaded Glitter settings.
         OpenSettingsDialog.Title = "Select a Glitter settings file"
         OpenSettingsDialog.InitialDirectory = Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\System\"
@@ -2722,7 +2867,7 @@ Public Class FrmSettings
         End Try
     End Sub
 
-    Private Sub CardPictureboxes_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles _
+    Private Sub CardPictureboxes_DragEnter(ByVal sender As Object, ByVal e As Windows.Forms.DragEventArgs) Handles _
                                         BP1.DragEnter, BP2.DragEnter, BP3.DragEnter, BP4.DragEnter, BP5.DragEnter, BP6.DragEnter,
                                         SP1.DragEnter, SP2.DragEnter, SP3.DragEnter, SP4.DragEnter, SP5.DragEnter, SP6.DragEnter,
                                         GP1.DragEnter, GP2.DragEnter, GP3.DragEnter, GP4.DragEnter, GP5.DragEnter, GP6.DragEnter,
@@ -2732,7 +2877,7 @@ Public Class FrmSettings
         End If
     End Sub
 
-    Private Sub CardPictureboxes_DragDrop(sender As Object, e As System.Windows.Forms.DragEventArgs) Handles _
+    Private Sub CardPictureboxes_DragDrop(sender As Object, e As Windows.Forms.DragEventArgs) Handles _
                                         BP1.DragDrop, BP2.DragDrop, BP3.DragDrop, BP4.DragDrop, BP5.DragDrop, BP6.DragDrop,
                                         SP1.DragDrop, SP2.DragDrop, SP3.DragDrop, SP4.DragDrop, SP5.DragDrop, SP6.DragDrop,
                                         GP1.DragDrop, GP2.DragDrop, GP3.DragDrop, GP4.DragDrop, GP5.DragDrop, GP6.DragDrop,
@@ -2740,7 +2885,7 @@ Public Class FrmSettings
         CardImageSet(CType(sender, PictureBox), CType(e.Data.GetData(DataFormats.FileDrop), Array).GetValue(0))
     End Sub
 
-    Private Sub CardPictureboxes_Click(sender As System.Object, e As System.EventArgs) Handles _
+    Private Sub CardPictureboxes_Click(sender As Object, e As EventArgs) Handles _
                                         BP1.Click, BP2.Click, BP3.Click, BP4.Click, BP5.Click, BP6.Click,
                                         SP1.Click, SP2.Click, SP3.Click, SP4.Click, SP5.Click, SP6.Click,
                                         GP1.Click, GP2.Click, GP3.Click, GP4.Click, GP5.Click, GP6.Click,
@@ -2771,13 +2916,13 @@ Public Class FrmSettings
 
 #Region "-------------------------------------- URL Files -----------------------------------------------"
 
-    Private Sub Button57_Click(sender As System.Object, e As System.EventArgs) Handles BTNWIBrowse.Click
+    Private Sub Button57_Click(sender As Object, e As EventArgs) Handles BTNWIBrowse.Click
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             TBWIDirectory.Text = FolderBrowserDialog1.SelectedPath
         End If
     End Sub
 
-    Private Sub CBWISaveToDisk_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles CBWISaveToDisk.CheckedChanged
+    Private Sub CBWISaveToDisk_CheckedChanged(sender As Object, e As EventArgs) Handles CBWISaveToDisk.CheckedChanged
 
         If CBWISaveToDisk.Checked = True Then
             If Not Directory.Exists(TBWIDirectory.Text) Then
@@ -2789,19 +2934,19 @@ Public Class FrmSettings
 
     End Sub
 
-    Private Sub BTNWIAddandContinue_Click(sender As System.Object, e As System.EventArgs) Handles BTNWIAddandContinue.Click
+    Private Sub BTNWIAddandContinue_Click(sender As Object, e As EventArgs) Handles BTNWIAddandContinue.Click
         ApproveImage = 1
     End Sub
 
-    Private Sub BTNWIContinue_Click(sender As System.Object, e As System.EventArgs) Handles BTNWIContinue.Click
+    Private Sub BTNWIContinue_Click(sender As Object, e As EventArgs) Handles BTNWIContinue.Click
         ApproveImage = 2
     End Sub
 
-    Private Sub BTNCancel_Click(sender As System.Object, e As System.EventArgs) Handles BTNWICancel.Click
+    Private Sub BTNCancel_Click(sender As Object, e As EventArgs) Handles BTNWICancel.Click
         If BWURLFiles.IsBusy Then BWURLFiles.CancelAsync()
     End Sub
 
-    Private Sub BTNWIRemove_Click(sender As System.Object, e As System.EventArgs) Handles BTNWIRemove.Click
+    Private Sub BTNWIRemove_Click(sender As Object, e As EventArgs) Handles BTNWIRemove.Click
 
 
         WebImageLines.Remove(WebImageLines(WebImageLine))
@@ -2837,7 +2982,7 @@ Public Class FrmSettings
 
     End Sub
 
-    Private Sub BTNWILiked_Click(sender As System.Object, e As System.EventArgs) Handles BTNWILiked.Click
+    Private Sub BTNWILiked_Click(sender As Object, e As EventArgs) Handles BTNWILiked.Click
 
 
         If File.Exists(Application.StartupPath & "\Images\System\LikedImageURLs.txt") Then
@@ -2849,7 +2994,7 @@ Public Class FrmSettings
 
     End Sub
 
-    Private Sub BTNWIDisliked_Click(sender As System.Object, e As System.EventArgs) Handles BTNWIDisliked.Click
+    Private Sub BTNWIDisliked_Click(sender As Object, e As EventArgs) Handles BTNWIDisliked.Click
 
         If File.Exists(Application.StartupPath & "\Images\System\DislikedImageURLs.txt") Then
             My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Images\System\DislikedImageURLs.txt", Environment.NewLine & WebImageLines(WebImageLine), True)
@@ -2859,7 +3004,7 @@ Public Class FrmSettings
 
     End Sub
 
-    Private Sub WebPictureBox_MouseWheel(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles WebPictureBox.MouseWheel
+    Private Sub WebPictureBox_MouseWheel(sender As Object, e As Windows.Forms.MouseEventArgs) Handles WebPictureBox.MouseWheel
 
         Select Case e.Delta
             Case -120 'Scrolling down
@@ -2902,12 +3047,12 @@ Public Class FrmSettings
 
     End Sub
 
-    Private Sub PictureBox1_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles WebPictureBox.MouseEnter
+    Private Sub PictureBox1_MouseEnter(ByVal sender As Object, ByVal e As EventArgs) Handles WebPictureBox.MouseEnter
         WebPictureBox.Focus()
     End Sub
 
 
-    Private Sub Button36_Click(sender As System.Object, e As System.EventArgs) Handles BTNWIOpenURL.Click
+    Private Sub Button36_Click(sender As Object, e As EventArgs) Handles BTNWIOpenURL.Click
 
         WebImageFileDialog.InitialDirectory = Application.StartupPath & "\Images\System\URL Files"
 
@@ -2961,7 +3106,7 @@ Public Class FrmSettings
     End Sub
 
 
-    Private Sub Button35_Click_2(sender As System.Object, e As System.EventArgs) Handles BTNWINext.Click
+    Private Sub Button35_Click_2(sender As Object, e As EventArgs) Handles BTNWINext.Click
 
 TryNextImage:
 
@@ -2991,7 +3136,7 @@ TryNextImage:
 
     End Sub
 
-    Private Sub Button18_Click_2(sender As System.Object, e As System.EventArgs) Handles BTNWIPrevious.Click
+    Private Sub Button18_Click_2(sender As Object, e As EventArgs) Handles BTNWIPrevious.Click
 
 trypreviousimage:
 
@@ -3019,7 +3164,7 @@ trypreviousimage:
 
     End Sub
 
-    Private Sub Button37_Click(sender As System.Object, e As System.EventArgs) Handles BTNWISave.Click
+    Private Sub Button37_Click(sender As Object, e As EventArgs) Handles BTNWISave.Click
 
         If WebPictureBox.Image Is Nothing Then
             MsgBox("Nothing to save!", , "Error!")
@@ -3064,7 +3209,7 @@ trypreviousimage:
 
     End Sub
 
-    Private Sub Button38_Click(sender As System.Object, e As System.EventArgs) Handles BTNWICreateURL.Click,
+    Private Sub Button38_Click(sender As Object, e As EventArgs) Handles BTNWICreateURL.Click,
                                                                                        BTNMaintenanceRefresh.Click,
                                                                                        BTNMaintenanceRebuild.Click
         ' Group Buttons by inital-State.
@@ -3468,7 +3613,7 @@ checkFolder:
 
 #Region "------------------------------------- Softcore Images -------------------------------------------"
 
-    Private Sub BTNISoftcore_Click(sender As System.Object, e As System.EventArgs) Handles BTNISoftcore.Click
+    Private Sub BTNISoftcore_Click(sender As Object, e As EventArgs) Handles BTNISoftcore.Click
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             My.Settings.ISoftcore = FolderBrowserDialog1.SelectedPath
             ImagesSoftcore_CheckFolder()
@@ -3499,7 +3644,7 @@ checkFolder:
 
 #Region "------------------------------------- Lesbian Images --------------------------------------------"
 
-    Private Sub BTNILesbian_Click(sender As System.Object, e As System.EventArgs) Handles BTNILesbian.Click
+    Private Sub BTNILesbian_Click(sender As Object, e As EventArgs) Handles BTNILesbian.Click
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             My.Settings.ILesbian = FolderBrowserDialog1.SelectedPath
             ImagesLesbian_CheckFolder()
@@ -3530,7 +3675,7 @@ checkFolder:
 
 #Region "------------------------------------- Blowjob Images --------------------------------------------"
 
-    Private Sub BTNIBlowjob_Click(sender As System.Object, e As System.EventArgs) Handles BTNIBlowjob.Click
+    Private Sub BTNIBlowjob_Click(sender As Object, e As EventArgs) Handles BTNIBlowjob.Click
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             My.Settings.IBlowjob = FolderBrowserDialog1.SelectedPath
             ImagesBlowjob_CheckFolder()
@@ -3561,7 +3706,7 @@ checkFolder:
 
 #Region "------------------------------------- Femdom Images ---------------------------------------------"
 
-    Private Sub BTNIFemdom_Click(sender As System.Object, e As System.EventArgs) Handles BTNIFemdom.Click
+    Private Sub BTNIFemdom_Click(sender As Object, e As EventArgs) Handles BTNIFemdom.Click
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             My.Settings.IFemdom = FolderBrowserDialog1.SelectedPath
             ImagesFemdom_CheckFolder()
@@ -3592,7 +3737,7 @@ checkFolder:
 
 #Region "------------------------------------- Lezdom Images ---------------------------------------------"
 
-    Private Sub BTNILezdom_Click(sender As System.Object, e As System.EventArgs) Handles BTNILezdom.Click
+    Private Sub BTNILezdom_Click(sender As Object, e As EventArgs) Handles BTNILezdom.Click
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             My.Settings.ILezdom = FolderBrowserDialog1.SelectedPath
             ImagesLezdom_CheckFolder()
@@ -3623,7 +3768,7 @@ checkFolder:
 
 #Region "------------------------------------- Hentai Images ---------------------------------------------"
 
-    Private Sub BTNIHentai_Click(sender As System.Object, e As System.EventArgs) Handles BTNIHentai.Click
+    Private Sub BTNIHentai_Click(sender As Object, e As EventArgs) Handles BTNIHentai.Click
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             My.Settings.IHentai = FolderBrowserDialog1.SelectedPath
             ImagesHentai_CheckFolder()
@@ -3654,7 +3799,7 @@ checkFolder:
 
 #Region "------------------------------------- Gay Images ------------------------------------------------"
 
-    Private Sub BTNIGay_Click(sender As System.Object, e As System.EventArgs) Handles BTNIGay.Click
+    Private Sub BTNIGay_Click(sender As Object, e As EventArgs) Handles BTNIGay.Click
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             My.Settings.IGay = FolderBrowserDialog1.SelectedPath
             ImagesGay_CheckFolder()
@@ -3685,7 +3830,7 @@ checkFolder:
 
 #Region "------------------------------------- Maledom Images ---------------------------------------------"
 
-    Private Sub BTNIMaledom_Click(sender As System.Object, e As System.EventArgs) Handles BTNIMaledom.Click
+    Private Sub BTNIMaledom_Click(sender As Object, e As EventArgs) Handles BTNIMaledom.Click
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             My.Settings.IMaledom = FolderBrowserDialog1.SelectedPath
             ImagesMaledom_CheckFolder()
@@ -3716,7 +3861,7 @@ checkFolder:
 
 #Region "------------------------------------- General Images ---------------------------------------------"
 
-    Private Sub BTNIGeneral_Click(sender As System.Object, e As System.EventArgs) Handles BTNIGeneral.Click
+    Private Sub BTNIGeneral_Click(sender As Object, e As EventArgs) Handles BTNIGeneral.Click
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             My.Settings.IGeneral = FolderBrowserDialog1.SelectedPath
             ImagesGeneral_CheckFolder()
@@ -3747,7 +3892,7 @@ checkFolder:
 
 #Region "------------------------------------- Captions Images ---------------------------------------------"
 
-    Private Sub BTNICaptions_Click(sender As System.Object, e As System.EventArgs) Handles BTNICaptions.Click
+    Private Sub BTNICaptions_Click(sender As Object, e As EventArgs) Handles BTNICaptions.Click
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             My.Settings.ICaptions = FolderBrowserDialog1.SelectedPath
             ImagesCaptions_CheckFolder()
@@ -3778,7 +3923,7 @@ checkFolder:
 
 #Region "------------------------------------- Boobs Images ----------------------------------------------"
 
-    Private Sub BTNBoobPath_Click(sender As System.Object, e As System.EventArgs) Handles BTNBoobPath.Click
+    Private Sub BTNBoobPath_Click(sender As Object, e As EventArgs) Handles BTNBoobPath.Click
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             My.Settings.LBLBoobPath = FolderBrowserDialog1.SelectedPath
             ImagesBoobs_CheckFolder()
@@ -3809,7 +3954,7 @@ checkFolder:
 
 #Region "------------------------------------- Butts Images ----------------------------------------------"
 
-    Private Sub BTNButtPath_Click(sender As System.Object, e As System.EventArgs) Handles BTNButtPath.Click
+    Private Sub BTNButtPath_Click(sender As Object, e As EventArgs) Handles BTNButtPath.Click
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             My.Settings.LBLButtPath = FolderBrowserDialog1.SelectedPath
             ImagesButts_CheckFolder()
@@ -3839,95 +3984,53 @@ checkFolder:
 #End Region ' Butt
 
 
-    Private Sub LBLIHardcore_Click(sender As System.Object, e As System.EventArgs) Handles TbxIHardcore.DoubleClick
+    Private Sub LBLIHardcore_Click(sender As Object, e As EventArgs) Handles TbxIHardcore.DoubleClick
         TbxIHardcore.Text = "No path selected"
     End Sub
 
-    Private Sub LBLISoftcore_Click(sender As System.Object, e As System.EventArgs) Handles TbxISoftcore.DoubleClick
+    Private Sub LBLISoftcore_Click(sender As Object, e As EventArgs) Handles TbxISoftcore.DoubleClick
         TbxISoftcore.Text = "No path selected"
     End Sub
 
-    Private Sub LBLILesbian_Click(sender As System.Object, e As System.EventArgs) Handles TbxILesbian.DoubleClick
+    Private Sub LBLILesbian_Click(sender As Object, e As EventArgs) Handles TbxILesbian.DoubleClick
         TbxILesbian.Text = "No path selected"
     End Sub
 
-    Private Sub LBLIBlowjob_Click(sender As System.Object, e As System.EventArgs) Handles TbxIBlowjob.DoubleClick
+    Private Sub LBLIBlowjob_Click(sender As Object, e As EventArgs) Handles TbxIBlowjob.DoubleClick
         TbxIBlowjob.Text = "No path selected"
     End Sub
 
-    Private Sub LBLIFemdom_Click(sender As System.Object, e As System.EventArgs) Handles TbxIFemdom.DoubleClick
+    Private Sub LBLIFemdom_Click(sender As Object, e As EventArgs) Handles TbxIFemdom.DoubleClick
         TbxIFemdom.Text = "No path selected"
     End Sub
 
-    Private Sub LBLILezdom_Click(sender As System.Object, e As System.EventArgs) Handles TbxILezdom.DoubleClick
+    Private Sub LBLILezdom_Click(sender As Object, e As EventArgs) Handles TbxILezdom.DoubleClick
         TbxILezdom.Text = "No path selected"
     End Sub
 
-    Private Sub LBLIHentai_Click(sender As System.Object, e As System.EventArgs) Handles TbxIHentai.DoubleClick
+    Private Sub LBLIHentai_Click(sender As Object, e As EventArgs) Handles TbxIHentai.DoubleClick
         TbxIHentai.Text = "No path selected"
     End Sub
 
-    Private Sub LBLIGay_Click(sender As System.Object, e As System.EventArgs) Handles TbxIGay.DoubleClick
+    Private Sub LBLIGay_Click(sender As Object, e As EventArgs) Handles TbxIGay.DoubleClick
         TbxIGay.Text = "No path selected"
     End Sub
 
-    Private Sub LBLIMaledom_Click(sender As System.Object, e As System.EventArgs) Handles TbxIMaledom.DoubleClick
+    Private Sub LBLIMaledom_Click(sender As Object, e As EventArgs) Handles TbxIMaledom.DoubleClick
         TbxIMaledom.Text = "No path selected"
     End Sub
 
-    Private Sub LBLICaptions_Click(sender As System.Object, e As System.EventArgs) Handles TbxICaptions.DoubleClick
+    Private Sub LBLICaptions_Click(sender As Object, e As EventArgs) Handles TbxICaptions.DoubleClick
         TbxICaptions.Text = "No path selected"
     End Sub
 
-    Private Sub LBLIGeneral_Click(sender As System.Object, e As System.EventArgs) Handles TbxIGeneral.DoubleClick
+    Private Sub LBLIGeneral_Click(sender As Object, e As EventArgs) Handles TbxIGeneral.DoubleClick
         TbxIGeneral.Text = "No path selected"
-    End Sub
-
-    Private Sub LBLIHardcore_MouseHover(sender As Object, e As System.EventArgs) Handles TbxIHardcore.MouseHover
-        TTDir.SetToolTip(TbxIHardcore, TbxIHardcore.Text)
-    End Sub
-    Private Sub LBLISoftcore_MouseHover(sender As Object, e As System.EventArgs) Handles TbxISoftcore.MouseHover
-        TTDir.SetToolTip(TbxISoftcore, TbxISoftcore.Text)
-    End Sub
-    Private Sub LBLILesbian_MouseHover(sender As Object, e As System.EventArgs) Handles TbxILesbian.MouseHover
-        TTDir.SetToolTip(TbxILesbian, TbxILesbian.Text)
-    End Sub
-    Private Sub LBLIBlowjob_MouseHover(sender As Object, e As System.EventArgs) Handles TbxIBlowjob.MouseHover
-        TTDir.SetToolTip(TbxIBlowjob, TbxIBlowjob.Text)
-    End Sub
-    Private Sub LBLIFemdom_MouseHover(sender As Object, e As System.EventArgs) Handles TbxIFemdom.MouseHover
-        TTDir.SetToolTip(TbxIFemdom, TbxIFemdom.Text)
-    End Sub
-    Private Sub LBLILezdom_MouseHover(sender As Object, e As System.EventArgs) Handles TbxILezdom.MouseHover
-        TTDir.SetToolTip(TbxILezdom, TbxILezdom.Text)
-    End Sub
-    Private Sub LBLIHentai_MouseHover(sender As Object, e As System.EventArgs) Handles TbxIHentai.MouseHover
-        TTDir.SetToolTip(TbxIHentai, TbxIHentai.Text)
-    End Sub
-    Private Sub LBLIGay_MouseHover(sender As Object, e As System.EventArgs) Handles TbxIGay.MouseHover
-        TTDir.SetToolTip(TbxIGay, TbxIGay.Text)
-    End Sub
-    Private Sub LBLIMaledom_MouseHover(sender As Object, e As System.EventArgs) Handles TbxIMaledom.MouseHover
-        TTDir.SetToolTip(TbxIMaledom, TbxIMaledom.Text)
-    End Sub
-    Private Sub LBLICaptions_MouseHover(sender As Object, e As System.EventArgs) Handles TbxICaptions.MouseHover
-        TTDir.SetToolTip(TbxICaptions, TbxICaptions.Text)
-    End Sub
-    Private Sub LBLIGeneral_MouseHover(sender As Object, e As System.EventArgs) Handles TbxIGeneral.MouseHover
-        TTDir.SetToolTip(TbxIGeneral, TbxIGeneral.Text)
-    End Sub
-
-    Private Sub LBLBoobPath_MouseHover(sender As Object, e As System.EventArgs) Handles TbxIBoobs.MouseHover
-        TTDir.SetToolTip(TbxIBoobs, TbxIBoobs.Text)
-    End Sub
-
-    Private Sub LBLButtPath_MouseHover(sender As Object, e As System.EventArgs) Handles TbxIButts.MouseHover
-        TTDir.SetToolTip(TbxIButts, TbxIButts.Text)
     End Sub
 
 #Region "----------------------------------- GenreImages-Url-Files --------------------------------------"
 
-    Private Sub BtnImageUrlSetFile_Click(sender As System.Object, e As System.EventArgs) Handles BtnImageUrlHardcore.Click,
+    Private Sub BtnImageUrlSetFile_Click(sender As Object, e As EventArgs) Handles BtnImageUrlHardcore.Click,
                     BtnImageUrlSoftcore.Click, BtnImageUrlMaledom.Click, BtnImageUrlLezdom.Click, BtnImageUrlLesbian.Click,
                     BtnImageUrlHentai.Click, BtnImageUrlGeneral.Click, BtnImageUrlGay.Click, BtnImageUrlFemdom.Click,
                     BtnImageUrlCaptions.Click, BtnImageUrlButt.Click, BtnImageUrlBoobs.Click, BtnImageUrlBlowjob.Click
@@ -4063,25 +4166,11 @@ checkFolder:
 
         Return t
     End Function
-
-    Private Sub TxbVideoFolder_MouseHover(sender As Object, e As System.EventArgs) Handles TxbVideoHardCore.MouseHover,
-                TxbVideoHardCoreD.MouseHover, TxbVideoSoftCore.MouseHover, TxbVideoSoftCoreD.MouseHover, TxbVideoLesbian.MouseHover,
-                TxbVideoLesbianD.MouseHover, TxbVideoBlowjob.MouseHover, TxbVideoBlowjobD.MouseHover, TxbVideoFemdom.MouseHover,
-                TxbVideoFemdomD.MouseHover, TxbVideoFemsub.MouseHover, TxbVideoFemsubD.MouseHover, TxbVideoJOI.MouseHover,
-                TxbVideoJOID.MouseHover, TxbVideoCH.MouseHover, TxbVideoCHD.MouseHover, TxbVideoGeneral.MouseHover, TxbVideoGeneralD.MouseHover
-
-        TTDir.SetToolTip(sender, CType(sender, TextBox).Text)
-    End Sub
-
-    Private Sub BTNRefreshVideos_MouseHover(sender As Object, e As System.EventArgs) Handles BTNRefreshVideos.MouseHover
-        TTDir.SetToolTip(BTNRefreshVideos, "Use this button to refresh video paths.")
-    End Sub
-
 #Region "----------------------------------------- Regular -----------------------------------------------"
 
 #Region "------------------------------------- Hardcore Videos -------------------------------------------"
 
-    Private Sub BTNVideoHardCore_Click(sender As System.Object, e As System.EventArgs) Handles BTNVideoHardCore.Click
+    Private Sub BTNVideoHardCore_Click(sender As Object, e As EventArgs) Handles BTNVideoHardCore.Click
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             My.Settings.VideoHardcore = FolderBrowserDialog1.SelectedPath
             My.Settings.CBHardcore = True
@@ -4110,7 +4199,7 @@ checkFolder:
 
 #Region "------------------------------------- Softcore Videos -------------------------------------------"
 
-    Private Sub BTNVideoSoftCore_Click(sender As System.Object, e As System.EventArgs) Handles BTNVideoSoftCore.Click
+    Private Sub BTNVideoSoftCore_Click(sender As Object, e As EventArgs) Handles BTNVideoSoftCore.Click
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             My.Settings.VideoSoftcore = FolderBrowserDialog1.SelectedPath
             My.Settings.CBSoftcore = True
@@ -4139,7 +4228,7 @@ checkFolder:
 
 #Region "------------------------------------- Lesbian Videos --------------------------------------------"
 
-    Private Sub BTNVideoLesbian_Click(sender As System.Object, e As System.EventArgs) Handles BTNVideoLesbian.Click
+    Private Sub BTNVideoLesbian_Click(sender As Object, e As EventArgs) Handles BTNVideoLesbian.Click
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             My.Settings.VideoLesbian = FolderBrowserDialog1.SelectedPath
             My.Settings.CBLesbian = True
@@ -4168,7 +4257,7 @@ checkFolder:
 
 #Region "------------------------------------- Blowjob Videos --------------------------------------------"
 
-    Private Sub BTNVideoBlowjob_Click(sender As System.Object, e As System.EventArgs) Handles BTNVideoBlowjob.Click
+    Private Sub BTNVideoBlowjob_Click(sender As Object, e As EventArgs) Handles BTNVideoBlowjob.Click
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             My.Settings.VideoBlowjob = FolderBrowserDialog1.SelectedPath
             My.Settings.CBBlowjob = True
@@ -4197,7 +4286,7 @@ checkFolder:
 
 #Region "---------------------------------------- Femdom -------------------------------------------------"
 
-    Private Sub BTNVideoFemDom_Click(sender As System.Object, e As System.EventArgs) Handles BTNVideoFemDom.Click
+    Private Sub BTNVideoFemDom_Click(sender As Object, e As EventArgs) Handles BTNVideoFemDom.Click
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             My.Settings.VideoFemdom = FolderBrowserDialog1.SelectedPath
             My.Settings.CBFemdom = True
@@ -4226,7 +4315,7 @@ checkFolder:
 
 #Region "------------------------------------- Femsub Videos ---------------------------------------------"
 
-    Private Sub BTNVideoFemSub_Click(sender As System.Object, e As System.EventArgs) Handles BTNVideoFemSub.Click
+    Private Sub BTNVideoFemSub_Click(sender As Object, e As EventArgs) Handles BTNVideoFemSub.Click
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             My.Settings.VideoFemsub = FolderBrowserDialog1.SelectedPath
             My.Settings.CBFemsub = True
@@ -4255,7 +4344,7 @@ checkFolder:
 
 #Region "------------------------------------- JOI Videos ------------------------------------------------"
 
-    Private Sub BTNVideoJOI_Click(sender As System.Object, e As System.EventArgs) Handles BTNVideoJOI.Click
+    Private Sub BTNVideoJOI_Click(sender As Object, e As EventArgs) Handles BTNVideoJOI.Click
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             My.Settings.VideoJOI = FolderBrowserDialog1.SelectedPath
             My.Settings.CBJOI = True
@@ -4284,7 +4373,7 @@ checkFolder:
 
 #Region "------------------------------------- CH Videos -------------------------------------------------"
 
-    Private Sub BTNVideoCH_Click(sender As System.Object, e As System.EventArgs) Handles BTNVideoCH.Click
+    Private Sub BTNVideoCH_Click(sender As Object, e As EventArgs) Handles BTNVideoCH.Click
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             My.Settings.VideoCH = FolderBrowserDialog1.SelectedPath
             My.Settings.CBCH = True
@@ -4313,7 +4402,7 @@ checkFolder:
 
 #Region "------------------------------------- General Videos --------------------------------------------"
 
-    Private Sub BTNVideoGeneral_Click(sender As System.Object, e As System.EventArgs) Handles BTNVideoGeneral.Click
+    Private Sub BTNVideoGeneral_Click(sender As Object, e As EventArgs) Handles BTNVideoGeneral.Click
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             My.Settings.VideoGeneral = FolderBrowserDialog1.SelectedPath
             My.Settings.CBGeneral = True
@@ -4346,7 +4435,7 @@ checkFolder:
 
 #Region "---------------------------------------- HardcoreD ----------------------------------------------"
 
-    Private Sub BTNVideoHardcoreD_Click(sender As System.Object, e As System.EventArgs) Handles BTNVideoHardCoreD.Click
+    Private Sub BTNVideoHardcoreD_Click(sender As Object, e As EventArgs) Handles BTNVideoHardCoreD.Click
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             My.Settings.VideoHardcoreD = FolderBrowserDialog1.SelectedPath
             My.Settings.CBHardcoreD = True
@@ -4375,7 +4464,7 @@ checkFolder:
 
 #Region "---------------------------------------- SoftcoreD ----------------------------------------------"
 
-    Private Sub BTNVideoSoftcoreD_Click(sender As System.Object, e As System.EventArgs) Handles BTNVideoSoftCoreD.Click
+    Private Sub BTNVideoSoftcoreD_Click(sender As Object, e As EventArgs) Handles BTNVideoSoftCoreD.Click
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             My.Settings.VideoSoftcoreD = FolderBrowserDialog1.SelectedPath
             My.Settings.CBSoftcoreD = True
@@ -4404,7 +4493,7 @@ checkFolder:
 
 #Region "---------------------------------------- LesbianD -----------------------------------------------"
 
-    Private Sub BTNVideoLesbianD_Click(sender As System.Object, e As System.EventArgs) Handles BTNVideoLesbianD.Click
+    Private Sub BTNVideoLesbianD_Click(sender As Object, e As EventArgs) Handles BTNVideoLesbianD.Click
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             My.Settings.VideoLesbianD = FolderBrowserDialog1.SelectedPath
             My.Settings.CBLesbianD = True
@@ -4433,7 +4522,7 @@ checkFolder:
 
 #Region "---------------------------------------- BlowjobD -----------------------------------------------"
 
-    Private Sub BTNVideoBlowjobD_Click(sender As System.Object, e As System.EventArgs) Handles BTNVideoBlowjobD.Click
+    Private Sub BTNVideoBlowjobD_Click(sender As Object, e As EventArgs) Handles BTNVideoBlowjobD.Click
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             My.Settings.VideoBlowjobD = FolderBrowserDialog1.SelectedPath
             My.Settings.CBBlowjobD = True
@@ -4462,7 +4551,7 @@ checkFolder:
 
 #Region "---------------------------------------- FemdomD ------------------------------------------------"
 
-    Private Sub BTNVideoFemdomD_Click(sender As System.Object, e As System.EventArgs) Handles BTNVideoFemDomD.Click
+    Private Sub BTNVideoFemdomD_Click(sender As Object, e As EventArgs) Handles BTNVideoFemDomD.Click
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             My.Settings.VideoFemdomD = FolderBrowserDialog1.SelectedPath
             My.Settings.CBFemdomD = True
@@ -4491,7 +4580,7 @@ checkFolder:
 
 #Region "---------------------------------------- FemsubD ------------------------------------------------"
 
-    Private Sub BTNVideoFemsubD_Click(sender As System.Object, e As System.EventArgs) Handles BTNVideoFemSubD.Click
+    Private Sub BTNVideoFemsubD_Click(sender As Object, e As EventArgs) Handles BTNVideoFemSubD.Click
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             My.Settings.VideoFemsubD = FolderBrowserDialog1.SelectedPath
             My.Settings.CBFemsubD = True
@@ -4520,7 +4609,7 @@ checkFolder:
 
 #Region "---------------------------------------- JOI-D --------------------------------------------------"
 
-    Private Sub BTNVideoJOID_Click(sender As System.Object, e As System.EventArgs) Handles BTNVideoJOID.Click
+    Private Sub BTNVideoJOID_Click(sender As Object, e As EventArgs) Handles BTNVideoJOID.Click
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             My.Settings.VideoJOID = FolderBrowserDialog1.SelectedPath
             My.Settings.CBJOID = True
@@ -4549,7 +4638,7 @@ checkFolder:
 
 #Region "---------------------------------------- CH-D ---------------------------------------------------"
 
-    Private Sub BTNVideoCHD_Click(sender As System.Object, e As System.EventArgs) Handles BTNVideoCHD.Click
+    Private Sub BTNVideoCHD_Click(sender As Object, e As EventArgs) Handles BTNVideoCHD.Click
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             My.Settings.VideoCHD = FolderBrowserDialog1.SelectedPath
             My.Settings.CBCHD = True
@@ -4578,7 +4667,7 @@ checkFolder:
 
 #Region "---------------------------------------- GeneralD -----------------------------------------------"
 
-    Private Sub BTNVideoGeneralD_Click(sender As System.Object, e As System.EventArgs) Handles BTNVideoGeneralD.Click
+    Private Sub BTNVideoGeneralD_Click(sender As Object, e As EventArgs) Handles BTNVideoGeneralD.Click
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             My.Settings.VideoGeneralD = FolderBrowserDialog1.SelectedPath
             My.Settings.CBGeneralD = True
@@ -4607,7 +4696,7 @@ checkFolder:
 
 #End Region ' Domme
 
-    Private Sub BTNRefreshVideos_Click(sender As System.Object, e As System.EventArgs) Handles BTNRefreshVideos.Click
+    Private Sub BTNRefreshVideos_Click(sender As Object, e As EventArgs) Handles BTNRefreshVideos.Click
         VideoDescriptionLabel.Text = "Refresh complete: " & Video_CheckAllFolders() & " videos found!"
         VideoDescriptionLabel.Text = VideoDescriptionLabel.Text.Replace(": 1 videos", ": 1 video")
     End Sub
@@ -4615,7 +4704,7 @@ checkFolder:
 #End Region ' Videos
 
 
-    Private Sub ComboBox1_DrawItem(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DrawItemEventArgs) Handles SubMessageFontCB.DrawItem
+    Private Sub ComboBox1_DrawItem(ByVal sender As Object, ByVal e As Windows.Forms.DrawItemEventArgs) Handles SubMessageFontCB.DrawItem
         e.DrawBackground()
         If (e.State And DrawItemState.Focus) <> 0 Then
             e.DrawFocusRectangle()
@@ -4642,7 +4731,7 @@ checkFolder:
         End Try
     End Sub
 
-    Private Sub ComboBox1D_DrawItem(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DrawItemEventArgs) Handles DommeMessageFontCB.DrawItem
+    Private Sub ComboBox1D_DrawItem(ByVal sender As Object, ByVal e As Windows.Forms.DrawItemEventArgs) Handles DommeMessageFontCB.DrawItem
         e.DrawBackground()
         If (e.State And DrawItemState.Focus) <> 0 Then
             e.DrawFocusRectangle()
@@ -4669,28 +4758,28 @@ checkFolder:
         End Try
     End Sub
 
-    Private Sub CockSizeNumBox_LostFocus(sender As System.Object, e As System.EventArgs) Handles CockSizeNumBox.LostFocus
+    Private Sub CockSizeNumBox_LostFocus(sender As Object, e As EventArgs) Handles CockSizeNumBox.LostFocus
         My.Settings.SubCockSize = CockSizeNumBox.Value
     End Sub
 
-    Private Sub NBCensorShowMin_Leave(sender As System.Object, e As System.EventArgs) Handles NBCensorShowMin.Leave
+    Private Sub NBCensorShowMin_Leave(sender As Object, e As EventArgs) Handles NBCensorShowMin.Leave
         My.Settings.NBCensorShowMin = NBCensorShowMin.Value
         Debug.Print(My.Settings.NBCensorShowMin & " " & NBCensorShowMin.Value)
     End Sub
 
-    Private Sub NBCensorShowMax_Leave(sender As System.Object, e As System.EventArgs) Handles NBCensorShowMax.Leave
+    Private Sub NBCensorShowMax_Leave(sender As Object, e As EventArgs) Handles NBCensorShowMax.Leave
         My.Settings.NBCensorShowMax = NBCensorShowMax.Value
     End Sub
 
-    Private Sub NBCensorHideMin_Leave(sender As System.Object, e As System.EventArgs) Handles NBCensorHideMin.Leave
+    Private Sub NBCensorHideMin_Leave(sender As Object, e As EventArgs) Handles NBCensorHideMin.Leave
         My.Settings.NBCensorHideMin = NBCensorHideMin.Value
     End Sub
 
-    Private Sub NBCensorHideMax_Leave(sender As System.Object, e As System.EventArgs) Handles NBCensorHideMax.Leave
+    Private Sub NBCensorHideMax_Leave(sender As Object, e As EventArgs) Handles NBCensorHideMax.Leave
         My.Settings.NBCensorHideMax = NBCensorHideMax.Value
     End Sub
 
-    Private Sub CBCensorConstant_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles CBCensorConstant.CheckedChanged
+    Private Sub CBCensorConstant_CheckedChanged(sender As Object, e As EventArgs) Handles CBCensorConstant.CheckedChanged
         If CBCensorConstant.Checked = True Then
             My.Settings.CBCensorConstant = True
         Else
@@ -4702,69 +4791,69 @@ checkFolder:
         Return "#" & MyColor.ToArgb().ToString("x").Substring(2).ToUpper
     End Function
 
-    Private Sub NBCensorShowMin_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBCensorShowMin.ValueChanged
+    Private Sub NBCensorShowMin_ValueChanged(sender As Object, e As EventArgs) Handles NBCensorShowMin.ValueChanged
         If NBCensorShowMin.Value > NBCensorShowMax.Value Then NBCensorShowMin.Value = NBCensorShowMax.Value
     End Sub
 
-    Private Sub NBCensorShowMax_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBCensorShowMax.ValueChanged
+    Private Sub NBCensorShowMax_ValueChanged(sender As Object, e As EventArgs) Handles NBCensorShowMax.ValueChanged
         If NBCensorShowMax.Value < NBCensorShowMin.Value Then NBCensorShowMax.Value = NBCensorShowMin.Value
     End Sub
 
-    Private Sub NBTeaseLengthMin_LostFocus(sender As Object, e As System.EventArgs) Handles NBTeaseLengthMin.LostFocus
+    Private Sub NBTeaseLengthMin_LostFocus(sender As Object, e As EventArgs) Handles NBTeaseLengthMin.LostFocus
         My.Settings.TeaseLengthMin = NBTeaseLengthMin.Value
     End Sub
 
-    Private Sub NBTeaseLengthMax_LostFocus(sender As Object, e As System.EventArgs) Handles NBTeaseLengthMax.LostFocus
+    Private Sub NBTeaseLengthMax_LostFocus(sender As Object, e As EventArgs) Handles NBTeaseLengthMax.LostFocus
         My.Settings.TeaseLengthMax = NBTeaseLengthMax.Value
     End Sub
 
-    Private Sub NBTauntCycleMin_LostFocus(sender As Object, e As System.EventArgs) Handles NBTauntCycleMin.LostFocus
+    Private Sub NBTauntCycleMin_LostFocus(sender As Object, e As EventArgs) Handles NBTauntCycleMin.LostFocus
         My.Settings.TauntCycleMin = NBTauntCycleMin.Value
     End Sub
 
-    Private Sub NBTauntCycleMax_LostFocus(sender As Object, e As System.EventArgs) Handles NBTauntCycleMax.LostFocus
+    Private Sub NBTauntCycleMax_LostFocus(sender As Object, e As EventArgs) Handles NBTauntCycleMax.LostFocus
         My.Settings.TauntCycleMax = NBTauntCycleMax.Value
     End Sub
-    Private Sub NBRedLightMin_LostFocus(sender As Object, e As System.EventArgs) Handles NBRedLightMin.LostFocus
+    Private Sub NBRedLightMin_LostFocus(sender As Object, e As EventArgs) Handles NBRedLightMin.LostFocus
         My.Settings.RedLightMin = NBRedLightMin.Value
     End Sub
 
-    Private Sub NBRedLightMax_LostFocus(sender As Object, e As System.EventArgs) Handles NBRedLightMax.LostFocus
+    Private Sub NBRedLightMax_LostFocus(sender As Object, e As EventArgs) Handles NBRedLightMax.LostFocus
         My.Settings.RedLightMax = NBRedLightMax.Value
     End Sub
-    Private Sub NBGreenLightMin_LostFocus(sender As Object, e As System.EventArgs) Handles NBGreenLightMin.LostFocus
+    Private Sub NBGreenLightMin_LostFocus(sender As Object, e As EventArgs) Handles NBGreenLightMin.LostFocus
         My.Settings.GreenLightMin = NBGreenLightMin.Value
     End Sub
 
-    Private Sub NBGreenLightMax_LostFocus(sender As Object, e As System.EventArgs) Handles NBGreenLightMax.LostFocus
+    Private Sub NBGreenLightMax_LostFocus(sender As Object, e As EventArgs) Handles NBGreenLightMax.LostFocus
         My.Settings.GreenLightMax = NBGreenLightMax.Value
     End Sub
 
-    Private Sub NBTeaseLengthMin_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBTeaseLengthMin.ValueChanged
+    Private Sub NBTeaseLengthMin_ValueChanged(sender As Object, e As EventArgs) Handles NBTeaseLengthMin.ValueChanged
         If NBTeaseLengthMin.Value > NBTeaseLengthMax.Value Then NBTeaseLengthMin.Value = NBTeaseLengthMax.Value
     End Sub
 
-    Private Sub NBTeaseLengthMax_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBTeaseLengthMax.ValueChanged
+    Private Sub NBTeaseLengthMax_ValueChanged(sender As Object, e As EventArgs) Handles NBTeaseLengthMax.ValueChanged
         If NBTeaseLengthMax.Value < NBTeaseLengthMin.Value Then NBTeaseLengthMax.Value = NBTeaseLengthMin.Value
     End Sub
 
-    Private Sub NBTauntCycleMin_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBTauntCycleMin.ValueChanged
+    Private Sub NBTauntCycleMin_ValueChanged(sender As Object, e As EventArgs) Handles NBTauntCycleMin.ValueChanged
         If NBTauntCycleMin.Value > NBTauntCycleMax.Value Then NBTauntCycleMin.Value = NBTauntCycleMax.Value
     End Sub
 
-    Private Sub NBTauntCycleMax_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBTauntCycleMax.ValueChanged
+    Private Sub NBTauntCycleMax_ValueChanged(sender As Object, e As EventArgs) Handles NBTauntCycleMax.ValueChanged
         If NBTauntCycleMax.Value < NBTauntCycleMin.Value Then NBTauntCycleMax.Value = NBTauntCycleMin.Value
     End Sub
 
-    Private Sub NBCensorHideMin_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBCensorHideMin.ValueChanged
+    Private Sub NBCensorHideMin_ValueChanged(sender As Object, e As EventArgs) Handles NBCensorHideMin.ValueChanged
         If NBCensorHideMin.Value > NBCensorHideMax.Value Then NBCensorHideMin.Value = NBCensorHideMax.Value
     End Sub
 
-    Private Sub NBCensorHideMax_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBCensorHideMax.ValueChanged
+    Private Sub NBCensorHideMax_ValueChanged(sender As Object, e As EventArgs) Handles NBCensorHideMax.ValueChanged
         If NBCensorHideMax.Value < NBCensorHideMin.Value Then NBCensorHideMax.Value = NBCensorHideMin.Value
     End Sub
 
-    Private Sub Button26_Click_1(sender As System.Object, e As System.EventArgs) Handles BTNVideoModLoad.Click
+    Private Sub Button26_Click_1(sender As Object, e As EventArgs) Handles BTNVideoModLoad.Click
 
         Dim CensorText As String = "NULL"
 
@@ -4821,11 +4910,11 @@ checkFolder:
 
     End Sub
 
-    Private Sub RTBVideoMod_TextChanged(sender As System.Object, e As System.EventArgs) Handles RTBVideoMod.TextChanged
+    Private Sub RTBVideoMod_TextChanged(sender As Object, e As EventArgs) Handles RTBVideoMod.TextChanged
         BTNVideoModSave.Enabled = True
     End Sub
 
-    Private Sub BTNVideoModClear_Click(sender As System.Object, e As System.EventArgs) Handles BTNVideoModClear.Click
+    Private Sub BTNVideoModClear_Click(sender As Object, e As EventArgs) Handles BTNVideoModClear.Click
         BTNVideoModClear.Enabled = False
         BTNVideoModLoad.Enabled = True
         CBVTType.Enabled = True
@@ -4835,7 +4924,7 @@ checkFolder:
         LBVidScript.Enabled = True
     End Sub
 
-    Private Sub BTNVideoModSave_Click(sender As System.Object, e As System.EventArgs) Handles BTNVideoModSave.Click
+    Private Sub BTNVideoModSave_Click(sender As Object, e As EventArgs) Handles BTNVideoModSave.Click
 
 
 
@@ -4877,7 +4966,7 @@ checkFolder:
 
     End Sub
 
-    Private Sub Button26_Click_2(sender As System.Object, e As System.EventArgs) Handles Button26.Click
+    Private Sub Button26_Click_2(sender As Object, e As EventArgs) Handles Button26.Click
         TBGlitModFileName.Text = ""
         RTBGlitModDommePost.Text = ""
         RTBGlitModResponses.Text = ""
@@ -4885,7 +4974,7 @@ checkFolder:
 
     End Sub
 
-    Private Sub CBGlitModType_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles CBGlitModType.SelectedIndexChanged
+    Private Sub CBGlitModType_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CBGlitModType.SelectedIndexChanged
 
         If MainWindow.FormLoading = False Then
 
@@ -4906,7 +4995,7 @@ checkFolder:
         End If
     End Sub
 
-    Private Sub LBGlitModScripts_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles LBGlitModScripts.SelectedIndexChanged
+    Private Sub LBGlitModScripts_SelectedIndexChanged(sender As Object, e As EventArgs) Handles LBGlitModScripts.SelectedIndexChanged
 
         Dim GlitPath As String = Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Apps\Glitter\" & CBGlitModType.Text & "\" & LBGlitModScripts.SelectedItem & ".txt"
 
@@ -4957,7 +5046,7 @@ checkFolder:
 
     End Sub
 
-    Private Sub Button29_Click(sender As System.Object, e As System.EventArgs) Handles Button29.Click
+    Private Sub Button29_Click(sender As Object, e As EventArgs) Handles Button29.Click
 
         If TBGlitModFileName.Text = "" Or RTBGlitModDommePost.Text = "" Or RTBGlitModResponses.Text = "" Then
             MsgBox("Please make sure all fields have been filled out!", , "Error!")
@@ -5022,7 +5111,7 @@ checkFolder:
         SaveURLFileSelection()
     End Sub
 
-    Private Sub SliderSTF_Scroll(sender As System.Object, e As System.EventArgs) Handles SliderSTF.Scroll
+    Private Sub SliderSTF_Scroll(sender As Object, e As EventArgs) Handles SliderSTF.Scroll
         If SliderSTF.Value = 1 Then LBLStf.Text = "Preoccupied"
         If SliderSTF.Value = 2 Then LBLStf.Text = "Distracted"
         If SliderSTF.Value = 3 Then LBLStf.Text = "Normal"
@@ -5031,7 +5120,7 @@ checkFolder:
 
     End Sub
 
-    Private Sub TauntSlider_Scroll(sender As System.Object, e As System.EventArgs) Handles TauntSlider.Scroll
+    Private Sub TauntSlider_Scroll(sender As Object, e As EventArgs) Handles TauntSlider.Scroll
         If TauntSlider.Value = 1 Then LBLVtf.Text = "Preoccupied"
         If TauntSlider.Value = 2 Or TauntSlider.Value = 3 Then LBLVtf.Text = "Distracted"
         If TauntSlider.Value = 4 Or TauntSlider.Value = 5 Then LBLVtf.Text = "Normal"
@@ -5041,33 +5130,33 @@ checkFolder:
     End Sub
 
 #Region "Lost focus / save values"
-    Private Sub TauntSlider_LostFocus(sender As System.Object, e As System.EventArgs) Handles TauntSlider.LostFocus
+    Private Sub TauntSlider_LostFocus(sender As Object, e As EventArgs) Handles TauntSlider.LostFocus
         My.Settings.TimerVTF = TauntSlider.Value
 
     End Sub
 
-    Private Sub SliderSTF_LostFocus(sender As System.Object, e As System.EventArgs) Handles SliderSTF.LostFocus
+    Private Sub SliderSTF_LostFocus(sender As Object, e As EventArgs) Handles SliderSTF.LostFocus
         My.Settings.TimerSTF = SliderSTF.Value
 
     End Sub
 
-    Private Sub NBWritingTaskMin_LostFocus(sender As Object, e As System.EventArgs) Handles NBWritingTaskMin.LostFocus
+    Private Sub NBWritingTaskMin_LostFocus(sender As Object, e As EventArgs) Handles NBWritingTaskMin.LostFocus
         My.Settings.NBWritingTaskMin = NBWritingTaskMin.Value
     End Sub
 
-    Private Sub NBWritingTaskMin_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBWritingTaskMin.ValueChanged
+    Private Sub NBWritingTaskMin_ValueChanged(sender As Object, e As EventArgs) Handles NBWritingTaskMin.ValueChanged
         If NBWritingTaskMin.Value > NBWritingTaskMax.Value Then NBWritingTaskMin.Value = NBWritingTaskMax.Value
     End Sub
 
-    Private Sub NBWritingTaskMax_LostFocus(sender As Object, e As System.EventArgs) Handles NBWritingTaskMax.LostFocus
+    Private Sub NBWritingTaskMax_LostFocus(sender As Object, e As EventArgs) Handles NBWritingTaskMax.LostFocus
         My.Settings.NBWritingTaskMax = NBWritingTaskMax.Value
     End Sub
 
-    Private Sub NBWritingTaskMax_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBWritingTaskMax.ValueChanged
+    Private Sub NBWritingTaskMax_ValueChanged(sender As Object, e As EventArgs) Handles NBWritingTaskMax.ValueChanged
         If NBWritingTaskMax.Value < NBWritingTaskMin.Value Then NBWritingTaskMax.Value = NBWritingTaskMin.Value
     End Sub
 
-    Private Sub BTNTagDir_Click(sender As System.Object, e As System.EventArgs) Handles BTNTagDir.Click
+    Private Sub BTNTagDir_Click(sender As Object, e As EventArgs) Handles BTNTagDir.Click
 
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
 
@@ -5164,7 +5253,7 @@ checkFolder:
 
     End Sub
 
-    Private Sub TBTagDir_KeyPress(sender As Object, e As System.Windows.Forms.KeyPressEventArgs) Handles TBTagDir.KeyPress
+    Private Sub TBTagDir_KeyPress(sender As Object, e As Windows.Forms.KeyPressEventArgs) Handles TBTagDir.KeyPress
 
         If e.KeyChar = Convert.ToChar(13) Then
 
@@ -5274,7 +5363,7 @@ checkFolder:
 
     End Sub
 
-    Private Sub BTNTagSave_Click(sender As System.Object, e As System.EventArgs) Handles BTNTagSave.Click
+    Private Sub BTNTagSave_Click(sender As Object, e As EventArgs) Handles BTNTagSave.Click
 
         SaveDommeTags()
 
@@ -5371,7 +5460,7 @@ checkFolder:
 
     End Sub
 
-    Private Sub BTNTagNext_Click(sender As System.Object, e As System.EventArgs) Handles BTNTagNext.Click
+    Private Sub BTNTagNext_Click(sender As Object, e As EventArgs) Handles BTNTagNext.Click
 
         TagCount += 1
         LBLTagCount.Text = TagCount & "/" & ImageTagDir.Count
@@ -5405,7 +5494,7 @@ checkFolder:
 
     End Sub
 
-    Private Sub BTNTagPrevious_Click(sender As System.Object, e As System.EventArgs) Handles BTNTagPrevious.Click
+    Private Sub BTNTagPrevious_Click(sender As Object, e As EventArgs) Handles BTNTagPrevious.Click
 
         TagCount -= 1
         LBLTagCount.Text = TagCount & "/" & ImageTagDir.Count
@@ -5435,7 +5524,7 @@ checkFolder:
 
     End Sub
 
-    Private Sub Button50_Click(sender As System.Object, e As System.EventArgs) Handles Button50.Click
+    Private Sub Button50_Click(sender As Object, e As EventArgs) Handles Button50.Click
 
         TBKeyWords.Text = ""
         RTBKeyWords.Text = ""
@@ -5450,7 +5539,7 @@ checkFolder:
 
     End Sub
 
-    Private Sub LBKeyWords_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles LBKeyWords.SelectedIndexChanged
+    Private Sub LBKeyWords_SelectedIndexChanged(sender As Object, e As EventArgs) Handles LBKeyWords.SelectedIndexChanged
 
         Dim KeyWordPath As String = Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Vocabulary\" & LBKeyWords.SelectedItem & ".txt"
 
@@ -5497,7 +5586,7 @@ checkFolder:
 
     End Sub
 
-    Private Sub Button22_Click(sender As System.Object, e As System.EventArgs) Handles Button22.Click
+    Private Sub Button22_Click(sender As Object, e As EventArgs) Handles Button22.Click
 
         Try
             If TBKeyWords.Text = "" Or InStr(TBKeyWords.Text, "#") <> 1 Or Not TBKeyWords.Text.Substring(0, 1) = "#" Then
@@ -5538,24 +5627,24 @@ checkFolder:
 
     End Sub
 
-    Private Sub TBGreeting_LostFocus(sender As System.Object, e As System.EventArgs) Handles TBGreeting.LostFocus
+    Private Sub TBGreeting_LostFocus(sender As Object, e As EventArgs) Handles TBGreeting.LostFocus
         My.Settings.SubGreeting = TBGreeting.Text
     End Sub
 
-    Private Sub TBYes_LostFocus(sender As System.Object, e As System.EventArgs) Handles TBYes.LostFocus
+    Private Sub TBYes_LostFocus(sender As Object, e As EventArgs) Handles TBYes.LostFocus
         My.Settings.SubYes = TBYes.Text
     End Sub
 
-    Private Sub TBNo_LostFocus(sender As System.Object, e As System.EventArgs) Handles TBNo.LostFocus
+    Private Sub TBNo_LostFocus(sender As Object, e As EventArgs) Handles TBNo.LostFocus
         My.Settings.SubNo = TBNo.Text
     End Sub
 
-    Private Sub TBHonorific_LostFocus(sender As System.Object, e As System.EventArgs) Handles TBHonorific.LostFocus
+    Private Sub TBHonorific_LostFocus(sender As Object, e As EventArgs) Handles TBHonorific.LostFocus
         If TBHonorific.Text = "" Or TBHonorific.Text Is Nothing Then TBHonorific.Text = "Mistress"
         My.Settings.SubHonorific = TBHonorific.Text
     End Sub
 
-    Private Sub CBHonorificInclude_LostFocus(sender As System.Object, e As System.EventArgs) Handles CBHonorificInclude.LostFocus
+    Private Sub CBHonorificInclude_LostFocus(sender As Object, e As EventArgs) Handles CBHonorificInclude.LostFocus
         If CBHonorificInclude.Checked = True Then
             My.Settings.CBUseHonor = True
         Else
@@ -5563,7 +5652,7 @@ checkFolder:
         End If
     End Sub
 
-    Private Sub CBHonorificCapitalized_LostFocus(sender As System.Object, e As System.EventArgs) Handles CBHonorificCapitalized.LostFocus
+    Private Sub CBHonorificCapitalized_LostFocus(sender As Object, e As EventArgs) Handles CBHonorificCapitalized.LostFocus
         If CBHonorificCapitalized.Checked = True Then
             My.Settings.CBCapHonor = True
         Else
@@ -5571,42 +5660,42 @@ checkFolder:
         End If
     End Sub
 
-    Private Sub subAgeNumBox_LostFocus(sender As System.Object, e As System.EventArgs) Handles subAgeNumBox.LostFocus
+    Private Sub subAgeNumBox_LostFocus(sender As Object, e As EventArgs) Handles subAgeNumBox.LostFocus
         My.Settings.SubAge = subAgeNumBox.Value
     End Sub
 
-    Private Sub NBDomBirthdayMonth_LostFocus(sender As System.Object, e As System.EventArgs) Handles NBDomBirthdayMonth.LostFocus
+    Private Sub NBDomBirthdayMonth_LostFocus(sender As Object, e As EventArgs) Handles NBDomBirthdayMonth.LostFocus
         My.Settings.DomBirthMonth = NBDomBirthdayMonth.Value
     End Sub
 
-    Private Sub NBDomBirthdayDay_LostFocus(sender As System.Object, e As System.EventArgs) Handles NBDomBirthdayDay.LostFocus
+    Private Sub NBDomBirthdayDay_LostFocus(sender As Object, e As EventArgs) Handles NBDomBirthdayDay.LostFocus
         My.Settings.DomBirthDay = NBDomBirthdayDay.Value
     End Sub
 
-    Private Sub NBBirthdayMonth_LostFocus(sender As System.Object, e As System.EventArgs) Handles NBBirthdayMonth.LostFocus
+    Private Sub NBBirthdayMonth_LostFocus(sender As Object, e As EventArgs) Handles NBBirthdayMonth.LostFocus
         My.Settings.SubBirthMonth = NBBirthdayMonth.Value
     End Sub
 
-    Private Sub NBBirthdayDay_LostFocus(sender As System.Object, e As System.EventArgs) Handles NBBirthdayDay.LostFocus
+    Private Sub NBBirthdayDay_LostFocus(sender As Object, e As EventArgs) Handles NBBirthdayDay.LostFocus
         My.Settings.SubBirthDay = NBBirthdayDay.Value
     End Sub
 
-    Private Sub TBSubHairColor_LostFocus(sender As System.Object, e As System.EventArgs) Handles TBSubHairColor.LostFocus
+    Private Sub TBSubHairColor_LostFocus(sender As Object, e As EventArgs) Handles TBSubHairColor.LostFocus
         My.Settings.SubHair = TBSubHairColor.Text
     End Sub
 
-    Private Sub TBSubEyeColor_LostFocus(sender As System.Object, e As System.EventArgs) Handles TBSubEyeColor.LostFocus
+    Private Sub TBSubEyeColor_LostFocus(sender As Object, e As EventArgs) Handles TBSubEyeColor.LostFocus
         My.Settings.SubEyes = TBSubEyeColor.Text
     End Sub
 #End Region
 
-    Private Sub Button37_Click_1(sender As System.Object, e As System.EventArgs) Handles Button37.Click
+    Private Sub Button37_Click_1(sender As Object, e As EventArgs) Handles Button37.Click
         If TBKeywordPreview.Text = "" Then Return
 
         LBLKeywordPreview.Text = MainWindow.PoundClean(TBKeywordPreview.Text)
     End Sub
 
-    Private Sub NBBirthdayMonth_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBBirthdayMonth.MouseLeave
+    Private Sub NBBirthdayMonth_ValueChanged(sender As Object, e As EventArgs) Handles NBBirthdayMonth.MouseLeave
 
         If NBBirthdayMonth.Value = 2 And NBBirthdayDay.Value > 28 Then
             NBBirthdayDay.Value = 28
@@ -5627,7 +5716,7 @@ checkFolder:
 
     End Sub
 
-    Private Sub NBDomBirthdayMonth_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBDomBirthdayMonth.MouseLeave
+    Private Sub NBDomBirthdayMonth_ValueChanged(sender As Object, e As EventArgs) Handles NBDomBirthdayMonth.MouseLeave
 
         If NBDomBirthdayMonth.Value = 2 And NBDomBirthdayDay.Value > 28 Then
             NBDomBirthdayDay.Value = 28
@@ -5658,12 +5747,12 @@ checkFolder:
         Return InstrCount
     End Function
 
-    Private Sub TBTagDir_MouseClick(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles TBTagDir.MouseClick
+    Private Sub TBTagDir_MouseClick(sender As Object, e As Windows.Forms.MouseEventArgs) Handles TBTagDir.MouseClick
         TBTagDir.SelectionStart = 0
         TBTagDir.SelectionLength = Len(TBTagDir.Text)
     End Sub
 
-    Private Sub TBWIDirectory_MouseClick(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles TBWIDirectory.MouseClick
+    Private Sub TBWIDirectory_MouseClick(sender As Object, e As Windows.Forms.MouseEventArgs) Handles TBWIDirectory.MouseClick
         TBWIDirectory.SelectionStart = 0
         TBWIDirectory.SelectionLength = Len(TBWIDirectory.Text)
     End Sub
@@ -5681,11 +5770,11 @@ checkFolder:
         myBlogAccessor.SaveBlogMetaData(blogMetaData)
     End Sub
 
-    Private Sub URLFileList_LostFocus(sender As Object, e As System.EventArgs) Handles URLFileList.LostFocus
+    Private Sub URLFileList_LostFocus(sender As Object, e As EventArgs) Handles URLFileList.LostFocus
         SaveURLFileSelection()
     End Sub
 
-    Private Sub URLFileList_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles URLFileList.SelectedIndexChanged
+    Private Sub URLFileList_SelectedIndexChanged(sender As Object, e As EventArgs) Handles URLFileList.SelectedIndexChanged
         If CBURLPreview.Checked Then
             Dim blogMetaData = myBlogAccessor.GetBlogMetaData().First(Function(x) x.FileName.Equals(URLFileList.SelectedItem.ToString()))
             Dim imageMetaDatas = myBlogAccessor.GetImageMetaData(blogMetaData)
@@ -5762,7 +5851,7 @@ checkFolder:
         End If
     End Sub
 
-    Private Sub BTNLocalTagNext_Click(sender As System.Object, e As System.EventArgs) Handles BTNLocalTagNext.Click
+    Private Sub BTNLocalTagNext_Click(sender As Object, e As EventArgs) Handles BTNLocalTagNext.Click
 
         LocalTagCount += 1
         LBLLocalTagCount.Text = LocalTagCount & "/" & LocalImageTagDir.Count
@@ -6505,19 +6594,19 @@ checkFolder:
 
     End Sub
 
-    Private Sub NBLongEdge_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBLongEdge.LostFocus
+    Private Sub NBLongEdge_ValueChanged(sender As Object, e As EventArgs) Handles NBLongEdge.LostFocus
         My.Settings.LongEdge = NBLongEdge.Value
     End Sub
 
-    Private Sub NBHoldTheEdgeMax_LostFocus(sender As Object, e As System.EventArgs) Handles HoldEdgeMaximum.LostFocus
+    Private Sub NBHoldTheEdgeMax_LostFocus(sender As Object, e As EventArgs) Handles HoldEdgeMaximum.LostFocus
         mySettingsAccessor.HoldEdgeMaximum = ConvertHoldTime(HoldEdgeMaximum.Value, LBLMaxHold.Text)
     End Sub
 
-    Private Sub NBHoldTheEdgeMin_LostFocus(sender As Object, e As System.EventArgs) Handles HoldEdgeMinimum.LostFocus
+    Private Sub NBHoldTheEdgeMin_LostFocus(sender As Object, e As EventArgs) Handles HoldEdgeMinimum.LostFocus
         mySettingsAccessor.HoldEdgeMaximum = ConvertHoldTime(HoldEdgeMinimum.Value, HoldEdgeMinimumUnits.Text)
     End Sub
 
-    Private Sub NBHoldTheEdgeMax_ValueChanged(sender As System.Object, e As System.EventArgs) Handles HoldEdgeMaximum.ValueChanged
+    Private Sub NBHoldTheEdgeMax_ValueChanged(sender As Object, e As EventArgs) Handles HoldEdgeMaximum.ValueChanged
         If FrmSettingsLoading = False Then
 
             If HoldEdgeMaximum.Value = 0 And LBLMaxHold.Text = "minutes" Then
@@ -6534,7 +6623,7 @@ checkFolder:
         End If
     End Sub
 
-    Private Sub NBHoldTheEdgeMin_ValueChanged(sender As System.Object, e As System.EventArgs) Handles HoldEdgeMinimum.ValueChanged
+    Private Sub NBHoldTheEdgeMin_ValueChanged(sender As Object, e As EventArgs) Handles HoldEdgeMinimum.ValueChanged
         If FrmSettingsLoading = False Then
 
             If HoldEdgeMinimum.Value = 0 And HoldEdgeMinimumUnits.Text = "minutes" Then
@@ -6551,15 +6640,15 @@ checkFolder:
         End If
     End Sub
 
-    Private Sub NBLongHoldMax_LostFocus(sender As Object, e As System.EventArgs) Handles LongEdgeHoldMaximum.LostFocus
+    Private Sub NBLongHoldMax_LostFocus(sender As Object, e As EventArgs) Handles LongEdgeHoldMaximum.LostFocus
         My.Settings.LongHoldMax = LongEdgeHoldMaximum.Value
     End Sub
 
-    Private Sub NBLongHoldMin_LostFocus(sender As Object, e As System.EventArgs) Handles LongEdgeHoldMinimum.LostFocus
+    Private Sub NBLongHoldMin_LostFocus(sender As Object, e As EventArgs) Handles LongEdgeHoldMinimum.LostFocus
         My.Settings.LongHoldMin = LongEdgeHoldMinimum.Value
     End Sub
 
-    Private Sub NBLongHoldMax_ValueChanged(sender As System.Object, e As System.EventArgs) Handles LongEdgeHoldMaximum.ValueChanged
+    Private Sub NBLongHoldMax_ValueChanged(sender As Object, e As EventArgs) Handles LongEdgeHoldMaximum.ValueChanged
         If FrmSettingsLoading = False Then
             If LongEdgeHoldMaximum.Value = 1 Then
                 LBLMaxLongHold.Text = "minute"
@@ -6569,7 +6658,7 @@ checkFolder:
         End If
     End Sub
 
-    Private Sub NBLongHoldMin_ValueChanged(sender As System.Object, e As System.EventArgs) Handles LongEdgeHoldMinimum.ValueChanged
+    Private Sub NBLongHoldMin_ValueChanged(sender As Object, e As EventArgs) Handles LongEdgeHoldMinimum.ValueChanged
         If FrmSettingsLoading = False Then
             If LongEdgeHoldMinimum.Value = 1 Then
                 LBLMinLongHold.Text = "minute"
@@ -6579,15 +6668,15 @@ checkFolder:
         End If
     End Sub
 
-    Private Sub NBExtremeHoldMax_LostFocus(sender As Object, e As System.EventArgs) Handles ExtremeEdgeHoldMaximum.LostFocus
+    Private Sub NBExtremeHoldMax_LostFocus(sender As Object, e As EventArgs) Handles ExtremeEdgeHoldMaximum.LostFocus
         My.Settings.ExtremeHoldMax = ExtremeEdgeHoldMaximum.Value
     End Sub
 
-    Private Sub NBExtremeHoldMin_LostFocus(sender As Object, e As System.EventArgs) Handles ExtremeEdgeHoldMinimum.LostFocus
+    Private Sub NBExtremeHoldMin_LostFocus(sender As Object, e As EventArgs) Handles ExtremeEdgeHoldMinimum.LostFocus
         My.Settings.ExtremeHoldMin = ExtremeEdgeHoldMinimum.Value
     End Sub
 
-    Private Sub NBExtremeHoldMax_ValueChanged(sender As System.Object, e As System.EventArgs) Handles ExtremeEdgeHoldMaximum.ValueChanged
+    Private Sub NBExtremeHoldMax_ValueChanged(sender As Object, e As EventArgs) Handles ExtremeEdgeHoldMaximum.ValueChanged
         If FrmSettingsLoading = False Then
             If ExtremeEdgeHoldMaximum.Value = 1 Then
                 LBLMaxExtremeHold.Text = "minute"
@@ -6597,7 +6686,7 @@ checkFolder:
         End If
     End Sub
 
-    Private Sub NBExtremeHoldMin_ValueChanged(sender As System.Object, e As System.EventArgs) Handles ExtremeEdgeHoldMinimum.ValueChanged
+    Private Sub NBExtremeHoldMin_ValueChanged(sender As Object, e As EventArgs) Handles ExtremeEdgeHoldMinimum.ValueChanged
         If FrmSettingsLoading = False Then
             If ExtremeEdgeHoldMinimum.Value = 1 Then
                 LBLMinExtremeHold.Text = "minute"
@@ -6607,7 +6696,7 @@ checkFolder:
         End If
     End Sub
 
-    Private Sub CBTSlider_Scroll(sender As System.Object, e As System.EventArgs) Handles CockAndBallTortureLevelSlider.Scroll
+    Private Sub CBTSlider_Scroll(sender As Object, e As EventArgs) Handles CockAndBallTortureLevelSlider.Scroll
         If FrmSettingsLoading = False Then
             My.Settings.CBTSlider = CockAndBallTortureLevelSlider.Value
             If CockAndBallTortureLevelSlider.Value = 1 Then CockAndBallTortureLevelLbl.Text = "CBT Level: 1"
@@ -6618,7 +6707,7 @@ checkFolder:
         End If
     End Sub
 
-    Private Sub CBSubCircumcised_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles CBSubCircumcised.CheckedChanged
+    Private Sub CBSubCircumcised_CheckedChanged(sender As Object, e As EventArgs) Handles CBSubCircumcised.CheckedChanged
         If FrmSettingsLoading = False Then
             If CBSubCircumcised.Checked = True Then
                 My.Settings.SubCircumcised = True
@@ -6628,7 +6717,7 @@ checkFolder:
         End If
     End Sub
 
-    Private Sub CBSubPierced_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles CBSubPierced.CheckedChanged
+    Private Sub CBSubPierced_CheckedChanged(sender As Object, e As EventArgs) Handles CBSubPierced.CheckedChanged
         If FrmSettingsLoading = False Then
             If CBSubPierced.Checked = True Then
                 My.Settings.SubPierced = True
@@ -6638,7 +6727,7 @@ checkFolder:
         End If
     End Sub
 
-    Private Sub Button14_Click(sender As System.Object, e As System.EventArgs) Handles BTNSaveDomSet.Click
+    Private Sub Button14_Click(sender As Object, e As EventArgs) Handles BTNSaveDomSet.Click
 
         SaveSettingsDialog.Title = "Select a location to save current Domme settings"
         SaveSettingsDialog.InitialDirectory = Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\System\"
@@ -6716,7 +6805,7 @@ checkFolder:
 
     End Sub
 
-    Private Sub Button12_Click(sender As System.Object, e As System.EventArgs) Handles BTNLoadDomSet.Click
+    Private Sub Button12_Click(sender As Object, e As EventArgs) Handles BTNLoadDomSet.Click
 
         OpenSettingsDialog.Title = "Select a Domme settings file"
         OpenSettingsDialog.InitialDirectory = Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\System\"
@@ -6917,7 +7006,7 @@ checkFolder:
 
     End Sub
 
-    Private Sub BTNLocalTagPrevious_Click(sender As System.Object, e As System.EventArgs) Handles BTNLocalTagPrevious.Click
+    Private Sub BTNLocalTagPrevious_Click(sender As Object, e As EventArgs) Handles BTNLocalTagPrevious.Click
 
         LocalTagCount -= 1
         LBLLocalTagCount.Text = LocalTagCount & "/" & LocalImageTagDir.Count
@@ -6935,7 +7024,7 @@ checkFolder:
 
     End Sub
 
-    Private Sub BTNLocalTagSave_Click(sender As System.Object, e As System.EventArgs) Handles BTNLocalTagSave.Click
+    Private Sub BTNLocalTagSave_Click(sender As Object, e As EventArgs) Handles BTNLocalTagSave.Click
 
         SetLocalImageTags()
 
@@ -6955,7 +7044,7 @@ checkFolder:
 
     End Sub
 
-    Private Sub TBLocalTagDir_KeyPress(sender As Object, e As System.Windows.Forms.KeyPressEventArgs) Handles TBLocalTagDir.KeyPress
+    Private Sub TBLocalTagDir_KeyPress(sender As Object, e As Windows.Forms.KeyPressEventArgs) Handles TBLocalTagDir.KeyPress
 
         If e.KeyChar = Convert.ToChar(13) Then
 
@@ -7025,7 +7114,7 @@ checkFolder:
 
     End Sub
 
-    Private Sub CBRangeOrgasm_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles DommeDecideOrgasmCB.CheckedChanged
+    Private Sub CBRangeOrgasm_CheckedChanged(sender As Object, e As EventArgs) Handles DommeDecideOrgasmCB.CheckedChanged
         If DommeDecideOrgasmCB.Checked = False Then
             AllowOrgasmOftenNB.Enabled = True
             NBAllowSometimes.Enabled = True
@@ -7037,7 +7126,7 @@ checkFolder:
         End If
     End Sub
 
-    Private Sub CBRangeRuin_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles DommeDecideRuinCB.CheckedChanged
+    Private Sub CBRangeRuin_CheckedChanged(sender As Object, e As EventArgs) Handles DommeDecideRuinCB.CheckedChanged
         If DommeDecideRuinCB.Checked = False Then
             NBRuinOften.Enabled = True
             NBRuinSometimes.Enabled = True
@@ -7049,42 +7138,42 @@ checkFolder:
         End If
     End Sub
 
-    Private Sub CBRangeOrgasm_LostFocus(sender As Object, e As System.EventArgs) Handles DommeDecideOrgasmCB.LostFocus
+    Private Sub CBRangeOrgasm_LostFocus(sender As Object, e As EventArgs) Handles DommeDecideOrgasmCB.LostFocus
         My.Settings.RangeOrgasm = DommeDecideOrgasmCB.Checked
     End Sub
-    Private Sub CBRangeRuin_LostFocus(sender As Object, e As System.EventArgs) Handles DommeDecideRuinCB.LostFocus
+    Private Sub CBRangeRuin_LostFocus(sender As Object, e As EventArgs) Handles DommeDecideRuinCB.LostFocus
         My.Settings.RangeRuin = DommeDecideRuinCB.Checked
     End Sub
 
-    Private Sub NBAllowOften_ValueChanged(sender As System.Object, e As System.EventArgs) Handles AllowOrgasmOftenNB.LostFocus
+    Private Sub NBAllowOften_ValueChanged(sender As Object, e As EventArgs) Handles AllowOrgasmOftenNB.LostFocus
         My.Settings.AllowOften = AllowOrgasmOftenNB.Value
     End Sub
 
-    Private Sub NBAllowSometimes_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBAllowSometimes.LostFocus
+    Private Sub NBAllowSometimes_ValueChanged(sender As Object, e As EventArgs) Handles NBAllowSometimes.LostFocus
         My.Settings.AllowSometimes = NBAllowSometimes.Value
     End Sub
 
-    Private Sub NBAllowRarely_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBAllowRarely.LostFocus
+    Private Sub NBAllowRarely_ValueChanged(sender As Object, e As EventArgs) Handles NBAllowRarely.LostFocus
         My.Settings.AllowRarely = NBAllowRarely.Value
     End Sub
 
-    Private Sub NBRuinOften_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBRuinOften.LostFocus
+    Private Sub NBRuinOften_ValueChanged(sender As Object, e As EventArgs) Handles NBRuinOften.LostFocus
         My.Settings.RuinOften = NBRuinOften.Value
     End Sub
 
-    Private Sub NBRuinSometimes_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBRuinSometimes.LostFocus
+    Private Sub NBRuinSometimes_ValueChanged(sender As Object, e As EventArgs) Handles NBRuinSometimes.LostFocus
         My.Settings.RuinSometimes = NBRuinSometimes.Value
     End Sub
 
-    Private Sub NBRuinRarely_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBRuinRarely.LostFocus
+    Private Sub NBRuinRarely_ValueChanged(sender As Object, e As EventArgs) Handles NBRuinRarely.LostFocus
         My.Settings.RuinRarely = NBRuinRarely.Value
     End Sub
 
-    Private Sub TBSafeword_LostFocus(sender As Object, e As System.EventArgs) Handles TBSafeword.LostFocus
+    Private Sub TBSafeword_LostFocus(sender As Object, e As EventArgs) Handles TBSafeword.LostFocus
         My.Settings.Safeword = TBSafeword.Text
     End Sub
 
-    Private Sub Button4_Click_5(sender As System.Object, e As System.EventArgs) Handles Button4.Click
+    Private Sub Button4_Click_5(sender As Object, e As EventArgs) Handles Button4.Click
 
         TBResponses.Text = ""
         RTBResponses.Text = ""
@@ -7103,7 +7192,7 @@ checkFolder:
 
     End Sub
 
-    Private Sub LBResponses_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles LBResponses.SelectedIndexChanged
+    Private Sub LBResponses_SelectedIndexChanged(sender As Object, e As EventArgs) Handles LBResponses.SelectedIndexChanged
 
         Dim ResponsePath As String = Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Vocabulary\Responses\" & LBResponses.SelectedItem & ".txt"
 
@@ -7175,7 +7264,7 @@ checkFolder:
 
     End Sub
 
-    Private Sub Button5_Click_2(sender As System.Object, e As System.EventArgs) Handles Button5.Click
+    Private Sub Button5_Click_2(sender As Object, e As EventArgs) Handles Button5.Click
 
 
 
@@ -7223,7 +7312,7 @@ checkFolder:
 
     End Sub
 
-    Private Sub Button9_Click_2(sender As System.Object, e As System.EventArgs) Handles Button9.Click
+    Private Sub Button9_Click_2(sender As Object, e As EventArgs) Handles Button9.Click
 
         If RTBResponses.Text <> "" Then
             MessageBox.Show(Me, "Template cannot be generated while there is text in the main Response window!", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -7264,192 +7353,52 @@ checkFolder:
 
     End Sub
 
-    Private Sub NBBirthdayMonth_MouseHover(sender As Object, e As System.EventArgs) Handles NBBirthdayMonth.MouseEnter
-        TTDir.SetToolTip(NBBirthdayMonth, "Set the month you were born.")
-        'LBLSubSettingsDescription.Text = "Set the month you were born."
-    End Sub
-
-    Private Sub Birthday_MouseHover(sender As Object, e As System.EventArgs) Handles LBLSubBirthday.MouseHover
-        TTDir.SetToolTip(LBLSubBirthday, "Set your birthday with the format mm/dd.")
-        'LBLSubSettingsDescription.Text = "Set the day you were born."
-    End Sub
-
-    Private Sub NBBirthdayDay_MouseHover(sender As Object, e As System.EventArgs) Handles NBBirthdayDay.MouseEnter
-        TTDir.SetToolTip(NBBirthdayDay, "Set the day you were born.")
-        'LBLSubSettingsDescription.Text = "Set the day you were born."
-    End Sub
-
-    Private Sub TBSubHairColor_MouseHover(sender As Object, e As System.EventArgs) Handles TBSubHairColor.MouseHover
-        TTDir.SetToolTip(TBSubHairColor, "Enter your hair color using all lower case letters.")
-        'LBLSubSettingsDescription.Text = "Enter your hair color using all lower case letters."
-    End Sub
-
-    Private Sub TBSubEyeColor_MouseHover(sender As Object, e As System.EventArgs) Handles TBSubEyeColor.MouseHover
-        TTDir.SetToolTip(TBSubEyeColor, "Enter your eye color using all lower case letters.")
-        'LBLSubSettingsDescription.Text = "Enter your eye color using all lower case letters."
-    End Sub
-
-    Private Sub CockSizeNumBox_MouseHover(sender As Object, e As System.EventArgs) Handles CockSizeNumBox.MouseEnter
-        TTDir.SetToolTip(CockSizeNumBox, "Set your cock size in inches.")
-        'LBLSubSettingsDescription.Text = "Set your cock size in inches."
-    End Sub
-
-    Private Sub CBSubCircumcised_MouseHover(sender As Object, e As System.EventArgs) Handles CBSubCircumcised.MouseHover
-        TTDir.SetToolTip(CBSubCircumcised, "Check this box if your cock is circumcised.")
-        'LBLSubSettingsDescription.Text = "Check this box if your cock is circumcised."
-    End Sub
-
-    Private Sub CBSubPierced_MouseHover(sender As Object, e As System.EventArgs) Handles CBSubPierced.MouseHover
-        TTDir.SetToolTip(CBSubPierced, "Check this box if your cock is pierced.")
-        'LBLSubSettingsDescription.Text = "Check this box if your cock is pierced."
-    End Sub
-
-    Private Sub CBCBTCock_MouseHover(sender As Object, e As System.EventArgs) Handles CockTortureEnabledCB.MouseHover
-
-        TTDir.SetToolTip(CockTortureEnabledCB, "Check this box to enable cock torture." & Environment.NewLine & Environment.NewLine &
-                                     "If this box is unchecked, the domme may still state that you're about to endure cock torture," & Environment.NewLine &
-                                     "but the program will simply move to the next line instead of making you perform it.")
-
-
-
-        'LBLSubSettingsDescription.Text = "Check this box to enabled cock torture." & Environment.NewLine & Environment.NewLine & "If this box is unchecked, the domme may still state that you're about to endure" _
-        ' & " cock torture, but the program will simply move to the next line instead of making you perform it."
-    End Sub
-
-    Private Sub CBCBTBall_MouseHover(sender As Object, e As System.EventArgs) Handles BallTortureEnabledCB.MouseHover
-
-        TTDir.SetToolTip(BallTortureEnabledCB, "Check this box to enable ball torture." & Environment.NewLine & Environment.NewLine &
-                                  "If this box is unchecked, the domme may still state that you're about to endure ball torture," & Environment.NewLine &
-                                  "but the program will simply move to the next line instead of making you perform it.")
-
-        'LBLSubSettingsDescription.Text = "Check this box to enabled ball torture." & Environment.NewLine & Environment.NewLine & "If this box is unchecked, the domme may still state that you're about to endure" _
-        '   & " ball torture, but the program will simply move to the next line instead of making you perform it."
-    End Sub
-
-    Private Sub CBTSlider_MouseHover(sender As Object, e As System.EventArgs) Handles CockAndBallTortureLevelSlider.MouseHover
-
-        TTDir.SetToolTip(CockAndBallTortureLevelSlider, "This affects the severity of the CBT tasks you will be asked to perform." & Environment.NewLine & Environment.NewLine &
-                                  "The higher this slider, the more severe the tasks will be.")
-
-        'LBLSubSettingsDescription.Text = "This affects the severity of the CBT tasks you will be asked to perform. The higher this slider, the more severe the tasks will be."
-    End Sub
-
-    Private Sub GBPerformance_MouseHover(sender As Object, e As System.EventArgs)
-        LBLSubSettingsDescription.Text = "This area keeps track of several statistics related to your time with the program."
-    End Sub
-
-    Private Sub CBOwnChastity_MouseHover(sender As Object, e As System.EventArgs) Handles CBOwnChastity.MouseHover
-
-        TTDir.SetToolTip(CBOwnChastity, "Check this box if you own a chastity device and wish to run scripts" & Environment.NewLine &
-                                        "where the domme places you in chastity.")
-        'LBLSubSettingsDescription.Text = "Check this box if you own a chastity device. This allows the program to use that fact in various scripts."
-    End Sub
-
-    Private Sub CBChastityPA_MouseHover(sender As Object, e As System.EventArgs) Handles DoesChastityDeviceRequirePiercingCB.MouseHover
-        TTDir.SetToolTip(DoesChastityDeviceRequirePiercingCB, "Check this box if your chastity device requires a piercing.")
-        'LBLSubSettingsDescription.Text = "Check this box if your chastity device requires a piercing."
-    End Sub
-
-    Private Sub CBChastitySpikes_MouseHover(sender As Object, e As System.EventArgs) Handles ChastityDeviceContainsSpikesCB.MouseHover
-
-        TTDir.SetToolTip(ChastityDeviceContainsSpikesCB, "Check this box if your chastity device contains spikes.")
-        'LBLSubSettingsDescription.Text = "Check this box if your chastity device contains spikes."
-
-    End Sub
-
-    Private Sub TBGreeting_MouseHover(sender As Object, e As System.EventArgs) Handles TBGreeting.MouseHover
-
-        TTDir.SetToolTip(TBGreeting, "Enter any number of words or phrases, separated by commas." & Environment.NewLine & Environment.NewLine &
-                                  "When you use any of these words/phrases by themselves after starting the" & Environment.NewLine &
-                                  "program, the domme will recognize it as a greeting and begin the tease.")
-    End Sub
-
-    Private Sub TBYes_MouseHover(sender As Object, e As System.EventArgs) Handles TBYes.MouseHover
-
-        TTDir.SetToolTip(TBYes, "Enter any number of words or phrases, separated by commas." & Environment.NewLine & Environment.NewLine &
-                                    "The domme will recognize these as ""yes"" answers to Multiple Choice sections.")
-
-        ' LBLSubSettingsDescription.Text = "Enter any number of words or phrases, separated by commas. The domme will recognize these as ""yes"" answers to Multiple Choice sections."
-    End Sub
-
-    Private Sub TBNo_MouseHover(sender As Object, e As System.EventArgs) Handles TBNo.MouseHover
-
-        TTDir.SetToolTip(TBNo, "Enter any number of words or phrases, separated by commas." & Environment.NewLine & Environment.NewLine &
-                                 "The domme will recognize these as ""no"" answers to Multiple Choice sections.")
-
-        'LBLSubSettingsDescription.Text = "Enter any number of words or phrases, separated by commas. The domme will recognize these as ""no"" answers to Multiple Choice sections."
-    End Sub
-
-    Private Sub TBHonorific_MouseHover(sender As Object, e As System.EventArgs) Handles TBHonorific.MouseHover
-
-        TTDir.SetToolTip(TBHonorific, "Enter an honorific to use for the domme, such as Mistress, Goddess, Princess, etc.")
-
-        'LBLSubSettingsDescription.Text = "Enter an honorific to use for the domme, such as Mistress, Goddess, Princess, etc."
-    End Sub
-
-    Private Sub CBHonorificInclude_MouseHover(sender As Object, e As System.EventArgs) Handles CBHonorificInclude.MouseHover
-
-        TTDir.SetToolTip(CBHonorificInclude, "When this box is checked, the domme's honorific must be included with" & Environment.NewLine &
-                                             "greetings and yes or no responses used during multiple choice segments.")
-
-        'LBLSubSettingsDescription.Text = "When this box is checked, the domme's honorific must be included with greetings and yes or no responses used during multiple choice segments."
-    End Sub
-    Private Sub CBHonorificCapitalized_MouseHover(sender As Object, e As System.EventArgs) Handles CBHonorificCapitalized.MouseHover
-
-        TTDir.SetToolTip(CBHonorificCapitalized, "When this box is checked, the domme's honorific must be capitalized where it is required.")
-        'LBLSubSettingsDescription.Text = "When this box is checked, the domme's honorific must be capitalized where it is required."
-    End Sub
-
-    Private Sub NBLongEdge_MouseHover(sender As Object, e As System.EventArgs) Handles NBLongEdge.MouseEnter
-        LBLSubSettingsDescription.Text = "Sets how long (in seconds) it will take after being told to edge for the domme to believe you have been trying to reach the edge for too long."
-    End Sub
-
-    Private Sub CBEdgeUseAvg_LostFocus(sender As Object, e As System.EventArgs) Handles UseAverageEdgeThresholdCB.LostFocus
+    Private Sub CBEdgeUseAvg_LostFocus(sender As Object, e As EventArgs) Handles UseAverageEdgeThresholdCB.LostFocus
         My.Settings.CBEdgeUseAvg = UseAverageEdgeThresholdCB.Checked
     End Sub
-    Private Sub CBEdgeUseAvg_MouseHover(sender As Object, e As System.EventArgs) Handles UseAverageEdgeThresholdCB.MouseEnter
-        LBLSubSettingsDescription.Text = "When this is checked, the domme will use the average amount of time it has historically taken you to reach the edge to decide when you have been trying to edge for too long."
-    End Sub
-
-    Private Sub CBLongEdgeTaunts_LostFocus(sender As Object, e As System.EventArgs) Handles AllowLongEdgeTauntCB.LostFocus
+    Private Sub CBLongEdgeTaunts_LostFocus(sender As Object, e As EventArgs) Handles AllowLongEdgeTauntCB.LostFocus
         My.Settings.CBLongEdgeTaunts = AllowLongEdgeTauntCB.Checked
     End Sub
 
-    Private Sub CBLongEdgeTaunts_MouseHover(sender As Object, e As System.EventArgs) Handles AllowLongEdgeTauntCB.MouseEnter
+    Private Sub CBLongEdgeInterrupts_LostFocus(sender As Object, e As EventArgs) Handles AllowLongEdgeInterruptCB.LostFocus
+        My.Settings.CBLongEdgeInterrupts = AllowLongEdgeInterruptCB.Checked
+    End Sub
+
+    Private Sub CBLongEdgeInterrupts_MouseHover(sender As Object, e As EventArgs) Handles AllowLongEdgeInterruptCB.MouseEnter
+        LBLSubSettingsDescription.Text = "When this box is checked, the domme will include edge taunts that call special Interrupt scripts when the Long Edge threshold has been passed."
+    End Sub
+
+    Private Sub CBEdgeUseAvg_MouseHover(sender As Object, e As EventArgs) Handles UseAverageEdgeThresholdCB.MouseEnter
+        LBLSubSettingsDescription.Text = "When this is checked, the domme will use the average amount of time it has historically taken you to reach the edge to decide when you have been trying to edge for too long."
+    End Sub
+
+    Private Sub CBLongEdgeTaunts_MouseHover(sender As Object, e As EventArgs) Handles AllowLongEdgeTauntCB.MouseEnter
         LBLSubSettingsDescription.Text = "When this box is checked, the domme will include edge taunts that are reserved for when the Long Edge threshold has been passed." & Environment.NewLine & Environment.NewLine &
             "This will allow the domme to tease you about the fact that you have been trying to edge for longer than she expected."
     End Sub
 
-    Private Sub CBLongEdgeInterrupts_LostFocus(sender As Object, e As System.EventArgs) Handles AllowLongEdgeInterruptCB.LostFocus
-        My.Settings.CBLongEdgeInterrupts = AllowLongEdgeInterruptCB.Checked
-    End Sub
-
-    Private Sub CBLongEdgeInterrupts_MouseHover(sender As Object, e As System.EventArgs) Handles AllowLongEdgeInterruptCB.MouseEnter
-        LBLSubSettingsDescription.Text = "When this box is checked, the domme will include edge taunts that call special Interrupt scripts when the Long Edge threshold has been passed."
-    End Sub
-
-    Private Sub NBHOldTheEdgeMax_MouseHover(sender As Object, e As System.EventArgs) Handles HoldEdgeMaximum.MouseEnter
+    Private Sub NBHOldTheEdgeMax_MouseHover(sender As Object, e As EventArgs) Handles HoldEdgeMaximum.MouseEnter
         LBLSubSettingsDescription.Text = "Sets the maximum time (in seconds) that the domme will make you hold the edge. If you enter 0 as an amount, then the domme will decide based on her level."
     End Sub
 
-    Private Sub NBWritinGTaskMin_MouseHover(sender As Object, e As System.EventArgs) Handles NBWritingTaskMin.MouseEnter
+    Private Sub NBWritinGTaskMin_MouseHover(sender As Object, e As EventArgs) Handles NBWritingTaskMin.MouseEnter
         LBLSubSettingsDescription.Text = "Sets the minimum amount of lines the domme will assign you for writing tasks."
     End Sub
-    Private Sub NBWritinGTaskMax_MouseHover(sender As Object, e As System.EventArgs) Handles NBWritingTaskMax.MouseEnter
+    Private Sub NBWritinGTaskMax_MouseHover(sender As Object, e As EventArgs) Handles NBWritingTaskMax.MouseEnter
         LBLSubSettingsDescription.Text = "Sets the maximum amount of lines the domme will assign you for writing tasks."
     End Sub
-    'Private Sub SubDescText_MouseHover(sender As Object, e As System.EventArgs) Handles Panel2.MouseEnter, GroupBox32.MouseEnter, GroupBox45.MouseEnter, GroupBox35.MouseEnter, GroupBox7.MouseEnter, GroupBox12.MouseEnter
+    'Private Sub SubDescText_MouseHover(sender As Object, e As EventArgs) Handles Panel2.MouseEnter, GroupBox32.MouseEnter, GroupBox45.MouseEnter, GroupBox35.MouseEnter, GroupBox7.MouseEnter, GroupBox12.MouseEnter
     '   LBLSubSettingsDescription.Text = "Hover over any setting in the menu for a more detailed description of its function."
     'End Sub
-    Private Sub CBHimHer_MouseHover(sender As Object, e As System.EventArgs) Handles CBHimHer.MouseEnter
+    Private Sub CBHimHer_MouseHover(sender As Object, e As EventArgs) Handles CBHimHer.MouseEnter
         LBLSubSettingsDescription.Text = "When this is checked, Glitter will automatically replace any instance of He/Him/His with She/Her/Her."
     End Sub
 
-    Private Sub NBNextImageChance_LostFocus(sender As Object, e As System.EventArgs) Handles NBNextImageChance.LostFocus
+    Private Sub NBNextImageChance_LostFocus(sender As Object, e As EventArgs) Handles NBNextImageChance.LostFocus
         My.Settings.NextImageChance = NBNextImageChance.Value
     End Sub
 
-    Private Sub orgasmsperlockButton_Click(sender As System.Object, e As System.EventArgs) Handles orgasmsperlockButton.Click
+    Private Sub orgasmsperlockButton_Click(sender As Object, e As EventArgs) Handles orgasmsperlockButton.Click
 
         If limitcheckbox.Checked = False Then
             MessageBox.Show(Me, "The Limit box must be checked before clicking this button!", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -7528,7 +7477,7 @@ checkFolder:
 
     End Sub
 
-    Private Sub orgasmlockrandombutton_Click(sender As System.Object, e As System.EventArgs) Handles orgasmlockrandombutton.Click
+    Private Sub orgasmlockrandombutton_Click(sender As Object, e As EventArgs) Handles orgasmlockrandombutton.Click
 
         If limitcheckbox.Checked = False Then
             MessageBox.Show(Me, "The Limit box must be checked before clicking this button!", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -7642,7 +7591,7 @@ checkFolder:
 
     End Sub
 
-    Private Sub CBVTType_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles CBVTType.SelectedIndexChanged
+    Private Sub CBVTType_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CBVTType.SelectedIndexChanged
 
 
         If CBVTType.Text = "Censorship Sucks" Then
@@ -7669,136 +7618,136 @@ checkFolder:
 
 
 
-    Private Sub NBTeaseLengthMin_MouseHover(sender As Object, e As System.EventArgs) Handles NBTeaseLengthMin.MouseEnter
+    Private Sub NBTeaseLengthMin_MouseHover(sender As Object, e As EventArgs) Handles NBTeaseLengthMin.MouseEnter
         LBLRangeSettingsDescription.Text = "Set the minimum amount of time the program will run before the domme decides if you can have an orgasm." & Environment.NewLine & Environment.NewLine &
             "The domme will not move to an End script until the first @End point of a Module that occurs after tease time expires." & Environment.NewLine & Environment.NewLine &
             "If the domme decides to tease you again, the tease time will be reset to a new amount based Tease Length settings."
     End Sub
 
-    Private Sub NBTeaseLengthMax_MouseHover(sender As Object, e As System.EventArgs) Handles NBTeaseLengthMax.MouseEnter
+    Private Sub NBTeaseLengthMax_MouseHover(sender As Object, e As EventArgs) Handles NBTeaseLengthMax.MouseEnter
         LBLRangeSettingsDescription.Text = "Set the maximum amount of time the program will run before the domme decides if you can have an orgasm." & Environment.NewLine & Environment.NewLine &
             "The domme will not move to an End script until the first @End point of a Module that occurs after tease time expires." & Environment.NewLine & Environment.NewLine &
             "If the domme decides to tease you again, the tease time will be reset to a new amount based Tease Length settings."
     End Sub
 
 
-    Private Sub CBTeaseLengthDD_LostFocus(sender As Object, e As System.EventArgs) Handles TeaseLengthDommeDetermined.LostFocus
+    Private Sub CBTeaseLengthDD_LostFocus(sender As Object, e As EventArgs) Handles TeaseLengthDommeDetermined.LostFocus
         My.Settings.CBTeaseLengthDD = TeaseLengthDommeDetermined.Checked
     End Sub
 
-    Private Sub CBTauntCycleDD_LostFocus(sender As Object, e As System.EventArgs) Handles CBTauntCycleDD.LostFocus
+    Private Sub CBTauntCycleDD_LostFocus(sender As Object, e As EventArgs) Handles CBTauntCycleDD.LostFocus
         My.Settings.CBTauntCycleDD = CBTauntCycleDD.Checked
     End Sub
 
-    Private Sub CBTeaseLengthDD_MouseHover(sender As Object, e As System.EventArgs) Handles TeaseLengthDommeDetermined.MouseEnter
+    Private Sub CBTeaseLengthDD_MouseHover(sender As Object, e As EventArgs) Handles TeaseLengthDommeDetermined.MouseEnter
         LBLRangeSettingsDescription.Text = "This allows the domme to decide the length of the tease based on her level." & Environment.NewLine & Environment.NewLine &
             "A level 1 domme may tease you for 15-20 minutes, while a level 5 domme may tease you as long as an hour." & Environment.NewLine & Environment.NewLine &
             "The domme will not move to an End script until the first @End point of a Module that occurs after tease time expires."
     End Sub
 
-    Private Sub NBTauntCycleMin_MouseHover(sender As Object, e As System.EventArgs) Handles NBTauntCycleMin.MouseEnter
+    Private Sub NBTauntCycleMin_MouseHover(sender As Object, e As EventArgs) Handles NBTauntCycleMin.MouseEnter
         LBLRangeSettingsDescription.Text = "Set the minimum amount of time the domme will make you stroke during Taunt cycles."
     End Sub
 
-    Private Sub NBTauntCycleMax_MouseHover(sender As Object, e As System.EventArgs) Handles NBTauntCycleMax.MouseEnter
+    Private Sub NBTauntCycleMax_MouseHover(sender As Object, e As EventArgs) Handles NBTauntCycleMax.MouseEnter
         LBLRangeSettingsDescription.Text = "Set the maximum amount of time the domme will make you stroke during Taunt cycles"
     End Sub
 
-    Private Sub CBTauntCycleDD_MouseHover(sender As Object, e As System.EventArgs) Handles CBTauntCycleDD.MouseEnter
+    Private Sub CBTauntCycleDD_MouseHover(sender As Object, e As EventArgs) Handles CBTauntCycleDD.MouseEnter
         LBLRangeSettingsDescription.Text = "This allows the domme to decide how long she makes you stroke during Taunt cycles based on her level." & Environment.NewLine & Environment.NewLine &
             "A level 1 domme may have you stroke for a couple minutes at a time, while a level 5 domme may have you stroke up to 10 minutes during each Taunt cycle."
     End Sub
 
-    Private Sub SliderSTF_MouseHover(sender As Object, e As System.EventArgs) Handles SliderSTF.MouseEnter
+    Private Sub SliderSTF_MouseHover(sender As Object, e As EventArgs) Handles SliderSTF.MouseEnter
         LBLRangeSettingsDescription.Text = "This allows you to set the frequency of the domme's Stroke Taunts." & Environment.NewLine & Environment.NewLine &
             "A middle value tries to emulate an online experience as closely as possible. Use a higher value to increase the frequency of Taunts to something you would expect in a webtease. Use a lower value to simulate the domme being preoccupied or not that interested in engaging you."
     End Sub
 
-    Private Sub TauntSlider_MouseHover(sender As Object, e As System.EventArgs) Handles TauntSlider.MouseEnter
+    Private Sub TauntSlider_MouseHover(sender As Object, e As EventArgs) Handles TauntSlider.MouseEnter
         LBLRangeSettingsDescription.Text = "This allows you to set the frequency of the domme's Taunts during Video Teases." & Environment.NewLine & Environment.NewLine &
             "A middle value creates a fairly common use of Taunts. Use a higher value to make the domme extremely engaged. Use a lower value to focus on the Video Tease with minimal interaction from the domme."
     End Sub
 
-    Private Sub CBRangeOrgasm_MouseHover(sender As Object, e As System.EventArgs) Handles DommeDecideOrgasmCB.MouseEnter
+    Private Sub CBRangeOrgasm_MouseHover(sender As Object, e As EventArgs) Handles DommeDecideOrgasmCB.MouseEnter
         LBLRangeSettingsDescription.Text = "This allows the domme to decide what chance she will allow an orgasm based on her settings." & Environment.NewLine & Environment.NewLine &
             "Default settings are: Often Allows: 75% - Sometimes Allows: 50% - Rarely Allows: 20%"
     End Sub
 
-    Private Sub NBAllowOften_MouseHover(sender As Object, e As System.EventArgs) Handles AllowOrgasmOftenNB.MouseEnter
+    Private Sub NBAllowOften_MouseHover(sender As Object, e As EventArgs) Handles AllowOrgasmOftenNB.MouseEnter
         LBLRangeSettingsDescription.Text = "When ""Domme Decide"" is not checked, this allows you to set what chance the domme will allow orgasm when she is set to ""Often Allows""."
     End Sub
 
-    Private Sub NBAllowSometimes_MouseHover(sender As Object, e As System.EventArgs) Handles NBAllowSometimes.MouseEnter
+    Private Sub NBAllowSometimes_MouseHover(sender As Object, e As EventArgs) Handles NBAllowSometimes.MouseEnter
         LBLRangeSettingsDescription.Text = "When ""Domme Decide"" is not checked, this allows you to set what chance the domme will allow orgasm when she is set to ""Sometimes Allows""."
     End Sub
 
-    Private Sub NBAllowRarely_MouseHover(sender As Object, e As System.EventArgs) Handles NBAllowRarely.MouseEnter
+    Private Sub NBAllowRarely_MouseHover(sender As Object, e As EventArgs) Handles NBAllowRarely.MouseEnter
         LBLRangeSettingsDescription.Text = "When ""Domme Decide"" is not checked, this allows you to set what chance the domme will allow orgasm when she is set to ""Rarely Allows""."
     End Sub
 
-    Private Sub CBRangeRuin_MouseHover(sender As Object, e As System.EventArgs) Handles DommeDecideRuinCB.MouseEnter
+    Private Sub CBRangeRuin_MouseHover(sender As Object, e As EventArgs) Handles DommeDecideRuinCB.MouseEnter
         LBLRangeSettingsDescription.Text = "This allows the domme to decide what chance she will ruin an orgasm based on her settings." & Environment.NewLine & Environment.NewLine &
             "Default settings are: Often Ruins: 75% - Sometimes Ruins: 50% - Rarely Ruins: 20%"
     End Sub
 
-    Private Sub NBRuinOften_MouseHover(sender As Object, e As System.EventArgs) Handles NBRuinOften.MouseEnter
+    Private Sub NBRuinOften_MouseHover(sender As Object, e As EventArgs) Handles NBRuinOften.MouseEnter
         LBLRangeSettingsDescription.Text = "When ""Domme Decide"" is not checked, this allows you to set what chance the domme will ruin an orgasm when she is set to ""Often Ruins""."
     End Sub
 
-    Private Sub NBRuinSometimes_MouseHover(sender As Object, e As System.EventArgs) Handles NBRuinSometimes.MouseEnter
+    Private Sub NBRuinSometimes_MouseHover(sender As Object, e As EventArgs) Handles NBRuinSometimes.MouseEnter
         LBLRangeSettingsDescription.Text = "When ""Domme Decide"" is not checked, this allows you to set what chance the domme will ruin an orgasm when she is set to ""Sometimes Ruins""."
     End Sub
 
-    Private Sub NBRuinRarely_MouseHover(sender As Object, e As System.EventArgs) Handles NBRuinRarely.MouseEnter
+    Private Sub NBRuinRarely_MouseHover(sender As Object, e As EventArgs) Handles NBRuinRarely.MouseEnter
         LBLRangeSettingsDescription.Text = "When ""Domme Decide"" is not checked, this allows you to set what chance the domme will ruin an orgasm when she is set to ""Rarely Ruins""."
     End Sub
 
 
-    Private Sub NBNextImageChance_MouseHover(sender As Object, e As System.EventArgs) Handles NBNextImageChance.MouseEnter
+    Private Sub NBNextImageChance_MouseHover(sender As Object, e As EventArgs) Handles NBNextImageChance.MouseEnter
         LBLRangeSettingsDescription.Text = "When running a slideshow with the ""Tease"" option selected, this value determines what chance the slideshow will move forward instead of backward."
     End Sub
 
-    Private Sub nbcensorshowmin_MouseHover(sender As Object, e As System.EventArgs) Handles NBCensorShowMin.MouseEnter
+    Private Sub nbcensorshowmin_MouseHover(sender As Object, e As EventArgs) Handles NBCensorShowMin.MouseEnter
         LBLRangeSettingsDescription.Text = "This determines the minimum amount of time the censor bar will be on the screen at a time while playing Censorship Sucks."
     End Sub
 
-    Private Sub nbcensorshowmax_MouseHover(sender As Object, e As System.EventArgs) Handles NBCensorShowMax.MouseEnter
+    Private Sub nbcensorshowmax_MouseHover(sender As Object, e As EventArgs) Handles NBCensorShowMax.MouseEnter
         LBLRangeSettingsDescription.Text = "This determines the maximum amount of time the censor bar will be on the screen at a time while playing Censorship Sucks."
     End Sub
 
-    Private Sub nbcensorhidemin_MouseHover(sender As Object, e As System.EventArgs) Handles NBCensorHideMin.MouseEnter
+    Private Sub nbcensorhidemin_MouseHover(sender As Object, e As EventArgs) Handles NBCensorHideMin.MouseEnter
         LBLRangeSettingsDescription.Text = "This determines the minimum amount of time the censor bar will be invisible while playing Censorship Sucks."
     End Sub
 
-    Private Sub nbcensorhidemax_MouseHover(sender As Object, e As System.EventArgs) Handles NBCensorHideMax.MouseEnter
+    Private Sub nbcensorhidemax_MouseHover(sender As Object, e As EventArgs) Handles NBCensorHideMax.MouseEnter
         LBLRangeSettingsDescription.Text = "This determines the maximum amount of time the censor bar will be invisible while playing Censorship Sucks."
     End Sub
 
-    Private Sub cbcensorconstant_MouseHover(sender As Object, e As System.EventArgs) Handles CBCensorConstant.MouseEnter
+    Private Sub cbcensorconstant_MouseHover(sender As Object, e As EventArgs) Handles CBCensorConstant.MouseEnter
         LBLRangeSettingsDescription.Text = "When this is checked, the censor bar will always be visible while playing Censorship Sucks. Its position on the screen will still change in time with Show Censor Bar settings."
     End Sub
 
-    Private Sub nbredlightmin_MouseHover(sender As Object, e As System.EventArgs) Handles NBRedLightMin.MouseEnter
+    Private Sub nbredlightmin_MouseHover(sender As Object, e As EventArgs) Handles NBRedLightMin.MouseEnter
         LBLRangeSettingsDescription.Text = "This determines the minimum amount of time the domme will keep the video paused while playing Red Light Green Light."
     End Sub
 
-    Private Sub nbredlightmax_MouseHover(sender As Object, e As System.EventArgs) Handles NBRedLightMax.MouseEnter
+    Private Sub nbredlightmax_MouseHover(sender As Object, e As EventArgs) Handles NBRedLightMax.MouseEnter
         LBLRangeSettingsDescription.Text = "This determines the maximum amount of time the domme will keep the video paused while playing Red Light Green Light."
     End Sub
 
-    Private Sub nbgreenlightmin_MouseHover(sender As Object, e As System.EventArgs) Handles NBGreenLightMin.MouseEnter
+    Private Sub nbgreenlightmin_MouseHover(sender As Object, e As EventArgs) Handles NBGreenLightMin.MouseEnter
         LBLRangeSettingsDescription.Text = "This determines the minimum amount of time the domme will keep the video playing while playing Red Light Green Light."
     End Sub
 
-    Private Sub nbgreenlightmax_MouseHover(sender As Object, e As System.EventArgs) Handles NBGreenLightMax.MouseEnter
+    Private Sub nbgreenlightmax_MouseHover(sender As Object, e As EventArgs) Handles NBGreenLightMax.MouseEnter
         LBLRangeSettingsDescription.Text = "This determines the maximum amount of time the domme will keep the video playing while playing Red Light Green Light."
     End Sub
 
-    Private Sub RangeSet_MouseHover(sender As Object, e As System.EventArgs) Handles Panel6.MouseEnter, GroupBox21.MouseEnter, GroupBox18.MouseEnter, GroupBox19.MouseEnter, GroupBox10.MouseEnter, GBRangeRuinChance.MouseEnter, GBRangeOrgasmChance.MouseEnter, GroupBox57.MouseEnter
+    Private Sub RangeSet_MouseHover(sender As Object, e As EventArgs) Handles Panel6.MouseEnter, GroupBox21.MouseEnter, GroupBox18.MouseEnter, GroupBox19.MouseEnter, GroupBox10.MouseEnter, GBRangeRuinChance.MouseEnter, GBRangeOrgasmChance.MouseEnter, GroupBox57.MouseEnter
         LBLRangeSettingsDescription.Text = "Hover over any setting in the menu for a more detailed description of its function."
     End Sub
 
-    Private Sub TextBox2_TextChanged(sender As System.Object, e As System.EventArgs) Handles TBWishlistURL.TextChanged
+    Private Sub TextBox2_TextChanged(sender As Object, e As EventArgs) Handles TBWishlistURL.TextChanged
         Try
             WishlistPreview.Image.Dispose()
         Catch
@@ -7812,29 +7761,29 @@ checkFolder:
         End Try
     End Sub
 
-    Private Sub radioGold_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles radioGold.CheckedChanged
+    Private Sub radioGold_CheckedChanged(sender As Object, e As EventArgs) Handles radioGold.CheckedChanged
         WishlistCostGold.Visible = True
         WishlistCostSilver.Visible = False
     End Sub
 
-    Private Sub radioSilver_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles radioSilver.CheckedChanged
+    Private Sub radioSilver_CheckedChanged(sender As Object, e As EventArgs) Handles radioSilver.CheckedChanged
         WishlistCostGold.Visible = False
         WishlistCostSilver.Visible = True
     End Sub
 
-    Private Sub TBWishlistItem_TextChanged(sender As System.Object, e As System.EventArgs) Handles TBWishlistItem.TextChanged
+    Private Sub TBWishlistItem_TextChanged(sender As Object, e As EventArgs) Handles TBWishlistItem.TextChanged
         LBLWishListName.Text = TBWishlistItem.Text
     End Sub
 
-    Private Sub NBWishlistCost_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBWishlistCost.ValueChanged
+    Private Sub NBWishlistCost_ValueChanged(sender As Object, e As EventArgs) Handles NBWishlistCost.ValueChanged
         LBLWishlistCost.Text = NBWishlistCost.Value
     End Sub
 
-    Private Sub TBWishlistComment_TextChanged(sender As System.Object, e As System.EventArgs) Handles TBWishlistComment.TextChanged
+    Private Sub TBWishlistComment_TextChanged(sender As Object, e As EventArgs) Handles TBWishlistComment.TextChanged
         LBLWishListText.Text = TBWishlistComment.Text
     End Sub
 
-    Private Sub BTNWishlistCreate_Click(sender As System.Object, e As System.EventArgs) Handles BTNWishlistCreate.Click
+    Private Sub BTNWishlistCreate_Click(sender As Object, e As EventArgs) Handles BTNWishlistCreate.Click
 
         If TBWishlistItem.Text = "" Then
             MessageBox.Show(Me, "Please enter a name for this item!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
@@ -7889,38 +7838,38 @@ checkFolder:
 
     End Sub
 
-    Private Sub CBOwnChastity_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles CBOwnChastity.CheckedChanged
+    Private Sub CBOwnChastity_CheckedChanged(sender As Object, e As EventArgs) Handles CBOwnChastity.CheckedChanged
 
         DoesChastityDeviceRequirePiercingCB.Enabled = CBOwnChastity.Checked
         ChastityDeviceContainsSpikesCB.Enabled = CBOwnChastity.Checked
 
     End Sub
 
-    Private Sub CBOwnChastity_LostFocus(sender As Object, e As System.EventArgs) Handles CBOwnChastity.LostFocus
+    Private Sub CBOwnChastity_LostFocus(sender As Object, e As EventArgs) Handles CBOwnChastity.LostFocus
         My.Settings.CBOwnChastity = CBOwnChastity.Checked
     End Sub
 
-    Private Sub CBChastityPA_LostFocus(sender As Object, e As System.EventArgs) Handles DoesChastityDeviceRequirePiercingCB.LostFocus
+    Private Sub CBChastityPA_LostFocus(sender As Object, e As EventArgs) Handles DoesChastityDeviceRequirePiercingCB.LostFocus
         My.Settings.ChastityPA = DoesChastityDeviceRequirePiercingCB.Checked
     End Sub
 
-    Private Sub CBChastitySpikes_LostFocus(sender As Object, e As System.EventArgs) Handles ChastityDeviceContainsSpikesCB.LostFocus
+    Private Sub CBChastitySpikes_LostFocus(sender As Object, e As EventArgs) Handles ChastityDeviceContainsSpikesCB.LostFocus
         My.Settings.ChastitySpikes = ChastityDeviceContainsSpikesCB.Checked
     End Sub
 
-    Private Sub CBHimHer_LostFocus(sender As Object, e As System.EventArgs) Handles CBHimHer.LostFocus
+    Private Sub CBHimHer_LostFocus(sender As Object, e As EventArgs) Handles CBHimHer.LostFocus
         My.Settings.CBHimHer = CBHimHer.Checked
     End Sub
 
-    Private Sub CBDomDel_LostFocus(sender As Object, e As System.EventArgs) Handles CBDomDel.LostFocus
+    Private Sub CBDomDel_LostFocus(sender As Object, e As EventArgs) Handles CBDomDel.LostFocus
         My.Settings.DomDeleteMedia = CBDomDel.Checked
     End Sub
 
-    Private Sub Button1_Click_1(sender As System.Object, e As System.EventArgs) Handles BTNMaintenanceCancel.Click
+    Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles BTNMaintenanceCancel.Click
         If BWURLFiles.IsBusy Then BWURLFiles.CancelAsync()
     End Sub
 
-    Private Sub Button3_Click_1(sender As System.Object, e As System.EventArgs) Handles BTNMaintenanceScripts.Click
+    Private Sub Button3_Click_1(sender As Object, e As EventArgs) Handles BTNMaintenanceScripts.Click
 
         PBMaintenance.Maximum = My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text, FileIO.SearchOption.SearchAllSubDirectories, "*.txt").Count +
              My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Images\System\", FileIO.SearchOption.SearchAllSubDirectories, "*.txt").Count
@@ -8137,7 +8086,7 @@ checkFolder:
         End If
     End Sub
 
-    Private Sub Button1_Click(sender As System.Object, e As System.EventArgs) Handles Button1.Click
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
 
         Dim result As DialogResult = MessageBox.Show("This will permanently reset all saved Tease AI settings back to their default value!" & Environment.NewLine & Environment.NewLine &
                                               "Are you sure you wish to continue?", "Warning!", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation)
@@ -8147,25 +8096,25 @@ checkFolder:
         End If
     End Sub
 
-    Private Sub CBCockToClit_LostFocus(sender As Object, e As System.EventArgs) Handles CBCockToClit.LostFocus
+    Private Sub CBCockToClit_LostFocus(sender As Object, e As EventArgs) Handles CBCockToClit.LostFocus
         My.Settings.CockToClit = CBCockToClit.Checked
     End Sub
 
-    Private Sub CBBallsToPussy_LostFocus(sender As Object, e As System.EventArgs) Handles CBBallsToPussy.LostFocus
+    Private Sub CBBallsToPussy_LostFocus(sender As Object, e As EventArgs) Handles CBBallsToPussy.LostFocus
         My.Settings.BallsToPussy = CBBallsToPussy.Checked
     End Sub
 
-    Private Sub CBCockToClit_MouseHover(sender As Object, e As System.EventArgs) Handles CBCockToClit.MouseEnter
+    Private Sub CBCockToClit_MouseHover(sender As Object, e As EventArgs) Handles CBCockToClit.MouseEnter
         LBLSubSettingsDescription.Text = "When this box is checked, the domme will replace #Cock with a Keyword for ""clit"" when it appears in a script" & Environment.NewLine & Environment.NewLine &
             "She will also replace the word ""stroking"" with words like ""rubbing, fingering, teasing"" etc."
     End Sub
 
-    Private Sub CBBallsToPussy_MouseHover(sender As Object, e As System.EventArgs) Handles CBBallsToPussy.MouseEnter
+    Private Sub CBBallsToPussy_MouseHover(sender As Object, e As EventArgs) Handles CBBallsToPussy.MouseEnter
         LBLSubSettingsDescription.Text = "When this box is checked, the domme will replace #Balls with a Keyword for ""pussy"" when it appears in a script" & Environment.NewLine & Environment.NewLine &
             "She will also replace ""those #Balls"" with ""that pussy"" to make the exchange more natural."
     End Sub
 
-    Private Sub LBPlaylist_DragDrop(sender As Object, e As System.Windows.Forms.DragEventArgs) Handles LBPlaylist.DragDrop
+    Private Sub LBPlaylist_DragDrop(sender As Object, e As Windows.Forms.DragEventArgs) Handles LBPlaylist.DragDrop
 
         Debug.Print("Playlist DragDrop called? called?")
         If FrmSettingsLoading = True Then Return
@@ -8183,7 +8132,7 @@ checkFolder:
 
     End Sub
 
-    Private Sub LBPlaylist_DragEnter(sender As Object, e As System.Windows.Forms.DragEventArgs) Handles LBPlaylist.DragEnter
+    Private Sub LBPlaylist_DragEnter(sender As Object, e As Windows.Forms.DragEventArgs) Handles LBPlaylist.DragEnter
         If e.Data.GetDataPresent(DataFormats.FileDrop) Then
             e.Effect = DragDropEffects.Copy
         End If
@@ -8210,7 +8159,7 @@ checkFolder:
         Return SpaceClean
     End Function
 
-    Private Sub BTNPlaylistEnd_Click(sender As System.Object, e As System.EventArgs) Handles BTNPlaylistEnd.Click
+    Private Sub BTNPlaylistEnd_Click(sender As Object, e As EventArgs) Handles BTNPlaylistEnd.Click
 
         Debug.Print("BTNPLaylistENd called?")
         If FrmSettingsLoading = True Or BTNPlaylistEnd.BackColor = Color.Blue Then Return
@@ -8228,7 +8177,7 @@ checkFolder:
         Return
     End Sub
 
-    Private Sub RadioPlaylistScripts_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles RadioPlaylistScripts.CheckedChanged, RadioPlaylistRegScripts.CheckedChanged
+    Private Sub RadioPlaylistScripts_CheckedChanged(sender As Object, e As EventArgs) Handles RadioPlaylistScripts.CheckedChanged, RadioPlaylistRegScripts.CheckedChanged
         Debug.Print("Radio CHanged called?")
         If FrmSettingsLoading = True Or MainWindow.FormLoading = True Then Return
         Debug.Print("Radio CHanged accepted??")
@@ -8271,7 +8220,7 @@ checkFolder:
 
     End Sub
 
-    Private Sub BTNPlaylistSave_Click(sender As System.Object, e As System.EventArgs) Handles BTNPlaylistSave.Click
+    Private Sub BTNPlaylistSave_Click(sender As Object, e As EventArgs) Handles BTNPlaylistSave.Click
 
         If TBPlaylistSave.Text = "" Or TBPlaylistSave.Text Is Nothing Then
             MessageBox.Show(Me, "Please enter a name for this Playlist!", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -8312,7 +8261,7 @@ checkFolder:
         End Try
     End Sub
 
-    Private Sub BTNPlaylistClearAll_Click(sender As System.Object, e As System.EventArgs) Handles BTNPlaylistClearAll.Click
+    Private Sub BTNPlaylistClearAll_Click(sender As Object, e As EventArgs) Handles BTNPlaylistClearAll.Click
 
         LBPlaylist.Items.Clear()
         BTNPlaylistSave.Enabled = False
@@ -8341,7 +8290,7 @@ checkFolder:
 
     End Sub
 
-    Private Sub Button7_Click(sender As System.Object, e As System.EventArgs) Handles Button7.Click
+    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
 
         If BTNPlaylistSave.Enabled = True Then Return
 
@@ -8439,7 +8388,7 @@ checkFolder:
 
     End Sub
 
-    Private Sub BTNPlaylistCtrlZ_Click(sender As System.Object, e As System.EventArgs) Handles BTNPlaylistCtrlZ.Click
+    Private Sub BTNPlaylistCtrlZ_Click(sender As Object, e As EventArgs) Handles BTNPlaylistCtrlZ.Click
 
         If BTNPlaylistEnd.BackColor = Color.Blue Then
             If BTNPlaylistSave.Enabled = True Then
@@ -8525,7 +8474,7 @@ checkFolder:
 
     End Sub
 
-    Private Sub Button11_Click_1(sender As System.Object, e As System.EventArgs) Handles Button11.Click
+    Private Sub Button11_Click_1(sender As Object, e As EventArgs) Handles Button11.Click
 
         If MsgBox("This will change the Chastity state of Tease AI. Depending on the Personality or Scripts used so far, this could cause unexpected behavior or break certain scripts." & Environment.NewLine _
                   & Environment.NewLine & "It is recommended to only change this state if you are otherwise stuck. Are you sure you wish to change the Chastity state?", vbYesNo, "Warning!") = MsgBoxResult.Yes Then
@@ -8643,7 +8592,7 @@ checkFolder:
         TTSCheckBox.Text = "Aktiv"
     End Sub
 
-    Private Sub RBGerman_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles RBGerman.CheckedChanged, RBEnglish.CheckedChanged
+    Private Sub RBGerman_CheckedChanged(sender As Object, e As EventArgs) Handles RBGerman.CheckedChanged, RBEnglish.CheckedChanged
         If FrmSettingsLoading = False Then
 
             If RBGerman.Checked = True Then
@@ -8658,7 +8607,7 @@ checkFolder:
         End If
     End Sub
 
-    Private Sub ThemeLbl_Click(sender As System.Object, e As System.EventArgs) Handles LBLBackColor2.Click, LBLButtonColor2.Click, LBLTextColor2.Click, LBLDateTimeColor2.Click, LBLDateBackColor2.Click, LBLChatWindowColor2.Click, LBLChatTextColor2.Click
+    Private Sub ThemeLbl_Click(sender As Object, e As EventArgs) Handles LBLBackColor2.Click, LBLButtonColor2.Click, LBLTextColor2.Click, LBLDateTimeColor2.Click, LBLDateBackColor2.Click, LBLChatWindowColor2.Click, LBLChatTextColor2.Click
         If GetColor.ShowDialog() = DialogResult.OK Then
             MainWindow.SuspendLayout()
             CType(sender, Label).BackColor = GetColor.Color
@@ -8666,7 +8615,7 @@ checkFolder:
         End If
     End Sub
 
-    Private Sub Button17_Click(sender As System.Object, e As System.EventArgs) Handles Button17.Click
+    Private Sub Button17_Click(sender As Object, e As EventArgs) Handles Button17.Click
         If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
             Try
                 MainWindow.PnlLayoutForm.BackgroundImage.Dispose()
@@ -8679,7 +8628,7 @@ checkFolder:
         End If
     End Sub
 
-    Private Sub Button18_Click(sender As System.Object, e As System.EventArgs) Handles Button18.Click
+    Private Sub Button18_Click(sender As Object, e As EventArgs) Handles Button18.Click
         Try
             MainWindow.PnlLayoutForm.BackgroundImage.Dispose()
             PBBackgroundPreview.Image.Dispose()
@@ -8691,7 +8640,7 @@ checkFolder:
         My.Settings.BackgroundImage = ""
     End Sub
 
-    Private Sub Button31_Click(sender As System.Object, e As System.EventArgs) Handles Button31.Click
+    Private Sub Button31_Click(sender As Object, e As EventArgs) Handles Button31.Click
         OpenScriptDialog.Title = "Select a Theme settings file"
         OpenScriptDialog.InitialDirectory = Application.StartupPath & "\System\"
 
@@ -8743,15 +8692,15 @@ checkFolder:
         End If
     End Sub
 
-    Private Sub CBStretchBack_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles CBStretchBack.CheckedChanged
+    Private Sub CBStretchBack_CheckedChanged(sender As Object, e As EventArgs) Handles CBStretchBack.CheckedChanged
         My.Settings.BackgroundStretch = CBStretchBack.Checked
     End Sub
 
-    Private Sub CBTransparentTime_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles CBTransparentTime.CheckedChanged
+    Private Sub CBTransparentTime_CheckedChanged(sender As Object, e As EventArgs) Handles CBTransparentTime.CheckedChanged
         My.Settings.CBDateTransparent = CBTransparentTime.Checked
     End Sub
 
-    Private Sub CheckBox1_CheckedChanged_1(sender As System.Object, e As System.EventArgs) Handles CBFlipBack.CheckedChanged
+    Private Sub CheckBox1_CheckedChanged_1(sender As Object, e As EventArgs) Handles CBFlipBack.CheckedChanged
 
         Try
             If MainWindow.FormLoading = False And MainWindow.ApplyingTheme = False Then MainWindow.ApplyThemeColor()
@@ -8760,7 +8709,7 @@ checkFolder:
 
     End Sub
 
-    Private Sub Button32_Click(sender As System.Object, e As System.EventArgs) Handles Button32.Click
+    Private Sub Button32_Click(sender As Object, e As EventArgs) Handles Button32.Click
         SaveFileDialog1.Title = "Select a location to save current Theme"
         SaveFileDialog1.InitialDirectory = Application.StartupPath & "\System\"
 
@@ -8798,7 +8747,7 @@ checkFolder:
 
     End Sub
 
-    Private Sub TimeBoxWakeUp_ValueChanged(sender As System.Object, e As System.EventArgs) Handles TimeBoxWakeUp.ValueChanged
+    Private Sub TimeBoxWakeUp_ValueChanged(sender As Object, e As EventArgs) Handles TimeBoxWakeUp.ValueChanged
         If MainWindow.FormLoading = False Then
 
 
@@ -8823,112 +8772,38 @@ checkFolder:
         End If
     End Sub
 
-    Private Sub NBTypoChance_LostFocus(sender As Object, e As System.EventArgs) Handles NBTypoChance.LostFocus
+    Private Sub NBTypoChance_LostFocus(sender As Object, e As EventArgs) Handles NBTypoChance.LostFocus
         My.Settings.TypoChance = NBTypoChance.Value
     End Sub
 
-    Private Sub BTNWICreateURL_MouseHover(sender As Object, e As System.EventArgs) Handles BTNWICreateURL.MouseHover
-        TTDir.SetToolTip(BTNWICreateURL, "Click here to create a new URL File." & Environment.NewLine & Environment.NewLine &
-                                         "URL Files create a txt file containing the URL address" & Environment.NewLine &
-                                         "of every image posted at the image blog you specify.")
-    End Sub
-
-    Private Sub CBWIreview_MouseHover(sender As Object, e As System.EventArgs) Handles CBWIReview.MouseHover
-        TTDir.SetToolTip(CBWIReview, "When this is checked, you'll need to review" & Environment.NewLine &
-                                     "each image before it's added to the URL File.")
-    End Sub
-
-    Private Sub CBWISavetoDisk_MouseHover(sender As Object, e As System.EventArgs) Handles CBWISaveToDisk.MouseHover
-        TTDir.SetToolTip(CBWISaveToDisk, "When this is checked, images will also be saved" & Environment.NewLine &
-                                         "to the specified HDD directory as they are added.")
-    End Sub
-
-    Private Sub BTNWIAddandContinue_MouseHover(sender As Object, e As System.EventArgs) Handles BTNWIAddandContinue.MouseHover
-        TTDir.SetToolTip(BTNWIAddandContinue, "When reviewing images, click this button to add the" & Environment.NewLine &
-                                              "current image to the URL File and continue to the next.")
-    End Sub
-
-    Private Sub BTNWIContinue_MouseHover(sender As Object, e As System.EventArgs) Handles BTNWIContinue.MouseHover
-        TTDir.SetToolTip(BTNWIContinue, "When reviewing images, click this button to skip the" & Environment.NewLine &
-                                        "current image without adding it to the URL File.")
-    End Sub
-
-    Private Sub BTNWICancel_MouseHover(sender As Object, e As System.EventArgs) Handles BTNWICancel.MouseHover
-        TTDir.SetToolTip(BTNWICancel, "Use this button to cancel URL File creation.")
-    End Sub
-
-    Private Sub BTNWIOpenURL_MouseHover(sender As Object, e As System.EventArgs) Handles BTNWIOpenURL.MouseHover
-        TTDir.SetToolTip(BTNWIOpenURL, "Use this button to view a URL File you have previously created.")
-    End Sub
-
-    Private Sub BTNWIPrevious_MouseHover(sender As Object, e As System.EventArgs) Handles BTNWIPrevious.MouseHover
-        TTDir.SetToolTip(BTNWIPrevious, "Use this button to view the previous image of a URL File.")
-    End Sub
-
-    Private Sub BTNWINext_MouseHover(sender As Object, e As System.EventArgs) Handles BTNWINext.MouseHover
-        TTDir.SetToolTip(BTNWINext, "Use this button to view the next image of a URL File.")
-    End Sub
-
-    Private Sub BTNWIRemove_MouseHover(sender As Object, e As System.EventArgs) Handles BTNWIRemove.MouseHover
-        TTDir.SetToolTip(BTNWIRemove, "Use this button to remove an image from a URL File.")
-    End Sub
-
-    Private Sub BTNWILiked_MouseHover(sender As Object, e As System.EventArgs) Handles BTNWILiked.MouseHover
-        TTDir.SetToolTip(BTNWILiked, "Use this button to add the current image to your Liked URL Files list.")
-    End Sub
-
-    Private Sub BTNWIDisliked_MouseHover(sender As Object, e As System.EventArgs) Handles BTNWIDisliked.MouseHover
-        TTDir.SetToolTip(BTNWIDisliked, "Use this button to add the current image to your Disliked URL Files list.")
-    End Sub
-
-    Private Sub BTNWISave_MouseHover(sender As Object, e As System.EventArgs) Handles BTNWISave.MouseHover
-        TTDir.SetToolTip(BTNWISave, "Use this button to save the current image to your hard drive.")
-    End Sub
-
-    Private Sub TBWIDirectory_MouseHover(sender As Object, e As System.EventArgs) Handles TBWIDirectory.MouseHover
-        TTDir.SetToolTip(TBWIDirectory, "This is where images will be saved if ""Save Images to Disk"" is checked.")
-    End Sub
-
-    Private Sub BTNWIBrowse_MouseHover(sender As Object, e As System.EventArgs) Handles BTNWIBrowse.MouseHover
-        TTDir.SetToolTip(BTNWIBrowse, "Select the directory where images will be saved to disk.")
-    End Sub
-
-    Private Sub SliderVVolume_LostFocus(sender As Object, e As System.EventArgs) Handles SliderVVolume.LostFocus
+    Private Sub SliderVVolume_LostFocus(sender As Object, e As EventArgs) Handles SliderVVolume.LostFocus
         My.Settings.VVolume = SliderVVolume.Value
     End Sub
-    Private Sub SliderVRate_LostFocus(sender As Object, e As System.EventArgs) Handles SliderVRate.LostFocus
+    Private Sub SliderVRate_LostFocus(sender As Object, e As EventArgs) Handles SliderVRate.LostFocus
         My.Settings.VRate = SliderVRate.Value
     End Sub
 
-    Private Sub SliderVVolume_MouseHover(sender As Object, e As System.EventArgs) Handles SliderVVolume.MouseHover
-        TTDir.SetToolTip(SliderVVolume, "Adusts the volume of the domme's TTS voice.")
-    End Sub
-
-    Private Sub SliderVRate_MouseHover(sender As Object, e As System.EventArgs) Handles SliderVRate.MouseHover
-        TTDir.SetToolTip(SliderVRate, "Adusts the speed of the domme's TTS voice.")
-    End Sub
-
-    Private Sub SliderVVolume_Scroll(sender As System.Object, e As System.EventArgs) Handles SliderVVolume.Scroll
+    Private Sub SliderVVolume_Scroll(sender As Object, e As EventArgs) Handles SliderVVolume.Scroll
         MainWindow.synth.Volume = SliderVVolume.Value
         MainWindow.synth2.Volume = SliderVVolume.Value
         LBLVVolume.Text = SliderVVolume.Value
     End Sub
-    Private Sub SliderVRate_Scroll(sender As System.Object, e As System.EventArgs) Handles SliderVRate.Scroll
+    Private Sub SliderVRate_Scroll(sender As Object, e As EventArgs) Handles SliderVRate.Scroll
         MainWindow.synth.Rate = SliderVRate.Value
         MainWindow.synth2.Rate = SliderVRate.Value
         LBLVRate.Text = SliderVRate.Value
     End Sub
 
-    Private Sub sadisticCheckBox_LostFocus(sender As Object, e As System.EventArgs) Handles sadisticCheckBox.LostFocus
+    Private Sub sadisticCheckBox_LostFocus(sender As Object, e As EventArgs) Handles sadisticCheckBox.LostFocus
         My.Settings.DomSadistic = sadisticCheckBox.Checked
     End Sub
 
-    Private Sub degradingCheckBox_LostFocus(sender As Object, e As System.EventArgs) Handles degradingCheckBox.LostFocus
+    Private Sub degradingCheckBox_LostFocus(sender As Object, e As EventArgs) Handles degradingCheckBox.LostFocus
         My.Settings.DomDegrading = degradingCheckBox.Checked
     End Sub
 
 
-    Private Sub CBWebtease_CheckedChanged_1(sender As System.Object, e As System.EventArgs) Handles WebTeaseMode.CheckedChanged
+    Private Sub CBWebtease_CheckedChanged_1(sender As Object, e As EventArgs) Handles WebTeaseMode.CheckedChanged
         If WebTeaseMode.Checked = True Then
             MainWindow.WebteaseModeToolStripMenuItem.Checked = True
             MainWindow.ChatText.ScrollBarsEnabled = False
@@ -8943,28 +8818,28 @@ checkFolder:
 
 
 
-    Private Sub BTNDebugTauntsClear_Click(sender As System.Object, e As System.EventArgs) Handles BTNDebugTauntsClear.Click
+    Private Sub BTNDebugTauntsClear_Click(sender As Object, e As EventArgs) Handles BTNDebugTauntsClear.Click
         TBDebugTaunts1.Text = ""
         TBDebugTaunts2.Text = ""
         TBDebugTaunts3.Text = ""
     End Sub
 
-    Private Sub Button19_Click(sender As System.Object, e As System.EventArgs) Handles Button19.Click
+    Private Sub Button19_Click(sender As Object, e As EventArgs) Handles Button19.Click
         MainWindow.ssh.StrokeTick = 5
     End Sub
 
-    Private Sub CBMuteMedia_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles CBMuteMedia.CheckedChanged
+    Private Sub CBMuteMedia_CheckedChanged(sender As Object, e As EventArgs) Handles CBMuteMedia.CheckedChanged
 
         MainWindow.DomWMP.settings.mute = CBMuteMedia.Checked
 
     End Sub
 
-    Private Sub CBMuteMedia_LostFocus(sender As Object, e As System.EventArgs) Handles CBMuteMedia.LostFocus
+    Private Sub CBMuteMedia_LostFocus(sender As Object, e As EventArgs) Handles CBMuteMedia.LostFocus
         My.Settings.MuteMedia = CBMuteMedia.Checked
     End Sub
 
 
-    Private Sub BTNOfflineMode_Click(sender As System.Object, e As System.EventArgs) Handles BTNOfflineMode.Click
+    Private Sub BTNOfflineMode_Click(sender As Object, e As EventArgs) Handles BTNOfflineMode.Click
         If My.Settings.OfflineMode = True Then
             My.Settings.OfflineMode = False
             LBLOfflineMode.Text = "OFF"
@@ -8976,7 +8851,7 @@ checkFolder:
         End If
     End Sub
 
-    Private Sub CBNewSlideshow_LostFocus(sender As Object, e As System.EventArgs) Handles CBNewSlideshow.LostFocus
+    Private Sub CBNewSlideshow_LostFocus(sender As Object, e As EventArgs) Handles CBNewSlideshow.LostFocus
         If CBNewSlideshow.Checked = True Then
             My.Settings.CBNewSlideshow = True
         Else
@@ -8984,98 +8859,85 @@ checkFolder:
         End If
     End Sub
 
-    Private Sub NBTauntEdging_LostFocus(sender As Object, e As System.EventArgs) Handles NBTauntEdging.LostFocus
+    Private Sub NBTauntEdging_LostFocus(sender As Object, e As EventArgs) Handles NBTauntEdging.LostFocus
         My.Settings.TauntEdging = NBTauntEdging.Value
     End Sub
 
-    Private Sub BTNDebugTeaseTimer_Click(sender As System.Object, e As System.EventArgs) Handles BTNDebugTeaseTimer.Click
+    Private Sub BTNDebugTeaseTimer_Click(sender As Object, e As EventArgs) Handles BTNDebugTeaseTimer.Click
         MainWindow.ssh.TeaseTick = 5
     End Sub
 
-    Private Sub BTNDebugStrokeTime_Click(sender As System.Object, e As System.EventArgs) Handles BTNDebugStrokeTime.Click
+    Private Sub BTNDebugStrokeTime_Click(sender As Object, e As EventArgs) Handles BTNDebugStrokeTime.Click
         MainWindow.ssh.StrokeTick = 5
     End Sub
 
-    Private Sub BTNDebugStrokeTauntTimer_Click(sender As System.Object, e As System.EventArgs) Handles BTNDebugStrokeTauntTimer.Click
+    Private Sub BTNDebugStrokeTauntTimer_Click(sender As Object, e As EventArgs) Handles BTNDebugStrokeTauntTimer.Click
         MainWindow.ssh.StrokeTauntTick = 5
     End Sub
 
-    Private Sub BTNDebugEdgeTauntTimer_Click(sender As System.Object, e As System.EventArgs) Handles BTNDebugEdgeTauntTimer.Click
+    Private Sub BTNDebugEdgeTauntTimer_Click(sender As Object, e As EventArgs) Handles BTNDebugEdgeTauntTimer.Click
         MainWindow.ssh.EdgeTauntInt = 5
     End Sub
 
-    Private Sub BTNDebugHoldEdgeTimer_Click(sender As System.Object, e As System.EventArgs) Handles BTNDebugHoldEdgeTimer.Click
+    Private Sub BTNDebugHoldEdgeTimer_Click(sender As Object, e As EventArgs) Handles BTNDebugHoldEdgeTimer.Click
         MainWindow.ssh.HoldEdgeTick = 5
     End Sub
 
-    Private Sub CBURLPreview_LostFocus(sender As Object, e As System.EventArgs) Handles CBURLPreview.LostFocus
+    Private Sub CBURLPreview_LostFocus(sender As Object, e As EventArgs) Handles CBURLPreview.LostFocus
         My.Settings.CBURLPreview = CBURLPreview.Checked
     End Sub
 
 
-    Private Sub NBTaskStrokesMin_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBTaskStrokesMin.ValueChanged
+    Private Sub NBTaskStrokesMin_ValueChanged(sender As Object, e As EventArgs) Handles NBTaskStrokesMin.ValueChanged
         If NBTaskStrokesMin.Value > NBTaskStrokesMax.Value Then NBTaskStrokesMin.Value = NBTaskStrokesMax.Value
     End Sub
-    Private Sub NBTaskStrokesMax_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBTaskStrokesMax.ValueChanged
+    Private Sub NBTaskStrokesMax_ValueChanged(sender As Object, e As EventArgs) Handles NBTaskStrokesMax.ValueChanged
         If NBTaskStrokesMax.Value < NBTaskStrokesMin.Value Then NBTaskStrokesMax.Value = NBTaskStrokesMin.Value
     End Sub
 
-    Private Sub NBTaskStrokingTimeMin_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBTaskStrokingTimeMin.ValueChanged
+    Private Sub NBTaskStrokingTimeMin_ValueChanged(sender As Object, e As EventArgs) Handles NBTaskStrokingTimeMin.ValueChanged
         If NBTaskStrokingTimeMin.Value > NBTaskStrokingTimeMax.Value Then NBTaskStrokingTimeMin.Value = NBTaskStrokingTimeMax.Value
     End Sub
-    Private Sub NBTaskStrokingTimeMax_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBTaskStrokingTimeMax.ValueChanged
+    Private Sub NBTaskStrokingTimeMax_ValueChanged(sender As Object, e As EventArgs) Handles NBTaskStrokingTimeMax.ValueChanged
         If NBTaskStrokingTimeMax.Value < NBTaskStrokingTimeMin.Value Then NBTaskStrokingTimeMax.Value = NBTaskStrokingTimeMin.Value
     End Sub
 
-    Private Sub NBTaskEdgesMin_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBTaskEdgesMin.ValueChanged
+    Private Sub NBTaskEdgesMin_ValueChanged(sender As Object, e As EventArgs) Handles NBTaskEdgesMin.ValueChanged
         If NBTaskEdgesMin.Value > NBTaskEdgesMax.Value Then NBTaskEdgesMin.Value = NBTaskEdgesMax.Value
     End Sub
-    Private Sub NBTaskEdgesMax_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBTaskEdgesMax.ValueChanged
+    Private Sub NBTaskEdgesMax_ValueChanged(sender As Object, e As EventArgs) Handles NBTaskEdgesMax.ValueChanged
         If NBTaskEdgesMax.Value < NBTaskEdgesMin.Value Then NBTaskEdgesMax.Value = NBTaskEdgesMin.Value
     End Sub
 
-    Private Sub NBTaskEdgeHoldTimeMin_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBTaskEdgeHoldTimeMin.ValueChanged
+    Private Sub NBTaskEdgeHoldTimeMin_ValueChanged(sender As Object, e As EventArgs) Handles NBTaskEdgeHoldTimeMin.ValueChanged
         If NBTaskEdgeHoldTimeMin.Value > NBTaskEdgeHoldTimeMax.Value Then NBTaskEdgeHoldTimeMin.Value = NBTaskEdgeHoldTimeMax.Value
     End Sub
-    Private Sub NBTaskEdgeHoldTimeMax_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBTaskEdgeHoldTimeMax.ValueChanged
+    Private Sub NBTaskEdgeHoldTimeMax_ValueChanged(sender As Object, e As EventArgs) Handles NBTaskEdgeHoldTimeMax.ValueChanged
         If NBTaskEdgeHoldTimeMax.Value < NBTaskEdgeHoldTimeMin.Value Then NBTaskEdgeHoldTimeMax.Value = NBTaskEdgeHoldTimeMin.Value
     End Sub
 
-    Private Sub NBTaskCBTTimeMin_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBTaskCBTTimeMin.ValueChanged
+    Private Sub NBTaskCBTTimeMin_ValueChanged(sender As Object, e As EventArgs) Handles NBTaskCBTTimeMin.ValueChanged
         If NBTaskCBTTimeMin.Value > NBTaskCBTTimeMax.Value Then NBTaskCBTTimeMin.Value = NBTaskCBTTimeMax.Value
     End Sub
-    Private Sub NBTaskCBTTimeMax_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBTaskCBTTimeMax.ValueChanged
+    Private Sub NBTaskCBTTimeMax_ValueChanged(sender As Object, e As EventArgs) Handles NBTaskCBTTimeMax.ValueChanged
         If NBTaskCBTTimeMax.Value < NBTaskCBTTimeMin.Value Then NBTaskCBTTimeMax.Value = NBTaskCBTTimeMin.Value
     End Sub
 
-    Private Sub NBTasksMin_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBTasksMin.ValueChanged
+    Private Sub NBTasksMin_ValueChanged(sender As Object, e As EventArgs) Handles NBTasksMin.ValueChanged
         If NBTasksMin.Value > NBTasksMax.Value Then NBTasksMin.Value = NBTasksMax.Value
     End Sub
-    Private Sub NBTasksMax_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBTasksMax.ValueChanged
+    Private Sub NBTasksMax_ValueChanged(sender As Object, e As EventArgs) Handles NBTasksMax.ValueChanged
         If NBTasksMax.Value < NBTasksMin.Value Then NBTasksMax.Value = NBTasksMin.Value
     End Sub
 
-    Private Sub TypeSpeedSlider_MouseHover(sender As Object, e As System.EventArgs) Handles TypeSpeedSlider.MouseHover
-        TTDir.SetToolTip(TypeSpeedSlider, "Adjust your typing speed. It determines how much time you will have during Writing Tasks to accomplish them." & vbCrLf & "(There is a 3-fold difference in time granted between slowest and fastest typing speed")
-    End Sub
-
-    Private Sub TypeSpeedSlider_Scroll(sender As System.Object, e As System.EventArgs) Handles TypeSpeedSlider.Scroll
+    Private Sub TypeSpeedSlider_Scroll(sender As Object, e As EventArgs) Handles TypeSpeedSlider.Scroll
         TypesSpeedVal.Text = TypeSpeedSlider.Value
     End Sub
 
-    Private Sub TimedWriting_CheckedChanged_1(sender As System.Object, e As System.EventArgs) Handles TimedWriting.MouseHover
-
-        If RBEnglish.Checked = True Then TTDir.SetToolTip(TimedWriting, "When selected, you will need to complete Writing Tasks in a certain amount of time, based on sentence length and Typing Speed value" & Environment.NewLine &
-      "When unselected, Writing Tasks failure will only be based on errors made")
-        If RBGerman.Checked = True Then TTDir.SetToolTip(TimedWriting, "Wenn diese Option aktiviert , müssen Sie Schreibaufgaben in einer bestimmten Zeit zu vervollständigen, basierend auf Satzlängeund Typing Speed ​​Wert" & Environment.NewLine &
-         "Wenn diese Option deaktiviert, Schreibaufgaben Fehler wird nur auf Fehler beruhen gemacht")
-
+    Private Sub Button24_Click_1(sender As Object, e As EventArgs) Handles Button24.Click
     End Sub
 
-    Private Sub Button24_Click_1(sender As System.Object, e As System.EventArgs) Handles Button24.Click
-    End Sub
-
-    Private Sub Button33_Click(sender As System.Object, e As System.EventArgs) Handles Button33.Click
+    Private Sub Button33_Click(sender As Object, e As EventArgs) Handles Button33.Click
     End Sub
 
     Public Sub SaveDommeTags()
