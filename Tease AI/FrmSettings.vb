@@ -2043,29 +2043,22 @@ Public Class FrmSettings
 
     Private Sub BtnScriptsOpen_Click(sender As Object, e As EventArgs) Handles BTNScriptOpen.Click
         Dim Filepath As String = ""
-        Try
-            If StartScripts.Visible = True Then
-                Filepath = Ssh.Folders.StartScripts & StartScripts.Items(StartScripts.SelectedIndex) & ".txt"
-            ElseIf ModuleScripts.Visible = True Then
-                Filepath = Ssh.Folders.ModuleScripts & ModuleScripts.Items(ModuleScripts.SelectedIndex) & ".txt"
-            ElseIf LinkScripts.Visible = True Then
-                Filepath = Ssh.Folders.LinkScripts & LinkScripts.Items(LinkScripts.SelectedIndex) & ".txt"
-            ElseIf CLBEndList.Visible = True Then
-                Filepath = Ssh.Folders.EndScripts & CLBEndList.Items(CLBEndList.SelectedIndex) & ".txt"
-            Else
-                Throw New Exception("Unable to determine CheckedListBox.")
-            End If
+        If StartScripts.Visible Then
+            Filepath = Ssh.Folders.StartScripts & StartScripts.Items(StartScripts.SelectedIndex) & ".txt"
+        ElseIf ModuleScripts.Visible Then
+            Filepath = Ssh.Folders.ModuleScripts & ModuleScripts.Items(ModuleScripts.SelectedIndex) & ".txt"
+        ElseIf LinkScripts.Visible Then
+            Filepath = Ssh.Folders.LinkScripts & LinkScripts.Items(LinkScripts.SelectedIndex) & ".txt"
+        ElseIf CLBEndList.Visible Then
+            Filepath = Ssh.Folders.EndScripts & CLBEndList.Items(CLBEndList.SelectedIndex) & ".txt"
+        Else
+            Throw New Exception("Unable to determine CheckedListBox.")
+        End If
 
-            If Not File.Exists(Filepath) Then _
+        If Not File.Exists(Filepath) Then _
                 Throw New FileNotFoundException("Unable to locate file """ & Filepath & """.")
 
-            MainWindow.ShellExecute(Filepath)
-        Catch ex As Exception
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-            '                                            All Errors
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-            MessageBox.Show(ex.Message, "Error opening Script", MessageBoxButtons.OK, MessageBoxIcon.Hand)
-        End Try
+        MainWindow.ShellExecute(Filepath)
     End Sub
 
     Private Sub BtnScriptsSelectAutomated_Click(sender As Object, e As EventArgs) Handles BTNScriptAvailable.Click, BTNScriptNone.Click, BTNScriptAll.Click
@@ -2085,7 +2078,7 @@ Public Class FrmSettings
 
         Try
             ' Dertermine variable data
-            If TCScripts.SelectedTab Is ScriptsStartTab = True Then
+            If TCScripts.SelectedTab Is ScriptsStartTab Then
                 Target = StartScripts
                 Scriptfolder = Ssh.Folders.StartScripts
                 SaveAction = AddressOf SaveStartScripts
