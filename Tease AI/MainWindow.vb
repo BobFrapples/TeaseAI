@@ -11632,15 +11632,15 @@ NoPlaylistLinkFile:
             Do Until Not TempEnd.Contains("\")
                 TempEnd = TempEnd.Remove(0, 1)
             Loop
-            For x As Integer = 0 To FrmSettings.CLBEndList.Items.Count - 1
+            For x As Integer = 0 To FrmSettings.EndScripts.Items.Count - 1
 
                 If ssh.OrgasmRestricted = False Then
 
-                    If FrmSettings.CLBEndList.Items(x) = TempEnd And FrmSettings.CLBEndList.GetItemChecked(x) = True And TempEnd.Contains("_BEG") Then
+                    If FrmSettings.EndScripts.Items(x) = TempEnd And FrmSettings.EndScripts.GetItemChecked(x) = True And TempEnd.Contains("_BEG") Then
                         EndList.Add(foundFile)
                     End If
                 Else
-                    If FrmSettings.CLBEndList.Items(x) = TempEnd And FrmSettings.CLBEndList.GetItemChecked(x) = True And TempEnd.Contains("_RESTRICTED") Then
+                    If FrmSettings.EndScripts.Items(x) = TempEnd And FrmSettings.EndScripts.GetItemChecked(x) = True And TempEnd.Contains("_RESTRICTED") Then
                         EndList.Add(foundFile)
                     End If
 

@@ -259,9 +259,9 @@ Partial Class FrmSettings
         Me.Label70 = New System.Windows.Forms.Label()
         Me.TabPage16 = New System.Windows.Forms.TabPage()
         Me.Panel9 = New System.Windows.Forms.Panel()
-        Me.BTNScriptAvailable = New System.Windows.Forms.Button()
-        Me.BTNScriptNone = New System.Windows.Forms.Button()
-        Me.BTNScriptAll = New System.Windows.Forms.Button()
+        Me.SelectAvailableScriptsButton = New System.Windows.Forms.Button()
+        Me.SelectNoScriptsButton = New System.Windows.Forms.Button()
+        Me.SelectAllScriptsButton = New System.Windows.Forms.Button()
         Me.BTNScriptOpen = New System.Windows.Forms.Button()
         Me.LBLScriptReq = New System.Windows.Forms.Label()
         Me.GroupBox31 = New System.Windows.Forms.GroupBox()
@@ -274,7 +274,7 @@ Partial Class FrmSettings
         Me.ScriptsLinkTab = New System.Windows.Forms.TabPage()
         Me.LinkScripts = New System.Windows.Forms.CheckedListBox()
         Me.ScriptsEndTab = New System.Windows.Forms.TabPage()
-        Me.CLBEndList = New System.Windows.Forms.CheckedListBox()
+        Me.EndScripts = New System.Windows.Forms.CheckedListBox()
         Me.GroupBox42 = New System.Windows.Forms.GroupBox()
         Me.ScriptInfoTextArea = New System.Windows.Forms.RichTextBox()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
@@ -4287,9 +4287,9 @@ Partial Class FrmSettings
         '
         Me.Panel9.BackColor = System.Drawing.Color.LightGray
         Me.Panel9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Panel9.Controls.Add(Me.BTNScriptAvailable)
-        Me.Panel9.Controls.Add(Me.BTNScriptNone)
-        Me.Panel9.Controls.Add(Me.BTNScriptAll)
+        Me.Panel9.Controls.Add(Me.SelectAvailableScriptsButton)
+        Me.Panel9.Controls.Add(Me.SelectNoScriptsButton)
+        Me.Panel9.Controls.Add(Me.SelectAllScriptsButton)
         Me.Panel9.Controls.Add(Me.BTNScriptOpen)
         Me.Panel9.Controls.Add(Me.LBLScriptReq)
         Me.Panel9.Controls.Add(Me.GroupBox31)
@@ -4305,30 +4305,30 @@ Partial Class FrmSettings
         '
         'BTNScriptAvailable
         '
-        Me.BTNScriptAvailable.Location = New System.Drawing.Point(204, 294)
-        Me.BTNScriptAvailable.Name = "BTNScriptAvailable"
-        Me.BTNScriptAvailable.Size = New System.Drawing.Size(100, 23)
-        Me.BTNScriptAvailable.TabIndex = 160
-        Me.BTNScriptAvailable.Text = "Select Available"
-        Me.BTNScriptAvailable.UseVisualStyleBackColor = True
+        Me.SelectAvailableScriptsButton.Location = New System.Drawing.Point(204, 294)
+        Me.SelectAvailableScriptsButton.Name = "BTNScriptAvailable"
+        Me.SelectAvailableScriptsButton.Size = New System.Drawing.Size(100, 23)
+        Me.SelectAvailableScriptsButton.TabIndex = 160
+        Me.SelectAvailableScriptsButton.Text = "Select Available"
+        Me.SelectAvailableScriptsButton.UseVisualStyleBackColor = True
         '
         'BTNScriptNone
         '
-        Me.BTNScriptNone.Location = New System.Drawing.Point(108, 294)
-        Me.BTNScriptNone.Name = "BTNScriptNone"
-        Me.BTNScriptNone.Size = New System.Drawing.Size(75, 23)
-        Me.BTNScriptNone.TabIndex = 159
-        Me.BTNScriptNone.Text = "Select None"
-        Me.BTNScriptNone.UseVisualStyleBackColor = True
+        Me.SelectNoScriptsButton.Location = New System.Drawing.Point(108, 294)
+        Me.SelectNoScriptsButton.Name = "BTNScriptNone"
+        Me.SelectNoScriptsButton.Size = New System.Drawing.Size(75, 23)
+        Me.SelectNoScriptsButton.TabIndex = 159
+        Me.SelectNoScriptsButton.Text = "Select None"
+        Me.SelectNoScriptsButton.UseVisualStyleBackColor = True
         '
         'BTNScriptAll
         '
-        Me.BTNScriptAll.Location = New System.Drawing.Point(13, 294)
-        Me.BTNScriptAll.Name = "BTNScriptAll"
-        Me.BTNScriptAll.Size = New System.Drawing.Size(75, 23)
-        Me.BTNScriptAll.TabIndex = 158
-        Me.BTNScriptAll.Text = "Select All"
-        Me.BTNScriptAll.UseVisualStyleBackColor = True
+        Me.SelectAllScriptsButton.Location = New System.Drawing.Point(13, 294)
+        Me.SelectAllScriptsButton.Name = "BTNScriptAll"
+        Me.SelectAllScriptsButton.Size = New System.Drawing.Size(75, 23)
+        Me.SelectAllScriptsButton.TabIndex = 158
+        Me.SelectAllScriptsButton.Text = "Select All"
+        Me.SelectAllScriptsButton.UseVisualStyleBackColor = True
         '
         'BTNScriptOpen
         '
@@ -4445,7 +4445,7 @@ Partial Class FrmSettings
         'ScriptsEndTab
         '
         Me.ScriptsEndTab.BackColor = System.Drawing.Color.Silver
-        Me.ScriptsEndTab.Controls.Add(Me.CLBEndList)
+        Me.ScriptsEndTab.Controls.Add(Me.EndScripts)
         Me.ScriptsEndTab.Location = New System.Drawing.Point(4, 22)
         Me.ScriptsEndTab.Name = "ScriptsEndTab"
         Me.ScriptsEndTab.Padding = New System.Windows.Forms.Padding(3)
@@ -4455,12 +4455,12 @@ Partial Class FrmSettings
         '
         'CLBEndList
         '
-        Me.CLBEndList.FormattingEnabled = True
-        Me.CLBEndList.Location = New System.Drawing.Point(4, 4)
-        Me.CLBEndList.Name = "CLBEndList"
-        Me.CLBEndList.Size = New System.Drawing.Size(283, 214)
-        Me.CLBEndList.Sorted = True
-        Me.CLBEndList.TabIndex = 156
+        Me.EndScripts.FormattingEnabled = True
+        Me.EndScripts.Location = New System.Drawing.Point(4, 4)
+        Me.EndScripts.Name = "CLBEndList"
+        Me.EndScripts.Size = New System.Drawing.Size(283, 214)
+        Me.EndScripts.Sorted = True
+        Me.EndScripts.TabIndex = 156
         '
         'GroupBox42
         '
@@ -15594,11 +15594,11 @@ Partial Class FrmSettings
 	Friend WithEvents LBLScriptReq As System.Windows.Forms.Label
 	Friend WithEvents ModuleScripts As System.Windows.Forms.CheckedListBox
 	Friend WithEvents LinkScripts As System.Windows.Forms.CheckedListBox
-	Friend WithEvents CLBEndList As System.Windows.Forms.CheckedListBox
+	Friend WithEvents EndScripts As System.Windows.Forms.CheckedListBox
 	Friend WithEvents BTNScriptOpen As System.Windows.Forms.Button
-	Friend WithEvents BTNScriptAvailable As System.Windows.Forms.Button
-	Friend WithEvents BTNScriptNone As System.Windows.Forms.Button
-	Friend WithEvents BTNScriptAll As System.Windows.Forms.Button
+	Friend WithEvents SelectAvailableScriptsButton As System.Windows.Forms.Button
+	Friend WithEvents SelectNoScriptsButton As System.Windows.Forms.Button
+	Friend WithEvents SelectAllScriptsButton As System.Windows.Forms.Button
 	Friend WithEvents GroupBox45 As System.Windows.Forms.GroupBox
 	Friend WithEvents BallTortureEnabledCB As System.Windows.Forms.CheckBox
 	Friend WithEvents CockTortureEnabledCB As System.Windows.Forms.CheckBox

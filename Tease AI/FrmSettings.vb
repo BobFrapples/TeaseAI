@@ -21,10 +21,6 @@ Public Class FrmSettings
 
     Public URLFileIncludeList As New List(Of String)
     Public FrmSettingsLoading As Boolean
-    Public AvailFail As Boolean
-    Public AvailList As New List(Of String)
-    Dim ScriptList As New List(Of String)
-    Dim ScriptFile As String
     Dim LocalImageDir As New List(Of String)
 
     Dim ImageTagDir As New List(Of String)
@@ -339,9 +335,9 @@ Public Class FrmSettings
 
     Private Sub TimedWriting_CheckedChanged_1(sender As Object, e As EventArgs) Handles TimedWriting.MouseHover
 
-        If RBEnglish.Checked = True Then TTDir.SetToolTip(TimedWriting, "When selected, you will need to complete Writing Tasks in a certain amount of time, based on sentence length and Typing Speed value" & Environment.NewLine &
+        If RBEnglish.Checked Then TTDir.SetToolTip(TimedWriting, "When selected, you will need to complete Writing Tasks in a certain amount of time, based on sentence length and Typing Speed value" & Environment.NewLine &
       "When unselected, Writing Tasks failure will only be based on errors made")
-        If RBGerman.Checked = True Then TTDir.SetToolTip(TimedWriting, "Wenn diese Option aktiviert , müssen Sie Schreibaufgaben in einer bestimmten Zeit zu vervollständigen, basierend auf Satzlängeund Typing Speed ​​Wert" & Environment.NewLine &
+        If RBGerman.Checked Then TTDir.SetToolTip(TimedWriting, "Wenn diese Option aktiviert , müssen Sie Schreibaufgaben in einer bestimmten Zeit zu vervollständigen, basierend auf Satzlängeund Typing Speed ​​Wert" & Environment.NewLine &
          "Wenn diese Option deaktiviert, Schreibaufgaben Fehler wird nur auf Fehler beruhen gemacht")
 
     End Sub
@@ -358,12 +354,12 @@ Public Class FrmSettings
     Private Sub CBInputIcon_MouseHover(sender As Object, e As EventArgs) Handles CBInputIcon.MouseHover
         TTDir.SetToolTip(CBInputIcon, "When this is selected, a small question mark icon will appear next to the" & Environment.NewLine &
                                       "domme's question when your exact response will be saved to a variable.")
-        'If RBGerman.Checked = True Then TTDir.SetToolTip(CBInputIcon, "Wenn dies aktiviert ist, wird mit jeder Nachricht die" & Environment.NewLine & _
+        'If RBGerman.Checked Then TTDir.SetToolTip(CBInputIcon, "Wenn dies aktiviert ist, wird mit jeder Nachricht die" & Environment.NewLine & _
         ' "du oder die Domina sendet ein Zeitstempel angezeigt")
 
         'LBLGeneralSettingsDescription.Text = "When this is selected, a small question mark icon will appear next to domme's question when your exact response will be saved to a variable."
 
-        'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = "Wenn dies aktiviert ist, kann der Teilungsbalken zwischen Chat Fenster und Bildfenster nicht verstellt werden."
+        'If RBGerman.Checked Then LBLGeneralSettingsDescription.Text = "Wenn dies aktiviert ist, kann der Teilungsbalken zwischen Chat Fenster und Bildfenster nicht verstellt werden."
     End Sub
 
     Private Sub CBBlogImageWindow_MouseHover(sender As Object, e As EventArgs) Handles CBBlogImageWindow.MouseHover
@@ -373,7 +369,7 @@ Public Class FrmSettings
                                                                             "automatisch gespeichert in „…\Tease AI Open Beta\Images\Session Images\""")
         'LBLGeneralSettingsDescription.Text = "When this is selected, any blog images the domme shows you will automatically be saved to ""[root folder]\Images\Session Images\""."
 
-        'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = "Wenn dies aktiviert ist, wird jedes Blog Bild, welches die Domina dir zeigt automatisch gespeichert in „…\Tease AI Open Beta\Images\Session Images\"""
+        'If RBGerman.Checked Then LBLGeneralSettingsDescription.Text = "Wenn dies aktiviert ist, wird jedes Blog Bild, welches die Domina dir zeigt automatisch gespeichert in „…\Tease AI Open Beta\Images\Session Images\"""
     End Sub
 
     Private Sub LandscapeCheckBox_MouseHover(sender As Object, e As EventArgs) Handles LandscapeCheckBox.MouseHover
@@ -382,7 +378,7 @@ Public Class FrmSettings
         If RBGerman.Checked Then TTDir.SetToolTip(LandscapeCheckBox, "Wenn dies aktiviert ist, werden die Bilder(welche Angezeigt" & Environment.NewLine &
                                                                             "werden) gestreckt, wenn ihre Breite größer als ihre Höhe ist.")
         'LBLGeneralSettingsDescription.Text = "When this is selected, images that appear in the main window will be stretched to fit the screen if their width is greater than their height."
-        'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = "Wenn dies aktiviert ist, werden die Bilder(welche Angezeigt werden) gestreckt, wenn ihre Breite größer als ihre Höhe ist"
+        'If RBGerman.Checked Then LBLGeneralSettingsDescription.Text = "Wenn dies aktiviert ist, werden die Bilder(welche Angezeigt werden) gestreckt, wenn ihre Breite größer als ihre Höhe ist"
     End Sub
 
     Private Sub CBImageInfo_MouseHover(sender As Object, e As EventArgs) Handles CBImageInfo.MouseHover
@@ -393,7 +389,7 @@ Public Class FrmSettings
 
         'LBLGeneralSettingsDescription.Text = "When this is selected, the local filepath or URL address of each image displayed in the main window will appear in the upper left hand corner of the screen."
 
-        'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = "Wenn dies aktiviert ist, wird der Lokale Dateipfad oder die URL-Adresse von jedem Bild in der oberen linken Ecke des Bildschirms angezeigt."
+        'If RBGerman.Checked Then LBLGeneralSettingsDescription.Text = "Wenn dies aktiviert ist, wird der Lokale Dateipfad oder die URL-Adresse von jedem Bild in der oberen linken Ecke des Bildschirms angezeigt."
     End Sub
 
     Private Sub BTNDomImageDir_MouseHover(sender As Object, e As EventArgs) Handles BTNDomImageDir.MouseHover
@@ -410,7 +406,7 @@ Public Class FrmSettings
         'LBLGeneralSettingsDescription.Text = "Use this button to select a directory containing several image set folders of the same model you're using as your domme. Once a valid directory has been set, any time" _
         '& " you say hello to the domme, one of those folders will automatically be selected at random and used for the slideshow."
 
-        'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = "Benutze diese Schaltfläche um einen Ordner zu wählen, welcher mehre Bildersets von dem selben Model enthält,"
+        'If RBGerman.Checked Then LBLGeneralSettingsDescription.Text = "Benutze diese Schaltfläche um einen Ordner zu wählen, welcher mehre Bildersets von dem selben Model enthält,"
         ' die du als Domina benutzt. Nachdem einmal ein gültiges Verzeichnis gesetzt wurde, wird nachdem du Hello zu der Domina gesagt hast, automatisch zufällig eine Diashow ausgewählt."
     End Sub
 
@@ -422,7 +418,7 @@ Public Class FrmSettings
 
         'LBLGeneralSettingsDescription.Text = "When this is set, any slideshow you have selected will not advance during the tease. Use the Previous and Next buttons on the Media Bar to change the images."
 
-        'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = "Wenn dies aktiviert ist, wird jede Diashow nicht automatisch die Bilder wechseln. Nutze die Vor- und Zurückschaltflächen in der media bar um die Bilder zu wechseln"
+        'If RBGerman.Checked Then LBLGeneralSettingsDescription.Text = "Wenn dies aktiviert ist, wird jede Diashow nicht automatisch die Bilder wechseln. Nutze die Vor- und Zurückschaltflächen in der media bar um die Bilder zu wechseln"
     End Sub
 
     Private Sub TimedRadio_MouseHover(sender As Object, e As EventArgs) Handles TimedSlideShowRadio.MouseHover
@@ -432,7 +428,7 @@ Public Class FrmSettings
 
         'LBLGeneralSettingsDescription.Text = "When this is set, any slideshow you have selected will advance the image every number of seconds displayed in the box to the right of this option."
 
-        'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = ""
+        'If RBGerman.Checked Then LBLGeneralSettingsDescription.Text = ""
     End Sub
 
     Private Sub SlideShowNumBox_MouseHover(sender As Object, e As EventArgs) Handles SlideShowNumBox.MouseHover
@@ -442,7 +438,7 @@ Public Class FrmSettings
 
         'LBLGeneralSettingsDescription.Text = "The number of seconds between image changes when the ""Timed"" slideshow option is checked."
 
-        'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = ""
+        'If RBGerman.Checked Then LBLGeneralSettingsDescription.Text = ""
     End Sub
 
     Private Sub TeaseSlideShowRadio_MouseHover(sender As Object, e As EventArgs) Handles TeaseSlideShowRadio.MouseHover
@@ -460,7 +456,7 @@ Public Class FrmSettings
         'LBLGeneralSettingsDescription.Text = "When this is set, any slideshow you have selected will advance automatically when the domme types. The slideshow may move forward or backward, but will not loop either" _
         '   & " direction. You can change the odds of which way the slideshow will move in the Ranges tab. This is the default slideshow mode for Tease AI."
 
-        'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = "Wenn dies aktiviert ist, wird die Diashow automatisch die Bilder wechseln wenn die Domina schreibt. 
+        'If RBGerman.Checked Then LBLGeneralSettingsDescription.Text = "Wenn dies aktiviert ist, wird die Diashow automatisch die Bilder wechseln wenn die Domina schreibt. 
         'Die Diashow kann vorwärts oder rückwärts laufen, aber wird keine Richtung wiederholen. Du kannst die Wahrscheinlichkeit in welche Richtung die 
         'Diashow läuft im Wertebereichs „Reiter"" ändern. Dies ist der Standart Diashow modus in Tease AI "
     End Sub
@@ -474,7 +470,7 @@ Public Class FrmSettings
 
         'LBLGeneralSettingsDescription.Text = "When this is selected, the program will pause any time the settings menu is open and resume once it is closed."
 
-        'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = "Wenn dies aktiviert ist, wird das Programm immer in Pause springen solange das Einstellungsmenü geöffnet ist."
+        'If RBGerman.Checked Then LBLGeneralSettingsDescription.Text = "Wenn dies aktiviert ist, wird das Programm immer in Pause springen solange das Einstellungsmenü geöffnet ist."
     End Sub
 
     Private Sub BTNDomColor_MouseHover(sender As Object, e As EventArgs) Handles BTNDomColor.MouseHover
@@ -491,7 +487,7 @@ Public Class FrmSettings
 
         'LBLGeneralSettingsDescription.Text = "This button allows you to change the color of the domme's name as it appears in the chat window. A preview will appear in the text box next to this button once a color has been selected."
 
-        'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = "Diese Schaltfläche erlaubt dir die Farbe des Domina Namens zu ändern in der er im Chat Fenster angezeigt wird. Eine Vorschau wird in der Textbox neben dieser Schaltfläche angezeigt, nachdem eine Farbe ausgewählt wurde."
+        'If RBGerman.Checked Then LBLGeneralSettingsDescription.Text = "Diese Schaltfläche erlaubt dir die Farbe des Domina Namens zu ändern in der er im Chat Fenster angezeigt wird. Eine Vorschau wird in der Textbox neben dieser Schaltfläche angezeigt, nachdem eine Farbe ausgewählt wurde."
     End Sub
 
     Private Sub BTNSubColor_MouseHover(sender As Object, e As EventArgs) Handles BTNSubColor.MouseHover
@@ -507,7 +503,7 @@ Public Class FrmSettings
 
         'LBLGeneralSettingsDescription.Text = "This button allows you to change the color of your name as it appears in the chat window. A preview will appear in the text box next to this button once a color has been selected."
 
-        'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = "Diese Schaltfläche erlaubt dir die Farbe  des Sklaven Namens zu ändern in der er im Chat Fenster angezeigt wird. Eine Vorschau wird in der Textbox neben dieser Schaltfläche angezeigt, nachdem eine Farbe ausgewählt wurde."
+        'If RBGerman.Checked Then LBLGeneralSettingsDescription.Text = "Diese Schaltfläche erlaubt dir die Farbe  des Sklaven Namens zu ändern in der er im Chat Fenster angezeigt wird. Eine Vorschau wird in der Textbox neben dieser Schaltfläche angezeigt, nachdem eine Farbe ausgewählt wurde."
     End Sub
 
     Private Sub LBLDomColor_MouseHover(sender As Object, e As EventArgs) Handles LBLDomColor.MouseHover
@@ -519,7 +515,7 @@ Public Class FrmSettings
 
         'LBLGeneralSettingsDescription.Text = "After clicking the ""Domme Name Color"" button to the left, a preview of the selected color will appear here."
 
-        'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = "Nachdem Klicken der Schaltfläche ""Domina Farbe für Namen"" zur linken, eine Vorschau der ausgewählten Farbe erscheint hier"
+        'If RBGerman.Checked Then LBLGeneralSettingsDescription.Text = "Nachdem Klicken der Schaltfläche ""Domina Farbe für Namen"" zur linken, eine Vorschau der ausgewählten Farbe erscheint hier"
     End Sub
 
     Private Sub LBLSubColor_MouseHover(sender As Object, e As EventArgs) Handles LBLSubColor.MouseHover
@@ -532,7 +528,7 @@ Public Class FrmSettings
 
         'LBLGeneralSettingsDescription.Text = "After clicking the ""Sub Name Color"" button to the left, a preview of the selected color will appear here."
 
-        'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = "Nachdem Klicken der Schaltfläche ""Sklaven Farbe für Namen"" zur linken, eine Vorschau der ausgewählten Farbe erscheint hier"
+        'If RBGerman.Checked Then LBLGeneralSettingsDescription.Text = "Nachdem Klicken der Schaltfläche ""Sklaven Farbe für Namen"" zur linken, eine Vorschau der ausgewählten Farbe erscheint hier"
     End Sub
 
     Private Sub CBDomDel_MouseHover(sender As Object, e As EventArgs) Handles CBDomDel.MouseHover
@@ -551,7 +547,7 @@ Public Class FrmSettings
         'LBLGeneralSettingsDescription.Text = "When this box is checked, the domme will be able to permanently delete media from your hard drive when such Commands are used in scripts." & Environment.NewLine & _
         '   Environment.NewLine & "When this box is NOT checked, media will not actually be deleted. Images will still disappear from the window, but they will not be deleted from the hard drive."
 
-        'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = "Wenn dies aktiviert ist, ist die Domina dazu in der Lage Medien permanent von deiner Festplatte zu löschen, wenn solche "
+        'If RBGerman.Checked Then LBLGeneralSettingsDescription.Text = "Wenn dies aktiviert ist, ist die Domina dazu in der Lage Medien permanent von deiner Festplatte zu löschen, wenn solche "
         'Kommandos in dem Script genutzt werden. Wenn dies deaktiviert ist, werden Bilder vom Bildschirm verschwinden, aber nicht von der Festplatte gelöscht."
     End Sub
 
@@ -569,7 +565,7 @@ Public Class FrmSettings
         'LBLGeneralSettingsDescription.Text = "When this is selected, the program will include all subdirectories when you select a folder for slideshow images. When it is unselected, only the images in the top " & _
         '   "level of the folder will be used."
 
-        'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = "Wenn dies aktiviert ist, wird das Programm alle Unterordner mit einbeziehn wenn du ein Ordner für Diashow bilder gewählt hast. "
+        'If RBGerman.Checked Then LBLGeneralSettingsDescription.Text = "Wenn dies aktiviert ist, wird das Programm alle Unterordner mit einbeziehn wenn du ein Ordner für Diashow bilder gewählt hast. "
         'Wenn dies deaktiviert ist. Werden nur Bilder des ausgewählten Ordners benutzt"
     End Sub
 
@@ -582,7 +578,7 @@ Public Class FrmSettings
 
 
         'LBLGeneralSettingsDescription.Text = "When this is selected, the slideshow will display images randomly. When it is unselected, it will display images in order of their filename."
-        'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = "Wenn dies aktiviert ist, werden Diashow Bilder zufällig angezeigt. Wenn dies deaktiviert ist, werden die Bilder in Reihenfolge ihrer Dateinamen gezeigt."
+        'If RBGerman.Checked Then LBLGeneralSettingsDescription.Text = "Wenn dies aktiviert ist, werden Diashow Bilder zufällig angezeigt. Wenn dies deaktiviert ist, werden die Bilder in Reihenfolge ihrer Dateinamen gezeigt."
 
     End Sub
 
@@ -601,7 +597,7 @@ Public Class FrmSettings
         'LBLGeneralSettingsDescription.Text = "When this is selected, the program will save a chatlog called ""Autosave.html"" any time you or the domme post a message. This log is overwritten each time, so it will only display " & _
         ' "a record of the current session. This log can be found in the ""Chatlogs"" directory in the root folder of the program."
 
-        'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = "Wenn dies aktiviert ist, speichert das Programm einen Chatlog („Autosave.html"") immer wenn du oder die Domina eine Nachricht senden."
+        'If RBGerman.Checked Then LBLGeneralSettingsDescription.Text = "Wenn dies aktiviert ist, speichert das Programm einen Chatlog („Autosave.html"") immer wenn du oder die Domina eine Nachricht senden."
         ' Dieses Log wird jedes Mal überschrieben, so das es nur die Aktuelle Session aufnimmt/anzeigt. Dieses Log befindet sich im Ordner „Chatlogs"" in dem Tease AI Ordner."
 
     End Sub
@@ -618,7 +614,7 @@ Public Class FrmSettings
         ' LBLGeneralSettingsDescription.Text = "When this is selected, a unique chatlog that includes the date and time will be created whenever you exit the program. This log can be found in the ""Chatlogs"" directory in " & _
         '    "the root folder of the program."
 
-        'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = "Wenn dies aktiviert ist, speichert das Programm einen einzigartigen Chatlog, der Datum und Zeit beinhaltet, immer dann wenn du das "
+        'If RBGerman.Checked Then LBLGeneralSettingsDescription.Text = "Wenn dies aktiviert ist, speichert das Programm einen einzigartigen Chatlog, der Datum und Zeit beinhaltet, immer dann wenn du das "
         'Programm beendest. Dieses Log befindet sich im Ordner „Chatlogs"" in dem Tease AI Ordner."
     End Sub
 
@@ -632,7 +628,7 @@ Public Class FrmSettings
 
         'LBLGeneralSettingsDescription.Text = "When this is checked, the program will automatically audit all scripts in the current domme's directory and fix common errors."
 
-        'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = "Wenn dies aktiviert ist, wird das Programm automatisch alle Scripts im domina Ordner prüfen und häufige Fehler beheben"
+        'If RBGerman.Checked Then LBLGeneralSettingsDescription.Text = "Wenn dies aktiviert ist, wird das Programm automatisch alle Scripts im domina Ordner prüfen und häufige Fehler beheben"
     End Sub
 
     Private Sub TBSafeword_MouseHover(sender As Object, e As EventArgs) Handles TBSafeword.MouseHover
@@ -646,7 +642,7 @@ Public Class FrmSettings
         'LBLGeneralSettingsDescription.Text = "Use this to set the word you would like to use as your safeword. When used by itself during interaction with the domme, it will stop all activity and begin an Interrupt" _
         '   & " script where the domme makes sure you're okay to continue."
 
-        'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = "Gebe hier dein Safeword ein, welches alle Aktivitäten der Domina stopt, bis sie sicher ist, das du weiter machen kannst."
+        'If RBGerman.Checked Then LBLGeneralSettingsDescription.Text = "Gebe hier dein Safeword ein, welches alle Aktivitäten der Domina stopt, bis sie sicher ist, das du weiter machen kannst."
     End Sub
 
     Private Sub TTSCheckbox_MouseHover(sender As Object, e As EventArgs) Handles TTSCheckBox.MouseHover
@@ -665,7 +661,7 @@ Public Class FrmSettings
         'LBLGeneralSettingsDescription.Text = "When this is selected, the domme will ""speak"" her lines using whichever TTS voice you have selected. This setting must be manually checked to make the most out of the" _
         '   & " Hypnotic Guide app. For privacy reasons, this setting will not be saved through multiple uses of the program. It must be selected each time you start Tease AI and wish to use it."
 
-        'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = "Wenn dies Aktiviert ist, wird die Domina ihre Zeilen ""sprechen"" mit welcher TTS stimme du gewählt hast."
+        'If RBGerman.Checked Then LBLGeneralSettingsDescription.Text = "Wenn dies Aktiviert ist, wird die Domina ihre Zeilen ""sprechen"" mit welcher TTS stimme du gewählt hast."
         'Diese Einstellung muss Manuel gewählt werden um das meiste aus der Hypnotic Guide app zu machen. Wegen der Privatsphäre wird diese Einstellung nicht gespeichert,
         '   sondern muss bei jedem Start von Tease AI gesondert gewählt werden."
     End Sub
@@ -676,7 +672,7 @@ Public Class FrmSettings
 
         ' LBLGeneralSettingsDescription.Text = "Make a selection from the Text-to-Speech voices installed on your computer."
 
-        'If RBGerman.Checked = True Then LBLGeneralSettingsDescription.Text = ""
+        'If RBGerman.Checked Then LBLGeneralSettingsDescription.Text = ""
     End Sub
 
     Private Sub DominationLevel_MouseHover(sender As Object, e As EventArgs) Handles DominationLevel.MouseHover
@@ -1095,9 +1091,9 @@ Public Class FrmSettings
 
     Private Sub Button2_MouseHover(sender As Object, e As EventArgs) Handles BtnContact1ImageDir.MouseHover, BtnContact2ImageDir.MouseHover, BtnContact3ImageDir.MouseHover
 
-        If RBEnglish.Checked = True Then TTDir.SetToolTip(sender, "Use this button to select a directory containing several image" & Environment.NewLine &
+        If RBEnglish.Checked Then TTDir.SetToolTip(sender, "Use this button to select a directory containing several image" & Environment.NewLine &
 "set folders of the same model you're using as your contact.")
-        If RBGerman.Checked = True Then TTDir.SetToolTip(sender, "Benutze diese Schaltfläche um einen Ordner zu wählen, welcher mehre" & Environment.NewLine &
+        If RBGerman.Checked Then TTDir.SetToolTip(sender, "Benutze diese Schaltfläche um einen Ordner zu wählen, welcher mehre" & Environment.NewLine &
 "Bildersets von dem selben Model enthält, die du als Kontakt benutzt.")
     End Sub
 
@@ -1715,7 +1711,7 @@ Public Class FrmSettings
         ElseIf TCScripts.SelectedTab Is ScriptsLinkTab Then
             LinkScripts.Focus()
         ElseIf TCScripts.SelectedTab Is ScriptsEndTab Then
-            CLBEndList.Focus()
+            EndScripts.Focus()
         End If
     End Sub
 
@@ -1743,22 +1739,22 @@ Public Class FrmSettings
         saveCheckedListBox(LinkScripts, Ssh.Files.LinkChecklist)
     End Sub
 
-    Private Sub SaveEndScripts() Handles CLBEndList.LostFocus
-        saveCheckedListBox(CLBEndList, Ssh.Files.EndChecklist)
+    Private Sub SaveEndScripts() Handles EndScripts.LostFocus
+        saveCheckedListBox(EndScripts, Ssh.Files.EndChecklist)
     End Sub
 
     Public Sub ScriptsStartTab_VisibleChanged() Handles ScriptsStartTab.VisibleChanged
         If (Not ScriptsStartTab.Visible) Then
             Return
         End If
-        LoadScriptMetaData(StartScripts, mySettingsAccessor.DommePersonality, "Stroke", Constants.SessionPhase.Start, False)
+        LoadScriptMetaData(StartScripts, mySettingsAccessor.DommePersonality, "Stroke", SessionPhase.Start, False)
     End Sub
 
     Public Sub ScriptsModuleTab_VisibleChanged() Handles ScriptsModuleTab.VisibleChanged
         If (Not ScriptsModuleTab.Visible) Then
             Return
         End If
-        LoadScriptMetaData(ModuleScripts, mySettingsAccessor.DommePersonality, "Modules", Constants.SessionPhase.Modules, False)
+        LoadScriptMetaData(ModuleScripts, mySettingsAccessor.DommePersonality, "Modules", SessionPhase.Modules, False)
     End Sub
 
     Public Sub ScriptsLinkTab_VisibleChanged() Handles ScriptsLinkTab.VisibleChanged
@@ -1772,15 +1768,16 @@ Public Class FrmSettings
         If (Not ScriptsEndTab.Visible) Then
             Return
         End If
-        LoadScriptMetaData(CLBEndList, mySettingsAccessor.DommePersonality, "Stroke", Constants.SessionPhase.End, False)
+        LoadScriptMetaData(EndScripts, mySettingsAccessor.DommePersonality, "Stroke", Constants.SessionPhase.End, False)
     End Sub
 
-    Private Sub Scripts_SelectedIndexChanged(sender As Object, e As EventArgs) Handles StartScripts.SelectedIndexChanged, ModuleScripts.SelectedIndexChanged, LinkScripts.SelectedIndexChanged, CLBEndList.SelectedIndexChanged
-        Dim target As CheckedListBox = DirectCast(sender, CheckedListBox)
+    Private Sub Scripts_SelectedIndexChanged(sender As Object, e As EventArgs) Handles StartScripts.SelectedIndexChanged, ModuleScripts.SelectedIndexChanged, LinkScripts.SelectedIndexChanged, EndScripts.SelectedIndexChanged
+        Dim sessionPhase As SessionPhase = GetSessionPhase(TCScripts.SelectedTab)
+        Dim target As CheckedListBox = GetScriptsCheckedListBox(sessionPhase)
         If target.SelectedIndex = -1 Then ScriptStatusUnlock(False) : Exit Sub
 
+
         Dim scriptType As String = "Stroke"
-        Dim sessionPhase As SessionPhase = SessionPhase.Start
         If target Is StartScripts Then
             sessionPhase = SessionPhase.Start
         ElseIf target Is ModuleScripts Then
@@ -1788,17 +1785,16 @@ Public Class FrmSettings
             sessionPhase = SessionPhase.Modules
         ElseIf target Is LinkScripts Then
             sessionPhase = SessionPhase.Link
-        ElseIf target Is CLBEndList Then
+        ElseIf target Is EndScripts Then
             sessionPhase = SessionPhase.End
         Else
             Throw New NotImplementedException("The starting control is not implemented in this method.")
         End If
 
-        Dim script As ScriptMetaData = myScriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality, scriptType, sessionPhase, False)(target.SelectedIndex)
+        Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality, If(sessionPhase = SessionPhase.Modules, "Modules", "Stroke"), sessionPhase, True)
+        Dim script = scripts.First(Function(smd) smd.Name = target.SelectedItem.ToString())
         ScriptInfoTextArea.Text = script.Info
         GetScriptStatus(script)
-        Debug.WriteLine(target.Name)
-
     End Sub
 
     ''' <summary>
@@ -1818,754 +1814,173 @@ Public Class FrmSettings
         End If
     End Sub
 
-    ''' <summary>
-    ''' Determine requirements for <paramref name="scriptMetaData"/>
-    ''' </summary>
-    ''' <param name="scriptMetaData"></param>
-    Public Sub GetScriptStatus(scriptMetaData As ScriptMetaData)
-        Dim requirements As List(Of String) = New List(Of String)()
-        Dim getScript As Result(Of Script) = myScriptAccessor.GetScript(scriptMetaData)
-        If (getScript.IsFailure) Then
-            Throw New ApplicationException(getScript.Error.Message)
-        End If
-        Dim script As Script = getScript.Value
-        Dim areScriptRequirementsMet As Boolean = True
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowBlogImage) OrElse l.Contains(Keyword.NewBlogImage) OrElse l.Contains(Keyword.ShowImage)) Then
-            requirements.Add("* At least one URL File Selected *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso URLFileList.CheckedItems.Count > 0
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowLocalImage) OrElse l.Contains(Keyword.ShowImage)) Then
-            requirements.Add("* At least one Local Image path selected with a valid directory *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.IsImageGenreEnabled.Values.Any(Function(isEn) isEn)
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains("@CBTBalls")) Then
-            requirements.Add("* Ball Torture must be enabled *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.IsBallTortureEnabled
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains("@CBTCock")) Then
-            requirements.Add("* Cock Torture must be enabled *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.IsCockTortureEnabled
-        End If
-
-        If script.Lines.Any(Function(l) Not l.Contains("@CBTCock") AndAlso Not l.Contains("@CBTBalls") AndAlso l.Contains("@CBT")) Then
-            requirements.Add("* Cock Torture must be enabled *")
-            requirements.Add("* Ball Torture must be enabled *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.IsCockTortureEnabled AndAlso mySettingsAccessor.IsBallTortureEnabled
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.PlayJoiVideo)) Then
-            requirements.Add("* JOI or JOI Domme Video path selected with a valid directory *")
-            areScriptRequirementsMet = areScriptRequirementsMet _
-                    AndAlso ((CBVideoJOI.Checked AndAlso Convert.ToInt32(LblVideoJOITotal.Text) > 0) _
-                        OrElse (CBVideoJOID.Checked AndAlso Convert.ToInt32(LblVideoJOITotalD.Text) > 0)
-                    )
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains("PlayCHVideo")) Then
-            requirements.Add("* CH or CH Domme Video path selected with a valid directory *")
-            areScriptRequirementsMet = areScriptRequirementsMet _
-                    AndAlso ((CBVideoCH.Checked AndAlso Convert.ToInt32(LblVideoCHTotal.Text) > 0) _
-                        OrElse (CBVideoCHD.Checked AndAlso Convert.ToInt32(LblVideoCHTotalD.Text) > 0)
-                    )
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowButtImage) OrElse l.Contains(Keyword.ShowButtsImage)) Then
-            requirements.Add("* BnB Butt path must be set to a valid directory or URL File *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
-                    ((mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Butt) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Butt))) OrElse
-                    (ChbImageUrlButts.Checked AndAlso File.Exists(My.Settings.UrlFileButt)))
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowBoobImage) OrElse l.Contains(Keyword.ShowBoobsImage)) Then
-            requirements.Add("* BnB Boobs path must be set to a valid directory or URL File *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
-                ((mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Boobs) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Boobs))) OrElse
-                (ChbImageUrlButts.Checked AndAlso File.Exists(My.Settings.UrlFileButt)))
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowHardcoreImage)) Then
-            requirements.Add("* Local Hardcore images must be enabled and set to a valid directory  *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
-                mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Hardcore) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Hardcore))
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowLesbianImage)) Then
-            requirements.Add("* Local Lesbian images must be enabled and set to a valid directory  *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
-                mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Lesbian) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Lesbian))
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowBlowjobImage)) Then
-            requirements.Add("* Local Blowjob images must be enabled and set to a valid directory  *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
-                mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Blowjob) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Blowjob))
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowFemdomImage)) Then
-            requirements.Add("* Local Femdom images must be enabled and set to a valid directory  *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
-                mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Femdom) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Femdom))
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowLezdomImage)) Then
-            requirements.Add("* Local Lezdom images must be enabled and set to a valid directory  *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
-                mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Lezdom) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Lezdom))
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowHentaiImage)) Then
-            requirements.Add("* Local Hentai images must be enabled and set to a valid directory  *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
-                mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Hentai) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Hentai))
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowGayImage)) Then
-            requirements.Add("* Local gay images must be enabled and set to a valid directory  *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
-                mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Gay) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Gay))
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowMaledomImage)) Then
-            requirements.Add("* Local maledom images must be enabled and set to a valid directory  *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
-                mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Maledom) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Maledom))
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowCaptionsImage)) Then
-            requirements.Add("* Local caption images must be enabled and set to a valid directory  *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
-                mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Captions) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Captions))
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowGeneralImage)) Then
-            requirements.Add("* Local general images must be enabled and set to a valid directory  *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
-                mySettingsAccessor.IsImageGenreEnabled(ImageGenre.General) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.General))
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains("@ShowTaggedImage") AndAlso l.Contains("@Tag")) Then
-            Dim tagImageList As List(Of String) = New List(Of String)()
-
-            Dim tagFile = Application.StartupPath & "\Images\System\LocalImageTags.txt"
-            If File.Exists(tagFile) Then
-                tagImageList = File.ReadAllText(tagFile) _
-                    .Split(" ") _
-                    .Where(Function(l) l.StartsWith("Tag")) _
-                    .Distinct() _
-                    .ToList()
-            End If
-
-            Dim scriptTags As List(Of String) = String.Join(" ", script.Lines.All(Function(l) l.Contains("@Tag"))) _
-                .Split(" ") _
-                .Where(Function(l) l.StartsWith("@Tag")) _
-                .Select(Function(l) l.Replace("@Tag", "Tag")) _
-                .Distinct() _
-                .ToList()
-
-            Dim missingTags As List(Of String) = scriptTags.Where(Function(l) Not tagFile.Contains(l)).ToList()
-            requirements.Add("* Images in LocalImageTags.txt tagged with: " & String.Join(" ", missingTags))
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso Not missingTags.Any()
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains("@ShowTaggedImage") AndAlso Not l.Contains("@Tag")) Then
-            Dim tagFile = Application.StartupPath & "\Images\System\LocalImageTags.txt"
-            requirements.Add("* LocalImageTags.txt must exist in \Images\System\ *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso File.Exists(tagFile)
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains("@CheckVideo")) Then
-            MainWindow.ssh.VideoCheck = True
-            MainWindow.RandomVideo()
-            requirements.Add("* At least one Genre or Domme Video path set and selected *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso Not MainWindow.ssh.NoVideo
-            MainWindow.ssh.VideoCheck = False
-            MainWindow.ssh.NoVideo = False
-        End If
-
-        ' Need to find out if we have videos for the next few
-        MainWindow.ssh.VideoCheck = True
-        MainWindow.RandomVideo()
-        Dim hasVideos = Not MainWindow.ssh.NoVideo
-        MainWindow.ssh.VideoCheck = False
-        MainWindow.ssh.NoVideo = False
-
-        If script.Lines.Any(Function(l) l.Contains("@CheckVideo")) Then
-            requirements.Add("* At least one Genre or Domme Video path set and selected *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso hasVideos
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains("@PlayCensorShipSucks") OrElse l.Contains("@PlayAvoidTheEdge") OrElse l.Contains("@PlayRedLightGreenLight")) Then
-            requirements.Add("* At least one non-Special Genre or Domme Video path set and selected *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso hasVideos
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains("@ChastityOn") OrElse l.Contains("@ChastityOff")) Then
-            requirements.Add("* You must indicate you own a chastity device *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.HasChastityDevice
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains("@DeleteLocalImage")) Then
-            requirements.Add("* ""Allow Domme to Delete Local Media"" muct be checked *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.CanDommeDeleteFiles
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains("@DeleteLocalImage")) Then
-            requirements.Add("* ""Allow Domme to Delete Local Media"" muct be checked *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.CanDommeDeleteFiles
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains("@VitalSubAssignment")) Then
-            requirements.Add("* ""Allow Domme to Delete Local Media"" muct be checked *")
-            requirements.Add("* VitalSub must be enabled *")
-            requirements.Add("* ""Domme Assignments"" must be checked in the VitalSub app *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso MainWindow.CBVitalSub.Checked AndAlso MainWindow.CBVitalSubDomTask.Checked
-        End If
-
-        Try
-            ScriptStatusUnlock(True)
-            RTBScriptReq.Text = String.Join(Environment.NewLine, requirements).Replace("**", "* *")
-
-            If Not areScriptRequirementsMet Then
-                LBLScriptReq.ForeColor = Color.Red
-                LBLScriptReq.Text = "All requirements not met!"
-            Else
-                LBLScriptReq.ForeColor = Color.Green
-                LBLScriptReq.Text = "All requirements met!"
-            End If
-        Catch ex As Exception
-            ScriptStatusUnlock(False)
-            MessageBox.Show(ex.Message, "Error Checking ScriptStatus", MessageBoxButtons.OK, MessageBoxIcon.Hand)
-        End Try
-    End Sub
-
     Private Sub BtnScriptsOpen_Click(sender As Object, e As EventArgs) Handles BTNScriptOpen.Click
-        Dim Filepath As String = ""
-        If StartScripts.Visible Then
-            Filepath = Ssh.Folders.StartScripts & StartScripts.Items(StartScripts.SelectedIndex) & ".txt"
-        ElseIf ModuleScripts.Visible Then
-            Filepath = Ssh.Folders.ModuleScripts & ModuleScripts.Items(ModuleScripts.SelectedIndex) & ".txt"
-        ElseIf LinkScripts.Visible Then
-            Filepath = Ssh.Folders.LinkScripts & LinkScripts.Items(LinkScripts.SelectedIndex) & ".txt"
-        ElseIf CLBEndList.Visible Then
-            Filepath = Ssh.Folders.EndScripts & CLBEndList.Items(CLBEndList.SelectedIndex) & ".txt"
-        Else
-            Throw New Exception("Unable to determine CheckedListBox.")
-        End If
+        Dim sessionPhase As SessionPhase = GetSessionPhase(TCScripts.SelectedTab)
+        Dim checkedListBox As CheckedListBox = GetScriptsCheckedListBox(sessionPhase)
+        Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality, IIf(sessionPhase = SessionPhase.Modules, "Modules", "Stroke"), sessionPhase, True)
 
-        If Not File.Exists(Filepath) Then _
-                Throw New FileNotFoundException("Unable to locate file """ & Filepath & """.")
-
-        MainWindow.ShellExecute(Filepath)
+        Dim clickedScript = scripts.First(Function(smd) smd.Name = checkedListBox.SelectedItem.ToString())
+        MainWindow.ShellExecute(clickedScript.Key)
     End Sub
 
-    Private Sub BtnScriptsSelectAutomated_Click(sender As Object, e As EventArgs) Handles BTNScriptAvailable.Click, BTNScriptNone.Click, BTNScriptAll.Click
+    Private Sub BtnScriptsSelectAutomated_Click(sender As Object, e As EventArgs) Handles SelectAvailableScriptsButton.Click, SelectNoScriptsButton.Click, SelectAllScriptsButton.Click
         ' Lock Buttons to prevent double trigger
-        BTNScriptAvailable.Enabled = False
-        BTNScriptNone.Enabled = False
-        BTNScriptAll.Enabled = False
+        SelectAvailableScriptsButton.Enabled = False
+        SelectNoScriptsButton.Enabled = False
+        SelectAllScriptsButton.Enabled = False
 
-        ' The CheckedListBox to use.
-        Dim Target As CheckedListBox = Nothing
-
-        ' The corresponding Folder containing scripts
-        Dim Scriptfolder As String
-
-        ' A Lamda Object for saving the changes.
-        Dim SaveAction As Action
-
+        Dim sessionPhase As SessionPhase = GetSessionPhase(TCScripts.SelectedTab)
+        Dim target As CheckedListBox = GetScriptsCheckedListBox(sessionPhase)
+        Dim saveAction As Action = GetSaveAction(sessionPhase, target)
         Try
-            ' Dertermine variable data
-            If TCScripts.SelectedTab Is ScriptsStartTab Then
-                Target = StartScripts
-                Scriptfolder = Ssh.Folders.StartScripts
-                SaveAction = AddressOf SaveStartScripts
-            ElseIf TCScripts.SelectedTab Is ScriptsModuleTab Then
-                Target = ModuleScripts
-                Scriptfolder = Ssh.Folders.ModuleScripts
-                SaveAction = AddressOf SaveModuleScripts
-            ElseIf TCScripts.SelectedTab Is ScriptsLinkTab Then
-                Target = LinkScripts
-                Scriptfolder = Ssh.Folders.LinkScripts
-                SaveAction = AddressOf SaveLinkScripts
-            ElseIf TCScripts.SelectedTab Is ScriptsEndTab Then
-                Target = CLBEndList
-                Scriptfolder = Ssh.Folders.EndScripts
-                SaveAction = AddressOf SaveEndScripts
-            Else
-                Throw New Exception("Unable to determine CheckedListBox.")
-            End If
+            target.BeginUpdate()
 
-            Target.BeginUpdate()
-
-            If sender Is BTNScriptNone Then
-                ' ####################### Select None #########################
-                Debug.Print(Target.Name & " select none")
-
-                For i As Integer = 0 To Target.Items.Count - 1
-                    Target.SetItemChecked(i, False)
+            If sender Is SelectNoScriptsButton Then
+                For i As Integer = 0 To target.Items.Count - 1
+                    target.SetItemChecked(i, False)
+                Next
+            ElseIf sender Is SelectAllScriptsButton Then
+                For i As Integer = 0 To target.Items.Count - 1
+                    target.SetItemChecked(i, True)
                 Next
 
-            ElseIf sender Is BTNScriptAll Then
-                ' ####################### Select All ##########################
-                Debug.Print(Target.Name & " select all")
+            ElseIf sender Is SelectAvailableScriptsButton Then
+                Dim scriptFolder As String
+                If sessionPhase = SessionPhase.Start Then
+                    scriptFolder = Ssh.Folders.StartScripts
+                ElseIf sessionPhase = SessionPhase.Modules Then
+                    scriptFolder = Ssh.Folders.ModuleScripts
+                ElseIf sessionPhase = SessionPhase.Link Then
+                    scriptFolder = Ssh.Folders.LinkScripts
+                ElseIf sessionPhase = SessionPhase.End Then
+                    scriptFolder = Ssh.Folders.EndScripts
+                End If
 
-                For i As Integer = 0 To Target.Items.Count - 1
-                    Target.SetItemChecked(i, True)
-                Next
+                Dim scriptType As String = "Stroke"
+                Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality, IIf(sessionPhase = SessionPhase.Modules, "Modules", "Stroke"), sessionPhase, True)
 
-            ElseIf sender Is BTNScriptAvailable Then
-                ' #################### Select Available #######################
-                Debug.Print(Target.Name & " select available")
-
-                For i As Integer = 0 To Target.Items.Count - 1
-
-                    AvailFail = False
-
-                    AvailList = Common.Txt2List(Scriptfolder & Target.Items(i) & ".txt")
-                    GetAvailFail()
-
-                    If AvailFail = True Then
-                        Target.SetItemChecked(i, False)
-                    Else
-                        Target.SetItemChecked(i, True)
-                    End If
-
+                For i As Integer = 0 To target.Items.Count - 1
+                    Dim item = target.Items(i)
+                    Dim scriptMetaData = scripts.First(Function(smd) smd.Name = item.ToString())
+                    Dim requirements = GetScriptRequirements(scriptMetaData)
+                    target.SetItemChecked(i, requirements.Item1)
                 Next
             End If
 
-            SaveAction()
-        Catch ex As Exception
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-            '                                            All Errors
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-            MessageBox.Show(ex.Message, "Error selecting Scripts", MessageBoxButtons.OK, MessageBoxIcon.Hand)
+            saveAction()
         Finally
-            If Target IsNot Nothing Then
-                Target.EndUpdate()
-                Target.Focus()
-            End If
+            target.EndUpdate()
+            target.Focus()
         End Try
 
-        ' Unlock Buttons
-        BTNScriptAvailable.Enabled = True
-        BTNScriptNone.Enabled = True
-        BTNScriptAll.Enabled = True
+        SelectAvailableScriptsButton.Enabled = True
+        SelectNoScriptsButton.Enabled = True
+        SelectAllScriptsButton.Enabled = True
     End Sub
 
-    Public Sub GetAvailFail()
-        'BUG: This Function is not checking all Commands and their contditions
-        Try
-            For j As Integer = 0 To AvailList.Count - 1
-                If AvailList(j).Contains("@ShowBlogImage") Then
-                    If URLFileList.CheckedItems.Count = 0 Then AvailFail = True
-                End If
-                If AvailList(j).Contains("@NewBlogImage") Then
-                    If URLFileList.CheckedItems.Count = 0 Then AvailFail = True
-                End If
-                If AvailList(j).Contains("@ShowLocalImage") Then
-                    Dim LocalCount As Integer = 0
-                    If My.Settings.CBIHardcore = True Then
-                        If Directory.Exists(My.Settings.IHardcore) Then LocalCount += 1
-                    End If
-                    If My.Settings.CBISoftcore = True Then
-                        If Directory.Exists(My.Settings.ISoftcore) Then LocalCount += 1
-                    End If
-                    If My.Settings.CBILesbian = True Then
-                        If Directory.Exists(My.Settings.ILesbian) Then LocalCount += 1
-                    End If
-                    If My.Settings.CBIBlowjob = True Then
-                        If Directory.Exists(My.Settings.IBlowjob) Then LocalCount += 1
-                    End If
-                    If My.Settings.CBIFemdom = True Then
-                        If Directory.Exists(My.Settings.IFemdom) Then LocalCount += 1
-                    End If
-                    If My.Settings.CBILezdom = True Then
-                        If Directory.Exists(My.Settings.ILezdom) Then LocalCount += 1
-                    End If
-                    If My.Settings.CBIHentai = True Then
-                        If Directory.Exists(My.Settings.IHentai) Then LocalCount += 1
-                    End If
-                    If My.Settings.CBIGay = True Then
-                        If Directory.Exists(My.Settings.IGay) Then LocalCount += 1
-                    End If
-                    If My.Settings.CBIMaledom = True Then
-                        If Directory.Exists(My.Settings.IMaledom) Then LocalCount += 1
-                    End If
-                    If My.Settings.CBICaptions = True Then
-                        If Directory.Exists(My.Settings.ICaptions) Then LocalCount += 1
-                    End If
-                    If My.Settings.CBIGeneral = True Then
-                        If Directory.Exists(My.Settings.IGeneral) Then LocalCount += 1
-                    End If
-                    If LocalCount = 0 Then AvailFail = True
-                End If
-
-                If AvailList(j).Contains("@ShowImage") Then
-                    If URLFileList.CheckedItems.Count = 0 Then AvailFail = True
-                    Dim LocalCount As Integer = 0
-                    If My.Settings.CBIHardcore = True Then
-                        If Directory.Exists(My.Settings.IHardcore) Then LocalCount += 1
-                    End If
-                    If My.Settings.CBISoftcore = True Then
-                        If Directory.Exists(My.Settings.ISoftcore) Then LocalCount += 1
-                    End If
-                    If My.Settings.CBILesbian = True Then
-                        If Directory.Exists(My.Settings.ILesbian) Then LocalCount += 1
-                    End If
-                    If My.Settings.CBIBlowjob = True Then
-                        If Directory.Exists(My.Settings.IBlowjob) Then LocalCount += 1
-                    End If
-                    If My.Settings.CBIFemdom = True Then
-                        If Directory.Exists(My.Settings.IFemdom) Then LocalCount += 1
-                    End If
-                    If My.Settings.CBILezdom = True Then
-                        If Directory.Exists(My.Settings.ILezdom) Then LocalCount += 1
-                    End If
-                    If My.Settings.CBIHentai = True Then
-                        If Directory.Exists(My.Settings.IHentai) Then LocalCount += 1
-                    End If
-                    If My.Settings.CBIGay = True Then
-                        If Directory.Exists(My.Settings.IGay) Then LocalCount += 1
-                    End If
-                    If My.Settings.CBIMaledom = True Then
-                        If Directory.Exists(My.Settings.IMaledom) Then LocalCount += 1
-                    End If
-                    If My.Settings.CBICaptions = True Then
-                        If Directory.Exists(My.Settings.ICaptions) Then LocalCount += 1
-                    End If
-                    If My.Settings.CBIGeneral = True Then
-                        If Directory.Exists(My.Settings.IGeneral) Then LocalCount += 1
-                    End If
-                    If LocalCount = 0 Then AvailFail = True
-                End If
-
-                If AvailList(j).Contains("@CBTBalls") Then
-                    If BallTortureEnabledCB.Checked = False Then AvailFail = True
-                End If
-
-                If AvailList(j).Contains("@CBTCock") Then
-                    If CockTortureEnabledCB.Checked = False Then AvailFail = True
-                End If
-
-                If AvailList(j).Contains("@CBT") Then
-                    If CockTortureEnabledCB.Checked = False Then AvailFail = True
-                    If BallTortureEnabledCB.Checked = False Then AvailFail = True
-                End If
-
-                If AvailList(j).Contains("@PlayJOIVideo") Then
-                    If CBVideoJOI.Checked = False And CBVideoJOID.Checked = False Then AvailFail = True
-                    If LblVideoJOITotal.Text = "0" And LblVideoJOITotalD.Text = "0" Then AvailFail = True
-                    If CBVideoJOI.Checked = True And Not Directory.Exists(TxbVideoJOI.Text) Then AvailFail = True
-                    If CBVideoJOID.Checked = True And Not Directory.Exists(TxbVideoJOID.Text) Then AvailFail = True
-                End If
-
-                If AvailList(j).Contains("@PlayCHVideo") Then
-                    If CBVideoCH.Checked = False And CBVideoCHD.Checked = False Then AvailFail = True
-                    If LblVideoCHTotal.Text = "0" And LblVideoCHTotalD.Text = "0" Then AvailFail = True
-                    If CBVideoCH.Checked = True And Not Directory.Exists(TxbVideoCH.Text) Then AvailFail = True
-                    If CBVideoCHD.Checked = True And Not Directory.Exists(TxbVideoCHD.Text) Then AvailFail = True
-                End If
-
-                'If AvailList(j).Contains("@TnAFastSlides") Or AvailList(j).Contains("@TnASlowSlides") Or AvailList(j).Contains("@TnASlides") Or AvailList(j).Contains("@CheckTnA") Then
-                'If CBEnableBnB.Checked = False Then AvailFail = True
-                'End If
-
-                If AvailList(j).Contains("@ShowButtImage") Then
-                    If My.Settings.CBIButts = True And Not Directory.Exists(My.Settings.LBLButtPath) Then AvailFail = True
-                    If ChbImageUrlButts.Checked = True And Not File.Exists(My.Settings.UrlFileButt) Then AvailFail = True
-                End If
-
-                If AvailList(j).Contains("@ShowBoobsImage") Then
-                    If My.Settings.CBIBoobs = True And Not Directory.Exists(My.Settings.LBLBoobPath) Then AvailFail = True
-                    If ChbImageUrlBoobs.Checked = True And Not File.Exists(My.Settings.UrlFileBoobs) Then AvailFail = True
-                End If
-
-                If AvailList(j).Contains("@ShowHardcoreImage") Then
-                    If Not Directory.Exists(My.Settings.IHardcore) Or My.Settings.CBIHardcore = False Then AvailFail = True
-                End If
-
-                If AvailList(j).Contains("@ShowSoftcoreImage") Then
-                    If Not Directory.Exists(My.Settings.ISoftcore) Or My.Settings.CBISoftcore = False Then AvailFail = True
-                End If
-
-                If AvailList(j).Contains("@ShowLesbianImage") Then
-                    If Not Directory.Exists(My.Settings.ILesbian) Or My.Settings.CBILesbian = False Then AvailFail = True
-                End If
-
-                If AvailList(j).Contains("@ShowBlowjobImage") Then
-                    If Not Directory.Exists(My.Settings.IBlowjob) Or My.Settings.CBIBlowjob = False Then AvailFail = True
-                End If
-
-                If AvailList(j).Contains("@ShowFemdomImage") Then
-                    If Not Directory.Exists(My.Settings.IFemdom) Or My.Settings.CBIFemdom = False Then AvailFail = True
-                End If
-
-                If AvailList(j).Contains("@ShowLezdomImage") Then
-                    If Not Directory.Exists(My.Settings.ILezdom) Or My.Settings.CBILezdom = False Then AvailFail = True
-                End If
-
-                If AvailList(j).Contains("@ShowHentaiImage") Then
-                    If Not Directory.Exists(My.Settings.IHentai) Or My.Settings.CBIHentai = False Then AvailFail = True
-                End If
-
-                If AvailList(j).Contains("@ShowGayImage") Then
-                    If Not Directory.Exists(My.Settings.IGay) Or My.Settings.CBIGay = False Then AvailFail = True
-                End If
-
-                If AvailList(j).Contains("@ShowMaledomImage") Then
-                    If Not Directory.Exists(My.Settings.IMaledom) Or My.Settings.CBIMaledom = False Then AvailFail = True
-                End If
-
-                If AvailList(j).Contains("@ShowCaptionsImage") Then
-                    If Not Directory.Exists(My.Settings.ICaptions) Or My.Settings.CBICaptions = False Then AvailFail = True
-                End If
-
-                If AvailList(j).Contains("@ShowGeneralImage") Then
-                    If Not Directory.Exists(My.Settings.IGeneral) Or My.Settings.CBIGeneral = False Then AvailFail = True
-                End If
-
-
-
-                If AvailList(j).Contains("@ShowTaggedImage") And AvailList(j).Contains("@Tag") Then
-
-                    Dim LocalTagImageList As New List(Of String)
-                    LocalTagImageList.Clear()
-
-                    If File.Exists(Application.StartupPath & "\Images\System\LocalImageTags.txt") Then
-                        Dim LocalReader As New StreamReader(Application.StartupPath & "\Images\System\LocalImageTags.txt")
-                        While LocalReader.Peek <> -1
-                            LocalTagImageList.Add(LocalReader.ReadLine())
-                        End While
-                        LocalReader.Close()
-                        LocalReader.Dispose()
-                        For k As Integer = LocalTagImageList.Count - 1 To 0 Step -1
-                            If LocalTagImageList(k) = "" Or LocalTagImageList(k) Is Nothing Then LocalTagImageList.RemoveAt(k)
-                        Next
-                    End If
-
-                    Dim TagCount As Integer = 0
-
-                    Dim TSplit As String() = Split(AvailList(j))
-                    For m As Integer = 0 To TSplit.Length - 1
-                        If TSplit(m).Contains("@Tag") Then
-                            Dim TString As String = TSplit(m).Replace("@Tag", "")
-                            For k As Integer = LocalTagImageList.Count - 1 To 0 Step -1
-                                If LocalTagImageList(k).Contains(TString) Then TagCount += 1
-                            Next
-                            If TagCount = 0 Then
-                                AvailFail = True
-                            End If
-                            TagCount = 0
-                        End If
-                    Next
-                End If
-
-
-
-                If AvailList(j).Contains("@ShowTaggedImage") And Not AvailList(j).Contains("@Tag") Then
-                    If Not File.Exists(Application.StartupPath & "\Images\System\LocalImageTags.txt") Then AvailFail = True
-                End If
-
-                If AvailList(j).Contains("@CheckVideo") Then
-                    MainWindow.ssh.VideoCheck = True
-                    MainWindow.RandomVideo()
-                    If MainWindow.ssh.NoVideo = True Then AvailFail = True
-                    MainWindow.ssh.VideoCheck = False
-                    MainWindow.ssh.NoVideo = False
-                End If
-
-                If AvailList(j).Contains("@PlayCensorshipSucks") Or AvailList(j).Contains("@PlayAvoidTheEdge") Or AvailList(j).Contains("@PlayRedLightGreenLight") Then
-                    MainWindow.ssh.VideoCheck = True
-                    MainWindow.ssh.NoSpecialVideo = True
-                    MainWindow.RandomVideo()
-                    If MainWindow.ssh.NoVideo = True Then AvailFail = True
-                    MainWindow.ssh.VideoCheck = False
-                    MainWindow.ssh.NoSpecialVideo = False
-                    MainWindow.ssh.NoVideo = False
-                End If
-
-                If AvailList(j).Contains("@ChastityOn") Or AvailList(j).Contains("@ChastityOff") Then
-                    If CBOwnChastity.Checked = False Then AvailFail = True
-                End If
-
-                If AvailList(j).Contains("@DeleteLocalImage") Then
-                    If CBDomDel.Checked = False Then AvailFail = True
-                End If
-
-                If AvailList(j).Contains("@VitalSubAssignment") Then
-                    If MainWindow.CBVitalSub.Checked = False Or MainWindow.CBVitalSubDomTask.Checked = False Then AvailFail = True
-                End If
-
-            Next
-
-        Catch ex As Exception
-            Throw
-        End Try
-    End Sub
-
-    ''' <summary>
-    ''' Load script metadata into the checked list box
-    ''' </summary>
-    ''' <param name="target"></param>
-    ''' <param name="dommePersonalityName"></param>
-    ''' <param name="type"></param>
-    ''' <param name="stage"></param>
-    ''' <param name="isEnabledByDefault"></param>
-    Private Sub LoadScriptMetaData(target As CheckedListBox, dommePersonalityName As String, type As String, stage As Constants.SessionPhase, isEnabledByDefault As Boolean)
-        Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(dommePersonalityName, type, stage, isEnabledByDefault)
-
-        Dim lastIndex As Integer = target.SelectedIndex
-        Dim lastItem As String = target.SelectedItem
-
-        target.BeginUpdate()
-        target.Items.Clear()
-        For Each cldFile In scripts
-            target.Items.Add(cldFile.Name, cldFile.IsEnabled)
-        Next
-
-        If lastIndex = -1 Then
-            ScriptStatusUnlock(False)
-        ElseIf target.Items.Count >= lastIndex Then
-            target.SelectedIndex = lastIndex
-        ElseIf target.Items.Contains(lastItem) Then
-            target.SelectedItem = lastItem
-        End If
-        target.EndUpdate()
-    End Sub
-
-    Private Function GetScriptRequirements(script As ScriptMetaData) As String
-        Throw New NotImplementedException()
-    End Function
 #End Region ' Scripts
 
 #Region "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Apps ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 #Region "----------------------------------------- Glitter ----------------------------------------------"
 
-    Private Sub GlitterAV_Click_1(sender As Object, e As EventArgs) Handles GlitterAV.Click
-        If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
-            Try
-                GlitterAV.Image.Dispose()
-            Catch
-            End Try
-            GlitterAV.Image = Nothing
-            GC.Collect()
+    Private Sub GlitterAV_Click(sender As Object, e As EventArgs) Handles GlitterAV.Click
+        Dim openFileDialog As OpenFileDialog = New OpenFileDialog()
+        If openFileDialog.ShowDialog() = DialogResult.OK Then
             GlitterAV.Image = Image.FromFile(OpenFileDialog1.FileName)
             My.Settings.GlitterAV = OpenFileDialog1.FileName
         End If
     End Sub
+
     Private Sub GlitterAV1_Click(sender As Object, e As EventArgs) Handles GlitterAV1.Click
-        If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
-            Try
-                GlitterAV1.Image.Dispose()
-            Catch
-            End Try
-            GlitterAV1.Image = Nothing
-            GC.Collect()
+        Dim openFileDialog As OpenFileDialog = New OpenFileDialog()
+        If openFileDialog.ShowDialog() = DialogResult.OK Then
             GlitterAV1.Image = Image.FromFile(OpenFileDialog1.FileName)
             My.Settings.GlitterAV1 = OpenFileDialog1.FileName
         End If
     End Sub
+
     Private Sub GlitterAV2_Click(sender As Object, e As EventArgs) Handles GlitterAV2.Click
-        If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
-            Try
-                GlitterAV2.Image.Dispose()
-            Catch
-            End Try
-            GlitterAV2.Image = Nothing
-            GC.Collect()
+        Dim openFileDialog As OpenFileDialog = New OpenFileDialog()
+        If openFileDialog.ShowDialog() = DialogResult.OK Then
             GlitterAV2.Image = Image.FromFile(OpenFileDialog1.FileName)
             My.Settings.GlitterAV2 = OpenFileDialog1.FileName
         End If
     End Sub
+
     Private Sub GlitterAV3_Click(sender As Object, e As EventArgs) Handles GlitterAV3.Click
-        If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
-            Try
-                GlitterAV3.Image.Dispose()
-            Catch
-            End Try
-            GlitterAV3.Image = Nothing
-            GC.Collect()
+        Dim openFileDialog As OpenFileDialog = New OpenFileDialog()
+        If openFileDialog.ShowDialog() = DialogResult.OK Then
             GlitterAV3.Image = Image.FromFile(OpenFileDialog1.FileName)
             My.Settings.GlitterAV3 = OpenFileDialog1.FileName
         End If
     End Sub
 
-
     Private Sub BTNDomImageDir_Click(sender As Object, e As EventArgs) Handles BTNDomImageDir.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
+        Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
+        If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
             My.Settings.DomImageDir = FolderBrowserDialog1.SelectedPath
             My.Application.Session.SlideshowMain = New ContactData(ContactType.Domme)
         End If
     End Sub
 
     Private Sub BtnContact1ImageDir_Click(sender As Object, e As EventArgs) Handles BtnContact1ImageDir.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
+        Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
+        If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
             My.Settings.Contact1ImageDir = FolderBrowserDialog1.SelectedPath
             My.Application.Session.SlideshowContact1 = New ContactData(ContactType.Contact1)
         End If
     End Sub
 
     Private Sub BtnContact2ImageDir_Click(sender As Object, e As EventArgs) Handles BtnContact2ImageDir.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
+        Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
+        If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
             My.Settings.Contact2ImageDir = FolderBrowserDialog1.SelectedPath
             My.Application.Session.SlideshowContact2 = New ContactData(ContactType.Contact2)
         End If
     End Sub
 
     Private Sub BtnContact3ImageDir_Click(sender As Object, e As EventArgs) Handles BtnContact3ImageDir.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
+        Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
+        If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
             My.Settings.Contact3ImageDir = FolderBrowserDialog1.SelectedPath
             My.Application.Session.SlideshowContact3 = New ContactData(ContactType.Contact3)
         End If
     End Sub
 
+    Private Sub BTNGlitterD_Click(sender As Object, e As EventArgs) Handles BTNGlitterD.Click
+        SetColor(LBLGlitterNCDomme)
+    End Sub
 
-    Private Sub Button35_Click(sender As Object, e As EventArgs) Handles BTNGlitterD.Click
-        If GetColor.ShowDialog() = DialogResult.OK Then
-            LBLGlitterNCDomme.ForeColor = GetColor.Color
-        End If
+    Private Sub BTNGlitter1_Click(sender As Object, e As EventArgs) Handles BTNGlitter1.Click
+        SetColor(LBLGlitterNC1)
     End Sub
-    Private Sub Button27_Click(sender As Object, e As EventArgs) Handles BTNGlitter1.Click
-        If GetColor.ShowDialog() = DialogResult.OK Then
-            LBLGlitterNC1.ForeColor = GetColor.Color
-        End If
+
+    Private Sub BTNGlitter2_click(sender As Object, e As EventArgs) Handles BTNGlitter2.Click
+        SetColor(LBLGlitterNC2)
     End Sub
-    Private Sub Button4_Click_3(sender As Object, e As EventArgs) Handles BTNGlitter2.Click
-        If GetColor.ShowDialog() = DialogResult.OK Then
-            LBLGlitterNC2.ForeColor = GetColor.Color
-        End If
-    End Sub
-    Private Sub Button26_Click(sender As Object, e As EventArgs) Handles BTNGlitter3.Click
-        If GetColor.ShowDialog() = DialogResult.OK Then
-            LBLGlitterNC3.ForeColor = GetColor.Color
-        End If
+
+    Private Sub BTNGlitter3_Click(sender As Object, e As EventArgs) Handles BTNGlitter3.Click
+        SetColor(LBLGlitterNC3)
     End Sub
 
     Private Sub CBGlitterFeed_CheckedChanged(sender As Object, e As EventArgs) Handles CBGlitterFeed.Click, CBGlitterFeedScripts.Click, CBGlitterFeedOff.Click
-        If MainWindow.FormLoading = False Then
-            ' In order to prevent wrong values, we have to change the DataSourceUpdateMode.
-            ' Since the Designer will reset this value, we have to undo this changes.
-            For Each ob As RadioButton In {CBGlitterFeed, CBGlitterFeedOff, CBGlitterFeedScripts}
-                ob.DataBindings("Checked").DataSourceUpdateMode = DataSourceUpdateMode.OnValidation
-            Next
-
-            ' Set the desired Value manually - Didn't know it is that much of a problem to databind RadioButtons.
-            ' This Solution ensures the ui to display the current value, whenever and whatever thread changed in and
-            ' it saves correctly. The only issue could be, when setting a value, while forgetting to disable the others.
-            Dim checked As Boolean = CType(sender, RadioButton).Checked
-            My.Settings.CBGlitterFeed = If(sender Is CBGlitterFeed, checked, False)
-            My.Settings.CBGlitterFeedOff = If(sender Is CBGlitterFeedOff, checked, False)
-            My.Settings.CBGlitterFeedScripts = If(sender Is CBGlitterFeedScripts, checked, False)
-
-            Debug.Print("Set RadioButton Values")
-            Debug.Print(CBGlitterFeed.Checked)
-            Debug.Print(CBGlitterFeedScripts.Checked)
-            Debug.Print(CBGlitterFeedOff.Checked)
+        If MainWindow.FormLoading Then
+            Return
         End If
+        ' In order to prevent wrong values, we have to change the DataSourceUpdateMode.
+        ' Since the Designer will reset this value, we have to undo this changes.
+        For Each ob As RadioButton In {CBGlitterFeed, CBGlitterFeedOff, CBGlitterFeedScripts}
+            ob.DataBindings("Checked").DataSourceUpdateMode = DataSourceUpdateMode.OnValidation
+        Next
+
+        ' Set the desired Value manually - Didn't know it is that much of a problem to databind RadioButtons.
+        ' This Solution ensures the ui to display the current value, whenever and whatever thread changed in and
+        ' it saves correctly. The only issue could be, when setting a value, while forgetting to disable the others.
+        Dim checked As Boolean = CType(sender, RadioButton).Checked
+        My.Settings.CBGlitterFeed = If(sender Is CBGlitterFeed, checked, False)
+        My.Settings.CBGlitterFeedOff = If(sender Is CBGlitterFeedOff, checked, False)
+        My.Settings.CBGlitterFeedScripts = If(sender Is CBGlitterFeedScripts, checked, False)
     End Sub
 
     Private Sub BtnContact1ImageDirClear_Click(sender As Object, e As EventArgs) Handles BtnContact1ImageDirClear.Click
@@ -2584,22 +1999,21 @@ Public Class FrmSettings
     End Sub
 
     Private Sub Button16_Click(sender As Object, e As EventArgs) Handles Button16.Click
-
-        SaveSettingsDialog.Title = "Select a location to save current Glitter settings"
+        Dim saveSettingsDialog = New SaveFileDialog()
+        saveSettingsDialog.Title = "Select a location to save current Glitter settings"
         SaveSettingsDialog.InitialDirectory = Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\System\"
-
 
         SaveSettingsDialog.FileName = MainWindow.dompersonalitycombobox.Text & " Glitter Settings"
 
         If SaveSettingsDialog.ShowDialog() = DialogResult.OK Then
-            Dim SettingsPath As String = SaveSettingsDialog.FileName
-            Dim SettingsList As New List(Of String)
-            SettingsList.Clear()
+            Dim settingsPath As String = saveSettingsDialog.FileName
+            Dim settingsList As New List(Of String)
+            settingsList.Clear()
 
 
-            If My.Settings.CBGlitterFeed = True Then SettingsList.Add("Glitter Feed: On")
-            If My.Settings.CBGlitterFeedScripts = True Then SettingsList.Add("Glitter Feed: Scripts")
-            If My.Settings.CBGlitterFeedOff = True Then SettingsList.Add("Glitter Feed: Off")
+            If My.Settings.CBGlitterFeed Then SettingsList.Add("Glitter Feed: On")
+            If My.Settings.CBGlitterFeedScripts Then SettingsList.Add("Glitter Feed: Scripts")
+            If My.Settings.CBGlitterFeedOff Then SettingsList.Add("Glitter Feed: Off")
 
             SettingsList.Add("Short Name: " & My.Settings.GlitterSN)
             SettingsList.Add("Domme Color: " & My.Settings.GlitterNCDommeColor.ToArgb.ToString)
@@ -2917,14 +2331,12 @@ Public Class FrmSettings
 
     Private Sub CBWISaveToDisk_CheckedChanged(sender As Object, e As EventArgs) Handles CBWISaveToDisk.CheckedChanged
 
-        If CBWISaveToDisk.Checked = True Then
+        If CBWISaveToDisk.Checked Then
             If Not Directory.Exists(TBWIDirectory.Text) Then
                 MessageBox.Show(Me, "Please enter or browse for a valid Saved Image Directory first!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
                 CBWISaveToDisk.Checked = False
             End If
         End If
-
-
     End Sub
 
     Private Sub BTNWIAddandContinue_Click(sender As Object, e As EventArgs) Handles BTNWIAddandContinue.Click
@@ -4773,7 +4185,7 @@ checkFolder:
     End Sub
 
     Private Sub CBCensorConstant_CheckedChanged(sender As Object, e As EventArgs) Handles CBCensorConstant.CheckedChanged
-        If CBCensorConstant.Checked = True Then
+        If CBCensorConstant.Checked Then
             My.Settings.CBCensorConstant = True
         Else
             My.Settings.CBCensorConstant = False
@@ -5638,7 +5050,7 @@ checkFolder:
     End Sub
 
     Private Sub CBHonorificInclude_LostFocus(sender As Object, e As EventArgs) Handles CBHonorificInclude.LostFocus
-        If CBHonorificInclude.Checked = True Then
+        If CBHonorificInclude.Checked Then
             My.Settings.CBUseHonor = True
         Else
             My.Settings.CBUseHonor = False
@@ -5646,7 +5058,7 @@ checkFolder:
     End Sub
 
     Private Sub CBHonorificCapitalized_LostFocus(sender As Object, e As EventArgs) Handles CBHonorificCapitalized.LostFocus
-        If CBHonorificCapitalized.Checked = True Then
+        If CBHonorificCapitalized.Checked Then
             My.Settings.CBCapHonor = True
         Else
             My.Settings.CBCapHonor = False
@@ -5751,7 +5163,7 @@ checkFolder:
     End Sub
 
     Private Sub SaveURLFileSelection()
-        If FrmSettingsLoading = True Then Return
+        If FrmSettingsLoading Then Return
 
         Dim blogMetaData As List(Of BlogMetaData) = New List(Of BlogMetaData)()
         For i = 0 To URLFileList.Items.Count - 1
@@ -6446,112 +5858,112 @@ checkFolder:
 
         Dim TempImageDir As String = CurrentLocalImageTagImage
 
-        If CBTagHardcore.Checked = True Then TempImageDir = TempImageDir & " " & "TagHardcore"
-        If CBTagLesbian.Checked = True Then TempImageDir = TempImageDir & " " & "TagLesbian"
-        If CBTagGay.Checked = True Then TempImageDir = TempImageDir & " " & "TagGay"
-        If CBTagBisexual.Checked = True Then TempImageDir = TempImageDir & " " & "TagBisexual"
-        If CBTagSoloF.Checked = True Then TempImageDir = TempImageDir & " " & "TagSoloF"
-        If CBTagSoloM.Checked = True Then TempImageDir = TempImageDir & " " & "TagSoloM"
-        If CBTagSoloFuta.Checked = True Then TempImageDir = TempImageDir & " " & "TagSoloFuta"
-        If CBTagPOV.Checked = True Then TempImageDir = TempImageDir & " " & "TagPOV"
-        If CBTagBondage.Checked = True Then TempImageDir = TempImageDir & " " & "TagBondage"
-        If CBTagSM.Checked = True Then TempImageDir = TempImageDir & " " & "TagSM"
-        If CBTagTD.Checked = True Then TempImageDir = TempImageDir & " " & "TagTD"
-        If CBTagChastity.Checked = True Then TempImageDir = TempImageDir & " " & "TagChastity"
-        If CBTagCFNM.Checked = True Then TempImageDir = TempImageDir & " " & "TagCFNM"
-        If CBTagBath.Checked = True Then TempImageDir = TempImageDir & " " & "TagBath"
-        If CBTagShower.Checked = True Then TempImageDir = TempImageDir & " " & "TagShower"
-        If CBTagOutdoors.Checked = True Then TempImageDir = TempImageDir & " " & "TagOutdoors"
-        If CBTagArtwork.Checked = True Then TempImageDir = TempImageDir & " " & "TagArtwork"
+        If CBTagHardcore.Checked Then TempImageDir = TempImageDir & " " & "TagHardcore"
+        If CBTagLesbian.Checked Then TempImageDir = TempImageDir & " " & "TagLesbian"
+        If CBTagGay.Checked Then TempImageDir = TempImageDir & " " & "TagGay"
+        If CBTagBisexual.Checked Then TempImageDir = TempImageDir & " " & "TagBisexual"
+        If CBTagSoloF.Checked Then TempImageDir = TempImageDir & " " & "TagSoloF"
+        If CBTagSoloM.Checked Then TempImageDir = TempImageDir & " " & "TagSoloM"
+        If CBTagSoloFuta.Checked Then TempImageDir = TempImageDir & " " & "TagSoloFuta"
+        If CBTagPOV.Checked Then TempImageDir = TempImageDir & " " & "TagPOV"
+        If CBTagBondage.Checked Then TempImageDir = TempImageDir & " " & "TagBondage"
+        If CBTagSM.Checked Then TempImageDir = TempImageDir & " " & "TagSM"
+        If CBTagTD.Checked Then TempImageDir = TempImageDir & " " & "TagTD"
+        If CBTagChastity.Checked Then TempImageDir = TempImageDir & " " & "TagChastity"
+        If CBTagCFNM.Checked Then TempImageDir = TempImageDir & " " & "TagCFNM"
+        If CBTagBath.Checked Then TempImageDir = TempImageDir & " " & "TagBath"
+        If CBTagShower.Checked Then TempImageDir = TempImageDir & " " & "TagShower"
+        If CBTagOutdoors.Checked Then TempImageDir = TempImageDir & " " & "TagOutdoors"
+        If CBTagArtwork.Checked Then TempImageDir = TempImageDir & " " & "TagArtwork"
 
-        If CBTagMasturbation.Checked = True Then TempImageDir = TempImageDir & " " & "TagMasturbation"
-        If CBTagHandjob.Checked = True Then TempImageDir = TempImageDir & " " & "TagHandjob"
-        If CBTagFingering.Checked = True Then TempImageDir = TempImageDir & " " & "TagFingering"
-        If CBTagBlowjob.Checked = True Then TempImageDir = TempImageDir & " " & "TagBlowjob"
-        If CBTagCunnilingus.Checked = True Then TempImageDir = TempImageDir & " " & "TagCunnilingus"
-        If CBTagTitjob.Checked = True Then TempImageDir = TempImageDir & " " & "TagTitjob"
-        If CBTagFootjob.Checked = True Then TempImageDir = TempImageDir & " " & "TagFootjob"
-        If CBTagFacesitting.Checked = True Then TempImageDir = TempImageDir & " " & "TagFacesitting"
-        If CBTagRimming.Checked = True Then TempImageDir = TempImageDir & " " & "TagRimming"
-        If CBTagMissionary.Checked = True Then TempImageDir = TempImageDir & " " & "TagMissionary"
-        If CBTagDoggyStyle.Checked = True Then TempImageDir = TempImageDir & " " & "TagDoggyStyle"
-        If CBTagCowgirl.Checked = True Then TempImageDir = TempImageDir & " " & "TagCowgirl"
-        If CBTagRCowgirl.Checked = True Then TempImageDir = TempImageDir & " " & "TagRCowgirl"
-        If CBTagStanding.Checked = True Then TempImageDir = TempImageDir & " " & "TagStanding"
-        If CBTagAnalSex.Checked = True Then TempImageDir = TempImageDir & " " & "TagAnalSex"
-        If CBTagDP.Checked = True Then TempImageDir = TempImageDir & " " & "TagDP"
-        If CBTagGangbang.Checked = True Then TempImageDir = TempImageDir & " " & "TagGangbang"
+        If CBTagMasturbation.Checked Then TempImageDir = TempImageDir & " " & "TagMasturbation"
+        If CBTagHandjob.Checked Then TempImageDir = TempImageDir & " " & "TagHandjob"
+        If CBTagFingering.Checked Then TempImageDir = TempImageDir & " " & "TagFingering"
+        If CBTagBlowjob.Checked Then TempImageDir = TempImageDir & " " & "TagBlowjob"
+        If CBTagCunnilingus.Checked Then TempImageDir = TempImageDir & " " & "TagCunnilingus"
+        If CBTagTitjob.Checked Then TempImageDir = TempImageDir & " " & "TagTitjob"
+        If CBTagFootjob.Checked Then TempImageDir = TempImageDir & " " & "TagFootjob"
+        If CBTagFacesitting.Checked Then TempImageDir = TempImageDir & " " & "TagFacesitting"
+        If CBTagRimming.Checked Then TempImageDir = TempImageDir & " " & "TagRimming"
+        If CBTagMissionary.Checked Then TempImageDir = TempImageDir & " " & "TagMissionary"
+        If CBTagDoggyStyle.Checked Then TempImageDir = TempImageDir & " " & "TagDoggyStyle"
+        If CBTagCowgirl.Checked Then TempImageDir = TempImageDir & " " & "TagCowgirl"
+        If CBTagRCowgirl.Checked Then TempImageDir = TempImageDir & " " & "TagRCowgirl"
+        If CBTagStanding.Checked Then TempImageDir = TempImageDir & " " & "TagStanding"
+        If CBTagAnalSex.Checked Then TempImageDir = TempImageDir & " " & "TagAnalSex"
+        If CBTagDP.Checked Then TempImageDir = TempImageDir & " " & "TagDP"
+        If CBTagGangbang.Checked Then TempImageDir = TempImageDir & " " & "TagGangbang"
 
-        If CBTag1F.Checked = True Then TempImageDir = TempImageDir & " " & "Tag1F"
-        If CBTag2F.Checked = True Then TempImageDir = TempImageDir & " " & "Tag2F"
-        If CBTag3F.Checked = True Then TempImageDir = TempImageDir & " " & "Tag3F"
-        If CBTag1M.Checked = True Then TempImageDir = TempImageDir & " " & "Tag1M"
-        If CBTag2M.Checked = True Then TempImageDir = TempImageDir & " " & "Tag2M"
-        If CBTag3M.Checked = True Then TempImageDir = TempImageDir & " " & "Tag3M"
-        If CBTag1Futa.Checked = True Then TempImageDir = TempImageDir & " " & "Tag1Futa"
-        If CBTag2Futa.Checked = True Then TempImageDir = TempImageDir & " " & "Tag2Futa"
-        If CBTag3Futa.Checked = True Then TempImageDir = TempImageDir & " " & "Tag3Futa"
-        If CBTagFemdom.Checked = True Then TempImageDir = TempImageDir & " " & "TagFemdom"
-        If CBTagMaledom.Checked = True Then TempImageDir = TempImageDir & " " & "TagMaledom"
-        If CBTagFutadom.Checked = True Then TempImageDir = TempImageDir & " " & "TagFutadom"
-        If CBTagFemsub.Checked = True Then TempImageDir = TempImageDir & " " & "TagFemsub"
-        If CBTagMalesub.Checked = True Then TempImageDir = TempImageDir & " " & "TagMalesub"
-        If CBTagFutasub.Checked = True Then TempImageDir = TempImageDir & " " & "TagFutasub"
-        If CBTagMultiDom.Checked = True Then TempImageDir = TempImageDir & " " & "TagMultiDom"
-        If CBTagMultiSub.Checked = True Then TempImageDir = TempImageDir & " " & "TagMultiSub"
+        If CBTag1F.Checked Then TempImageDir = TempImageDir & " " & "Tag1F"
+        If CBTag2F.Checked Then TempImageDir = TempImageDir & " " & "Tag2F"
+        If CBTag3F.Checked Then TempImageDir = TempImageDir & " " & "Tag3F"
+        If CBTag1M.Checked Then TempImageDir = TempImageDir & " " & "Tag1M"
+        If CBTag2M.Checked Then TempImageDir = TempImageDir & " " & "Tag2M"
+        If CBTag3M.Checked Then TempImageDir = TempImageDir & " " & "Tag3M"
+        If CBTag1Futa.Checked Then TempImageDir = TempImageDir & " " & "Tag1Futa"
+        If CBTag2Futa.Checked Then TempImageDir = TempImageDir & " " & "Tag2Futa"
+        If CBTag3Futa.Checked Then TempImageDir = TempImageDir & " " & "Tag3Futa"
+        If CBTagFemdom.Checked Then TempImageDir = TempImageDir & " " & "TagFemdom"
+        If CBTagMaledom.Checked Then TempImageDir = TempImageDir & " " & "TagMaledom"
+        If CBTagFutadom.Checked Then TempImageDir = TempImageDir & " " & "TagFutadom"
+        If CBTagFemsub.Checked Then TempImageDir = TempImageDir & " " & "TagFemsub"
+        If CBTagMalesub.Checked Then TempImageDir = TempImageDir & " " & "TagMalesub"
+        If CBTagFutasub.Checked Then TempImageDir = TempImageDir & " " & "TagFutasub"
+        If CBTagMultiDom.Checked Then TempImageDir = TempImageDir & " " & "TagMultiDom"
+        If CBTagMultiSub.Checked Then TempImageDir = TempImageDir & " " & "TagMultiSub"
 
-        If CBTagBodyFace.Checked = True Then TempImageDir = TempImageDir & " " & "TagBodyFace"
-        If CBTagBodyFingers.Checked = True Then TempImageDir = TempImageDir & " " & "TagBodyFingers"
-        If CBTagBodyMouth.Checked = True Then TempImageDir = TempImageDir & " " & "TagBodyMouth"
-        If CBTagBodyTits.Checked = True Then TempImageDir = TempImageDir & " " & "TagBodyTits"
-        If CBTagBodyNipples.Checked = True Then TempImageDir = TempImageDir & " " & "TagBodyNipples"
-        If CBTagBodyPussy.Checked = True Then TempImageDir = TempImageDir & " " & "TagBodyPussy"
-        If CBTagBodyAss.Checked = True Then TempImageDir = TempImageDir & " " & "TagBodyAss"
-        If CBTagBodyLegs.Checked = True Then TempImageDir = TempImageDir & " " & "TagBodyLegs"
-        If CBTagBodyFeet.Checked = True Then TempImageDir = TempImageDir & " " & "TagBodyFeet"
-        If CBTagBodyCock.Checked = True Then TempImageDir = TempImageDir & " " & "TagBodyCock"
-        If CBTagBodyBalls.Checked = True Then TempImageDir = TempImageDir & " " & "TagBodyBalls"
+        If CBTagBodyFace.Checked Then TempImageDir = TempImageDir & " " & "TagBodyFace"
+        If CBTagBodyFingers.Checked Then TempImageDir = TempImageDir & " " & "TagBodyFingers"
+        If CBTagBodyMouth.Checked Then TempImageDir = TempImageDir & " " & "TagBodyMouth"
+        If CBTagBodyTits.Checked Then TempImageDir = TempImageDir & " " & "TagBodyTits"
+        If CBTagBodyNipples.Checked Then TempImageDir = TempImageDir & " " & "TagBodyNipples"
+        If CBTagBodyPussy.Checked Then TempImageDir = TempImageDir & " " & "TagBodyPussy"
+        If CBTagBodyAss.Checked Then TempImageDir = TempImageDir & " " & "TagBodyAss"
+        If CBTagBodyLegs.Checked Then TempImageDir = TempImageDir & " " & "TagBodyLegs"
+        If CBTagBodyFeet.Checked Then TempImageDir = TempImageDir & " " & "TagBodyFeet"
+        If CBTagBodyCock.Checked Then TempImageDir = TempImageDir & " " & "TagBodyCock"
+        If CBTagBodyBalls.Checked Then TempImageDir = TempImageDir & " " & "TagBodyBalls"
 
-        If CBTagNurse.Checked = True Then TempImageDir = TempImageDir & " " & "TagNurse"
-        If CBTagTeacher.Checked = True Then TempImageDir = TempImageDir & " " & "TagTeacher"
-        If CBTagSchoolgirl.Checked = True Then TempImageDir = TempImageDir & " " & "TagSchoolgirl"
-        If CBTagMaid.Checked = True Then TempImageDir = TempImageDir & " " & "TagMaid"
-        If CBTagSuperhero.Checked = True Then TempImageDir = TempImageDir & " " & "TagSuperhero"
+        If CBTagNurse.Checked Then TempImageDir = TempImageDir & " " & "TagNurse"
+        If CBTagTeacher.Checked Then TempImageDir = TempImageDir & " " & "TagTeacher"
+        If CBTagSchoolgirl.Checked Then TempImageDir = TempImageDir & " " & "TagSchoolgirl"
+        If CBTagMaid.Checked Then TempImageDir = TempImageDir & " " & "TagMaid"
+        If CBTagSuperhero.Checked Then TempImageDir = TempImageDir & " " & "TagSuperhero"
 
-        If CBTagWhipping.Checked = True Then TempImageDir = TempImageDir & " " & "TagWhipping"
-        If CBTagSpanking.Checked = True Then TempImageDir = TempImageDir & " " & "TagSpanking"
-        If CBTagCockTorture.Checked = True Then TempImageDir = TempImageDir & " " & "TagCockTorture"
-        If CBTagBallTorture.Checked = True Then TempImageDir = TempImageDir & " " & "TagBallTorture"
-        If CBTagStrapon.Checked = True Then TempImageDir = TempImageDir & " " & "TagStrapon"
-        If CBTagBlindfold.Checked = True Then TempImageDir = TempImageDir & " " & "TagBlindfold"
-        If CBTagGag.Checked = True Then TempImageDir = TempImageDir & " " & "TagGag"
-        If CBTagClamps.Checked = True Then TempImageDir = TempImageDir & " " & "TagClamps"
-        If CBTagHotWax.Checked = True Then TempImageDir = TempImageDir & " " & "TagHotWax"
-        If CBTagNeedles.Checked = True Then TempImageDir = TempImageDir & " " & "TagNeedles"
-        If CBTagElectro.Checked = True Then TempImageDir = TempImageDir & " " & "TagElectro"
+        If CBTagWhipping.Checked Then TempImageDir = TempImageDir & " " & "TagWhipping"
+        If CBTagSpanking.Checked Then TempImageDir = TempImageDir & " " & "TagSpanking"
+        If CBTagCockTorture.Checked Then TempImageDir = TempImageDir & " " & "TagCockTorture"
+        If CBTagBallTorture.Checked Then TempImageDir = TempImageDir & " " & "TagBallTorture"
+        If CBTagStrapon.Checked Then TempImageDir = TempImageDir & " " & "TagStrapon"
+        If CBTagBlindfold.Checked Then TempImageDir = TempImageDir & " " & "TagBlindfold"
+        If CBTagGag.Checked Then TempImageDir = TempImageDir & " " & "TagGag"
+        If CBTagClamps.Checked Then TempImageDir = TempImageDir & " " & "TagClamps"
+        If CBTagHotWax.Checked Then TempImageDir = TempImageDir & " " & "TagHotWax"
+        If CBTagNeedles.Checked Then TempImageDir = TempImageDir & " " & "TagNeedles"
+        If CBTagElectro.Checked Then TempImageDir = TempImageDir & " " & "TagElectro"
 
-        If CBTagDomme.Checked = True Then TempImageDir = TempImageDir & " " & "TagDomme"
-        If CBTagCumshot.Checked = True Then TempImageDir = TempImageDir & " " & "TagCumshot"
-        If CBTagCumEating.Checked = True Then TempImageDir = TempImageDir & " " & "TagCumEating"
-        If CBTagKissing.Checked = True Then TempImageDir = TempImageDir & " " & "TagKissing"
-        If CBTagTattoos.Checked = True Then TempImageDir = TempImageDir & " " & "TagTattoos"
-        If CBTagStockings.Checked = True Then TempImageDir = TempImageDir & " " & "TagStockings"
-        If CBTagVibrator.Checked = True Then TempImageDir = TempImageDir & " " & "TagVibrator"
-        If CBTagDildo.Checked = True Then TempImageDir = TempImageDir & " " & "TagDildo"
-        If CBTagPocketPussy.Checked = True Then TempImageDir = TempImageDir & " " & "TagPocketPussy"
-        If CBTagAnalToy.Checked = True Then TempImageDir = TempImageDir & " " & "TagAnalToy"
-        If CBTagWatersports.Checked = True Then TempImageDir = TempImageDir & " " & "TagWatersports"
+        If CBTagDomme.Checked Then TempImageDir = TempImageDir & " " & "TagDomme"
+        If CBTagCumshot.Checked Then TempImageDir = TempImageDir & " " & "TagCumshot"
+        If CBTagCumEating.Checked Then TempImageDir = TempImageDir & " " & "TagCumEating"
+        If CBTagKissing.Checked Then TempImageDir = TempImageDir & " " & "TagKissing"
+        If CBTagTattoos.Checked Then TempImageDir = TempImageDir & " " & "TagTattoos"
+        If CBTagStockings.Checked Then TempImageDir = TempImageDir & " " & "TagStockings"
+        If CBTagVibrator.Checked Then TempImageDir = TempImageDir & " " & "TagVibrator"
+        If CBTagDildo.Checked Then TempImageDir = TempImageDir & " " & "TagDildo"
+        If CBTagPocketPussy.Checked Then TempImageDir = TempImageDir & " " & "TagPocketPussy"
+        If CBTagAnalToy.Checked Then TempImageDir = TempImageDir & " " & "TagAnalToy"
+        If CBTagWatersports.Checked Then TempImageDir = TempImageDir & " " & "TagWatersports"
 
-        If CBTagShibari.Checked = True Then TempImageDir = TempImageDir & " " & "TagShibari"
-        If CBTagTentacles.Checked = True Then TempImageDir = TempImageDir & " " & "TagTentacles"
-        If CBTagBukkake.Checked = True Then TempImageDir = TempImageDir & " " & "TagBukkake"
-        If CBTagBakunyuu.Checked = True Then TempImageDir = TempImageDir & " " & "TagBakunyuu"
-        If CBTagAhegao.Checked = True Then TempImageDir = TempImageDir & " " & "TagAhegao"
-        If CBTagBodyWriting.Checked = True Then TempImageDir = TempImageDir & " " & "TagBodyWriting"
-        If CBTagTrap.Checked = True Then TempImageDir = TempImageDir & " " & "TagTrap"
-        If CBTagGanguro.Checked = True Then TempImageDir = TempImageDir & " " & "TagGanguro"
-        If CBTagMahouShoujo.Checked = True Then TempImageDir = TempImageDir & " " & "TagMahouShoujo"
-        If CBTagMonsterGirl.Checked = True Then TempImageDir = TempImageDir & " " & "TagMonsterGirl"
+        If CBTagShibari.Checked Then TempImageDir = TempImageDir & " " & "TagShibari"
+        If CBTagTentacles.Checked Then TempImageDir = TempImageDir & " " & "TagTentacles"
+        If CBTagBukkake.Checked Then TempImageDir = TempImageDir & " " & "TagBukkake"
+        If CBTagBakunyuu.Checked Then TempImageDir = TempImageDir & " " & "TagBakunyuu"
+        If CBTagAhegao.Checked Then TempImageDir = TempImageDir & " " & "TagAhegao"
+        If CBTagBodyWriting.Checked Then TempImageDir = TempImageDir & " " & "TagBodyWriting"
+        If CBTagTrap.Checked Then TempImageDir = TempImageDir & " " & "TagTrap"
+        If CBTagGanguro.Checked Then TempImageDir = TempImageDir & " " & "TagGanguro"
+        If CBTagMahouShoujo.Checked Then TempImageDir = TempImageDir & " " & "TagMahouShoujo"
+        If CBTagMonsterGirl.Checked Then TempImageDir = TempImageDir & " " & "TagMonsterGirl"
 
         If File.Exists(Application.StartupPath & "\Images\System\LocalImageTags.txt") Then
 
@@ -6702,7 +6114,7 @@ checkFolder:
 
     Private Sub CBSubCircumcised_CheckedChanged(sender As Object, e As EventArgs) Handles CBSubCircumcised.CheckedChanged
         If FrmSettingsLoading = False Then
-            If CBSubCircumcised.Checked = True Then
+            If CBSubCircumcised.Checked Then
                 My.Settings.SubCircumcised = True
             Else
                 My.Settings.SubCircumcised = False
@@ -6712,7 +6124,7 @@ checkFolder:
 
     Private Sub CBSubPierced_CheckedChanged(sender As Object, e As EventArgs) Handles CBSubPierced.CheckedChanged
         If FrmSettingsLoading = False Then
-            If CBSubPierced.Checked = True Then
+            If CBSubPierced.Checked Then
                 My.Settings.SubPierced = True
             Else
                 My.Settings.SubPierced = False
@@ -7815,7 +7227,7 @@ checkFolder:
             My.Computer.FileSystem.WriteAllText(WishDir, TBWishlistURL.Text, True)
             My.Computer.FileSystem.WriteAllText(WishDir, Environment.NewLine, True)
             Dim WishCost As String
-            If radioSilver.Checked = True Then
+            If radioSilver.Checked Then
                 WishCost = NBWishlistCost.Value & " Silver"
             Else
                 WishCost = NBWishlistCost.Value & " Gold"
@@ -8110,11 +7522,11 @@ checkFolder:
     Private Sub LBPlaylist_DragDrop(sender As Object, e As Windows.Forms.DragEventArgs) Handles LBPlaylist.DragDrop
 
         Debug.Print("Playlist DragDrop called? called?")
-        If FrmSettingsLoading = True Then Return
+        If FrmSettingsLoading Then Return
 
         Dim LBPlaylistString As String = CType(e.Data.GetData(DataFormats.FileDrop), Array).GetValue(0).ToString
         LBPlaylistString = Path.GetFileName(LBPlaylistString).Replace(".txt", "")
-        If RadioPlaylistRegScripts.Checked = True Then
+        If RadioPlaylistRegScripts.Checked Then
             LBPlaylist.Items.Add(LBPlaylistString & " Regular-TeaseAI-Script")
         Else
             LBPlaylist.Items.Add(LBPlaylistString)
@@ -8157,7 +7569,7 @@ checkFolder:
         Debug.Print("BTNPLaylistENd called?")
         If FrmSettingsLoading = True Or BTNPlaylistEnd.BackColor = Color.Blue Then Return
 
-        If RadioPlaylistRegScripts.Checked = True Then
+        If RadioPlaylistRegScripts.Checked Then
             WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Stroke\End")
         Else
             WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Playlist\End\")
@@ -8172,10 +7584,10 @@ checkFolder:
 
     Private Sub RadioPlaylistScripts_CheckedChanged(sender As Object, e As EventArgs) Handles RadioPlaylistScripts.CheckedChanged, RadioPlaylistRegScripts.CheckedChanged
         Debug.Print("Radio CHanged called?")
-        If FrmSettingsLoading = True Or MainWindow.FormLoading = True Then Return
+        If FrmSettingsLoading = True Or MainWindow.FormLoading Then Return
         Debug.Print("Radio CHanged accepted??")
-        If LBLPLaylistStart.Enabled = True Then
-            If RadioPlaylistRegScripts.Checked = True Then
+        If LBLPLaylistStart.Enabled Then
+            If RadioPlaylistRegScripts.Checked Then
                 WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Stroke\Start\")
             Else
                 WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Playlist\Start\")
@@ -8184,7 +7596,7 @@ checkFolder:
         End If
 
         If BTNPlaylistEnd.BackColor = Color.Blue Then
-            If RadioPlaylistRegScripts.Checked = True Then
+            If RadioPlaylistRegScripts.Checked Then
                 WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Stroke\End\")
             Else
                 WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Playlist\End\")
@@ -8192,8 +7604,8 @@ checkFolder:
             Return
         End If
 
-        If LBLPlaylistModule.Enabled = True Then
-            If RadioPlaylistRegScripts.Checked = True Then
+        If LBLPlaylistModule.Enabled Then
+            If RadioPlaylistRegScripts.Checked Then
                 WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Modules\")
             Else
                 WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Playlist\Modules\")
@@ -8201,8 +7613,8 @@ checkFolder:
             Return
         End If
 
-        If LBLPlaylIstLink.Enabled = True Then
-            If RadioPlaylistRegScripts.Checked = True Then
+        If LBLPlaylIstLink.Enabled Then
+            If RadioPlaylistRegScripts.Checked Then
                 WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Stroke\Link\")
             Else
                 WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Playlist\Link\")
@@ -8242,8 +7654,8 @@ checkFolder:
             LBLPLaylistStart.BackColor = Color.Green
             BTNPlaylistCtrlZ.Enabled = False
             BTNPlaylistClearAll.Enabled = False
-            If LBLPLaylistStart.Enabled = True Then
-                If RadioPlaylistRegScripts.Checked = True Then
+            If LBLPLaylistStart.Enabled Then
+                If RadioPlaylistRegScripts.Checked Then
                     WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Stroke\Start\")
                 Else
                     WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Playlist\Start\")
@@ -8273,8 +7685,8 @@ checkFolder:
         BTNPlaylistEnd.BackColor = Color.LightGray
         BTNPlaylistCtrlZ.Enabled = False
         BTNPlaylistClearAll.Enabled = False
-        If LBLPLaylistStart.Enabled = True Then
-            If RadioPlaylistRegScripts.Checked = True Then
+        If LBLPLaylistStart.Enabled Then
+            If RadioPlaylistRegScripts.Checked Then
                 WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Stroke\Start\")
             Else
                 WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Playlist\Start\")
@@ -8285,21 +7697,21 @@ checkFolder:
 
     Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
 
-        If BTNPlaylistSave.Enabled = True Then Return
+        If BTNPlaylistSave.Enabled Then Return
 
-        If LBLPLaylistStart.Enabled = True Then
+        If LBLPLaylistStart.Enabled Then
             LBPlaylist.Items.Add("Random Start")
             ProcessPlaylist()
             Return
         End If
 
-        If LBLPlaylistModule.Enabled = True Then
+        If LBLPlaylistModule.Enabled Then
             LBPlaylist.Items.Add("Random Module")
             ProcessPlaylist()
             Return
         End If
 
-        If LBLPlaylIstLink.Enabled = True Then
+        If LBLPlaylIstLink.Enabled Then
             LBPlaylist.Items.Add("Random Link")
             ProcessPlaylist()
             Return
@@ -8325,8 +7737,8 @@ checkFolder:
             Return
         End If
 
-        If LBLPLaylistStart.Enabled = True Then
-            If RadioPlaylistRegScripts.Checked = True Then
+        If LBLPLaylistStart.Enabled Then
+            If RadioPlaylistRegScripts.Checked Then
                 WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Modules\")
             Else
                 WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Playlist\Modules\")
@@ -8343,8 +7755,8 @@ checkFolder:
             Return
         End If
 
-        If LBLPlaylistModule.Enabled = True Then
-            If RadioPlaylistRegScripts.Checked = True Then
+        If LBLPlaylistModule.Enabled Then
+            If RadioPlaylistRegScripts.Checked Then
                 WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Stroke\Link")
             Else
                 WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Playlist\Link\")
@@ -8361,8 +7773,8 @@ checkFolder:
             Return
         End If
 
-        If LBLPlaylIstLink.Enabled = True Then
-            If RadioPlaylistRegScripts.Checked = True Then
+        If LBLPlaylIstLink.Enabled Then
+            If RadioPlaylistRegScripts.Checked Then
                 WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Modules\")
             Else
                 WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Playlist\Modules\")
@@ -8384,7 +7796,7 @@ checkFolder:
     Private Sub BTNPlaylistCtrlZ_Click(sender As Object, e As EventArgs) Handles BTNPlaylistCtrlZ.Click
 
         If BTNPlaylistEnd.BackColor = Color.Blue Then
-            If BTNPlaylistSave.Enabled = True Then
+            If BTNPlaylistSave.Enabled Then
                 LBPlaylist.Items.RemoveAt(LBPlaylist.Items.Count - 1)
                 BTNPlaylistSave.Enabled = False
             End If
@@ -8400,7 +7812,7 @@ checkFolder:
             LBLPlaylistModule.Enabled = False
             LBLPlaylistModule.ForeColor = Color.Black
             LBLPlaylistModule.BackColor = Color.LightGray
-            If RadioPlaylistRegScripts.Checked = True Then
+            If RadioPlaylistRegScripts.Checked Then
                 WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Stroke\Link\")
             Else
                 WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Playlist\Link\")
@@ -8419,7 +7831,7 @@ checkFolder:
             LBLPlaylistModule.BackColor = Color.LightGray
             BTNPlaylistCtrlZ.Enabled = False
             BTNPlaylistClearAll.Enabled = False
-            If RadioPlaylistRegScripts.Checked = True Then
+            If RadioPlaylistRegScripts.Checked Then
                 WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Stroke\Start\")
             Else
                 WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Playlist\Start\")
@@ -8427,7 +7839,7 @@ checkFolder:
             Return
         End If
 
-        If LBLPlaylistModule.Enabled = True Then
+        If LBLPlaylistModule.Enabled Then
             LBLPlaylIstLink.Enabled = True
             LBLPlaylIstLink.ForeColor = Color.White
             LBLPlaylIstLink.BackColor = Color.Green
@@ -8437,7 +7849,7 @@ checkFolder:
             LBLPlaylistModule.Enabled = False
             LBLPlaylistModule.ForeColor = Color.Black
             LBLPlaylistModule.BackColor = Color.LightGray
-            If RadioPlaylistRegScripts.Checked = True Then
+            If RadioPlaylistRegScripts.Checked Then
                 WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Stroke\Link\")
             Else
                 WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Playlist\Link\")
@@ -8445,7 +7857,7 @@ checkFolder:
             Return
         End If
 
-        If LBLPlaylIstLink.Enabled = True Then
+        If LBLPlaylIstLink.Enabled Then
             LBLPlaylistModule.Enabled = True
             LBLPlaylistModule.ForeColor = Color.White
             LBLPlaylistModule.BackColor = Color.Green
@@ -8455,7 +7867,7 @@ checkFolder:
             LBLPlaylIstLink.Enabled = False
             LBLPlaylIstLink.ForeColor = Color.Black
             LBLPlaylIstLink.BackColor = Color.LightGray
-            If RadioPlaylistRegScripts.Checked = True Then
+            If RadioPlaylistRegScripts.Checked Then
                 WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Modules\")
             Else
                 WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Playlist\Modules\")
@@ -8471,7 +7883,7 @@ checkFolder:
 
         If MsgBox("This will change the Chastity state of Tease AI. Depending on the Personality or Scripts used so far, this could cause unexpected behavior or break certain scripts." & Environment.NewLine _
                   & Environment.NewLine & "It is recommended to only change this state if you are otherwise stuck. Are you sure you wish to change the Chastity state?", vbYesNo, "Warning!") = MsgBoxResult.Yes Then
-            If My.Settings.Chastity = True Then
+            If My.Settings.Chastity Then
                 My.Settings.Chastity = False
                 LBLChastityState.Text = "OFF"
                 LBLChastityState.ForeColor = Color.Red
@@ -8588,12 +8000,12 @@ checkFolder:
     Private Sub RBGerman_CheckedChanged(sender As Object, e As EventArgs) Handles RBGerman.CheckedChanged, RBEnglish.CheckedChanged
         If FrmSettingsLoading = False Then
 
-            If RBGerman.Checked = True Then
+            If RBGerman.Checked Then
                 GermanMenu()
                 My.Settings.TeaseAILanguage = "German"
             End If
 
-            If RBEnglish.Checked = True Then
+            If RBEnglish.Checked Then
                 EnglishMenu()
                 My.Settings.TeaseAILanguage = "English"
             End If
@@ -8797,7 +8209,7 @@ checkFolder:
 
 
     Private Sub CBWebtease_CheckedChanged_1(sender As Object, e As EventArgs) Handles WebTeaseMode.CheckedChanged
-        If WebTeaseMode.Checked = True Then
+        If WebTeaseMode.Checked Then
             MainWindow.WebteaseModeToolStripMenuItem.Checked = True
             MainWindow.ChatText.ScrollBarsEnabled = False
             MainWindow.ChatText2.ScrollBarsEnabled = False
@@ -8833,7 +8245,7 @@ checkFolder:
 
 
     Private Sub BTNOfflineMode_Click(sender As Object, e As EventArgs) Handles BTNOfflineMode.Click
-        If My.Settings.OfflineMode = True Then
+        If My.Settings.OfflineMode Then
             My.Settings.OfflineMode = False
             LBLOfflineMode.Text = "OFF"
             LBLOfflineMode.ForeColor = Color.Red
@@ -8845,7 +8257,7 @@ checkFolder:
     End Sub
 
     Private Sub CBNewSlideshow_LostFocus(sender As Object, e As EventArgs) Handles CBNewSlideshow.LostFocus
-        If CBNewSlideshow.Checked = True Then
+        If CBNewSlideshow.Checked Then
             My.Settings.CBNewSlideshow = True
         Else
             My.Settings.CBNewSlideshow = False
@@ -8938,28 +8350,28 @@ checkFolder:
         Dim TempImageDir As String = Path.GetFileName(CurrentImageTagImage)
 
 
-        If CBTagFace.Checked = True Then TempImageDir = TempImageDir & " " & "TagFace"
-        If CBTagBoobs.Checked = True Then TempImageDir = TempImageDir & " " & "TagBoobs"
-        If CBTagPussy.Checked = True Then TempImageDir = TempImageDir & " " & "TagPussy"
-        If CBTagAss.Checked = True Then TempImageDir = TempImageDir & " " & "TagAss"
-        If CBTagLegs.Checked = True Then TempImageDir = TempImageDir & " " & "TagLegs"
-        If CBTagFeet.Checked = True Then TempImageDir = TempImageDir & " " & "TagFeet"
-        If CBTagFullyDressed.Checked = True Then TempImageDir = TempImageDir & " " & "TagFullyDressed"
-        If CBTagHalfDressed.Checked = True Then TempImageDir = TempImageDir & " " & "TagHalfDressed"
-        If CBTagGarmentCovering.Checked = True Then TempImageDir = TempImageDir & " " & "TagGarmentCovering"
-        If CBTagHandsCovering.Checked = True Then TempImageDir = TempImageDir & " " & "TagHandsCovering"
-        If CBTagNaked.Checked = True Then TempImageDir = TempImageDir & " " & "TagNaked"
-        If CBTagSideView.Checked = True Then TempImageDir = TempImageDir & " " & "TagSideView"
-        If CBTagCloseUp.Checked = True Then TempImageDir = TempImageDir & " " & "TagCloseUp"
-        If CBTagMasturbating.Checked = True Then TempImageDir = TempImageDir & " " & "TagMasturbating"
-        If CBTagSucking.Checked = True Then TempImageDir = TempImageDir & " " & "TagSucking"
-        If CBTagPiercing.Checked = True Then TempImageDir = TempImageDir & " " & "TagPiercing"
-        If CBTagSmiling.Checked = True Then TempImageDir = TempImageDir & " " & "TagSmiling"
-        If CBTagGlaring.Checked = True Then TempImageDir = TempImageDir & " " & "TagGlaring"
-        If CBTagSeeThrough.Checked = True Then TempImageDir = TempImageDir & " " & "TagSeeThrough"
-        If CBTagAllFours.Checked = True Then TempImageDir = TempImageDir & " " & "TagAllFours"
+        If CBTagFace.Checked Then TempImageDir = TempImageDir & " " & "TagFace"
+        If CBTagBoobs.Checked Then TempImageDir = TempImageDir & " " & "TagBoobs"
+        If CBTagPussy.Checked Then TempImageDir = TempImageDir & " " & "TagPussy"
+        If CBTagAss.Checked Then TempImageDir = TempImageDir & " " & "TagAss"
+        If CBTagLegs.Checked Then TempImageDir = TempImageDir & " " & "TagLegs"
+        If CBTagFeet.Checked Then TempImageDir = TempImageDir & " " & "TagFeet"
+        If CBTagFullyDressed.Checked Then TempImageDir = TempImageDir & " " & "TagFullyDressed"
+        If CBTagHalfDressed.Checked Then TempImageDir = TempImageDir & " " & "TagHalfDressed"
+        If CBTagGarmentCovering.Checked Then TempImageDir = TempImageDir & " " & "TagGarmentCovering"
+        If CBTagHandsCovering.Checked Then TempImageDir = TempImageDir & " " & "TagHandsCovering"
+        If CBTagNaked.Checked Then TempImageDir = TempImageDir & " " & "TagNaked"
+        If CBTagSideView.Checked Then TempImageDir = TempImageDir & " " & "TagSideView"
+        If CBTagCloseUp.Checked Then TempImageDir = TempImageDir & " " & "TagCloseUp"
+        If CBTagMasturbating.Checked Then TempImageDir = TempImageDir & " " & "TagMasturbating"
+        If CBTagSucking.Checked Then TempImageDir = TempImageDir & " " & "TagSucking"
+        If CBTagPiercing.Checked Then TempImageDir = TempImageDir & " " & "TagPiercing"
+        If CBTagSmiling.Checked Then TempImageDir = TempImageDir & " " & "TagSmiling"
+        If CBTagGlaring.Checked Then TempImageDir = TempImageDir & " " & "TagGlaring"
+        If CBTagSeeThrough.Checked Then TempImageDir = TempImageDir & " " & "TagSeeThrough"
+        If CBTagAllFours.Checked Then TempImageDir = TempImageDir & " " & "TagAllFours"
 
-        If CBTagGarment.Checked = True Then
+        If CBTagGarment.Checked Then
             If TBTagGarment.Text = "" Then
                 MessageBox.Show(Me, "Please enter a description in the Garment field!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
                 Return
@@ -8968,7 +8380,7 @@ checkFolder:
             End If
         End If
 
-        If CBTagUnderwear.Checked = True Then
+        If CBTagUnderwear.Checked Then
             If TBTagUnderwear.Text = "" Then
                 MessageBox.Show(Me, "Please enter a description in the Underwear field!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
                 Return
@@ -8977,7 +8389,7 @@ checkFolder:
             End If
         End If
 
-        If CBTagTattoo.Checked = True Then
+        If CBTagTattoo.Checked Then
             If TBTagTattoo.Text = "" Then
                 MessageBox.Show(Me, "Please enter a description in the Tattoo field!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
                 Return
@@ -8986,7 +8398,7 @@ checkFolder:
             End If
         End If
 
-        If CBTagSexToy.Checked = True Then
+        If CBTagSexToy.Checked Then
             If TBTagSexToy.Text = "" Then
                 MessageBox.Show(Me, "Please enter a description in the Room field!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
                 Return
@@ -8995,7 +8407,7 @@ checkFolder:
             End If
         End If
 
-        If CBTagFurniture.Checked = True Then
+        If CBTagFurniture.Checked Then
             If TBTagFurniture.Text = "" Then
                 MessageBox.Show(Me, "Please enter a description in the Furniture field!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
                 Return
@@ -9172,6 +8584,7 @@ checkFolder:
     End Function
 
     Delegate Function GetScriptsDelegate(stage As String) As List(Of String)
+
     Public Function GetAvailableScripts(stage As String) As List(Of String)
         Dim getScripts As New GetScriptsDelegate(AddressOf DoGetScripts)
         If (stage = "Start") Then
@@ -9189,6 +8602,314 @@ checkFolder:
         Next
         Return scriptList
     End Function
+
+    ''' <summary>
+    ''' Determine requirements for <paramref name="scriptMetaData"/>
+    ''' </summary>
+    ''' <param name="scriptMetaData"></param>
+    Public Function GetScriptRequirements(scriptMetaData As ScriptMetaData) As Tuple(Of Boolean, String)
+        Dim requirements As List(Of String) = New List(Of String)()
+        Dim getScript As Result(Of Script) = myScriptAccessor.GetScript(scriptMetaData)
+        If (getScript.IsFailure) Then
+            Throw New ApplicationException(getScript.Error.Message)
+        End If
+        Dim script As Script = getScript.Value
+        Dim areScriptRequirementsMet As Boolean = True
+        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowBlogImage) OrElse l.Contains(Keyword.NewBlogImage) OrElse l.Contains(Keyword.ShowImage)) Then
+            requirements.Add("* At least one URL File Selected *")
+            areScriptRequirementsMet = areScriptRequirementsMet AndAlso URLFileList.CheckedItems.Count > 0
+        End If
+
+        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowLocalImage) OrElse l.Contains(Keyword.ShowImage)) Then
+            requirements.Add("* At least one Local Image path selected with a valid directory *")
+            areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.IsImageGenreEnabled.Values.Any(Function(isEn) isEn)
+        End If
+
+        If script.Lines.Any(Function(l) l.Contains("@CBTBalls")) Then
+            requirements.Add("* Ball Torture must be enabled *")
+            areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.IsBallTortureEnabled
+        End If
+
+        If script.Lines.Any(Function(l) l.Contains("@CBTCock")) Then
+            requirements.Add("* Cock Torture must be enabled *")
+            areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.IsCockTortureEnabled
+        End If
+
+        If script.Lines.Any(Function(l) Not l.Contains("@CBTCock") AndAlso Not l.Contains("@CBTBalls") AndAlso l.Contains("@CBT")) Then
+            requirements.Add("* Cock Torture must be enabled *")
+            requirements.Add("* Ball Torture must be enabled *")
+            areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.IsCockTortureEnabled AndAlso mySettingsAccessor.IsBallTortureEnabled
+        End If
+
+        If script.Lines.Any(Function(l) l.Contains(Keyword.PlayJoiVideo)) Then
+            requirements.Add("* JOI or JOI Domme Video path selected with a valid directory *")
+            areScriptRequirementsMet = areScriptRequirementsMet _
+                    AndAlso ((CBVideoJOI.Checked AndAlso Convert.ToInt32(LblVideoJOITotal.Text) > 0) _
+                        OrElse (CBVideoJOID.Checked AndAlso Convert.ToInt32(LblVideoJOITotalD.Text) > 0)
+                    )
+        End If
+
+        If script.Lines.Any(Function(l) l.Contains("PlayCHVideo")) Then
+            requirements.Add("* CH or CH Domme Video path selected with a valid directory *")
+            areScriptRequirementsMet = areScriptRequirementsMet _
+                    AndAlso ((CBVideoCH.Checked AndAlso Convert.ToInt32(LblVideoCHTotal.Text) > 0) _
+                        OrElse (CBVideoCHD.Checked AndAlso Convert.ToInt32(LblVideoCHTotalD.Text) > 0)
+                    )
+        End If
+
+        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowButtImage) OrElse l.Contains(Keyword.ShowButtsImage)) Then
+            requirements.Add("* BnB Butt path must be set to a valid directory or URL File *")
+            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
+                    ((mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Butt) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Butt))) OrElse
+                    (ChbImageUrlButts.Checked AndAlso File.Exists(My.Settings.UrlFileButt)))
+        End If
+
+        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowBoobImage) OrElse l.Contains(Keyword.ShowBoobsImage)) Then
+            requirements.Add("* BnB Boobs path must be set to a valid directory or URL File *")
+            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
+                ((mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Boobs) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Boobs))) OrElse
+                (ChbImageUrlButts.Checked AndAlso File.Exists(My.Settings.UrlFileButt)))
+        End If
+
+        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowHardcoreImage)) Then
+            requirements.Add("* Local Hardcore images must be enabled and set to a valid directory  *")
+            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
+                mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Hardcore) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Hardcore))
+        End If
+
+        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowLesbianImage)) Then
+            requirements.Add("* Local Lesbian images must be enabled and set to a valid directory  *")
+            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
+                mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Lesbian) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Lesbian))
+        End If
+
+        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowBlowjobImage)) Then
+            requirements.Add("* Local Blowjob images must be enabled and set to a valid directory  *")
+            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
+                mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Blowjob) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Blowjob))
+        End If
+
+        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowFemdomImage)) Then
+            requirements.Add("* Local Femdom images must be enabled and set to a valid directory  *")
+            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
+                mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Femdom) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Femdom))
+        End If
+
+        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowLezdomImage)) Then
+            requirements.Add("* Local Lezdom images must be enabled and set to a valid directory  *")
+            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
+                mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Lezdom) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Lezdom))
+        End If
+
+        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowHentaiImage)) Then
+            requirements.Add("* Local Hentai images must be enabled and set to a valid directory  *")
+            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
+                mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Hentai) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Hentai))
+        End If
+
+        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowGayImage)) Then
+            requirements.Add("* Local gay images must be enabled and set to a valid directory  *")
+            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
+                mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Gay) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Gay))
+        End If
+
+        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowMaledomImage)) Then
+            requirements.Add("* Local maledom images must be enabled and set to a valid directory  *")
+            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
+                mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Maledom) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Maledom))
+        End If
+
+        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowCaptionsImage)) Then
+            requirements.Add("* Local caption images must be enabled and set to a valid directory  *")
+            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
+                mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Captions) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Captions))
+        End If
+
+        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowGeneralImage)) Then
+            requirements.Add("* Local general images must be enabled and set to a valid directory  *")
+            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
+                mySettingsAccessor.IsImageGenreEnabled(ImageGenre.General) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.General))
+        End If
+
+        If script.Lines.Any(Function(l) l.Contains("@ShowTaggedImage") AndAlso l.Contains("@Tag")) Then
+            Dim tagImageList As List(Of String) = New List(Of String)()
+
+            Dim tagFile = Application.StartupPath & "\Images\System\LocalImageTags.txt"
+            If File.Exists(tagFile) Then
+                tagImageList = File.ReadAllText(tagFile) _
+                    .Split(" ") _
+                    .Where(Function(l) l.StartsWith("Tag")) _
+                    .Distinct() _
+                    .ToList()
+            End If
+
+            Dim scriptTags As List(Of String) = String.Join(" ", script.Lines.All(Function(l) l.Contains("@Tag"))) _
+                .Split(" ") _
+                .Where(Function(l) l.StartsWith("@Tag")) _
+                .Select(Function(l) l.Replace("@Tag", "Tag")) _
+                .Distinct() _
+                .ToList()
+
+            Dim missingTags As List(Of String) = scriptTags.Where(Function(l) Not tagFile.Contains(l)).ToList()
+            requirements.Add("* Images in LocalImageTags.txt tagged with: " & String.Join(" ", missingTags))
+            areScriptRequirementsMet = areScriptRequirementsMet AndAlso Not missingTags.Any()
+        End If
+
+        If script.Lines.Any(Function(l) l.Contains("@ShowTaggedImage") AndAlso Not l.Contains("@Tag")) Then
+            Dim tagFile = Application.StartupPath & "\Images\System\LocalImageTags.txt"
+            requirements.Add("* LocalImageTags.txt must exist in \Images\System\ *")
+            areScriptRequirementsMet = areScriptRequirementsMet AndAlso File.Exists(tagFile)
+        End If
+
+        If script.Lines.Any(Function(l) l.Contains("@CheckVideo")) Then
+            MainWindow.ssh.VideoCheck = True
+            MainWindow.RandomVideo()
+            requirements.Add("* At least one Genre or Domme Video path set and selected *")
+            areScriptRequirementsMet = areScriptRequirementsMet AndAlso Not MainWindow.ssh.NoVideo
+            MainWindow.ssh.VideoCheck = False
+            MainWindow.ssh.NoVideo = False
+        End If
+
+        ' Need to find out if we have videos for the next few
+        MainWindow.ssh.VideoCheck = True
+        MainWindow.RandomVideo()
+        Dim hasVideos = Not MainWindow.ssh.NoVideo
+        MainWindow.ssh.VideoCheck = False
+        MainWindow.ssh.NoVideo = False
+
+        If script.Lines.Any(Function(l) l.Contains("@CheckVideo")) Then
+            requirements.Add("* At least one Genre or Domme Video path set and selected *")
+            areScriptRequirementsMet = areScriptRequirementsMet AndAlso hasVideos
+        End If
+
+        If script.Lines.Any(Function(l) l.Contains("@PlayCensorShipSucks") OrElse l.Contains("@PlayAvoidTheEdge") OrElse l.Contains("@PlayRedLightGreenLight")) Then
+            requirements.Add("* At least one non-Special Genre or Domme Video path set and selected *")
+            areScriptRequirementsMet = areScriptRequirementsMet AndAlso hasVideos
+        End If
+
+        If script.Lines.Any(Function(l) l.Contains("@ChastityOn") OrElse l.Contains("@ChastityOff")) Then
+            requirements.Add("* You must indicate you own a chastity device *")
+            areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.HasChastityDevice
+        End If
+
+        If script.Lines.Any(Function(l) l.Contains("@DeleteLocalImage")) Then
+            requirements.Add("* ""Allow Domme to Delete Local Media"" muct be checked *")
+            areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.CanDommeDeleteFiles
+        End If
+
+        If script.Lines.Any(Function(l) l.Contains("@DeleteLocalImage")) Then
+            requirements.Add("* ""Allow Domme to Delete Local Media"" muct be checked *")
+            areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.CanDommeDeleteFiles
+        End If
+
+        If script.Lines.Any(Function(l) l.Contains("@VitalSubAssignment")) Then
+            requirements.Add("* ""Allow Domme to Delete Local Media"" muct be checked *")
+            requirements.Add("* VitalSub must be enabled *")
+            requirements.Add("* ""Domme Assignments"" must be checked in the VitalSub app *")
+            areScriptRequirementsMet = areScriptRequirementsMet AndAlso MainWindow.CBVitalSub.Checked AndAlso MainWindow.CBVitalSubDomTask.Checked
+        End If
+        Return Tuple.Create(areScriptRequirementsMet, String.Join(Environment.NewLine, requirements).Replace("**", "* *"))
+    End Function
+
+    ''' <summary>
+    ''' Load script metadata into the checked list box
+    ''' </summary>
+    ''' <param name="target"></param>
+    ''' <param name="dommePersonalityName"></param>
+    ''' <param name="type"></param>
+    ''' <param name="stage"></param>
+    ''' <param name="isEnabledByDefault"></param>
+    Private Sub LoadScriptMetaData(target As CheckedListBox, dommePersonalityName As String, type As String, stage As SessionPhase, isEnabledByDefault As Boolean)
+        Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(dommePersonalityName, type, stage, isEnabledByDefault)
+
+        Dim lastIndex As Integer = target.SelectedIndex
+        Dim lastItem As String = target.SelectedItem
+
+        target.BeginUpdate()
+        target.Items.Clear()
+        For Each cldFile In scripts
+            target.Items.Add(cldFile.Name, cldFile.IsEnabled)
+        Next
+
+        If lastIndex = -1 Then
+            ScriptStatusUnlock(False)
+        ElseIf target.Items.Count >= lastIndex Then
+            target.SelectedIndex = lastIndex
+        ElseIf target.Items.Contains(lastItem) Then
+            target.SelectedItem = lastItem
+        End If
+        target.EndUpdate()
+    End Sub
+
+    ''' <summary>
+    ''' Determine requirements for <paramref name="scriptMetaData"/>
+    ''' </summary>
+    ''' <param name="scriptMetaData"></param>
+    Public Sub GetScriptStatus(scriptMetaData As ScriptMetaData)
+        Dim scriptRequirements = GetScriptRequirements(scriptMetaData)
+
+        Try
+            ScriptStatusUnlock(True)
+            RTBScriptReq.Text = scriptRequirements.Item2
+
+            If Not scriptRequirements.Item1 Then
+                LBLScriptReq.ForeColor = Color.Red
+                LBLScriptReq.Text = "All requirements not met!"
+            Else
+                LBLScriptReq.ForeColor = Color.Green
+                LBLScriptReq.Text = "All requirements met!"
+            End If
+        Catch ex As Exception
+            ScriptStatusUnlock(False)
+            MessageBox.Show(ex.Message, "Error Checking ScriptStatus", MessageBoxButtons.OK, MessageBoxIcon.Hand)
+        End Try
+    End Sub
+
+    Private Function GetScriptsCheckedListBox(sessionPhase As SessionPhase) As CheckedListBox
+        If sessionPhase = SessionPhase.Start Then
+            Return StartScripts
+        ElseIf sessionPhase = SessionPhase.Modules Then
+            Return ModuleScripts
+        ElseIf sessionPhase = SessionPhase.Link Then
+            Return LinkScripts
+        ElseIf sessionPhase = SessionPhase.End Then
+            Return EndScripts
+        End If
+        Throw New Exception("Unable to determine CheckedListBox.")
+    End Function
+
+    Private Function GetSessionPhase(selectedTab As TabPage) As SessionPhase
+        If selectedTab Is ScriptsStartTab Then
+            Return SessionPhase.Start
+        ElseIf selectedTab Is ScriptsModuleTab Then
+            Return SessionPhase.Modules
+        ElseIf selectedTab Is ScriptsLinkTab Then
+            Return SessionPhase.Link
+        ElseIf selectedTab Is ScriptsEndTab Then
+            Return SessionPhase.End
+        End If
+        Throw New Exception("Unable to determine CheckedListBox.")
+    End Function
+
+    Private Function GetSaveAction(sessionPhase As SessionPhase, target As CheckedListBox) As Action
+        If sessionPhase = SessionPhase.Start Then
+            Return Sub() saveCheckedListBox(target, Ssh.Files.StartChecklist)
+        ElseIf sessionPhase = SessionPhase.Modules Then
+            Return Sub() saveCheckedListBox(target, Ssh.Files.ModuleChecklist)
+        ElseIf sessionPhase = SessionPhase.Link Then
+            Return Sub() saveCheckedListBox(target, Ssh.Files.LinkChecklist)
+        ElseIf sessionPhase = SessionPhase.End Then
+            Return Sub() saveCheckedListBox(target, Ssh.Files.EndChecklist)
+        End If
+
+    End Function
+
+    Private Sub SetColor(label As Label)
+        Dim getColor As ColorDialog = New ColorDialog
+        If getColor.ShowDialog() = DialogResult.OK Then
+            label.ForeColor = getColor.Color
+        End If
+    End Sub
 
     Private mySettingsAccessor As ISettingsAccessor
     Private myBlogAccessor As BlogImageAccessor
