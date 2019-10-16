@@ -2990,7 +2990,7 @@ checkFolder:
         Return Tuple.Create(includeSubDirectories, defaultPath)
     End Function
 
-    Private Function CheckImageFolder(imageGenre As Constants.ImageGenre) As Boolean
+    Private Function CheckImageFolder(imageGenre As ImageGenre) As Boolean
         Dim isSubdir As Boolean = mySettingsAccessor.ImageGenreIncludeSubDirectory(imageGenre)
         Dim imageFolder As String = mySettingsAccessor.ImageGenreFolder(imageGenre)
 
@@ -3008,393 +3008,61 @@ checkFolder:
 #Region "------------------------------------- Hardcore Images -------------------------------------------"
 
     Private Sub BTNIHardcore_Click(sender As Object, e As EventArgs) Handles BTNIHardcore.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-            mySettingsAccessor.ImageGenreFolder(Constants.ImageGenre.Hardcore) = FolderBrowserDialog1.SelectedPath
-            CheckImageFolder(Constants.ImageGenre.Hardcore)
-        End If
+        SetFolderFromDialog(ImageGenre.Hardcore)
     End Sub
-
-#End Region ' Hardcore
-
-#Region "------------------------------------- Softcore Images -------------------------------------------"
 
     Private Sub BTNISoftcore_Click(sender As Object, e As EventArgs) Handles BTNISoftcore.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-            My.Settings.ISoftcore = FolderBrowserDialog1.SelectedPath
-            ImagesSoftcore_CheckFolder()
-        End If
+        SetFolderFromDialog(ImageGenre.Softcore)
     End Sub
-
-    Friend Shared Function ImagesSoftcore_CheckFolder() As Boolean
-        Dim subdir As Boolean = My.Settings.ISoftcoreSD
-
-        Dim def As String =
-            My.Settings.PropertyValues("ISoftcore").Property.DefaultValue
-
-        My.Settings.ISoftcore =
-            Image_FolderCheck("Softcore", My.Settings.ISoftcore, def, subdir)
-
-        If My.Settings.ISoftcore = def Then
-            My.Settings.CBISoftcore = False
-            My.Settings.ISoftcoreSD = My.Settings.PropertyValues("ISoftcoreSD").Property.DefaultValue
-        Else
-            My.Settings.CBISoftcore = True
-            My.Settings.ISoftcoreSD = subdir
-        End If
-
-        Return My.Settings.CBISoftcore
-    End Function
-
-#End Region ' Softcore
-
-#Region "------------------------------------- Lesbian Images --------------------------------------------"
 
     Private Sub BTNILesbian_Click(sender As Object, e As EventArgs) Handles BTNILesbian.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-            My.Settings.ILesbian = FolderBrowserDialog1.SelectedPath
-            ImagesLesbian_CheckFolder()
-        End If
+        SetFolderFromDialog(ImageGenre.Lesbian)
     End Sub
-
-    Friend Shared Function ImagesLesbian_CheckFolder() As Boolean
-        Dim subdir As Boolean = My.Settings.ILesbianSD
-
-        Dim def As String =
-            My.Settings.PropertyValues("ILesbian").Property.DefaultValue
-
-        My.Settings.ILesbian =
-            Image_FolderCheck("Lesbian", My.Settings.ILesbian, def, subdir)
-
-        If My.Settings.ILesbian = def Then
-            My.Settings.CBILesbian = False
-            My.Settings.ILesbianSD = My.Settings.PropertyValues("ILesbianSD").Property.DefaultValue
-        Else
-            My.Settings.CBILesbian = True
-            My.Settings.ILesbianSD = subdir
-        End If
-
-        Return My.Settings.CBILesbian
-    End Function
-
-#End Region ' Lesbian
-
-#Region "------------------------------------- Blowjob Images --------------------------------------------"
 
     Private Sub BTNIBlowjob_Click(sender As Object, e As EventArgs) Handles BTNIBlowjob.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-            My.Settings.IBlowjob = FolderBrowserDialog1.SelectedPath
-            ImagesBlowjob_CheckFolder()
-        End If
+        SetFolderFromDialog(ImageGenre.Blowjob)
     End Sub
-
-    Friend Shared Function ImagesBlowjob_CheckFolder() As Boolean
-        Dim subdir As Boolean = My.Settings.IBlowjobSD
-
-        Dim def As String =
-            My.Settings.PropertyValues("IBlowjob").Property.DefaultValue
-
-        My.Settings.IBlowjob =
-            Image_FolderCheck("Blowjob", My.Settings.IBlowjob, def, subdir)
-
-        If My.Settings.IBlowjob = def Then
-            My.Settings.CBIBlowjob = False
-            My.Settings.IBlowjobSD = My.Settings.PropertyValues("IBlowjobSD").Property.DefaultValue
-        Else
-            My.Settings.CBIBlowjob = True
-            My.Settings.IBlowjobSD = subdir
-        End If
-
-        Return My.Settings.CBIBlowjob
-    End Function
-
-#End Region ' Blowjob
-
-#Region "------------------------------------- Femdom Images ---------------------------------------------"
 
     Private Sub BTNIFemdom_Click(sender As Object, e As EventArgs) Handles BTNIFemdom.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-            My.Settings.IFemdom = FolderBrowserDialog1.SelectedPath
-            ImagesFemdom_CheckFolder()
-        End If
+        SetFolderFromDialog(ImageGenre.Femdom)
     End Sub
-
-    Friend Shared Function ImagesFemdom_CheckFolder() As Boolean
-        Dim subdir As Boolean = My.Settings.IFemdomSD
-
-        Dim def As String =
-            My.Settings.PropertyValues("IFemdom").Property.DefaultValue
-
-        My.Settings.IFemdom =
-            Image_FolderCheck("Femdom", My.Settings.IFemdom, def, subdir)
-
-        If My.Settings.IFemdom = def Then
-            My.Settings.CBIFemdom = False
-            My.Settings.IFemdomSD = My.Settings.PropertyValues("IFemdomSD").Property.DefaultValue
-        Else
-            My.Settings.CBIFemdom = True
-            My.Settings.IFemdomSD = subdir
-        End If
-
-        Return My.Settings.CBIFemdom
-    End Function
-
-#End Region ' Femdom
-
-#Region "------------------------------------- Lezdom Images ---------------------------------------------"
 
     Private Sub BTNILezdom_Click(sender As Object, e As EventArgs) Handles BTNILezdom.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-            My.Settings.ILezdom = FolderBrowserDialog1.SelectedPath
-            ImagesLezdom_CheckFolder()
-        End If
+        SetFolderFromDialog(ImageGenre.Lezdom)
     End Sub
-
-    Friend Shared Function ImagesLezdom_CheckFolder() As Boolean
-        Dim subdir As Boolean = My.Settings.ILezdomSD
-
-        Dim def As String =
-            My.Settings.PropertyValues("ILezdom").Property.DefaultValue
-
-        My.Settings.ILezdom =
-            Image_FolderCheck("Lezdom", My.Settings.ILezdom, def, subdir)
-
-        If My.Settings.ILezdom = def Then
-            My.Settings.CBILezdom = False
-            My.Settings.ILezdomSD = My.Settings.PropertyValues("ILezdomSD").Property.DefaultValue
-        Else
-            My.Settings.CBILezdom = True
-            My.Settings.ILezdomSD = subdir
-        End If
-
-        Return My.Settings.CBILezdom
-    End Function
-
-#End Region ' Lezdon
-
-#Region "------------------------------------- Hentai Images ---------------------------------------------"
 
     Private Sub BTNIHentai_Click(sender As Object, e As EventArgs) Handles BTNIHentai.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-            My.Settings.IHentai = FolderBrowserDialog1.SelectedPath
-            ImagesHentai_CheckFolder()
-        End If
+        SetFolderFromDialog(ImageGenre.Hentai)
     End Sub
-
-    Friend Shared Function ImagesHentai_CheckFolder() As Boolean
-        Dim subdir As Boolean = My.Settings.IHentaiSD
-
-        Dim def As String =
-            My.Settings.PropertyValues("IHentai").Property.DefaultValue
-
-        My.Settings.IHentai =
-            Image_FolderCheck("Hentai", My.Settings.IHentai, def, subdir)
-
-        If My.Settings.IHentai = def Then
-            My.Settings.CBIHentai = False
-            My.Settings.IHentaiSD = My.Settings.PropertyValues("IHentaiSD").Property.DefaultValue
-        Else
-            My.Settings.CBIHentai = True
-            My.Settings.IHentaiSD = subdir
-        End If
-
-        Return My.Settings.CBIHentai
-    End Function
-
-#End Region ' Hentai
-
-#Region "------------------------------------- Gay Images ------------------------------------------------"
 
     Private Sub BTNIGay_Click(sender As Object, e As EventArgs) Handles BTNIGay.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-            My.Settings.IGay = FolderBrowserDialog1.SelectedPath
-            ImagesGay_CheckFolder()
-        End If
+        SetFolderFromDialog(ImageGenre.Gay)
     End Sub
-
-    Friend Shared Function ImagesGay_CheckFolder() As Boolean
-        Dim subdir As Boolean = My.Settings.IGaySD
-
-        Dim def As String =
-            My.Settings.PropertyValues("IGay").Property.DefaultValue
-
-        My.Settings.IGay =
-            Image_FolderCheck("Gay", My.Settings.IGay, def, subdir)
-
-        If My.Settings.IGay = def Then
-            My.Settings.CBIGay = False
-            My.Settings.IGaySD = My.Settings.PropertyValues("IGaySD").Property.DefaultValue
-        Else
-            My.Settings.CBIGay = True
-            My.Settings.IGaySD = subdir
-        End If
-
-        Return My.Settings.CBIGay
-    End Function
-
-#End Region ' Gay
-
-#Region "------------------------------------- Maledom Images ---------------------------------------------"
 
     Private Sub BTNIMaledom_Click(sender As Object, e As EventArgs) Handles BTNIMaledom.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-            My.Settings.IMaledom = FolderBrowserDialog1.SelectedPath
-            ImagesMaledom_CheckFolder()
-        End If
+        SetFolderFromDialog(ImageGenre.Maledom)
     End Sub
-
-    Friend Shared Function ImagesMaledom_CheckFolder() As Boolean
-        Dim subdir As Boolean = My.Settings.IMaledomSD
-
-        Dim def As String =
-            My.Settings.PropertyValues("IMaledom").Property.DefaultValue
-
-        My.Settings.IMaledom =
-            Image_FolderCheck("Maledom", My.Settings.IMaledom, def, subdir)
-
-        If My.Settings.IMaledom = def Then
-            My.Settings.CBIMaledom = False
-            My.Settings.IMaledomSD = My.Settings.PropertyValues("IMaledomSD").Property.DefaultValue
-        Else
-            My.Settings.CBIMaledom = True
-            My.Settings.IMaledomSD = subdir
-        End If
-
-        Return My.Settings.CBIMaledom
-    End Function
-
-#End Region ' Maledom
-
-#Region "------------------------------------- General Images ---------------------------------------------"
 
     Private Sub BTNIGeneral_Click(sender As Object, e As EventArgs) Handles BTNIGeneral.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-            My.Settings.IGeneral = FolderBrowserDialog1.SelectedPath
-            ImagesGeneral_CheckFolder()
-        End If
+        SetFolderFromDialog(ImageGenre.General)
     End Sub
-
-    Friend Shared Function ImagesGeneral_CheckFolder() As Boolean
-        Dim subdir As Boolean = My.Settings.IGeneralSD
-
-        Dim def As String =
-            My.Settings.PropertyValues("IGeneral").Property.DefaultValue
-
-        My.Settings.IGeneral =
-            Image_FolderCheck("General", My.Settings.IGeneral, def, subdir)
-
-        If My.Settings.IGeneral = def Then
-            My.Settings.CBIGeneral = False
-            My.Settings.IGeneralSD = My.Settings.PropertyValues("IGeneralSD").Property.DefaultValue
-        Else
-            My.Settings.CBIGeneral = True
-            My.Settings.IGeneralSD = subdir
-        End If
-
-        Return My.Settings.CBIGeneral
-    End Function
-
-#End Region ' General
-
-#Region "------------------------------------- Captions Images ---------------------------------------------"
 
     Private Sub BTNICaptions_Click(sender As Object, e As EventArgs) Handles BTNICaptions.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-            My.Settings.ICaptions = FolderBrowserDialog1.SelectedPath
-            ImagesCaptions_CheckFolder()
-        End If
+        SetFolderFromDialog(ImageGenre.Captions)
     End Sub
-
-    Friend Shared Function ImagesCaptions_CheckFolder() As Boolean
-        Dim subdir As Boolean = My.Settings.ICaptionsSD
-
-        Dim def As String =
-            My.Settings.PropertyValues("ICaptions").Property.DefaultValue
-
-        My.Settings.ICaptions =
-            Image_FolderCheck("Captions", My.Settings.ICaptions, def, subdir)
-
-        If My.Settings.ICaptions = def Then
-            My.Settings.CBICaptions = False
-            My.Settings.ICaptionsSD = My.Settings.PropertyValues("ICaptionsSD").Property.DefaultValue
-        Else
-            My.Settings.CBICaptions = True
-            My.Settings.ICaptionsSD = subdir
-        End If
-
-        Return My.Settings.CBICaptions
-    End Function
-
-#End Region ' Captions
-
-#Region "------------------------------------- Boobs Images ----------------------------------------------"
 
     Private Sub BTNBoobPath_Click(sender As Object, e As EventArgs) Handles BTNBoobPath.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-            My.Settings.LBLBoobPath = FolderBrowserDialog1.SelectedPath
-            ImagesBoobs_CheckFolder()
-        End If
+        SetFolderFromDialog(ImageGenre.Boobs)
     End Sub
-
-    Friend Shared Function ImagesBoobs_CheckFolder() As Boolean
-        Dim subdir As Boolean = My.Settings.CBBoobSubDir
-
-        Dim def As String =
-            My.Settings.PropertyValues("LBLBoobPath").Property.DefaultValue
-
-        My.Settings.LBLBoobPath =
-            Image_FolderCheck("Boobs", My.Settings.LBLBoobPath, def, subdir)
-
-        If My.Settings.LBLBoobPath = def Then
-            My.Settings.CBIBoobs = False
-            My.Settings.CBBoobSubDir = My.Settings.PropertyValues("CBBoobSubDir").Property.DefaultValue
-        Else
-            My.Settings.CBIBoobs = True
-            My.Settings.CBBoobSubDir = subdir
-        End If
-
-        Return My.Settings.CBIBoobs
-    End Function
-
-#End Region ' Boobs
-
-#Region "------------------------------------- Butts Images ----------------------------------------------"
 
     Private Sub BTNButtPath_Click(sender As Object, e As EventArgs) Handles BTNButtPath.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-            My.Settings.LBLButtPath = FolderBrowserDialog1.SelectedPath
-            ImagesButts_CheckFolder()
-        End If
+        SetFolderFromDialog(ImageGenre.Butt)
     End Sub
-
-    Friend Shared Function ImagesButts_CheckFolder() As Boolean
-        Dim subdir As Boolean = My.Settings.CBButtSubDir
-
-        Dim def As String =
-            My.Settings.PropertyValues("LBLButtPath").Property.DefaultValue
-
-        My.Settings.LBLButtPath =
-            Image_FolderCheck("Butts", My.Settings.LBLButtPath, def, subdir)
-
-        If My.Settings.LBLButtPath = def Then
-            My.Settings.CBIButts = False
-            My.Settings.CBButtSubDir = My.Settings.PropertyValues("CBButtSubDir").Property.DefaultValue
-        Else
-            My.Settings.CBIButts = True
-            My.Settings.CBButtSubDir = subdir
-        End If
-
-        Return My.Settings.CBIButts
-    End Function
 
 #End Region ' Butt
 
-
-    Private Sub LBLIHardcore_Click(sender As Object, e As EventArgs) Handles TbxIHardcore.DoubleClick
-        TbxIHardcore.Text = "No path selected"
-    End Sub
-
-    Private Sub LBLISoftcore_Click(sender As Object, e As EventArgs) Handles TbxISoftcore.DoubleClick
-        TbxISoftcore.Text = "No path selected"
+    Private Sub ImagePathTextBox_DoubleClick(sender As Object, e As EventArgs) Handles TbxIHardcore.DoubleClick, TbxISoftcore.DoubleClick
+        CType(sender, TextBox).Text = "No path selected"
     End Sub
 
     Private Sub LBLILesbian_Click(sender As Object, e As EventArgs) Handles TbxILesbian.DoubleClick
@@ -8908,6 +8576,14 @@ checkFolder:
         Dim getColor As ColorDialog = New ColorDialog
         If getColor.ShowDialog() = DialogResult.OK Then
             label.ForeColor = getColor.Color
+        End If
+    End Sub
+
+    Private Sub SetFolderFromDialog(imageGenre As ImageGenre)
+        Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
+        If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
+            mySettingsAccessor.ImageGenreFolder(imageGenre) = FolderBrowserDialog1.SelectedPath
+            CheckImageFolder(imageGenre)
         End If
     End Sub
 
