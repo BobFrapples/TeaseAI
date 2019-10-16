@@ -7,6 +7,7 @@ Imports TeaseAI.Common.Constants
 Imports TeaseAI.Common.Data
 Imports TeaseAI.Common.Interfaces
 Imports TeaseAI.Common.Interfaces.Accessors
+Imports TeaseAI.Services.TagData
 
 Public Class FrmSettings
 
@@ -19,18 +20,34 @@ Public Class FrmSettings
         End Set
     End Property
 
+    ''' <summary>
+    ''' Location of the local image tag file.
+    ''' </summary>
+    ''' <returns></returns>
+    Private ReadOnly Property LocalImageTagFile As String
+        Get
+            Return Application.StartupPath & "\Images\System\LocalImageTags.txt"
+        End Get
+    End Property
+
     Public URLFileIncludeList As New List(Of String)
     Public FrmSettingsLoading As Boolean
     Dim LocalImageDir As New List(Of String)
 
     Dim ImageTagDir As New List(Of String)
+    ''' <summary>
+    ''' List of images in the current genre
+    ''' </summary>
     Dim LocalImageTagDir As New List(Of String)
     Dim ImageTagCount As Integer
-    Dim LocalImageTagCount As Integer
     Dim CurrentImageTagImage As String
     Dim CurrentLocalImageTagImage As String
     Dim TagCount As Integer
-    Dim LocalTagCount As Integer
+
+    ''' <summary>
+    ''' Index + 1 of the displayed local image in LocalImageTagDir
+    ''' </summary>
+    Private LocalTagCount As Integer
 
     Public WebImage As String
     Public WebImageFile As StreamReader
@@ -49,6 +66,9 @@ Public Class FrmSettings
         myBlogAccessor = New BlogImageAccessor()
         myCldAccessor = New CldAccessor()
         myScriptAccessor = New ScriptAccessor(New CldAccessor())
+        myLoadFileData = New LoadFileData()
+        myParseTagDataService = New ParseOldTagDataService()
+
         InitializeComponent()
     End Sub
 
@@ -2001,63 +2021,63 @@ Public Class FrmSettings
     Private Sub Button16_Click(sender As Object, e As EventArgs) Handles Button16.Click
         Dim saveSettingsDialog = New SaveFileDialog()
         saveSettingsDialog.Title = "Select a location to save current Glitter settings"
-        SaveSettingsDialog.InitialDirectory = Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\System\"
+        saveSettingsDialog.InitialDirectory = Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\System\"
 
-        SaveSettingsDialog.FileName = MainWindow.dompersonalitycombobox.Text & " Glitter Settings"
+        saveSettingsDialog.FileName = MainWindow.dompersonalitycombobox.Text & " Glitter Settings"
 
-        If SaveSettingsDialog.ShowDialog() = DialogResult.OK Then
+        If saveSettingsDialog.ShowDialog() = DialogResult.OK Then
             Dim settingsPath As String = saveSettingsDialog.FileName
             Dim settingsList As New List(Of String)
             settingsList.Clear()
 
 
-            If My.Settings.CBGlitterFeed Then SettingsList.Add("Glitter Feed: On")
-            If My.Settings.CBGlitterFeedScripts Then SettingsList.Add("Glitter Feed: Scripts")
-            If My.Settings.CBGlitterFeedOff Then SettingsList.Add("Glitter Feed: Off")
+            If My.Settings.CBGlitterFeed Then settingsList.Add("Glitter Feed: On")
+            If My.Settings.CBGlitterFeedScripts Then settingsList.Add("Glitter Feed: Scripts")
+            If My.Settings.CBGlitterFeedOff Then settingsList.Add("Glitter Feed: Off")
 
-            SettingsList.Add("Short Name: " & My.Settings.GlitterSN)
-            SettingsList.Add("Domme Color: " & My.Settings.GlitterNCDommeColor.ToArgb.ToString)
-            SettingsList.Add("Tease: " & My.Settings.CBTease)
-            SettingsList.Add("Egotist: " & My.Settings.CBEgotist)
-            SettingsList.Add("Trivia: " & My.Settings.CBTrivia)
-            SettingsList.Add("Daily: " & My.Settings.CBDaily)
-            SettingsList.Add("Custom 1: " & My.Settings.CBCustom1)
-            SettingsList.Add("Custom 2: " & My.Settings.CBCustom2)
-            SettingsList.Add("Domme Post Frequency: " & My.Settings.GlitterDSlider)
+            settingsList.Add("Short Name: " & My.Settings.GlitterSN)
+            settingsList.Add("Domme Color: " & My.Settings.GlitterNCDommeColor.ToArgb.ToString)
+            settingsList.Add("Tease: " & My.Settings.CBTease)
+            settingsList.Add("Egotist: " & My.Settings.CBEgotist)
+            settingsList.Add("Trivia: " & My.Settings.CBTrivia)
+            settingsList.Add("Daily: " & My.Settings.CBDaily)
+            settingsList.Add("Custom 1: " & My.Settings.CBCustom1)
+            settingsList.Add("Custom 2: " & My.Settings.CBCustom2)
+            settingsList.Add("Domme Post Frequency: " & My.Settings.GlitterDSlider)
 
-            SettingsList.Add("Contact 1 Enabled: " & My.Settings.CBGlitter1)
-            SettingsList.Add("Contact 1 Name: " & My.Settings.Glitter1)
-            SettingsList.Add("Contact 1 Color: " & My.Settings.GlitterNC1Color.ToArgb.ToString)
-            SettingsList.Add("Contact 1 Image Directory: " & My.Settings.Contact1ImageDir)
-            SettingsList.Add("Contact 1 Post Frequency: " & My.Settings.Glitter1Slider)
+            settingsList.Add("Contact 1 Enabled: " & My.Settings.CBGlitter1)
+            settingsList.Add("Contact 1 Name: " & My.Settings.Glitter1)
+            settingsList.Add("Contact 1 Color: " & My.Settings.GlitterNC1Color.ToArgb.ToString)
+            settingsList.Add("Contact 1 Image Directory: " & My.Settings.Contact1ImageDir)
+            settingsList.Add("Contact 1 Post Frequency: " & My.Settings.Glitter1Slider)
 
-            SettingsList.Add("Contact 2 Enabled: " & My.Settings.CBGlitter2)
-            SettingsList.Add("Contact 2 Name: " & My.Settings.Glitter2)
-            SettingsList.Add("Contact 2 Color: " & My.Settings.GlitterNC2Color.ToArgb.ToString)
-            SettingsList.Add("Contact 2 Image Directory: " & My.Settings.Contact2ImageDir)
-            SettingsList.Add("Contact 2 Post Frequency: " & My.Settings.Glitter2Slider)
+            settingsList.Add("Contact 2 Enabled: " & My.Settings.CBGlitter2)
+            settingsList.Add("Contact 2 Name: " & My.Settings.Glitter2)
+            settingsList.Add("Contact 2 Color: " & My.Settings.GlitterNC2Color.ToArgb.ToString)
+            settingsList.Add("Contact 2 Image Directory: " & My.Settings.Contact2ImageDir)
+            settingsList.Add("Contact 2 Post Frequency: " & My.Settings.Glitter2Slider)
 
-            SettingsList.Add("Contact 3 Enabled: " & My.Settings.CBGlitter3)
-            SettingsList.Add("Contact 3 Name: " & My.Settings.Glitter3)
-            SettingsList.Add("Contact 3 Color: " & My.Settings.GlitterNC3Color.ToArgb.ToString)
-            SettingsList.Add("Contact 3 Image Directory: " & My.Settings.Contact3ImageDir)
-            SettingsList.Add("Contact 3 Post Frequency: " & My.Settings.Glitter3Slider)
+            settingsList.Add("Contact 3 Enabled: " & My.Settings.CBGlitter3)
+            settingsList.Add("Contact 3 Name: " & My.Settings.Glitter3)
+            settingsList.Add("Contact 3 Color: " & My.Settings.GlitterNC3Color.ToArgb.ToString)
+            settingsList.Add("Contact 3 Image Directory: " & My.Settings.Contact3ImageDir)
+            settingsList.Add("Contact 3 Post Frequency: " & My.Settings.Glitter3Slider)
 
-            SettingsList.Add("Domme AV: " & My.Settings.GlitterAV)
-            SettingsList.Add("Contact 1 AV: " & My.Settings.GlitterAV1)
-            SettingsList.Add("Contact 2 AV: " & My.Settings.GlitterAV2)
-            SettingsList.Add("Contact 3 AV: " & My.Settings.GlitterAV3)
+            settingsList.Add("Domme AV: " & My.Settings.GlitterAV)
+            settingsList.Add("Contact 1 AV: " & My.Settings.GlitterAV1)
+            settingsList.Add("Contact 2 AV: " & My.Settings.GlitterAV2)
+            settingsList.Add("Contact 3 AV: " & My.Settings.GlitterAV3)
 
 
 
             Dim SettingsString As String = ""
 
-            For i As Integer = 0 To SettingsList.Count - 1
-                SettingsString = SettingsString & SettingsList(i)
-                If i <> SettingsList.Count - 1 Then SettingsString = SettingsString & Environment.NewLine
+            For i As Integer = 0 To settingsList.Count - 1
+                SettingsString = SettingsString & settingsList(i)
+                If i <> settingsList.Count - 1 Then SettingsString = SettingsString & Environment.NewLine
             Next
 
-            My.Computer.FileSystem.WriteAllText(SettingsPath, SettingsString, False)
+            My.Computer.FileSystem.WriteAllText(settingsPath, SettingsString, False)
         End If
 
 
@@ -3809,9 +3829,7 @@ checkFolder:
         If (e.State And DrawItemState.Focus) <> 0 Then
             e.DrawFocusRectangle()
         End If
-        Dim objBrush As Brush = Nothing
-        Try
-            objBrush = New SolidBrush(e.ForeColor)
+        Using objBrush As Brush = New SolidBrush(e.ForeColor)
             Dim _FontName As String = DommeMessageFontCB.Items(e.Index)
             Dim _font As Font
             Dim _fontfamily = New FontFamily(_FontName)
@@ -3823,21 +3841,15 @@ checkFolder:
                 _font = New Font(_fontfamily, 14, FontStyle.Italic)
             End If
             e.Graphics.DrawString(_FontName, _font, objBrush, e.Bounds)
-        Finally
-            If objBrush IsNot Nothing Then
-                objBrush.Dispose()
-            End If
-            objBrush = Nothing
-        End Try
+        End Using
     End Sub
 
-    Private Sub CockSizeNumBox_LostFocus(sender As Object, e As EventArgs) Handles CockSizeNumBox.LostFocus
+    Private Sub CockSizeNumBox_ValueChanged(sender As Object, e As EventArgs) Handles CockSizeNumBox.ValueChanged
         My.Settings.SubCockSize = CockSizeNumBox.Value
     End Sub
 
     Private Sub NBCensorShowMin_Leave(sender As Object, e As EventArgs) Handles NBCensorShowMin.Leave
         My.Settings.NBCensorShowMin = NBCensorShowMin.Value
-        Debug.Print(My.Settings.NBCensorShowMin & " " & NBCensorShowMin.Value)
     End Sub
 
     Private Sub NBCensorShowMax_Leave(sender As Object, e As EventArgs) Handles NBCensorShowMax.Leave
@@ -3853,16 +3865,8 @@ checkFolder:
     End Sub
 
     Private Sub CBCensorConstant_CheckedChanged(sender As Object, e As EventArgs) Handles CBCensorConstant.CheckedChanged
-        If CBCensorConstant.Checked Then
-            My.Settings.CBCensorConstant = True
-        Else
-            My.Settings.CBCensorConstant = False
-        End If
+        My.Settings.CBCensorConstant = CBCensorConstant.Checked
     End Sub
-
-    Public Function Color2Html(ByVal MyColor As Color) As String
-        Return "#" & MyColor.ToArgb().ToString("x").Substring(2).ToUpper
-    End Function
 
     Private Sub NBCensorShowMin_ValueChanged(sender As Object, e As EventArgs) Handles NBCensorShowMin.ValueChanged
         If NBCensorShowMin.Value > NBCensorShowMax.Value Then NBCensorShowMin.Value = NBCensorShowMax.Value
@@ -3947,40 +3951,34 @@ checkFolder:
 
         MainWindow.ssh.VTPath = CensorText
 
-        Try
-            Dim VidReader As New StreamReader(CensorText)
-            Dim VidList As New List(Of String)
+        Dim VidReader As New StreamReader(CensorText)
+        Dim VidList As New List(Of String)
 
-            While VidReader.Peek <> -1
-                VidList.Add(VidReader.ReadLine())
-            End While
+        While VidReader.Peek <> -1
+            VidList.Add(VidReader.ReadLine())
+        End While
 
-            VidReader.Close()
-            VidReader.Dispose()
+        VidReader.Close()
+        VidReader.Dispose()
 
-            Dim VidString As String
+        Dim VidString As String = String.Empty
 
-            For i As Integer = 0 To VidList.Count - 1
-                If i <> VidList.Count - 1 Then
-                    VidString = VidString & VidList(i) & Environment.NewLine
-                Else
-                    VidString = VidString & VidList(i)
-                End If
-            Next
+        For i As Integer = 0 To VidList.Count - 1
+            If i <> VidList.Count - 1 Then
+                VidString = VidString & VidList(i) & Environment.NewLine
+            Else
+                VidString = VidString & VidList(i)
+            End If
+        Next
 
-            RTBVideoMod.Text = VidString
+        RTBVideoMod.Text = VidString
 
-            LBVidScript.Enabled = False
-            CBVTType.Enabled = False
-            BTNVideoModClear.Enabled = True
-            BTNVideoModLoad.Enabled = False
-            RTBVideoMod.Enabled = True
-            BTNVideoModSave.Enabled = False
-        Catch
-        End Try
-
-
-
+        LBVidScript.Enabled = False
+        CBVTType.Enabled = False
+        BTNVideoModClear.Enabled = True
+        BTNVideoModLoad.Enabled = False
+        RTBVideoMod.Enabled = True
+        BTNVideoModSave.Enabled = False
     End Sub
 
     Private Sub RTBVideoMod_TextChanged(sender As Object, e As EventArgs) Handles RTBVideoMod.TextChanged
@@ -3999,16 +3997,12 @@ checkFolder:
 
     Private Sub BTNVideoModSave_Click(sender As Object, e As EventArgs) Handles BTNVideoModSave.Click
 
-
-
-
         If MsgBox("This will overwrite the current " & CBVTType.Text & " script!" & Environment.NewLine & Environment.NewLine & "Are you sure?", vbYesNo, "Warning!") = MsgBoxResult.Yes Then
             Debug.Print("Worked?")
         Else
             Debug.Print("Did not work")
             Return
         End If
-
 
         My.Computer.FileSystem.DeleteFile(MainWindow.ssh.VTPath)
 
@@ -4023,7 +4017,6 @@ checkFolder:
                 WriteList.Add(RTBVideoMod.Lines(i))
             End If
         Next
-
 
         For i As Integer = 0 To WriteList.Count - 1
             If i <> WriteList.Count - 1 Then
@@ -4044,28 +4037,26 @@ checkFolder:
         RTBGlitModDommePost.Text = ""
         RTBGlitModResponses.Text = ""
         LBGlitModScripts.ClearSelected()
-
     End Sub
 
     Private Sub CBGlitModType_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CBGlitModType.SelectedIndexChanged
 
-        If MainWindow.FormLoading = False Then
-
-            Dim files() As String = myDirectory.GetFiles(Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Apps\Glitter\" & CBGlitModType.Text & "\")
-            Dim GlitterScriptCount As Integer
-
-            LBGlitModScripts.Items.Clear()
-
-            For Each file As String In files
-
-                GlitterScriptCount += 1
-                LBGlitModScripts.Items.Add(Path.GetFileName(file).Replace(".txt", ""))
-
-            Next
-
-            LBLGlitModScriptCount.Text = CBGlitModType.Text & " Scripts Found (" & GlitterScriptCount & ")"
-
+        If MainWindow.FormLoading Then
+            Return
         End If
+        Dim files() As String = myDirectory.GetFiles(Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Apps\Glitter\" & CBGlitModType.Text & "\")
+        Dim GlitterScriptCount As Integer
+
+        LBGlitModScripts.Items.Clear()
+
+        For Each file As String In files
+
+            GlitterScriptCount += 1
+            LBGlitModScripts.Items.Add(Path.GetFileName(file).Replace(".txt", ""))
+
+        Next
+
+        LBLGlitModScriptCount.Text = CBGlitModType.Text & " Scripts Found (" & GlitterScriptCount & ")"
     End Sub
 
     Private Sub LBGlitModScripts_SelectedIndexChanged(sender As Object, e As EventArgs) Handles LBGlitModScripts.SelectedIndexChanged
@@ -4078,13 +4069,10 @@ checkFolder:
             MsgBox("This file is currently in use by the program. Saving changes may be slow until the Glitter process has finished.", , "Warning!")
         End If
 
-
         TBGlitModFileName.Text = LBGlitModScripts.SelectedItem
 
         RTBGlitModDommePost.Text = ""
         RTBGlitModResponses.Text = ""
-
-
 
         Dim ioFile As New StreamReader(GlitPath)
         Dim lines As New List(Of String)
@@ -4130,24 +4118,8 @@ checkFolder:
             MsgBox("Please make sure the Responses text box has at least three responses!", , "Error!")
             Return
         End If
-        'If LBGlitModScripts.Items.Contains Then
-
-
 
         Dim GlitPath As String = Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Apps\Glitter\" & CBGlitModType.Text & "\" & TBGlitModFileName.Text & ".txt"
-
-
-        'My.Computer.FileSystem.WriteAllText(GlitPath, RTBGlitModDommePost.Text & Environment.NewLine & RTBGlitModResponses.Text, False)
-
-        ' My.Computer.FileSystem.WriteAllText(GlitPath, Environment.NewLine, True)
-
-        'For Each sLine As String In RTBGlitModResponses.Text
-        'My.Computer.FileSystem.WriteAllText(GlitPath, sLine & Environment.NewLine, True)
-        'Next
-
-        ' File.WriteAllLines(GlitPath, File.ReadAllLines(GlitPath).Where(Function(s) s <> String.Empty))
-
-        'LBGlitModScripts.Items.Add(TBGlitModFileName.Text)
 
         If Not LBGlitModScripts.Items.Contains(TBGlitModFileName.Text) Then
             LBGlitModScripts.Items.Add(TBGlitModFileName.Text)
@@ -4231,19 +4203,14 @@ checkFolder:
 
     Private Sub BTNTagDir_Click(sender As Object, e As EventArgs) Handles BTNTagDir.Click
 
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-
-
-            ' BTNTagSave.Text = "Save and Display Next Image"
-
+        Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
+        If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
             ImageTagDir.Clear()
 
-            TagImageFolder = FolderBrowserDialog1.SelectedPath
+            TagImageFolder = folderBrowserDialog.SelectedPath
 
             Dim supportedExtensions As String = "*.png,*.jpg,*.gif,*.bmp,*.jpeg"
-            Dim files As String()
-
-            files = myDirectory.GetFiles(TagImageFolder, "*.*")
+            Dim files As String() = myDirectory.GetFiles(TagImageFolder, "*.*")
 
             Array.Sort(files)
 
@@ -4258,19 +4225,12 @@ checkFolder:
                 Return
             End If
 
-            Try
-                ImageTagPictureBox.Image.Dispose()
-            Catch
-            End Try
-
-            ImageTagPictureBox.Image = Nothing
-            GC.Collect()
-
             ImageTagPictureBox.Image = Image.FromFile(ImageTagDir(0))
             MainWindow.mainPictureBox.LoadAsync(ImageTagDir(0))
             CurrentImageTagImage = ImageTagDir(0)
 
-            LoadDommeTags()
+            Dim taggedItem As TaggedItem = GetTaggedItem(TagImageFolder & "\ImageTags.txt", CurrentImageTagImage)
+            SetDommeTagCheckboxes(taggedItem.ItemTags)
 
             TagCount = 1
             LBLTagCount.Text = TagCount & "/" & ImageTagDir.Count
@@ -4319,121 +4279,96 @@ checkFolder:
             TBTagFurniture.Enabled = True
 
             LBLTagCount.Enabled = True
-
-
-
         End If
-
     End Sub
 
-    Private Sub TBTagDir_KeyPress(sender As Object, e As Windows.Forms.KeyPressEventArgs) Handles TBTagDir.KeyPress
-
-        If e.KeyChar = Convert.ToChar(13) Then
-
-            e.Handled = True
-            ' sendButton.PerformClick()
-            e.KeyChar = Chr(0)
-
-            If My.Computer.FileSystem.DirectoryExists(TBTagDir.Text) Then
-
-                ImageTagDir.Clear()
-
-                TagImageFolder = TBTagDir.Text
-
-                Dim supportedExtensions As String = "*.png,*.jpg,*.gif,*.bmp,*.jpeg"
-                Dim files As String()
-
-                files = myDirectory.GetFiles(TagImageFolder, "*.*")
-
-                Array.Sort(files)
-
-                For Each fi As String In files
-                    If supportedExtensions.Contains(Path.GetExtension(LCase(fi))) Then
-                        ImageTagDir.Add(fi)
-                    End If
-                Next
-
-                If ImageTagDir.Count < 1 Then
-                    MessageBox.Show(Me, "There are no images in the specified folder.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    Return
-                End If
-
-                Try
-                    ImageTagPictureBox.Image.Dispose()
-                Catch
-                End Try
-
-                ImageTagPictureBox.Image = Nothing
-                GC.Collect()
-
-                Debug.Print("find")
-                ImageTagPictureBox.Image = Image.FromFile(ImageTagDir(0))
-                MainWindow.mainPictureBox.LoadAsync(ImageTagDir(0))
-
-
-                CurrentImageTagImage = ImageTagDir(0)
-
-
-
-                LoadDommeTags()
-
-                TagCount = 1
-                LBLTagCount.Text = TagCount & "/" & ImageTagDir.Count
-
-                'If ImageTagDir.Count = 1 Then BTNTagSave.Text = "Save and Finish"
-
-                ImageTagCount = 0
-
-                BTNTagSave.Enabled = True
-                BTNTagNext.Enabled = True
-                BTNTagPrevious.Enabled = False
-                BTNTagDir.Enabled = False
-                TBTagDir.Enabled = False
-
-                CBTagFace.Enabled = True
-                CBTagBoobs.Enabled = True
-                CBTagPussy.Enabled = True
-                CBTagAss.Enabled = True
-                CBTagLegs.Enabled = True
-                CBTagFeet.Enabled = True
-                CBTagFullyDressed.Enabled = True
-                CBTagHalfDressed.Enabled = True
-                CBTagGarmentCovering.Enabled = True
-                CBTagHandsCovering.Enabled = True
-                CBTagNaked.Enabled = True
-                CBTagSideView.Enabled = True
-                CBTagCloseUp.Enabled = True
-                CBTagMasturbating.Enabled = True
-                CBTagSucking.Enabled = True
-                CBTagPiercing.Enabled = True
-                CBTagSmiling.Enabled = True
-                CBTagGlaring.Enabled = True
-                CBTagSeeThrough.Enabled = True
-                CBTagAllFours.Enabled = True
-
-                CBTagGarment.Enabled = True
-                CBTagUnderwear.Enabled = True
-                CBTagTattoo.Enabled = True
-                CBTagSexToy.Enabled = True
-                CBTagFurniture.Enabled = True
-
-                TBTagGarment.Enabled = True
-                TBTagUnderwear.Enabled = True
-                TBTagTattoo.Enabled = True
-                TBTagSexToy.Enabled = True
-                TBTagFurniture.Enabled = True
-
-                LBLTagCount.Enabled = True
-
-            Else
-
-                TBTagDir.Text = "Not a Valid Directory!"
-
-            End If
-
+    Private Sub TBTagDir_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TBTagDir.KeyPress
+        If e.KeyChar <> Convert.ToChar(13) Then
+            Return
         End If
 
+        e.Handled = True
+        e.KeyChar = Chr(0)
 
+        If (Directory.Exists(TBTagDir.Text)) Then
+            TagImageFolder = TBTagDir.Text
+
+            Dim supportedExtensions As String = "*.png,*.jpg,*.gif,*.bmp,*.jpeg"
+            Dim imageExtensions As List(Of String) = New List(Of String)()
+            imageExtensions.Add(".png")
+            imageExtensions.Add(".jpg")
+            imageExtensions.Add(".jpeg")
+            imageExtensions.Add(".gif")
+            imageExtensions.Add(".bmp")
+
+            ImageTagDir = Directory.GetFiles(TagImageFolder) _
+                .Where(Function(f) imageExtensions.Contains(Path.GetExtension(f).ToLower())) _
+                .OrderBy(Function(f) f) _
+                .ToList()
+
+            If Not ImageTagDir.Any() Then
+                MessageBox.Show(Me, "There are no images in the specified folder.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return
+            End If
+
+            ImageTagPictureBox.Image = Image.FromFile(ImageTagDir(0))
+            MainWindow.mainPictureBox.LoadAsync(ImageTagDir(0))
+
+            CurrentImageTagImage = ImageTagDir(0)
+            Dim taggedItem As TaggedItem = GetTaggedItem(TagImageFolder & "\ImageTags.txt", CurrentImageTagImage)
+            SetDommeTagCheckboxes(taggedItem.ItemTags)
+
+            TagCount = 1
+            LBLTagCount.Text = TagCount & "/" & ImageTagDir.Count
+
+            ImageTagCount = 0
+
+            BTNTagSave.Enabled = True
+            BTNTagNext.Enabled = True
+            BTNTagPrevious.Enabled = False
+            BTNTagDir.Enabled = False
+            TBTagDir.Enabled = False
+
+            CBTagFace.Enabled = True
+            CBTagBoobs.Enabled = True
+            CBTagPussy.Enabled = True
+            CBTagAss.Enabled = True
+            CBTagLegs.Enabled = True
+            CBTagFeet.Enabled = True
+            CBTagFullyDressed.Enabled = True
+            CBTagHalfDressed.Enabled = True
+            CBTagGarmentCovering.Enabled = True
+            CBTagHandsCovering.Enabled = True
+            CBTagNaked.Enabled = True
+            CBTagSideView.Enabled = True
+            CBTagCloseUp.Enabled = True
+            CBTagMasturbating.Enabled = True
+            CBTagSucking.Enabled = True
+            CBTagPiercing.Enabled = True
+            CBTagSmiling.Enabled = True
+            CBTagGlaring.Enabled = True
+            CBTagSeeThrough.Enabled = True
+            CBTagAllFours.Enabled = True
+
+            CBTagGarment.Enabled = True
+            CBTagUnderwear.Enabled = True
+            CBTagTattoo.Enabled = True
+            CBTagSexToy.Enabled = True
+            CBTagFurniture.Enabled = True
+
+            TBTagGarment.Enabled = True
+            TBTagUnderwear.Enabled = True
+            TBTagTattoo.Enabled = True
+            TBTagSexToy.Enabled = True
+            TBTagFurniture.Enabled = True
+
+            LBLTagCount.Enabled = True
+
+        Else
+
+            TBTagDir.Text = "Not a Valid Directory!"
+
+        End If
     End Sub
 
     Private Sub BTNTagSave_Click(sender As Object, e As EventArgs) Handles BTNTagSave.Click
@@ -4563,8 +4498,8 @@ checkFolder:
         If ImageTagCount = ImageTagDir.Count - 1 Then BTNTagNext.Enabled = False
 
 
-        LoadDommeTags()
-
+        Dim taggedItem As TaggedItem = GetTaggedItem(TagImageFolder & "\ImageTags.txt", CurrentImageTagImage)
+        SetDommeTagCheckboxes(taggedItem.ItemTags)
     End Sub
 
     Private Sub BTNTagPrevious_Click(sender As Object, e As EventArgs) Handles BTNTagPrevious.Click
@@ -4590,11 +4525,9 @@ checkFolder:
         MainWindow.mainPictureBox.LoadAsync(ImageTagDir(ImageTagCount))
         CurrentImageTagImage = ImageTagDir(ImageTagCount)
 
-        If ImageTagCount = 0 Then BTNTagPrevious.Enabled = False
-
-
-        LoadDommeTags()
-
+        BTNTagPrevious.Enabled = ImageTagCount > 0
+        Dim taggedItem As TaggedItem = GetTaggedItem(TagImageFolder & "\ImageTags.txt", CurrentImageTagImage)
+        SetDommeTagCheckboxes(taggedItem.ItemTags)
     End Sub
 
     Private Sub Button50_Click(sender As Object, e As EventArgs) Handles Button50.Click
@@ -4903,24 +4836,20 @@ checkFolder:
 
             MainWindow.mainPictureBox.LoadAsync(LocalImageTagDir(0))
             CurrentLocalImageTagImage = LocalImageTagDir(0)
-            CheckLocalTagList()
+            CheckLocalTagList(CurrentLocalImageTagImage)
 
             LocalTagCount = 1
             LBLLocalTagCount.Text = LocalTagCount & "/" & LocalImageTagDir.Count
 
-
-            LocalImageTagCount = 0
-
             BTNLocalTagSave.Enabled = True
-            BTNLocalTagNext.Enabled = True
+            BTNLocalTagNext.Enabled = LocalImageTagDir.Count < LocalTagCount
             BTNLocalTagPrevious.Enabled = False
             BTNLocalTagDir.Enabled = False
             TBLocalTagDir.Enabled = False
 
-            EnableLocalTagList()
+            SetLocalImageEnabled(True)
 
             LBLLocalTagCount.Enabled = True
-
         End If
     End Sub
 
@@ -4928,743 +4857,166 @@ checkFolder:
 
         LocalTagCount += 1
         LBLLocalTagCount.Text = LocalTagCount & "/" & LocalImageTagDir.Count
-        BTNLocalTagPrevious.Enabled = True
+        BTNLocalTagPrevious.Enabled = LocalTagCount > 1
 
-        SetLocalImageTags()
+        SetLocalImageTags(CurrentLocalImageTagImage)
 
-        LocalImageTagCount += 1
-        MainWindow.mainPictureBox.LoadAsync(LocalImageTagDir(LocalImageTagCount))
-        CurrentLocalImageTagImage = LocalImageTagDir(LocalImageTagCount)
+        MainWindow.mainPictureBox.LoadAsync(LocalImageTagDir(LocalTagCount - 1))
+        CurrentLocalImageTagImage = LocalImageTagDir(LocalTagCount - 1)
 
-        If LocalImageTagCount = LocalImageTagDir.Count - 1 Then BTNLocalTagNext.Enabled = False
+        BTNLocalTagNext.Enabled = LocalImageTagDir.Count < LocalTagCount
 
-        CheckLocalTagList()
+        CheckLocalTagList(CurrentLocalImageTagImage)
 
     End Sub
 
     ''' <summary>
-    ''' Set all image tag checkboxes to disabled
+    ''' Find the tags for <paramref name="imageFileName"/>
     ''' </summary>
-    Public Sub ClearLocalTagList()
+    Public Sub CheckLocalTagList(imageFileName As String)
+        Dim taggedItems As List(Of TaggedItem) = ReadTagFile(LocalImageTagFile)
+        Dim taggedItem As TaggedItem = taggedItems.FirstOrDefault(Function(ti) ti.ItemName = imageFileName)
 
-        CBTagHardcore.Checked = False
-        CBTagLesbian.Checked = False
-        CBTagGay.Checked = False
-        CBTagBisexual.Checked = False
-        CBTagSoloF.Checked = False
-        CBTagSoloM.Checked = False
-        CBTagSoloFuta.Checked = False
-        CBTagPOV.Checked = False
-        CBTagBondage.Checked = False
-        CBTagSM.Checked = False
-        CBTagTD.Checked = False
-        CBTagChastity.Checked = False
-        CBTagCFNM.Checked = False
-        CBTagBath.Checked = False
-        CBTagShower.Checked = False
-        CBTagOutdoors.Checked = False
-        CBTagArtwork.Checked = False
+        SetLocalTagCheckboxes(taggedItem.ItemTags)
+    End Sub
 
-        CBTagMasturbation.Checked = False
-        CBTagHandjob.Checked = False
-        CBTagFingering.Checked = False
-        CBTagBlowjob.Checked = False
-        CBTagCunnilingus.Checked = False
-        CBTagTitjob.Checked = False
-        CBTagFootjob.Checked = False
-        CBTagFacesitting.Checked = False
-        CBTagRimming.Checked = False
-        CBTagMissionary.Checked = False
-        CBTagDoggyStyle.Checked = False
-        CBTagCowgirl.Checked = False
-        CBTagRCowgirl.Checked = False
-        CBTagStanding.Checked = False
-        CBTagAnalSex.Checked = False
-        CBTagDP.Checked = False
-        CBTagGangbang.Checked = False
+    Public Sub SetLocalImageEnabled(isEnabled As Boolean)
+        CBTagHardcore.Enabled = isEnabled
+        CBTagLesbian.Enabled = isEnabled
+        CBTagGay.Enabled = isEnabled
+        CBTagBisexual.Enabled = isEnabled
+        CBTagSoloF.Enabled = isEnabled
+        CBTagSoloM.Enabled = isEnabled
+        CBTagSoloFuta.Enabled = isEnabled
+        CBTagPOV.Enabled = isEnabled
+        CBTagBondage.Enabled = isEnabled
+        CBTagSM.Enabled = isEnabled
+        CBTagTD.Enabled = isEnabled
+        CBTagChastity.Enabled = isEnabled
+        CBTagCFNM.Enabled = isEnabled
+        CBTagBath.Enabled = isEnabled
+        CBTagShower.Enabled = isEnabled
+        CBTagOutdoors.Enabled = isEnabled
+        CBTagArtwork.Enabled = isEnabled
 
-        CBTag1F.Checked = False
-        CBTag2F.Checked = False
-        CBTag3F.Checked = False
-        CBTag1M.Checked = False
-        CBTag2M.Checked = False
-        CBTag3M.Checked = False
-        CBTag1Futa.Checked = False
-        CBTag2Futa.Checked = False
-        CBTag3Futa.Checked = False
-        CBTagFemdom.Checked = False
-        CBTagMaledom.Checked = False
-        CBTagFutadom.Checked = False
-        CBTagFemsub.Checked = False
-        CBTagMalesub.Checked = False
-        CBTagFutasub.Checked = False
-        CBTagMultiDom.Checked = False
-        CBTagMultiSub.Checked = False
+        CBTagMasturbation.Enabled = isEnabled
+        CBTagHandjob.Enabled = isEnabled
+        CBTagFingering.Enabled = isEnabled
+        CBTagBlowjob.Enabled = isEnabled
+        CBTagCunnilingus.Enabled = isEnabled
+        CBTagTitjob.Enabled = isEnabled
+        CBTagFootjob.Enabled = isEnabled
+        CBTagFacesitting.Enabled = isEnabled
+        CBTagRimming.Enabled = isEnabled
+        CBTagMissionary.Enabled = isEnabled
+        CBTagDoggyStyle.Enabled = isEnabled
+        CBTagCowgirl.Enabled = isEnabled
+        CBTagRCowgirl.Enabled = isEnabled
+        CBTagStanding.Enabled = isEnabled
+        CBTagAnalSex.Enabled = isEnabled
+        CBTagDP.Enabled = isEnabled
+        CBTagGangbang.Enabled = isEnabled
 
-        CBTagBodyFace.Checked = False
-        CBTagBodyFingers.Checked = False
-        CBTagBodyMouth.Checked = False
-        CBTagBodyTits.Checked = False
-        CBTagBodyNipples.Checked = False
-        CBTagBodyPussy.Checked = False
-        CBTagBodyAss.Checked = False
-        CBTagBodyLegs.Checked = False
-        CBTagBodyFeet.Checked = False
-        CBTagBodyCock.Checked = False
-        CBTagBodyBalls.Checked = False
+        CBTag1F.Enabled = isEnabled
+        CBTag2F.Enabled = isEnabled
+        CBTag3F.Enabled = isEnabled
+        CBTag1M.Enabled = isEnabled
+        CBTag2M.Enabled = isEnabled
+        CBTag3M.Enabled = isEnabled
+        CBTag1Futa.Enabled = isEnabled
+        CBTag2Futa.Enabled = isEnabled
+        CBTag3Futa.Enabled = isEnabled
+        CBTagFemdom.Enabled = isEnabled
+        CBTagMaledom.Enabled = isEnabled
+        CBTagFutadom.Enabled = isEnabled
+        CBTagFemsub.Enabled = isEnabled
+        CBTagMalesub.Enabled = isEnabled
+        CBTagFutasub.Enabled = isEnabled
+        CBTagMultiDom.Enabled = isEnabled
+        CBTagMultiSub.Enabled = isEnabled
 
-        CBTagNurse.Checked = False
-        CBTagTeacher.Checked = False
-        CBTagSchoolgirl.Checked = False
-        CBTagMaid.Checked = False
-        CBTagSuperhero.Checked = False
+        CBTagBodyFace.Enabled = isEnabled
+        CBTagBodyFingers.Enabled = isEnabled
+        CBTagBodyMouth.Enabled = isEnabled
+        CBTagBodyTits.Enabled = isEnabled
+        CBTagBodyNipples.Enabled = isEnabled
+        CBTagBodyPussy.Enabled = isEnabled
+        CBTagBodyAss.Enabled = isEnabled
+        CBTagBodyLegs.Enabled = isEnabled
+        CBTagBodyFeet.Enabled = isEnabled
+        CBTagBodyCock.Enabled = isEnabled
+        CBTagBodyBalls.Enabled = isEnabled
 
-        CBTagWhipping.Checked = False
-        CBTagSpanking.Checked = False
-        CBTagCockTorture.Checked = False
-        CBTagBallTorture.Checked = False
-        CBTagStrapon.Checked = False
-        CBTagBlindfold.Checked = False
-        CBTagGag.Checked = False
-        CBTagClamps.Checked = False
-        CBTagHotWax.Checked = False
-        CBTagNeedles.Checked = False
-        CBTagElectro.Checked = False
+        CBTagNurse.Enabled = isEnabled
+        CBTagTeacher.Enabled = isEnabled
+        CBTagSchoolgirl.Enabled = isEnabled
+        CBTagMaid.Enabled = isEnabled
+        CBTagSuperhero.Enabled = isEnabled
 
-        CBTagDomme.Checked = False
-        CBTagCumshot.Checked = False
-        CBTagCumEating.Checked = False
-        CBTagKissing.Checked = False
-        CBTagTattoos.Checked = False
-        CBTagStockings.Checked = False
-        CBTagVibrator.Checked = False
-        CBTagDildo.Checked = False
-        CBTagPocketPussy.Checked = False
-        CBTagAnalToy.Checked = False
-        CBTagWatersports.Checked = False
+        CBTagWhipping.Enabled = isEnabled
+        CBTagSpanking.Enabled = isEnabled
+        CBTagCockTorture.Enabled = isEnabled
+        CBTagBallTorture.Enabled = isEnabled
+        CBTagStrapon.Enabled = isEnabled
+        CBTagBlindfold.Enabled = isEnabled
+        CBTagGag.Enabled = isEnabled
+        CBTagClamps.Enabled = isEnabled
+        CBTagHotWax.Enabled = isEnabled
+        CBTagNeedles.Enabled = isEnabled
+        CBTagElectro.Enabled = isEnabled
 
-        CBTagShibari.Checked = False
-        CBTagTentacles.Checked = False
-        CBTagBukkake.Checked = False
-        CBTagBakunyuu.Checked = False
-        CBTagAhegao.Checked = False
-        CBTagBodyWriting.Checked = False
-        CBTagTrap.Checked = False
-        CBTagGanguro.Checked = False
-        CBTagMahouShoujo.Checked = False
-        CBTagMonsterGirl.Checked = False
+        CBTagDomme.Enabled = isEnabled
+        CBTagCumshot.Enabled = isEnabled
+        CBTagCumEating.Enabled = isEnabled
+        CBTagKissing.Enabled = isEnabled
+        CBTagTattoos.Enabled = isEnabled
+        CBTagStockings.Enabled = isEnabled
+        CBTagVibrator.Enabled = isEnabled
+        CBTagDildo.Enabled = isEnabled
+        CBTagPocketPussy.Enabled = isEnabled
+        CBTagAnalToy.Enabled = isEnabled
+        CBTagWatersports.Enabled = isEnabled
+
+        CBTagShibari.Enabled = isEnabled
+        CBTagTentacles.Enabled = isEnabled
+        CBTagBukkake.Enabled = isEnabled
+        CBTagBakunyuu.Enabled = isEnabled
+        CBTagAhegao.Enabled = isEnabled
+        CBTagBodyWriting.Enabled = isEnabled
+        CBTagTrap.Enabled = isEnabled
+        CBTagGanguro.Enabled = isEnabled
+        CBTagMahouShoujo.Enabled = isEnabled
+        CBTagMonsterGirl.Enabled = isEnabled
+
 
     End Sub
 
-    Public Sub CheckLocalTagList()
+    Public Sub SetLocalImageTags(imageFileName As String)
+        Dim tags As List(Of ItemTag) = GetItemTagsFromCheckboxes()
+        Dim imageLine As String = imageFileName & " " & String.Join(" ", tags.Select(Function(t) t.ToString()))
 
-        If File.Exists(Application.StartupPath & "\Images\System\LocalImageTags.txt") Then
-            Dim TagReader As New StreamReader(Application.StartupPath & "\Images\System\LocalImageTags.txt")
-            Dim TagCheckList As New List(Of String)
-            While TagReader.Peek <> -1
-                TagCheckList.Add(TagReader.ReadLine())
-            End While
+        If File.Exists(LocalImageTagFile) Then
+            Dim tagCheckList As List(Of String) = File.ReadAllLines(LocalImageTagFile).ToList()
 
-            TagReader.Close()
-            TagReader.Dispose()
+            Dim lineExists As Boolean
+            lineExists = False
 
-            For i As Integer = 0 To TagCheckList.Count - 1
-                If TagCheckList(i).Contains(CurrentLocalImageTagImage) Then
-
-                    ClearLocalTagList()
-
-                    If TagCheckList(i).Contains("TagHardcore") Then CBTagHardcore.Checked = True
-                    If TagCheckList(i).Contains("TagLesbian") Then CBTagLesbian.Checked = True
-                    If TagCheckList(i).Contains("TagGay") Then CBTagGay.Checked = True
-                    If TagCheckList(i).Contains("TagBisexual") Then CBTagBisexual.Checked = True
-                    If TagCheckList(i).Contains("TagSoloF") Then CBTagSoloF.Checked = True
-                    If TagCheckList(i).Contains("TagSoloM") Then CBTagSoloM.Checked = True
-                    If TagCheckList(i).Contains("TagSoloFuta") Then CBTagSoloFuta.Checked = True
-                    If TagCheckList(i).Contains("TagPOV") Then CBTagPOV.Checked = True
-                    If TagCheckList(i).Contains("TagBondage") Then CBTagBondage.Checked = True
-                    If TagCheckList(i).Contains("TagSM") Then CBTagSM.Checked = True
-                    If TagCheckList(i).Contains("TagTD") Then CBTagTD.Checked = True
-                    If TagCheckList(i).Contains("TagChastity") Then CBTagChastity.Checked = True
-                    If TagCheckList(i).Contains("TagCFNM") Then CBTagCFNM.Checked = True
-                    If TagCheckList(i).Contains("TagBath") Then CBTagBath.Checked = True
-                    If TagCheckList(i).Contains("TagShower") Then CBTagShower.Checked = True
-                    If TagCheckList(i).Contains("TagOutdoors") Then CBTagOutdoors.Checked = True
-                    If TagCheckList(i).Contains("TagArtwork") Then CBTagArtwork.Checked = True
-
-                    If TagCheckList(i).Contains("TagMasturbation") Then CBTagMasturbation.Checked = True
-                    If TagCheckList(i).Contains("TagHandjob") Then CBTagHandjob.Checked = True
-                    If TagCheckList(i).Contains("TagFingering") Then CBTagFingering.Checked = True
-                    If TagCheckList(i).Contains("TagBlowjob") Then CBTagBlowjob.Checked = True
-                    If TagCheckList(i).Contains("TagCunnilingus") Then CBTagCunnilingus.Checked = True
-                    If TagCheckList(i).Contains("TagTitjob") Then CBTagTitjob.Checked = True
-                    If TagCheckList(i).Contains("TagFootjob") Then CBTagFootjob.Checked = True
-                    If TagCheckList(i).Contains("TagFacesitting") Then CBTagFacesitting.Checked = True
-                    If TagCheckList(i).Contains("TagRimming") Then CBTagRimming.Checked = True
-                    If TagCheckList(i).Contains("TagMissionary") Then CBTagMissionary.Checked = True
-                    If TagCheckList(i).Contains("TagDoggyStyle") Then CBTagDoggyStyle.Checked = True
-                    If TagCheckList(i).Contains("TagCowgirl") Then CBTagCowgirl.Checked = True
-                    If TagCheckList(i).Contains("TagRCowgirl") Then CBTagRCowgirl.Checked = True
-                    If TagCheckList(i).Contains("TagStanding") Then CBTagStanding.Checked = True
-                    If TagCheckList(i).Contains("TagAnalSex") Then CBTagAnalSex.Checked = True
-                    If TagCheckList(i).Contains("TagDP") Then CBTagDP.Checked = True
-                    If TagCheckList(i).Contains("TagGangbang") Then CBTagGangbang.Checked = True
-
-                    If TagCheckList(i).Contains("Tag1F") Then CBTag1F.Checked = True
-                    If TagCheckList(i).Contains("Tag2F") Then CBTag2F.Checked = True
-                    If TagCheckList(i).Contains("Tag3F") Then CBTag3F.Checked = True
-                    If TagCheckList(i).Contains("Tag1M") Then CBTag1M.Checked = True
-                    If TagCheckList(i).Contains("Tag2M") Then CBTag2M.Checked = True
-                    If TagCheckList(i).Contains("Tag3M") Then CBTag3M.Checked = True
-                    If TagCheckList(i).Contains("Tag1Futa") Then CBTag1Futa.Checked = True
-                    If TagCheckList(i).Contains("Tag2Futa") Then CBTag2Futa.Checked = True
-                    If TagCheckList(i).Contains("Tag3Futa") Then CBTag3Futa.Checked = True
-                    If TagCheckList(i).Contains("TagFemdom") Then CBTagFemdom.Checked = True
-                    If TagCheckList(i).Contains("TagMaledom") Then CBTagMaledom.Checked = True
-                    If TagCheckList(i).Contains("TagFutadom") Then CBTagFutadom.Checked = True
-                    If TagCheckList(i).Contains("TagFemsub") Then CBTagFemsub.Checked = True
-                    If TagCheckList(i).Contains("TagMalesub") Then CBTagMalesub.Checked = True
-                    If TagCheckList(i).Contains("TagFutasub") Then CBTagFutasub.Checked = True
-                    If TagCheckList(i).Contains("TagMultiDom") Then CBTagMultiDom.Checked = True
-                    If TagCheckList(i).Contains("TagMultiSub") Then CBTagMultiSub.Checked = True
-
-                    If TagCheckList(i).Contains("TagBodyFace") Then CBTagBodyFace.Checked = True
-                    If TagCheckList(i).Contains("TagBodyFingers") Then CBTagBodyFingers.Checked = True
-                    If TagCheckList(i).Contains("TagBodyMouth") Then CBTagBodyMouth.Checked = True
-                    If TagCheckList(i).Contains("TagBodyTits") Then CBTagBodyTits.Checked = True
-                    If TagCheckList(i).Contains("TagBodyNipples") Then CBTagBodyNipples.Checked = True
-                    If TagCheckList(i).Contains("TagBodyPussy") Then CBTagBodyPussy.Checked = True
-                    If TagCheckList(i).Contains("TagBodyAss") Then CBTagBodyAss.Checked = True
-                    If TagCheckList(i).Contains("TagBodyLegs") Then CBTagBodyLegs.Checked = True
-                    If TagCheckList(i).Contains("TagBodyFeet") Then CBTagBodyFeet.Checked = True
-                    If TagCheckList(i).Contains("TagBodyCock") Then CBTagBodyCock.Checked = True
-                    If TagCheckList(i).Contains("TagBodyBalls") Then CBTagBodyBalls.Checked = True
-
-                    If TagCheckList(i).Contains("TagNurse") Then CBTagNurse.Checked = True
-                    If TagCheckList(i).Contains("TagTeacher") Then CBTagTeacher.Checked = True
-                    If TagCheckList(i).Contains("TagSchoolgirl") Then CBTagSchoolgirl.Checked = True
-                    If TagCheckList(i).Contains("TagMaid") Then CBTagMaid.Checked = True
-                    If TagCheckList(i).Contains("TagSuperhero") Then CBTagSuperhero.Checked = True
-
-                    If TagCheckList(i).Contains("TagWhipping") Then CBTagWhipping.Checked = True
-                    If TagCheckList(i).Contains("TagSpanking") Then CBTagSpanking.Checked = True
-                    If TagCheckList(i).Contains("TagCockTorture") Then CBTagCockTorture.Checked = True
-                    If TagCheckList(i).Contains("TagBallTorture") Then CBTagBallTorture.Checked = True
-                    If TagCheckList(i).Contains("TagStrapon") Then CBTagStrapon.Checked = True
-                    If TagCheckList(i).Contains("TagBlindfold") Then CBTagBlindfold.Checked = True
-                    If TagCheckList(i).Contains("TagGag") Then CBTagGag.Checked = True
-                    If TagCheckList(i).Contains("TagClamps") Then CBTagClamps.Checked = True
-                    If TagCheckList(i).Contains("TagHotWax") Then CBTagHotWax.Checked = True
-                    If TagCheckList(i).Contains("TagNeedles") Then CBTagNeedles.Checked = True
-                    If TagCheckList(i).Contains("TagElectro") Then CBTagElectro.Checked = True
-
-                    If TagCheckList(i).Contains("TagDomme") Then CBTagDomme.Checked = True
-                    If TagCheckList(i).Contains("TagCumshot") Then CBTagCumshot.Checked = True
-                    If TagCheckList(i).Contains("TagCumEating") Then CBTagCumEating.Checked = True
-                    If TagCheckList(i).Contains("TagKissing") Then CBTagKissing.Checked = True
-                    If TagCheckList(i).Contains("TagTattoos") Then CBTagTattoos.Checked = True
-                    If TagCheckList(i).Contains("TagStockings") Then CBTagStockings.Checked = True
-                    If TagCheckList(i).Contains("TagVibrator") Then CBTagVibrator.Checked = True
-                    If TagCheckList(i).Contains("TagDildo") Then CBTagDildo.Checked = True
-                    If TagCheckList(i).Contains("TagPocketPussy") Then CBTagPocketPussy.Checked = True
-                    If TagCheckList(i).Contains("TagAnalToy") Then CBTagAnalToy.Checked = True
-                    If TagCheckList(i).Contains("TagWaterSports") Then CBTagWatersports.Checked = True
-
-                    If TagCheckList(i).Contains("TagShibari") Then CBTagShibari.Checked = True
-                    If TagCheckList(i).Contains("TagTentacles") Then CBTagTentacles.Checked = True
-                    If TagCheckList(i).Contains("TagBukkake") Then CBTagBukkake.Checked = True
-                    If TagCheckList(i).Contains("TagBakunyuu") Then CBTagBakunyuu.Checked = True
-                    If TagCheckList(i).Contains("TagAhegao") Then CBTagAhegao.Checked = True
-                    If TagCheckList(i).Contains("TagBodyWriting") Then CBTagBodyWriting.Checked = True
-                    If TagCheckList(i).Contains("TagTrap") Then CBTagTrap.Checked = True
-                    If TagCheckList(i).Contains("TagGanguro") Then CBTagGanguro.Checked = True
-                    If TagCheckList(i).Contains("TagMahouShoujo") Then CBTagMahouShoujo.Checked = True
-                    If TagCheckList(i).Contains("TagMonsterGirl") Then CBTagMonsterGirl.Checked = True
-
+            For i As Integer = 0 To tagCheckList.Count - 1
+                If tagCheckList(i).Contains(imageFileName) Then
+                    lineExists = True
+                    tagCheckList(i) = imageLine
                 End If
             Next
 
-        End If
-
-    End Sub
-
-    Public Sub EnableLocalTagList()
-
-
-        CBTagHardcore.Enabled = True
-        CBTagLesbian.Enabled = True
-        CBTagGay.Enabled = True
-        CBTagBisexual.Enabled = True
-        CBTagSoloF.Enabled = True
-        CBTagSoloM.Enabled = True
-        CBTagSoloFuta.Enabled = True
-        CBTagPOV.Enabled = True
-        CBTagBondage.Enabled = True
-        CBTagSM.Enabled = True
-        CBTagTD.Enabled = True
-        CBTagChastity.Enabled = True
-        CBTagCFNM.Enabled = True
-        CBTagBath.Enabled = True
-        CBTagShower.Enabled = True
-        CBTagOutdoors.Enabled = True
-        CBTagArtwork.Enabled = True
-
-        CBTagMasturbation.Enabled = True
-        CBTagHandjob.Enabled = True
-        CBTagFingering.Enabled = True
-        CBTagBlowjob.Enabled = True
-        CBTagCunnilingus.Enabled = True
-        CBTagTitjob.Enabled = True
-        CBTagFootjob.Enabled = True
-        CBTagFacesitting.Enabled = True
-        CBTagRimming.Enabled = True
-        CBTagMissionary.Enabled = True
-        CBTagDoggyStyle.Enabled = True
-        CBTagCowgirl.Enabled = True
-        CBTagRCowgirl.Enabled = True
-        CBTagStanding.Enabled = True
-        CBTagAnalSex.Enabled = True
-        CBTagDP.Enabled = True
-        CBTagGangbang.Enabled = True
-
-        CBTag1F.Enabled = True
-        CBTag2F.Enabled = True
-        CBTag3F.Enabled = True
-        CBTag1M.Enabled = True
-        CBTag2M.Enabled = True
-        CBTag3M.Enabled = True
-        CBTag1Futa.Enabled = True
-        CBTag2Futa.Enabled = True
-        CBTag3Futa.Enabled = True
-        CBTagFemdom.Enabled = True
-        CBTagMaledom.Enabled = True
-        CBTagFutadom.Enabled = True
-        CBTagFemsub.Enabled = True
-        CBTagMalesub.Enabled = True
-        CBTagFutasub.Enabled = True
-        CBTagMultiDom.Enabled = True
-        CBTagMultiSub.Enabled = True
-
-        CBTagBodyFace.Enabled = True
-        CBTagBodyFingers.Enabled = True
-        CBTagBodyMouth.Enabled = True
-        CBTagBodyTits.Enabled = True
-        CBTagBodyNipples.Enabled = True
-        CBTagBodyPussy.Enabled = True
-        CBTagBodyAss.Enabled = True
-        CBTagBodyLegs.Enabled = True
-        CBTagBodyFeet.Enabled = True
-        CBTagBodyCock.Enabled = True
-        CBTagBodyBalls.Enabled = True
-
-        CBTagNurse.Enabled = True
-        CBTagTeacher.Enabled = True
-        CBTagSchoolgirl.Enabled = True
-        CBTagMaid.Enabled = True
-        CBTagSuperhero.Enabled = True
-
-        CBTagWhipping.Enabled = True
-        CBTagSpanking.Enabled = True
-        CBTagCockTorture.Enabled = True
-        CBTagBallTorture.Enabled = True
-        CBTagStrapon.Enabled = True
-        CBTagBlindfold.Enabled = True
-        CBTagGag.Enabled = True
-        CBTagClamps.Enabled = True
-        CBTagHotWax.Enabled = True
-        CBTagNeedles.Enabled = True
-        CBTagElectro.Enabled = True
-
-        CBTagDomme.Enabled = True
-        CBTagCumshot.Enabled = True
-        CBTagCumEating.Enabled = True
-        CBTagKissing.Enabled = True
-        CBTagTattoos.Enabled = True
-        CBTagStockings.Enabled = True
-        CBTagVibrator.Enabled = True
-        CBTagDildo.Enabled = True
-        CBTagPocketPussy.Enabled = True
-        CBTagAnalToy.Enabled = True
-        CBTagWatersports.Enabled = True
-
-        CBTagShibari.Enabled = True
-        CBTagTentacles.Enabled = True
-        CBTagBukkake.Enabled = True
-        CBTagBakunyuu.Enabled = True
-        CBTagAhegao.Enabled = True
-        CBTagBodyWriting.Enabled = True
-        CBTagTrap.Enabled = True
-        CBTagGanguro.Enabled = True
-        CBTagMahouShoujo.Enabled = True
-        CBTagMonsterGirl.Enabled = True
-
-
-    End Sub
-
-    Public Sub DisableLocalTagList()
-
-
-        CBTagHardcore.Enabled = False
-        CBTagLesbian.Enabled = False
-        CBTagGay.Enabled = False
-        CBTagBisexual.Enabled = False
-        CBTagSoloF.Enabled = False
-        CBTagSoloM.Enabled = False
-        CBTagSoloFuta.Enabled = False
-        CBTagPOV.Enabled = False
-        CBTagBondage.Enabled = False
-        CBTagSM.Enabled = False
-        CBTagTD.Enabled = False
-        CBTagChastity.Enabled = False
-        CBTagCFNM.Enabled = False
-        CBTagBath.Enabled = False
-        CBTagShower.Enabled = False
-        CBTagOutdoors.Enabled = False
-        CBTagArtwork.Enabled = False
-
-        CBTagMasturbation.Enabled = False
-        CBTagHandjob.Enabled = False
-        CBTagFingering.Enabled = False
-        CBTagBlowjob.Enabled = False
-        CBTagCunnilingus.Enabled = False
-        CBTagTitjob.Enabled = False
-        CBTagFootjob.Enabled = False
-        CBTagFacesitting.Enabled = False
-        CBTagRimming.Enabled = False
-        CBTagMissionary.Enabled = False
-        CBTagDoggyStyle.Enabled = False
-        CBTagCowgirl.Enabled = False
-        CBTagRCowgirl.Enabled = False
-        CBTagStanding.Enabled = False
-        CBTagAnalSex.Enabled = False
-        CBTagDP.Enabled = False
-        CBTagGangbang.Enabled = False
-
-        CBTag1F.Enabled = False
-        CBTag2F.Enabled = False
-        CBTag3F.Enabled = False
-        CBTag1M.Enabled = False
-        CBTag2M.Enabled = False
-        CBTag3M.Enabled = False
-        CBTag1Futa.Enabled = False
-        CBTag2Futa.Enabled = False
-        CBTag3Futa.Enabled = False
-        CBTagFemdom.Enabled = False
-        CBTagMaledom.Enabled = False
-        CBTagFutadom.Enabled = False
-        CBTagFemsub.Enabled = False
-        CBTagMalesub.Enabled = False
-        CBTagFutasub.Enabled = False
-        CBTagMultiDom.Enabled = False
-        CBTagMultiSub.Enabled = False
-
-        CBTagBodyFace.Enabled = False
-        CBTagBodyFingers.Enabled = False
-        CBTagBodyMouth.Enabled = False
-        CBTagBodyTits.Enabled = False
-        CBTagBodyNipples.Enabled = False
-        CBTagBodyPussy.Enabled = False
-        CBTagBodyAss.Enabled = False
-        CBTagBodyLegs.Enabled = False
-        CBTagBodyFeet.Enabled = False
-        CBTagBodyCock.Enabled = False
-        CBTagBodyBalls.Enabled = False
-
-        CBTagNurse.Enabled = False
-        CBTagTeacher.Enabled = False
-        CBTagSchoolgirl.Enabled = False
-        CBTagMaid.Enabled = False
-        CBTagSuperhero.Enabled = False
-
-        CBTagWhipping.Enabled = False
-        CBTagSpanking.Enabled = False
-        CBTagCockTorture.Enabled = False
-        CBTagBallTorture.Enabled = False
-        CBTagStrapon.Enabled = False
-        CBTagBlindfold.Enabled = False
-        CBTagGag.Enabled = False
-        CBTagClamps.Enabled = False
-        CBTagHotWax.Enabled = False
-        CBTagNeedles.Enabled = False
-        CBTagElectro.Enabled = False
-
-        CBTagDomme.Enabled = False
-        CBTagCumshot.Enabled = False
-        CBTagCumEating.Enabled = False
-        CBTagKissing.Enabled = False
-        CBTagTattoos.Enabled = False
-        CBTagStockings.Enabled = False
-        CBTagVibrator.Enabled = False
-        CBTagDildo.Enabled = False
-        CBTagPocketPussy.Enabled = False
-        CBTagAnalToy.Enabled = False
-        CBTagWatersports.Enabled = False
-
-        CBTagShibari.Enabled = False
-        CBTagTentacles.Enabled = False
-        CBTagBukkake.Enabled = False
-        CBTagBakunyuu.Enabled = False
-        CBTagAhegao.Enabled = False
-        CBTagBodyWriting.Enabled = False
-        CBTagTrap.Enabled = False
-        CBTagGanguro.Enabled = False
-        CBTagMahouShoujo.Enabled = False
-        CBTagMonsterGirl.Enabled = False
-
-
-
-        CBTagHardcore.Checked = False
-        CBTagLesbian.Checked = False
-        CBTagGay.Checked = False
-        CBTagBisexual.Checked = False
-        CBTagSoloF.Checked = False
-        CBTagSoloM.Checked = False
-        CBTagSoloFuta.Checked = False
-        CBTagPOV.Checked = False
-        CBTagBondage.Checked = False
-        CBTagSM.Checked = False
-        CBTagTD.Checked = False
-        CBTagChastity.Checked = False
-        CBTagCFNM.Checked = False
-        CBTagBath.Checked = False
-        CBTagShower.Checked = False
-        CBTagOutdoors.Checked = False
-        CBTagArtwork.Checked = False
-
-        CBTagMasturbation.Checked = False
-        CBTagHandjob.Checked = False
-        CBTagFingering.Checked = False
-        CBTagBlowjob.Checked = False
-        CBTagCunnilingus.Checked = False
-        CBTagTitjob.Checked = False
-        CBTagFootjob.Checked = False
-        CBTagFacesitting.Checked = False
-        CBTagRimming.Checked = False
-        CBTagMissionary.Checked = False
-        CBTagDoggyStyle.Checked = False
-        CBTagCowgirl.Checked = False
-        CBTagRCowgirl.Checked = False
-        CBTagStanding.Checked = False
-        CBTagAnalSex.Checked = False
-        CBTagDP.Checked = False
-        CBTagGangbang.Checked = False
-
-        CBTag1F.Checked = False
-        CBTag2F.Checked = False
-        CBTag3F.Checked = False
-        CBTag1M.Checked = False
-        CBTag2M.Checked = False
-        CBTag3M.Checked = False
-        CBTag1Futa.Checked = False
-        CBTag2Futa.Checked = False
-        CBTag3Futa.Checked = False
-        CBTagFemdom.Checked = False
-        CBTagMaledom.Checked = False
-        CBTagFutadom.Checked = False
-        CBTagFemsub.Checked = False
-        CBTagMalesub.Checked = False
-        CBTagFutasub.Checked = False
-        CBTagMultiDom.Checked = False
-        CBTagMultiSub.Checked = False
-
-        CBTagBodyFace.Checked = False
-        CBTagBodyFingers.Checked = False
-        CBTagBodyMouth.Checked = False
-        CBTagBodyTits.Checked = False
-        CBTagBodyNipples.Checked = False
-        CBTagBodyPussy.Checked = False
-        CBTagBodyAss.Checked = False
-        CBTagBodyLegs.Checked = False
-        CBTagBodyFeet.Checked = False
-        CBTagBodyCock.Checked = False
-        CBTagBodyBalls.Checked = False
-
-        CBTagNurse.Checked = False
-        CBTagTeacher.Checked = False
-        CBTagSchoolgirl.Checked = False
-        CBTagMaid.Checked = False
-        CBTagSuperhero.Checked = False
-
-        CBTagWhipping.Checked = False
-        CBTagSpanking.Checked = False
-        CBTagCockTorture.Checked = False
-        CBTagBallTorture.Checked = False
-        CBTagStrapon.Checked = False
-        CBTagBlindfold.Checked = False
-        CBTagGag.Checked = False
-        CBTagClamps.Checked = False
-        CBTagHotWax.Checked = False
-        CBTagNeedles.Checked = False
-        CBTagElectro.Checked = False
-
-        CBTagDomme.Checked = False
-        CBTagCumshot.Checked = False
-        CBTagCumEating.Checked = False
-        CBTagKissing.Checked = False
-        CBTagTattoos.Checked = False
-        CBTagStockings.Checked = False
-        CBTagVibrator.Checked = False
-        CBTagDildo.Checked = False
-        CBTagPocketPussy.Checked = False
-        CBTagAnalToy.Checked = False
-        CBTagWatersports.Checked = False
-
-        CBTagShibari.Checked = False
-        CBTagTentacles.Checked = False
-        CBTagBukkake.Checked = False
-        CBTagBakunyuu.Checked = False
-        CBTagAhegao.Checked = False
-        CBTagBodyWriting.Checked = False
-        CBTagTrap.Checked = False
-        CBTagGanguro.Checked = False
-        CBTagMahouShoujo.Checked = False
-        CBTagMonsterGirl.Checked = False
-
-
-    End Sub
-
-    Public Sub SetLocalImageTags()
-
-        Dim TempImageDir As String = CurrentLocalImageTagImage
-
-        If CBTagHardcore.Checked Then TempImageDir = TempImageDir & " " & "TagHardcore"
-        If CBTagLesbian.Checked Then TempImageDir = TempImageDir & " " & "TagLesbian"
-        If CBTagGay.Checked Then TempImageDir = TempImageDir & " " & "TagGay"
-        If CBTagBisexual.Checked Then TempImageDir = TempImageDir & " " & "TagBisexual"
-        If CBTagSoloF.Checked Then TempImageDir = TempImageDir & " " & "TagSoloF"
-        If CBTagSoloM.Checked Then TempImageDir = TempImageDir & " " & "TagSoloM"
-        If CBTagSoloFuta.Checked Then TempImageDir = TempImageDir & " " & "TagSoloFuta"
-        If CBTagPOV.Checked Then TempImageDir = TempImageDir & " " & "TagPOV"
-        If CBTagBondage.Checked Then TempImageDir = TempImageDir & " " & "TagBondage"
-        If CBTagSM.Checked Then TempImageDir = TempImageDir & " " & "TagSM"
-        If CBTagTD.Checked Then TempImageDir = TempImageDir & " " & "TagTD"
-        If CBTagChastity.Checked Then TempImageDir = TempImageDir & " " & "TagChastity"
-        If CBTagCFNM.Checked Then TempImageDir = TempImageDir & " " & "TagCFNM"
-        If CBTagBath.Checked Then TempImageDir = TempImageDir & " " & "TagBath"
-        If CBTagShower.Checked Then TempImageDir = TempImageDir & " " & "TagShower"
-        If CBTagOutdoors.Checked Then TempImageDir = TempImageDir & " " & "TagOutdoors"
-        If CBTagArtwork.Checked Then TempImageDir = TempImageDir & " " & "TagArtwork"
-
-        If CBTagMasturbation.Checked Then TempImageDir = TempImageDir & " " & "TagMasturbation"
-        If CBTagHandjob.Checked Then TempImageDir = TempImageDir & " " & "TagHandjob"
-        If CBTagFingering.Checked Then TempImageDir = TempImageDir & " " & "TagFingering"
-        If CBTagBlowjob.Checked Then TempImageDir = TempImageDir & " " & "TagBlowjob"
-        If CBTagCunnilingus.Checked Then TempImageDir = TempImageDir & " " & "TagCunnilingus"
-        If CBTagTitjob.Checked Then TempImageDir = TempImageDir & " " & "TagTitjob"
-        If CBTagFootjob.Checked Then TempImageDir = TempImageDir & " " & "TagFootjob"
-        If CBTagFacesitting.Checked Then TempImageDir = TempImageDir & " " & "TagFacesitting"
-        If CBTagRimming.Checked Then TempImageDir = TempImageDir & " " & "TagRimming"
-        If CBTagMissionary.Checked Then TempImageDir = TempImageDir & " " & "TagMissionary"
-        If CBTagDoggyStyle.Checked Then TempImageDir = TempImageDir & " " & "TagDoggyStyle"
-        If CBTagCowgirl.Checked Then TempImageDir = TempImageDir & " " & "TagCowgirl"
-        If CBTagRCowgirl.Checked Then TempImageDir = TempImageDir & " " & "TagRCowgirl"
-        If CBTagStanding.Checked Then TempImageDir = TempImageDir & " " & "TagStanding"
-        If CBTagAnalSex.Checked Then TempImageDir = TempImageDir & " " & "TagAnalSex"
-        If CBTagDP.Checked Then TempImageDir = TempImageDir & " " & "TagDP"
-        If CBTagGangbang.Checked Then TempImageDir = TempImageDir & " " & "TagGangbang"
-
-        If CBTag1F.Checked Then TempImageDir = TempImageDir & " " & "Tag1F"
-        If CBTag2F.Checked Then TempImageDir = TempImageDir & " " & "Tag2F"
-        If CBTag3F.Checked Then TempImageDir = TempImageDir & " " & "Tag3F"
-        If CBTag1M.Checked Then TempImageDir = TempImageDir & " " & "Tag1M"
-        If CBTag2M.Checked Then TempImageDir = TempImageDir & " " & "Tag2M"
-        If CBTag3M.Checked Then TempImageDir = TempImageDir & " " & "Tag3M"
-        If CBTag1Futa.Checked Then TempImageDir = TempImageDir & " " & "Tag1Futa"
-        If CBTag2Futa.Checked Then TempImageDir = TempImageDir & " " & "Tag2Futa"
-        If CBTag3Futa.Checked Then TempImageDir = TempImageDir & " " & "Tag3Futa"
-        If CBTagFemdom.Checked Then TempImageDir = TempImageDir & " " & "TagFemdom"
-        If CBTagMaledom.Checked Then TempImageDir = TempImageDir & " " & "TagMaledom"
-        If CBTagFutadom.Checked Then TempImageDir = TempImageDir & " " & "TagFutadom"
-        If CBTagFemsub.Checked Then TempImageDir = TempImageDir & " " & "TagFemsub"
-        If CBTagMalesub.Checked Then TempImageDir = TempImageDir & " " & "TagMalesub"
-        If CBTagFutasub.Checked Then TempImageDir = TempImageDir & " " & "TagFutasub"
-        If CBTagMultiDom.Checked Then TempImageDir = TempImageDir & " " & "TagMultiDom"
-        If CBTagMultiSub.Checked Then TempImageDir = TempImageDir & " " & "TagMultiSub"
-
-        If CBTagBodyFace.Checked Then TempImageDir = TempImageDir & " " & "TagBodyFace"
-        If CBTagBodyFingers.Checked Then TempImageDir = TempImageDir & " " & "TagBodyFingers"
-        If CBTagBodyMouth.Checked Then TempImageDir = TempImageDir & " " & "TagBodyMouth"
-        If CBTagBodyTits.Checked Then TempImageDir = TempImageDir & " " & "TagBodyTits"
-        If CBTagBodyNipples.Checked Then TempImageDir = TempImageDir & " " & "TagBodyNipples"
-        If CBTagBodyPussy.Checked Then TempImageDir = TempImageDir & " " & "TagBodyPussy"
-        If CBTagBodyAss.Checked Then TempImageDir = TempImageDir & " " & "TagBodyAss"
-        If CBTagBodyLegs.Checked Then TempImageDir = TempImageDir & " " & "TagBodyLegs"
-        If CBTagBodyFeet.Checked Then TempImageDir = TempImageDir & " " & "TagBodyFeet"
-        If CBTagBodyCock.Checked Then TempImageDir = TempImageDir & " " & "TagBodyCock"
-        If CBTagBodyBalls.Checked Then TempImageDir = TempImageDir & " " & "TagBodyBalls"
-
-        If CBTagNurse.Checked Then TempImageDir = TempImageDir & " " & "TagNurse"
-        If CBTagTeacher.Checked Then TempImageDir = TempImageDir & " " & "TagTeacher"
-        If CBTagSchoolgirl.Checked Then TempImageDir = TempImageDir & " " & "TagSchoolgirl"
-        If CBTagMaid.Checked Then TempImageDir = TempImageDir & " " & "TagMaid"
-        If CBTagSuperhero.Checked Then TempImageDir = TempImageDir & " " & "TagSuperhero"
-
-        If CBTagWhipping.Checked Then TempImageDir = TempImageDir & " " & "TagWhipping"
-        If CBTagSpanking.Checked Then TempImageDir = TempImageDir & " " & "TagSpanking"
-        If CBTagCockTorture.Checked Then TempImageDir = TempImageDir & " " & "TagCockTorture"
-        If CBTagBallTorture.Checked Then TempImageDir = TempImageDir & " " & "TagBallTorture"
-        If CBTagStrapon.Checked Then TempImageDir = TempImageDir & " " & "TagStrapon"
-        If CBTagBlindfold.Checked Then TempImageDir = TempImageDir & " " & "TagBlindfold"
-        If CBTagGag.Checked Then TempImageDir = TempImageDir & " " & "TagGag"
-        If CBTagClamps.Checked Then TempImageDir = TempImageDir & " " & "TagClamps"
-        If CBTagHotWax.Checked Then TempImageDir = TempImageDir & " " & "TagHotWax"
-        If CBTagNeedles.Checked Then TempImageDir = TempImageDir & " " & "TagNeedles"
-        If CBTagElectro.Checked Then TempImageDir = TempImageDir & " " & "TagElectro"
-
-        If CBTagDomme.Checked Then TempImageDir = TempImageDir & " " & "TagDomme"
-        If CBTagCumshot.Checked Then TempImageDir = TempImageDir & " " & "TagCumshot"
-        If CBTagCumEating.Checked Then TempImageDir = TempImageDir & " " & "TagCumEating"
-        If CBTagKissing.Checked Then TempImageDir = TempImageDir & " " & "TagKissing"
-        If CBTagTattoos.Checked Then TempImageDir = TempImageDir & " " & "TagTattoos"
-        If CBTagStockings.Checked Then TempImageDir = TempImageDir & " " & "TagStockings"
-        If CBTagVibrator.Checked Then TempImageDir = TempImageDir & " " & "TagVibrator"
-        If CBTagDildo.Checked Then TempImageDir = TempImageDir & " " & "TagDildo"
-        If CBTagPocketPussy.Checked Then TempImageDir = TempImageDir & " " & "TagPocketPussy"
-        If CBTagAnalToy.Checked Then TempImageDir = TempImageDir & " " & "TagAnalToy"
-        If CBTagWatersports.Checked Then TempImageDir = TempImageDir & " " & "TagWatersports"
-
-        If CBTagShibari.Checked Then TempImageDir = TempImageDir & " " & "TagShibari"
-        If CBTagTentacles.Checked Then TempImageDir = TempImageDir & " " & "TagTentacles"
-        If CBTagBukkake.Checked Then TempImageDir = TempImageDir & " " & "TagBukkake"
-        If CBTagBakunyuu.Checked Then TempImageDir = TempImageDir & " " & "TagBakunyuu"
-        If CBTagAhegao.Checked Then TempImageDir = TempImageDir & " " & "TagAhegao"
-        If CBTagBodyWriting.Checked Then TempImageDir = TempImageDir & " " & "TagBodyWriting"
-        If CBTagTrap.Checked Then TempImageDir = TempImageDir & " " & "TagTrap"
-        If CBTagGanguro.Checked Then TempImageDir = TempImageDir & " " & "TagGanguro"
-        If CBTagMahouShoujo.Checked Then TempImageDir = TempImageDir & " " & "TagMahouShoujo"
-        If CBTagMonsterGirl.Checked Then TempImageDir = TempImageDir & " " & "TagMonsterGirl"
-
-        If File.Exists(Application.StartupPath & "\Images\System\LocalImageTags.txt") Then
-
-            Dim TagReader As New StreamReader(Application.StartupPath & "\Images\System\LocalImageTags.txt")
-            Dim TagCheckList As New List(Of String)
-            While TagReader.Peek <> -1
-                TagCheckList.Add(TagReader.ReadLine())
-            End While
-
-            TagReader.Close()
-            TagReader.Dispose()
-
-            Dim LineExists As Boolean
-            LineExists = False
-
-            For i As Integer = 0 To TagCheckList.Count - 1
-                If TagCheckList(i).Contains(CurrentLocalImageTagImage) Then
-                    TagCheckList(i) = TempImageDir
-                    LineExists = True
-                    System.IO.File.WriteAllLines(Application.StartupPath & "\Images\System\LocalImageTags.txt", TagCheckList)
-                End If
-            Next
-
-            If LineExists = False Then
-                My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Images\System\LocalImageTags.txt", Environment.NewLine & TempImageDir, True)
-                LineExists = False
+            If Not lineExists Then
+                tagCheckList.Add(imageLine)
+                lineExists = False
             End If
 
+            File.WriteAllLines(LocalImageTagFile, tagCheckList)
         Else
-            My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Images\System\LocalImageTags.txt", TempImageDir, True)
+            My.Computer.FileSystem.WriteAllText(LocalImageTagFile, imageLine, True)
         End If
-
-
     End Sub
 
     Private Sub NBLongEdge_ValueChanged(sender As Object, e As EventArgs) Handles NBLongEdge.LostFocus
@@ -6083,23 +5435,21 @@ checkFolder:
 
         LocalTagCount -= 1
         LBLLocalTagCount.Text = LocalTagCount & "/" & LocalImageTagDir.Count
-        BTNLocalTagNext.Enabled = True
+        BTNLocalTagNext.Enabled = LocalImageTagDir.Count < LocalTagCount
 
-        SetLocalImageTags()
+        SetLocalImageTags(CurrentLocalImageTagImage)
 
-        LocalImageTagCount -= 1
-        MainWindow.mainPictureBox.LoadAsync(LocalImageTagDir(LocalImageTagCount))
-        CurrentLocalImageTagImage = LocalImageTagDir(LocalImageTagCount)
+        MainWindow.mainPictureBox.LoadAsync(LocalImageTagDir(LocalTagCount - 1))
+        CurrentLocalImageTagImage = LocalImageTagDir(LocalTagCount - 1)
 
-        If LocalImageTagCount = 0 Then BTNLocalTagPrevious.Enabled = False
+        BTNLocalTagPrevious.Enabled = LocalTagCount > 1
 
-        CheckLocalTagList()
-
+        CheckLocalTagList(CurrentLocalImageTagImage)
     End Sub
 
     Private Sub BTNLocalTagSave_Click(sender As Object, e As EventArgs) Handles BTNLocalTagSave.Click
 
-        SetLocalImageTags()
+        SetLocalImageTags(CurrentLocalImageTagImage)
 
         BTNLocalTagDir.Enabled = True
         TBLocalTagDir.Enabled = True
@@ -6107,96 +5457,55 @@ checkFolder:
         BTNLocalTagNext.Enabled = False
         BTNLocalTagPrevious.Enabled = False
 
-        DisableLocalTagList()
+        SetLocalImageEnabled(False)
 
         LBLLocalTagCount.Text = "0/0"
         LBLLocalTagCount.Enabled = False
 
-
         MainWindow.mainPictureBox.Image = Nothing
-
     End Sub
 
-    Private Sub TBLocalTagDir_KeyPress(sender As Object, e As Windows.Forms.KeyPressEventArgs) Handles TBLocalTagDir.KeyPress
-
-        If e.KeyChar = Convert.ToChar(13) Then
-
-            e.Handled = True
-            ' sendButton.PerformClick()
-            e.KeyChar = Chr(0)
-
-            If My.Computer.FileSystem.DirectoryExists(TBLocalTagDir.Text) Then
-
-                LocalImageTagDir.Clear()
-
-                Dim TagLocalImageFolder As String = TBLocalTagDir.Text
-
-                Dim supportedExtensions As String = "*.png,*.jpg,*.gif,*.bmp,*.jpeg"
-                Dim files As String()
-
-                files = myDirectory.GetFiles(TagLocalImageFolder, "*.*")
-
-                Array.Sort(files)
-
-                For Each fi As String In files
-                    If supportedExtensions.Contains(Path.GetExtension(LCase(fi))) Then
-                        LocalImageTagDir.Add(fi)
-                    End If
-                Next
-
-                If LocalImageTagDir.Count < 1 Then
-                    MessageBox.Show(Me, "There are no images in the specified folder.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    Return
-                End If
-
-                MainWindow.mainPictureBox.LoadAsync(LocalImageTagDir(0))
-
-
-                CurrentLocalImageTagImage = LocalImageTagDir(0)
-
-
-                CheckLocalTagList()
-
-
-
-                LocalTagCount = 1
-                LBLLocalTagCount.Text = LocalTagCount & "/" & LocalImageTagDir.Count
-
-
-                LocalImageTagCount = 0
-
-                BTNLocalTagSave.Enabled = True
-                BTNLocalTagNext.Enabled = True
-                BTNLocalTagPrevious.Enabled = False
-                BTNLocalTagDir.Enabled = False
-                TBLocalTagDir.Enabled = False
-
-                EnableLocalTagList()
-
-                LBLLocalTagCount.Enabled = True
-
-            Else
-
-                TBLocalTagDir.Text = "Not a Valid Directory!"
-
-            End If
-
+    Private Sub TBLocalTagDir_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TBLocalTagDir.KeyPress
+        If e.KeyChar <> Convert.ToChar(13) Then
+            Return
         End If
 
+        e.Handled = True
+        e.KeyChar = Chr(0)
 
+        Dim getImages As Result(Of List(Of String)) = GetImagesInFolder(TBLocalTagDir.Text) _
+            .Ensure(Function(data) data.Any(), TBLocalTagDir.Text & " does not have any images in it.")
 
+        LocalImageTagDir = getImages.GetResultOrDefault(New List(Of String))
+
+        If Not getImages.IsFailure() Then
+            MessageBox.Show(Me, getImages.GetErrorMessageOrDefault(), "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Return
+        End If
+
+        CurrentLocalImageTagImage = LocalImageTagDir.First()
+        MainWindow.mainPictureBox.LoadAsync(CurrentLocalImageTagImage)
+
+        CheckLocalTagList(CurrentLocalImageTagImage)
+
+        LocalTagCount = 1
+        LBLLocalTagCount.Text = LocalTagCount.ToString() & "/" & LocalImageTagDir.Count.ToString()
+
+        BTNLocalTagSave.Enabled = True
+        BTNLocalTagNext.Enabled = LocalImageTagDir.Count < LocalTagCount
+        BTNLocalTagPrevious.Enabled = False
+        BTNLocalTagDir.Enabled = False
+        TBLocalTagDir.Enabled = False
+
+        SetLocalImageEnabled(True)
+
+        LBLLocalTagCount.Enabled = True
     End Sub
 
     Private Sub CBRangeOrgasm_CheckedChanged(sender As Object, e As EventArgs) Handles DommeDecideOrgasmCB.CheckedChanged
-        If DommeDecideOrgasmCB.Checked = False Then
-            AllowOrgasmOftenNB.Enabled = True
-            NBAllowSometimes.Enabled = True
-            NBAllowRarely.Enabled = True
-        Else
-            AllowOrgasmOftenNB.Enabled = False
-            NBAllowSometimes.Enabled = False
-            NBAllowRarely.Enabled = False
-        End If
+        AllowOrgasmOftenNB.Enabled = Not DommeDecideOrgasmCB.Checked
+        NBAllowSometimes.Enabled = Not DommeDecideOrgasmCB.Checked
+        NBAllowRarely.Enabled = Not DommeDecideOrgasmCB.Checked
     End Sub
 
     Private Sub CBRangeRuin_CheckedChanged(sender As Object, e As EventArgs) Handles DommeDecideRuinCB.CheckedChanged
@@ -7211,18 +6520,14 @@ checkFolder:
         End If
     End Sub
 
-    Private Function Txt2List(ByVal GetText As String) As List(Of String)
-        If File.Exists(GetText) Then
-            Dim TextReader As New StreamReader(GetText)
-            Dim TextList As New List(Of String)
-            TextList.Clear()
-            While TextReader.Peek <> -1
-                TextList.Add(TextReader.ReadLine())
-            End While
-            TextReader.Close()
-            TextReader.Dispose()
-            Return TextList
-        End If
+    ''' <summary>
+    ''' Reads the tag data from a file as a collection of strings
+    ''' </summary>
+    ''' <param name="fileName"></param>
+    ''' <returns></returns>
+    Private Function ReadTagFile(fileName As String) As List(Of TaggedItem)
+        Return myLoadFileData.ReadData(fileName) _
+                    .OnSuccess(Function(data) myParseTagDataService.ParseTagData(data)).GetResultOrDefault(New List(Of TaggedItem))
     End Function
 
     Private Function StripBlankLines(ByVal SpaceClean As List(Of String)) As List(Of String)
@@ -7960,7 +7265,6 @@ checkFolder:
         My.Settings.CBURLPreview = CBURLPreview.Checked
     End Sub
 
-
     Private Sub NBTaskStrokesMin_ValueChanged(sender As Object, e As EventArgs) Handles NBTaskStrokesMin.ValueChanged
         If NBTaskStrokesMin.Value > NBTaskStrokesMax.Value Then NBTaskStrokesMin.Value = NBTaskStrokesMax.Value
     End Sub
@@ -8016,7 +7320,6 @@ checkFolder:
     Public Sub SaveDommeTags()
 
         Dim TempImageDir As String = Path.GetFileName(CurrentImageTagImage)
-
 
         If CBTagFace.Checked Then TempImageDir = TempImageDir & " " & "TagFace"
         If CBTagBoobs.Checked Then TempImageDir = TempImageDir & " " & "TagBoobs"
@@ -8087,20 +7390,17 @@ checkFolder:
 
         If File.Exists(TagImageFolder & "\ImageTags.txt") Then
 
-            Dim TagCheckList As New List(Of String)
-            TagCheckList = Txt2List(TagImageFolder & "\ImageTags.txt")
-            TagCheckList = StripBlankLines(TagCheckList)
-
+            Dim TagCheckList As List(Of TaggedItem) = ReadTagFile(TagImageFolder & "\ImageTags.txt")
             Dim LineExists As Boolean
             LineExists = False
-
-            For i As Integer = 0 To TagCheckList.Count - 1
-                If TagCheckList(i).Contains(Path.GetFileName(CurrentImageTagImage)) Then
-                    TagCheckList(i) = TempImageDir
-                    LineExists = True
-                    System.IO.File.WriteAllLines(TagImageFolder & "\ImageTags.txt", TagCheckList)
-                End If
-            Next
+            ' FINISH ME
+            'For i As Integer = 0 To TagCheckList.Count - 1
+            '    If TagCheckList(i).Contains(Path.GetFileName(CurrentImageTagImage)) Then
+            '        TagCheckList(i) = TempImageDir
+            '        LineExists = True
+            '        System.IO.File.WriteAllLines(TagImageFolder & "\ImageTags.txt", TagCheckList)
+            '    End If
+            'Next
 
             If LineExists = False Then
                 My.Computer.FileSystem.WriteAllText(TagImageFolder & "\ImageTags.txt", Environment.NewLine & TempImageDir, True)
@@ -8112,122 +7412,47 @@ checkFolder:
         End If
     End Sub
 
-    Public Sub LoadDommeTags()
+    Private Sub SetDommeTagCheckboxes(itemTags As List(Of ItemTag))
+        CBTagFace.Checked = itemTags.Contains(ItemTag.Create("TagFace").Value)
+        CBTagBoobs.Checked = itemTags.Contains(ItemTag.Create("TagBoobs").Value)
+        CBTagPussy.Checked = itemTags.Contains(ItemTag.Create("TagPussy").Value)
+        CBTagAss.Checked = itemTags.Contains(ItemTag.Create("TagAss").Value)
+        CBTagLegs.Checked = itemTags.Contains(ItemTag.Create("TagLegs").Value)
+        CBTagFeet.Checked = itemTags.Contains(ItemTag.Create("TagFeet").Value)
+        CBTagFullyDressed.Checked = itemTags.Contains(ItemTag.Create("TagFullyDressed").Value)
+        CBTagHalfDressed.Checked = itemTags.Contains(ItemTag.Create("TagHalfDressed").Value)
+        CBTagGarmentCovering.Checked = itemTags.Contains(ItemTag.Create("TagGarmentCovering").Value)
+        CBTagHandsCovering.Checked = itemTags.Contains(ItemTag.Create("TagHandsCovering").Value)
+        CBTagNaked.Checked = itemTags.Contains(ItemTag.Create("TagNaked").Value)
+        CBTagSideView.Checked = itemTags.Contains(ItemTag.Create("TagSideView").Value)
+        CBTagCloseUp.Checked = itemTags.Contains(ItemTag.Create("TagCloseUp").Value)
+        CBTagMasturbating.Checked = itemTags.Contains(ItemTag.Create("TagMasturbating").Value)
+        CBTagSucking.Checked = itemTags.Contains(ItemTag.Create("TagSucking").Value)
+        CBTagPiercing.Checked = itemTags.Contains(ItemTag.Create("TagPiercing").Value)
+        CBTagSmiling.Checked = itemTags.Contains(ItemTag.Create("TagSmiling").Value)
+        CBTagGlaring.Checked = itemTags.Contains(ItemTag.Create("TagGlaring").Value)
+        CBTagSeeThrough.Checked = itemTags.Contains(ItemTag.Create("TagSeeThrough").Value)
+        CBTagAllFours.Checked = itemTags.Contains(ItemTag.Create("TagAllFours").Value)
 
-        If File.Exists(TagImageFolder & "\ImageTags.txt") Then
+        Dim garmentTag As ItemTag? = itemTags.FirstOrDefault(Function(it) it.Equals(ItemTag.Create("TagGarment").Value))
+        CBTagGarment.Checked = garmentTag.HasValue
+        TBTagGarment.Text = If(garmentTag.HasValue, String.Empty, garmentTag.Value.ToString().Replace("TagGarment", ""))
 
-            Dim TagCheckList As New List(Of String)
-            TagCheckList = Txt2List(TagImageFolder & "\ImageTags.txt")
-            TagCheckList = StripBlankLines(TagCheckList)
+        Dim underwearTag As ItemTag? = itemTags.FirstOrDefault(Function(it) it.Equals(ItemTag.Create("TagUnderwear").Value))
+        CBTagUnderwear.Checked = underwearTag.HasValue
+        TBTagUnderwear.Text = If(underwearTag.HasValue, String.Empty, underwearTag.Value.ToString().Replace("TagUnderwear", ""))
 
-            For i As Integer = 0 To TagCheckList.Count - 1
-                If TagCheckList(i).Contains(Path.GetFileName(CurrentImageTagImage)) Then
-                    CBTagFace.Checked = False
-                    CBTagBoobs.Checked = False
-                    CBTagPussy.Checked = False
-                    CBTagAss.Checked = False
-                    CBTagLegs.Checked = False
-                    CBTagFeet.Checked = False
-                    CBTagFullyDressed.Checked = False
-                    CBTagHalfDressed.Checked = False
-                    CBTagGarmentCovering.Checked = False
-                    CBTagHandsCovering.Checked = False
-                    CBTagNaked.Checked = False
-                    CBTagSideView.Checked = False
-                    CBTagCloseUp.Checked = False
-                    CBTagMasturbating.Checked = False
-                    CBTagSucking.Checked = False
-                    CBTagPiercing.Checked = False
-                    CBTagGarment.Checked = False
-                    CBTagUnderwear.Checked = False
-                    CBTagTattoo.Checked = False
-                    CBTagSexToy.Checked = False
-                    CBTagFurniture.Checked = False
-                    CBTagSmiling.Checked = False
-                    CBTagGlaring.Checked = False
-                    CBTagSeeThrough.Checked = False
-                    CBTagAllFours.Checked = False
-                    TBTagGarment.Text = ""
-                    TBTagUnderwear.Text = ""
-                    TBTagTattoo.Text = ""
-                    TBTagSexToy.Text = ""
-                    TBTagFurniture.Text = ""
+        Dim tattooTag As ItemTag? = itemTags.FirstOrDefault(Function(it) it.Equals(ItemTag.Create("TagTattoo").Value))
+        CBTagTattoo.Checked = tattooTag.HasValue
+        TBTagTattoo.Text = If(tattooTag.HasValue, String.Empty, tattooTag.Value.ToString().Replace("TagTattoo", ""))
 
-                    If TagCheckList(i).Contains("TagFace") Then CBTagFace.Checked = True
-                    If TagCheckList(i).Contains("TagBoobs") Then CBTagBoobs.Checked = True
-                    If TagCheckList(i).Contains("TagPussy") Then CBTagPussy.Checked = True
-                    If TagCheckList(i).Contains("TagAss") Then CBTagAss.Checked = True
-                    If TagCheckList(i).Contains("TagLegs") Then CBTagLegs.Checked = True
-                    If TagCheckList(i).Contains("TagFeet") Then CBTagFeet.Checked = True
-                    If TagCheckList(i).Contains("TagFullyDressed") Then CBTagFullyDressed.Checked = True
-                    If TagCheckList(i).Contains("TagHalfDressed") Then CBTagHalfDressed.Checked = True
-                    If TagCheckList(i).Contains("TagGarmentCovering") Then CBTagGarmentCovering.Checked = True
-                    If TagCheckList(i).Contains("TagHandsCovering") Then CBTagHandsCovering.Checked = True
-                    If TagCheckList(i).Contains("TagNaked") Then CBTagNaked.Checked = True
-                    If TagCheckList(i).Contains("TagSideView") Then CBTagSideView.Checked = True
-                    If TagCheckList(i).Contains("TagCloseUp") Then CBTagCloseUp.Checked = True
-                    If TagCheckList(i).Contains("TagMasturbating") Then CBTagMasturbating.Checked = True
-                    If TagCheckList(i).Contains("TagSucking") Then CBTagSucking.Checked = True
-                    If TagCheckList(i).Contains("TagPiercing") Then CBTagPiercing.Checked = True
-                    If TagCheckList(i).Contains("TagSmiling") Then CBTagSmiling.Checked = True
-                    If TagCheckList(i).Contains("TagGlaring") Then CBTagGlaring.Checked = True
-                    If TagCheckList(i).Contains("TagSeeThrough") Then CBTagSeeThrough.Checked = True
-                    If TagCheckList(i).Contains("TagAllFours") Then CBTagAllFours.Checked = True
+        Dim sexToyTag As ItemTag? = itemTags.FirstOrDefault(Function(it) it.Equals(ItemTag.Create("TagSexToy").Value))
+        CBTagSexToy.Checked = sexToyTag.HasValue
+        TBTagSexToy.Text = If(sexToyTag.HasValue, String.Empty, sexToyTag.Value.ToString().Replace("TagSexToy", ""))
 
-                    If TagCheckList(i).Contains("TagGarment") Then
-                        Dim TagSplit As String() = Split(TagCheckList(i))
-                        For j As Integer = 0 To TagSplit.Length - 1
-                            If TagSplit(j).Contains("TagGarment") Then
-                                TBTagGarment.Text = TagSplit(j).Replace("TagGarment", "")
-                                CBTagGarment.Checked = True
-                            End If
-                        Next
-                    End If
-
-                    If TagCheckList(i).Contains("TagUnderwear") Then
-                        Dim TagSplit As String() = Split(TagCheckList(i))
-                        For j As Integer = 0 To TagSplit.Length - 1
-                            If TagSplit(j).Contains("TagUnderwear") Then
-                                TBTagUnderwear.Text = TagSplit(j).Replace("TagUnderwear", "")
-                                CBTagUnderwear.Checked = True
-                            End If
-                        Next
-                    End If
-
-                    If TagCheckList(i).Contains("TagTattoo") Then
-                        Dim TagSplit As String() = Split(TagCheckList(i))
-                        For j As Integer = 0 To TagSplit.Length - 1
-                            If TagSplit(j).Contains("TagTattoo") Then
-                                TBTagTattoo.Text = TagSplit(j).Replace("TagTattoo", "")
-                                CBTagTattoo.Checked = True
-                            End If
-                        Next
-                    End If
-
-                    If TagCheckList(i).Contains("TagSexToy") Then
-                        Dim TagSplit As String() = Split(TagCheckList(i))
-                        For j As Integer = 0 To TagSplit.Length - 1
-                            If TagSplit(j).Contains("TagSexToy") Then
-                                TBTagSexToy.Text = TagSplit(j).Replace("TagSexToy", "")
-                                CBTagSexToy.Checked = True
-                            End If
-                        Next
-                    End If
-
-                    If TagCheckList(i).Contains("TagFurniture") Then
-                        Dim TagSplit As String() = Split(TagCheckList(i))
-                        For j As Integer = 0 To TagSplit.Length - 1
-                            If TagSplit(j).Contains("TagFurniture") Then
-                                TBTagFurniture.Text = TagSplit(j).Replace("TagFurniture", "")
-                                CBTagFurniture.Checked = True
-                            End If
-                        Next
-                    End If
-
-                End If
-            Next
-        End If
-
+        Dim furnitureTag As ItemTag? = itemTags.FirstOrDefault(Function(it) it.Equals(ItemTag.Create("TagFurniture").Value))
+        CBTagFurniture.Checked = furnitureTag.HasValue
+        TBTagFurniture.Text = If(furnitureTag.HasValue, String.Empty, furnitureTag.Value.ToString().Replace("TagFurniture", ""))
     End Sub
 
     Private Function ConvertHoldTime(holdTimeSeconds As Int16) As Int16
@@ -8402,7 +7627,7 @@ checkFolder:
         If script.Lines.Any(Function(l) l.Contains("@ShowTaggedImage") AndAlso l.Contains("@Tag")) Then
             Dim tagImageList As List(Of String) = New List(Of String)()
 
-            Dim tagFile = Application.StartupPath & "\Images\System\LocalImageTags.txt"
+            Dim tagFile = LocalImageTagFile
             If File.Exists(tagFile) Then
                 tagImageList = File.ReadAllText(tagFile) _
                     .Split(" ") _
@@ -8424,7 +7649,7 @@ checkFolder:
         End If
 
         If script.Lines.Any(Function(l) l.Contains("@ShowTaggedImage") AndAlso Not l.Contains("@Tag")) Then
-            Dim tagFile = Application.StartupPath & "\Images\System\LocalImageTags.txt"
+            Dim tagFile = LocalImageTagFile
             requirements.Add("* LocalImageTags.txt must exist in \Images\System\ *")
             areScriptRequirementsMet = areScriptRequirementsMet AndAlso File.Exists(tagFile)
         End If
@@ -8569,7 +7794,6 @@ checkFolder:
         ElseIf sessionPhase = SessionPhase.End Then
             Return Sub() saveCheckedListBox(target, Ssh.Files.EndChecklist)
         End If
-
     End Function
 
     Private Sub SetColor(label As Label)
@@ -8587,8 +7811,272 @@ checkFolder:
         End If
     End Sub
 
+    Public Function Color2Html(color As Color) As String
+        Return "#" & color.ToArgb().ToString("x").Substring(2).ToUpper
+    End Function
+
+    ''' <summary>
+    ''' Set the checkboxes based on whether or not <paramref name="itemTags"/> contains a given tag
+    ''' </summary>
+    ''' <param name="itemTags"></param>
+    Private Sub SetLocalTagCheckboxes(itemTags As List(Of ItemTag))
+        CBTagHardcore.Checked = itemTags.Contains(ItemTag.Create("TagHardcore").Value)
+        CBTagLesbian.Checked = itemTags.Contains(ItemTag.Create("TagLesbian").Value)
+        CBTagGay.Checked = itemTags.Contains(ItemTag.Create("TagGay").Value)
+        CBTagBisexual.Checked = itemTags.Contains(ItemTag.Create("TagBisexual").Value)
+        CBTagSoloF.Checked = itemTags.Contains(ItemTag.Create("TagSoloF").Value)
+        CBTagSoloM.Checked = itemTags.Contains(ItemTag.Create("TagSoloM").Value)
+        CBTagSoloFuta.Checked = itemTags.Contains(ItemTag.Create("TagSoloFuta").Value)
+        CBTagPOV.Checked = itemTags.Contains(ItemTag.Create("TagPOV").Value)
+        CBTagBondage.Checked = itemTags.Contains(ItemTag.Create("TagBondage").Value)
+        CBTagSM.Checked = itemTags.Contains(ItemTag.Create("TagSM").Value)
+        CBTagTD.Checked = itemTags.Contains(ItemTag.Create("TagTD").Value)
+        CBTagChastity.Checked = itemTags.Contains(ItemTag.Create("TagChastity").Value)
+        CBTagCFNM.Checked = itemTags.Contains(ItemTag.Create("TagCFNM").Value)
+        CBTagBath.Checked = itemTags.Contains(ItemTag.Create("TagBath").Value)
+        CBTagShower.Checked = itemTags.Contains(ItemTag.Create("TagShower").Value)
+        CBTagOutdoors.Checked = itemTags.Contains(ItemTag.Create("TagOutdoors").Value)
+        CBTagArtwork.Checked = itemTags.Contains(ItemTag.Create("TagArtwork").Value)
+
+        CBTagMasturbation.Checked = itemTags.Contains(ItemTag.Create("TagMasturbation").Value)
+        CBTagHandjob.Checked = itemTags.Contains(ItemTag.Create("TagHandjob").Value)
+        CBTagFingering.Checked = itemTags.Contains(ItemTag.Create("TagFingering").Value)
+        CBTagBlowjob.Checked = itemTags.Contains(ItemTag.Create("TagBlowjob").Value)
+        CBTagCunnilingus.Checked = itemTags.Contains(ItemTag.Create("TagCunnilingus").Value)
+        CBTagTitjob.Checked = itemTags.Contains(ItemTag.Create("TagTitjob").Value)
+        CBTagFootjob.Checked = itemTags.Contains(ItemTag.Create("TagFootjob").Value)
+        CBTagFacesitting.Checked = itemTags.Contains(ItemTag.Create("TagFacesitting").Value)
+        CBTagRimming.Checked = itemTags.Contains(ItemTag.Create("TagRimming").Value)
+        CBTagMissionary.Checked = itemTags.Contains(ItemTag.Create("TagMissionary").Value)
+        CBTagDoggyStyle.Checked = itemTags.Contains(ItemTag.Create("TagDoggyStyle").Value)
+        CBTagCowgirl.Checked = itemTags.Contains(ItemTag.Create("TagCowgirl").Value)
+        CBTagRCowgirl.Checked = itemTags.Contains(ItemTag.Create("TagRCowgirl").Value)
+        CBTagStanding.Checked = itemTags.Contains(ItemTag.Create("TagStanding").Value)
+        CBTagAnalSex.Checked = itemTags.Contains(ItemTag.Create("TagAnalSex").Value)
+        CBTagDP.Checked = itemTags.Contains(ItemTag.Create("TagDP").Value)
+        CBTagGangbang.Checked = itemTags.Contains(ItemTag.Create("TagGangbang").Value)
+
+        CBTag1F.Checked = itemTags.Contains(ItemTag.Create("Tag1F").Value)
+        CBTag2F.Checked = itemTags.Contains(ItemTag.Create("Tag2F").Value)
+        CBTag3F.Checked = itemTags.Contains(ItemTag.Create("Tag3F").Value)
+        CBTag1M.Checked = itemTags.Contains(ItemTag.Create("Tag1M").Value)
+        CBTag2M.Checked = itemTags.Contains(ItemTag.Create("Tag2M").Value)
+        CBTag3M.Checked = itemTags.Contains(ItemTag.Create("Tag3M").Value)
+        CBTag1Futa.Checked = itemTags.Contains(ItemTag.Create("Tag1Futa").Value)
+        CBTag2Futa.Checked = itemTags.Contains(ItemTag.Create("Tag2Futa").Value)
+        CBTag3Futa.Checked = itemTags.Contains(ItemTag.Create("Tag3Futa").Value)
+        CBTagFemdom.Checked = itemTags.Contains(ItemTag.Create("TagFemdom").Value)
+        CBTagMaledom.Checked = itemTags.Contains(ItemTag.Create("TagMaledom").Value)
+        CBTagFutadom.Checked = itemTags.Contains(ItemTag.Create("TagFutadom").Value)
+        CBTagFemsub.Checked = itemTags.Contains(ItemTag.Create("TagFemsub").Value)
+        CBTagMalesub.Checked = itemTags.Contains(ItemTag.Create("TagMalesub").Value)
+        CBTagFutasub.Checked = itemTags.Contains(ItemTag.Create("TagFutasub").Value)
+        CBTagMultiDom.Checked = itemTags.Contains(ItemTag.Create("TagMultiDom").Value)
+        CBTagMultiSub.Checked = itemTags.Contains(ItemTag.Create("TagMultiSub").Value)
+
+        CBTagBodyTits.Checked = itemTags.Contains(ItemTag.Create("TagBodyTits").Value)
+        CBTagBodyFace.Checked = itemTags.Contains(ItemTag.Create("TagBodyFace").Value)
+        CBTagBodyFingers.Checked = itemTags.Contains(ItemTag.Create("TagBodyFingers").Value)
+        CBTagBodyMouth.Checked = itemTags.Contains(ItemTag.Create("TagBodyMouth").Value)
+        CBTagBodyNipples.Checked = itemTags.Contains(ItemTag.Create("TagBodyNipples").Value)
+        CBTagBodyPussy.Checked = itemTags.Contains(ItemTag.Create("TagBodyPussy").Value)
+        CBTagBodyAss.Checked = itemTags.Contains(ItemTag.Create("TagBodyAss").Value)
+        CBTagBodyLegs.Checked = itemTags.Contains(ItemTag.Create("TagBodyLegs").Value)
+        CBTagBodyFeet.Checked = itemTags.Contains(ItemTag.Create("TagBodyFeet").Value)
+        CBTagBodyCock.Checked = itemTags.Contains(ItemTag.Create("TagBodyCock").Value)
+        CBTagBodyBalls.Checked = itemTags.Contains(ItemTag.Create("TagBodyBalls").Value)
+
+        CBTagNurse.Checked = itemTags.Contains(ItemTag.Create("TagNurse").Value)
+        CBTagTeacher.Checked = itemTags.Contains(ItemTag.Create("TagTeacher").Value)
+        CBTagSchoolgirl.Checked = itemTags.Contains(ItemTag.Create("TagSchoolgirl").Value)
+        CBTagMaid.Checked = itemTags.Contains(ItemTag.Create("TagMaid").Value)
+        CBTagSuperhero.Checked = itemTags.Contains(ItemTag.Create("TagSuperhero").Value)
+
+        CBTagWhipping.Checked = itemTags.Contains(ItemTag.Create("TagWhipping").Value)
+        CBTagSpanking.Checked = itemTags.Contains(ItemTag.Create("TagSpanking").Value)
+        CBTagCockTorture.Checked = itemTags.Contains(ItemTag.Create("TagCockTorture").Value)
+        CBTagBallTorture.Checked = itemTags.Contains(ItemTag.Create("TagBallTorture").Value)
+        CBTagStrapon.Checked = itemTags.Contains(ItemTag.Create("TagStrapon").Value)
+        CBTagBlindfold.Checked = itemTags.Contains(ItemTag.Create("TagBlindfold").Value)
+        CBTagGag.Checked = itemTags.Contains(ItemTag.Create("TagGag").Value)
+        CBTagClamps.Checked = itemTags.Contains(ItemTag.Create("TagClamps").Value)
+        CBTagHotWax.Checked = itemTags.Contains(ItemTag.Create("TagHotWax").Value)
+        CBTagNeedles.Checked = itemTags.Contains(ItemTag.Create("TagNeedles").Value)
+        CBTagElectro.Checked = itemTags.Contains(ItemTag.Create("TagElectro").Value)
+
+        CBTagDomme.Checked = itemTags.Contains(ItemTag.Create("TagDomme").Value)
+        CBTagCumshot.Checked = itemTags.Contains(ItemTag.Create("TagCumshot").Value)
+        CBTagCumEating.Checked = itemTags.Contains(ItemTag.Create("TagCumEating").Value)
+        CBTagKissing.Checked = itemTags.Contains(ItemTag.Create("TagKissing").Value)
+        CBTagTattoos.Checked = itemTags.Contains(ItemTag.Create("TagTattoos").Value)
+        CBTagStockings.Checked = itemTags.Contains(ItemTag.Create("TagStockings").Value)
+        CBTagVibrator.Checked = itemTags.Contains(ItemTag.Create("TagVibrator").Value)
+        CBTagDildo.Checked = itemTags.Contains(ItemTag.Create("TagDildo").Value)
+        CBTagPocketPussy.Checked = itemTags.Contains(ItemTag.Create("TagPocketPussy").Value)
+        CBTagAnalToy.Checked = itemTags.Contains(ItemTag.Create("TagAnalToy").Value)
+        CBTagWatersports.Checked = itemTags.Contains(ItemTag.Create("TagWaterSports").Value)
+
+        CBTagShibari.Checked = itemTags.Contains(ItemTag.Create("TagShibari").Value)
+        CBTagTentacles.Checked = itemTags.Contains(ItemTag.Create("TagTentacles").Value)
+        CBTagBukkake.Checked = itemTags.Contains(ItemTag.Create("TagBukkake").Value)
+        CBTagBakunyuu.Checked = itemTags.Contains(ItemTag.Create("TagBakunyuu").Value)
+        CBTagAhegao.Checked = itemTags.Contains(ItemTag.Create("TagAhegao").Value)
+        CBTagBodyWriting.Checked = itemTags.Contains(ItemTag.Create("TagBodyWriting").Value)
+        CBTagTrap.Checked = itemTags.Contains(ItemTag.Create("TagTrap").Value)
+        CBTagGanguro.Checked = itemTags.Contains(ItemTag.Create("TagGanguro").Value)
+        CBTagMahouShoujo.Checked = itemTags.Contains(ItemTag.Create("TagMahouShoujo").Value)
+        CBTagMonsterGirl.Checked = itemTags.Contains(ItemTag.Create("TagMonsterGirl").Value)
+    End Sub
+
+    ''' <summary>
+    ''' Look at the checkboxes and build a list of item tags
+    ''' </summary>
+    Private Function GetItemTagsFromCheckboxes() As List(Of ItemTag)
+        Dim tags As List(Of ItemTag) = New List(Of ItemTag)
+        If CBTagHardcore.Checked Then tags.Add(ItemTag.Create("TagHardcore").Value)
+        If CBTagLesbian.Checked Then tags.Add(ItemTag.Create("TagLesbian").Value)
+        If CBTagLesbian.Checked Then tags.Add(ItemTag.Create("TagLesbian").Value)
+        If CBTagGay.Checked Then tags.Add(ItemTag.Create("TagGay").Value)
+        If CBTagBisexual.Checked Then tags.Add(ItemTag.Create("TagBisexual").Value)
+        If CBTagSoloF.Checked Then tags.Add(ItemTag.Create("TagSoloF").Value)
+        If CBTagSoloM.Checked Then tags.Add(ItemTag.Create("TagSoloM").Value)
+        If CBTagSoloFuta.Checked Then tags.Add(ItemTag.Create("TagSoloFuta").Value)
+        If CBTagPOV.Checked Then tags.Add(ItemTag.Create("TagPOV").Value)
+        If CBTagBondage.Checked Then tags.Add(ItemTag.Create("TagBondage").Value)
+        If CBTagSM.Checked Then tags.Add(ItemTag.Create("TagSM").Value)
+        If CBTagTD.Checked Then tags.Add(ItemTag.Create("TagTD").Value)
+        If CBTagChastity.Checked Then tags.Add(ItemTag.Create("TagChastity").Value)
+        If CBTagCFNM.Checked Then tags.Add(ItemTag.Create("TagCFNM").Value)
+        If CBTagBath.Checked Then tags.Add(ItemTag.Create("TagBath").Value)
+        If CBTagShower.Checked Then tags.Add(ItemTag.Create("TagShower").Value)
+        If CBTagOutdoors.Checked Then tags.Add(ItemTag.Create("TagOutdoors").Value)
+        If CBTagArtwork.Checked Then tags.Add(ItemTag.Create("TagArtwork").Value)
+
+        If CBTagMasturbation.Checked Then tags.Add(ItemTag.Create("TagMasturbation").Value)
+        If CBTagHandjob.Checked Then tags.Add(ItemTag.Create("TagHandjob").Value)
+        If CBTagFingering.Checked Then tags.Add(ItemTag.Create("TagFingering").Value)
+        If CBTagBlowjob.Checked Then tags.Add(ItemTag.Create("TagBlowjob").Value)
+        If CBTagCunnilingus.Checked Then tags.Add(ItemTag.Create("TagCunnilingus").Value)
+        If CBTagTitjob.Checked Then tags.Add(ItemTag.Create("TagTitjob").Value)
+        If CBTagFootjob.Checked Then tags.Add(ItemTag.Create("TagFootjob").Value)
+        If CBTagFacesitting.Checked Then tags.Add(ItemTag.Create("TagFacesitting").Value)
+        If CBTagRimming.Checked Then tags.Add(ItemTag.Create("TagRimming").Value)
+        If CBTagMissionary.Checked Then tags.Add(ItemTag.Create("TagMissionary").Value)
+        If CBTagDoggyStyle.Checked Then tags.Add(ItemTag.Create("TagDoggyStyle").Value)
+        If CBTagCowgirl.Checked Then tags.Add(ItemTag.Create("TagCowgirl").Value)
+        If CBTagRCowgirl.Checked Then tags.Add(ItemTag.Create("TagRCowgirl").Value)
+        If CBTagStanding.Checked Then tags.Add(ItemTag.Create("TagStanding").Value)
+        If CBTagAnalSex.Checked Then tags.Add(ItemTag.Create("TagAnalSex").Value)
+        If CBTagDP.Checked Then tags.Add(ItemTag.Create("TagDP").Value)
+        If CBTagGangbang.Checked Then tags.Add(ItemTag.Create("TagGangbang").Value)
+
+        If CBTag1F.Checked Then tags.Add(ItemTag.Create("Tag1F").Value)
+        If CBTag2F.Checked Then tags.Add(ItemTag.Create("Tag2F").Value)
+        If CBTag3F.Checked Then tags.Add(ItemTag.Create("Tag3F").Value)
+        If CBTag1M.Checked Then tags.Add(ItemTag.Create("Tag1M").Value)
+        If CBTag2M.Checked Then tags.Add(ItemTag.Create("Tag2M").Value)
+        If CBTag3M.Checked Then tags.Add(ItemTag.Create("Tag3M").Value)
+        If CBTag1Futa.Checked Then tags.Add(ItemTag.Create("Tag1Futa").Value)
+        If CBTag2Futa.Checked Then tags.Add(ItemTag.Create("Tag2Futa").Value)
+        If CBTag3Futa.Checked Then tags.Add(ItemTag.Create("Tag3Futa").Value)
+        If CBTagFemdom.Checked Then tags.Add(ItemTag.Create("TagFemdom").Value)
+        If CBTagMaledom.Checked Then tags.Add(ItemTag.Create("TagMaledom").Value)
+        If CBTagFutadom.Checked Then tags.Add(ItemTag.Create("TagFutadom").Value)
+        If CBTagFemsub.Checked Then tags.Add(ItemTag.Create("TagFemsub").Value)
+        If CBTagMalesub.Checked Then tags.Add(ItemTag.Create("TagMalesub").Value)
+        If CBTagFutasub.Checked Then tags.Add(ItemTag.Create("TagFutasub").Value)
+        If CBTagMultiDom.Checked Then tags.Add(ItemTag.Create("TagMultiDom").Value)
+        If CBTagMultiSub.Checked Then tags.Add(ItemTag.Create("TagMultiSub").Value)
+
+        If CBTagBodyFace.Checked Then tags.Add(ItemTag.Create("TagBodyFace").Value)
+        If CBTagBodyFingers.Checked Then tags.Add(ItemTag.Create("TagBodyFingers").Value)
+        If CBTagBodyMouth.Checked Then tags.Add(ItemTag.Create("TagBodyMouth").Value)
+        If CBTagBodyTits.Checked Then tags.Add(ItemTag.Create("TagBodyTits").Value)
+        If CBTagBodyNipples.Checked Then tags.Add(ItemTag.Create("TagBodyNipples").Value)
+        If CBTagBodyPussy.Checked Then tags.Add(ItemTag.Create("TagBodyPussy").Value)
+        If CBTagBodyAss.Checked Then tags.Add(ItemTag.Create("TagBodyAss").Value)
+        If CBTagBodyLegs.Checked Then tags.Add(ItemTag.Create("TagBodyLegs").Value)
+        If CBTagBodyFeet.Checked Then tags.Add(ItemTag.Create("TagBodyFeet").Value)
+        If CBTagBodyCock.Checked Then tags.Add(ItemTag.Create("TagBodyCock").Value)
+        If CBTagBodyBalls.Checked Then tags.Add(ItemTag.Create("TagBodyBalls").Value)
+
+        If CBTagNurse.Checked Then tags.Add(ItemTag.Create("TagNurse").Value)
+        If CBTagTeacher.Checked Then tags.Add(ItemTag.Create("TagTeacher").Value)
+        If CBTagSchoolgirl.Checked Then tags.Add(ItemTag.Create("TagSchoolgirl").Value)
+        If CBTagMaid.Checked Then tags.Add(ItemTag.Create("TagMaid").Value)
+        If CBTagSuperhero.Checked Then tags.Add(ItemTag.Create("TagSuperhero").Value)
+
+        If CBTagWhipping.Checked Then tags.Add(ItemTag.Create("TagWhipping").Value)
+        If CBTagSpanking.Checked Then tags.Add(ItemTag.Create("TagSpanking").Value)
+        If CBTagCockTorture.Checked Then tags.Add(ItemTag.Create("TagCockTorture").Value)
+        If CBTagBallTorture.Checked Then tags.Add(ItemTag.Create("TagBallTorture").Value)
+        If CBTagStrapon.Checked Then tags.Add(ItemTag.Create("TagStrapon").Value)
+        If CBTagBlindfold.Checked Then tags.Add(ItemTag.Create("TagBlindfold").Value)
+        If CBTagGag.Checked Then tags.Add(ItemTag.Create("TagGag").Value)
+        If CBTagClamps.Checked Then tags.Add(ItemTag.Create("TagClamps").Value)
+        If CBTagHotWax.Checked Then tags.Add(ItemTag.Create("TagHotWax").Value)
+        If CBTagNeedles.Checked Then tags.Add(ItemTag.Create("TagNeedles").Value)
+        If CBTagElectro.Checked Then tags.Add(ItemTag.Create("TagElectro").Value)
+
+        If CBTagDomme.Checked Then tags.Add(ItemTag.Create("TagDomme").Value)
+        If CBTagCumshot.Checked Then tags.Add(ItemTag.Create("TagCumshot").Value)
+        If CBTagCumEating.Checked Then tags.Add(ItemTag.Create("TagCumEating").Value)
+        If CBTagKissing.Checked Then tags.Add(ItemTag.Create("TagKissing").Value)
+        If CBTagTattoos.Checked Then tags.Add(ItemTag.Create("TagTattoos").Value)
+        If CBTagStockings.Checked Then tags.Add(ItemTag.Create("TagStockings").Value)
+        If CBTagVibrator.Checked Then tags.Add(ItemTag.Create("TagVibrator").Value)
+        If CBTagDildo.Checked Then tags.Add(ItemTag.Create("TagDildo").Value)
+        If CBTagPocketPussy.Checked Then tags.Add(ItemTag.Create("TagPocketPussy").Value)
+        If CBTagAnalToy.Checked Then tags.Add(ItemTag.Create("TagAnalToy").Value)
+        If CBTagWatersports.Checked Then tags.Add(ItemTag.Create("TagWatersports").Value)
+
+        If CBTagShibari.Checked Then tags.Add(ItemTag.Create("TagShibari").Value)
+        If CBTagTentacles.Checked Then tags.Add(ItemTag.Create("TagTentacles").Value)
+        If CBTagBukkake.Checked Then tags.Add(ItemTag.Create("TagBukkake").Value)
+        If CBTagBakunyuu.Checked Then tags.Add(ItemTag.Create("TagBakunyuu").Value)
+        If CBTagAhegao.Checked Then tags.Add(ItemTag.Create("TagAhegao").Value)
+        If CBTagBodyWriting.Checked Then tags.Add(ItemTag.Create("TagBodyWriting").Value)
+        If CBTagTrap.Checked Then tags.Add(ItemTag.Create("TagTrap").Value)
+        If CBTagGanguro.Checked Then tags.Add(ItemTag.Create("TagGanguro").Value)
+        If CBTagMahouShoujo.Checked Then tags.Add(ItemTag.Create("TagMahouShoujo").Value)
+        If CBTagMonsterGirl.Checked Then tags.Add(ItemTag.Create("TagMonsterGirl").Value)
+        Return tags
+    End Function
+
+    ''' <summary>
+    ''' Get a list of image files in <paramref name="folderName"/>
+    ''' </summary>
+    ''' <param name="folderName"></param>
+    ''' <returns></returns>
+    Private Function GetImagesInFolder(folderName As String) As Result(Of List(Of String))
+        If (Not Directory.Exists(folderName)) Then
+            Return Result.Fail(Of List(Of String))(folderName + " does not exist.")
+        End If
+
+        Dim imageExtensions As List(Of String) = New List(Of String)()
+        imageExtensions.Add(".png")
+        imageExtensions.Add(".jpg")
+        imageExtensions.Add(".jpeg")
+        imageExtensions.Add(".gif")
+        imageExtensions.Add(".bmp")
+
+        Dim images As List(Of String) = Directory.GetFiles(folderName) _
+            .Where(Function(f) imageExtensions.Contains(Path.GetExtension(f).ToLower())) _
+            .OrderBy(Function(f) f) _
+            .ToList()
+
+        Return Result.Ok(images)
+    End Function
+
+    Private Function GetTaggedItem(tagFile As String, imageFile As String) As TaggedItem
+        Dim taggedItems As List(Of TaggedItem) = ReadTagFile(tagFile)
+        Return taggedItems.FirstOrDefault(Function(ti) ti.ItemName = imageFile)
+    End Function
+
     Private mySettingsAccessor As ISettingsAccessor
     Private myBlogAccessor As BlogImageAccessor
     Private myCldAccessor As ICldAccessor
     Private myScriptAccessor As IScriptAccessor
+    Private myLoadFileData As ILoadFileData
+    Private myParseTagDataService As ParseOldTagDataService
 End Class
