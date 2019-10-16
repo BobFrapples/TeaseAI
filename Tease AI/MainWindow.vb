@@ -312,11 +312,6 @@ retryStart:
             FrmSplash.PBSplash.Value = 0
             FrmSplash.Show()
 
-            FrmSplash.UpdateText("checking orgasm limit...")
-            If My.Settings.OrgasmLockDate = Nothing Then
-                My.Settings.OrgasmLockDate = FormatDateTime(Now, DateFormat.ShortDate)
-            End If
-
             FrmSplash.UpdateText("Clearing Metronome settings...")
             StrokePace = 0
 
@@ -332,15 +327,11 @@ retryStart:
 
             Dim personalities As List(Of String) = GetDommePersonalities(Application.StartupPath & "\Scripts\")
             dompersonalitycombobox.Items.AddRange(personalities.ToArray())
-            If dompersonalitycombobox.Items.Count = 0 Then
+            If Not personalities.Any() Then
                 MessageBox.Show(Me, "No domme Personalities were found! Many aspects of this program will not work correctly until at least one Personality is installed.", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Else
                 Dim domme As String = mySettingsAccessor.DommePersonality()
-                If personalities.Contains(domme) Then
-                    dompersonalitycombobox.Text = domme
-                Else
-                    dompersonalitycombobox.Text = dompersonalitycombobox.Items(0)
-                End If
+                dompersonalitycombobox.Text = If(personalities.Contains(domme), domme, personalities.First())
             End If
 
             FrmSettings.FrmSettingsLoading = True
@@ -378,7 +369,6 @@ retryStart:
             'If File.Exists(My.Settings.SubAvatarSave) Then subAvatar.Image = Image.FromFile(My.Settings.SubAvatarSave)
 
             FrmSplash.UpdateText("Checking recent slideshows...")
-
             For Each path As String In My.Settings.RecentSlideshows
                 If Directory.Exists(path) Then ImageFolderComboBox.Items.Add(path)
             Next
@@ -436,36 +426,17 @@ retryStart:
 
             FrmSplash.UpdateText("Loading General Settings...")
 
-            If My.Settings.CBTimeStamps = True Then
-                FrmSettings.TimeStampCheckBox.Checked = True
-            Else
-                FrmSettings.TimeStampCheckBox.Checked = False
-            End If
-
-            If My.Settings.CBShowNames = True Then
-                FrmSettings.ShowNamesCheckBox.Checked = True
-            Else
-                FrmSettings.ShowNamesCheckBox.Checked = False
-            End If
-
-            If My.Settings.CBInstantType = True Then
-                FrmSettings.TypeInstantlyCheckBox.Checked = True
-            Else
-                FrmSettings.TypeInstantlyCheckBox.Checked = False
-            End If
-
+            FrmSettings.TimeStampCheckBox.Checked = My.Settings.CBTimeStamps
+            FrmSettings.ShowNamesCheckBox.Checked = My.Settings.CBShowNames
+            FrmSettings.TypeInstantlyCheckBox.Checked = My.Settings.CBInstantType
             FrmSettings.WebTeaseMode.Checked = My.Settings.CBWebtease
-
-            If FrmSettings.WebTeaseMode.Checked = True Then WebteaseModeToolStripMenuItem.Checked = True
+            If FrmSettings.WebTeaseMode.Checked = True _
+                Then WebteaseModeToolStripMenuItem.Checked = True
 
 
             FrmSettings.CBInputIcon.Checked = My.Settings.CBInputIcon
 
-            If My.Settings.CBBlogImageMain = True Then
-                FrmSettings.CBBlogImageWindow.Checked = True
-            Else
-                FrmSettings.CBBlogImageWindow.Checked = False
-            End If
+            FrmSettings.CBBlogImageWindow.Checked = My.Settings.CBBlogImageMain
 
             If My.Settings.CBSlideshowSubDir = True Then
                 FrmSettings.CBSlideshowSubDir.Checked = True
@@ -516,42 +487,23 @@ retryStart:
             FrmSplash.Refresh()
 
             FrmSettings.domageNumBox.Value = My.Settings.DomAge
-
-            If My.Settings.DomLevel <> 0 Then FrmSettings.DominationLevel.Value = My.Settings.DomLevel
-
-            If FrmSettings.DominationLevel.Value = 1 Then FrmSettings.DomLevelDescLabel.Text = "Gentle"
-            If FrmSettings.DominationLevel.Value = 2 Then FrmSettings.DomLevelDescLabel.Text = "Lenient"
-            If FrmSettings.DominationLevel.Value = 3 Then FrmSettings.DomLevelDescLabel.Text = "Tease"
-            If FrmSettings.DominationLevel.Value = 4 Then FrmSettings.DomLevelDescLabel.Text = "Rough"
-            If FrmSettings.DominationLevel.Value = 5 Then FrmSettings.DomLevelDescLabel.Text = "Sadistic"
+            FrmSettings.DomLevelDescLabel.Text = mySettingsAccessor.DominationLevel.ToString()
 
             FrmSettings.NBDomBirthdayMonth.Value = My.Settings.DomBirthMonth
             FrmSettings.NBDomBirthdayDay.Value = My.Settings.DomBirthDay
-
             FrmSettings.TBDomHairColor.Text = My.Settings.DomHair
             FrmSettings.domhairlengthComboBox.Text = My.Settings.DomHairLength
             FrmSettings.TBDomEyeColor.Text = My.Settings.DomEyes
             FrmSettings.boobComboBox.Text = My.Settings.DomCup
             FrmSettings.dompubichairComboBox.Text = My.Settings.DomPubicHair
 
-            Debug.Print("Find Exception begin")
-
-            If My.Settings.DomTattoos = True Then
-                FrmSettings.CBDomTattoos.Checked = True
-            Else
-                FrmSettings.CBDomTattoos.Checked = False
-            End If
+            FrmSettings.CBDomTattoos.Checked = My.Settings.DomTattoos
 
             If My.Settings.DomFreckles = True Then
                 FrmSettings.CBDomFreckles.Checked = True
             Else
                 FrmSettings.CBDomFreckles.Checked = False
             End If
-
-
-
-
-            Debug.Print("Find Exception")
 
             If My.Settings.DomCrazy = True Then
                 FrmSettings.crazyCheckBox.Checked = True
@@ -601,8 +553,6 @@ retryStart:
                 FrmSettings.CBMeMyMine.Checked = False
             End If
 
-
-
             FrmSettings.TBEmote.Text = My.Settings.TBEmote
             FrmSettings.TBEmoteEnd.Text = My.Settings.TBEmoteEnd
 
@@ -611,8 +561,6 @@ retryStart:
 
             FrmSettings.alloworgasmComboBox.Text = My.Settings.OrgasmAllow
             FrmSettings.ruinorgasmComboBox.Text = My.Settings.OrgasmRuin
-
-
 
             If My.Settings.DomDenialEnd = True Then
                 FrmSettings.CBDomDenialEnds.Checked = True
@@ -647,9 +595,6 @@ retryStart:
             FrmSettings.NBSelfAgeMax.Value = My.Settings.SelfAgeMax
             FrmSettings.NBSubAgeMin.Value = My.Settings.SubAgeMin
             FrmSettings.NBSubAgeMax.Value = My.Settings.SubAgeMax
-
-
-            Debug.Print("Find Exception end")
 
             FrmSplash.PBSplash.Value += 1
             FrmSplash.LBLSplash.Text = "Checking Glitter scripts..."
@@ -1039,8 +984,6 @@ retryStart:
             MetroThread = New Thread(AddressOf MetronomeTick) With {.Name = "Metronome-Thread"}
             MetroThread.IsBackground = True
             MetroThread.Start()
-
-
 
             BTNLS1.Text = My.Settings.LS1
 

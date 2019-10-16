@@ -1157,7 +1157,6 @@ Public Class FrmSettings
         TTDir.SetToolTip(TbxIButts, TbxIButts.Text)
     End Sub
 
-
     Private Sub TxbVideoFolder_MouseHover(sender As Object, e As EventArgs) Handles TxbVideoHardCore.MouseHover,
                 TxbVideoHardCoreD.MouseHover, TxbVideoSoftCore.MouseHover, TxbVideoSoftCoreD.MouseHover, TxbVideoLesbian.MouseHover,
                 TxbVideoLesbianD.MouseHover, TxbVideoBlowjob.MouseHover, TxbVideoBlowjobD.MouseHover, TxbVideoFemdom.MouseHover,
@@ -1384,7 +1383,6 @@ Public Class FrmSettings
     Private Sub SliderVRate_MouseHover(sender As Object, e As EventArgs) Handles SliderVRate.MouseHover
         TTDir.SetToolTip(SliderVRate, "Adusts the speed of the domme's TTS voice.")
     End Sub
-
 
 #End Region
 
@@ -5471,13 +5469,12 @@ checkFolder:
 
     Private Sub orgasmsperlockButton_Click(sender As Object, e As EventArgs) Handles orgasmsperlockButton.Click
 
-        If limitcheckbox.Checked = False Then
+        If Not limitcheckbox.Checked Then
             MessageBox.Show(Me, "The Limit box must be checked before clicking this button!", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Return
         End If
 
-        Dim result As Integer
-
+        Dim result As DialogResult
 
         If orgasmsPerNumBox.Value = 1 Then
             result = MessageBox.Show("This will limit you to 1 orgasm for the next " & LCase(orgasmsperComboBox.Text) & "." & Environment.NewLine & Environment.NewLine &
@@ -5487,184 +5484,60 @@ checkFolder:
                                                            "Are you absolutely sure you wish to continue?", "Warning!", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation)
         End If
 
-
         If result = DialogResult.No Then
             Return
         End If
 
-        If result = DialogResult.Yes Then
+        My.Settings.OrgasmsRemaining = orgasmsPerNumBox.Value
+        My.Settings.DomOrgasmPer = orgasmsPerNumBox.Value
 
-            My.Settings.OrgasmsRemaining = orgasmsPerNumBox.Value
-            My.Settings.DomOrgasmPer = orgasmsPerNumBox.Value
+        My.Settings.DomPerMonth = orgasmsperComboBox.Text
 
-            My.Settings.DomPerMonth = orgasmsperComboBox.Text
+        Dim releaseDate As Date = GetOrgasmReleaseDate(orgasmsperComboBox.Text, DateTime.Now.Date).Date
+        My.Settings.OrgasmLockDate = releaseDate
 
-            Dim SetDate As Date = FormatDateTime(Now, DateFormat.ShortDate)
-
-            Debug.Print(SetDate)
-
-
-            If orgasmsperComboBox.Text = "Week" Then SetDate = DateAdd(DateInterval.Day, 7, SetDate)
-            If orgasmsperComboBox.Text = "2 Weeks" Then SetDate = DateAdd(DateInterval.Day, 14, SetDate)
-            If orgasmsperComboBox.Text = "Month" Then SetDate = DateAdd(DateInterval.Month, 1, SetDate)
-            If orgasmsperComboBox.Text = "2 Months" Then SetDate = DateAdd(DateInterval.Month, 2, SetDate)
-            If orgasmsperComboBox.Text = "3 Months" Then SetDate = DateAdd(DateInterval.Month, 3, SetDate)
-            If orgasmsperComboBox.Text = "6 Months" Then SetDate = DateAdd(DateInterval.Month, 6, SetDate)
-            If orgasmsperComboBox.Text = "9 Months" Then SetDate = DateAdd(DateInterval.Month, 9, SetDate)
-            If orgasmsperComboBox.Text = "Year" Then SetDate = DateAdd(DateInterval.Year, 1, SetDate)
-            If orgasmsperComboBox.Text = "2 Years" Then SetDate = DateAdd(DateInterval.Year, 2, SetDate)
-            If orgasmsperComboBox.Text = "3 Years" Then SetDate = DateAdd(DateInterval.Year, 3, SetDate)
-            If orgasmsperComboBox.Text = "5 Years" Then SetDate = DateAdd(DateInterval.Year, 5, SetDate)
-            If orgasmsperComboBox.Text = "10 Years" Then SetDate = DateAdd(DateInterval.Year, 10, SetDate)
-            If orgasmsperComboBox.Text = "25 Years" Then SetDate = DateAdd(DateInterval.Year, 25, SetDate)
-            If orgasmsperComboBox.Text = "Lifetime" Then SetDate = DateAdd(DateInterval.Year, 100, SetDate)
-
-            Debug.Print(SetDate)
-
-            My.Settings.OrgasmLockDate = FormatDateTime(SetDate, DateFormat.ShortDate)
-            Debug.Print(My.Settings.OrgasmLockDate)
-
-
-
-
-            My.Settings.OrgasmsLocked = True
-
-            limitcheckbox.Enabled = False
-            orgasmsPerNumBox.Enabled = False
-            orgasmsperComboBox.Enabled = False
-            orgasmsperlockButton.Enabled = False
-            orgasmlockrandombutton.Enabled = False
-
-
-
-
-
-        End If
-
-
-
-
-
-
+        limitcheckbox.Enabled = False
+        orgasmsPerNumBox.Enabled = False
+        orgasmsperComboBox.Enabled = False
+        orgasmsperlockButton.Enabled = False
+        orgasmlockrandombutton.Enabled = False
     End Sub
 
-    Private Sub orgasmlockrandombutton_Click(sender As Object, e As EventArgs) Handles orgasmlockrandombutton.Click
-
+    Private Sub OrgasmLockRandomButton_Click(sender As Object, e As EventArgs) Handles orgasmlockrandombutton.Click
         If limitcheckbox.Checked = False Then
             MessageBox.Show(Me, "The Limit box must be checked before clicking this button!", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Return
         End If
 
-        Dim result As Integer
-
-        result = MessageBox.Show("This will allow the domme to limit you to a random number of orgasms for a random amount of time. High level dommes could restrict you to a very low amount for up to a year!" & Environment.NewLine & Environment.NewLine &
+        Dim result As DialogResult = MessageBox.Show("This will allow the domme to limit you to a random number of orgasms for a random amount of time. High level dommes could restrict you to a very low amount for up to a year!" & Environment.NewLine & Environment.NewLine &
                                            "Are you absolutely sure you wish to continue?", "Warning!", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation)
 
         If result = DialogResult.No Then
             Return
         End If
 
-        If result = DialogResult.Yes Then
+        Dim randomOrgasms As Integer = MainWindow.ssh.randomizer.Next(1, 6)
 
-            Dim RandomOrgasms As Integer = MainWindow.ssh.randomizer.Next(1, 6)
+        My.Settings.OrgasmsRemaining = randomOrgasms
+        My.Settings.DomOrgasmPer = randomOrgasms
 
+        orgasmsPerNumBox.Value = randomOrgasms
 
-            My.Settings.OrgasmsRemaining = RandomOrgasms
-            My.Settings.DomOrgasmPer = RandomOrgasms
+        Dim orgasmInterval As String = GetOrgasmInterval(mySettingsAccessor.DominationLevel)
+        My.Settings.DomPerMonth = orgasmInterval
+        orgasmsperComboBox.Text = My.Settings.DomPerMonth
 
-            orgasmsPerNumBox.Value = RandomOrgasms
+        Dim releaseDate As Date = GetOrgasmReleaseDate(orgasmsperComboBox.Text, DateTime.Now.Date).Date
+        My.Settings.OrgasmLockDate = releaseDate
 
-            Dim RandomTime As Integer = MainWindow.ssh.randomizer.Next(1, 4)
-
-            If DominationLevel.Value = 1 Then
-
-                My.Settings.DomPerMonth = "Week"
-                If RandomTime = 1 Then My.Settings.DomPerMonth = "Week"
-                If RandomTime = 2 Then My.Settings.DomPerMonth = "2 Weeks"
-                If RandomTime = 3 Then My.Settings.DomPerMonth = "Week"
-
-            End If
-
-            If DominationLevel.Value = 2 Then
-
-                My.Settings.DomPerMonth = "2 Weeks"
-                If RandomTime = 1 Then My.Settings.DomPerMonth = "2 Weeks"
-                If RandomTime = 2 Then My.Settings.DomPerMonth = "2 Weeks"
-                If RandomTime = 3 Then My.Settings.DomPerMonth = "Month"
-
-            End If
-
-            If DominationLevel.Value = 3 Then
-
-                My.Settings.DomPerMonth = "Month"
-                If RandomTime = 1 Then My.Settings.DomPerMonth = "2 Weeks"
-                If RandomTime = 2 Then My.Settings.DomPerMonth = "Month"
-                If RandomTime = 3 Then My.Settings.DomPerMonth = "2 Months"
-
-            End If
-
-            If DominationLevel.Value = 4 Then
-
-                My.Settings.DomPerMonth = "3 Months"
-                If RandomTime = 1 Then My.Settings.DomPerMonth = "2 Months"
-                If RandomTime = 2 Then My.Settings.DomPerMonth = "3 Months"
-                If RandomTime = 3 Then My.Settings.DomPerMonth = "6 Months"
-
-            End If
-
-            If DominationLevel.Value = 5 Then
-
-                My.Settings.DomPerMonth = "6 Months"
-                If RandomTime = 1 Then My.Settings.DomPerMonth = "6 Months"
-                If RandomTime = 2 Then My.Settings.DomPerMonth = "9 Months"
-                If RandomTime = 3 Then My.Settings.DomPerMonth = "Year"
-
-            End If
-
-            orgasmsperComboBox.Text = My.Settings.DomPerMonth
-
-            Dim SetDate As Date = FormatDateTime(Now, DateFormat.ShortDate)
-
-            If orgasmsperComboBox.Text = "Week" Then SetDate = DateAdd(DateInterval.Day, 7, SetDate)
-            If orgasmsperComboBox.Text = "2 Weeks" Then SetDate = DateAdd(DateInterval.Day, 14, SetDate)
-            If orgasmsperComboBox.Text = "Month" Then SetDate = DateAdd(DateInterval.Month, 1, SetDate)
-            If orgasmsperComboBox.Text = "2 Months" Then SetDate = DateAdd(DateInterval.Month, 2, SetDate)
-            If orgasmsperComboBox.Text = "3 Months" Then SetDate = DateAdd(DateInterval.Month, 3, SetDate)
-            If orgasmsperComboBox.Text = "6 Months" Then SetDate = DateAdd(DateInterval.Month, 6, SetDate)
-            If orgasmsperComboBox.Text = "9 Months" Then SetDate = DateAdd(DateInterval.Month, 9, SetDate)
-            If orgasmsperComboBox.Text = "Year" Then SetDate = DateAdd(DateInterval.Year, 1, SetDate)
-            If orgasmsperComboBox.Text = "2 Years" Then SetDate = DateAdd(DateInterval.Year, 2, SetDate)
-            If orgasmsperComboBox.Text = "3 Years" Then SetDate = DateAdd(DateInterval.Year, 3, SetDate)
-            If orgasmsperComboBox.Text = "5 Years" Then SetDate = DateAdd(DateInterval.Year, 5, SetDate)
-            If orgasmsperComboBox.Text = "10 Years" Then SetDate = DateAdd(DateInterval.Year, 10, SetDate)
-            If orgasmsperComboBox.Text = "25 Years" Then SetDate = DateAdd(DateInterval.Year, 25, SetDate)
-            If orgasmsperComboBox.Text = "Lifetime" Then SetDate = DateAdd(DateInterval.Year, 100, SetDate)
-
-
-            My.Settings.OrgasmLockDate = FormatDateTime(SetDate, DateFormat.ShortDate)
-            Debug.Print(My.Settings.OrgasmLockDate)
-
-
-            My.Settings.OrgasmsLocked = True
-
-            limitcheckbox.Enabled = False
-            orgasmsPerNumBox.Enabled = False
-            orgasmsperComboBox.Enabled = False
-            orgasmsperlockButton.Enabled = False
-            orgasmlockrandombutton.Enabled = False
-
-
-        End If
-
-
-
-
-
+        limitcheckbox.Enabled = False
+        orgasmsPerNumBox.Enabled = False
+        orgasmsperComboBox.Enabled = False
+        orgasmsperlockButton.Enabled = False
+        orgasmlockrandombutton.Enabled = False
     End Sub
 
     Private Sub CBVTType_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CBVTType.SelectedIndexChanged
-
-
         If CBVTType.Text = "Censorship Sucks" Then
             LBVidScript.Items.Clear()
             LBVidScript.Items.Add("CensorBarOff")
@@ -5686,8 +5559,6 @@ checkFolder:
 
 
     End Sub
-
-
 
     Private Sub NBTeaseLengthMin_MouseHover(sender As Object, e As EventArgs) Handles NBTeaseLengthMin.MouseEnter
         LBLRangeSettingsDescription.Text = "Set the minimum amount of time the program will run before the domme decides if you can have an orgasm." & Environment.NewLine & Environment.NewLine &
@@ -5921,7 +5792,7 @@ checkFolder:
     End Sub
 
     Private Sub CBChastityPA_LostFocus(sender As Object, e As EventArgs) Handles DoesChastityDeviceRequirePiercingCB.LostFocus
-        My.Settings.ChastityPA = DoesChastityDeviceRequirePiercingCB.Checked
+        mySettingsAccessor.DoesChastityDeviceRequirePiercing = DoesChastityDeviceRequirePiercingCB.Checked
     End Sub
 
     Private Sub CBChastitySpikes_LostFocus(sender As Object, e As EventArgs) Handles ChastityDeviceContainsSpikesCB.LostFocus
@@ -7931,6 +7802,57 @@ checkFolder:
     Private Function ReadTagFile(fileName As String) As List(Of TaggedItem)
         Return myLoadFileData.ReadData(fileName) _
                     .OnSuccess(Function(data) myParseTagDataService.ParseTagData(data)).GetResultOrDefault(New List(Of TaggedItem))
+    End Function
+
+    Private Function GetOrgasmReleaseDate(lockTimeDuration As String, startDate As Date) As Date
+        If lockTimeDuration = "Week" Then startDate = DateAdd(DateInterval.Day, 7, startDate)
+        If lockTimeDuration = "2 Weeks" Then startDate = DateAdd(DateInterval.Day, 14, startDate)
+        If lockTimeDuration = "Month" Then startDate = DateAdd(DateInterval.Month, 1, startDate)
+        If lockTimeDuration = "2 Months" Then startDate = DateAdd(DateInterval.Month, 2, startDate)
+        If lockTimeDuration = "3 Months" Then startDate = DateAdd(DateInterval.Month, 3, startDate)
+        If lockTimeDuration = "6 Months" Then startDate = DateAdd(DateInterval.Month, 6, startDate)
+        If lockTimeDuration = "9 Months" Then startDate = DateAdd(DateInterval.Month, 9, startDate)
+        If lockTimeDuration = "Year" Then startDate = DateAdd(DateInterval.Year, 1, startDate)
+        If lockTimeDuration = "2 Years" Then startDate = DateAdd(DateInterval.Year, 2, startDate)
+        If lockTimeDuration = "3 Years" Then startDate = DateAdd(DateInterval.Year, 3, startDate)
+        If lockTimeDuration = "5 Years" Then startDate = DateAdd(DateInterval.Year, 5, startDate)
+        If lockTimeDuration = "10 Years" Then startDate = DateAdd(DateInterval.Year, 10, startDate)
+        If lockTimeDuration = "25 Years" Then startDate = DateAdd(DateInterval.Year, 25, startDate)
+        If lockTimeDuration = "Lifetime" Then startDate = DateAdd(DateInterval.Year, 100, startDate)
+
+        Return startDate
+    End Function
+
+    Private Function GetOrgasmInterval(dominationLevel As DomLevel) As String
+        Dim randomTime As Integer = MainWindow.ssh.randomizer.Next(1, 4)
+
+        If dominationLevel = DomLevel.Gentle Then
+            Return If(randomTime = 2, "2 Weeks", "Week")
+        End If
+
+        If dominationLevel = DomLevel.Lenient Then
+            Return If(randomTime = 3, "Month", "2 Weeks")
+        End If
+
+        If dominationLevel = DomLevel.Tease Then
+            Return If(randomTime > 2, "Month", "2 Weeks")
+        End If
+
+        If dominationLevel = DomLevel.Rough Then
+            Dim time = "3 months"
+            If randomTime = 1 Then time = "2 Months"
+            If randomTime = 2 Then time = "3 Months"
+            If randomTime = 2 Then time = "6 Months"
+            Return time
+        End If
+
+        If dominationLevel = DomLevel.Sadistic Then
+            Dim time = "6 months"
+            If randomTime = 2 Then time = "9 Months"
+            If randomTime = 3 Then time = "Year"
+            Return time
+        End If
+        Throw New Exception("Unkonown DomLevel")
     End Function
 
     Private mySettingsAccessor As ISettingsAccessor

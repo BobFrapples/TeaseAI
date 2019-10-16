@@ -10,10 +10,10 @@ Public Class SettingsAccessor
 
     Public Property IsBallTortureEnabled As Boolean Implements ISettingsAccessor.IsBallTortureEnabled
         Get
-            Return Settings.CBTCock
+            Return Settings.CBTBalls
         End Get
         Set(value As Boolean)
-            Settings.CBTCock = value
+            Settings.CBTBalls = value
         End Set
     End Property
 
