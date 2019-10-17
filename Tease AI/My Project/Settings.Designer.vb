@@ -2705,19 +2705,19 @@ Namespace My
                 Me("DomImageDir") = value
             End Set
         End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("True")>
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
         Public Property CBTCock() As Boolean
             Get
-                Return CType(Me("CBTCock"), Boolean)
+                Return CType(Me("CBTCock"),Boolean)
             End Get
             Set
-                Me("CBTCock") = Value
+                Me("CBTCock") = value
             End Set
         End Property
-
+        
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
@@ -4156,18 +4156,30 @@ Namespace My
                 Me("OrgasmLockDate") = value
             End Set
         End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>
-        Public Property WishlistDate() As Date
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property AuditStartup() As Boolean
             Get
-                Return CType(Me("WishlistDate"), Date)
+                Return CType(Me("AuditStartup"),Boolean)
             End Get
             Set
-                Me("WishlistDate") = Value
+                Me("AuditStartup") = value
             End Set
         End Property
-
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
+        Public Property WishlistDate() As Date
+            Get
+                Return CType(Me("WishlistDate"),Date)
+            End Get
+            Set
+                Me("WishlistDate") = value
+            End Set
+        End Property
+        
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
         Public Property LastOrgasm() As Date
@@ -4730,7 +4742,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("382")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("220")>  _
         Public Property SplitterPosition() As Integer
             Get
                 Return CType(Me("SplitterPosition"),Integer)
@@ -4774,19 +4786,43 @@ Namespace My
                 Me("HoldTheEdgeMin") = value
             End Set
         End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("200")>
-        Public Property MaxPace() As Integer
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("seconds")>  _
+        Public Property HoldTheEdgeMinAmount() As String
             Get
-                Return CType(Me("MaxPace"), Integer)
+                Return CType(Me("HoldTheEdgeMinAmount"),String)
             End Get
             Set
-                Me("MaxPace") = Value
+                Me("HoldTheEdgeMinAmount") = value
             End Set
         End Property
-
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("minutes")>  _
+        Public Property HoldTheEdgeMaxAmount() As String
+            Get
+                Return CType(Me("HoldTheEdgeMaxAmount"),String)
+            End Get
+            Set
+                Me("HoldTheEdgeMaxAmount") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("200")>  _
+        Public Property MaxPace() As Integer
+            Get
+                Return CType(Me("MaxPace"),Integer)
+            End Get
+            Set
+                Me("MaxPace") = value
+            End Set
+        End Property
+        
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("1000")>  _
@@ -5028,41 +5064,41 @@ Namespace My
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("5")>
-        Public Property LongHoldMax() As Integer
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("5")>  _
+        Public Property LongHoldMax() As String
             Get
-                Return CType(Me("LongHoldMax"), Integer)
+                Return CType(Me("LongHoldMax"),String)
             End Get
             Set
-                Me("LongHoldMax") = Value
+                Me("LongHoldMax") = value
             End Set
         End Property
-
+        
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("5")>
-        Public Property ExtremeHoldMin() As Integer
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("5")>  _
+        Public Property ExtremeHoldMin() As String
             Get
-                Return CType(Me("ExtremeHoldMin"), Integer)
+                Return CType(Me("ExtremeHoldMin"),String)
             End Get
             Set
-                Me("ExtremeHoldMin") = Value
+                Me("ExtremeHoldMin") = value
             End Set
         End Property
-
+        
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("10")>
-        Public Property ExtremeHoldMax() As Integer
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("10")>  _
+        Public Property ExtremeHoldMax() As String
             Get
-                Return CType(Me("ExtremeHoldMax"), Integer)
+                Return CType(Me("ExtremeHoldMax"),String)
             End Get
             Set
-                Me("ExtremeHoldMax") = Value
+                Me("ExtremeHoldMax") = value
             End Set
         End Property
-
+        
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
