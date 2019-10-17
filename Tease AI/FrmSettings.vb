@@ -3873,20 +3873,21 @@ checkFolder:
     End Sub
 
     Private Sub NBTeaseLengthMin_LostFocus(sender As Object, e As EventArgs) Handles NBTeaseLengthMin.LostFocus
-        My.Settings.TeaseLengthMin = NBTeaseLengthMin.Value
+        mySettingsAccessor.TeaseLengthMinimum = NBTeaseLengthMin.Value
     End Sub
 
     Private Sub NBTeaseLengthMax_LostFocus(sender As Object, e As EventArgs) Handles NBTeaseLengthMax.LostFocus
-        My.Settings.TeaseLengthMax = NBTeaseLengthMax.Value
+        mySettingsAccessor.TeaseLengthMaximum = NBTeaseLengthMax.Value
     End Sub
 
     Private Sub NBTauntCycleMin_LostFocus(sender As Object, e As EventArgs) Handles NBTauntCycleMin.LostFocus
-        My.Settings.TauntCycleMin = NBTauntCycleMin.Value
+        mySettingsAccessor.TauntCycleMinimum = NBTauntCycleMin.Value
     End Sub
 
     Private Sub NBTauntCycleMax_LostFocus(sender As Object, e As EventArgs) Handles NBTauntCycleMax.LostFocus
-        My.Settings.TauntCycleMax = NBTauntCycleMax.Value
+        mySettingsAccessor.TauntCycleMaximum = NBTauntCycleMax.Value
     End Sub
+
     Private Sub NBRedLightMin_LostFocus(sender As Object, e As EventArgs) Handles NBRedLightMin.LostFocus
         My.Settings.RedLightMin = NBRedLightMin.Value
     End Sub
@@ -4751,11 +4752,11 @@ checkFolder:
     End Sub
 
     Private Sub NBLongHoldMax_LostFocus(sender As Object, e As EventArgs) Handles LongEdgeHoldMaximum.LostFocus
-        My.Settings.LongHoldMax = LongEdgeHoldMaximum.Value
+        mySettingsAccessor.LongHoldEdgeMaximum = LongEdgeHoldMaximum.Value
     End Sub
 
     Private Sub NBLongHoldMin_LostFocus(sender As Object, e As EventArgs) Handles LongEdgeHoldMinimum.LostFocus
-        My.Settings.LongHoldMin = LongEdgeHoldMinimum.Value
+        mySettingsAccessor.LongHoldEdgeMinimum = LongEdgeHoldMinimum.Value
     End Sub
 
     Private Sub NBLongHoldMax_ValueChanged(sender As Object, e As EventArgs) Handles LongEdgeHoldMaximum.ValueChanged
@@ -4779,11 +4780,11 @@ checkFolder:
     End Sub
 
     Private Sub NBExtremeHoldMax_LostFocus(sender As Object, e As EventArgs) Handles ExtremeEdgeHoldMaximum.LostFocus
-        My.Settings.ExtremeHoldMax = ExtremeEdgeHoldMaximum.Value
+        mySettingsAccessor.ExtremeHoldEdgeMaximum = ExtremeEdgeHoldMaximum.Value
     End Sub
 
     Private Sub NBExtremeHoldMin_LostFocus(sender As Object, e As EventArgs) Handles ExtremeEdgeHoldMinimum.LostFocus
-        My.Settings.ExtremeHoldMin = ExtremeEdgeHoldMinimum.Value
+        mySettingsAccessor.ExtremeHoldEdgeMinimum = ExtremeEdgeHoldMinimum.Value
     End Sub
 
     Private Sub NBExtremeHoldMax_ValueChanged(sender As Object, e As EventArgs) Handles ExtremeEdgeHoldMaximum.ValueChanged
@@ -4807,34 +4808,16 @@ checkFolder:
     End Sub
 
     Private Sub CBTSlider_Scroll(sender As Object, e As EventArgs) Handles CockAndBallTortureLevelSlider.Scroll
-        If FrmSettingsLoading = False Then
-            My.Settings.CBTSlider = CockAndBallTortureLevelSlider.Value
-            If CockAndBallTortureLevelSlider.Value = 1 Then CockAndBallTortureLevelLbl.Text = "CBT Level: 1"
-            If CockAndBallTortureLevelSlider.Value = 2 Then CockAndBallTortureLevelLbl.Text = "CBT Level: 2"
-            If CockAndBallTortureLevelSlider.Value = 3 Then CockAndBallTortureLevelLbl.Text = "CBT Level: 3"
-            If CockAndBallTortureLevelSlider.Value = 4 Then CockAndBallTortureLevelLbl.Text = "CBT Level: 4"
-            If CockAndBallTortureLevelSlider.Value = 5 Then CockAndBallTortureLevelLbl.Text = "CBT Level: 5"
-        End If
+        mySettingsAccessor.CockAndBallTortureLevel = TortureLevel.Create(CockAndBallTortureLevelSlider.Value).Value
+        CockAndBallTortureLevelLbl.Text = "CBT Level: " & CockAndBallTortureLevelSlider.Value.ToString()
     End Sub
 
     Private Sub CBSubCircumcised_CheckedChanged(sender As Object, e As EventArgs) Handles CBSubCircumcised.CheckedChanged
-        If FrmSettingsLoading = False Then
-            If CBSubCircumcised.Checked Then
-                My.Settings.SubCircumcised = True
-            Else
-                My.Settings.SubCircumcised = False
-            End If
-        End If
+        mySettingsAccessor.IsSubCircumcised = CBSubCircumcised.Checked
     End Sub
 
     Private Sub CBSubPierced_CheckedChanged(sender As Object, e As EventArgs) Handles CBSubPierced.CheckedChanged
-        If FrmSettingsLoading = False Then
-            If CBSubPierced.Checked Then
-                My.Settings.SubPierced = True
-            Else
-                My.Settings.SubPierced = False
-            End If
-        End If
+        mySettingsAccessor.IsSubPierced = CBSubPierced.Checked
     End Sub
 
     Private Sub Button14_Click(sender As Object, e As EventArgs) Handles BTNSaveDomSet.Click
@@ -5007,9 +4990,8 @@ checkFolder:
     End Sub
 
     Public Sub SaveDommeSettings()
-
-        My.Settings.DomLevel = DominationLevel.Value
-        My.Settings.DomEmpathy = NBEmpathy.Value
+        mySettingsAccessor.DominationLevel = DomLevel.Create(Convert.ToInt32(DominationLevel.Value)).Value
+        mySettingsAccessor.ApathyLevel = ApathyLevel.Create(Convert.ToInt32(NBEmpathy.Value)).Value
         My.Settings.DomAge = domageNumBox.Value
         My.Settings.DomBirthMonth = NBDomBirthdayMonth.Value
         My.Settings.DomBirthDay = NBDomBirthdayDay.Value
@@ -5021,7 +5003,7 @@ checkFolder:
         My.Settings.DomTattoos = CBDomTattoos.Checked
         My.Settings.DomFreckles = CBDomFreckles.Checked
 
-        My.Settings.DomPersonality = MainWindow.dompersonalitycombobox.Text
+        mySettingsAccessor.DommePersonality = MainWindow.dompersonalitycombobox.Text
         My.Settings.DomCrazy = crazyCheckBox.Checked
         My.Settings.DomVulgar = vulgarCheckBox.Checked
         My.Settings.DomSupremacist = supremacistCheckBox.Checked
@@ -5057,15 +5039,12 @@ checkFolder:
         My.Settings.SelfAgeMax = NBSelfAgeMax.Value
         My.Settings.SubAgeMin = NBSubAgeMin.Value
         My.Settings.SubAgeMax = NBSubAgeMax.Value
-
-
-
     End Sub
 
     Public Sub LoadDommeSettings()
 
-        DominationLevel.Value = My.Settings.DomLevel
-        NBEmpathy.Value = My.Settings.DomEmpathy
+        DominationLevel.Value = mySettingsAccessor.DominationLevel
+        NBEmpathy.Value = mySettingsAccessor.ApathyLevel
         domageNumBox.Value = My.Settings.DomAge
         NBDomBirthdayMonth.Value = My.Settings.DomBirthMonth
         NBDomBirthdayDay.Value = My.Settings.DomBirthDay
@@ -5077,7 +5056,7 @@ checkFolder:
         CBDomTattoos.Checked = My.Settings.DomTattoos
         CBDomFreckles.Checked = My.Settings.DomFreckles
 
-        MainWindow.dompersonalitycombobox.Text = My.Settings.DomPersonality
+        MainWindow.dompersonalitycombobox.Text = mySettingsAccessor.DommePersonality
         crazyCheckBox.Checked = My.Settings.DomCrazy
         vulgarCheckBox.Checked = My.Settings.DomVulgar
         supremacistCheckBox.Checked = My.Settings.DomSupremacist
@@ -5208,38 +5187,39 @@ checkFolder:
     End Sub
 
     Private Sub CBRangeOrgasm_LostFocus(sender As Object, e As EventArgs) Handles DommeDecideOrgasmCB.LostFocus
-        My.Settings.RangeOrgasm = DommeDecideOrgasmCB.Checked
+        mySettingsAccessor.DoesDommeDecideOrgasmRange = DommeDecideOrgasmCB.Checked
     End Sub
+
     Private Sub CBRangeRuin_LostFocus(sender As Object, e As EventArgs) Handles DommeDecideRuinCB.LostFocus
-        My.Settings.RangeRuin = DommeDecideRuinCB.Checked
+        mySettingsAccessor.DoesDommeDecideRuinRange = DommeDecideRuinCB.Checked
     End Sub
 
     Private Sub NBAllowOften_ValueChanged(sender As Object, e As EventArgs) Handles AllowOrgasmOftenNB.LostFocus
-        My.Settings.AllowOften = AllowOrgasmOftenNB.Value
+        mySettingsAccessor.AllowOrgasmOftenPercent = AllowOrgasmOftenNB.Value
     End Sub
 
     Private Sub NBAllowSometimes_ValueChanged(sender As Object, e As EventArgs) Handles NBAllowSometimes.LostFocus
-        My.Settings.AllowSometimes = NBAllowSometimes.Value
+        mySettingsAccessor.AllowOrgasmSometimesPercent = NBAllowSometimes.Value
     End Sub
 
     Private Sub NBAllowRarely_ValueChanged(sender As Object, e As EventArgs) Handles NBAllowRarely.LostFocus
-        My.Settings.AllowRarely = NBAllowRarely.Value
+        mySettingsAccessor.AllowOrgasmRarelyPercent = NBAllowRarely.Value
     End Sub
 
     Private Sub NBRuinOften_ValueChanged(sender As Object, e As EventArgs) Handles NBRuinOften.LostFocus
-        My.Settings.RuinOften = NBRuinOften.Value
+        mySettingsAccessor.RuinOrgasmOftenPercent = NBRuinOften.Value
     End Sub
 
     Private Sub NBRuinSometimes_ValueChanged(sender As Object, e As EventArgs) Handles NBRuinSometimes.LostFocus
-        My.Settings.RuinSometimes = NBRuinSometimes.Value
+        mySettingsAccessor.RuinOrgasmSometimesPercent = NBRuinSometimes.Value
     End Sub
 
     Private Sub NBRuinRarely_ValueChanged(sender As Object, e As EventArgs) Handles NBRuinRarely.LostFocus
-        My.Settings.RuinRarely = NBRuinRarely.Value
+        mySettingsAccessor.RuinOrgasmRarelyPercent = NBRuinRarely.Value
     End Sub
 
     Private Sub TBSafeword_LostFocus(sender As Object, e As EventArgs) Handles TBSafeword.LostFocus
-        My.Settings.Safeword = TBSafeword.Text
+        mySettingsAccessor.SafeWord = TBSafeword.Text
     End Sub
 
     Private Sub Button4_Click_5(sender As Object, e As EventArgs) Handles Button4.Click
@@ -5423,14 +5403,14 @@ checkFolder:
     End Sub
 
     Private Sub CBEdgeUseAvg_LostFocus(sender As Object, e As EventArgs) Handles UseAverageEdgeThresholdCB.LostFocus
-        My.Settings.CBEdgeUseAvg = UseAverageEdgeThresholdCB.Checked
+        mySettingsAccessor.UseAverageEdgeTimeAsThreshold = UseAverageEdgeThresholdCB.Checked
     End Sub
     Private Sub CBLongEdgeTaunts_LostFocus(sender As Object, e As EventArgs) Handles AllowLongEdgeTauntCB.LostFocus
-        My.Settings.CBLongEdgeTaunts = AllowLongEdgeTauntCB.Checked
+        mySettingsAccessor.AllowsLongEdgeTaunts = AllowLongEdgeTauntCB.Checked
     End Sub
 
     Private Sub CBLongEdgeInterrupts_LostFocus(sender As Object, e As EventArgs) Handles AllowLongEdgeInterruptCB.LostFocus
-        My.Settings.CBLongEdgeInterrupts = AllowLongEdgeInterruptCB.Checked
+        mySettingsAccessor.AllowsLongEdgeInterrupts = AllowLongEdgeInterruptCB.Checked
     End Sub
 
     Private Sub CBLongEdgeInterrupts_MouseHover(sender As Object, e As EventArgs) Handles AllowLongEdgeInterruptCB.MouseEnter
@@ -5494,7 +5474,7 @@ checkFolder:
         My.Settings.DomPerMonth = orgasmsperComboBox.Text
 
         Dim releaseDate As Date = GetOrgasmReleaseDate(orgasmsperComboBox.Text, DateTime.Now.Date).Date
-        My.Settings.OrgasmLockDate = releaseDate
+        mySettingsAccessor.OrgasmLockDate = releaseDate
 
         limitcheckbox.Enabled = False
         orgasmsPerNumBox.Enabled = False
@@ -5528,7 +5508,7 @@ checkFolder:
         orgasmsperComboBox.Text = My.Settings.DomPerMonth
 
         Dim releaseDate As Date = GetOrgasmReleaseDate(orgasmsperComboBox.Text, DateTime.Now.Date).Date
-        My.Settings.OrgasmLockDate = releaseDate
+        mySettingsAccessor.OrgasmLockDate = releaseDate
 
         limitcheckbox.Enabled = False
         orgasmsPerNumBox.Enabled = False
@@ -5574,11 +5554,11 @@ checkFolder:
 
 
     Private Sub CBTeaseLengthDD_LostFocus(sender As Object, e As EventArgs) Handles TeaseLengthDommeDetermined.LostFocus
-        My.Settings.CBTeaseLengthDD = TeaseLengthDommeDetermined.Checked
+        mySettingsAccessor.IsTeaseLengthDommeDetermined = TeaseLengthDommeDetermined.Checked
     End Sub
 
     Private Sub CBTauntCycleDD_LostFocus(sender As Object, e As EventArgs) Handles CBTauntCycleDD.LostFocus
-        My.Settings.CBTauntCycleDD = CBTauntCycleDD.Checked
+        mySettingsAccessor.IsTauntCycleDommeDetermined = CBTauntCycleDD.Checked
     End Sub
 
     Private Sub CBTeaseLengthDD_MouseHover(sender As Object, e As EventArgs) Handles TeaseLengthDommeDetermined.MouseEnter
@@ -5788,7 +5768,7 @@ checkFolder:
     End Sub
 
     Private Sub CBOwnChastity_LostFocus(sender As Object, e As EventArgs) Handles CBOwnChastity.LostFocus
-        My.Settings.CBOwnChastity = CBOwnChastity.Checked
+        mySettingsAccessor.HasChastityDevice = CBOwnChastity.Checked
     End Sub
 
     Private Sub CBChastityPA_LostFocus(sender As Object, e As EventArgs) Handles DoesChastityDeviceRequirePiercingCB.LostFocus
@@ -5796,15 +5776,15 @@ checkFolder:
     End Sub
 
     Private Sub CBChastitySpikes_LostFocus(sender As Object, e As EventArgs) Handles ChastityDeviceContainsSpikesCB.LostFocus
-        My.Settings.ChastitySpikes = ChastityDeviceContainsSpikesCB.Checked
+        mySettingsAccessor.DoesChastityDeviceContainSpikes = ChastityDeviceContainsSpikesCB.Checked
     End Sub
 
     Private Sub CBHimHer_LostFocus(sender As Object, e As EventArgs) Handles CBHimHer.LostFocus
-        My.Settings.CBHimHer = CBHimHer.Checked
+        mySettingsAccessor.IsSubFemale = CBHimHer.Checked
     End Sub
 
     Private Sub CBDomDel_LostFocus(sender As Object, e As EventArgs) Handles CBDomDel.LostFocus
-        My.Settings.DomDeleteMedia = CBDomDel.Checked
+        mySettingsAccessor.CanDommeDeleteFiles = CBDomDel.Checked
     End Sub
 
     Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles BTNMaintenanceCancel.Click
@@ -6039,11 +6019,11 @@ checkFolder:
     End Sub
 
     Private Sub CBCockToClit_LostFocus(sender As Object, e As EventArgs) Handles CBCockToClit.LostFocus
-        My.Settings.CockToClit = CBCockToClit.Checked
+        mySettingsAccessor.CallCockAClit = CBCockToClit.Checked
     End Sub
 
     Private Sub CBBallsToPussy_LostFocus(sender As Object, e As EventArgs) Handles CBBallsToPussy.LostFocus
-        My.Settings.BallsToPussy = CBBallsToPussy.Checked
+        mySettingsAccessor.CallBallsPussy = CBBallsToPussy.Checked
     End Sub
 
     Private Sub CBCockToClit_MouseHover(sender As Object, e As EventArgs) Handles CBCockToClit.MouseEnter
@@ -6765,14 +6745,13 @@ checkFolder:
     End Sub
 
     Private Sub BTNOfflineMode_Click(sender As Object, e As EventArgs) Handles BTNOfflineMode.Click
-        If My.Settings.OfflineMode Then
-            My.Settings.OfflineMode = False
-            LBLOfflineMode.Text = "OFF"
-            LBLOfflineMode.ForeColor = Color.Red
-        Else
-            My.Settings.OfflineMode = True
+        mySettingsAccessor.IsOnline = Not mySettingsAccessor.IsOnline
+        If mySettingsAccessor.IsOnline Then
             LBLOfflineMode.Text = "ON"
             LBLOfflineMode.ForeColor = Color.Green
+        Else
+            LBLOfflineMode.Text = "OFF"
+            LBLOfflineMode.ForeColor = Color.Red
         End If
     End Sub
 

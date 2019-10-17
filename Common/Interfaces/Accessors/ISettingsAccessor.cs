@@ -7,7 +7,7 @@ namespace TeaseAI.Common.Interfaces.Accessors
     public interface ISettingsAccessor
     {
         List<string> GetGreetings();
-        string GetSubName();
+        string SubName { get; set; }
 
         #region Sub settings
         bool IsCockTortureEnabled { get; set; }

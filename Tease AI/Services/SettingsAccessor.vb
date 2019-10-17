@@ -64,10 +64,10 @@ Public Class SettingsAccessor
 
     Public Property LongHoldEdgeMinimum As Integer Implements ISettingsAccessor.LongHoldEdgeMinimum
         Get
-            Return Settings.LongHoldMax
+            Return Settings.LongHoldMin
         End Get
         Set(value As Integer)
-            Settings.LongHoldMax = value
+            Settings.LongHoldMin = value
         End Set
     End Property
 
@@ -82,28 +82,28 @@ Public Class SettingsAccessor
 
     Public Property LongHoldEdgeMaximum As Integer Implements ISettingsAccessor.LongHoldEdgeMaximum
         Get
-            Return Settings.LongHoldMin
+            Return CType(Settings.LongHoldMax, Integer)
         End Get
         Set(value As Integer)
-            Settings.LongHoldMin = value
+            Settings.LongHoldMax = value.ToString()
         End Set
     End Property
 
     Public Property ExtremeHoldEdgeMaximum As Integer Implements ISettingsAccessor.ExtremeHoldEdgeMaximum
         Get
-            Return Settings.ExtremeHoldMax
+            Return CType(Settings.ExtremeHoldMax, Integer)
         End Get
         Set(value As Integer)
-            Settings.ExtremeHoldMax = value
+            Settings.ExtremeHoldMax = value.ToString()
         End Set
     End Property
 
     Public Property ExtremeHoldEdgeMinimum As Integer Implements ISettingsAccessor.ExtremeHoldEdgeMinimum
         Get
-            Return Settings.ExtremeHoldMin
+            Return CType(Settings.ExtremeHoldMin, Integer)
         End Get
         Set(value As Integer)
-            Settings.ExtremeHoldMin = value
+            Settings.ExtremeHoldMin = value.ToString()
         End Set
     End Property
 
@@ -345,13 +345,18 @@ Public Class SettingsAccessor
         End Set
     End Property
 
-    Public Function GetSubName() As String Implements ISettingsAccessor.GetSubName
-        Return MySettings.Default.SubName
-    End Function
-
-    Friend Property tDommeAvatarImageName As String Implements ISettingsAccessor.DommeAvatarImageName
+    Public Property SubName As String Implements ISettingsAccessor.SubName
         Get
-            Return Settings.DomPersonality
+            Return Settings.SubName
+        End Get
+        Set(value As String)
+            Settings.SubName = value
+        End Set
+    End Property
+
+    Friend Property DommeAvatarImageName As String Implements ISettingsAccessor.DommeAvatarImageName
+        Get
+            Return Settings.DomAvatarSave
         End Get
         Set(value As String)
             Settings.DomAvatarSave = value
