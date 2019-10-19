@@ -48,6 +48,7 @@ Public Class MainWindow
     Dim myGetScripts As IScriptAccessor = New ScriptAccessor(New CldAccessor())
     Dim myImageTagReplaceHash As ImageTagReplaceHash = New ImageTagReplaceHash()
     Dim myFlagService As FlagService = New FlagService(New FlagAccessor())
+    Dim myFlagAccessor As FlagAccessor = New FlagAccessor()
     Dim myGotoProcessor As GotoProcessor = New GotoProcessor(New ScriptAccessor(New CldAccessor()))
     Dim mySettingsAccessor As Accessors.ISettingsAccessor = New SettingsAccessor()
     Dim WithEvents mySession As SessionEngine
@@ -6280,19 +6281,18 @@ TaskCleanSet:
                 End If
 
             Next
-
             'StringClean = Join(DeleteArray, Nothing)
-
         End If
 
-        If StringClean.Contains("@PornAllowedOff") Then
-            CreateFlag("SYS_NoPornAllowed")
-            StringClean = StringClean.Replace("@PornAllowedOff", "")
+
+        If StringClean.Contains(Keyword.PornAllowedOff) Then
+            myFlagAccessor.SetFlag(CreateDommePersonality(), "SYS_NoPornAllowed", False)
+            StringClean = StringClean.Replace(Keyword.PornAllowedOff, "")
         End If
 
-        If StringClean.Contains("@PornAllowedOn") Then
-            DeleteFlag("SYS_NoPornAllowed")
-            StringClean = StringClean.Replace("@PornAllowedOn", "")
+        If StringClean.Contains(Keyword.PornAllowedOn) Then
+            myFlagAccessor.DeleteFlag(CreateDommePersonality(), "SYS_NoPornAllowed")
+            StringClean = StringClean.Replace(Keyword.PornAllowedOn, "")
         End If
 
         If StringClean.Contains("@RestrictOrgasm(") Then
@@ -9331,49 +9331,6 @@ VTSkip:
 #End Region ' WebToy
 
 #Region "-------------------------------- Script: Flags/Dates/Variables ---------------------------------"
-
-#Region "---------------------------------------- Script-Flags ------------------------------------------"
-
-    ''' <summary>Creates the given flag.</summary>
-    ''' <param name="FlagName">The flag name to set.</param>
-    ''' <param name="Temp">If set to true, the flag is temporary set otherwise permanent.</param>
-    Friend Sub CreateFlag(ByVal FlagName As String, Optional ByVal Temp As Boolean = False)
-        If Temp = False Then
-            FlagName = ssh.Folders.Flags & FlagName
-        Else
-            FlagName = ssh.Folders.TempFlags & FlagName
-        End If
-
-        Using fs As New FileStream(FlagName, FileMode.Create) : End Using
-
-    End Sub
-    ''' <summary>Deletes the given flag. Deletes permanent and temporary flags.</summary>
-    ''' <param name="FlagName">The name of the flag to delete.</param>
-    Friend Sub DeleteFlag(ByVal FlagName As String)
-
-        If File.Exists(ssh.Folders.Flags & FlagName) Then _
-            File.Delete(ssh.Folders.Flags & FlagName)
-
-        If File.Exists(ssh.Folders.TempFlags & FlagName) Then _
-            File.Delete(ssh.Folders.TempFlags & FlagName)
-
-    End Sub
-    ''' <summary> Checks if the given flag is set, permanent and temporary.</summary>
-    ''' <param name="FlagName">The flag name to search for.</param>
-    ''' <returns>Returns true if a permanent or temporary flag with the name is found.</returns>
-    Friend Function FlagExists(ByVal FlagName As String) As Boolean
-
-        If File.Exists(ssh.Folders.Flags & FlagName) OrElse
-            File.Exists(ssh.Folders.TempFlags & FlagName) Then
-            Return True
-        Else
-            Return False
-        End If
-
-    End Function
-
-#End Region ' Script-Flags
-
 #Region "------------------------------------- Script-Variables -----------------------------------------"
 
     Public Function SetVariable(ByVal VarName As String, ByVal VarValue As String)
@@ -10063,7 +10020,7 @@ SkipTextedTags:
                     If Not GetImageData(ImageGenre.Liked).IsAvailable Or ssh.LockImage = True Or ssh.CustomSlideEnabled = True Then Return False
                 End If
                 If FilterString.Contains("@ShowLocalImage") Then
-                    If FlagExists("SYS_NoPornAllowed") = True Or ssh.LockImage = True Then Return False
+                    If myFlagAccessor.IsSet(CreateDommePersonality(), "SYS_NoPornAllowed") = True Or ssh.LockImage = True Then Return False
                 End If
                 If FilterString.Contains("@ShowLocalImage") Or FilterString.Contains("@ShowButtImage") Or FilterString.Contains("@ShowBoobsImage") Or FilterString.Contains("@ShowButtsImage") Or FilterString.Contains("@ShowBoobsImage") Then
                     If ssh.CustomSlideEnabled = True Or ssh.LockImage = True Then Return False
@@ -10130,7 +10087,7 @@ SkipTextedTags:
                     splitFlag = writeFlag.Split({","}, StringSplitOptions.RemoveEmptyEntries)
 
                     For Each s In splitFlag
-                        If Not FlagExists(s) Then
+                        If Not myFlagAccessor.IsSet(CreateDommePersonality(), s) Then
                             result = False
                             Exit For
                         End If
@@ -10144,7 +10101,7 @@ SkipTextedTags:
                     splitFlag = writeFlag.Split({","}, StringSplitOptions.RemoveEmptyEntries)
 
                     For Each s In splitFlag
-                        If FlagExists(s) Then
+                        If myFlagAccessor.IsSet(CreateDommePersonality(), s) Then
                             result = False
                             Exit For
                         End If
@@ -10423,27 +10380,27 @@ SkipTextedTags:
                 .Add("@NotAlwaysRuinsOrgasm", FrmSettings.ruinorgasmComboBox.Text = "Always Ruins")
                 .Add("@NotNeverRuinsOrgasm", FrmSettings.ruinorgasmComboBox.Text = "Never Allows")
                 .Add("@LongEdge", ssh.LongEdge = False Or FrmSettings.AllowLongEdgeTauntCB.Checked = False)
-                .Add("@InterruptLongEdge", ssh.LongEdge = False Or FrmSettings.AllowLongEdgeInterruptCB.Checked = False Or ssh.TeaseTick < 1 Or ssh.RiskyEdges = True)
-                .Add("@ShowHardcoreImage", Not Directory.Exists(My.Settings.IHardcore) Or My.Settings.CBIHardcore = False Or ssh.CustomSlideEnabled = True Or FlagExists("SYS_NoPornAllowed") = True Or ssh.LockImage = True)
-                .Add("@ShowSoftcoreImage", Not Directory.Exists(My.Settings.ISoftcore) Or My.Settings.CBISoftcore = False Or ssh.CustomSlideEnabled = True Or FlagExists("SYS_NoPornAllowed") = True Or ssh.LockImage = True)
-                .Add("@ShowLesbianImage", Not Directory.Exists(My.Settings.ILesbian) Or My.Settings.CBILesbian = False Or ssh.CustomSlideEnabled = True Or FlagExists("SYS_NoPornAllowed") = True Or ssh.LockImage = True)
-                .Add("@ShowBlowjobImage", Not Directory.Exists(My.Settings.IBlowjob) Or My.Settings.CBIBlowjob = False Or ssh.CustomSlideEnabled = True Or FlagExists("SYS_NoPornAllowed") = True Or ssh.LockImage = True)
-                .Add("@ShowFemdomImage", Not Directory.Exists(My.Settings.IFemdom) Or My.Settings.CBIFemdom = False Or ssh.CustomSlideEnabled = True Or FlagExists("SYS_NoPornAllowed") = True Or ssh.LockImage = True)
-                .Add("@ShowLezdomImage", Not Directory.Exists(My.Settings.ILezdom) Or My.Settings.CBILezdom = False Or ssh.CustomSlideEnabled = True Or FlagExists("SYS_NoPornAllowed") = True Or ssh.LockImage = True)
-                .Add("@ShowHentaiImage", Not Directory.Exists(My.Settings.IHentai) Or My.Settings.CBIHentai = False Or ssh.CustomSlideEnabled = True Or FlagExists("SYS_NoPornAllowed") = True Or ssh.LockImage = True)
-                .Add("@ShowGayImage", Not Directory.Exists(My.Settings.IGay) Or My.Settings.CBIGay = False Or ssh.CustomSlideEnabled = True Or FlagExists("SYS_NoPornAllowed") = True Or ssh.LockImage = True)
-                .Add("@ShowMaledomImage", Not Directory.Exists(My.Settings.IMaledom) Or My.Settings.CBIMaledom = False Or ssh.CustomSlideEnabled = True Or FlagExists("SYS_NoPornAllowed") = True Or ssh.LockImage = True)
-                .Add("@ShowCaptionsImage", Not Directory.Exists(My.Settings.ICaptions) Or My.Settings.CBICaptions = False Or ssh.CustomSlideEnabled = True Or FlagExists("SYS_NoPornAllowed") = True Or ssh.LockImage = True)
-                .Add("@ShowGeneralImage", Not Directory.Exists(My.Settings.IGeneral) Or My.Settings.CBIGeneral = False Or ssh.CustomSlideEnabled = True Or FlagExists("SYS_NoPornAllowed") = True Or ssh.LockImage = True)
-                .Add("@ShowBlogImage", FrmSettings.URLFileList.CheckedItems.Count = 0 Or ssh.CustomSlideEnabled = True Or FlagExists("SYS_NoPornAllowed") = True Or ssh.LockImage = True)
+                .Add("@InterruptLongEdge", Not ssh.LongEdge OrElse Not FrmSettings.AllowLongEdgeInterruptCB.Checked OrElse ssh.TeaseTick < 1 OrElse ssh.RiskyEdges)
+                .Add("@ShowHardcoreImage", Not Directory.Exists(My.Settings.IHardcore) OrElse Not My.Settings.CBIHardcore OrElse ssh.CustomSlideEnabled OrElse myFlagAccessor.IsSet(CreateDommePersonality(), "SYS_NoPornAllowed") OrElse ssh.LockImage)
+                .Add("@ShowSoftcoreImage", Not Directory.Exists(My.Settings.ISoftcore) OrElse My.Settings.CBISoftcore = False OrElse ssh.CustomSlideEnabled OrElse myFlagAccessor.IsSet(CreateDommePersonality(), "SYS_NoPornAllowed") OrElse ssh.LockImage)
+                .Add("@ShowLesbianImage", Not Directory.Exists(My.Settings.ILesbian) OrElse My.Settings.CBILesbian = False OrElse ssh.CustomSlideEnabled OrElse myFlagAccessor.IsSet(CreateDommePersonality(), "SYS_NoPornAllowed") OrElse ssh.LockImage)
+                .Add("@ShowBlowjobImage", Not Directory.Exists(My.Settings.IBlowjob) OrElse My.Settings.CBIBlowjob = False OrElse ssh.CustomSlideEnabled OrElse myFlagAccessor.IsSet(CreateDommePersonality(), "SYS_NoPornAllowed") OrElse ssh.LockImage)
+                .Add("@ShowFemdomImage", Not Directory.Exists(My.Settings.IFemdom) OrElse My.Settings.CBIFemdom = False OrElse ssh.CustomSlideEnabled OrElse myFlagAccessor.IsSet(CreateDommePersonality(), "SYS_NoPornAllowed") OrElse ssh.LockImage)
+                .Add("@ShowLezdomImage", Not Directory.Exists(My.Settings.ILezdom) OrElse My.Settings.CBILezdom = False OrElse ssh.CustomSlideEnabled OrElse myFlagAccessor.IsSet(CreateDommePersonality(), "SYS_NoPornAllowed") OrElse ssh.LockImage)
+                .Add("@ShowHentaiImage", Not Directory.Exists(My.Settings.IHentai) OrElse My.Settings.CBIHentai = False OrElse ssh.CustomSlideEnabled OrElse myFlagAccessor.IsSet(CreateDommePersonality(), "SYS_NoPornAllowed") OrElse ssh.LockImage)
+                .Add("@ShowGayImage", Not Directory.Exists(My.Settings.IGay) OrElse My.Settings.CBIGay = False OrElse ssh.CustomSlideEnabled OrElse myFlagAccessor.IsSet(CreateDommePersonality(), "SYS_NoPornAllowed") OrElse ssh.LockImage)
+                .Add("@ShowMaledomImage", Not Directory.Exists(My.Settings.IMaledom) OrElse My.Settings.CBIMaledom = False OrElse ssh.CustomSlideEnabled OrElse myFlagAccessor.IsSet(CreateDommePersonality(), "SYS_NoPornAllowed") OrElse ssh.LockImage)
+                .Add("@ShowCaptionsImage", Not Directory.Exists(My.Settings.ICaptions) OrElse My.Settings.CBICaptions = False OrElse ssh.CustomSlideEnabled OrElse myFlagAccessor.IsSet(CreateDommePersonality(), "SYS_NoPornAllowed") OrElse ssh.LockImage)
+                .Add("@ShowGeneralImage", Not Directory.Exists(My.Settings.IGeneral) OrElse My.Settings.CBIGeneral = False OrElse ssh.CustomSlideEnabled OrElse myFlagAccessor.IsSet(CreateDommePersonality(), "SYS_NoPornAllowed") OrElse ssh.LockImage)
+                .Add("@ShowBlogImage", FrmSettings.URLFileList.CheckedItems.Count = 0 OrElse ssh.CustomSlideEnabled OrElse myFlagAccessor.IsSet(CreateDommePersonality(), "SYS_NoPornAllowed") OrElse ssh.LockImage)
                 .Add("@NewBlogImage", __ConditionDic("@ShowBlogImage")) ' duplicate Command, lets get the Value af the other one.
-                .Add("@ShowLocalImage", FlagExists("SYS_NoPornAllowed") = True Or ssh.CustomSlideEnabled = True Or ssh.LockImage = True _
+                .Add("@ShowLocalImage", myFlagAccessor.IsSet(CreateDommePersonality(), "SYS_NoPornAllowed") OrElse ssh.CustomSlideEnabled Or ssh.LockImage = True _
                       Or (My.Settings.CBIHardcore = False And My.Settings.CBISoftcore = False And My.Settings.CBILesbian = False And My.Settings.CBIBlowjob = False _
                        And My.Settings.CBIFemdom = False And My.Settings.CBILezdom = False And My.Settings.CBIHentai = False And My.Settings.CBIGay = False _
                        And My.Settings.CBIMaledom = False And My.Settings.CBICaptions = False And My.Settings.CBIGeneral = False))
-                '.Add("@ShowButtImage", Not Directory.Exists(FrmSettings.LBLButtPath.Text) And Not File.Exists(FrmSettings.LBLButtURL.Text) Or FlagExists("SYS_NoPornAllowed") = True Or CustomSlideshow = True Or LockImage = True)
+                '.Add("@ShowButtImage", Not Directory.Exists(FrmSettings.LBLButtPath.Text) And Not File.Exists(FrmSettings.LBLButtURL.Text) Or myFlagAccessor.IsSet(CreateDommePersonality(), "SYS_NoPornAllowed") = True Or CustomSlideshow = True Or LockImage = True)
                 '.Add("@ShowButtsImage", __ConditionDic("@ShowButtImage")) ' duplicate Command, lets get the Value af the other one.
-                '.Add("@ShowBoobImage", Not Directory.Exists(FrmSettings.LBLBoobPath.Text) And Not File.Exists(FrmSettings.LBLBoobURL.Text) Or FlagExists("SYS_NoPornAllowed") = True Or CustomSlideshow = True Or LockImage = True)
+                '.Add("@ShowBoobImage", Not Directory.Exists(FrmSettings.LBLBoobPath.Text) And Not File.Exists(FrmSettings.LBLBoobURL.Text) Or myFlagAccessor.IsSet(CreateDommePersonality(), "SYS_NoPornAllowed") = True Or CustomSlideshow = True Or LockImage = True)
                 '.Add("@ShowBoobsImage", __ConditionDic("@ShowBoobImage")) ' duplicate Command, lets get the Value af the other one.
                 .Add("@1MinuteHold", ssh.SubHoldingEdge = False Or ssh.HoldEdgeTime < 60 Or ssh.HoldEdgeTime > 119)
                 .Add("@2MinuteHold", ssh.SubHoldingEdge = False Or ssh.HoldEdgeTime < 120 Or ssh.HoldEdgeTime > 179)
@@ -17595,14 +17552,14 @@ TaskCleanSet:
 
         End If
 
-        If inputString.Contains("@PornAllowedOff") Then
-            CreateFlag("SYS_NoPornAllowed")
-            inputString = inputString.Replace("@PornAllowedOff", "")
+        If inputString.Contains(Keyword.PornAllowedOff) Then
+            myFlagAccessor.SetFlag(CreateDommePersonality(), "SYS_NoPornAllowed", False)
+            inputString = inputString.Replace(Keyword.PornAllowedOff, "")
         End If
 
-        If inputString.Contains("@PornAllowedOn") Then
-            DeleteFlag("SYS_NoPornAllowed")
-            inputString = inputString.Replace("@PornAllowedOn", "")
+        If inputString.Contains(Keyword.PornAllowedOn) Then
+            myFlagAccessor.DeleteFlag(CreateDommePersonality(), "SYS_NoPornAllowed")
+            inputString = inputString.Replace(Keyword.PornAllowedOn, "")
         End If
 
         If inputString.Contains("@RestrictOrgasm(") Then

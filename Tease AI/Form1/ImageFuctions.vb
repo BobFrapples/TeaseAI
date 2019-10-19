@@ -366,7 +366,7 @@ NoneFound:
     ''' <returns>Returns a dictionary which contains all nessecary data of genere-images.</returns>
     Friend Function GetImageData() As Dictionary(Of ImageGenre, ImageDataContainer)
         Dim rtnDic As New Dictionary(Of ImageGenre, ImageDataContainer) '(StringComparer.OrdinalIgnoreCase)
-        Dim SysNoPornAllowed As Boolean = FlagExists("SYS_NoPornAllowed")
+        Dim sysNoPornAllowed As Boolean = myFlagAccessor.IsSet(CreateDommePersonality(), "SYS_NoPornAllowed")
         With rtnDic
             .Add(ImageGenre.Blog, New ImageDataContainer With
                  {

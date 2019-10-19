@@ -297,5 +297,15 @@ namespace TeaseAI.Common.Constants
         /// Set the domme back at keyboard
         /// </summary>
         public const string AfkOff = @"@AFKOff";
+
+        /// <summary>
+        /// Porn isn't allowed
+        /// </summary>
+        public const string PornAllowedOff = @"@PornAllowedOff";
+
+        /// <summary>
+        /// Porn is allowed
+        /// </summary>
+        public const string PornAllowedOn = @"@PornAllowedOn";
     }
 }
