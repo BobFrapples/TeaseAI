@@ -1012,7 +1012,7 @@ Public Class SessionState
 			'▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
 			'							Set Picturebox & WMP
 			'▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
-			If isURL(ImageLocation) Then
+			If IsUrl(ImageLocation) Then
 				.ShowImage(ImageLocation, True)
 			ElseIf File.Exists(ImageLocation) Then
 				.ShowImage(ImageLocation, True)

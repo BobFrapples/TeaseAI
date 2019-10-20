@@ -230,11 +230,11 @@ Public Class Common
 	''' </summary>
 	''' <param name="path">The string to be tested.</param>
 	''' <returns>True if the given string is an URL.</returns>
-	Friend Shared Function isURL(path As String) As Boolean
-		If path.Contains("/") And path.Contains("://") Then
-			Return True
-		Else
-			Return False
+	Friend Shared Function IsUrl(path As String) As Boolean
+        If path.Contains("/") And path.Contains("://") Then
+            Return True
+        Else
+            Return False
 		End If
 	End Function
 

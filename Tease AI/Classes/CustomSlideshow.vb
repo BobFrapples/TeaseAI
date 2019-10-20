@@ -139,7 +139,7 @@ pickNextImage:
 			Dim rndPick As String = imagelist(rndindex)
 
 			' Check if a local image is prefered. If so pick a new path.
-			If preferOffline And isURL(rndPick) And imagelist.Count > 1 And retryCounter > 0 Then
+			If preferOffline And IsUrl(rndPick) And imagelist.Count > 1 And retryCounter > 0 Then
 				retryCounter -= 1
 				imagelist.RemoveAt(rndindex)
 				GoTo pickNextImage

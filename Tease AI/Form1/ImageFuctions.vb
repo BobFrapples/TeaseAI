@@ -194,7 +194,7 @@ Partial Class MainWindow
 
                         ' Remove all URLs if Offline-Mode is activated
                         If OfflineMode Or Type = ImageSourceType.Local Then
-                            addlist.RemoveAll(Function(x) isURL(x))
+                            addlist.RemoveAll(Function(x) IsUrl(x))
                         End If
 
                         rtnList.AddRange(addlist)
@@ -214,7 +214,7 @@ Partial Class MainWindow
 
                         ' Remove all URLs if Offline-Mode is activated
                         If OfflineMode Or Type = ImageSourceType.Local Then
-                            addlist.RemoveAll(Function(x) isURL(x))
+                            addlist.RemoveAll(Function(x) IsUrl(x))
                         End If
 
                         rtnList.AddRange(addlist)
@@ -598,18 +598,18 @@ NoNeFound:
     ''' </summary>
     ''' <param name="imageToShow">The local path to the image to display.</param>
     Public Sub ShowImage(imageToShow As String, ignored As Boolean)
-        If FormLoading = True Then
+        If FormLoading Then
             Return
         End If
 
         If String.IsNullOrWhiteSpace(imageToShow) Then
             Dim lazyText As String = "The given imagepath was NULL."
-            Log.WriteError(lazyText, New ArgumentNullException(lazyText), "ShowImage with no valid imagepath.")
             Throw New ArgumentNullException(NameOf(imageToShow), "No image file was specified.")
         End If
-        If System.IO.File.Exists(imageToShow) Then
-            mainPictureBox.Image = Image.FromFile(imageToShow)
+        If Not File.Exists(imageToShow) Then
+            Throw New ArgumentException(NameOf(imageToShow), imageToShow + " does not exist.")
         End If
+        mainPictureBox.Image = Image.FromFile(imageToShow)
     End Sub
 
 #Region "---------------------------------------------------- BWimageSync -----------------------------------------------------"
@@ -940,7 +940,7 @@ retryLocal: ' If an exception occures the function is restarted and the Errorima
         If ssh.ImageLocation Is Nothing Then Throw New ArgumentException("The given path was empty.")
         If ssh.ImageLocation = "" Then Throw New ArgumentException("The given path was empty.")
         Try
-            If isURL(ssh.ImageLocation) Then
+            If IsUrl(ssh.ImageLocation) Then
                 '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
                 '									Online Images
                 '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼

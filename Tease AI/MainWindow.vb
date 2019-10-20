@@ -17,6 +17,7 @@ Imports TeaseAI.Common.Interfaces
 Imports TeaseAI.Services.Processor
 Imports TeaseAI.Services.Keywords
 Imports TeaseAI.Common.Events
+Imports TeaseAI.Common.Interfaces.Accessors
 
 Public Class MainWindow
 #Region "-------------------------------------- File Constants ------------------------------------------"
@@ -34,7 +35,6 @@ Public Class MainWindow
     Friend Shared ReadOnly SavedSessionDefaultPath As String = Application.StartupPath & "\System\SavedState.save"
 #End Region ' File Constants.
 
-    ' Github Patch  Public FormLoading As Boolean
     Friend FormLoading As Boolean = True
     Dim FormFinishedLoading As Boolean = False
     Dim myChatLog As List(Of ChatMessage) = New List(Of ChatMessage)()
@@ -51,9 +51,8 @@ Public Class MainWindow
     Dim myFlagAccessor As FlagAccessor = New FlagAccessor()
     Dim myGotoProcessor As GotoProcessor = New GotoProcessor(New ScriptAccessor(New CldAccessor()))
     Dim mySettingsAccessor As Accessors.ISettingsAccessor = New SettingsAccessor()
+    Dim myRandomNumberService As IRandomNumberService = New RandomNumberService()
     Dim WithEvents mySession As SessionEngine
-
-
 
     'TODO: Use a custom class to pass data between ScriptParsing methods.
     <Obsolete("QND-Implementation of ContactData.GetTaggedImage. ")>
@@ -145,7 +144,6 @@ Public Class MainWindow
     Public LazyEdit3 As Boolean
     Public LazyEdit4 As Boolean
     Public LazyEdit5 As Boolean
-
     Public ApplyingTheme As Boolean
 
     Private Const DISABLE_SOUNDS As Integer = 21
@@ -166,8 +164,6 @@ Public Class MainWindow
 ByVal lpstrReturnString As String, ByVal uReturnLength As Integer, ByVal hwndCallback As Integer) As Integer
 
     Private Sub Form1_FormClosing(sender As Object, e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
-
-
         Try
 
             mainPictureBox.Image = Nothing
@@ -289,16 +285,16 @@ ByVal lpstrReturnString As String, ByVal uReturnLength As Integer, ByVal hwndCal
         MyBase.OnClosing(e)
     End Sub
 
-    Private Function GetDommePersonalities(basePath As String) As List(Of String)
-        Dim returnValue As List(Of String) = New List(Of String)()
-        For Each personalityDir As String In myDirectory.GetDirectories(basePath)
-            Dim personalityName As String = Path.GetFileName(personalityDir)
-            returnValue.Add(personalityName)
-        Next
-        Return returnValue
-    End Function
-
-    Private Sub Form1_Load(sender As Object, e As System.EventArgs) Handles Me.Load
+    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles Me.Load
+        If mySession Is Nothing Then
+            mySession = New SessionEngine(New SettingsAccessor(), New StringService(), New ScriptAccessor(New CldAccessor()), New TimerFactory(), New FlagAccessor(), New ImageAccessor(), New VideoAccessor(), New VariableAccessor(), New TauntAccessor(), New SystemVocabularyAccessor(), New VocabularyAccessor(), New LineCollectionFilter(), New RandomNumberService())
+            AddHandler mySession.DommeSaid, AddressOf mySession_DommeSaid
+            AddHandler mySession.ShowImage, AddressOf mySession_ShowImage
+            AddHandler mySession.PlayVideo, AddressOf mySession_PlayVideo
+            AddHandler mySession.MessageProcessors(MessageProcessor.RequestTask).MessageProcessed, AddressOf Task_Requested
+            AddHandler mySession.MessageProcessors(MessageProcessor.Greeting).MessageProcessed, AddressOf Greeting_Spoken
+            AddHandler mySession.MessageProcessors(MessageProcessor.Safeword).MessageProcessed, AddressOf Safeword_Spoken
+        End If
         Try
 retryStart:
 
@@ -690,7 +686,7 @@ retryStart:
             TBShortSafeword.Text = My.Settings.ShortSafeword
 
             splashScreen.UpdateText("Checking saved dimensions...")
-            CloseApp(Nothing)
+            ToggleAppVisibility(Nothing)
 
             RestoreFormPosition()
 
@@ -783,6 +779,7 @@ retryStart:
 
             My.Settings.Save()
             Trace.WriteLine("Startup has been completed")
+            mySession.Session = CreateSession()
         Catch ex As Exception
             Log.WriteError(ex.Message, ex, "Exception occurred on startup")
 
@@ -805,23 +802,11 @@ retryStart:
         End Try
     End Sub
 
-    Private Async Sub sendButton_Click(sender As Object, e As EventArgs) Handles sendButton.Click
+    Private Sub sendButton_Click(sender As Object, e As EventArgs) Handles sendButton.Click
         If dompersonalitycombobox.Items.Count < 1 Then
             MessageBox.Show(Me, "No domme Personalities were found! Please install at least one Personality directory in the Scripts folder before using this part of the program.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
             Return
         End If
-        ' this should happen on construction.
-        If mySession Is Nothing Then
-            mySession = New SessionEngine(New SettingsAccessor(), New StringService(), New ScriptAccessor(New CldAccessor()), New TimerFactory(), New FlagAccessor(), New ImageAccessor(), New VideoAccessor(), New VariableAccessor(), New TauntAccessor(), New SystemVocabularyAccessor(), New VocabularyAccessor(), New LineCollectionFilter(), New RandomNumberService())
-            mySession.Session = CreateSession()
-            AddHandler mySession.DommeSaid, AddressOf mySession_DommeSaid
-            AddHandler mySession.ShowImage, AddressOf mySession_ShowImage
-            AddHandler mySession.PlayVideo, AddressOf mySession_PlayVideo
-            AddHandler mySession.MessageProcessors(MessageProcessor.RequestTask).MessageProcessed, AddressOf Task_Requested
-            AddHandler mySession.MessageProcessors(MessageProcessor.Greeting).MessageProcessed, AddressOf Greeting_Spoken
-            AddHandler mySession.MessageProcessors(MessageProcessor.Safeword).MessageProcessed, AddressOf Safeword_Spoken
-        End If
-        ' these are updated every send, just in case preferences are changed.
 
         Dim chatMessage As ChatMessage = New ChatMessage()
         chatMessage.TimeStamp = DateTime.Now
@@ -1513,100 +1498,7 @@ NullSkip:
 
     End Function
 
-    Public Function CountWords(ByVal value As String) As Integer
-
-        ' Count matches.
-        Dim collection As MatchCollection = Regex.Matches(value, "\S+")
-        Return collection.Count
-
-    End Function
-
-    Public Sub YesOrNoLanguageCheck()
-
-
-        If InStr(UCase(ssh.DomChat), UCase("@Goto(")) <> 0 Then
-            GetGotoChat()
-        End If
-
-    End Sub
-
-    Public Sub GetGotoChat()
-
-        ssh.GotoFlag = True
-
-        If InStr(UCase(ssh.DomChat), UCase("@Goto")) <> 0 Then
-
-            ssh.DomTypeCheck = True
-
-            Dim TempGoto As String = ssh.DomChat & " some garbage"
-            Dim GotoIndex As Integer = TempGoto.IndexOf("@Goto(") + 6
-            TempGoto = TempGoto.Substring(GotoIndex, TempGoto.Length - GotoIndex)
-            TempGoto = TempGoto.Split(")")(0)
-            ssh.FileGoto = TempGoto
-
-            Dim StripGoto As String = ssh.FileGoto
-
-            If TempGoto.Contains(",") Then
-                TempGoto = TempGoto.Replace(", ", ",")
-                Dim GotoSplit As String() = TempGoto.Split(",")
-                Dim GotoTemp As Integer = ssh.randomizer.Next(0, GotoSplit.Count)
-                ssh.FileGoto = GotoSplit(GotoTemp)
-            End If
-
-            Dim GotoText As String
-
-            If ssh.MiniScript = True Then
-                GotoText = ssh.MiniScriptText
-            Else
-                GotoText = ssh.FileText
-            End If
-
-            If File.Exists(GotoText) Then
-                ' Read all lines of File
-                Dim gotolines As List(Of String) = Txt2List(GotoText)
-                Dim gotoline As Integer = -1
-
-                If StripGoto.Substring(0, 1) <> "(" Then StripGoto = "(" & StripGoto & ")"
-                If ssh.FileGoto.Substring(0, 1) <> "(" Then ssh.FileGoto = "(" & ssh.FileGoto & ")"
-
-                ssh.DomChat = ssh.DomChat.Replace("@Goto" & StripGoto, "")
-                Try
-                    Do
-                        gotoline += 1
-
-                    Loop Until gotolines(gotoline).StartsWith(ssh.FileGoto)
-                Catch ex As ArgumentOutOfRangeException When ssh.MiniScript = True
-                    '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-                    '                                 ArgumentOutOfRangeException - Miniscript
-                    '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-                    Throw New ArgumentOutOfRangeException("The Miniscript-Goto-Destination """ & ssh.FileGoto &
-                                                          """ in file """ & GotoText & """ was not found.", ex)
-                Catch ex As ArgumentOutOfRangeException When ssh.MiniScript = True
-                    '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-                    '                                 ArgumentOutOfRangeException - Regular Script
-                    '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-                    Throw New ArgumentOutOfRangeException("The Goto-Destination """ & ssh.FileGoto &
-                                                          """ in file """ & GotoText & """ was not found.", ex)
-                End Try
-
-                'QUESTION (stefaf): Is this line an error?
-                ssh.StrokeTauntVal = gotoline
-
-                If ssh.MiniScript = True Then
-                    ssh.MiniTauntVal = gotoline
-                Else
-                    ssh.StrokeTauntVal = gotoline
-                End If
-
-            Else
-                Throw New FileNotFoundException("The Goto-File """ & GotoText & """ was not found.")
-            End If
-
-        End If
-
-    End Sub
-
-    Public Sub ScriptTimer_Tick(sender As System.Object, e As System.EventArgs)
+    Public Sub ScriptTimer_Tick(sender As Object, e As EventArgs)
         ' Handles ScriptTimer.Tick
         FrmSettings.LBLDebugScriptTime.Text = ssh.ScriptTick
 
@@ -1617,7 +1509,7 @@ NullSkip:
 
         If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
 
-        If playingStatus() = True Then
+        If IsSpeechModeOn() = True Then
             If ssh.ScriptTick < 4 Then Return
         End If
 
@@ -2080,18 +1972,14 @@ NonModuleEnd:
     ''' </summary>
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
-    Private Sub Timer1_Tick(sender As System.Object, e As System.EventArgs) Handles Timer1.Tick
-
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+    Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
+        If FrmSettings.CBSettingsPause.Checked AndAlso FrmSettings.SettingsPanel.Visible Then Return
 
         ssh.DomTyping = True
         Dim ShowPicture As Boolean = False
-
-
-        ' Let the program know that the domme is currently typing
         ssh.DomTypeCheck = True
 
-        If CBHypnoGenNoText.Checked = True And ssh.HypnoGen = True Then ssh.NullResponse = True
+        If CBHypnoGenNoText.Checked AndAlso ssh.HypnoGen Then ssh.NullResponse = True
         If ssh.DomTask.Contains("@SlideshowOff") Then CustomSlideshowTimer.Stop()
 
         If ssh.DomTask.Contains("@NullResponse") Then
@@ -2102,16 +1990,15 @@ NonModuleEnd:
 
 
         If Not ssh.Group.Contains("D") And Not ssh.DomTask.Contains("@Contact1") And Not ssh.DomTask.Contains("@Contact2") And Not ssh.DomTask.Contains("@Contact3") Then
-            Dim GroupList As New List(Of String)
-            GroupList.Clear()
-            If ssh.Group.Contains("1") Then GroupList.Add(" @Contact1 ")
-            If ssh.Group.Contains("2") Then GroupList.Add(" @Contact2 ")
-            If ssh.Group.Contains("3") Then GroupList.Add(" @Contact3 ")
-            ssh.DomTask = ssh.DomTask & GroupList(ssh.randomizer.Next(0, GroupList.Count))
+            Dim groupList As New List(Of String)
+            If ssh.Group.Contains("1") Then groupList.Add(" @Contact1 ")
+            If ssh.Group.Contains("2") Then groupList.Add(" @Contact2 ")
+            If ssh.Group.Contains("3") Then groupList.Add(" @Contact3 ")
+            ssh.DomTask = ssh.DomTask & groupList(ssh.randomizer.Next(0, groupList.Count))
         End If
 
 
-        If ssh.NullResponse = True Then
+        If ssh.NullResponse Then
             Timer1.Stop()
             GoTo NullResponse
         End If
@@ -2122,13 +2009,13 @@ NonModuleEnd:
                 ssh.TypeDelay -= 1
             Else
                 Timer1.Stop()
-                If ssh.RiskyDeal = True Then FrmCardList.LblRiskType.Visible = True
-                If ssh.NullResponse = False Then
+                If ssh.RiskyDeal Then FrmCardList.LblRiskType.Visible = True
+                If Not ssh.NullResponse Then
                     ssh.IsTyping = True
-                    Dim TypingName As String = domName.Text
-                    If ssh.DomTask.Contains("@Contact1") Then TypingName = My.Settings.Glitter1
-                    If ssh.DomTask.Contains("@Contact2") Then TypingName = My.Settings.Glitter2
-                    If ssh.DomTask.Contains("@Contact3") Then TypingName = My.Settings.Glitter3
+                    Dim typingName As String = domName.Text
+                    If ssh.DomTask.Contains("@Contact1") Then typingName = My.Settings.Glitter1
+                    If ssh.DomTask.Contains("@Contact2") Then typingName = My.Settings.Glitter2
+                    If ssh.DomTask.Contains("@Contact3") Then typingName = My.Settings.Glitter3
                     'If TypingName <> domName.Text Then JustShowedBlogImage = True
 
                     If ssh.DomTask.Contains("@EmoteMessage") Then ssh.EmoMes = True
@@ -2138,13 +2025,8 @@ NonModuleEnd:
                         ssh.TypeDelay = 0
                         GoTo SkipIsTyping
                     End If
-
 SkipIsTyping:
-
                 End If
-
-
-
 
                 ssh.TypeToggle = 1
                 ssh.StringLength = ssh.DomTask.Length
@@ -2156,7 +2038,6 @@ SkipIsTyping:
                 If FrmSettings.TypeInstantlyCheckBox.Checked = True Or ssh.RapidCode = True Then ssh.StringLength = 0
                 If ssh.HypnoGen = True And CBHypnoGenNoText.Checked = True Then ssh.StringLength = 0
             End If
-
         Else
 
             If ssh.TypeDelay > 0 Then
@@ -2779,7 +2660,7 @@ DommeSlideshowFallback:
                     CBTCock()
                 End If
 
-                If ssh.CBTBallsActive = True Then
+                If ssh.CBTBallsActive Then
                     ssh.CBTBallsActive = False
                     CBTBalls()
                 End If
@@ -2853,23 +2734,11 @@ DommeSlideshowFallback:
 
     End Sub
 
-    Private Function playingStatus() As Boolean
-
+    Private Function IsSpeechModeOn() As Boolean
         Dim retval As Integer
         Dim returnData As String = Space(128)
-
         retval = mciSendString("status Speech1 mode", returnData, 128, 0)
-
-        If returnData.Substring(0, 7) = "playing" Then
-
-            playingStatus = True
-
-        Else
-
-            playingStatus = False
-
-        End If
-
+        Return returnData.Substring(0, 7) = "playing"
     End Function
 
     Public Shared Function GetShortPathName(ByVal longPath As String) As String
@@ -2899,7 +2768,7 @@ DommeSlideshowFallback:
         End If
     End Sub
 
-    Private Sub SendTimer_Tick2(sender As System.Object, e As System.EventArgs) 'Handles SendTimer.Tick
+    Private Sub SendTimer_Tick2(sender As Object, e As EventArgs) 'Handles SendTimer.Tick
         Dim domme As DommePersonality = mySession.Session.Domme
         Dim chatMessage = ssh.DomChat
         If chatMessage.Contains("@SlideshowOff") Then
@@ -3433,166 +3302,86 @@ DommeSlideshowFallback:
     End Function
 
 #Region "------------------------------------------ Images ----------------------------------------------"
+    Private Sub LoadCustomizedSlideshow(sender As Object, e As EventArgs) Handles BrowseFolderButton.Click, ImageFolderComboBox.KeyDown, ImageFolderComboBox.SelectedIndexChanged
+        If sender Is ImageFolderComboBox AndAlso TypeOf e Is KeyEventArgs Then
+            Dim keyEventArgs As KeyEventArgs = DirectCast(e, KeyEventArgs)
+            If keyEventArgs.KeyCode <> Keys.Enter Then
+                Return
+            End If
+            keyEventArgs.Handled = True
+        End If
 
-    Private Sub LoadCustomizedSlideshow(sender As System.Object, e As System.EventArgs) Handles browsefolderButton.Click, ImageFolderComboBox.KeyDown, ImageFolderComboBox.SelectedIndexChanged
         'TODO-Next-Stefaf: Implement enhanced RecentSlideshows.Item handling
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then
+        If FrmSettings.CBSettingsPause.Checked AndAlso FrmSettings.SettingsPanel.Visible Then
             MsgBox("Please close the settings menu or disable ""Pause Program When Settings Menu is Visible"" option first!", , "Warning!")
             Return
         End If
         Try
-            Dim GetFolder As String = ""
-            browsefolderButton.Enabled = False
+            BrowseFolderButton.Enabled = False
             nextButton.Enabled = False
             previousButton.Enabled = False
             PicStripTSMIdommeSlideshow.Enabled = False
+            Dim folderToLoad As String = GetImageLocation(sender Is BrowseFolderButton, sender Is ImageFolderComboBox)
             'TODO-Next: Move ImageNavigation-Lock to BWImageSync
-            If sender Is browsefolderButton Then
-                '===============================================================================
-                '								browsefolderButton
-                '===============================================================================
-                If FolderBrowserDialog1.ShowDialog() = DialogResult.OK Then
-                    GetFolder = FolderBrowserDialog1.SelectedPath
+            If sender Is BrowseFolderButton Then
+                My.Settings.RecentSlideshows.Add(folderToLoad)
+                Do Until My.Settings.RecentSlideshows.Count < 11
+                    My.Settings.RecentSlideshows.Remove(My.Settings.RecentSlideshows(0))
+                Loop
 
-                    My.Settings.RecentSlideshows.Add(GetFolder)
+                ImageFolderComboBox.Items.Clear()
 
-                    Do Until My.Settings.RecentSlideshows.Count < 11
-                        My.Settings.RecentSlideshows.Remove(My.Settings.RecentSlideshows(0))
-                    Loop
+                For Each comboitem As String In My.Settings.RecentSlideshows
+                    ImageFolderComboBox.Items.Add(comboitem)
+                Next
 
-                    ImageFolderComboBox.Items.Clear()
-
-                    For Each comboitem As String In My.Settings.RecentSlideshows
-                        ImageFolderComboBox.Items.Add(comboitem)
-                    Next
-
-                    ImageFolderComboBox.Text = GetFolder
+                ImageFolderComboBox.Text = folderToLoad
+            ElseIf sender Is ImageFolderComboBox Then
+                If TypeOf e Is KeyEventArgs Then
+                    Dim keyEventArgs As KeyEventArgs = DirectCast(e, KeyEventArgs)
+                    If keyEventArgs.KeyCode <> Keys.Enter Then
+                        Return
+                    End If
+                    keyEventArgs.Handled = True
                 End If
-            ElseIf sender Is ImageFolderComboBox And TypeOf e Is KeyEventArgs Then
-                '===============================================================================
-                '						ImageFolderComboBox - KeyPressEvent
-                '===============================================================================
-                Dim _e As KeyEventArgs = DirectCast(e, KeyEventArgs)
-
-                If _e.KeyCode = Keys.Enter Then
-                    _e.Handled = True
-                    GoTo chooseComboboxText
-                Else
-                    Exit Sub
-                End If
-            ElseIf sender Is ImageFolderComboBox And TypeOf e Is EventArgs Then
-                '===============================================================================
-                '								ImageFolderComboBox
-                '===============================================================================
-chooseComboboxText:
-                If Directory.Exists(ImageFolderComboBox.Text) Or isURL(ImageFolderComboBox.Text) Then
-                    GetFolder = ImageFolderComboBox.Text
-                Else
-                    Throw New DirectoryNotFoundException("The given directory """ & ImageFolderComboBox.Text & """ does not exist.")
-                End If
-            Else
-                Throw New NotImplementedException("")
             End If
 
-            If GetFolder = "" Then
-                Exit Sub
-            ElseIf Not isURL(GetFolder) Then
+            If String.IsNullOrWhiteSpace(folderToLoad) AndAlso Not IsUrl(folderToLoad) AndAlso Not Directory.Exists(folderToLoad) Then
+                ImageFolderComboBox.Text = folderToLoad + "is not a valid directory or URL"
+                Return
+            End If
+
+            ssh.SlideshowMain.ImageList = GetImageList(folderToLoad)
+            FrmSettings.TimedSlideShowRadio.Enabled = True
+            FrmSettings.TeaseSlideShowRadio.Enabled = True
+            DomWMP.Visible = False
+            DomWMP.Ctlcontrols.pause()
+            mainPictureBox.Visible = True
+            ssh.SlideshowLoaded = False
+            ssh.SlideshowMain.Index = 0
+
+            If Not IsUrl(folderToLoad) Then
                 ImageFolderComboBox.Enabled = False
-
-                DomWMP.Visible = False
-                DomWMP.Ctlcontrols.pause()
-                mainPictureBox.Visible = True
-
-                FrmSettings.TimedSlideShowRadio.Enabled = True
-                FrmSettings.TeaseSlideShowRadio.Enabled = True
-
-                ssh.SlideshowLoaded = False
-
-                If FrmSettings.CBSlideshowSubDir.Checked = True Then
-                    ssh.SlideshowMain.ImageList = myDirectory.GetFilesImages(GetFolder, SearchOption.AllDirectories)
-                Else
-                    ssh.SlideshowMain.ImageList = myDirectory.GetFilesImages(GetFolder, SearchOption.TopDirectoryOnly)
-                End If
-
-                ssh.SlideshowMain.Index = 0
-
-                GoTo listLoaded
-
-            ElseIf isURL(ImageFolderComboBox.Text) And Debugger.IsAttached Then
-                '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
-                '						Blog SlideShow (!)Experimental
-                '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
-                Dim tmpReq As Net.HttpWebRequest
-                Dim tmpRes As Net.HttpWebResponse
-
-                tmpReq = Net.HttpWebRequest.Create(ImageFolderComboBox.Text & "api/read?start=" & 1 & "&num=5000")
-                tmpRes = tmpReq.GetResponse
-
-                Using reader As New Xml.XmlTextReader(tmpRes.GetResponseStream)
-                    Dim tmpDoc As New Xml.XmlDocument()
-                    tmpDoc.Load(reader)
-
-                    tmpReq.Abort()
-                    tmpRes.Close()
-
-                    DomWMP.Visible = False
-                    DomWMP.Ctlcontrols.pause()
-                    mainPictureBox.Visible = True
-
-                    FrmSettings.TimedSlideShowRadio.Enabled = True
-                    FrmSettings.TeaseSlideShowRadio.Enabled = True
-
-                    ssh.SlideshowLoaded = False
-
-                    For Each ___PhotoNode As Xml.XmlNode In tmpDoc.DocumentElement.SelectNodes("//photo-url")
-                        If CInt(___PhotoNode.Attributes.ItemOf("max-width").InnerText) = 1280 Then
-                            ssh.SlideshowMain.ImageList.Add(___PhotoNode.InnerXml)
-                        End If
-                    Next
-                    ssh.SlideshowMain.Index = 0
-                End Using
-
-                GoTo listLoaded
-                '▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
-                ' Blog SlideShow - End
-                '▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
-            Else
-
-                ImageFolderComboBox.Text = "Not a valid directory"
-
-            End If
-            Exit Sub
-
-listLoaded:
-            If ssh.SlideshowMain.ImageList.Count <= 0 Then
-
-                MessageBox.Show(Me, "There are no images in the specified folder.", "Error!",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Hand)
-                Exit Sub
-            Else
-                ssh.SlideshowLoaded = True
             End If
 
-
+            If Not ssh.SlideshowMain.ImageList.Any() Then
+                MessageBox.Show(Me, folderToLoad + " doesn't contain any images.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
+                Return
+            End If
+            ssh.SlideshowLoaded = True
 
             ShowImage(ssh.SlideshowMain.NavigateNextTease, True)
             ssh.JustShowedBlogImage = False
 
-            'TODO: FrmSettings.timedRadio.Checked - Remove CrossForm DataAccess
-            If FrmSettings.TimedSlideShowRadio.Checked = True Then
+            If FrmSettings.TimedSlideShowRadio.Checked Then
                 ssh.SlideshowTimerTick = FrmSettings.SlideShowNumBox.Value
                 SlideshowTimer.Start()
             End If
 
         Catch ex As Exception
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-            '                                            All Errors
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-            MessageBox.Show("Unable to load custom slideshow : " & vbCrLf & vbCrLf & ex.Message,
-                            "Open CustomSlideshow failed",
-                            MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("Unable to load custom slideshow : " & vbCrLf & vbCrLf & ex.Message, "Open CustomSlideshow failed", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
-            browsefolderButton.Enabled = True
+            BrowseFolderButton.Enabled = True
             nextButton.Enabled = True
             previousButton.Enabled = True
             PicStripTSMIdommeSlideshow.Enabled = True
@@ -3600,7 +3389,7 @@ listLoaded:
         End Try
     End Sub
 
-    Private Sub imagesNextButton_Click(sender As System.Object, e As System.EventArgs) Handles nextButton.Click, previousButton.Click
+    Private Sub imagesNextButton_Click(sender As Object, e As EventArgs) Handles nextButton.Click, previousButton.Click
         Try
             If My.Settings.CBSettingsPause And FrmSettings.SettingsPanel.Visible = True Then
                 MsgBox("Please close the settings menu or disable ""Pause Program When Settings Menu is Visible"" option first!", , "Warning!")
@@ -3625,14 +3414,14 @@ Retry:
             End If
 
             If Not (File.Exists(sh.CurrentImage) _
-                    Or isURL(sh.CurrentImage)) Then
+                    Or IsUrl(sh.CurrentImage)) Then
                 ClearMainPictureBox()
                 Return
             End If
 
             Try
                 'TODO-Next: Move ImageNavigation-Lock to BWImageSync
-                browsefolderButton.Enabled = False
+                BrowseFolderButton.Enabled = False
                 ImageFolderComboBox.Enabled = False
                 nextButton.Enabled = False
                 previousButton.Enabled = False
@@ -3645,7 +3434,7 @@ Retry:
             Catch
                 GoTo Retry
             Finally
-                browsefolderButton.Enabled = True
+                BrowseFolderButton.Enabled = True
                 ImageFolderComboBox.Enabled = True
                 nextButton.Enabled = True
                 previousButton.Enabled = True
@@ -3670,7 +3459,7 @@ Retry:
 
 #Region " VLC "
 
-    Private Sub BTNLoadVideo_Click(sender As System.Object, e As System.EventArgs) Handles BTNLoadVideo.Click
+    Private Sub BTNLoadVideo_Click(sender As Object, e As EventArgs) Handles BTNLoadVideo.Click
 
         If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then
             MsgBox("Please close the settings menu or disable ""Pause Program When Settings Menu is Visible"" option first!", , "Warning!")
@@ -3706,8 +3495,7 @@ Retry:
         End If
     End Sub
 
-
-    Private Sub BTNVideoControls_Click(sender As System.Object, e As System.EventArgs) Handles BTNVideoControls.Click
+    Private Sub BTNVideoControls_Click(sender As Object, e As EventArgs) Handles BTNVideoControls.Click
 
         If DomWMP.Height = SplitContainer1.Panel1.Height Then
             DomWMP.Height = SplitContainer1.Panel1.Height + 60
@@ -3723,7 +3511,7 @@ Retry:
 
 #End Region
 
-    Private Sub StrokeTimer_Tick(sender As System.Object, e As System.EventArgs) Handles StrokeTimer.Tick
+    Private Sub StrokeTimer_Tick(sender As Object, e As EventArgs) Handles StrokeTimer.Tick
 
 
         If ssh.InputFlag = True Then Return
@@ -3764,7 +3552,7 @@ Retry:
         End If
     End Sub
 
-    Private Sub StrokeTauntTimer_Tick(sender As System.Object, e As System.EventArgs) Handles StrokeTauntTimer.Tick
+    Private Sub StrokeTauntTimer_Tick(sender As Object, e As EventArgs) Handles StrokeTauntTimer.Tick
 
         If ssh.MiniScript = True Then Return
         If ssh.InputFlag = True Then Return
@@ -4291,7 +4079,7 @@ GetAnotherRandomVideo:
 
 #End Region
 
-    Private Sub SettingsButton_Click(sender As System.Object, e As System.EventArgs) Handles BtnToggleSettings.Click
+    Private Sub SettingsButton_Click(sender As Object, e As EventArgs) Handles BtnToggleSettings.Click
         If FrmSettings.Visible = True Then
             FrmSettings.Visible = False
             BtnToggleSettings.Text = "Open Settings Menu"
@@ -4301,7 +4089,7 @@ GetAnotherRandomVideo:
         End If
     End Sub
 
-    Public Sub CensorshipTimer_Tick(sender As System.Object, e As System.EventArgs) Handles CensorshipTimer.Tick
+    Public Sub CensorshipTimer_Tick(sender As Object, e As EventArgs) Handles CensorshipTimer.Tick
 
 
         If ssh.MiniScript = True Then Return
@@ -4394,7 +4182,7 @@ CensorConstant:
 
     End Sub
 
-    Public Sub RLGLTimer_Tick(sender As System.Object, e As System.EventArgs) Handles RLGLTimer.Tick
+    Public Sub RLGLTimer_Tick(sender As Object, e As EventArgs) Handles RLGLTimer.Tick
         ' Check all Conditions before starting scripts.
         If ssh.MiniScript = True Then Return
         If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
@@ -4443,10 +4231,10 @@ CensorConstant:
         End If
     End Sub
 
-    Private Sub domName_Leave(sender As System.Object, e As System.EventArgs) Handles domName.Leave
+    Private Sub domName_Leave(sender As Object, e As EventArgs) Handles domName.Leave
         mySettingsAccessor.DommeName = domName.Text
     End Sub
-    Private Sub subName_Leave(sender As System.Object, e As System.EventArgs) Handles subName.Leave
+    Private Sub subName_Leave(sender As Object, e As EventArgs) Handles subName.Leave
         My.Settings.SubName = subName.Text
     End Sub
 
@@ -4862,7 +4650,7 @@ StatusUpdateEnd:
         End If
     End Sub
 
-    Private Sub UpdatesTimer_Tick(sender As System.Object, e As System.EventArgs) Handles UpdatesTimer.Tick
+    Private Sub UpdatesTimer_Tick(sender As Object, e As EventArgs) Handles UpdatesTimer.Tick
         ' GLITTER POSTING
 
         If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
@@ -4933,7 +4721,7 @@ StatusUpdateEnd:
     End Sub
 
     'TODO-Next: Move to proper Region
-    Private Sub MediaButton_Click(sender As System.Object, e As System.EventArgs) Handles BtnToggleMediaPanel.Click
+    Private Sub MediaButton_Click(sender As Object, e As EventArgs) Handles BtnToggleMediaPanel.Click
 
         If SplitContainer1.Panel2.Height < 68 Then Return
 
@@ -5528,7 +5316,7 @@ RinseLatherRepeat:
             Try
                 Dim tmpImgLoc As String = ""
 
-                If isURL(ImageToShow) Then
+                If IsUrl(ImageToShow) Then
                     '########################## ImageURL was given #########################
                     tmpImgLoc = ImageToShow
                     GoTo ShowedBlogImage
@@ -7260,7 +7048,7 @@ OrgasmDecided:
             LBLLinesRemaining.Text = ssh.WritingTaskLinesAmount
 
             If PNLWritingTask.Visible = False Then
-                CloseApp(PNLWritingTask)
+                ToggleAppVisibility(PNLWritingTask)
             End If
 
             'WritingTaskMistakesAllowed = randomizer.Next(3, 9)
@@ -10644,7 +10432,7 @@ SkipTextedTags:
 
 #Region "------------------------------------ Avoid the Edge --------------------------------------------"
 
-    Private Sub AvoidTheEdge_Tick(sender As System.Object, e As System.EventArgs) Handles AvoidTheEdge.Tick
+    Private Sub AvoidTheEdge_Tick(sender As Object, e As EventArgs) Handles AvoidTheEdge.Tick
 
         If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
 
@@ -10776,7 +10564,7 @@ SkipTextedTags:
 
     End Sub
 
-    Private Sub AvoidTheEdgeResume_Tick(sender As System.Object, e As System.EventArgs) Handles AvoidTheEdgeResume.Tick
+    Private Sub AvoidTheEdgeResume_Tick(sender As Object, e As EventArgs) Handles AvoidTheEdgeResume.Tick
 
         If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
 
@@ -10805,7 +10593,7 @@ SkipTextedTags:
 
 #End Region ' Avoid the Edge
 
-    Private Sub BtnToggleImageVideo_Click(sender As System.Object, e As System.EventArgs) Handles BtnToggleImageVideo.Click
+    Private Sub BtnToggleImageVideo_Click(sender As Object, e As EventArgs) Handles BtnToggleImageVideo.Click
 
 
         If mainPictureBox.Visible = True Then
@@ -11192,7 +10980,7 @@ NoPlaylistLinkFile:
 
     End Sub
 
-    Private Sub EdgeTauntTimer_Tick(sender As System.Object, e As System.EventArgs) Handles EdgeTauntTimer.Tick
+    Private Sub EdgeTauntTimer_Tick(sender As Object, e As EventArgs) Handles EdgeTauntTimer.Tick
 
         If MultipleEdgesTimer.Enabled = True Then Return
         If ssh.MiniScript = True Then Return
@@ -11239,7 +11027,7 @@ NoPlaylistLinkFile:
 
 #Region "--------------------------------------- Hold the Edge ------------------------------------------"
 
-    Private Sub HoldEdgeTimer_Tick(sender As System.Object, e As System.EventArgs) Handles HoldEdgeTimer.Tick
+    Private Sub HoldEdgeTimer_Tick(sender As Object, e As EventArgs) Handles HoldEdgeTimer.Tick
 
         If ssh.MiniScript = True Then Return
 
@@ -11556,7 +11344,7 @@ NoRepeatOFiles:
 
     End Sub
 
-    Private Sub HoldEdgeTauntTimer_Tick(sender As System.Object, e As System.EventArgs) Handles HoldEdgeTauntTimer.Tick
+    Private Sub HoldEdgeTauntTimer_Tick(sender As Object, e As EventArgs) Handles HoldEdgeTauntTimer.Tick
 
         If ssh.MiniScript = True Then Return
         If ssh.InputFlag = True Then Return
@@ -11839,7 +11627,7 @@ PoundLoop:
         End Try
     End Function
 
-    Private Sub BTNFIleTransferDismiss_Click(sender As System.Object, e As System.EventArgs) Handles BTNFIleTransferDismiss.Click
+    Private Sub BTNFIleTransferDismiss_Click(sender As Object, e As EventArgs) Handles BTNFIleTransferDismiss.Click
 
         PNLFileTransfer.Visible = False
         BTNFileTransferOpen.Visible = False
@@ -11858,7 +11646,7 @@ PoundLoop:
         myProcess.Dispose()
     End Function
 
-    Public Sub BTNFileTransferOpen_Click(sender As System.Object, e As System.EventArgs) Handles BTNFileTransferOpen.Click
+    Public Sub BTNFileTransferOpen_Click(sender As Object, e As EventArgs) Handles BTNFileTransferOpen.Click
 
         ShellExecute(ssh.TaskTextDir)
 
@@ -11870,7 +11658,7 @@ PoundLoop:
 
     End Sub
 
-    Private Sub SlideshowTimer_Tick(sender As System.Object, e As System.EventArgs) Handles SlideshowTimer.Tick
+    Private Sub SlideshowTimer_Tick(sender As Object, e As EventArgs) Handles SlideshowTimer.Tick
         'TODO: Remove CrossForm data access
         If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
 
@@ -11889,7 +11677,7 @@ TryNext:
 
 
             If Not (File.Exists(ssh.SlideshowMain.CurrentImage) _
-                    Or isURL(ssh.SlideshowMain.CurrentImage)) Then
+                    Or IsUrl(ssh.SlideshowMain.CurrentImage)) Then
                 ClearMainPictureBox()
                 Exit Sub
             End If
@@ -11931,7 +11719,7 @@ TryNext:
 
     End Sub
 
-    Private Sub EdgeCountTimer_Tick(sender As System.Object, e As System.EventArgs) Handles EdgeCountTimer.Tick
+    Private Sub EdgeCountTimer_Tick(sender As Object, e As EventArgs) Handles EdgeCountTimer.Tick
 
         If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
 
@@ -11951,7 +11739,7 @@ TryNext:
         Dim TST As TimeSpan = TimeSpan.FromSeconds(ssh.EdgeCountTick)
     End Sub
 
-    Private Sub StrokeTimeTotalTimer_Tick(sender As System.Object, e As System.EventArgs) Handles StrokeTimeTotalTimer.Tick
+    Private Sub StrokeTimeTotalTimer_Tick(sender As Object, e As EventArgs) Handles StrokeTimeTotalTimer.Tick
 
         If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
 
@@ -11969,7 +11757,7 @@ TryNext:
 
     End Sub
 
-    Private Sub TnAFastSlides_Tick(sender As System.Object, e As System.EventArgs) Handles TnASlides.Tick
+    Private Sub TnAFastSlides_Tick(sender As Object, e As EventArgs) Handles TnASlides.Tick
         Dim tmpSw As New Stopwatch
 
 RestartFunction:
@@ -12148,7 +11936,7 @@ RestartFunction:
 
     End Sub
 
-    Private Sub WMPTimer_Tick(sender As System.Object, e As System.EventArgs) Handles WMPTimer.Tick
+    Private Sub WMPTimer_Tick(sender As Object, e As EventArgs) Handles WMPTimer.Tick
         If (DomWMP.playState = WMPLib.WMPPlayState.wmppsStopped AndAlso mySession IsNot Nothing) Then
             mySession.VideoStopped()
         End If
@@ -12202,7 +11990,7 @@ RestartFunction:
 
 #End Region 'Domme-WMP
 
-    Private Sub domAvatar_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles domAvatar.MouseEnter
+    Private Sub domAvatar_MouseEnter(ByVal sender As Object, ByVal e As EventArgs) Handles domAvatar.MouseEnter
         If FrmSettings.Visible = False And FrmCardList.Visible = False Then domAvatar.Focus()
     End Sub
 
@@ -12220,7 +12008,7 @@ RestartFunction:
 
     End Sub
 
-    Private Sub WaitTimer_Tick(sender As System.Object, e As System.EventArgs) Handles WaitTimer.Tick
+    Private Sub WaitTimer_Tick(sender As Object, e As EventArgs) Handles WaitTimer.Tick
         If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
 
         If ssh.DomTypeCheck = True Or ssh.YesOrNo = True Then Return
@@ -12235,7 +12023,7 @@ RestartFunction:
 
     End Sub
 
-    Private Sub StupidTimer_Tick(sender As System.Object, e As System.EventArgs) Handles StupidTimer.Tick
+    Private Sub StupidTimer_Tick(sender As Object, e As EventArgs) Handles StupidTimer.Tick
 
         If PBFileTransfer.Value = PBFileTransfer.Maximum Then
             StupidTimer.Enabled = False
@@ -12251,84 +12039,81 @@ RestartFunction:
     End Sub
 
     Public Sub SaveExercise()
-
-        If FormLoading = True Then Return
-
-        Dim FileStream As New System.IO.FileStream(Application.StartupPath & "\System\VitalSub\ExerciseList.cld", IO.FileMode.Create)
-        Dim BinaryWriter As New System.IO.BinaryWriter(FileStream)
+        If FormLoading Then Return
+        Dim fileStream As New FileStream(Application.StartupPath & "\System\VitalSub\ExerciseList.cld", FileMode.Create)
+        Dim binaryWriter As New BinaryWriter(fileStream)
         For i = 0 To CLBExercise.Items.Count - 1
-            BinaryWriter.Write(CStr(CLBExercise.Items(i)))
-            BinaryWriter.Write(CBool(CLBExercise.GetItemChecked(i)))
+            binaryWriter.Write(CLBExercise.Items(i).ToString())
+            binaryWriter.Write(CLBExercise.GetItemChecked(i))
         Next
-        BinaryWriter.Close()
-        FileStream.Dispose()
-
+        binaryWriter.Close()
+        fileStream.Dispose()
     End Sub
 
     Public Sub LoadExercise()
-
         CLBExercise.Items.Clear()
-        Dim FileStream As New System.IO.FileStream(Application.StartupPath & "\System\VitalSub\ExerciseList.cld", IO.FileMode.Open)
-        Dim BinaryReader As New System.IO.BinaryReader(FileStream)
+        Dim myCldAccessor As ICldAccessor = New CldAccessor()
+        Dim fileStream As New FileStream(Application.StartupPath & "\System\VitalSub\ExerciseList.cld", FileMode.Open)
+        Dim binaryReader As New BinaryReader(fileStream)
         CLBExercise.BeginUpdate()
-        Do While FileStream.Position < FileStream.Length
+        Do While fileStream.Position < fileStream.Length
             CLBExercise.Items.Add(BinaryReader.ReadString)
             CLBExercise.SetItemChecked(CLBExercise.Items.Count - 1, BinaryReader.ReadBoolean)
         Loop
         CLBExercise.EndUpdate()
         BinaryReader.Close()
-        FileStream.Dispose()
-
-
+        fileStream.Dispose()
     End Sub
 
     Public Sub RefreshCards()
+        Try
+            FrmCardList.GoldN1.Text = FrmSettings.GN1.Text
+            FrmCardList.GoldN2.Text = FrmSettings.GN2.Text
+            FrmCardList.GoldN3.Text = FrmSettings.GN3.Text
+            FrmCardList.GoldN4.Text = FrmSettings.GN4.Text
+            FrmCardList.GoldN5.Text = FrmSettings.GN5.Text
+            FrmCardList.GoldN6.Text = FrmSettings.GN6.Text
 
-        FrmCardList.GoldN1.Text = FrmSettings.GN1.Text
-        FrmCardList.GoldN2.Text = FrmSettings.GN2.Text
-        FrmCardList.GoldN3.Text = FrmSettings.GN3.Text
-        FrmCardList.GoldN4.Text = FrmSettings.GN4.Text
-        FrmCardList.GoldN5.Text = FrmSettings.GN5.Text
-        FrmCardList.GoldN6.Text = FrmSettings.GN6.Text
+            FrmCardList.GoldP1.Image = Image.FromFile(My.Settings.GP1)
+            FrmCardList.GoldP2.Image = Image.FromFile(My.Settings.GP2)
+            FrmCardList.GoldP3.Image = Image.FromFile(My.Settings.GP3)
+            FrmCardList.GoldP4.Image = Image.FromFile(My.Settings.GP4)
+            FrmCardList.GoldP5.Image = Image.FromFile(My.Settings.GP5)
+            FrmCardList.GoldP6.Image = Image.FromFile(My.Settings.GP6)
 
-        FrmCardList.GoldP1.Image = Image.FromFile(My.Settings.GP1)
-        FrmCardList.GoldP2.Image = Image.FromFile(My.Settings.GP2)
-        FrmCardList.GoldP3.Image = Image.FromFile(My.Settings.GP3)
-        FrmCardList.GoldP4.Image = Image.FromFile(My.Settings.GP4)
-        FrmCardList.GoldP5.Image = Image.FromFile(My.Settings.GP5)
-        FrmCardList.GoldP6.Image = Image.FromFile(My.Settings.GP6)
+            FrmCardList.SilverN1.Text = FrmSettings.SN1.Text
+            FrmCardList.SilverN2.Text = FrmSettings.SN2.Text
+            FrmCardList.SilverN3.Text = FrmSettings.SN3.Text
+            FrmCardList.SilverN4.Text = FrmSettings.SN4.Text
+            FrmCardList.SilverN5.Text = FrmSettings.SN5.Text
+            FrmCardList.SilverN6.Text = FrmSettings.SN6.Text
 
-        FrmCardList.SilverN1.Text = FrmSettings.SN1.Text
-        FrmCardList.SilverN2.Text = FrmSettings.SN2.Text
-        FrmCardList.SilverN3.Text = FrmSettings.SN3.Text
-        FrmCardList.SilverN4.Text = FrmSettings.SN4.Text
-        FrmCardList.SilverN5.Text = FrmSettings.SN5.Text
-        FrmCardList.SilverN6.Text = FrmSettings.SN6.Text
+            FrmCardList.SilverP1.Image = Image.FromFile(My.Settings.SP1)
+            FrmCardList.SilverP2.Image = Image.FromFile(My.Settings.SP2)
+            FrmCardList.SilverP3.Image = Image.FromFile(My.Settings.SP3)
+            FrmCardList.SilverP4.Image = Image.FromFile(My.Settings.SP4)
+            FrmCardList.SilverP5.Image = Image.FromFile(My.Settings.SP5)
+            FrmCardList.SilverP6.Image = Image.FromFile(My.Settings.SP6)
 
-        FrmCardList.SilverP1.Image = Image.FromFile(My.Settings.SP1)
-        FrmCardList.SilverP2.Image = Image.FromFile(My.Settings.SP2)
-        FrmCardList.SilverP3.Image = Image.FromFile(My.Settings.SP3)
-        FrmCardList.SilverP4.Image = Image.FromFile(My.Settings.SP4)
-        FrmCardList.SilverP5.Image = Image.FromFile(My.Settings.SP5)
-        FrmCardList.SilverP6.Image = Image.FromFile(My.Settings.SP6)
+            FrmCardList.BronzeN1.Text = FrmSettings.BN1.Text
+            FrmCardList.BronzeN2.Text = FrmSettings.BN2.Text
+            FrmCardList.BronzeN3.Text = FrmSettings.BN3.Text
+            FrmCardList.BronzeN4.Text = FrmSettings.BN4.Text
+            FrmCardList.BronzeN5.Text = FrmSettings.BN5.Text
+            FrmCardList.BronzeN6.Text = FrmSettings.BN6.Text
 
-        FrmCardList.BronzeN1.Text = FrmSettings.BN1.Text
-        FrmCardList.BronzeN2.Text = FrmSettings.BN2.Text
-        FrmCardList.BronzeN3.Text = FrmSettings.BN3.Text
-        FrmCardList.BronzeN4.Text = FrmSettings.BN4.Text
-        FrmCardList.BronzeN5.Text = FrmSettings.BN5.Text
-        FrmCardList.BronzeN6.Text = FrmSettings.BN6.Text
-
-        FrmCardList.BronzeP1.Image = Image.FromFile(My.Settings.BP1)
-        FrmCardList.BronzeP2.Image = Image.FromFile(My.Settings.BP2)
-        FrmCardList.BronzeP3.Image = Image.FromFile(My.Settings.BP3)
-        FrmCardList.BronzeP4.Image = Image.FromFile(My.Settings.BP4)
-        FrmCardList.BronzeP5.Image = Image.FromFile(My.Settings.BP5)
-        FrmCardList.BronzeP6.Image = Image.FromFile(My.Settings.BP6)
-
+            FrmCardList.BronzeP1.Image = Image.FromFile(My.Settings.BP1)
+            FrmCardList.BronzeP2.Image = Image.FromFile(My.Settings.BP2)
+            FrmCardList.BronzeP3.Image = Image.FromFile(My.Settings.BP3)
+            FrmCardList.BronzeP4.Image = Image.FromFile(My.Settings.BP4)
+            FrmCardList.BronzeP5.Image = Image.FromFile(My.Settings.BP5)
+            FrmCardList.BronzeP6.Image = Image.FromFile(My.Settings.BP6)
+        Catch
+            ' This is intentionally suppressed because RefreshCards is poorly written and throws exceptions a lot
+        End Try
     End Sub
 
-    Private Sub VideoTauntTimer_Tick(sender As System.Object, e As System.EventArgs) Handles VideoTauntTimer.Tick
+    Private Sub VideoTauntTimer_Tick(sender As Object, e As EventArgs) Handles VideoTauntTimer.Tick
 
         'TODO: Merge redundant code: VideoTauntTimer_Tick, RLGLTauntTimer_Tick, AvoidTheEdgeTaunts_Tick
         If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
@@ -12373,7 +12158,7 @@ RestartFunction:
         End If
     End Sub
 
-    Private Sub TeaseTimer_Tick(sender As System.Object, e As System.EventArgs) Handles TeaseTimer.Tick
+    Private Sub TeaseTimer_Tick(sender As Object, e As EventArgs) Handles TeaseTimer.Tick
 
 
         FrmSettings.LBLDebugTeaseTime.Text = ssh.TeaseTick
@@ -12385,7 +12170,7 @@ RestartFunction:
 
     End Sub
 
-    Public Sub RLGLTauntTimer_Tick(sender As System.Object, e As System.EventArgs) Handles RLGLTauntTimer.Tick
+    Public Sub RLGLTauntTimer_Tick(sender As Object, e As EventArgs) Handles RLGLTauntTimer.Tick
         'TODO: Merge redundant code: VideoTauntTimer_Tick, RLGLTauntTimer_Tick, AvoidTheEdgeTaunts_Tick
         If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
         If ssh.MiniScript = True Then Return
@@ -12430,7 +12215,7 @@ RestartFunction:
         End If
     End Sub
 
-    Private Sub AvoidTheEdgeTaunts_Tick(sender As System.Object, e As System.EventArgs) Handles AvoidTheEdgeTaunts.Tick
+    Private Sub AvoidTheEdgeTaunts_Tick(sender As Object, e As EventArgs) Handles AvoidTheEdgeTaunts.Tick
         'TODO: Merge redundant code: VideoTauntTimer_Tick, RLGLTauntTimer_Tick, AvoidTheEdgeTaunts_Tick
         If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
 
@@ -12496,188 +12281,133 @@ RestartFunction:
 
     Private Sub PictureStrip_Opening(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles PictureStrip.Opening
 
-        If mainPictureBox.Image IsNot Nothing Then
-            Dim sh As ContactData = ssh.SlideshowMain
+        If mainPictureBox.Image Is Nothing Then
+            Return
+        End If
+        Dim sh As ContactData = ssh.SlideshowMain
 
-            If ImageAnimator.CanAnimate(mainPictureBox.Image) _
-            And ImageAnimator_OnFrameChangedAdded Then
-                PicStripTmsiDisableAnimation.Enabled = True
+        PicStripTmsiDisableAnimation.Enabled = ImageAnimator.CanAnimate(mainPictureBox.Image) AndAlso ImageAnimator_OnFrameChangedAdded
+        PicStripTmsiDisableAnimation.Checked = ImageAnimator.CanAnimate(mainPictureBox.Image) AndAlso
+            ImageAnimator_OnFrameChangedAdded AndAlso
+            Not mreImageanimator.WaitOne(0)
 
-                If mreImageanimator.WaitOne(0) = True Then
-                    ' ImageAnimations are running
-                    PicStripTmsiDisableAnimation.Checked = False
-                Else
-                    ' ImageAnimations are stopped
-                    PicStripTmsiDisableAnimation.Checked = True
-                End If
-            Else
-                PicStripTmsiDisableAnimation.Enabled = False
-                PicStripTmsiDisableAnimation.Checked = False
-            End If
-
-            If isURL(ssh.ImageLocation) Then
-
-                PicStripTSMIsaveImage.Enabled = True
-                PicStripTSMISaveImageTo.Enabled = True
-                PicStripTSMIremoveFromURL.Enabled = True
-
-            ElseIf ssh.ImageLocation = "" Or sh.ImageList.Contains(ssh.ImageLocation) Then
-
-                PicStripTSMIcopyImageLocation.Enabled = False
-                PicStripTSMIsaveImage.Enabled = False
-                PicStripTSMISaveImageTo.Enabled = False
-                PicStripTSMIlikeImage.Enabled = False
-                PicStripTSMIlikeImage.Checked = False
-                PicStripTSMIdislikeImage.Enabled = False
-                PicStripTSMIdislikeImage.Checked = False
-                PicStripTSMIremoveFromURL.Enabled = False
-
-                If sh.ImageList.Contains(ssh.ImageLocation) Then
-                    PicStripTSMIdommeSlideshow.Enabled = True
-                    PicStripTSMIcopyImageLocation.Enabled = True
-                End If
-
-                Exit Sub
-
-            End If
-
-            PicStripTSMIcopyImageLocation.Enabled = True
-            PicStripTSMIlikeImage.Enabled = True
+        If IsUrl(ssh.ImageLocation) Then
+            PicStripTSMIsaveImage.Enabled = True
+            PicStripTSMISaveImageTo.Enabled = True
+            PicStripTSMIremoveFromURL.Enabled = True
+        ElseIf ssh.ImageLocation = "" OrElse sh.ImageList.Contains(ssh.ImageLocation) Then
+            PicStripTSMIcopyImageLocation.Enabled = False
+            PicStripTSMIsaveImage.Enabled = False
+            PicStripTSMISaveImageTo.Enabled = False
+            PicStripTSMIlikeImage.Enabled = False
             PicStripTSMIlikeImage.Checked = False
-            PicStripTSMIdislikeImage.Enabled = True
+            PicStripTSMIdislikeImage.Enabled = False
             PicStripTSMIdislikeImage.Checked = False
+            PicStripTSMIremoveFromURL.Enabled = False
 
-            Dim tmp As List(Of String) = Txt2List(pathLikeList)
-            If tmp.Contains(ssh.ImageLocation) Then PicStripTSMIlikeImage.Checked = True
-
-            tmp = Txt2List(pathDislikeList)
-            If tmp.Contains(ssh.ImageLocation) Then PicStripTSMIdislikeImage.Checked = True
-
+            If sh.ImageList.Contains(ssh.ImageLocation) Then
+                PicStripTSMIdommeSlideshow.Enabled = True
+                PicStripTSMIcopyImageLocation.Enabled = True
+            End If
+            Return
         End If
 
+        PicStripTSMIcopyImageLocation.Enabled = True
+        PicStripTSMIlikeImage.Enabled = True
+        PicStripTSMIlikeImage.Checked = False
+        PicStripTSMIdislikeImage.Enabled = True
+        PicStripTSMIdislikeImage.Checked = False
+
+        Dim tmp As List(Of String) = Txt2List(pathLikeList)
+        If tmp.Contains(ssh.ImageLocation) Then PicStripTSMIlikeImage.Checked = True
+
+        tmp = Txt2List(pathDislikeList)
+        If tmp.Contains(ssh.ImageLocation) Then PicStripTSMIdislikeImage.Checked = True
     End Sub
 
     Private Sub PictureStripTmsiDisableAnimation_Click(sender As Object, e As EventArgs) Handles PicStripTmsiDisableAnimation.Click
-        If mreImageanimator.WaitOne(0) = True Then
-            ' Signals the ImageAnimatorThread to pause.
+        If mreImageanimator.WaitOne(0) Then
             mreImageanimator.Reset()
         Else
-            ' Signals the ImageAnimatorThread to resume.
             mreImageanimator.Set()
         End If
     End Sub
 
-    Private Sub PicStripTSMIcopyImageLocation_Click(sender As System.Object, e As System.EventArgs) Handles PicStripTSMIcopyImageLocation.Click
-
+    Private Sub PicStripTSMIcopyImageLocation_Click(sender As Object, e As EventArgs) Handles PicStripTSMIcopyImageLocation.Click
         My.Computer.Clipboard.SetText(ssh.ImageLocation)
-
     End Sub
 
+    Public Function GetBlogPath(sender As ToolStripMenuItem, fileName As String) As String
+        If sender Is PicStripTSMIsaveHardcore Then : Return My.Settings.IHardcore
+        ElseIf sender Is PicStripTSMIsaveSoftcore Then : Return My.Settings.ISoftcore
+        ElseIf sender Is PicStripTSMIsaveLesbian Then : Return My.Settings.ILesbian
+        ElseIf sender Is PicStripTSMIsaveBlowjob Then : Return My.Settings.IBlowjob
+        ElseIf sender Is PicStripTSMIsaveFemdom Then : Return My.Settings.IFemdom
+        ElseIf sender Is PicStripTSMIsaveLezdom Then : Return My.Settings.ILezdom
+        ElseIf sender Is PicStripTSMIsaveHentai Then : Return My.Settings.IHentai
+        ElseIf sender Is PicStripTSMIsaveGay Then : Return My.Settings.IGay
+        ElseIf sender Is PicStripTSMIsaveMaledom Then : Return My.Settings.IMaledom
+        ElseIf sender Is PicStripTSMIsaveCaptions Then : Return My.Settings.ICaptions
+        ElseIf sender Is PicStripTSMIsaveGeneral Then : Return My.Settings.IGeneral
+        ElseIf sender Is PicStripTSMIsaveBoobs Then : Return My.Settings.LBLBoobPath
+        ElseIf sender Is PicStripTSMIsaveButts Then : Return My.Settings.LBLButtPath
+        ElseIf sender Is PicStripTSMIsaveImage Then
+            SaveFileDialog1.Filter = "jpegs|*.jpg|gifs|*.gif|pngs|*.png|Bitmaps|*.bmp"
+            SaveFileDialog1.FilterIndex = 1
+            SaveFileDialog1.RestoreDirectory = True
+            SaveFileDialog1.FileName = fileName
+            SaveFileDialog1.CheckFileExists = False
 
-    Public Sub PicStripTSMI_SaveImage(sender As System.Object, e As System.EventArgs) Handles PicStripTSMIsaveHardcore.Click,
+            If SaveFileDialog1.ShowDialog() = DialogResult.OK Then
+                fileName = Path.GetFileName(SaveFileDialog1.FileName)
+            End If
+
+            Return fileName
+        ElseIf sender Is PicStripTSMIlikeImage Then : Return pathLikeList
+        ElseIf sender Is PicStripTSMIdislikeImage Then : Return pathDislikeList
+        Else : Throw New NotImplementedException("Action for this button is not implemented.")
+        End If
+
+    End Function
+
+    Public Sub PicStripTSMI_SaveImage(sender As Object, e As EventArgs) Handles PicStripTSMIsaveHardcore.Click,
         PicStripTSMIsaveSoftcore.Click, PicStripTSMIsaveLesbian.Click, PicStripTSMIsaveBlowjob.Click, PicStripTSMIsaveFemdom.Click,
         PicStripTSMIsaveLezdom.Click, PicStripTSMIsaveHentai.Click, PicStripTSMIsaveGay.Click, PicStripTSMIsaveMaledom.Click,
         PicStripTSMIsaveCaptions.Click, PicStripTSMIsaveGeneral.Click, PicStripTSMIsaveBoobs.Click, PicStripTSMIsaveButts.Click, PicStripTSMIsaveImage.Click
-retry:
-        Try
-            Dim BlogPath As String = ""
-            Dim fileName As String = Path.GetFileName(mainPictureBox.ImageLocation)
 
-            If sender Is PicStripTSMIsaveHardcore Then : BlogPath = My.Settings.IHardcore
-            ElseIf sender Is PicStripTSMIsaveSoftcore Then : BlogPath = My.Settings.ISoftcore
-            ElseIf sender Is PicStripTSMIsaveLesbian Then : BlogPath = My.Settings.ILesbian
-            ElseIf sender Is PicStripTSMIsaveBlowjob Then : BlogPath = My.Settings.IBlowjob
-            ElseIf sender Is PicStripTSMIsaveFemdom Then : BlogPath = My.Settings.IFemdom
-            ElseIf sender Is PicStripTSMIsaveLezdom Then : BlogPath = My.Settings.ILezdom
-            ElseIf sender Is PicStripTSMIsaveHentai Then : BlogPath = My.Settings.IHentai
-            ElseIf sender Is PicStripTSMIsaveGay Then : BlogPath = My.Settings.IGay
-            ElseIf sender Is PicStripTSMIsaveMaledom Then : BlogPath = My.Settings.IMaledom
-            ElseIf sender Is PicStripTSMIsaveCaptions Then : BlogPath = My.Settings.ICaptions
-            ElseIf sender Is PicStripTSMIsaveGeneral Then : BlogPath = My.Settings.IGeneral
-            ElseIf sender Is PicStripTSMIsaveBoobs Then : BlogPath = My.Settings.LBLBoobPath
-            ElseIf sender Is PicStripTSMIsaveButts Then : BlogPath = My.Settings.LBLButtPath
-            ElseIf sender Is PicStripTSMIsaveImage Then
-                SaveFileDialog1.Filter = "jpegs|*.jpg|gifs|*.gif|pngs|*.png|Bitmaps|*.bmp"
-                SaveFileDialog1.FilterIndex = 1
-                SaveFileDialog1.RestoreDirectory = True
-                SaveFileDialog1.FileName = fileName
-                SaveFileDialog1.CheckFileExists = False
+        Dim fileName As String = Path.GetFileName(mainPictureBox.ImageLocation)
+        Dim blogPath As String = GetBlogPath(CType(sender, ToolStripMenuItem), fileName)
+        Dim findFullPath As Result(Of String) = Result.Ok(blogPath) _
+                .Ensure(Function(p) Directory.Exists(p), "Unable to find the directroy """ & blogPath & """" & Environment.NewLine & Environment.NewLine & "Please check your image settings.") _
+                .OnSuccess(Function(p) p + Path.DirectorySeparatorChar + fileName)
 
-                If SaveFileDialog1.ShowDialog() = DialogResult.OK Then
-                    fileName = Path.GetFileName(SaveFileDialog1.FileName)
-                    BlogPath = Path.GetDirectoryName(SaveFileDialog1.FileName)
-                Else
-                    Exit Sub
-                End If
-            Else : Throw New NotImplementedException("Action for this button is not implemented.")
+        Dim fullPath = findFullPath.GetResultOrDefault()
+        If File.Exists(fullPath) AndAlso Not SaveFileDialog1.CheckFileExists Then
+            Dim dialogResult = MessageBox.Show(Me, fileName & " already exists in this directory!" & Environment.NewLine & Environment.NewLine & "Do you wish to overwrite?", "Caution!", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation)
+            If dialogResult = DialogResult.No Then
+                Return
             End If
-
-            If Directory.Exists(BlogPath) = False Then
-                Throw New DirectoryNotFoundException(
-                            "Unable to find the directroy """ & BlogPath & """" &
-                            vbCrLf & vbCrLf &
-                            "Please check your image settings.")
-            End If
-
-            Dim fullPath As String = BlogPath & "\" & fileName
-
-            ' Save image directly
-            If Not File.Exists(fullPath) Or SaveFileDialog1.CheckFileExists Then GoTo saveImage
-
-            ' Confirm overwriting the file
-            If MessageBox.Show(Me, fileName & " already exists in this directory!" &
-                            Environment.NewLine & Environment.NewLine &
-                            "Do you wish to overwrite?", "Caution!",
-                            MessageBoxButtons.YesNo,
-                            MessageBoxIcon.Exclamation) = DialogResult.No Then
-                Exit Sub
-            End If
-
             My.Computer.FileSystem.DeleteFile(fullPath)
-saveImage:
+        End If
 
-            mainPictureBox.Image.Save(fullPath)
-
-        Catch ex As Exception
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-            '                                            All Errors
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-            Log.WriteError(ex.Message, ex, "Saving image failed.")
-            If MessageBox.Show(ex.Message, "Saving image failed.",
-                            MessageBoxButtons.RetryCancel, MessageBoxIcon.Exclamation,
-                            MessageBoxDefaultButton.Button2) = DialogResult.Retry Then GoTo retry
-        End Try
+        mainPictureBox.Image.Save(fullPath)
     End Sub
 
-    Private Sub PicStripTSMIlikeImage_Click(sender As System.Object, e As System.EventArgs) Handles PicStripTSMIlikeImage.Click,
-                                                                                                    PicStripTSMIdislikeImage.Click
-        ' Exit if ImageLocation is unkown
-        If ssh.ImageLocation = "" Then Exit Sub
+    Private Sub PicStripTSMIlikeImage_Click(sender As Object, e As EventArgs) Handles PicStripTSMIlikeImage.Click,
+                                                                                      PicStripTSMIdislikeImage.Click
+        If String.IsNullOrWhiteSpace(ssh.ImageLocation = "") Then Exit Sub
 
-        Dim tmpFilePath As String = ""
         Dim lazytext As String = ""
         Try
             Dim tmpTsmi As ToolStripMenuItem = DirectCast(sender, ToolStripMenuItem)
-
-
-            ' Set the filepath to delete from or add to
-            If tmpTsmi Is PicStripTSMIlikeImage Then
-                tmpFilePath = pathLikeList
-            ElseIf tmpTsmi Is PicStripTSMIdislikeImage Then
-                tmpFilePath = pathDislikeList
-            Else
-                Throw New NotImplementedException("This Toolstripmenuitem is not implemented yet")
-            End If
-
+            Dim tmpFilePath As String = GetBlogPath(tmpTsmi, String.Empty)
 
             If tmpTsmi.Checked Then
-                ' Remove from the given file 
                 lazytext = "remove path from file :" & tmpFilePath
                 TxtRemoveLine(tmpFilePath, ssh.ImageLocation)
                 tmpTsmi.Checked = False
             ElseIf File.Exists(tmpFilePath) Then
                 lazytext = "append path  to file :" & tmpFilePath
-                ' Append to existing file 
                 My.Computer.FileSystem.WriteAllText(tmpFilePath, Environment.NewLine & ssh.ImageLocation, True)
             Else
                 lazytext = "add path to new file :" & tmpFilePath
@@ -12686,17 +12416,13 @@ saveImage:
             End If
             tmpTsmi.Checked = True
         Catch ex As Exception
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-            '						       All Errors
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
             lazytext = "Unable to " & lazytext
-            Log.WriteError(lazytext, ex, "Error updating List")
             MessageBox.Show(Me, lazytext & vbCrLf _
                             & ex.Message, MsgBoxStyle.Exclamation, "Error updating list.")
         End Try
     End Sub
 
-    Private Sub PicStripTSMIremoveFromURL_Click(sender As System.Object, e As System.EventArgs) Handles PicStripTSMIremoveFromURL.Click
+    Private Sub PicStripTSMIremoveFromURL_Click(sender As Object, e As EventArgs) Handles PicStripTSMIremoveFromURL.Click
         Try
             ' Lock Control
             PicStripTSMIremoveFromURL.Enabled = False
@@ -12715,7 +12441,7 @@ saveImage:
 
 #Region "-------------------------------------------------- DommeSlideshow ----------------------------------------------------"
 
-    Private Sub PicStripTSMIdommeSlideshowGoToLast_Click(sender As System.Object, e As System.EventArgs) Handles PicStripTSMIdommeSlideshowGoToLast.Click
+    Private Sub PicStripTSMIdommeSlideshowGoToLast_Click(sender As Object, e As EventArgs) Handles PicStripTSMIdommeSlideshowGoToLast.Click
 
         If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then
             MsgBox("Please close the settings menu or disable ""Pause Program When Settings Menu Is Visible"" option first!", , "Warning!")
@@ -12732,7 +12458,7 @@ saveImage:
         End Try
     End Sub
 
-    Private Sub PicStripTSMIdommeSlideshow_GoToFirst_Click(sender As System.Object, e As System.EventArgs) Handles PicStripTSMIdommeSlideshow_GoToFirst.Click
+    Private Sub PicStripTSMIdommeSlideshow_GoToFirst_Click(sender As Object, e As EventArgs) Handles PicStripTSMIdommeSlideshow_GoToFirst.Click
 
         If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then
             MsgBox("Please close the settings menu or disable ""Pause Program When Settings Menu Is Visible"" option first!", , "Warning!")
@@ -12749,7 +12475,7 @@ saveImage:
         End Try
     End Sub
 
-    Private Sub PicStripTSMIdommeSlideshowLoadNewSlideshow_Click(sender As System.Object, e As System.EventArgs) Handles PicStripTSMIdommeSlideshowLoadNewSlideshow.Click
+    Private Sub PicStripTSMIdommeSlideshowLoadNewSlideshow_Click(sender As Object, e As EventArgs) Handles PicStripTSMIdommeSlideshowLoadNewSlideshow.Click
 
         If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then
             MsgBox("Please close the settings menu or disable ""Pause Program When Settings Menu Is Visible"" option first!", , "Warning!")
@@ -12761,12 +12487,9 @@ saveImage:
         Try
             ssh.SlideshowMain.LoadNew()
             ShowImage(ssh.SlideshowMain.NavigateFirst, True)
-
-        Catch
-
+        Catch ex As Exception
+            Dim i As Int16 = 0
         End Try
-
-
     End Sub
 
 #End Region ' DommeSlideshow
@@ -12905,7 +12628,7 @@ saveImage:
         Return FormatClean
     End Function
 
-    Private Sub CustomSlideshowTimer_Tick(sender As System.Object, e As System.EventArgs) Handles CustomSlideshowTimer.Tick
+    Private Sub CustomSlideshowTimer_Tick(sender As Object, e As EventArgs) Handles CustomSlideshowTimer.Tick
         If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
         Try
             Dim sw As New Stopwatch
@@ -12962,7 +12685,7 @@ restartInstantly:
 
 
 
-    Private Sub Contact1Timer_Tick(sender As System.Object, e As System.EventArgs) Handles Contact1Timer.Tick
+    Private Sub Contact1Timer_Tick(sender As Object, e As EventArgs) Handles Contact1Timer.Tick
 
         ssh.AddContactTick -= 1
 
@@ -12985,7 +12708,7 @@ restartInstantly:
 
     End Sub
 
-    Private Sub Contact2Timer_Tick(sender As System.Object, e As System.EventArgs) Handles Contact2Timer.Tick
+    Private Sub Contact2Timer_Tick(sender As Object, e As EventArgs) Handles Contact2Timer.Tick
 
         ssh.AddContactTick -= 1
 
@@ -13008,7 +12731,7 @@ restartInstantly:
 
     End Sub
 
-    Private Sub Contact3Timer_Tick(sender As System.Object, e As System.EventArgs) Handles Contact3Timer.Tick
+    Private Sub Contact3Timer_Tick(sender As Object, e As EventArgs) Handles Contact3Timer.Tick
 
         ssh.AddContactTick -= 1
 
@@ -13033,7 +12756,7 @@ restartInstantly:
 
 #End Region
 
-    Private Sub DommeTimer_Tick(sender As System.Object, e As System.EventArgs) Handles DommeTimer.Tick
+    Private Sub DommeTimer_Tick(sender As Object, e As EventArgs) Handles DommeTimer.Tick
 
         ssh.AddContactTick -= 1
 
@@ -13056,7 +12779,7 @@ restartInstantly:
 
     End Sub
 
-    Private Sub UpdateStageTimer_Tick(sender As System.Object, e As System.EventArgs) Handles UpdateStageTimer.Tick
+    Private Sub UpdateStageTimer_Tick(sender As Object, e As EventArgs) Handles UpdateStageTimer.Tick
         If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
         ssh.UpdateStageTick -= 1
         If ssh.UpdateStageTick < 1 Then
@@ -13066,7 +12789,7 @@ restartInstantly:
     End Sub
 
 
-    Private Sub Form1_ResizeEnd(sender As Object, e As System.EventArgs) Handles Me.ResizeEnd, Me.Resize
+    Private Sub Form1_ResizeEnd(sender As Object, e As EventArgs) Handles Me.ResizeEnd, Me.Resize
         If Me.IsHandleCreated = False Then Exit Sub
         If Me.FormBorderStyle = Windows.Forms.FormBorderStyle.None Then
             Exit Sub
@@ -13080,7 +12803,7 @@ restartInstantly:
 
     End Sub
 
-    Private Sub TeaseAIClock_Tick(sender As System.Object, e As System.EventArgs) Handles TeaseAIClock.Tick
+    Private Sub TeaseAIClock_Tick(sender As Object, e As EventArgs) Handles TeaseAIClock.Tick
         ' Reset the WatchdogTimer Clock. 
         WatchDogImageAnimator.Reset(TeaseAIClock.Interval * 3)
 
@@ -13213,33 +12936,19 @@ restartInstantly:
     Public Sub ApplyThemeColor()
     End Sub
 
-    Public Sub CloseApp(ByVal appToOpen As Panel)
+    Public Sub ToggleAppVisibility(ByVal appToOpen As Panel)
         If appToOpen Is Nothing AndAlso My.Settings.SideChat Then
             appToOpen = PnlSidechat
         End If
 
         For Each pnl As Control In PNLTabs.Controls
-            If appToOpen IsNot Nothing AndAlso pnl Is appToOpen Then
-                pnl.Visible = True
-            Else
-                pnl.Visible = False
-            End If
+            pnl.Visible = appToOpen IsNot Nothing AndAlso pnl Is appToOpen
         Next
 
-        If appToOpen Is Nothing Then
-            PNLTabs.Visible = False
-            PnlTabsLayout.Visible = False
-        Else
-            PNLTabs.Visible = True
-            PnlTabsLayout.Visible = True
-        End If
+        PNLTabs.Visible = appToOpen IsNot Nothing
+        PnlTabsLayout.Visible = appToOpen IsNot Nothing
 
-        If MaximizeImageToolStripMenuItem.Checked AndAlso SidepanelToolStripMenuItem.Checked AndAlso PnlSidechat.Visible = True Then
-            PnlChatBoxLayout.Visible = False
-        Else
-            PnlChatBoxLayout.Visible = True
-        End If
-
+        PnlChatBoxLayout.Visible = Not (MaximizeImageToolStripMenuItem.Checked AndAlso SidepanelToolStripMenuItem.Checked AndAlso PnlSidechat.Visible)
     End Sub
 
 #Region "------------------------------------------------------- Apps ---------------------------------------------------------"
@@ -13248,7 +12957,7 @@ restartInstantly:
 
 #Region "------------------------------------------------- Regular Buttons-----------------------------------------------------"
 
-    Private Sub Face_Click(sender As System.Object, e As System.EventArgs) Handles Face.Click
+    Private Sub Face_Click(sender As Object, e As EventArgs) Handles Face.Click
         If ssh.SlideshowLoaded = False Then Return
         If Face.BackColor = Color.White Then
             AddDommeTag("Face", "Nothing")
@@ -13261,7 +12970,7 @@ restartInstantly:
         End If
     End Sub
 
-    Private Sub Boobs_Click(sender As System.Object, e As System.EventArgs) Handles Boobs.Click
+    Private Sub Boobs_Click(sender As Object, e As EventArgs) Handles Boobs.Click
         If ssh.SlideshowLoaded = False Then Return
         If Boobs.BackColor = Color.White Then
             AddDommeTag("Boobs", "Nothing")
@@ -13274,7 +12983,7 @@ restartInstantly:
         End If
     End Sub
 
-    Private Sub Pussy_Click(sender As System.Object, e As System.EventArgs) Handles Pussy.Click
+    Private Sub Pussy_Click(sender As Object, e As EventArgs) Handles Pussy.Click
         If ssh.SlideshowLoaded = False Then Return
         If Pussy.BackColor = Color.White Then
             AddDommeTag("Pussy", "Nothing")
@@ -13287,7 +12996,7 @@ restartInstantly:
         End If
     End Sub
 
-    Private Sub Ass_Click(sender As System.Object, e As System.EventArgs) Handles Ass.Click
+    Private Sub Ass_Click(sender As Object, e As EventArgs) Handles Ass.Click
         If ssh.SlideshowLoaded = False Then Return
         If Ass.BackColor = Color.White Then
             AddDommeTag("Ass", "Nothing")
@@ -13300,7 +13009,7 @@ restartInstantly:
         End If
     End Sub
 
-    Private Sub Legs_Click(sender As System.Object, e As System.EventArgs) Handles Legs.Click
+    Private Sub Legs_Click(sender As Object, e As EventArgs) Handles Legs.Click
         If ssh.SlideshowLoaded = False Then Return
         If Legs.BackColor = Color.White Then
             AddDommeTag("Legs", "Nothing")
@@ -13313,7 +13022,7 @@ restartInstantly:
         End If
     End Sub
 
-    Private Sub Feet_Click(sender As System.Object, e As System.EventArgs) Handles Feet.Click
+    Private Sub Feet_Click(sender As Object, e As EventArgs) Handles Feet.Click
         If ssh.SlideshowLoaded = False Then Return
         If Feet.BackColor = Color.White Then
             AddDommeTag("Feet", "Nothing")
@@ -13326,7 +13035,7 @@ restartInstantly:
         End If
     End Sub
 
-    Private Sub FullyDressed_Click(sender As System.Object, e As System.EventArgs) Handles FullyDressed.Click
+    Private Sub FullyDressed_Click(sender As Object, e As EventArgs) Handles FullyDressed.Click
         If ssh.SlideshowLoaded = False Then Return
         If FullyDressed.BackColor = Color.White Then
             AddDommeTag("FullyDressed", "Nothing")
@@ -13339,7 +13048,7 @@ restartInstantly:
         End If
     End Sub
 
-    Private Sub HalfDressed_Click(sender As System.Object, e As System.EventArgs) Handles HalfDressed.Click
+    Private Sub HalfDressed_Click(sender As Object, e As EventArgs) Handles HalfDressed.Click
         If ssh.SlideshowLoaded = False Then Return
         If HalfDressed.BackColor = Color.White Then
             AddDommeTag("HalfDressed", "Nothing")
@@ -13352,7 +13061,7 @@ restartInstantly:
         End If
     End Sub
 
-    Private Sub GarmentCovering_Click(sender As System.Object, e As System.EventArgs) Handles GarmentCovering.Click
+    Private Sub GarmentCovering_Click(sender As Object, e As EventArgs) Handles GarmentCovering.Click
         If ssh.SlideshowLoaded = False Then Return
         If GarmentCovering.BackColor = Color.White Then
             AddDommeTag("GarmentCovering", "Nothing")
@@ -13365,7 +13074,7 @@ restartInstantly:
         End If
     End Sub
 
-    Private Sub HandsCovering_Click(sender As System.Object, e As System.EventArgs) Handles HandsCovering.Click
+    Private Sub HandsCovering_Click(sender As Object, e As EventArgs) Handles HandsCovering.Click
         If ssh.SlideshowLoaded = False Then Return
         If HandsCovering.BackColor = Color.White Then
             AddDommeTag("HandsCovering", "Nothing")
@@ -13378,7 +13087,7 @@ restartInstantly:
         End If
     End Sub
 
-    Private Sub Naked_Click(sender As System.Object, e As System.EventArgs) Handles Naked.Click
+    Private Sub Naked_Click(sender As Object, e As EventArgs) Handles Naked.Click
         If ssh.SlideshowLoaded = False Then Return
         If Naked.BackColor = Color.White Then
             AddDommeTag("Naked", "Nothing")
@@ -13391,7 +13100,7 @@ restartInstantly:
         End If
     End Sub
 
-    Private Sub Masturbating_Click(sender As System.Object, e As System.EventArgs) Handles Masturbating.Click
+    Private Sub Masturbating_Click(sender As Object, e As EventArgs) Handles Masturbating.Click
         If ssh.SlideshowLoaded = False Then Return
         If Masturbating.BackColor = Color.White Then
             AddDommeTag("Masturbating", "Nothing")
@@ -13404,7 +13113,7 @@ restartInstantly:
         End If
     End Sub
 
-    Private Sub Sucking_Click(sender As System.Object, e As System.EventArgs) Handles Sucking.Click
+    Private Sub Sucking_Click(sender As Object, e As EventArgs) Handles Sucking.Click
         If ssh.SlideshowLoaded = False Then Return
         If Sucking.BackColor = Color.White Then
             AddDommeTag("Sucking", "Nothing")
@@ -13417,7 +13126,7 @@ restartInstantly:
         End If
     End Sub
 
-    Private Sub Smiling_Click(sender As System.Object, e As System.EventArgs) Handles Smiling.Click
+    Private Sub Smiling_Click(sender As Object, e As EventArgs) Handles Smiling.Click
         If ssh.SlideshowLoaded = False Then Return
         If Smiling.BackColor = Color.White Then
             AddDommeTag("Smiling", "Nothing")
@@ -13430,7 +13139,7 @@ restartInstantly:
         End If
     End Sub
 
-    Private Sub Glaring_Click(sender As System.Object, e As System.EventArgs) Handles Glaring.Click
+    Private Sub Glaring_Click(sender As Object, e As EventArgs) Handles Glaring.Click
         If ssh.SlideshowLoaded = False Then Return
         If Glaring.BackColor = Color.White Then
             AddDommeTag("Glaring", "Nothing")
@@ -13443,7 +13152,7 @@ restartInstantly:
         End If
     End Sub
 
-    Private Sub SideView_Click(sender As System.Object, e As System.EventArgs) Handles SideView.Click
+    Private Sub SideView_Click(sender As Object, e As EventArgs) Handles SideView.Click
         If ssh.SlideshowLoaded = False Then Return
         If SideView.BackColor = Color.White Then
             AddDommeTag("SideView", "Nothing")
@@ -13456,7 +13165,7 @@ restartInstantly:
         End If
     End Sub
 
-    Private Sub CloseUp_Click(sender As System.Object, e As System.EventArgs) Handles CloseUp.Click
+    Private Sub CloseUp_Click(sender As Object, e As EventArgs) Handles CloseUp.Click
         If ssh.SlideshowLoaded = False Then Return
         If CloseUp.BackColor = Color.White Then
             AddDommeTag("CloseUp", "Nothing")
@@ -13469,7 +13178,7 @@ restartInstantly:
         End If
     End Sub
 
-    Private Sub SeeThrough_Click(sender As System.Object, e As System.EventArgs) Handles SeeThrough.Click
+    Private Sub SeeThrough_Click(sender As Object, e As EventArgs) Handles SeeThrough.Click
         If ssh.SlideshowLoaded = False Then Return
         If SeeThrough.BackColor = Color.White Then
             AddDommeTag("SeeThrough", "Nothing")
@@ -13482,7 +13191,7 @@ restartInstantly:
         End If
     End Sub
 
-    Private Sub AllFours_Click(sender As System.Object, e As System.EventArgs) Handles AllFours.Click
+    Private Sub AllFours_Click(sender As Object, e As EventArgs) Handles AllFours.Click
         If ssh.SlideshowLoaded = False Then Return
         If AllFours.BackColor = Color.White Then
             AddDommeTag("AllFours", "Nothing")
@@ -13495,8 +13204,7 @@ restartInstantly:
         End If
     End Sub
 
-
-    Private Sub Piercing_Click(sender As System.Object, e As System.EventArgs) Handles Piercing.Click
+    Private Sub Piercing_Click(sender As Object, e As EventArgs) Handles Piercing.Click
         If ssh.SlideshowLoaded = False Then Return
         If Piercing.BackColor = Color.White Then
             AddDommeTag("Piercing", "Nothing")
@@ -13509,7 +13217,7 @@ restartInstantly:
         End If
     End Sub
 
-    Private Sub TBGarment_TextChanged(sender As System.Object, e As System.EventArgs) Handles TBGarment.TextChanged
+    Private Sub TBGarment_TextChanged(sender As Object, e As EventArgs) Handles TBGarment.TextChanged
         If ssh.SlideshowLoaded = False Or TBGarment.Focused = False Then Return
         If TBGarment.Text = "" Then
             Garment.BackColor = Color.White
@@ -13522,7 +13230,7 @@ restartInstantly:
         End If
     End Sub
 
-    Private Sub TBUnderwear_TextChanged(sender As System.Object, e As System.EventArgs) Handles TBUnderwear.TextChanged
+    Private Sub TBUnderwear_TextChanged(sender As Object, e As EventArgs) Handles TBUnderwear.TextChanged
         If ssh.SlideshowLoaded = False Or TBUnderwear.Focused = False Then Return
         If TBUnderwear.Text = "" Then
             Underwear.BackColor = Color.White
@@ -13535,7 +13243,7 @@ restartInstantly:
         End If
     End Sub
 
-    Private Sub TBTattoo_TextChanged(sender As System.Object, e As System.EventArgs) Handles TBTattoo.TextChanged
+    Private Sub TBTattoo_TextChanged(sender As Object, e As EventArgs) Handles TBTattoo.TextChanged
         If ssh.SlideshowLoaded = False Or TBTattoo.Focused = False Then Return
         If TBTattoo.Text = "" Then
             Tattoo.BackColor = Color.White
@@ -13548,7 +13256,7 @@ restartInstantly:
         End If
     End Sub
 
-    Private Sub TBSexToy_TextChanged(sender As System.Object, e As System.EventArgs) Handles TBSexToy.TextChanged
+    Private Sub TBSexToy_TextChanged(sender As Object, e As EventArgs) Handles TBSexToy.TextChanged
         If ssh.SlideshowLoaded = False Or TBSexToy.Focused = False Then Return
         If TBSexToy.Text = "" Then
             SexToy.BackColor = Color.White
@@ -13562,7 +13270,7 @@ restartInstantly:
     End Sub
 
 
-    Private Sub TBFurniture_TextChanged(sender As System.Object, e As System.EventArgs) Handles TBFurniture.TextChanged
+    Private Sub TBFurniture_TextChanged(sender As Object, e As EventArgs) Handles TBFurniture.TextChanged
         If ssh.SlideshowLoaded = False Or TBFurniture.Focused = False Then Return
         If TBFurniture.Text = "" Then
             Furniture.BackColor = Color.White
@@ -13714,11 +13422,11 @@ restartInstantly:
 
     End Function
 
-    Private Sub BtnDommeTagNextImage_Click(sender As System.Object, e As System.EventArgs) Handles DommeTagBtnNextImage.Click
+    Private Sub BtnDommeTagNextImage_Click(sender As Object, e As EventArgs) Handles DommeTagBtnNextImage.Click
         nextButton.PerformClick()
     End Sub
 
-    Private Sub BtnDommeTagLastImage_Click(sender As System.Object, e As System.EventArgs) Handles DommeTagBtnLastImage.Click
+    Private Sub BtnDommeTagLastImage_Click(sender As Object, e As EventArgs) Handles DommeTagBtnLastImage.Click
         previousButton.PerformClick()
     End Sub
 
@@ -14005,12 +13713,12 @@ restartInstantly:
 
 #Region "------------------------------------------------------ Lazy-Sub ------------------------------------------------------"
 
-    Private Sub Button25_Click(sender As System.Object, e As System.EventArgs) Handles BTNStop.Click, Button7.Click
+    Private Sub Button25_Click(sender As Object, e As EventArgs) Handles BTNStop.Click, Button7.Click
         chatBox.Text = "Let me stop"
         sendButton.PerformClick()
     End Sub
 
-    Private Sub BTNYes_Click(sender As System.Object, e As System.EventArgs) Handles BTNYes.Click, Button2.Click
+    Private Sub BTNYes_Click(sender As Object, e As EventArgs) Handles BTNYes.Click, Button2.Click
         Try
             chatBox.Text = "Yes " & FrmSettings.TBHonorific.Text
         Catch
@@ -14020,7 +13728,7 @@ restartInstantly:
         sendButton.PerformClick()
     End Sub
 
-    Private Sub BTNNo_Click(sender As System.Object, e As System.EventArgs) Handles BTNNo.Click, Button3.Click
+    Private Sub BTNNo_Click(sender As Object, e As EventArgs) Handles BTNNo.Click, Button3.Click
         Try
             chatBox.Text = "No " & FrmSettings.TBHonorific.Text
         Catch
@@ -14030,32 +13738,32 @@ restartInstantly:
         sendButton.PerformClick()
     End Sub
 
-    Private Sub BTNEdge_Click(sender As System.Object, e As System.EventArgs) Handles BTNEdge.Click, Button4.Click
+    Private Sub BTNEdge_Click(sender As Object, e As EventArgs) Handles BTNEdge.Click, Button4.Click
         chatBox.Text = "On the edge"
         sendButton.PerformClick()
     End Sub
 
-    Private Sub BTNSpeedUp_Click(sender As System.Object, e As System.EventArgs) Handles BTNSpeedUp.Click, Button8.Click
+    Private Sub BTNSpeedUp_Click(sender As Object, e As EventArgs) Handles BTNSpeedUp.Click, Button8.Click
         chatBox.Text = "Let me speed up"
         sendButton.PerformClick()
     End Sub
 
-    Private Sub BTNSlowDown_Click(sender As System.Object, e As System.EventArgs) Handles BTNSlowDown.Click, Button5.Click
+    Private Sub BTNSlowDown_Click(sender As Object, e As EventArgs) Handles BTNSlowDown.Click, Button5.Click
         chatBox.Text = "Let me slow down"
         sendButton.PerformClick()
     End Sub
 
-    Private Sub BTNStroke_Click(sender As System.Object, e As System.EventArgs) Handles BTNStroke.Click, Button6.Click
+    Private Sub BTNStroke_Click(sender As Object, e As EventArgs) Handles BTNStroke.Click, Button6.Click
         chatBox.Text = "May I start stroking?"
         sendButton.PerformClick()
     End Sub
 
-    Private Sub BTNAskToCum_Click(sender As System.Object, e As System.EventArgs) Handles BTNAskToCum.Click, Button9.Click
+    Private Sub BTNAskToCum_Click(sender As Object, e As EventArgs) Handles BTNAskToCum.Click, Button9.Click
         chatBox.Text = "Please let me cum!"
         sendButton.PerformClick()
     End Sub
 
-    Private Sub BTNGreeting_Click(sender As System.Object, e As System.EventArgs) Handles BTNGreeting.Click, Button10.Click
+    Private Sub BTNGreeting_Click(sender As Object, e As EventArgs) Handles BTNGreeting.Click, Button10.Click
 
         If mySession.Session.Domme.WasGreeted = True Then
             ssh.LockImage = False
@@ -14077,7 +13785,7 @@ restartInstantly:
         sendButton.PerformClick()
     End Sub
 
-    Private Sub BTNSafeword_Click(sender As System.Object, e As System.EventArgs) Handles BTNSafeword.Click, Button11.Click
+    Private Sub BTNSafeword_Click(sender As Object, e As EventArgs) Handles BTNSafeword.Click, Button11.Click
         Try
             chatBox.Text = FrmSettings.TBSafeword.Text
         Catch
@@ -14087,7 +13795,7 @@ restartInstantly:
         sendButton.PerformClick()
     End Sub
 
-    Private Sub CBHideShortcuts_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles CBHideShortcuts.CheckedChanged
+    Private Sub CBHideShortcuts_CheckedChanged(sender As Object, e As EventArgs) Handles CBHideShortcuts.CheckedChanged
         If FormLoading = False Then
             SetShortcutsVisible()
             My.Settings.ShowShortcuts = CBHideShortcuts.Checked
@@ -14121,49 +13829,49 @@ restartInstantly:
         BTNLS5.Width = width
     End Sub
 
-    Private Sub CBShortcuts_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles CBShortcuts.CheckedChanged
+    Private Sub CBShortcuts_CheckedChanged(sender As Object, e As EventArgs) Handles CBShortcuts.CheckedChanged
         If FormLoading = False Then
             My.Settings.Shortcuts = CBShortcuts.Checked
         End If
     End Sub
 
-    Private Sub TBShortYes_LostFocus(sender As Object, e As System.EventArgs) Handles TBShortYes.LostFocus
+    Private Sub TBShortYes_LostFocus(sender As Object, e As EventArgs) Handles TBShortYes.LostFocus
         My.Settings.ShortYes = TBShortYes.Text
     End Sub
 
-    Private Sub TBShortNo_LostFocus(sender As Object, e As System.EventArgs) Handles TBShortNo.LostFocus
+    Private Sub TBShortNo_LostFocus(sender As Object, e As EventArgs) Handles TBShortNo.LostFocus
         My.Settings.ShortNo = TBShortNo.Text
     End Sub
 
-    Private Sub TBShortEdge_LostFocus(sender As Object, e As System.EventArgs) Handles TBShortEdge.LostFocus
+    Private Sub TBShortEdge_LostFocus(sender As Object, e As EventArgs) Handles TBShortEdge.LostFocus
         My.Settings.ShortEdge = TBShortEdge.Text
     End Sub
 
-    Private Sub TBShortSpeedUp_LostFocus(sender As Object, e As System.EventArgs) Handles TBShortSpeedUp.LostFocus
+    Private Sub TBShortSpeedUp_LostFocus(sender As Object, e As EventArgs) Handles TBShortSpeedUp.LostFocus
         My.Settings.ShortSpeedUp = TBShortSpeedUp.Text
     End Sub
 
-    Private Sub TBShortSlowDown_LostFocus(sender As Object, e As System.EventArgs) Handles TBShortSlowDown.LostFocus
+    Private Sub TBShortSlowDown_LostFocus(sender As Object, e As EventArgs) Handles TBShortSlowDown.LostFocus
         My.Settings.ShortSlowDown = TBShortSlowDown.Text
     End Sub
 
-    Private Sub TBShortStop_LostFocus(sender As Object, e As System.EventArgs) Handles TBShortStop.LostFocus
+    Private Sub TBShortStop_LostFocus(sender As Object, e As EventArgs) Handles TBShortStop.LostFocus
         My.Settings.ShortStop = TBShortStop.Text
     End Sub
 
-    Private Sub TBShortStroke_LostFocus(sender As Object, e As System.EventArgs) Handles TBShortStroke.LostFocus
+    Private Sub TBShortStroke_LostFocus(sender As Object, e As EventArgs) Handles TBShortStroke.LostFocus
         My.Settings.ShortStroke = TBShortStroke.Text
     End Sub
 
-    Private Sub TBShortCum_LostFocus(sender As Object, e As System.EventArgs) Handles TBShortCum.LostFocus
+    Private Sub TBShortCum_LostFocus(sender As Object, e As EventArgs) Handles TBShortCum.LostFocus
         My.Settings.ShortCum = TBShortCum.Text
     End Sub
 
-    Private Sub TBShortGreet_LostFocus(sender As Object, e As System.EventArgs) Handles TBShortGreet.LostFocus
+    Private Sub TBShortGreet_LostFocus(sender As Object, e As EventArgs) Handles TBShortGreet.LostFocus
         My.Settings.ShortGreet = TBShortGreet.Text
     End Sub
 
-    Private Sub TBShortSafeword_LostFocus(sender As Object, e As System.EventArgs) Handles TBShortSafeword.LostFocus
+    Private Sub TBShortSafeword_LostFocus(sender As Object, e As EventArgs) Handles TBShortSafeword.LostFocus
         My.Settings.ShortSafeword = TBShortSafeword.Text
     End Sub
 
@@ -14175,7 +13883,7 @@ restartInstantly:
 
     End Sub
 
-    Private Sub BTNLS1_Click(sender As System.Object, e As System.EventArgs) Handles BTNLS1.Click
+    Private Sub BTNLS1_Click(sender As Object, e As EventArgs) Handles BTNLS1.Click
 
 
         If BTNLS1.Text <> "" Then
@@ -14186,7 +13894,7 @@ restartInstantly:
 
     End Sub
 
-    Private Sub BTNLS1Edit_Click(sender As System.Object, e As System.EventArgs) Handles BTNLS1Edit.Click
+    Private Sub BTNLS1Edit_Click(sender As Object, e As EventArgs) Handles BTNLS1Edit.Click
 
 
         LazyEdit2 = False
@@ -14216,7 +13924,7 @@ restartInstantly:
 
     End Sub
 
-    Private Sub BTNLS2_Click(sender As System.Object, e As System.EventArgs) Handles BTNLS2.Click
+    Private Sub BTNLS2_Click(sender As Object, e As EventArgs) Handles BTNLS2.Click
 
 
         If BTNLS2.Text <> "" Then
@@ -14227,7 +13935,7 @@ restartInstantly:
 
     End Sub
 
-    Private Sub BTNLS2Edit_Click(sender As System.Object, e As System.EventArgs) Handles BTNLS2Edit.Click
+    Private Sub BTNLS2Edit_Click(sender As Object, e As EventArgs) Handles BTNLS2Edit.Click
 
 
         LazyEdit1 = False
@@ -14256,7 +13964,7 @@ restartInstantly:
 
     End Sub
 
-    Private Sub BTNLS3_Click(sender As System.Object, e As System.EventArgs) Handles BTNLS3.Click
+    Private Sub BTNLS3_Click(sender As Object, e As EventArgs) Handles BTNLS3.Click
 
 
         If BTNLS3.Text <> "" Then
@@ -14267,7 +13975,7 @@ restartInstantly:
 
     End Sub
 
-    Private Sub BTNLS3Edit_Click(sender As System.Object, e As System.EventArgs) Handles BTNLS3Edit.Click
+    Private Sub BTNLS3Edit_Click(sender As Object, e As EventArgs) Handles BTNLS3Edit.Click
 
 
         LazyEdit2 = False
@@ -14297,7 +14005,7 @@ restartInstantly:
 
     End Sub
 
-    Private Sub BTNLS4_Click(sender As System.Object, e As System.EventArgs) Handles BTNLS4.Click
+    Private Sub BTNLS4_Click(sender As Object, e As EventArgs) Handles BTNLS4.Click
 
 
         If BTNLS4.Text <> "" Then
@@ -14308,7 +14016,7 @@ restartInstantly:
 
     End Sub
 
-    Private Sub BTNLS4Edit_Click(sender As System.Object, e As System.EventArgs) Handles BTNLS4Edit.Click
+    Private Sub BTNLS4Edit_Click(sender As Object, e As EventArgs) Handles BTNLS4Edit.Click
 
 
         LazyEdit2 = False
@@ -14338,7 +14046,7 @@ restartInstantly:
 
     End Sub
 
-    Private Sub BTNLS5_Click(sender As System.Object, e As System.EventArgs) Handles BTNLS5.Click
+    Private Sub BTNLS5_Click(sender As Object, e As EventArgs) Handles BTNLS5.Click
 
 
         If BTNLS5.Text <> "" Then
@@ -14349,7 +14057,7 @@ restartInstantly:
 
     End Sub
 
-    Private Sub BTNLS5Edit_Click(sender As System.Object, e As System.EventArgs) Handles BTNLS5Edit.Click
+    Private Sub BTNLS5Edit_Click(sender As Object, e As EventArgs) Handles BTNLS5Edit.Click
 
 
         LazyEdit2 = False
@@ -14382,7 +14090,7 @@ restartInstantly:
 
 #Region "-------------------------------------------------- Randomizer-App ----------------------------------------------------"
 
-    Private Sub BTNRandomBlog_Click(sender As System.Object, e As System.EventArgs) Handles BTNRandomBlog.Click
+    Private Sub BTNRandomBlog_Click(sender As Object, e As EventArgs) Handles BTNRandomBlog.Click
         BTNRandomBlog.Enabled = False
 
         ShowImage(GetRandomImage(ImageGenre.Blog), True)
@@ -14391,7 +14099,7 @@ restartInstantly:
         BTNRandomBlog.Enabled = True
     End Sub
 
-    Private Sub BTNRandomLocal_Click(sender As System.Object, e As System.EventArgs) Handles BTNRandomLocal.Click
+    Private Sub BTNRandomLocal_Click(sender As Object, e As EventArgs) Handles BTNRandomLocal.Click
         BTNRandomLocal.Enabled = False
 
         ShowImage(GetRandomImage(ImageSourceType.Local), True)
@@ -14400,17 +14108,17 @@ restartInstantly:
         BTNRandomLocal.Enabled = True
     End Sub
 
-    Private Sub BTNRandomVideo_Click(sender As System.Object, e As System.EventArgs) Handles BTNRandomVideo.Click
+    Private Sub BTNRandomVideo_Click(sender As Object, e As EventArgs) Handles BTNRandomVideo.Click
         ssh.RandomizerVideo = True
         RandomVideo()
         ssh.RandomizerVideo = False
     End Sub
 
-    Private Sub BTNRandomJOI_Click(sender As System.Object, e As System.EventArgs) Handles BTNRandomJOI.Click
+    Private Sub BTNRandomJOI_Click(sender As Object, e As EventArgs) Handles BTNRandomJOI.Click
         PlayRandomJOI()
     End Sub
 
-    Private Sub BTNRandomCS_Click(sender As System.Object, e As System.EventArgs) Handles BTNRandomCS.Click
+    Private Sub BTNRandomCS_Click(sender As Object, e As EventArgs) Handles BTNRandomCS.Click
         mySession.Session.Domme.WasGreeted = True
         ssh.RandomizerVideoTease = True
 
@@ -14424,7 +14132,7 @@ restartInstantly:
         CensorshipTimer.Start()
     End Sub
 
-    Private Sub BTNRandomAtE_Click(sender As System.Object, e As System.EventArgs) Handles BTNRandomAtE.Click
+    Private Sub BTNRandomAtE_Click(sender As Object, e As EventArgs) Handles BTNRandomAtE.Click
 
         mySession.Session.Domme.WasGreeted = True
         ssh.RandomizerVideoTease = True
@@ -14448,7 +14156,7 @@ restartInstantly:
 
     End Sub
 
-    Private Sub BTNRandomRLGL_Click(sender As System.Object, e As System.EventArgs) Handles BTNRandomRLGL.Click
+    Private Sub BTNRandomRLGL_Click(sender As Object, e As EventArgs) Handles BTNRandomRLGL.Click
 
         mySession.Session.Domme.WasGreeted = True
         ssh.RandomizerVideoTease = True
@@ -14472,7 +14180,7 @@ restartInstantly:
 
     End Sub
 
-    Private Sub BTNRandomCH_Click_1(sender As System.Object, e As System.EventArgs) Handles BTNRandomCH.Click
+    Private Sub BTNRandomCH_Click_1(sender As Object, e As EventArgs) Handles BTNRandomCH.Click
         PlayRandomCH()
     End Sub
 
@@ -14485,7 +14193,7 @@ restartInstantly:
     ''' <ramarks>There is no need for parameter Sender and e. 
     ''' Only for Designer Compatiblity with Butten Clicks.</ramarks>
     ''' <exception cref="exception">Rethrows all exceptions to catcher, as long sender is nothing.</exception>
-    Private Sub VideoJump2Random(sender As System.Object, e As System.EventArgs) Handles Button12.Click
+    Private Sub VideoJump2Random(sender As Object, e As EventArgs) Handles Button12.Click
         Try
             If DomWMP.currentPlaylist.count = 0 Then Throw New Exception("No Video playing - can't jump.")
 
@@ -14509,51 +14217,40 @@ restartInstantly:
 
 #Region "--------------------------------------------------- Wishlist APP -----------------------------------------------------"
 
-    Private Sub BTNPlaylist_Click(sender As System.Object, e As System.EventArgs) Handles BTNPlaylist.Click
+    Private Sub BTNPlaylist_Click(sender As Object, e As EventArgs) Handles BTNPlaylist.Click
+        Dim dommePersonality As DommePersonality = CreateDommePersonality()
         If LBPlaylist.SelectedItems.Count = 0 Then
             MessageBox.Show(Me, "Please select a Playlist first!", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Return
         End If
 
-        If mySession.Session.Domme.WasGreeted = True Then
+        If mySession.Session.Domme.WasGreeted Then
             MessageBox.Show(Me, "Please wait until you are not engaged with the domme to begin a Playlist!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Return
         End If
 
         ssh.Playlist = True
-        'SaidHello = True
 
-        ssh.PlaylistFile = Txt2List(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Playlist\" & LBPlaylist.SelectedItem & ".txt")
+        ssh.PlaylistFile = Txt2List(Application.StartupPath & "\Scripts\" & dommePersonality.PersonalityName & "\Playlist\" & LBPlaylist.SelectedItem & ".txt")
         ssh.PlaylistFile = StripBlankLines(ssh.PlaylistFile)
         ssh.PlaylistCurrent = 0
-        Try
-            chatBox.Text = "Hello " & FrmSettings.TBHonorific.Text
-        Catch
-            chatBox.Text = "Hello"
-        End Try
+        chatBox.Text = "Hello " & dommePersonality.Honorific
 
         sendButton.PerformClick()
 
         BTNPlaylist.Enabled = False
     End Sub
 
-    Private Sub BTNWishlist_Click(sender As System.Object, e As System.EventArgs) Handles BTNWishlist.Click
-
-        If mySession.Session.Domme.WasGreeted = True Then
+    Private Sub BTNWishlist_Click(sender As Object, e As EventArgs) Handles BTNWishlist.Click
+        If mySession.Session.Domme.WasGreeted Then
             MessageBox.Show(Me, "Please wait until you are not engaged with your domme to use this feature!", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Return
         End If
 
-        If WishlistCostSilver.Visible = True And ssh.SilverTokens >= Val(LBLWishlistCost.Text) Then
-
+        If WishlistCostSilver.Visible AndAlso ssh.SilverTokens >= Val(LBLWishlistCost.Text) Then
             ssh.SilverTokens -= Val(LBLWishlistCost.Text)
             My.Settings.SilverTokens = ssh.SilverTokens
-
-            'LBLWishListText.Text = "You purchased this item for " & domName.Text & " on " & CDate(DateString) & "."
-            'My.Settings.WishlistNote = LBLWishListText.Text
-
             My.Settings.ClearWishlist = True
-
 
             WishlistCostGold.Visible = False
             WishlistCostSilver.Visible = False
@@ -14563,26 +14260,20 @@ restartInstantly:
             LBLWishListName.Text = ""
             WishlistPreview.Visible = False
             LBLWishlistCost.Text = ""
-            LBLWishListText.Text = "Thank you for your purchase! " & domName.Text & " has been notified of your generous gift. Please check back again tomorrow for a new item!"
+            LBLWishListText.Text = "Thank you for your purchase! " & mySettingsAccessor.DommeName & " has been notified of your generous gift. Please check back again tomorrow for a new item!"
             BTNWishlist.Enabled = False
             BTNWishlist.Text = ""
 
-
-            Dim SilverList As New List(Of String)
-
-            For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Apps\Wishlist\Silver Rewards\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
-                SilverList.Add(foundFile)
-            Next
-
-            If SilverList.Count < 1 Then
+            Dim rewardsDir As String = Application.StartupPath & "\Scripts\" & mySettingsAccessor.DommePersonality & "\Apps\Wishlist\Silver Rewards\"
+            Dim silverList As List(Of String) = My.Computer.FileSystem.GetFiles(rewardsDir, FileIO.SearchOption.SearchTopLevelOnly, "*.txt").ToList()
+            If Not silverList.Any() Then
                 MessageBox.Show(Me, "No Silver Reward scripts were found!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
                 Return
             End If
 
             mySession.Session.Domme.WasGreeted = True
             ssh.ShowModule = True
-
-            ssh.FileText = SilverList(ssh.randomizer.Next(0, SilverList.Count))
+            ssh.FileText = silverList(ssh.randomizer.Next(0, silverList.Count))
 
             If Directory.Exists(My.Settings.DomImageDir) And ssh.SlideshowLoaded = False Then
                 LoadDommeImageFolder()
@@ -14592,25 +14283,16 @@ restartInstantly:
             ssh.ScriptTick = 2
             ScriptTimer.Start()
             Return
-
         End If
 
-
-        If WishlistCostGold.Visible = True And ssh.GoldTokens >= Val(LBLWishlistCost.Text) Then
-
+        If WishlistCostGold.Visible AndAlso ssh.GoldTokens >= Val(LBLWishlistCost.Text) Then
             ssh.GoldTokens -= Val(LBLWishlistCost.Text)
             My.Settings.GoldTokens = ssh.GoldTokens
-
             My.Settings.ClearWishlist = True
 
-
-            Dim GoldList As New List(Of String)
-
-            For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Apps\Wishlist\Gold Rewards\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
-                GoldList.Add(foundFile)
-            Next
-
-            If GoldList.Count < 1 Then
+            Dim rewardsDir As String = Application.StartupPath & "\Scripts\" & mySettingsAccessor.DommePersonality & "\Apps\Wishlist\Gold Rewards\"
+            Dim goldList As List(Of String) = My.Computer.FileSystem.GetFiles(rewardsDir, FileIO.SearchOption.SearchTopLevelOnly, "*.txt").ToList()
+            If Not goldList.Any() Then
                 MessageBox.Show(Me, "No Gold Reward scripts were found!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
                 Return
             End If
@@ -14618,7 +14300,7 @@ restartInstantly:
             mySession.Session.Domme.WasGreeted = True
             ssh.ShowModule = True
 
-            ssh.FileText = GoldList(ssh.randomizer.Next(0, GoldList.Count))
+            ssh.FileText = goldList(ssh.randomizer.Next(0, goldList.Count))
 
             If Directory.Exists(My.Settings.DomImageDir) And ssh.SlideshowLoaded = False Then
                 LoadDommeImageFolder()
@@ -14627,39 +14309,30 @@ restartInstantly:
             ssh.StrokeTauntVal = -1
             ssh.ScriptTick = 2
             ScriptTimer.Start()
-
         End If
-
-
     End Sub
 
 #End Region
 
 #Region "------------------------------------------------- Hypno-Guide App ----------------------------------------------------"
 
-    Private Sub BTNHypnoGenStart_Click(sender As System.Object, e As System.EventArgs) Handles BTNHypnoGenStart.Click
-
-
-
-        If ssh.HypnoGen = False Then
-
-            If CBHypnoGenInduction.Checked = True Then
-                If File.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Apps\Hypnotic Guide\Inductions\" & LBHypnoGenInduction.SelectedItem & ".txt") Then
+    Private Sub BTNHypnoGenStart_Click(sender As Object, e As EventArgs) Handles BTNHypnoGenStart.Click
+        If Not ssh.HypnoGen Then
+            If CBHypnoGenInduction.Checked Then
+                If File.Exists(Application.StartupPath & "\Scripts\" & mySettingsAccessor.DommePersonality & "\Apps\Hypnotic Guide\Inductions\" & LBHypnoGenInduction.SelectedItem & ".txt") Then
                     ssh.Induction = True
-                    ssh.FileText = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Apps\Hypnotic Guide\Inductions\" & LBHypnoGenInduction.SelectedItem & ".txt"
+                    ssh.FileText = Application.StartupPath & "\Scripts\" & mySettingsAccessor.DommePersonality & "\Apps\Hypnotic Guide\Inductions\" & LBHypnoGenInduction.SelectedItem & ".txt"
                 Else
                     MessageBox.Show(Me, "Please select a valid Hypno Induction File or deselect the Induction option!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
                     Return
                 End If
             End If
 
-
-
-            If File.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Apps\Hypnotic Guide\Hypno Files\" & LBHypnoGen.SelectedItem & ".txt") Then
+            If File.Exists(Application.StartupPath & "\Scripts\" & mySettingsAccessor.DommePersonality & "\Apps\Hypnotic Guide\Hypno Files\" & LBHypnoGen.SelectedItem & ".txt") Then
                 If ssh.Induction = False Then
-                    ssh.FileText = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Apps\Hypnotic Guide\Hypno Files\" & LBHypnoGen.SelectedItem & ".txt"
+                    ssh.FileText = Application.StartupPath & "\Scripts\" & mySettingsAccessor.DommePersonality & "\Apps\Hypnotic Guide\Hypno Files\" & LBHypnoGen.SelectedItem & ".txt"
                 Else
-                    ssh.TempHypno = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Apps\Hypnotic Guide\Hypno Files\" & LBHypnoGen.SelectedItem & ".txt"
+                    ssh.TempHypno = Application.StartupPath & "\Scripts\" & mySettingsAccessor.DommePersonality & "\Apps\Hypnotic Guide\Hypno Files\" & LBHypnoGen.SelectedItem & ".txt"
                 End If
             Else
                 MessageBox.Show(Me, "Please select a valid Hypno File!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
@@ -14676,9 +14349,7 @@ restartInstantly:
             mySession.Session.Domme.WasGreeted = True
 
             BTNHypnoGenStart.Text = "End Session"
-
         Else
-
             mciSendString("CLOSE Speech1", String.Empty, 0, 0)
             mciSendString("CLOSE Echo1", String.Empty, 0, 0)
             DomWMP.Ctlcontrols.stop()
@@ -14691,44 +14362,25 @@ restartInstantly:
             mySession.Session.Domme.WasGreeted = False
 
             BTNHypnoGenStart.Text = "Guide Me!"
-
-        End If
-
-
-
-
-
-    End Sub
-
-    Private Sub CBHypnoGenSlideshow_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles CBHypnoGenSlideshow.CheckedChanged
-        If FormLoading = False Then
-            If CBHypnoGenSlideshow.Checked = True Then
-                LBHypnoGenSlideshow.Enabled = True
-            Else
-                LBHypnoGenSlideshow.Enabled = False
-            End If
         End If
     End Sub
 
-    Private Sub CBHypnoGenInduction_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles CBHypnoGenInduction.CheckedChanged
-        If FormLoading = False Then
-            If CBHypnoGenInduction.Checked = True Then
-                LBHypnoGenInduction.Enabled = True
-            Else
-                LBHypnoGenInduction.Enabled = False
-            End If
+    Private Sub CBHypnoGenSlideshow_CheckedChanged(sender As Object, e As EventArgs) Handles CBHypnoGenSlideshow.CheckedChanged
+        If Not FormLoading Then
+            LBHypnoGenSlideshow.Enabled = CBHypnoGenSlideshow.Checked
         End If
     End Sub
 
-    Private Sub CBHypnoGenNoText_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles CBHypnoGenNoText.CheckedChanged
-
+    Private Sub CBHypnoGenInduction_CheckedChanged(sender As Object, e As EventArgs) Handles CBHypnoGenInduction.CheckedChanged
+        If Not FormLoading Then
+            LBHypnoGenInduction.Enabled = CBHypnoGenInduction.Checked
+        End If
     End Sub
-
 #End Region
 
 #Region "--------------------------------------------------- VitalSub APP -----------------------------------------------------"
 
-    Private Sub BTNExercise_Click(sender As System.Object, e As System.EventArgs) Handles BTNExercise.Click
+    Private Sub BTNExercise_Click(sender As Object, e As EventArgs) Handles BTNExercise.Click
         If TBExercise.Text <> "" Then
             CLBExercise.Items.Add(TBExercise.Text)
             TBExercise.Text = ""
@@ -14736,7 +14388,7 @@ restartInstantly:
         End If
     End Sub
 
-    Private Sub BTNCalorie_Click(sender As System.Object, e As System.EventArgs) Handles BTNCalorie.Click
+    Private Sub BTNCalorie_Click(sender As Object, e As EventArgs) Handles BTNCalorie.Click
         If TBCalorieItem.Text <> "" And TBCalorieAmount.Text <> "" Then
             Dim CalorieString As String
             CalorieString = TBCalorieItem.Text & " " & TBCalorieAmount.Text & " Calories"
@@ -14772,11 +14424,11 @@ restartInstantly:
         End If
     End Sub
 
-    Private Sub ComboBoxCalorie_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles ComboBoxCalorie.SelectedIndexChanged
+    Private Sub ComboBoxCalorie_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBoxCalorie.SelectedIndexChanged
 
     End Sub
 
-    Private Sub ComboBoxCalorie_SelectionChangeCommitted(sender As Object, e As System.EventArgs) Handles ComboBoxCalorie.SelectionChangeCommitted
+    Private Sub ComboBoxCalorie_SelectionChangeCommitted(sender As Object, e As EventArgs) Handles ComboBoxCalorie.SelectionChangeCommitted
         If Not ComboBoxCalorie.SelectedItem Is Nothing Then
             Dim CalorieString As String = ComboBoxCalorie.SelectedItem
             LBCalorie.Items.Add(CalorieString)
@@ -14797,11 +14449,11 @@ restartInstantly:
         End If
     End Sub
 
-    Private Sub CLBExercise_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles CLBExercise.SelectedIndexChanged, CLBExercise.LostFocus
+    Private Sub CLBExercise_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CLBExercise.SelectedIndexChanged, CLBExercise.LostFocus
         SaveExercise()
     End Sub
 
-    Private Sub CBVitalSub_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles CBVitalSub.CheckedChanged
+    Private Sub CBVitalSub_CheckedChanged(sender As Object, e As EventArgs) Handles CBVitalSub.CheckedChanged
         If CBVitalSub.Checked = True Then
             CBVitalSub.ForeColor = Color.LightGreen
             CBVitalSub.Text = "VitalSub Active"
@@ -14811,7 +14463,7 @@ restartInstantly:
         End If
     End Sub
 
-    Private Sub CBVitalSub_LostFocus(sender As Object, e As System.EventArgs) Handles CBVitalSub.LostFocus
+    Private Sub CBVitalSub_LostFocus(sender As Object, e As EventArgs) Handles CBVitalSub.LostFocus
         If CBVitalSub.Checked = True Then
             My.Settings.VitalSub = True
         Else
@@ -14819,7 +14471,7 @@ restartInstantly:
         End If
     End Sub
 
-    Private Sub LBCalorie_DoubleClick(sender As Object, e As System.EventArgs) Handles LBCalorie.DoubleClick
+    Private Sub LBCalorie_DoubleClick(sender As Object, e As EventArgs) Handles LBCalorie.DoubleClick
 
 
         Dim CalorieString As String = LBCalorie.SelectedItem
@@ -14842,7 +14494,7 @@ restartInstantly:
         End If
     End Sub
 
-    Private Sub BTNVitalSub_Click(sender As System.Object, e As System.EventArgs) Handles BTNVitalSub.Click
+    Private Sub BTNVitalSub_Click(sender As Object, e As EventArgs) Handles BTNVitalSub.Click
         If mySession.Session.Domme.WasGreeted = True Then
             MessageBox.Show(Me, "Please wait until you are not engaged with the domme to make VitalSub reports!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Return
@@ -14850,29 +14502,24 @@ restartInstantly:
 
         mySession.Session.Domme.WasGreeted = True
 
-
-        Dim VitalSubFail As Boolean = False
+        Dim vitalSubFail As Boolean = False
 
         If CLBExercise.Items.Count > 0 Then
             For i As Integer = 0 To CLBExercise.Items.Count - 1
-                If CLBExercise.GetItemChecked(i) = False Then VitalSubFail = True
+                If Not CLBExercise.GetItemChecked(i) Then vitalSubFail = True
             Next
         End If
 
         If Val(LBLCalorie.Text) > Val(TBCalorie.Text) Then VitalSubFail = True
 
-        Dim VitalSubState As String
+        Dim vitalSubState As String
 
-        If VitalSubFail = True Then
-            VitalSubState = "Punishments"
+        If vitalSubFail Then
+            vitalSubState = "Punishments"
         Else
-            VitalSubState = "Rewards"
+            vitalSubState = "Rewards"
         End If
         VitalSubFail = False
-
-
-
-
         Dim VitalList As New List(Of String)
 
         For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Apps\VitalSub\" & VitalSubState & "\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
@@ -14915,12 +14562,12 @@ restartInstantly:
         End If
     End Sub
 
-    Private Sub CLBExercise_DragLeave(sender As Object, e As System.EventArgs) Handles CLBExercise.DragLeave
+    Private Sub CLBExercise_DragLeave(sender As Object, e As EventArgs) Handles CLBExercise.DragLeave
 
         CLBExercise.Items.Remove(CLBExercise.SelectedItem)
     End Sub
 
-    Private Sub CBVitalSubDomTask_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles CBVitalSubDomTask.CheckedChanged
+    Private Sub CBVitalSubDomTask_CheckedChanged(sender As Object, e As EventArgs) Handles CBVitalSubDomTask.CheckedChanged
         If FormLoading = False Then
             My.Settings.VitalSubAssignments = CBVitalSubDomTask.Checked
         End If
@@ -14929,7 +14576,6 @@ restartInstantly:
 #End Region ' Vital Sub
 
     Public Sub MetronomeTick()
-
         Dim wavFilepath As String = Application.StartupPath & "\Audio\System\metronome.wav"
         Dim MetroSoundPlayer As Media.SoundPlayer = Nothing
         Dim wavStream As MemoryStream
@@ -14977,23 +14623,23 @@ playLoop:
 
 #Region "-------------------------------------------------- Metronome-App -----------------------------------------------------"
 
-    Private Sub BTNMetroPreview1_Click(sender As System.Object, e As System.EventArgs) Handles BTNMetroPreview1.Click
+    Private Sub BTNMetroPreview1_Click(sender As Object, e As EventArgs) Handles BTNMetroPreview1.Click
         If ssh.SubStroking = False Then StrokePace = NBMaxPace.Value
     End Sub
 
-    Private Sub BTNMetroPreview2_Click(sender As System.Object, e As System.EventArgs) Handles BTNMetroPreview2.Click
+    Private Sub BTNMetroPreview2_Click(sender As Object, e As EventArgs) Handles BTNMetroPreview2.Click
         If ssh.SubStroking = False Then StrokePace = NBMinPace.Value
     End Sub
 
-    Private Sub BTNMetroStop1_Click(sender As System.Object, e As System.EventArgs) Handles BTNMetroStop1.Click
+    Private Sub BTNMetroStop1_Click(sender As Object, e As EventArgs) Handles BTNMetroStop1.Click
         If ssh.SubStroking = False Then StrokePace = 0
     End Sub
 
-    Private Sub BTNMetroStop2_Click(sender As System.Object, e As System.EventArgs) Handles BTNMetroStop2.Click
+    Private Sub BTNMetroStop2_Click(sender As Object, e As EventArgs) Handles BTNMetroStop2.Click
         If ssh.SubStroking = False Then StrokePace = 0
     End Sub
 
-    Private Sub NBMaxPace_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBMaxPace.ValueChanged
+    Private Sub NBMaxPace_ValueChanged(sender As Object, e As EventArgs) Handles NBMaxPace.ValueChanged
         If FormLoading = False Then
             If NBMaxPace.Value > NBMinPace.Value - 50 Then NBMaxPace.Value = NBMinPace.Value - 50
             If ssh.SubStroking = False Then StrokePace = NBMaxPace.Value
@@ -15001,7 +14647,7 @@ playLoop:
         End If
     End Sub
 
-    Private Sub NBMinPace_ValueChanged(sender As System.Object, e As System.EventArgs) Handles NBMinPace.ValueChanged
+    Private Sub NBMinPace_ValueChanged(sender As Object, e As EventArgs) Handles NBMinPace.ValueChanged
         If FormLoading = False Then
             If NBMinPace.Value < NBMaxPace.Value + 50 Then NBMinPace.Value = NBMaxPace.Value + 50
             If ssh.SubStroking = False Then StrokePace = NBMinPace.Value
@@ -15009,7 +14655,7 @@ playLoop:
         End If
     End Sub
 
-    Private Sub TimeoutTimer_Tick(sender As System.Object, e As System.EventArgs) Handles TimeoutTimer.Tick
+    Private Sub TimeoutTimer_Tick(sender As Object, e As EventArgs) Handles TimeoutTimer.Tick
 
         If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
 
@@ -15033,7 +14679,7 @@ playLoop:
 
     End Sub
 
-    Private Sub CBMetronome_LostFocus(sender As Object, e As System.EventArgs) Handles CBMetronome.LostFocus
+    Private Sub CBMetronome_LostFocus(sender As Object, e As EventArgs) Handles CBMetronome.LostFocus
         My.Settings.MetroOn = CBMetronome.Checked
     End Sub
 
@@ -15041,7 +14687,7 @@ playLoop:
 
 #End Region ' Apps
 
-    Private Sub VideoTimer_Tick(sender As System.Object, e As System.EventArgs) Handles VideoTimer.Tick
+    Private Sub VideoTimer_Tick(sender As Object, e As EventArgs) Handles VideoTimer.Tick
 
         If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
 
@@ -15055,7 +14701,7 @@ playLoop:
 
     End Sub
 
-    Private Sub MultipleEdgesTimer_Tick(sender As System.Object, e As System.EventArgs) Handles MultipleEdgesTimer.Tick
+    Private Sub MultipleEdgesTimer_Tick(sender As Object, e As EventArgs) Handles MultipleEdgesTimer.Tick
 
         If ssh.DomTypeCheck = True Then Return
         If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
@@ -15244,7 +14890,7 @@ playLoop:
         ssh.WritingTaskFlag = False
         chatBox.ShortcutsEnabled = True
         ChatBox2.ShortcutsEnabled = True
-        CloseApp(Nothing)
+        ToggleAppVisibility(Nothing)
     End Sub
 
     Public Sub ClearChat()
@@ -15320,7 +14966,7 @@ playLoop:
     Private Function CreateDommePersonality() As DommePersonality
         Dim returnValue As DommePersonality = New DommePersonality()
 
-        returnValue.PersonalityName = dompersonalitycombobox.Text
+        returnValue.PersonalityName = mySettingsAccessor.DommePersonality
 
         returnValue.IsCrazy = FrmSettings.crazyCheckBox.Checked
         returnValue.IsDegrading = FrmSettings.degradingCheckBox.Checked
@@ -15333,6 +14979,7 @@ playLoop:
         returnValue.AgeYoungLimit = Convert.ToUInt16(FrmSettings.NBSelfAgeMax.Value)
         returnValue.Name = domName.Text
         returnValue.Honorific = FrmSettings.TBHonorific.Text
+
         returnValue.SubAgeOldLimit = Convert.ToUInt16(FrmSettings.NBSubAgeMin.Value)
         returnValue.SubAgeYoungLimit = Convert.ToUInt16(FrmSettings.NBSubAgeMax.Value)
 
@@ -15635,7 +15282,7 @@ NoPlaylistStartFile:
 #End Region
 
 #Region "UI Events"
-    Private Sub Form1_PreviewKeyDown(sender As System.Object, e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
+    Private Sub Form1_PreviewKeyDown(sender As Object, e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.KeyCode = (Keys.F Or Keys.Control) Then
             FullscreenToolStripMenuItem_Click(Nothing, Nothing)
         ElseIf e.Alt AndAlso MainMenuStrip.Visible = False Then
@@ -15646,27 +15293,27 @@ NoPlaylistStartFile:
         End If
     End Sub
 
-    Private Sub MenuStrip2_Leave(sender As System.Object, e As System.EventArgs) Handles MenuStrip2.Leave
+    Private Sub MenuStrip2_Leave(sender As Object, e As EventArgs) Handles MenuStrip2.Leave
         If FormBorderStyle = Windows.Forms.FormBorderStyle.None Then
             MainMenuStrip.Visible = False
         End If
     End Sub
 
 
-    Private Sub Button15_Click(sender As System.Object, e As System.EventArgs) Handles Button15.Click
+    Private Sub Button15_Click(sender As Object, e As EventArgs) Handles Button15.Click
         My.Settings.SideChat = True
-        CloseApp(PNLChatBox2)
+        ToggleAppVisibility(PNLChatBox2)
     End Sub
 
 #Region "------------------------------------------------------ MenuStuff -----------------------------------------------------"
 
 #Region "-------------------------------------------------------- File --------------------------------------------------------"
 
-    Private Sub dompersonalitycombobox_LostFocus(sender As Object, e As System.EventArgs) Handles dompersonalitycombobox.LostFocus
+    Private Sub dompersonalitycombobox_LostFocus(sender As Object, e As EventArgs) Handles dompersonalitycombobox.LostFocus
         mySettingsAccessor.DommePersonality = dompersonalitycombobox.Text
     End Sub
 
-    Private Sub dompersonalitycombobox_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles dompersonalitycombobox.SelectedIndexChanged
+    Private Sub dompersonalitycombobox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles dompersonalitycombobox.SelectedIndexChanged
         If FormLoading = True Then Exit Sub
 
         Try
@@ -15700,7 +15347,7 @@ NoPlaylistStartFile:
         End Try
     End Sub
 
-    Private Sub SuspendSessionToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles SuspendSessionToolStripMenuItem.Click
+    Private Sub SuspendSessionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SuspendSessionToolStripMenuItem.Click
         Try
 
             If Not mySession.Session.Domme.WasGreeted Then
@@ -15750,7 +15397,7 @@ NoPlaylistStartFile:
         End Try
     End Sub
 
-    Private Sub ResumeSessionToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles ResumeSessionToolStripMenuItem.Click
+    Private Sub ResumeSessionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ResumeSessionToolStripMenuItem.Click
         Try
             Dim filename As String = SavedSessionDefaultPath
 
@@ -15800,7 +15447,7 @@ NoPlaylistStartFile:
         End Try
     End Sub
 
-    Private Sub ResetSessionToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles ResetSessionToolStripMenuItem.Click
+    Private Sub ResetSessionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ResetSessionToolStripMenuItem.Click
         If mySession.Session.Domme.WasGreeted = False Then
             MessageBox.Show(Me, "Tease AI is not currently running a session!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
             Return
@@ -15815,7 +15462,7 @@ NoPlaylistStartFile:
         End If
     End Sub
 
-    Private Sub ExitToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles ExitToolStripMenuItem.Click,
+    Private Sub ExitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExitToolStripMenuItem.Click,
                                                                                                     ExitToolStripMenuItem1.Click
         Me.Close()
         Me.Dispose()
@@ -15825,73 +15472,73 @@ NoPlaylistStartFile:
 
 #Region "------------------------------------------------------ Settings ------------------------------------------------------"
 
-    Private Sub GeneralSettingsToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles GeneralSettingsToolStripMenuItem.Click
+    Private Sub GeneralSettingsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GeneralSettingsToolStripMenuItem.Click
         FrmSettings.SettingsTabs.SelectTab(0)
         FrmSettings.Show()
         FrmSettings.Focus()
     End Sub
 
-    Private Sub DommeToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles DommeToolStripMenuItem.Click
+    Private Sub DommeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DommeToolStripMenuItem.Click
         FrmSettings.SettingsTabs.SelectTab(1)
         FrmSettings.Show()
         FrmSettings.Focus()
     End Sub
 
-    Private Sub SubToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles SubToolStripMenuItem.Click
+    Private Sub SubToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SubToolStripMenuItem.Click
         FrmSettings.SettingsTabs.SelectTab(2)
         FrmSettings.Show()
         FrmSettings.Focus()
     End Sub
 
-    Private Sub ScriptsToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles ScriptsToolStripMenuItem.Click
+    Private Sub ScriptsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ScriptsToolStripMenuItem.Click
         FrmSettings.SettingsTabs.SelectTab(3)
         FrmSettings.Show()
         FrmSettings.Focus()
     End Sub
 
-    Private Sub ImagesToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles ImagesToolStripMenuItem.Click
+    Private Sub ImagesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ImagesToolStripMenuItem.Click
         FrmSettings.SettingsTabs.SelectTab(4)
         FrmSettings.Show()
         FrmSettings.Focus()
     End Sub
 
-    Private Sub TaggingToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles TaggingToolStripMenuItem.Click
+    Private Sub TaggingToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TaggingToolStripMenuItem.Click
         FrmSettings.SettingsTabs.SelectTab(5)
         FrmSettings.Show()
         FrmSettings.Focus()
     End Sub
 
-    Private Sub URLFilesToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles URLFilesToolStripMenuItem.Click
+    Private Sub URLFilesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles URLFilesToolStripMenuItem.Click
         FrmSettings.SettingsTabs.SelectTab(6)
         FrmSettings.Show()
         FrmSettings.Focus()
     End Sub
 
-    Private Sub VideoToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles VideoToolStripMenuItem.Click
+    Private Sub VideoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles VideoToolStripMenuItem.Click
         FrmSettings.SettingsTabs.SelectTab(7)
         FrmSettings.Show()
         FrmSettings.Focus()
     End Sub
 
-    Private Sub AppsToolStripMenuItem1_Click(sender As System.Object, e As System.EventArgs) Handles AppsToolStripMenuItem1.Click
+    Private Sub AppsToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles AppsToolStripMenuItem1.Click
         FrmSettings.SettingsTabs.SelectTab(8)
         FrmSettings.Show()
         FrmSettings.Focus()
     End Sub
 
-    Private Sub RangesToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles RangesToolStripMenuItem.Click
+    Private Sub RangesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RangesToolStripMenuItem.Click
         FrmSettings.SettingsTabs.SelectTab(10)
         FrmSettings.Show()
         FrmSettings.Focus()
     End Sub
 
-    Private Sub ModdingToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles ModdingToolStripMenuItem.Click
+    Private Sub ModdingToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ModdingToolStripMenuItem.Click
         FrmSettings.SettingsTabs.SelectTab(11)
         FrmSettings.Show()
         FrmSettings.Focus()
     End Sub
 
-    Private Sub MiscToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles MiscToolStripMenuItem.Click
+    Private Sub MiscToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MiscToolStripMenuItem.Click
         FrmSettings.SettingsTabs.SelectTab(12)
         FrmSettings.Show()
         FrmSettings.Focus()
@@ -15901,33 +15548,33 @@ NoPlaylistStartFile:
 
 #Region "-------------------------------------------------------- APPs --------------------------------------------------------"
 
-    Private Sub CloseAppPanelToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles CloseAppPanelToolStripMenuItem.Click
-        CloseApp(Nothing)
+    Private Sub CloseAppPanelToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CloseAppPanelToolStripMenuItem.Click
+        ToggleAppVisibility(Nothing)
     End Sub
 
-    Private Sub MetronomeToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles MetronomeToolStripMenuItem.Click
-        CloseApp(PNLMetronome)
+    Private Sub MetronomeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MetronomeToolStripMenuItem.Click
+        ToggleAppVisibility(PNLMetronome)
     End Sub
 
-    Private Sub GlitterToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles GlitterToolStripMenuItem.Click
-        CloseApp(PnlGlitter)
+    Private Sub GlitterToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GlitterToolStripMenuItem.Click
+        ToggleAppVisibility(PnlGlitter)
     End Sub
 
-    Private Sub DommeTagsToolStripMenuItem2_Click(sender As System.Object, e As System.EventArgs) Handles DommeTagsToolStripMenuItem2.Click
-        CloseApp(PNLDomTagBTN)
+    Private Sub DommeTagsToolStripMenuItem2_Click(sender As Object, e As EventArgs) Handles DommeTagsToolStripMenuItem2.Click
+        ToggleAppVisibility(PNLDomTagBTN)
     End Sub
 
-    Private Sub LazySubToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles LazySubToolStripMenuItem.Click
-        CloseApp(PNLLazySub)
+    Private Sub LazySubToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LazySubToolStripMenuItem.Click
+        ToggleAppVisibility(PNLLazySub)
     End Sub
 
-    Private Sub RandomizerToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles RandomizerToolStripMenuItem.Click
-        CloseApp(PNLAppRandomizer)
+    Private Sub RandomizerToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RandomizerToolStripMenuItem.Click
+        ToggleAppVisibility(PNLAppRandomizer)
     End Sub
 
-    Private Sub PlaylistToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles PlaylistToolStripMenuItem.Click
+    Private Sub PlaylistToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PlaylistToolStripMenuItem.Click
         If PNLPlaylist.Visible = False Then
-            CloseApp(PNLPlaylist)
+            ToggleAppVisibility(PNLPlaylist)
             LBPlaylist.Items.Clear()
             For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Playlist\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
                 LBPlaylist.Items.Add(Path.GetFileName(foundFile).Replace(".txt", ""))
@@ -15935,207 +15582,113 @@ NoPlaylistStartFile:
         End If
     End Sub
 
-    Private Sub WritingTasksToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles WritingTasksToolStripMenuItem.Click
-        CloseApp(PNLWritingTask)
+    Private Sub WritingTasksToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles WritingTasksToolStripMenuItem.Click
+        ToggleAppVisibility(PNLWritingTask)
     End Sub
 
-    Private Sub WishlistToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles WishlistToolStripMenuItem.Click
-        If PNLWishList.Visible = False Then
-
-
-
-            If My.Settings.ClearWishlist = True Then
-
-                MessageBox.Show(Me, "You have already purchased " & domName.Text & "'s Wishlist item for today!" & Environment.NewLine & Environment.NewLine &
+    Private Sub WishlistToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles WishlistToolStripMenuItem.Click
+        If PNLWishList.Visible Then
+            Return
+        End If
+        If My.Settings.ClearWishlist Then
+            MessageBox.Show(Me, "You have already purchased " & mySettingsAccessor.DommeName & "'s Wishlist item for today!" & Environment.NewLine & Environment.NewLine &
                                 "Please check back again tomorrow!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Return
+        End If
+
+        LBLWishlistDom.Text = mySettingsAccessor.DommeName & "'s Wishlist"
+        LBLWishlistDate.Text = Now.ToShortDateString()
+        LBLWishlistBronze.Text = ssh.BronzeTokens
+        LBLWishlistSilver.Text = ssh.SilverTokens
+        LBLWishlistGold.Text = ssh.GoldTokens
+
+        If Date.Compare(My.Settings.WishlistDate.Date, Now.Date) Then
+            Dim itemsPath As String = Application.StartupPath + "\Scripts\" + mySettingsAccessor.DommePersonality + "\Apps\Wishlist\Items"
+            Dim wishList As List(Of String) = My.Computer.FileSystem.GetFiles(itemsPath, FileIO.SearchOption.SearchTopLevelOnly, "*.txt").ToList()
+
+            If Not wishList.Any() Then
+                MessageBox.Show(Me, "No Wishlist items found!" & Environment.NewLine & Environment.NewLine &
+                                "Please make sure you have item scripts located in Apps\Wishlist\Items.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
                 Return
             End If
 
+            WishlistCostGold.Visible = False
+            WishlistCostSilver.Visible = False
+            LBLWishListText.Text = ""
 
+            Dim wishFile As String = wishList(myRandomNumberService.Roll(0, wishList.Count))
+            Dim wishItem As List(Of String) = Txt2List(wishFile)
 
+            LBLWishListName.Text = wishItem(0)
+            My.Settings.WishlistName = LBLWishListName.Text
+            WishlistPreview.Load(wishItem(1))
+            WishlistPreview.Visible = True
+            My.Settings.WishlistPreview = wishItem(1)
 
+            LBLWishlistCost.Text = wishItem(2)
+            Dim token = GetToken(wishItem(2))
+            WishlistCostSilver.Visible = token = Token.Silver
+            My.Settings.WishlistTokenType = token.ToString()
 
+            My.Settings.WishlistCost = Val(LBLWishlistCost.Text)
 
+            LBLWishListText.Text = wishItem(3)
+            My.Settings.WishlistNote = wishItem(3)
 
-            If CompareDates(My.Settings.WishlistDate) <> 0 Then
-
-
-                Dim WishList As New List(Of String)
-                WishList.Clear()
-
-                For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Apps\Wishlist\Items\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
-                    WishList.Add(foundFile)
-                Next
-
-                If WishList.Count < 1 Then
-                    MessageBox.Show(Me, "No Wishlist items found!" & Environment.NewLine & Environment.NewLine &
-                                "Please make sure you have item scripts located in Apps\Wishlist\Items.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
-                    Return
-
-                End If
-
-                LBLWishlistDom.Text = domName.Text & "'s Wishlist"
-                LBLWishlistDate.Text = FormatDateTime(Now, DateFormat.ShortDate).ToString()
-                WishlistCostGold.Visible = False
-                WishlistCostSilver.Visible = False
-                LBLWishlistBronze.Text = ssh.BronzeTokens
-                LBLWishlistSilver.Text = ssh.SilverTokens
-                LBLWishlistGold.Text = ssh.GoldTokens
-                LBLWishListText.Text = ""
-
-
-
-                Dim WishDir As String = WishList(ssh.randomizer.Next(0, WishList.Count))
-
-                WishList.Clear()
-                'Read all lines of the given file.
-                WishList = Txt2List(WishDir)
-
-                LBLWishListName.Text = WishList(0)
-                My.Settings.WishlistName = LBLWishListName.Text
-
-
-                WishlistPreview.Load(WishList(1))
-                WishlistPreview.Visible = True
-                My.Settings.WishlistPreview = WishList(1)
-
-                If WishList(2).Contains("Silver") Then
-                    WishlistCostSilver.Visible = True
-                    LBLWishlistCost.Text = WishList(2)
-                    LBLWishlistCost.Text = LBLWishlistCost.Text.Replace(" Silver", "")
-                    My.Settings.WishlistTokenType = "Silver"
-                End If
-
-                If WishList(2).Contains("Gold") Then
-                    WishlistCostGold.Visible = True
-                    LBLWishlistCost.Text = WishList(2)
-                    LBLWishlistCost.Text = LBLWishlistCost.Text.Replace(" Gold", "")
-                    My.Settings.WishlistTokenType = "Gold"
-                End If
-
-                My.Settings.WishlistCost = Val(LBLWishlistCost.Text)
-
-
-                LBLWishListText.Text = WishList(3)
-                My.Settings.WishlistNote = WishList(3)
-
-
-                If WishlistCostGold.Visible = True Then
-                    If ssh.GoldTokens >= Val(LBLWishlistCost.Text) Then
-                        BTNWishlist.Enabled = True
-                        BTNWishlist.Text = "Purchase for " & domName.Text
-                    Else
-                        BTNWishlist.Enabled = False
-                        BTNWishlist.Text = "Not Enough Tokens!"
-                    End If
-                End If
-
-                If WishlistCostSilver.Visible = True Then
-                    If ssh.SilverTokens >= Val(LBLWishlistCost.Text) Then
-                        BTNWishlist.Enabled = True
-                        BTNWishlist.Text = "Purchase for " & domName.Text
-                    Else
-                        BTNWishlist.Enabled = False
-                        BTNWishlist.Text = "Not Enough Tokens!"
-                    End If
-                End If
-
-
-
-                My.Settings.WishlistDate = FormatDateTime(Now, DateFormat.ShortDate)
-
-
-
-
-
-
-
+            If token = Token.Gold AndAlso ssh.GoldTokens >= Val(LBLWishlistCost.Text) Then
+                BTNWishlist.Enabled = True
+                BTNWishlist.Text = "Purchase for " & domName.Text
+            ElseIf token = Token.Silver AndAlso ssh.SilverTokens >= Val(LBLWishlistCost.Text) Then
+                BTNWishlist.Enabled = True
+                BTNWishlist.Text = "Purchase for " & domName.Text
             Else
-
-
-
-                LBLWishlistDom.Text = domName.Text & "'s Wishlist"
-                LBLWishlistDate.Text = FormatDateTime(Now, DateFormat.ShortDate).ToString()
-                LBLWishlistBronze.Text = ssh.BronzeTokens
-                LBLWishlistSilver.Text = ssh.SilverTokens
-                LBLWishlistGold.Text = ssh.GoldTokens
-
-
-                LBLWishListName.Text = My.Settings.WishlistName
-                Try
-                    WishlistPreview.Load(My.Settings.WishlistPreview)
-                Catch
-                    WishlistPreview.Load(Application.StartupPath & "\Images\System\NoPreview.png")
-                End Try
-
-                If My.Settings.WishlistTokenType = "Silver" Then WishlistCostSilver.Visible = True
-                If My.Settings.WishlistTokenType = "Gold" Then WishlistCostGold.Visible = True
-                LBLWishlistCost.Text = My.Settings.WishlistCost
-                LBLWishListText.Text = My.Settings.WishlistNote
-
-                If WishlistCostGold.Visible = True Then
-                    If ssh.GoldTokens >= Val(LBLWishlistCost.Text) Then
-                        BTNWishlist.Text = "????? Gold"
-                        BTNWishlist.Enabled = True
-                    Else
-                        BTNWishlist.Text = "Not Enough Tokens!"
-                        BTNWishlist.Enabled = False
-                    End If
-                End If
-
-                If WishlistCostSilver.Visible = True Then
-                    If ssh.SilverTokens >= Val(LBLWishlistCost.Text) Then
-                        BTNWishlist.Text = "???? Silver"
-                        BTNWishlist.Enabled = True
-                    Else
-                        BTNWishlist.Text = "Not Enough Tokens!"
-                        BTNWishlist.Enabled = False
-                    End If
-                End If
-
+                BTNWishlist.Enabled = False
+                BTNWishlist.Text = "Not Enough Tokens!"
             End If
 
+            My.Settings.WishlistDate = FormatDateTime(Now, DateFormat.ShortDate)
+        Else
+            LBLWishListName.Text = My.Settings.WishlistName
+            Try
+                WishlistPreview.Load(My.Settings.WishlistPreview)
+            Catch
+                WishlistPreview.Load(Application.StartupPath & "\Images\System\NoPreview.png")
+            End Try
 
+            If My.Settings.WishlistTokenType = "Silver" Then WishlistCostSilver.Visible = True
+            If My.Settings.WishlistTokenType = "Gold" Then WishlistCostGold.Visible = True
+            LBLWishlistCost.Text = My.Settings.WishlistCost
+            LBLWishListText.Text = My.Settings.WishlistNote
 
-
-
-
-
-            LBLWishlistBronze.Text = ssh.BronzeTokens
-            LBLWishlistSilver.Text = ssh.SilverTokens
-            LBLWishlistGold.Text = ssh.GoldTokens
-
-            If WishlistCostGold.Visible = True Then
-                If ssh.GoldTokens >= Val(LBLWishlistCost.Text) Then
-                    BTNWishlist.Text = "Purchase for " & domName.Text
-                    BTNWishlist.Enabled = True
-                Else
-                    BTNWishlist.Text = "Not Enough Tokens!"
-                    BTNWishlist.Enabled = False
-                End If
+            If WishlistCostGold.Visible AndAlso ssh.GoldTokens >= Val(LBLWishlistCost.Text) Then
+                BTNWishlist.Text = "????? Gold"
+                BTNWishlist.Enabled = True
+            ElseIf WishlistCostSilver.Visible AndAlso ssh.SilverTokens >= Val(LBLWishlistCost.Text) Then
+                BTNWishlist.Text = "???? Silver"
+                BTNWishlist.Enabled = True
+            Else
+                BTNWishlist.Text = "Not Enough Tokens!"
+                BTNWishlist.Enabled = False
             End If
 
-            If WishlistCostSilver.Visible = True Then
-                If ssh.SilverTokens >= Val(LBLWishlistCost.Text) Then
-                    BTNWishlist.Text = "Purchase for " & domName.Text
-                    BTNWishlist.Enabled = True
-                Else
-                    BTNWishlist.Text = "Not Enough Tokens!"
-                    BTNWishlist.Enabled = False
-                End If
-            End If
-
-
-
-
-
-
-            CloseApp(PNLWishList)
         End If
+
+        If WishlistCostGold.Visible AndAlso ssh.GoldTokens >= Val(LBLWishlistCost.Text) Then
+            BTNWishlist.Text = "Purchase for " & domName.Text
+            BTNWishlist.Enabled = True
+        ElseIf WishlistCostSilver.Visible AndAlso ssh.SilverTokens >= Val(LBLWishlistCost.Text) Then
+            BTNWishlist.Text = "Purchase for " & domName.Text
+            BTNWishlist.Enabled = True
+        Else
+            BTNWishlist.Text = "Not Enough Tokens!"
+            BTNWishlist.Enabled = False
+        End If
+
+        ToggleAppVisibility(PNLWishList)
     End Sub
 
-    Private Sub HypnoticGuideToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles HypnoticGuideToolStripMenuItem.Click
-        CloseApp(PNLHypnoGen)
+    Private Sub HypnoticGuideToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles HypnoticGuideToolStripMenuItem.Click
+        ToggleAppVisibility(PNLHypnoGen)
         If PNLHypnoGen.Visible = False Then
 
 
@@ -16183,8 +15736,8 @@ NoPlaylistStartFile:
 
     End Sub
 
-    Private Sub VitalSubToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles VitalSubToolStripMenuItem.Click
-        CloseApp(AppPanelVitalSub)
+    Private Sub VitalSubToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles VitalSubToolStripMenuItem.Click
+        ToggleAppVisibility(AppPanelVitalSub)
         If AppPanelVitalSub.Visible = False Then
 
             If File.Exists(Application.StartupPath & "\System\VitalSub\CalorieList.txt") And ComboBoxCalorie.Items.Count = 0 Then
@@ -16204,35 +15757,35 @@ NoPlaylistStartFile:
 
 #Region "-------------------------------------------------------- Games -------------------------------------------------------"
 
-    Private Sub SlotsToolStripMenuItem1_Click(sender As System.Object, e As System.EventArgs) Handles SlotsToolStripMenuItem1.Click,
+    Private Sub SlotsToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles SlotsToolStripMenuItem1.Click,
                                                                                                     SlotsToolStripMenuItem.Click
         FrmCardList.TCGames.SelectTab(0)
         FrmCardList.Show()
         FrmCardList.Focus()
     End Sub
 
-    Private Sub MatchGameToolStripMenuItem1_Click(sender As System.Object, e As System.EventArgs) Handles MatchGameToolStripMenuItem1.Click,
+    Private Sub MatchGameToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles MatchGameToolStripMenuItem1.Click,
                                                                                                         MatchGameToolStripMenuItem.Click
         FrmCardList.TCGames.SelectTab(1)
         FrmCardList.Show()
         FrmCardList.Focus()
     End Sub
 
-    Private Sub RiskyPickToolStripMenuItem1_Click(sender As System.Object, e As System.EventArgs) Handles RiskyPickToolStripMenuItem1.Click,
+    Private Sub RiskyPickToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles RiskyPickToolStripMenuItem1.Click,
                                                                                                         RiskyPickToolStripMenuItem.Click
         FrmCardList.TCGames.SelectTab(2)
         FrmCardList.Show()
         FrmCardList.Focus()
     End Sub
 
-    Private Sub ExchangeToolStripMenuItem1_Click(sender As System.Object, e As System.EventArgs) Handles ExchangeToolStripMenuItem1.Click,
+    Private Sub ExchangeToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles ExchangeToolStripMenuItem1.Click,
                                                                                                         ExchangeToolStripMenuItem.Click
         FrmCardList.TCGames.SelectTab(3)
         FrmCardList.Show()
         FrmCardList.Focus()
     End Sub
 
-    Private Sub CollectionToolStripMenuItem1_Click(sender As System.Object, e As System.EventArgs) Handles CollectionToolStripMenuItem1.Click,
+    Private Sub CollectionToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles CollectionToolStripMenuItem1.Click,
                                                                                                         CollectionToolStripMenuItem.Click
         FrmCardList.TCGames.SelectTab(4)
         FrmCardList.Show()
@@ -16243,7 +15796,7 @@ NoPlaylistStartFile:
 
 #Region "----------------------------------------------------- Interface ------------------------------------------------------"
 
-    Private Sub SwitchSidesToolStripMenuItem_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles SwitchSidesToolStripMenuItem.CheckedChanged
+    Private Sub SwitchSidesToolStripMenuItem_CheckedChanged(sender As Object, e As EventArgs) Handles SwitchSidesToolStripMenuItem.CheckedChanged
         ' Prevent further execution during Form's InitializeComponent()-Method.
         If IsHandleCreated = False Then Exit Sub
 
@@ -16264,20 +15817,20 @@ NoPlaylistStartFile:
         End With
     End Sub
 
-    Private Sub SideChatToolStripMenuItem1_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles SideChatToolStripMenuItem1.CheckedChanged
+    Private Sub SideChatToolStripMenuItem1_CheckedChanged(sender As Object, e As EventArgs) Handles SideChatToolStripMenuItem1.CheckedChanged
         ' Prevent further execution during Form's InitializeComponent()-Method.
         If IsHandleCreated = False Then Exit Sub
 
         If SideChatToolStripMenuItem1.Checked = False Then
             My.Settings.SideChat = False
-            CloseApp(Nothing)
+            ToggleAppVisibility(Nothing)
         Else
             My.Settings.SideChat = True
-            CloseApp(PnlSidechat)
+            ToggleAppVisibility(PnlSidechat)
         End If
     End Sub
 
-    Private Sub LazySubAVToolStripMenuItem_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles LazySubAVToolStripMenuItem.CheckedChanged
+    Private Sub LazySubAVToolStripMenuItem_CheckedChanged(sender As Object, e As EventArgs) Handles LazySubAVToolStripMenuItem.CheckedChanged
         ' Prevent further execution during Form's InitializeComponent()-Method.
         If IsHandleCreated = False Then Exit Sub
 
@@ -16294,13 +15847,13 @@ NoPlaylistStartFile:
         End If
     End Sub
 
-    Private Sub ThemesToolStripMenuItem1_Click(sender As System.Object, e As System.EventArgs) Handles ThemesToolStripMenuItem1.Click
+    Private Sub ThemesToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles ThemesToolStripMenuItem1.Click
         FrmSettings.SettingsTabs.SelectTab(9)
         FrmSettings.Show()
         FrmSettings.Focus()
     End Sub
 
-    Private Sub MaximizeImageToolStripMenuItem_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles MaximizeImageToolStripMenuItem.CheckedChanged
+    Private Sub MaximizeImageToolStripMenuItem_CheckedChanged(sender As Object, e As EventArgs) Handles MaximizeImageToolStripMenuItem.CheckedChanged
         ' Prevent further execution during Form's InitializeComponent()-Method.
         If IsHandleCreated = False Then Exit Sub
 
@@ -16367,11 +15920,11 @@ NoPlaylistStartFile:
         mySettingsAccessor.WebTeaseModeEnabled = FrmSettings.WebTeaseMode.Checked
     End Sub
 
-    Private Sub DefaultImageSizeToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles DefaultImageSizeToolStripMenuItem.Click
+    Private Sub DefaultImageSizeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DefaultImageSizeToolStripMenuItem.Click
         If SplitContainer1.Height > 430 Then SplitContainer1.SplitterDistance = SplitContainer1.Height - 252
     End Sub
 
-    Private Sub FullscreenToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles FullscreenToolStripMenuItem.Click
+    Private Sub FullscreenToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FullscreenToolStripMenuItem.Click
         If Me.FormBorderStyle <> Windows.Forms.FormBorderStyle.None Then
             Me.FormBorderStyle = Windows.Forms.FormBorderStyle.None
 
@@ -16410,17 +15963,17 @@ NoPlaylistStartFile:
 
 #Region "------------------------------------------------------- Tools --------------------------------------------------------"
 
-    Private Sub CommandGuideToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles CommandGuideToolStripMenuItem.Click
+    Private Sub CommandGuideToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CommandGuideToolStripMenuItem.Click
         If Form10.Visible = False Then Form10.Show()
         Form10.Focus()
     End Sub
 
-    Private Sub AIBoxesToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles AIBoxesToolStripMenuItem.Click
+    Private Sub AIBoxesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AIBoxesToolStripMenuItem.Click
         If Form9.Visible = False Then Form9.Show()
         Form9.Focus()
     End Sub
 
-    Private Sub OldDommeTagsToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles OldDommeTagsToolStripMenuItem.Click
+    Private Sub OldDommeTagsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OldDommeTagsToolStripMenuItem.Click
         Form8.Show()
     End Sub
 
@@ -16428,22 +15981,22 @@ NoPlaylistStartFile:
 
 #Region "------------------------------------------------------ Milovana ------------------------------------------------------"
 
-    Private Sub OpenBetaThreadToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles OpenBetaThreadToolStripMenuItem.Click,
+    Private Sub OpenBetaThreadToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenBetaThreadToolStripMenuItem.Click,
                                                                                                             OpenBetaThreadToolStripMenuItem1.Click
         Process.Start("https://milovana.com/forum/viewtopic.php?f=2&t=15776")
     End Sub
 
-    Private Sub BugReportThreadToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles BugReportThreadToolStripMenuItem.Click,
+    Private Sub BugReportThreadToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles BugReportThreadToolStripMenuItem.Click,
                                                                                                             BugReportThreadToolStripMenuItem1.Click
         Process.Start("https://milovana.com/forum/viewtopic.php?f=2&t=16203")
     End Sub
 
-    Private Sub WebteasesToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles WebteasesToolStripMenuItem.Click,
+    Private Sub WebteasesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles WebteasesToolStripMenuItem.Click,
                                                                                                         WebteasesToolStripMenuItem1.Click
         Process.Start("https://milovana.com/webteases/")
     End Sub
 
-    Private Sub AllAndEverythingToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles AllAndEverythingToolStripMenuItem.Click,
+    Private Sub AllAndEverythingToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AllAndEverythingToolStripMenuItem.Click,
                                                                                                                 ForumToolStripMenuItem.Click
         Process.Start("https://milovana.com/forum/")
     End Sub
@@ -16454,7 +16007,7 @@ NoPlaylistStartFile:
         Timer1.Start()
     End Sub
 
-    Private Sub RunScriptToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles RunScriptToolStripMenuItem.Click
+    Private Sub RunScriptToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RunScriptToolStripMenuItem.Click
 
         If OpenScriptDialog.ShowDialog() = DialogResult.OK Then
 
@@ -16481,7 +16034,7 @@ NoPlaylistStartFile:
         dbgSessionForm.Show()
     End Sub
 
-    Private Sub DebugMenuToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles DebugMenuToolStripMenuItem.Click
+    Private Sub DebugMenuToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DebugMenuToolStripMenuItem.Click
         FrmSettings.SettingsTabs.SelectTab(13)
         FrmSettings.Show()
         FrmSettings.Focus()
@@ -16491,11 +16044,11 @@ NoPlaylistStartFile:
         StartTimer1ToolStripMenuItem.Enabled = Not Timer1.Enabled
     End Sub
 
-    Private Sub RefreshRandomizerToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles RefreshRandomizerToolStripMenuItem.Click
+    Private Sub RefreshRandomizerToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RefreshRandomizerToolStripMenuItem.Click
         ssh.randomizer = New Random(System.DateTime.Now.Ticks Mod System.Int32.MaxValue)
     End Sub
 
-    Private Sub AboutToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles AboutToolStripMenuItem.Click
+    Private Sub AboutToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AboutToolStripMenuItem.Click
         FrmSettings.SettingsTabs.SelectTab(14)
         FrmSettings.Show()
         FrmSettings.Focus()
@@ -16798,7 +16351,7 @@ RinseLatherRepeat:
             Try
                 Dim tmpImgLoc As String = ""
 
-                If isURL(ImageToShow) Then
+                If IsUrl(ImageToShow) Then
                     '########################## ImageURL was given #########################
                     tmpImgLoc = ImageToShow
                     GoTo ShowedBlogImage
@@ -18453,7 +18006,7 @@ OrgasmDecided:
             LBLLinesRemaining.Text = ssh.WritingTaskLinesAmount
 
             If PNLWritingTask.Visible = False Then
-                CloseApp(PNLWritingTask)
+                ToggleAppVisibility(PNLWritingTask)
             End If
 
             'WritingTaskMistakesAllowed = randomizer.Next(3, 9)
@@ -20458,5 +20011,59 @@ VTSkip:
         Await Task.Run(Sub() Thread.Sleep(sleepTime))
     End Function
 
+    Private Function GetToken(input As String) As Token
+        If input.ToLower().Contains("gold") Then
+            Return Token.Gold
+        ElseIf input.ToLower().Contains("silver") Then
+            Return Token.Silver
+        Else
+            Return Token.Copper
+        End If
+    End Function
+
+    Private Function GetDommePersonalities(basePath As String) As List(Of String)
+        Dim returnValue As List(Of String) = New List(Of String)()
+        For Each personalityDir As String In myDirectory.GetDirectories(basePath)
+            Dim personalityName As String = Path.GetFileName(personalityDir)
+            returnValue.Add(personalityName)
+        Next
+        Return returnValue
+    End Function
+
+    Private Function GetImageList(imageLocation As String) As List(Of String)
+        If IsUrl(imageLocation) Then
+            Dim webRequest As Net.HttpWebRequest = Net.HttpWebRequest.Create(imageLocation & "api/read?start=" & 1 & "&num=5000")
+            Using webResponse As Net.HttpWebResponse = webRequest.GetResponse()
+                Using reader As New Xml.XmlTextReader(webResponse.GetResponseStream())
+                    Dim tmpDoc As New Xml.XmlDocument()
+                    tmpDoc.Load(reader)
+
+                    ' I don't think this is required
+                    'webRequest.Abort()
+                    webResponse.Close()
+                    Dim imageList As List(Of String) = New List(Of String)()
+                    For Each photoNode As Xml.XmlNode In tmpDoc.DocumentElement.SelectNodes("//photo-url")
+                        If CInt(photoNode.Attributes.ItemOf("max-width").InnerText) = 1280 Then
+                            imageList.Add(photoNode.InnerXml)
+                        End If
+                    Next
+                    Return imageList
+                End Using
+            End Using
+        End If
+
+        Dim searchOption As SearchOption = If(FrmSettings.CBSlideshowSubDir.Checked, SearchOption.AllDirectories, SearchOption.TopDirectoryOnly)
+        Return myDirectory.GetFilesImages(imageLocation, searchOption)
+    End Function
+
+    Private Function GetImageLocation(useDialog As Boolean, fromDropDown As Boolean) As String
+        Dim folderBrowswer As FolderBrowserDialog = New FolderBrowserDialog()
+        If useDialog Then
+            Return If(folderBrowswer.ShowDialog() = DialogResult.OK, folderBrowswer.SelectedPath, String.Empty)
+        ElseIf fromDropDown Then
+            Return ImageFolderComboBox.Text
+        End If
+        Throw New InvalidDataException("Neither use dialog nor from dropdown")
+    End Function
 #End Region
 End Class

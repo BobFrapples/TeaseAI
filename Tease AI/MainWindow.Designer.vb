@@ -39,7 +39,7 @@ Partial Class MainWindow
 		Me.ImageFolderComboBox = New System.Windows.Forms.ComboBox()
 		Me.BTNLoadVideo = New System.Windows.Forms.Button()
 		Me.previousButton = New System.Windows.Forms.Button()
-		Me.browsefolderButton = New System.Windows.Forms.Button()
+		Me.BrowseFolderButton = New System.Windows.Forms.Button()
 		Me.nextButton = New System.Windows.Forms.Button()
 		Me.BTNVideoControls = New System.Windows.Forms.Button()
 		Me.PnlChatBoxLayout = New System.Windows.Forms.Panel()
@@ -619,7 +619,7 @@ Partial Class MainWindow
 		Me.PNLMediaBar.Controls.Add(Me.ImageFolderComboBox)
 		Me.PNLMediaBar.Controls.Add(Me.BTNLoadVideo)
 		Me.PNLMediaBar.Controls.Add(Me.previousButton)
-		Me.PNLMediaBar.Controls.Add(Me.browsefolderButton)
+		Me.PNLMediaBar.Controls.Add(Me.BrowseFolderButton)
 		Me.PNLMediaBar.Controls.Add(Me.nextButton)
 		Me.PNLMediaBar.Controls.Add(Me.BTNVideoControls)
 		Me.PNLMediaBar.Dock = System.Windows.Forms.DockStyle.Top
@@ -680,18 +680,18 @@ Partial Class MainWindow
 		'
 		'browsefolderButton
 		'
-		Me.browsefolderButton.BackColor = Global.Tease_AI.My.MySettings.Default.ButtonColor
-		Me.browsefolderButton.DataBindings.Add(New System.Windows.Forms.Binding("BackColor", Global.Tease_AI.My.MySettings.Default, "ButtonColor", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-		Me.browsefolderButton.DataBindings.Add(New System.Windows.Forms.Binding("ForeColor", Global.Tease_AI.My.MySettings.Default, "TextColor", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-		Me.browsefolderButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-		Me.browsefolderButton.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.browsefolderButton.ForeColor = Global.Tease_AI.My.MySettings.Default.TextColor
-		Me.browsefolderButton.Location = New System.Drawing.Point(1, 1)
-		Me.browsefolderButton.Name = "browsefolderButton"
-		Me.browsefolderButton.Size = New System.Drawing.Size(47, 30)
-		Me.browsefolderButton.TabIndex = 3
-		Me.browsefolderButton.Text = "Open"
-		Me.browsefolderButton.UseVisualStyleBackColor = False
+		Me.BrowseFolderButton.BackColor = Global.Tease_AI.My.MySettings.Default.ButtonColor
+		Me.BrowseFolderButton.DataBindings.Add(New System.Windows.Forms.Binding("BackColor", Global.Tease_AI.My.MySettings.Default, "ButtonColor", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+		Me.BrowseFolderButton.DataBindings.Add(New System.Windows.Forms.Binding("ForeColor", Global.Tease_AI.My.MySettings.Default, "TextColor", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+		Me.BrowseFolderButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+		Me.BrowseFolderButton.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+		Me.BrowseFolderButton.ForeColor = Global.Tease_AI.My.MySettings.Default.TextColor
+		Me.BrowseFolderButton.Location = New System.Drawing.Point(1, 1)
+		Me.BrowseFolderButton.Name = "browsefolderButton"
+		Me.BrowseFolderButton.Size = New System.Drawing.Size(47, 30)
+		Me.BrowseFolderButton.TabIndex = 3
+		Me.BrowseFolderButton.Text = "Open"
+		Me.BrowseFolderButton.UseVisualStyleBackColor = False
 		'
 		'nextButton
 		'
@@ -4465,7 +4465,7 @@ Partial Class MainWindow
 	Friend WithEvents domAvatar As System.Windows.Forms.PictureBox
 	Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
 	Friend WithEvents nextButton As System.Windows.Forms.Button
-	Friend WithEvents browsefolderButton As System.Windows.Forms.Button
+	Friend WithEvents BrowseFolderButton As System.Windows.Forms.Button
 	Friend WithEvents previousButton As System.Windows.Forms.Button
 	Friend WithEvents subName As System.Windows.Forms.TextBox
 	Friend WithEvents ChatText As System.Windows.Forms.WebBrowser
