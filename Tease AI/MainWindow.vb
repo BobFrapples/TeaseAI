@@ -52,6 +52,7 @@ Public Class MainWindow
     Dim myGotoProcessor As GotoProcessor = New GotoProcessor(New ScriptAccessor(New CldAccessor()))
     Dim mySettingsAccessor As Accessors.ISettingsAccessor = New SettingsAccessor()
     Dim myRandomNumberService As IRandomNumberService = New RandomNumberService()
+    Dim mySlideShowNavigationService As ISlideShowNavigationService = New SlideShowNavigationService()
     Dim WithEvents mySession As SessionEngine
 
     'TODO: Use a custom class to pass data between ScriptParsing methods.
@@ -3318,9 +3319,10 @@ DommeSlideshowFallback:
         End If
         Try
             BrowseFolderButton.Enabled = False
-            nextButton.Enabled = False
-            previousButton.Enabled = False
+            ImageSlideShowNextButton.Enabled = False
+            ImageSlideShowPreviousButton.Enabled = False
             PicStripTSMIdommeSlideshow.Enabled = False
+            EnableSlideShowControls(False)
             Dim folderToLoad As String = GetImageLocation(sender Is BrowseFolderButton, sender Is ImageFolderComboBox)
             'TODO-Next: Move ImageNavigation-Lock to BWImageSync
             If sender Is BrowseFolderButton Then
@@ -3370,7 +3372,7 @@ DommeSlideshowFallback:
             End If
             ssh.SlideshowLoaded = True
 
-            ShowImage(ssh.SlideshowMain.NavigateNextTease, True)
+            ShowImage(ssh.SlideshowMain.CurrentImage, True)
             ssh.JustShowedBlogImage = False
 
             If FrmSettings.TimedSlideShowRadio.Checked Then
@@ -3381,76 +3383,72 @@ DommeSlideshowFallback:
         Catch ex As Exception
             MessageBox.Show("Unable to load custom slideshow : " & vbCrLf & vbCrLf & ex.Message, "Open CustomSlideshow failed", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
-            BrowseFolderButton.Enabled = True
-            nextButton.Enabled = True
-            previousButton.Enabled = True
-            PicStripTSMIdommeSlideshow.Enabled = True
-            ImageFolderComboBox.Enabled = True
+            EnableSlideShowControls(True)
         End Try
     End Sub
 
-    Private Sub imagesNextButton_Click(sender As Object, e As EventArgs) Handles nextButton.Click, previousButton.Click
+    Private Function CreateImageSlideShow(slideShow As ContactData) As ImageSlideShow
+        Return New ImageSlideShow With {
+            .IsRandom = My.Settings.CBSlideshowRandom,
+            .ImageList = slideShow.ImageList,
+            .ImageIndex = slideShow.Index
+        }
+    End Function
+
+    Private Function UpdateFromSlideShow(slideshow As ImageSlideShow) As Result(Of ContactData)
+        My.Settings.CBSlideshowRandom = slideshow.IsRandom
+        ssh.SlideshowMain.ImageList = slideshow.ImageList
+        ssh.SlideshowMain.Index = slideshow.ImageIndex
+        Return Result.Ok(ssh.SlideshowMain)
+    End Function
+
+    Private Sub EnableSlideShowControls(isEnabled As Boolean)
+        BrowseFolderButton.Enabled = isEnabled
+        ImageFolderComboBox.Enabled = isEnabled
+        ImageSlideShowNextButton.Enabled = isEnabled
+        ImageSlideShowPreviousButton.Enabled = isEnabled
+        PicStripTSMIdommeSlideshow.Enabled = isEnabled
+    End Sub
+
+    Private Sub SlideShowNavigation_Click(sender As Object, e As EventArgs) Handles ImageSlideShowNextButton.Click, ImageSlideShowPreviousButton.Click
         Try
-            If My.Settings.CBSettingsPause And FrmSettings.SettingsPanel.Visible = True Then
+            EnableSlideShowControls(False)
+            Dim imageSlideShow As ImageSlideShow = CreateImageSlideShow(ssh.SlideshowMain)
+            If My.Settings.CBSettingsPause AndAlso FrmSettings.SettingsPanel.Visible Then
                 MsgBox("Please close the settings menu or disable ""Pause Program When Settings Menu is Visible"" option first!", , "Warning!")
                 Exit Sub
             End If
+            If Not ssh.SlideshowLoaded OrElse ssh.TeaseVideo Then Return
 
-            If ssh.SlideshowLoaded = False Or ssh.TeaseVideo = True Then Return
-
-            Dim sh As ContactData = ssh.SlideshowMain
-Retry:
-            If My.Settings.CBSlideshowRandom Then
-                sh.NavigateNextTease()
-            ElseIf sender Is nextButton Then
-                ' ====================== Next Image =======================
-                sh.NavigateForward()
-            ElseIf sender Is previousButton Then
-                ' ==================== Previous Image =====================
-                sh.NavigateBackward()
-            Else
-                ' ======================== Error ==========================
-                Throw New NotImplementedException("Action for button not implemented.")
-            End If
-
-            If Not (File.Exists(sh.CurrentImage) _
-                    Or IsUrl(sh.CurrentImage)) Then
+            Dim newSlideShow As Result = mySlideShowNavigationService.MoveSlideShow(imageSlideShow, sender Is ImageSlideShowNextButton) _
+                .OnSuccess(Function(iss) UpdateFromSlideShow(iss)) _
+                .Ensure(Function(ssm) File.Exists(ssm.CurrentImage) OrElse IsUrl(ssm.CurrentImage), ssh.SlideshowMain.CurrentImage + " is not found and not a URL") _
+                .OnSuccess(Sub()
+                               ShowImage(ssh.SlideshowMain.CurrentImage, True)
+                               ssh.JustShowedBlogImage = False
+                           End Sub) _
+                .Map()
+            If newSlideShow.IsFailure Then
                 ClearMainPictureBox()
-                Return
+                MessageBox.Show(newSlideShow.Error.Message)
             End If
-
-            Try
-                'TODO-Next: Move ImageNavigation-Lock to BWImageSync
-                BrowseFolderButton.Enabled = False
-                ImageFolderComboBox.Enabled = False
-                nextButton.Enabled = False
-                previousButton.Enabled = False
-                PicStripTSMIdommeSlideshow.Enabled = False
-
-                ShowImage(sh.CurrentImage, True)
-
-                ssh.JustShowedBlogImage = False
-
-            Catch
-                GoTo Retry
-            Finally
-                BrowseFolderButton.Enabled = True
-                ImageFolderComboBox.Enabled = True
-                nextButton.Enabled = True
-                previousButton.Enabled = True
-                PicStripTSMIdommeSlideshow.Enabled = True
-            End Try
-
-        Catch ex As Exception
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-            '                                            All Errors
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-            Log.WriteError(ex.Message, ex, "Move in slideshow Failed")
-            MessageBox.Show(ex.Message, "Move in Slideshow failed", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            ' This is kept for reference
+            'Dim sh As ContactData = ssh.SlideshowMain
+            'If My.Settings.CBSlideshowRandom Then
+            '    sh.NavigateNextTease()
+            'ElseIf sender Is ImageSlideShowNextButton Then
+            '    sh.NavigateForward()
+            'ElseIf sender Is ImageSlideShowPreviousButton Then
+            '    sh.NavigateBackward()
+            'Else
+            '    Throw New NotImplementedException("Action for button not implemented.")
+            'End If
+        Finally
+            EnableSlideShowControls(True)
         End Try
     End Sub
 
-    Private Sub ImageFolderComboBox_MouseWheel(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles ImageFolderComboBox.MouseWheel
+    Private Sub ImageFolderComboBox_MouseWheel(sender As Object, e As MouseEventArgs) Handles ImageFolderComboBox.MouseWheel
         Dim mwe As HandledMouseEventArgs = DirectCast(e, HandledMouseEventArgs)
         mwe.Handled = True
     End Sub
@@ -3460,7 +3458,6 @@ Retry:
 #Region " VLC "
 
     Private Sub BTNLoadVideo_Click(sender As Object, e As EventArgs) Handles BTNLoadVideo.Click
-
         If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then
             MsgBox("Please close the settings menu or disable ""Pause Program When Settings Menu is Visible"" option first!", , "Warning!")
             Return
@@ -3512,8 +3509,6 @@ Retry:
 #End Region
 
     Private Sub StrokeTimer_Tick(sender As Object, e As EventArgs) Handles StrokeTimer.Tick
-
-
         If ssh.InputFlag = True Then Return
         If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
         If ssh.DomTypeCheck = True And ssh.StrokeTick < 5 Then Return
@@ -5149,8 +5144,8 @@ RinseLatherRepeat:
         ' The @UnlockImages Command allows the Domme Slideshow to resume functioning as normal.
         If StringClean.Contains("@UnlockImages") Then
             If ssh.SlideshowLoaded = True Then
-                nextButton.Enabled = True
-                previousButton.Enabled = True
+                ImageSlideShowNextButton.Enabled = True
+                ImageSlideShowPreviousButton.Enabled = True
                 PicStripTSMIdommeSlideshow.Enabled = True
             End If
             ssh.LockImage = False
@@ -5591,8 +5586,8 @@ ShowedBlogImage:
 
         If StringClean.Contains("@LockImages") Then
             ssh.LockImage = True
-            nextButton.Enabled = False
-            previousButton.Enabled = False
+            ImageSlideShowNextButton.Enabled = False
+            ImageSlideShowPreviousButton.Enabled = False
             PicStripTSMIdommeSlideshow.Enabled = False
             StringClean = StringClean.Replace("@LockImages", "")
         End If
@@ -7169,8 +7164,8 @@ OrgasmDecided:
                     ssh.ResponseFile = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Vocabulary\Responses\System\GiveUpALLOWED.txt"
                     ssh.LockImage = False
                     If ssh.SlideshowLoaded = True Then
-                        nextButton.Enabled = True
-                        previousButton.Enabled = True
+                        ImageSlideShowNextButton.Enabled = True
+                        ImageSlideShowPreviousButton.Enabled = True
                         PicStripTSMIdommeSlideshow.Enabled = True
                     End If
                     ssh.SubGaveUp = True
@@ -7250,8 +7245,8 @@ OrgasmDecided:
                 ssh.LockImage = False
                 ssh.MiniScript = False
                 If ssh.SlideshowLoaded = True Then
-                    nextButton.Enabled = True
-                    previousButton.Enabled = True
+                    ImageSlideShowNextButton.Enabled = True
+                    ImageSlideShowPreviousButton.Enabled = True
                     PicStripTSMIdommeSlideshow.Enabled = True
                 End If
                 ssh.StrokeTauntVal = -1
@@ -7294,8 +7289,8 @@ OrgasmDecided:
                 ssh.FileText = StrokeList(ssh.randomizer.Next(0, StrokeList.Count))
                 ssh.LockImage = False
                 If ssh.SlideshowLoaded = True Then
-                    nextButton.Enabled = True
-                    previousButton.Enabled = True
+                    ImageSlideShowNextButton.Enabled = True
+                    ImageSlideShowPreviousButton.Enabled = True
                     PicStripTSMIdommeSlideshow.Enabled = True
                 End If
                 ssh.StrokeTauntVal = -1
@@ -7348,8 +7343,8 @@ OrgasmDecided:
                 ssh.FileText = InterruptClean
                 ssh.LockImage = False
                 If ssh.SlideshowLoaded = True Then
-                    nextButton.Enabled = True
-                    previousButton.Enabled = True
+                    ImageSlideShowNextButton.Enabled = True
+                    ImageSlideShowPreviousButton.Enabled = True
                     PicStripTSMIdommeSlideshow.Enabled = True
                 End If
                 ssh.StrokeTauntVal = -1
@@ -10802,8 +10797,8 @@ NoPlaylistLinkFile:
         If ssh.WorshipMode = False Then
             ssh.LockImage = False
             If ssh.SlideshowLoaded = True Then
-                nextButton.Enabled = True
-                previousButton.Enabled = True
+                ImageSlideShowNextButton.Enabled = True
+                ImageSlideShowPreviousButton.Enabled = True
                 PicStripTSMIdommeSlideshow.Enabled = True
             End If
         End If
@@ -10857,8 +10852,8 @@ NoPlaylistLinkFile:
 
         If ssh.WorshipMode = False Then
             If ssh.SlideshowLoaded = True Then
-                nextButton.Enabled = True
-                previousButton.Enabled = True
+                ImageSlideShowNextButton.Enabled = True
+                ImageSlideShowPreviousButton.Enabled = True
                 PicStripTSMIdommeSlideshow.Enabled = True
             End If
             ssh.LockImage = False
@@ -10919,8 +10914,8 @@ NoPlaylistLinkFile:
 
         ssh.LockImage = False
         If ssh.SlideshowLoaded = True Then
-            nextButton.Enabled = True
-            previousButton.Enabled = True
+            ImageSlideShowNextButton.Enabled = True
+            ImageSlideShowPreviousButton.Enabled = True
             PicStripTSMIdommeSlideshow.Enabled = True
         End If
 
@@ -12057,11 +12052,11 @@ RestartFunction:
         Dim binaryReader As New BinaryReader(fileStream)
         CLBExercise.BeginUpdate()
         Do While fileStream.Position < fileStream.Length
-            CLBExercise.Items.Add(BinaryReader.ReadString)
-            CLBExercise.SetItemChecked(CLBExercise.Items.Count - 1, BinaryReader.ReadBoolean)
+            CLBExercise.Items.Add(binaryReader.ReadString)
+            CLBExercise.SetItemChecked(CLBExercise.Items.Count - 1, binaryReader.ReadBoolean)
         Loop
         CLBExercise.EndUpdate()
-        BinaryReader.Close()
+        binaryReader.Close()
         fileStream.Dispose()
     End Sub
 
@@ -12502,8 +12497,8 @@ RestartFunction:
         ssh.SlideshowLoaded = True
         ssh.JustShowedBlogImage = False
 
-        nextButton.Enabled = True
-        previousButton.Enabled = True
+        ImageSlideShowNextButton.Enabled = True
+        ImageSlideShowPreviousButton.Enabled = True
         PicStripTSMIdommeSlideshow.Enabled = True
 
         If ssh.RiskyDeal = True Then FrmCardList.PBRiskyPic.Image = Image.FromFile(ssh.SlideshowMain.CurrentImage)
@@ -13423,11 +13418,11 @@ restartInstantly:
     End Function
 
     Private Sub BtnDommeTagNextImage_Click(sender As Object, e As EventArgs) Handles DommeTagBtnNextImage.Click
-        nextButton.PerformClick()
+        ImageSlideShowNextButton.PerformClick()
     End Sub
 
     Private Sub BtnDommeTagLastImage_Click(sender As Object, e As EventArgs) Handles DommeTagBtnLastImage.Click
-        previousButton.PerformClick()
+        ImageSlideShowPreviousButton.PerformClick()
     End Sub
 
     ''' <summary>
@@ -13768,8 +13763,8 @@ restartInstantly:
         If mySession.Session.Domme.WasGreeted = True Then
             ssh.LockImage = False
             If ssh.SlideshowLoaded = True Then
-                nextButton.Enabled = True
-                previousButton.Enabled = True
+                ImageSlideShowNextButton.Enabled = True
+                ImageSlideShowPreviousButton.Enabled = True
                 PicStripTSMIdommeSlideshow.Enabled = True
             End If
             ssh.RapidFire = False
@@ -14510,7 +14505,7 @@ restartInstantly:
             Next
         End If
 
-        If Val(LBLCalorie.Text) > Val(TBCalorie.Text) Then VitalSubFail = True
+        If Val(LBLCalorie.Text) > Val(TBCalorie.Text) Then vitalSubFail = True
 
         Dim vitalSubState As String
 
@@ -14519,10 +14514,10 @@ restartInstantly:
         Else
             vitalSubState = "Rewards"
         End If
-        VitalSubFail = False
+        vitalSubFail = False
         Dim VitalList As New List(Of String)
 
-        For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Apps\VitalSub\" & VitalSubState & "\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
+        For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Apps\VitalSub\" & vitalSubState & "\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
             VitalList.Add(foundFile)
         Next
 
@@ -14557,7 +14552,7 @@ restartInstantly:
 
         Else
 
-            MessageBox.Show(Me, "No " & VitalSubState & " were found! Please make sure you have files in the VitaSub directory for this personality type!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            MessageBox.Show(Me, "No " & vitalSubState & " were found! Please make sure you have files in the VitaSub directory for this personality type!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Return
         End If
     End Sub
@@ -15267,8 +15262,8 @@ NoPlaylistStartFile:
             ssh.FileText = taskList(ssh.randomizer.Next(0, taskList.Count))
             ssh.LockImage = False
             If ssh.SlideshowLoaded = True Then
-                nextButton.Enabled = True
-                previousButton.Enabled = True
+                ImageSlideShowNextButton.Enabled = True
+                ImageSlideShowPreviousButton.Enabled = True
                 PicStripTSMIdommeSlideshow.Enabled = True
             End If
             ssh.StrokeTauntVal = -1
@@ -16184,8 +16179,8 @@ RinseLatherRepeat:
         ' The @UnlockImages Command allows the Domme Slideshow to resume functioning as normal.
         If inputString.Contains("@UnlockImages") Then
             If ssh.SlideshowLoaded = True Then
-                nextButton.Enabled = True
-                previousButton.Enabled = True
+                ImageSlideShowNextButton.Enabled = True
+                ImageSlideShowPreviousButton.Enabled = True
                 PicStripTSMIdommeSlideshow.Enabled = True
             End If
             ssh.LockImage = False
@@ -16627,8 +16622,8 @@ ShowedBlogImage:
 
         If inputString.Contains("@LockImages") Then
             ssh.LockImage = True
-            nextButton.Enabled = False
-            previousButton.Enabled = False
+            ImageSlideShowNextButton.Enabled = False
+            ImageSlideShowPreviousButton.Enabled = False
             PicStripTSMIdommeSlideshow.Enabled = False
             inputString = inputString.Replace("@LockImages", "")
         End If
@@ -18123,8 +18118,8 @@ OrgasmDecided:
                     ssh.ResponseFile = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Vocabulary\Responses\System\GiveUpALLOWED.txt"
                     ssh.LockImage = False
                     If ssh.SlideshowLoaded = True Then
-                        nextButton.Enabled = True
-                        previousButton.Enabled = True
+                        ImageSlideShowNextButton.Enabled = True
+                        ImageSlideShowPreviousButton.Enabled = True
                         PicStripTSMIdommeSlideshow.Enabled = True
                     End If
                     ssh.SubGaveUp = True
@@ -18203,8 +18198,8 @@ OrgasmDecided:
                 ssh.LockImage = False
                 ssh.MiniScript = False
                 If ssh.SlideshowLoaded = True Then
-                    nextButton.Enabled = True
-                    previousButton.Enabled = True
+                    ImageSlideShowNextButton.Enabled = True
+                    ImageSlideShowPreviousButton.Enabled = True
                     PicStripTSMIdommeSlideshow.Enabled = True
                 End If
                 ssh.StrokeTauntVal = -1
@@ -18248,8 +18243,8 @@ OrgasmDecided:
                 ssh.FileText = StrokeList(ssh.randomizer.Next(0, StrokeList.Count))
                 ssh.LockImage = False
                 If ssh.SlideshowLoaded = True Then
-                    nextButton.Enabled = True
-                    previousButton.Enabled = True
+                    ImageSlideShowNextButton.Enabled = True
+                    ImageSlideShowPreviousButton.Enabled = True
                     PicStripTSMIdommeSlideshow.Enabled = True
                 End If
                 ssh.StrokeTauntVal = -1
@@ -18302,8 +18297,8 @@ OrgasmDecided:
                 ssh.FileText = InterruptClean
                 ssh.LockImage = False
                 If ssh.SlideshowLoaded = True Then
-                    nextButton.Enabled = True
-                    previousButton.Enabled = True
+                    ImageSlideShowNextButton.Enabled = True
+                    ImageSlideShowPreviousButton.Enabled = True
                     PicStripTSMIdommeSlideshow.Enabled = True
                 End If
                 ssh.StrokeTauntVal = -1

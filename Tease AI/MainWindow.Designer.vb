@@ -38,9 +38,9 @@ Partial Class MainWindow
 		Me.PNLMediaBar = New System.Windows.Forms.Panel()
 		Me.ImageFolderComboBox = New System.Windows.Forms.ComboBox()
 		Me.BTNLoadVideo = New System.Windows.Forms.Button()
-		Me.previousButton = New System.Windows.Forms.Button()
+		Me.ImageSlideShowPreviousButton = New System.Windows.Forms.Button()
 		Me.BrowseFolderButton = New System.Windows.Forms.Button()
-		Me.nextButton = New System.Windows.Forms.Button()
+		Me.ImageSlideShowNextButton = New System.Windows.Forms.Button()
 		Me.BTNVideoControls = New System.Windows.Forms.Button()
 		Me.PnlChatBoxLayout = New System.Windows.Forms.Panel()
 		Me.BtnToggleSettings = New System.Windows.Forms.Button()
@@ -618,9 +618,9 @@ Partial Class MainWindow
 		Me.PNLMediaBar.BackColor = System.Drawing.Color.Transparent
 		Me.PNLMediaBar.Controls.Add(Me.ImageFolderComboBox)
 		Me.PNLMediaBar.Controls.Add(Me.BTNLoadVideo)
-		Me.PNLMediaBar.Controls.Add(Me.previousButton)
+		Me.PNLMediaBar.Controls.Add(Me.ImageSlideShowPreviousButton)
 		Me.PNLMediaBar.Controls.Add(Me.BrowseFolderButton)
-		Me.PNLMediaBar.Controls.Add(Me.nextButton)
+		Me.PNLMediaBar.Controls.Add(Me.ImageSlideShowNextButton)
 		Me.PNLMediaBar.Controls.Add(Me.BTNVideoControls)
 		Me.PNLMediaBar.Dock = System.Windows.Forms.DockStyle.Top
 		Me.PNLMediaBar.Location = New System.Drawing.Point(0, 0)
@@ -662,21 +662,21 @@ Partial Class MainWindow
 		'
 		'previousButton
 		'
-		Me.previousButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-		Me.previousButton.BackColor = Global.Tease_AI.My.MySettings.Default.ButtonColor
-		Me.previousButton.DataBindings.Add(New System.Windows.Forms.Binding("BackColor", Global.Tease_AI.My.MySettings.Default, "ButtonColor", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-		Me.previousButton.DataBindings.Add(New System.Windows.Forms.Binding("ForeColor", Global.Tease_AI.My.MySettings.Default, "TextColor", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-		Me.previousButton.Enabled = False
-		Me.previousButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-		Me.previousButton.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.previousButton.ForeColor = Global.Tease_AI.My.MySettings.Default.TextColor
-		Me.previousButton.Location = New System.Drawing.Point(1098, 1)
-		Me.previousButton.Margin = New System.Windows.Forms.Padding(2, 0, 0, 0)
-		Me.previousButton.Name = "previousButton"
-		Me.previousButton.Size = New System.Drawing.Size(53, 30)
-		Me.previousButton.TabIndex = 6
-		Me.previousButton.Text = "<<"
-		Me.previousButton.UseVisualStyleBackColor = False
+		Me.ImageSlideShowPreviousButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+		Me.ImageSlideShowPreviousButton.BackColor = Global.Tease_AI.My.MySettings.Default.ButtonColor
+		Me.ImageSlideShowPreviousButton.DataBindings.Add(New System.Windows.Forms.Binding("BackColor", Global.Tease_AI.My.MySettings.Default, "ButtonColor", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+		Me.ImageSlideShowPreviousButton.DataBindings.Add(New System.Windows.Forms.Binding("ForeColor", Global.Tease_AI.My.MySettings.Default, "TextColor", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+		Me.ImageSlideShowPreviousButton.Enabled = False
+		Me.ImageSlideShowPreviousButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+		Me.ImageSlideShowPreviousButton.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+		Me.ImageSlideShowPreviousButton.ForeColor = Global.Tease_AI.My.MySettings.Default.TextColor
+		Me.ImageSlideShowPreviousButton.Location = New System.Drawing.Point(1098, 1)
+		Me.ImageSlideShowPreviousButton.Margin = New System.Windows.Forms.Padding(2, 0, 0, 0)
+		Me.ImageSlideShowPreviousButton.Name = "previousButton"
+		Me.ImageSlideShowPreviousButton.Size = New System.Drawing.Size(53, 30)
+		Me.ImageSlideShowPreviousButton.TabIndex = 6
+		Me.ImageSlideShowPreviousButton.Text = "<<"
+		Me.ImageSlideShowPreviousButton.UseVisualStyleBackColor = False
 		'
 		'browsefolderButton
 		'
@@ -695,21 +695,21 @@ Partial Class MainWindow
 		'
 		'nextButton
 		'
-		Me.nextButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-		Me.nextButton.BackColor = Global.Tease_AI.My.MySettings.Default.ButtonColor
-		Me.nextButton.DataBindings.Add(New System.Windows.Forms.Binding("BackColor", Global.Tease_AI.My.MySettings.Default, "ButtonColor", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-		Me.nextButton.DataBindings.Add(New System.Windows.Forms.Binding("ForeColor", Global.Tease_AI.My.MySettings.Default, "TextColor", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-		Me.nextButton.Enabled = False
-		Me.nextButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-		Me.nextButton.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.nextButton.ForeColor = Global.Tease_AI.My.MySettings.Default.TextColor
-		Me.nextButton.Location = New System.Drawing.Point(1152, 1)
-		Me.nextButton.Margin = New System.Windows.Forms.Padding(2, 0, 0, 0)
-		Me.nextButton.Name = "nextButton"
-		Me.nextButton.Size = New System.Drawing.Size(55, 30)
-		Me.nextButton.TabIndex = 7
-		Me.nextButton.Text = ">>"
-		Me.nextButton.UseVisualStyleBackColor = False
+		Me.ImageSlideShowNextButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+		Me.ImageSlideShowNextButton.BackColor = Global.Tease_AI.My.MySettings.Default.ButtonColor
+		Me.ImageSlideShowNextButton.DataBindings.Add(New System.Windows.Forms.Binding("BackColor", Global.Tease_AI.My.MySettings.Default, "ButtonColor", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+		Me.ImageSlideShowNextButton.DataBindings.Add(New System.Windows.Forms.Binding("ForeColor", Global.Tease_AI.My.MySettings.Default, "TextColor", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+		Me.ImageSlideShowNextButton.Enabled = False
+		Me.ImageSlideShowNextButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+		Me.ImageSlideShowNextButton.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+		Me.ImageSlideShowNextButton.ForeColor = Global.Tease_AI.My.MySettings.Default.TextColor
+		Me.ImageSlideShowNextButton.Location = New System.Drawing.Point(1152, 1)
+		Me.ImageSlideShowNextButton.Margin = New System.Windows.Forms.Padding(2, 0, 0, 0)
+		Me.ImageSlideShowNextButton.Name = "nextButton"
+		Me.ImageSlideShowNextButton.Size = New System.Drawing.Size(55, 30)
+		Me.ImageSlideShowNextButton.TabIndex = 7
+		Me.ImageSlideShowNextButton.Text = ">>"
+		Me.ImageSlideShowNextButton.UseVisualStyleBackColor = False
 		'
 		'BTNVideoControls
 		'
@@ -4464,9 +4464,9 @@ Partial Class MainWindow
 	Friend WithEvents mainPictureBox As System.Windows.Forms.PictureBox
 	Friend WithEvents domAvatar As System.Windows.Forms.PictureBox
 	Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
-	Friend WithEvents nextButton As System.Windows.Forms.Button
+	Friend WithEvents ImageSlideShowNextButton As System.Windows.Forms.Button
 	Friend WithEvents BrowseFolderButton As System.Windows.Forms.Button
-	Friend WithEvents previousButton As System.Windows.Forms.Button
+	Friend WithEvents ImageSlideShowPreviousButton As System.Windows.Forms.Button
 	Friend WithEvents subName As System.Windows.Forms.TextBox
 	Friend WithEvents ChatText As System.Windows.Forms.WebBrowser
 	Friend WithEvents ScriptTimer As Tease_AI.teaseAI_Timer

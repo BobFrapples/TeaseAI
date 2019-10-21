@@ -17,13 +17,21 @@ Public Class ContactData
 
 	Public Property ImageFolder As String = ""
 
-	Public Property ImageList As New List(Of String)
+    ''' <summary>
+    ''' List of images in the current slideshow
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property ImageList As New List(Of String)
 
-	Public Property RecentFolders As New List(Of String)
+    Public Property RecentFolders As New List(Of String)
 
-	Public Property Index As Integer = -1
+    ''' <summary>
+    ''' Index of the current image in <see cref="ImageList"/>
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property Index As Integer = -1
 
-	Public ReadOnly Property TypeName As String
+    Public ReadOnly Property TypeName As String
 		Get
 			If Contact = ContactType.Contact1 Then
 				Return My.Settings.Glitter1
