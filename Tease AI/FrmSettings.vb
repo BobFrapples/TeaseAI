@@ -60,12 +60,13 @@ Public Class FrmSettings
     Dim CheckImgDir As New List(Of String)
 
     Public Sub New()
-        mySettingsAccessor = New SettingsAccessor()
+        mySettingsAccessor = ServiceFactory.CreateSettingsAccessor()
         myBlogAccessor = New BlogImageAccessor()
         myCldAccessor = New CldAccessor()
         myScriptAccessor = New ScriptAccessor(New CldAccessor())
         myLoadFileData = New LoadFileData()
         myParseTagDataService = New ParseOldTagDataService()
+        myPathsAccessor = ServiceFactory.CreatePathsAccessor(Reflection.Assembly.GetExecutingAssembly.Location)
 
         InitializeComponent()
     End Sub
@@ -3153,7 +3154,7 @@ checkFolder:
                 .Multiselect = False,
                 .CheckFileExists = True,
                 .Title = "Select an " & tmpCheckbox.Text & " URL-File",
-                .InitialDirectory = MainWindow.pathUrlFileDir}
+                .InitialDirectory = myPathsAccessor.UrlsDirectory}
 
             ' Check if the URL-FilePath exits -> Otherwise create it.
             If Not Directory.Exists(tmpFS.InitialDirectory) Then _
@@ -3172,7 +3173,7 @@ checkFolder:
             End If
 
             If tmpFS.ShowDialog() = DialogResult.OK Then
-                If Path.GetDirectoryName(tmpFS.FileName).ToLower = Path.GetDirectoryName(MainWindow.pathUrlFileDir).ToLower Then
+                If Path.GetDirectoryName(tmpFS.FileName).ToLower = Path.GetDirectoryName(myPathsAccessor.UrlsDirectory).ToLower Then
                     ' If the file is located standarddirectory st only the filename
                     tmpTextbox.Text = tmpFS.SafeFileName
                 Else
@@ -6593,9 +6594,6 @@ checkFolder:
                 MessageBox.Show(Me, "This Theme settings file is invalid or has been edited incorrectly!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
             End Try
 
-            MainWindow.ApplyThemeColor()
-
-
         End If
     End Sub
 
@@ -6610,7 +6608,7 @@ checkFolder:
     Private Sub CheckBox1_CheckedChanged_1(sender As Object, e As EventArgs) Handles CBFlipBack.CheckedChanged
 
         Try
-            If MainWindow.FormLoading = False And MainWindow.ApplyingTheme = False Then MainWindow.ApplyThemeColor()
+            'If MainWindow.FormLoading = False And MainWindow.ApplyingTheme = False Then MainWindow.ApplyThemeColor()
         Catch
         End Try
 
@@ -7840,4 +7838,5 @@ checkFolder:
     Private myScriptAccessor As IScriptAccessor
     Private myLoadFileData As ILoadFileData
     Private myParseTagDataService As ParseOldTagDataService
+    Private myPathsAccessor As PathsAccessor
 End Class

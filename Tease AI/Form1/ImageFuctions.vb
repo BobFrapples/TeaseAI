@@ -37,6 +37,12 @@ Partial Class MainWindow
     ''' and retrieved from it.
     ''' </summary>
     Friend Class ImageDataContainer
+        Private ReadOnly myPathsAccessor As PathsAccessor
+
+        Public Sub New()
+            myPathsAccessor = ServiceFactory.CreatePathsAccessor(Reflection.Assembly.GetExecutingAssembly.Location)
+        End Sub
+
         'TODO: ImageDataContainer Improve the usage of System Ressources.
         Public Name As ImageGenre
 
@@ -62,7 +68,7 @@ Partial Class MainWindow
                     Return _URLFile
                 Else
                     ' Return the relative path absolute.
-                    Return pathUrlFileDir & _URLFile
+                    Return myPathsAccessor.UrlsDirectory & _URLFile
                 End If
             End Get
             Set(value As String)
@@ -170,14 +176,14 @@ Partial Class MainWindow
                     tmpList.AddRange(DirectCast(temp, List(Of String)))
 
                     ' Remove Items where File does not exist.
-                    tmpList.RemoveAll(Function(x) Not File.Exists(Application.StartupPath & "\Images\System\URL Files\" & x & ".txt"))
+                    tmpList.RemoveAll(Function(x) Not File.Exists(myPathsAccessor.UrlsDirectory & x & ".txt"))
 
                     ' Check Result if Files in List
                     If tmpList.Count < 1 Then GoTo exitEmpty
 
                     For Each fileName As String In tmpList
                         ' Read the URL-File
-                        Dim addList As List(Of String) = Txt2List(Application.StartupPath & "\Images\System\URL Files\" & fileName & ".txt")
+                        Dim addList As List(Of String) = Txt2List(myPathsAccessor.UrlsDirectory & fileName & ".txt")
 
                         ' add lines from file
                         rtnList.AddRange(addList)
@@ -190,7 +196,7 @@ Partial Class MainWindow
                     '                                  Liked Images
                     '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
                     Try
-                        Dim addlist As List(Of String) = Txt2List(pathLikeList)
+                        Dim addlist As List(Of String) = Txt2List(myPathsAccessor.LikedImages)
 
                         ' Remove all URLs if Offline-Mode is activated
                         If OfflineMode Or Type = ImageSourceType.Local Then
@@ -210,7 +216,7 @@ Partial Class MainWindow
                     '                                Disliked Images
                     '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
                     Try
-                        Dim addlist As List(Of String) = Txt2List(Application.StartupPath & "\Images\System\DislikedImageURLs.txt")
+                        Dim addlist As List(Of String) = Txt2List(myPathsAccessor.DislikedImages)
 
                         ' Remove all URLs if Offline-Mode is activated
                         If OfflineMode Or Type = ImageSourceType.Local Then
@@ -522,7 +528,7 @@ NoneFound:
         Next
 
         ' Check if there are images
-        If AllImages.Count = 0 Then Return Application.StartupPath & "\Images\System\NoLocalImagesFound.jpg"
+        If AllImages.Count = 0 Then Return myPathsAccessor.PathImageErrorNoLocalImages
 
         ' get an Random Image from the all available Locations
         Return AllImages(New Random().Next(0, AllImages.Count)).ToString
@@ -565,8 +571,8 @@ NoneFound:
 NoNeFound:
         ' Return an Error-Image FilePath
         If source = ImageSourceType.Local _
-        Then Return Application.StartupPath & "\Images\System\NoLocalImagesFound.jpg" _
-        Else Return Application.StartupPath & "\Images\System\NoURLFilesSelected.jpg"
+        Then Return myPathsAccessor.PathImageErrorNoLocalImages _
+        Else Return myPathsAccessor.NoUrlFilesSelected
     End Function
 
     ''' <summary>
@@ -655,11 +661,10 @@ NoNeFound:
     ''' <summary>
     ''' Downloads or loads local or remote Images and displays them afterwards.
     ''' </summary>
-    Private Sub BWimageFetcher_DoWork(ByVal sender As Object,
-                      ByVal e As System.ComponentModel.DoWorkEventArgs) Handles BWimageFetcher.DoWork
+    Private Sub BWimageFetcher_DoWork(sender As Object, e As DoWorkEventArgs) Handles BWimageFetcher.DoWork
         mreImageanimator.Set()
 
-        Dim errorimagepath As String = PathImageErrorOnLoading
+        Dim errorImagePath As String = myPathsAccessor.PathImageErrorOnLoading
 
 
         With CType(e.Argument, ImageFetchObject)
@@ -751,7 +756,7 @@ retryLocal: ' If an exception occures the function is restarted and the Errorima
             ssh.JustShowedBlogImage = True
 
             If e.Cancelled Then
-                MainPictureboxSetImage(New Bitmap(Image.FromFile(PathImageErrorOnLoading)), "")
+                MainPictureboxSetImage(New Bitmap(Image.FromFile(myPathsAccessor.PathImageErrorOnLoading)), "")
                 Exit Sub
             End If
 
@@ -832,7 +837,7 @@ retryLocal: ' If an exception occures the function is restarted and the Errorima
             End If
 
             ' Updeate the pathimformations.
-            If ImagePath <> PathImageErrorOnLoading Then
+            If ImagePath <> myPathsAccessor.PathImageErrorOnLoading Then
                 ssh.ImageLocation = ImagePath
                 LBLImageInfo.Text = ImagePath
                 mainPictureBox.ImageLocation = ImagePath
@@ -1045,7 +1050,7 @@ retryLocal: ' If an exception occures the function is restarted and the Errorima
     ''' <param name="path">The Path/Url to remove from the file.</param>
     ''' <return>The number of lines deleted.</return>
     Friend Function RemoveFromLikeList(ByVal path As String) As Integer
-        Return TxtRemoveLine(pathLikeList, path)
+        Return TxtRemoveLine(myPathsAccessor.LikedImages, path)
     End Function
 
     ''' =========================================================================================================
@@ -1055,7 +1060,7 @@ retryLocal: ' If an exception occures the function is restarted and the Errorima
     ''' <param name="path">The Path/Url to remove from the file.</param>
     ''' <return>The number of lines deleted.</return>
     Friend Function RemoveFromDislikeList(ByVal path As String) As Integer
-        Return TxtRemoveLine(pathDislikeList, path)
+        Return TxtRemoveLine(myPathsAccessor.DislikedImages, path)
     End Function
 
     ''' =========================================================================================================
@@ -1065,7 +1070,7 @@ retryLocal: ' If an exception occures the function is restarted and the Errorima
     ''' <param name="path">The Path/Url to remove from the file.</param>
     ''' <return>The number of lines deleted.</return>
     Friend Function RemoveFromLocalTagList(ByVal path As String) As Integer
-        Return TxtRemoveLine(pathImageTagList, path)
+        Return TxtRemoveLine(myPathsAccessor.LocalImageTags, path)
     End Function
 
     ''' =========================================================================================================

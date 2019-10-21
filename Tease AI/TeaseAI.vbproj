@@ -204,9 +204,11 @@
     <Compile Include="Classes\URL_Files_BGW.vb">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="ServiceFactory.vb" />
     <Compile Include="Services\BlogImageAccessor.vb" />
     <Compile Include="Services\CldAccessor.vb" />
     <Compile Include="Services\FlagAccessor.vb" />
+    <Compile Include="Services\PathsAccessor.vb" />
     <Compile Include="Services\ImageAccessor.vb" />
     <Compile Include="Services\SystemVocabularyAccessor.vb" />
     <Compile Include="Services\TauntAccessor.vb" />

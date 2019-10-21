@@ -21,18 +21,11 @@ Imports TeaseAI.Common.Interfaces.Accessors
 
 Public Class MainWindow
 #Region "-------------------------------------- File Constants ------------------------------------------"
-    Friend Shared ReadOnly pathLikeList As String = Application.StartupPath & "\Images\System\LikedImageURLs.txt"
-    Friend Shared ReadOnly pathDislikeList As String = Application.StartupPath & "\Images\System\DislikedImageURLs.txt"
-    Friend Shared ReadOnly pathImageTagList As String = Application.StartupPath & "\Images\System\LocalImageTags.txt"
     ''' <summary>
     ''' The default directory URL-Files are located.
     ''' </summary>
     Friend Shared ReadOnly pathUrlFileDir As String = Application.StartupPath & "\Images\System\URL Files\"
 
-    Friend Shared ReadOnly PathImageErrorOnLoading As String = Application.StartupPath & "\Images\System\ErrorLoadingImage.jpg"
-    Friend Shared ReadOnly pathImageErrorNoLocalImages As String = Application.StartupPath & "\Images\System\NoLocalImagesFound.jpg"
-
-    Friend Shared ReadOnly SavedSessionDefaultPath As String = Application.StartupPath & "\System\SavedState.save"
 #End Region ' File Constants.
 
     Friend FormLoading As Boolean = True
@@ -50,9 +43,10 @@ Public Class MainWindow
     Dim myFlagService As FlagService = New FlagService(New FlagAccessor())
     Dim myFlagAccessor As FlagAccessor = New FlagAccessor()
     Dim myGotoProcessor As GotoProcessor = New GotoProcessor(New ScriptAccessor(New CldAccessor()))
-    Dim mySettingsAccessor As Accessors.ISettingsAccessor = New SettingsAccessor()
+    Dim mySettingsAccessor As ISettingsAccessor = New SettingsAccessor()
     Dim myRandomNumberService As IRandomNumberService = New RandomNumberService()
     Dim mySlideShowNavigationService As ISlideShowNavigationService = New SlideShowNavigationService()
+    Dim myPathsAccessor As PathsAccessor = ServiceFactory.CreatePathsAccessor(Reflection.Assembly.GetExecutingAssembly.Location)
     Dim WithEvents mySession As SessionEngine
 
     'TODO: Use a custom class to pass data between ScriptParsing methods.
@@ -660,13 +654,8 @@ retryStart:
                 FrmSettings.GBGlitter3.Text = "Contact 3"
             End If
 
-            If Not My.Settings.Chastity Then
-                FrmSettings.LBLChastityState.Text = "OFF"
-                FrmSettings.LBLChastityState.ForeColor = Color.Red
-            Else
-                FrmSettings.LBLChastityState.Text = "ON"
-                FrmSettings.LBLChastityState.ForeColor = Color.Green
-            End If
+            FrmSettings.LBLChastityState.Text = BooleanToOnOff(My.Settings.Chastity)
+            FrmSettings.LBLChastityState.ForeColor = BooleanToOnOffColor(My.Settings.Chastity)
 
             WMPTimer.Start()
 
@@ -5348,7 +5337,7 @@ RinseLatherRepeat:
             Dim FoundString As String = GetLocalImage(Tags, Nothing)
 
             'TODO: @ShowTaggedImage - Add a dedicated ErrorImage when there are no tagged images.
-            If FoundString = String.Empty Then FoundString = pathImageErrorNoLocalImages
+            If String.IsNullOrWhiteSpace(FoundString) Then FoundString = myPathsAccessor.PathImageErrorNoLocalImages
 
             ssh.JustShowedBlogImage = True
             ShowImage(FoundString, False)
@@ -5920,17 +5909,16 @@ TaskCleanSet:
 
         If StringClean.Contains("@ChastityOn") Then
             My.Settings.Chastity = True
-            FrmSettings.LBLChastityState.Text = "ON"
-            FrmSettings.LBLChastityState.ForeColor = Color.Green
             StringClean = StringClean.Replace("@ChastityOn", "")
         End If
 
         If StringClean.Contains("@ChastityOff") Then
             My.Settings.Chastity = False
-            FrmSettings.LBLChastityState.Text = "OFF"
-            FrmSettings.LBLChastityState.ForeColor = Color.Red
             StringClean = StringClean.Replace("@ChastityOff", "")
         End If
+
+        FrmSettings.LBLChastityState.Text = BooleanToOnOff(My.Settings.Chastity)
+        FrmSettings.LBLChastityState.ForeColor = BooleanToOnOffColor(My.Settings.Chastity)
 
         If StringClean.Contains("@AddTokens(") Then
 
@@ -12369,10 +12357,10 @@ RestartFunction:
         PicStripTSMIdislikeImage.Enabled = True
         PicStripTSMIdislikeImage.Checked = False
 
-        Dim tmp As List(Of String) = Txt2List(pathLikeList)
+        Dim tmp As List(Of String) = Txt2List(myPathsAccessor.LikedImages)
         If tmp.Contains(ssh.ImageLocation) Then PicStripTSMIlikeImage.Checked = True
 
-        tmp = Txt2List(pathDislikeList)
+        tmp = Txt2List(myPathsAccessor.DislikedImages)
         If tmp.Contains(ssh.ImageLocation) Then PicStripTSMIdislikeImage.Checked = True
     End Sub
 
@@ -12414,8 +12402,8 @@ RestartFunction:
             End If
 
             Return fileName
-        ElseIf sender Is PicStripTSMIlikeImage Then : Return pathLikeList
-        ElseIf sender Is PicStripTSMIdislikeImage Then : Return pathDislikeList
+        ElseIf sender Is PicStripTSMIlikeImage Then : Return myPathsAccessor.LikedImages
+        ElseIf sender Is PicStripTSMIdislikeImage Then : Return myPathsAccessor.DislikedImages
         Else : Throw New NotImplementedException("Action for this button is not implemented.")
         End If
 
@@ -12590,22 +12578,6 @@ RestartFunction:
         Catch
         End Try
     End Sub
-
-    ''' <summary>
-    ''' Compare <paramref name="checkDate"/> with today
-    ''' </summary>
-    ''' <param name="checkDate"></param>
-    ''' <returns></returns>
-    Public Function CompareDates(ByVal checkDate As Date) As Integer
-        Return Date.Compare(checkDate.Date, Now.Date)
-    End Function
-
-    Public Function CompareDatesWithTime(ByVal CheckDate As Date) As Integer
-
-        Dim result As Integer = DateTime.Compare(FormatDateTime(CheckDate, DateFormat.GeneralDate), FormatDateTime(Now, DateFormat.GeneralDate))
-        Return result
-
-    End Function
 
     Public Function StripBlankLines(ByVal SpaceClean As List(Of String)) As List(Of String)
         For i As Integer = SpaceClean.Count - 1 To 0 Step -1
@@ -12982,9 +12954,6 @@ restartInstantly:
             ssh.StrokeSlowest = False
         End If
 
-    End Sub
-
-    Public Sub ApplyThemeColor()
     End Sub
 
     Public Sub ToggleAppVisibility(ByVal appToOpen As Panel)
@@ -15406,13 +15375,13 @@ NoPlaylistStartFile:
                 Return
             End If
 
-            Dim filename As String = SavedSessionDefaultPath
+            Dim filename As String = myPathsAccessor.SavedSessionDefaultPath
             '	 ===============================================================================
             '						 Custom Location if Control-Key pressed
             '	 ===============================================================================
             If My.Computer.Keyboard.CtrlKeyDown Then
-                Dim fsd As New SaveFileDialog With {.Filter = "Saved Session|*" & Path.GetExtension(SavedSessionDefaultPath) & "",
-                                                    .InitialDirectory = Path.GetDirectoryName(SavedSessionDefaultPath),
+                Dim fsd As New SaveFileDialog With {.Filter = "Saved Session|*" & Path.GetExtension(myPathsAccessor.SavedSessionDefaultPath) & "",
+                                                    .InitialDirectory = Path.GetDirectoryName(myPathsAccessor.SavedSessionDefaultPath),
                                                     .Title = "Select a destination to safe the sessin to.",
                                                     .FileName = Now.ToString("yy-MM-dd_HH-mm-ss") & "_" & DommePersonalityComboBox.Text,
                                                     .AddExtension = True,
@@ -15450,15 +15419,12 @@ NoPlaylistStartFile:
 
     Private Sub ResumeSessionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ResumeSessionToolStripMenuItem.Click
         Try
-            Dim filename As String = SavedSessionDefaultPath
+            Dim filename As String = myPathsAccessor.SavedSessionDefaultPath
 
-
-            '	 ===============================================================================
             '						 Custom Location if Control-Key pressed
-            '	 ===============================================================================
             If My.Computer.Keyboard.CtrlKeyDown Then
-                Dim fsd As New OpenFileDialog With {.Filter = "Saved Session|*" & Path.GetExtension(SavedSessionDefaultPath) & "",
-                                                    .InitialDirectory = Path.GetDirectoryName(SavedSessionDefaultPath),
+                Dim fsd As New OpenFileDialog With {.Filter = "Saved Session|*" & Path.GetExtension(myPathsAccessor.SavedSessionDefaultPath) & "",
+                                                    .InitialDirectory = Path.GetDirectoryName(myPathsAccessor.SavedSessionDefaultPath),
                                                     .Title = "Select a saved session to resume.",
                                                     .CheckPathExists = True,
                                                     .CheckFileExists = True,
@@ -15471,7 +15437,7 @@ NoPlaylistStartFile:
                 '						Check if default-File exists
                 '===============================================================================
             ElseIf Not File.Exists(filename) Then
-                MessageBox.Show(Me, Path.GetFileName(SavedSessionDefaultPath) & " could not be found!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
+                MessageBox.Show(Me, Path.GetFileName(myPathsAccessor.SavedSessionDefaultPath) & " could not be found!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
                 Exit Sub
             End If
 
@@ -16074,11 +16040,7 @@ NoPlaylistStartFile:
             mySession.Session.Domme.WasGreeted = True
             ssh.ScriptTick = 1
             ScriptTimer.Start()
-
-            ApplyThemeColor()
-
         End If
-
     End Sub
 
     Private Sub DebugSessionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DebugSessionWindowToolStripMenuItem.Click
@@ -16096,7 +16058,7 @@ NoPlaylistStartFile:
     End Sub
 
     Private Sub RefreshRandomizerToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RefreshRandomizerToolStripMenuItem.Click
-        ssh.randomizer = New Random(System.DateTime.Now.Ticks Mod System.Int32.MaxValue)
+        ssh.randomizer = New Random(DateTime.Now.Ticks Mod Int32.MaxValue)
     End Sub
 
     Private Sub AboutToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AboutToolStripMenuItem.Click
@@ -16380,10 +16342,10 @@ RinseLatherRepeat:
                                     .Select(Function(s) s.Trim()) _
                                     .Where(Function(w) CType(w, String).StartsWith("@Tag")).ToList
 
-            Dim FoundString As String = GetLocalImage(Tags, Nothing)
+            Dim foundString As String = GetLocalImage(Tags, Nothing)
 
             'TODO: @ShowTaggedImage - Add a dedicated ErrorImage when there are no tagged images.
-            If FoundString = String.Empty Then FoundString = pathImageErrorNoLocalImages
+            If String.IsNullOrWhiteSpace(FoundString) Then FoundString = myPathsAccessor.PathImageErrorNoLocalImages
 
             ssh.JustShowedBlogImage = True
             ShowImage(FoundString, False)
@@ -16951,17 +16913,15 @@ TaskCleanSet:
 
         If inputString.Contains("@ChastityOn") Then
             My.Settings.Chastity = True
-            FrmSettings.LBLChastityState.Text = "ON"
-            FrmSettings.LBLChastityState.ForeColor = Color.Green
             inputString = inputString.Replace("@ChastityOn", "")
         End If
 
         If inputString.Contains("@ChastityOff") Then
             My.Settings.Chastity = False
-            FrmSettings.LBLChastityState.Text = "OFF"
-            FrmSettings.LBLChastityState.ForeColor = Color.Red
             inputString = inputString.Replace("@ChastityOff", "")
         End If
+        FrmSettings.LBLChastityState.Text = BooleanToOnOff(My.Settings.Chastity)
+        FrmSettings.LBLChastityState.ForeColor = BooleanToOnOffColor(My.Settings.Chastity)
 
         If inputString.Contains("@AddTokens(") Then
 
@@ -20116,5 +20076,28 @@ VTSkip:
         End If
         Throw New InvalidDataException("Neither use dialog nor from dropdown")
     End Function
+
+    Private Function BooleanToOnOffColor(isOn As Boolean) As Color
+        Return If(isOn, Color.Green, Color.Red)
+    End Function
+
+    Private Function BooleanToOnOff(isOn As Boolean) As String
+        Return If(isOn, "ON", "OFF")
+    End Function
+
+    ''' <summary>
+    ''' Compare <paramref name="checkDate"/> with today
+    ''' </summary>
+    ''' <param name="checkDate"></param>
+    ''' <returns></returns>
+    Public Function CompareDates(ByVal checkDate As Date) As Integer
+        Return Date.Compare(checkDate.Date, Now.Date)
+    End Function
+
+    Public Function CompareDatesWithTime(ByVal CheckDate As Date) As Integer
+        Dim result As Integer = DateTime.Compare(FormatDateTime(CheckDate, DateFormat.GeneralDate), FormatDateTime(Now, DateFormat.GeneralDate))
+        Return result
+    End Function
+
 #End Region
 End Class

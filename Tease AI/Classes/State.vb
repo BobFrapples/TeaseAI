@@ -16,6 +16,7 @@ Imports System.ComponentModel
 Imports System.Drawing.Design
 Imports System.IO
 Imports System.Runtime.Serialization
+Imports TeaseAI
 
 ''' <summary>
 ''' Class to store/serialize and deserialize all nessecary session(!) informations.
@@ -652,7 +653,7 @@ Public Class SessionState
 #End Region ' DataSection
 
     <NonSerialized> <OptionalField> Friend Files As New FileClass(Me)
-    <NonSerialized> <OptionalField> Friend Folders As New FoldersClass(Me)
+    <NonSerialized> <OptionalField> Friend Folders As PathsAccessor = ServiceFactory.CreatePathsAccessor(Reflection.Assembly.GetExecutingAssembly.Location)
 
     <NonSerialized> Dim ActivationForm As MainWindow
 
@@ -736,8 +737,7 @@ Public Class SessionState
     Sub onDeserialized_FixFields(sc As StreamingContext)
         ' Marked as <NonSerialized> <OptionalField> have to be initialized on every deserialization.
         If Files Is Nothing Then Files = New FileClass(Me)
-        If Folders Is Nothing Then Folders = New FoldersClass(Me)
-
+        If Folders Is Nothing Then Folders = ServiceFactory.CreatePathsAccessor(Reflection.Assembly.GetExecutingAssembly.Location)
     End Sub
 
 #End Region
