@@ -8,7 +8,7 @@ namespace TeaseAI.Common.Constants
     public struct TortureLevel : IEquatable<TortureLevel>
     {
         public const int MaxValue = 5;
-        public const int MinValue = 0;
+        public const int MinValue = 1;
 
         public static Result<TortureLevel> Create(int value)
         {

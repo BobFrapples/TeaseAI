@@ -4,11 +4,11 @@ Imports TeaseAI.Common.Interfaces.Accessors
 
 Public Class PathsAccessor
     Private mySettingsAccessor As ISettingsAccessor
-    Private myApplicationPath As String
+    Private myConfigurationAccessor As IConfigurationAccessor
 
-    Sub New(applicationPath As String, settingsAccessor As ISettingsAccessor)
+    Sub New(configurationAccessor As IConfigurationAccessor, settingsAccessor As ISettingsAccessor)
         mySettingsAccessor = settingsAccessor
-        myApplicationPath = applicationPath
+        myConfigurationAccessor = configurationAccessor
     End Sub
 
     ''' <summary>
@@ -17,7 +17,7 @@ Public Class PathsAccessor
     ''' <returns>The Path for the selected personality. Ends with Backslash!</returns>
     Public ReadOnly Property Personality As String
         Get
-            Return String.Format("{0}\Scripts\{1}\", myApplicationPath, mySettingsAccessor.DommePersonality)
+            Return String.Format("{0}\Scripts\{1}\", myConfigurationAccessor.GetBaseFolder(), mySettingsAccessor.DommePersonality)
         End Get
     End Property
 
@@ -81,19 +81,55 @@ Public Class PathsAccessor
         End Get
     End Property
 
-    Public Property NoUrlFilesSelected As String = myApplicationPath & "\Images\System\NoURLFilesSelected.jpg"
-    Public ReadOnly LikedImages As String = myApplicationPath & "\Images\System\LikedImageURLs.txt"
-    Public ReadOnly DislikedImages As String = myApplicationPath & "\Images\System\DislikedImageURLs.txt"
-    Public ReadOnly LocalImageTags As String = myApplicationPath & "\Images\System\LocalImageTags.txt"
+    Public ReadOnly Property NoUrlFilesSelected As String
+        Get
+            Return myConfigurationAccessor.GetBaseFolder() & "\Images\System\NoURLFilesSelected.jpg"
+        End Get
+    End Property
+
+    Public ReadOnly Property LikedImages As String
+        Get
+            Return myConfigurationAccessor.GetBaseFolder() & "\Images\System\LikedImageURLs.txt"
+        End Get
+    End Property
+
+    Public ReadOnly Property DislikedImages As String
+        Get
+            Return myConfigurationAccessor.GetBaseFolder() & "\Images\System\DislikedImageURLs.txt"
+        End Get
+    End Property
+
+    Public ReadOnly Property LocalImageTags As String
+        Get
+            Return myConfigurationAccessor.GetBaseFolder() & "\Images\System\LocalImageTags.txt"
+        End Get
+    End Property
 
     ''' <summary>
     ''' The default directory URL-Files are located.
     ''' </summary>
-    Public ReadOnly UrlsDirectory As String = myApplicationPath & "\Images\System\URL Files\"
+    Public ReadOnly Property UrlsDirectory As String
+        Get
+            Return myConfigurationAccessor.GetBaseFolder() & "\Images\System\URL Files\"
+        End Get
+    End Property
 
-    Public ReadOnly PathImageErrorOnLoading As String = myApplicationPath & "\Images\System\ErrorLoadingImage.jpg"
-    Public ReadOnly PathImageErrorNoLocalImages As String = myApplicationPath & "\Images\System\NoLocalImagesFound.jpg"
+    Public ReadOnly Property PathImageErrorOnLoading As String
+        Get
+            Return myConfigurationAccessor.GetBaseFolder() & "\Images\System\ErrorLoadingImage.jpg"
+        End Get
+    End Property
 
-    Public ReadOnly SavedSessionDefaultPath As String = myApplicationPath & "\System\SavedState.save"
+    Public ReadOnly Property PathImageErrorNoLocalImages As String
+        Get
+            Return myConfigurationAccessor.GetBaseFolder() & "\Images\System\NoLocalImagesFound.jpg"
+        End Get
+    End Property
+
+    Public ReadOnly Property SavedSessionDefaultPath As String
+        Get
+            Return myConfigurationAccessor.GetBaseFolder() & "\System\SavedState.save"
+        End Get
+    End Property
 End Class
 

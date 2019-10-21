@@ -40,7 +40,7 @@ Partial Class MainWindow
         Private ReadOnly myPathsAccessor As PathsAccessor
 
         Public Sub New()
-            myPathsAccessor = ServiceFactory.CreatePathsAccessor(Reflection.Assembly.GetExecutingAssembly.Location)
+            myPathsAccessor = ServiceFactory.CreatePathsAccessor()
         End Sub
 
         'TODO: ImageDataContainer Improve the usage of System Ressources.

@@ -35,7 +35,7 @@ Public Class MainWindow
 
     Dim parseTagDataService As ParseOldTagDataService = New ParseOldTagDataService()
     Dim myLineService As LineService = New LineService()
-    Dim loadFileData As ILoadFileData = New LoadFileData()
+    Dim loadFileData As ILoadFileData = ServiceFactory.CreateLoadFileData()
     Dim myChatLogToHtmlService As IChatLogToHtmlService = New ChatLogToHtmlService()
     Dim myStringService As StringService = New StringService()
     Dim myGetScripts As IScriptAccessor = New ScriptAccessor(New CldAccessor())
@@ -43,10 +43,10 @@ Public Class MainWindow
     Dim myFlagService As FlagService = New FlagService(New FlagAccessor())
     Dim myFlagAccessor As FlagAccessor = New FlagAccessor()
     Dim myGotoProcessor As GotoProcessor = New GotoProcessor(New ScriptAccessor(New CldAccessor()))
-    Dim mySettingsAccessor As ISettingsAccessor = New SettingsAccessor()
+    Dim mySettingsAccessor As ISettingsAccessor = ServiceFactory.CreateSettingsAccessor()
     Dim myRandomNumberService As IRandomNumberService = New RandomNumberService()
     Dim mySlideShowNavigationService As ISlideShowNavigationService = New SlideShowNavigationService()
-    Dim myPathsAccessor As PathsAccessor = ServiceFactory.CreatePathsAccessor(Reflection.Assembly.GetExecutingAssembly.Location)
+    Dim myPathsAccessor As PathsAccessor = ServiceFactory.CreatePathsAccessor()
     Dim WithEvents mySession As SessionEngine
 
     'TODO: Use a custom class to pass data between ScriptParsing methods.
@@ -1506,7 +1506,7 @@ NullSkip:
     End Sub
 
     Public Sub CBTCock()
-
+        ssh.CBTCockActive
         Dim File2Read As String = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\CBT\CBTCock_First.txt"
 
         If ssh.CBTCockFirst = False Then
@@ -2608,12 +2608,6 @@ DommeSlideshowFallback:
                     ssh.JustShowedSlideshowImage = False
                 End If
 
-
-                If ssh.CBTCockActive = True Then
-                    ssh.CBTCockActive = False
-                    CBTCock()
-                End If
-
                 If ssh.CBTBallsActive Then
                     ssh.CBTBallsActive = False
                     CBTBalls()
@@ -3123,12 +3117,8 @@ DommeSlideshowFallback:
                     ssh.JustShowedSlideshowImage = False
                 End If
 
-
-                If ssh.CBTCockActive = True Then ssh.CBTCockActive = False
                 If ssh.CBTBallsActive = True Then ssh.CBTBallsActive = False
                 If ssh.CBTBothActive = True Then ssh.CBTBothActive = False
-
-
 
                 If ssh.CBTCockFlag = True Or ssh.CBTBallsFlag = True Or ssh.CBTBothFlag = True Or ssh.CustomTask = True Then
                     ssh.TasksCount -= 1
@@ -6891,17 +6881,7 @@ TaskCleanSet:
             StringClean = StringClean.Replace("@CBTBalls", "")
         End If
 
-        If StringClean.Contains("@CBTCock") Then
-            If FrmSettings.CockTortureEnabledCB.Checked = True Then
-                ssh.CBTCockActive = True
-                ssh.CBTCockFlag = True
-                ssh.TasksCount = ssh.randomizer.Next(FrmSettings.NBTasksMin.Value, FrmSettings.NBTasksMax.Value + 1)
-            End If
-            StringClean = StringClean.Replace("@CBTCock", "")
-        End If
-
         If StringClean.Contains("@CBT") And Not StringClean.Contains("@CBTLevel") Then
-
             If FrmSettings.CockTortureEnabledCB.Checked = True And FrmSettings.BallTortureEnabledCB.Checked = True Then
                 ssh.CBTBothActive = True
                 ssh.CBTBothFlag = True
@@ -8489,7 +8469,6 @@ VTSkip:
 
             ssh.CBTBallsActive = False
             ssh.CBTBallsFlag = False
-            ssh.CBTCockActive = False
             ssh.CBTCockFlag = False
             ssh.CBTBothActive = False
             ssh.CBTBothFlag = False
@@ -17824,15 +17803,6 @@ TaskCleanSet:
             inputString = inputString.Replace("@CBTBalls", "")
         End If
 
-        If inputString.Contains("@CBTCock") Then
-            If FrmSettings.CockTortureEnabledCB.Checked = True Then
-                ssh.CBTCockActive = True
-                ssh.CBTCockFlag = True
-                ssh.TasksCount = ssh.randomizer.Next(FrmSettings.NBTasksMin.Value, FrmSettings.NBTasksMax.Value + 1)
-            End If
-            inputString = inputString.Replace("@CBTCock", "")
-        End If
-
         If inputString.Contains("@CBT") And Not inputString.Contains("@CBTLevel") Then
 
             If FrmSettings.CockTortureEnabledCB.Checked = True And FrmSettings.BallTortureEnabledCB.Checked = True Then
@@ -19363,8 +19333,6 @@ VTSkip:
         End If
 
         If inputString.Contains("@CallReturn(") Then
-
-
             ssh.ReturnFileText = ssh.FileText
             ssh.ReturnStrokeTauntVal = ssh.StrokeTauntVal
             GetSubState()
@@ -19385,7 +19353,6 @@ VTSkip:
 
             ssh.CBTBallsActive = False
             ssh.CBTBallsFlag = False
-            ssh.CBTCockActive = False
             ssh.CBTCockFlag = False
             ssh.CBTBothActive = False
             ssh.CBTBothFlag = False
@@ -19414,10 +19381,8 @@ VTSkip:
                 GetGoto()
 
             Else
-
                 ssh.FileText = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\" & CheckFlag
                 ssh.StrokeTauntVal = -1
-
             End If
             ssh.ScriptTick = 2
             ScriptTimer.Start()

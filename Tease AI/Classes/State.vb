@@ -148,7 +148,6 @@ Public Class SessionState
     <Category("CBT")> Public Property CBTBothFlag As Boolean
     <Category("CBT")> Public Property CBTBothFirst As Boolean = True
 
-    <Category("CBT")> Public Property CBTCockActive As Boolean
     <Category("CBT")> Public Property CBTBallsActive As Boolean
 
     <Category("CBT")> Public Property CBTCockFlag As Boolean
@@ -653,7 +652,7 @@ Public Class SessionState
 #End Region ' DataSection
 
     <NonSerialized> <OptionalField> Friend Files As New FileClass(Me)
-    <NonSerialized> <OptionalField> Friend Folders As PathsAccessor = ServiceFactory.CreatePathsAccessor(Reflection.Assembly.GetExecutingAssembly.Location)
+    <NonSerialized> <OptionalField> Friend Folders As PathsAccessor = ServiceFactory.CreatePathsAccessor()
 
     <NonSerialized> Dim ActivationForm As MainWindow
 
@@ -737,7 +736,7 @@ Public Class SessionState
     Sub onDeserialized_FixFields(sc As StreamingContext)
         ' Marked as <NonSerialized> <OptionalField> have to be initialized on every deserialization.
         If Files Is Nothing Then Files = New FileClass(Me)
-        If Folders Is Nothing Then Folders = ServiceFactory.CreatePathsAccessor(Reflection.Assembly.GetExecutingAssembly.Location)
+        If Folders Is Nothing Then Folders = ServiceFactory.CreatePathsAccessor()
     End Sub
 
 #End Region

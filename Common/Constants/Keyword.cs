@@ -223,8 +223,9 @@ namespace TeaseAI.Common.Constants
         /// specifically play a Jerk Off Instruction Video
         /// </summary>
         public const string PlayJoiVideo = @"@PlayJOIVideo";
-        public static string PlaySpecificVideo = @"@PlayVideo(";
-        public static string PlaySpecificVideoSquareBrackets = @"@PlayVideo[";
+        public const  string PlaySpecificVideo = @"@PlayVideo(";
+        public const  string PlaySpecificVideoSquareBrackets = @"@PlayVideo[";
+        public const  string CockTorture = @"@CBTCock";
 
         /// <summary>
         /// When used in conjunction with a PlayVideo command, it will randomize the starting location,

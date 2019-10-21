@@ -10,6 +10,7 @@ using TeaseAI.Common.Interfaces.Timers;
 using TeaseAI.Services.CommandProcessor;
 using TeaseAI.Services.MessageProcessors;
 using TeaseAI.Common.Data;
+using System.Diagnostics;
 
 namespace TeaseAI.Services
 {
@@ -137,6 +138,7 @@ namespace TeaseAI.Services
 
         public void BeginSession()
         {
+            Debug.Print("Begin Session");
             if (Session.Phase != SessionPhase.BeforeSession)
                 return;
             Session.Phase = GetNextPhase(Session.Phase);
@@ -154,6 +156,7 @@ namespace TeaseAI.Services
                 OnDommeSaid(Session.Domme, "Error: " + selectScript.Error);
                 return;
             }
+            Debug.Print("Script: " + selectScript.Value.MetaData.Key);
 
             var setStrokeRound = _variableAccessor.SetVariable(Session.Domme, SystemVariable.StrokeRound, "0");
             var updateSubLeftEarly = _variableAccessor.GetVariable(Session.Domme, SystemVariable.SubLeftEarly)

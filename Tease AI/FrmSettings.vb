@@ -66,7 +66,7 @@ Public Class FrmSettings
         myScriptAccessor = New ScriptAccessor(New CldAccessor())
         myLoadFileData = New LoadFileData()
         myParseTagDataService = New ParseOldTagDataService()
-        myPathsAccessor = ServiceFactory.CreatePathsAccessor(Reflection.Assembly.GetExecutingAssembly.Location)
+        myPathsAccessor = ServiceFactory.CreatePathsAccessor()
 
         InitializeComponent()
     End Sub

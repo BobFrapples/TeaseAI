@@ -207,6 +207,7 @@
     <Compile Include="ServiceFactory.vb" />
     <Compile Include="Services\BlogImageAccessor.vb" />
     <Compile Include="Services\CldAccessor.vb" />
+    <Compile Include="Services\ConfigurationAccessor.vb" />
     <Compile Include="Services\FlagAccessor.vb" />
     <Compile Include="Services\PathsAccessor.vb" />
     <Compile Include="Services\ImageAccessor.vb" />
