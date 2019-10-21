@@ -161,7 +161,7 @@ Public Class FrmCardList
 		If File.Exists(My.Settings.CardBack) Then
 			CardBackImage = My.Settings.CardBack
 		Else
-			CardBackImage = Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Apps\Games\_CardBackPicture.png"
+			CardBackImage = Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Apps\Games\_CardBackPicture.png"
 		End If
 
 		ClearMatchCache()
@@ -2438,7 +2438,7 @@ Card9:
 		If File.Exists(My.Settings.CardBack) Then
 			SlotImage = My.Settings.CardBack
 		Else
-			SlotImage = Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Apps\Games\_CardBackPicture.png"
+			SlotImage = Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Apps\Games\_CardBackPicture.png"
 		End If
 
 		SlotLeft2.Image = Image.FromFile(SlotImage)
@@ -2788,7 +2788,7 @@ Card9:
 
 				BoosterBack.Image = Image.FromFile(My.Settings.CardBack)
 			Else
-				BoosterBack.Image = Image.FromFile(Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Apps\Games\_CardBackPicture.png")
+				BoosterBack.Image = Image.FromFile(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Apps\Games\_CardBackPicture.png")
 			End If
 			LBLExchangeBronze.Text = MainWindow.ssh.BronzeTokens
 			LBLExchangeSilver.Text = MainWindow.ssh.SilverTokens
@@ -4089,7 +4089,7 @@ Card9:
 
 
 		Dim TokenList As New List(Of String)
-		For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Apps\Games\Token Tasks\", FileIO.SearchOption.SearchAllSubDirectories, "*.txt")
+		For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Apps\Games\Token Tasks\", FileIO.SearchOption.SearchAllSubDirectories, "*.txt")
 			TokenList.Add(foundFile)
 		Next
 		If TokenList.Count > 0 Then
@@ -5134,7 +5134,7 @@ Card9:
 			Return
 		End If
 
-		If Not File.Exists(Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Apps\Games\Risky Pick\Risky Pick.txt") Then
+		If Not File.Exists(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Apps\Games\Risky Pick\Risky Pick.txt") Then
 			MessageBox.Show(Me, "Risky Pick.txt was not found in \Games\Risky Pick!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
 			Return
 		End If
@@ -5155,7 +5155,7 @@ Card9:
 			MainWindow.LoadDommeImageFolder()
 		End If
 
-		MainWindow.ssh.FileText = Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\Apps\Games\Risky Pick\Risky Pick.txt"
+		MainWindow.ssh.FileText = Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Apps\Games\Risky Pick\Risky Pick.txt"
 		MainWindow.ssh.BeforeTease = False
 		MainWindow.ssh.ShowModule = True
 		MainWindow.ssh.SaidHello = True
@@ -5784,7 +5784,7 @@ Card9:
 
 	Private Sub BTNRiskIt_Click(sender As System.Object, e As System.EventArgs) Handles BTNRiskIt.Click
 		MainWindow.chatBox.Text = "Risk it"
-		MainWindow.sendButton.PerformClick()
+		MainWindow.SendButton.PerformClick()
 		If BTNRiskIt.Text = "LAST CASE" Then
 			BTNRiskIt.Visible = True
 			BTNPickIt.Visible = False
@@ -5797,7 +5797,7 @@ Card9:
 
 	Private Sub BTNPickIt_Click(sender As System.Object, e As System.EventArgs) Handles BTNPickIt.Click
 		MainWindow.chatBox.Text = "Pick it"
-		MainWindow.sendButton.PerformClick()
+		MainWindow.SendButton.PerformClick()
 		If BTNPickIt.Text = "MY CASE" Then
 			BTNRiskIt.Visible = False
 			BTNPickIt.Visible = True

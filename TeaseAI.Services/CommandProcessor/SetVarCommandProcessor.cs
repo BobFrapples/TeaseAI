@@ -27,7 +27,7 @@ namespace TeaseAI.Services.CommandProcessor
                 return Result.Fail<Session>(line + " does not set a variable");
             var variableCommandStart = line.IndexOf(Keyword.SetVar);
             var equalsSign = line.Substring(variableCommandStart).IndexOf('=');
-            var variableCommandEnd = line.Substring(equalsSign).IndexOf(']');
+            var variableCommandEnd = line.Substring(equalsSign).IndexOf(']') + equalsSign;
 
             var tokens = line.Substring(variableCommandStart, variableCommandStart - variableCommandEnd).Split('=').ToList();
             if (tokens.Count() > 2)

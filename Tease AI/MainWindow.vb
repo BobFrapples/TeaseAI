@@ -200,8 +200,8 @@ ByVal lpstrReturnString As String, ByVal uReturnLength As Integer, ByVal hwndCal
                 My.Computer.FileSystem.DeleteFile(Application.StartupPath & "\System\Metronome")
             End If
 
-            If File.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Temp\Temp.gif") Then
-                My.Computer.FileSystem.DeleteFile(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Temp\Temp.gif")
+            If File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Temp\Temp.gif") Then
+                My.Computer.FileSystem.DeleteFile(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Temp\Temp.gif")
             End If
 
             'TODO-Next: Remove Legacy-Code.
@@ -323,12 +323,12 @@ retryStart:
             splashScreen.UpdateText("Checking installed personalities...")
 
             Dim personalities As List(Of String) = GetDommePersonalities(Application.StartupPath & "\Scripts\")
-            dompersonalitycombobox.Items.AddRange(personalities.ToArray())
+            DommePersonalityComboBox.Items.AddRange(personalities.ToArray())
             If Not personalities.Any() Then
                 MessageBox.Show(Me, "No domme Personalities were found! Many aspects of this program will not work correctly until at least one Personality is installed.", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Else
                 Dim domme As String = mySettingsAccessor.DommePersonality()
-                dompersonalitycombobox.Text = If(personalities.Contains(domme), domme, personalities.First())
+                DommePersonalityComboBox.Text = If(personalities.Contains(domme), domme, personalities.First())
             End If
 
             FrmSettings.FrmSettingsLoading = True
@@ -408,8 +408,8 @@ retryStart:
             End If
 
             splashScreen.UpdateText("Loading names...")
-            domName.Text = mySettingsAccessor.DommeName()
-            subName.Text = mySettingsAccessor.SubName
+            domName.Text = mySettingsAccessor.DommeName.Trim()
+            SubName.Text = mySettingsAccessor.SubName.Trim()
 
             FrmSettings.PetNameBox1.Text = My.Settings.pnSetting1
             FrmSettings.petnameBox2.Text = My.Settings.pnSetting2
@@ -494,12 +494,12 @@ retryStart:
 
             splashScreen.UpdateText("Checking Glitter scripts...")
             Try
-                FrmSettings.LBLGlitModDomType.Text = dompersonalitycombobox.Text
+                FrmSettings.LBLGlitModDomType.Text = DommePersonalityComboBox.Text
             Catch
                 FrmSettings.LBLGlitModDomType.Text = "Error!"
             End Try
 
-            Dim files As List(Of String) = myDirectory.GetFiles(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Apps\Glitter\" & FrmSettings.CBGlitModType.Text & "\").ToList()
+            Dim files As List(Of String) = myDirectory.GetFiles(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Apps\Glitter\" & FrmSettings.CBGlitModType.Text & "\").ToList()
             FrmSettings.LBGlitModScripts.Items.Clear()
             For Each file As String In files.Select(Function(f) Path.GetFileNameWithoutExtension(f))
                 FrmSettings.LBGlitModScripts.Items.Add(file)
@@ -632,15 +632,15 @@ retryStart:
             End If
 
             splashScreen.UpdateText("Loading Domme Personality...")
-            ssh.DomPersonality = dompersonalitycombobox.Text
-            mySettingsAccessor.DommePersonality = dompersonalitycombobox.Text
+            ssh.DomPersonality = DommePersonalityComboBox.Text
+            mySettingsAccessor.DommePersonality = DommePersonalityComboBox.Text
 
             Dim CheckSpace As String = chatBox.Text
             If CheckSpace = "" Then
                 CheckSpace = ChatBox2.Text
             End If
 
-            Directory.CreateDirectory(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Flags\Temp\")
+            Directory.CreateDirectory(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Flags\Temp\")
 
             splashScreen.UpdateText("Loading Glitter Contact image slideshows...")
             ssh.SlideshowMain = New ContactData(ContactType.Domme)
@@ -648,9 +648,9 @@ retryStart:
             ssh.SlideshowContact2 = New ContactData(ContactType.Contact2)
             ssh.SlideshowContact3 = New ContactData(ContactType.Contact3)
 
-            If File.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Apps\Glitter\Contact_Descriptions.txt") Then
+            If File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Apps\Glitter\Contact_Descriptions.txt") Then
                 Dim ContactList As New List(Of String)
-                ContactList = Txt2List(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Apps\Glitter\Contact_Descriptions.txt")
+                ContactList = Txt2List(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Apps\Glitter\Contact_Descriptions.txt")
                 FrmSettings.GBGlitter1.Text = PoundClean(ContactList(0))
                 FrmSettings.GBGlitter2.Text = PoundClean(ContactList(1))
                 FrmSettings.GBGlitter3.Text = PoundClean(ContactList(2))
@@ -766,9 +766,9 @@ retryStart:
 
             splashScreen.Close()
 
-            If File.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\SYS_OrgasmRestricted") Then
+            If File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\SYS_OrgasmRestricted") Then
                 If CompareDatesWithTime(GetDate("SYS_OrgasmRestricted")) <> 1 Then
-                    My.Computer.FileSystem.DeleteFile(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\SYS_OrgasmRestricted")
+                    My.Computer.FileSystem.DeleteFile(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\SYS_OrgasmRestricted")
                     ssh.OrgasmRestricted = False
                 Else
                     ssh.OrgasmRestricted = True
@@ -803,109 +803,79 @@ retryStart:
         End Try
     End Sub
 
-    Private Sub sendButton_Click(sender As Object, e As EventArgs) Handles sendButton.Click
-        If dompersonalitycombobox.Items.Count < 1 Then
+    Private Sub SendButton_Click(sender As Object, e As EventArgs) Handles SendButton.Click
+        Dim chatMessage As ChatMessage = New ChatMessage With {
+            .TimeStamp = DateTime.Now,
+            .Sender = SubName.Text.Trim(),
+            .Message = IIf(Not String.IsNullOrWhiteSpace(chatBox.Text), chatBox.Text, ChatBox2.Text)
+        }
+        If String.IsNullOrWhiteSpace(chatMessage.Message) Then Return
+
+        chatBox.Text = ""
+        ChatBox2.Text = ""
+
+        If DommePersonalityComboBox.Items.Count < 1 Then
             MessageBox.Show(Me, "No domme Personalities were found! Please install at least one Personality directory in the Scripts folder before using this part of the program.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
             Return
         End If
 
-        Dim chatMessage As ChatMessage = New ChatMessage()
-        chatMessage.TimeStamp = DateTime.Now
-        chatMessage.Sender = subName.Text.Trim()
-        chatMessage.Message = IIf(Not String.IsNullOrWhiteSpace(chatBox.Text), chatBox.Text, ChatBox2.Text)
-
-        Dim CheckSpace As String = chatBox.Text
-
-        If CheckSpace = "" Then CheckSpace = ChatBox2.Text
-
-        CheckSpace = CheckSpace.Replace(" ", "")
-
-        If CheckSpace = "" Then Return
+        If FrmSettings.CBSettingsPause.Checked And FrmSettings.SettingsPanel.Visible Then
+            MsgBox("Please close the settings menu or disable ""Pause Program When Settings Menu is Visible"" option first!", , "Warning!")
+            Return
+        End If
 
 #Region "This is for editing teh lazy sub buttons"
-        If LazyEdit1 = True Then
-            If chatBox.Text <> "" Then
-                BTNLS1.Text = chatBox.Text
-            Else
-                BTNLS1.Text = ChatBox2.Text
-            End If
+        If LazyEdit1 Then
+            BTNLS1.Text = chatMessage.Message
             BTNLS1.Visible = True
             BTNLS1Edit.BackColor = My.Settings.ButtonColor
             BTNLS1Edit.ForeColor = My.Settings.TextColor
             My.Settings.LS1 = BTNLS1.Text
-            chatBox.Text = ""
-            ChatBox2.Text = ""
             Return
         End If
 
-        If LazyEdit2 = True Then
-            If chatBox.Text <> "" Then
-                BTNLS2.Text = chatBox.Text
-            Else
-                BTNLS2.Text = ChatBox2.Text
-            End If
+        If LazyEdit2 Then
+            BTNLS2.Text = chatMessage.Message
             BTNLS2.Visible = True
             BTNLS2Edit.BackColor = My.Settings.ButtonColor
             BTNLS2Edit.ForeColor = My.Settings.TextColor
             My.Settings.LS2 = BTNLS2.Text
-            chatBox.Text = ""
-            ChatBox2.Text = ""
             Return
         End If
 
-        If LazyEdit3 = True Then
-            If chatBox.Text <> "" Then
-                BTNLS3.Text = chatBox.Text
-            Else
-                BTNLS3.Text = ChatBox2.Text
-            End If
+        If LazyEdit3 Then
+            BTNLS3.Text = chatMessage.Message
             BTNLS3.Visible = True
             BTNLS3Edit.BackColor = My.Settings.ButtonColor
             BTNLS3Edit.ForeColor = My.Settings.TextColor
             My.Settings.LS3 = BTNLS3.Text
-            chatBox.Text = ""
-            ChatBox2.Text = ""
             Return
         End If
 
-        If LazyEdit4 = True Then
-            If chatBox.Text <> "" Then
-                BTNLS4.Text = chatBox.Text
-            Else
-                BTNLS4.Text = ChatBox2.Text
-            End If
+        If LazyEdit4 Then
+            BTNLS4.Text = chatMessage.Message
             BTNLS4.Visible = True
             BTNLS4Edit.BackColor = My.Settings.ButtonColor
             BTNLS4Edit.ForeColor = My.Settings.TextColor
             My.Settings.LS4 = BTNLS4.Text
-            chatBox.Text = ""
-            ChatBox2.Text = ""
             Return
         End If
 
-        If LazyEdit5 = True Then
-            If chatBox.Text <> "" Then
-                BTNLS5.Text = chatBox.Text
-            Else
-                BTNLS5.Text = ChatBox2.Text
-            End If
+        If LazyEdit5 Then
+            BTNLS5.Text = chatMessage.Message
             BTNLS5.Visible = True
             BTNLS5Edit.BackColor = My.Settings.ButtonColor
             BTNLS5Edit.ForeColor = My.Settings.TextColor
             My.Settings.LS5 = BTNLS5.Text
-            chatBox.Text = ""
-            ChatBox2.Text = ""
             Return
         End If
 #End Region
 
-        If TimeoutTimer.Enabled = True Then TimeoutTimer.Stop()
+        If TimeoutTimer.Enabled Then TimeoutTimer.Stop()
 
-        ssh.ChatString = chatBox.Text
+        ssh.ChatString = chatMessage.Message
 
-        If ssh.ChatString = "" Then ssh.ChatString = ChatBox2.Text
-
-        If CBShortcuts.Checked = True Then
+        If CBShortcuts.Checked Then
             If UCase(ssh.ChatString) = UCase(TBShortYes.Text) Then ssh.ChatString = "Yes " & FrmSettings.TBHonorific.Text
             If UCase(ssh.ChatString) = UCase(TBShortNo.Text) Then ssh.ChatString = "No " & FrmSettings.TBHonorific.Text
             If UCase(ssh.ChatString) = UCase(TBShortEdge.Text) Then ssh.ChatString = "On the edge"
@@ -918,8 +888,6 @@ retryStart:
             If UCase(ssh.ChatString) = UCase(TBShortSafeword.Text) Then ssh.ChatString = FrmSettings.TBSafeword.Text
         End If
 
-        chatBox.Text = ""
-        ChatBox2.Text = ""
         ' User command detection? right now it doesn't do much but spit out some data
         If chatMessage.Message.StartsWith("@") Then
             Dim message As String = "<font face=""Cambria"" size=""2"" color=""Green"">"
@@ -931,10 +899,6 @@ retryStart:
             Return
         End If
 
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then
-            MsgBox("Please close the settings menu or disable ""Pause Program When Settings Menu is Visible"" option first!", , "Warning!")
-            Return
-        End If
         UpdateChatWindow(chatMessage)
         mySession.Say(chatMessage)
         Return
@@ -1120,7 +1084,7 @@ DebugAwareness:
 
 
         If ssh.InputFlag = True And ssh.DomTypeCheck = False Then
-            My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\" & ssh.InputString, ssh.ChatString, False)
+            My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & ssh.InputString, ssh.ChatString, False)
             ssh.InputFlag = False
         End If
 
@@ -1528,10 +1492,10 @@ NullSkip:
     End Sub
 
     Public Sub CBTBalls()
-        Dim File2Read As String = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\CBT\CBTBalls_First.txt"
+        Dim File2Read As String = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\CBT\CBTBalls_First.txt"
 
         If ssh.CBTBallsFirst = False Then
-            File2Read = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\CBT\CBTBalls.txt"
+            File2Read = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\CBT\CBTBalls.txt"
         Else
             ssh.CBTBallsCount += 1
         End If
@@ -1554,10 +1518,10 @@ NullSkip:
 
     Public Sub CBTCock()
 
-        Dim File2Read As String = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\CBT\CBTCock_First.txt"
+        Dim File2Read As String = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\CBT\CBTCock_First.txt"
 
         If ssh.CBTCockFirst = False Then
-            File2Read = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\CBT\CBTCock.txt"
+            File2Read = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\CBT\CBTCock.txt"
         Else
             ssh.CBTCockCount += 1
         End If
@@ -1579,10 +1543,10 @@ NullSkip:
 
     Public Sub CBTBoth()
 
-        Dim File2Read As String = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\CBT\CBTBalls_First.txt"
+        Dim File2Read As String = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\CBT\CBTBalls_First.txt"
 
         If ssh.CBTBothFirst = False Then
-            File2Read = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\CBT\CBTBalls.txt"
+            File2Read = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\CBT\CBTBalls.txt"
         Else
             ssh.CBTBallsCount += 1
             ssh.CBTCockCount += 1
@@ -1591,10 +1555,10 @@ NullSkip:
         ' Read all Lines of the given File.
         Dim BothList As List(Of String) = Txt2List(File2Read)
 
-        File2Read = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\CBT\CBTCock_First.txt"
+        File2Read = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\CBT\CBTCock_First.txt"
 
         If ssh.CBTBothFirst = False Then
-            File2Read = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\CBT\CBTCock.txt"
+            File2Read = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\CBT\CBTCock.txt"
         Else
             ssh.CBTBallsCount += 1
             ssh.CBTCockCount += 1
@@ -1858,7 +1822,7 @@ NonModuleEnd:
 
 
 
-        ssh.DomTask = ssh.DomTask.Replace("#SubName", subName.Text)
+        ssh.DomTask = ssh.DomTask.Replace("#SubName", SubName.Text)
 
         ssh.DomTask = ssh.DomTask.Replace("#VTLength", ssh.VTLength / 60)
 
@@ -2557,7 +2521,7 @@ DommeSlideshowFallback:
                     mciSendString("CLOSE Speech1", String.Empty, 0, 0)
                     mciSendString("CLOSE Echo1", String.Empty, 0, 0)
 
-                    Dim SpeechDir As String = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Apps\Hypnotic Guide\TempWav.wav"
+                    Dim SpeechDir As String = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Apps\Hypnotic Guide\TempWav.wav"
 
                     synth2.Volume = TTSvolume
                     synth2.Rate = TTSrate
@@ -3590,7 +3554,7 @@ DommeSlideshowFallback:
 
                 ssh.TauntTextCount = 0
                 ssh.ScriptCount = 0
-                For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Stroke\", FileIO.SearchOption.SearchTopLevelOnly, TauntFile & "_*.txt")
+                For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Stroke\", FileIO.SearchOption.SearchTopLevelOnly, TauntFile & "_*.txt")
                     ssh.ScriptCount += 1
                 Next
 
@@ -3646,7 +3610,7 @@ DommeSlideshowFallback:
                 ' If LinSelected = False Then
                 ssh.StrokeTauntCount = TauntTempVal
                 ssh.ScriptCount = 0
-                For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Stroke\", FileIO.SearchOption.SearchTopLevelOnly, TauntFile & "_*.txt")
+                For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Stroke\", FileIO.SearchOption.SearchTopLevelOnly, TauntFile & "_*.txt")
                     ssh.ScriptCount += 1
                     If TauntTempVal = ssh.ScriptCount Then ssh.TauntText = foundFile
                 Next
@@ -3781,7 +3745,7 @@ DommeSlideshowFallback:
         ssh.YesOrNo = True
         Dim CBTCount As Integer
 
-        Dim lines As List(Of String) = Txt2List(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\CBT\CBT.txt")
+        Dim lines As List(Of String) = Txt2List(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\CBT\CBT.txt")
         CBTCount += lines.Count
 
         CBTCount = ssh.randomizer.Next(0, CBTCount)
@@ -3793,6 +3757,98 @@ DommeSlideshowFallback:
     End Sub
 
 #Region "----------------------------------------------------- Video-Files ----------------------------------------------------"
+    Public Sub StartRandomVideo()
+        ' Reset retentive global variables
+        ssh.DommeVideo = False
+        Dim getVideoMetaData As Result(Of List(Of VideoMetaData)) = New VideoAccessor().GetVideoData(Nothing)
+        Dim videoMetaDatas As List(Of VideoMetaData) = getVideoMetaData.GetResultOrDefault(New List(Of VideoMetaData)())
+        Dim allFiles As New List(Of VideoMetaData)
+
+        If My.Settings.CBHardcore Then _
+            allFiles.AddRange(videoMetaDatas.Where(Function(vmd) vmd.Genre = VideoGenre.Hardcore AndAlso Not vmd.FeaturesDomme))
+
+        If My.Settings.CBSoftcore Then _
+            allFiles.AddRange(videoMetaDatas.Where(Function(vmd) vmd.Genre = VideoGenre.Softcore AndAlso Not vmd.FeaturesDomme))
+
+        If My.Settings.CBLesbian Then _
+            allFiles.AddRange(videoMetaDatas.Where(Function(vmd) vmd.Genre = VideoGenre.Lesbian AndAlso Not vmd.FeaturesDomme))
+
+        If My.Settings.CBBlowjob Then _
+            allFiles.AddRange(videoMetaDatas.Where(Function(vmd) vmd.Genre = VideoGenre.Blowjob AndAlso Not vmd.FeaturesDomme))
+
+        If My.Settings.CBFemdom = True Then _
+            allFiles.AddRange(videoMetaDatas.Where(Function(vmd) vmd.Genre = VideoGenre.FemDom AndAlso Not vmd.FeaturesDomme))
+
+        If My.Settings.CBFemsub = True Then _
+            allFiles.AddRange(videoMetaDatas.Where(Function(vmd) vmd.Genre = VideoGenre.FemSub AndAlso Not vmd.FeaturesDomme))
+
+        If ssh.NoSpecialVideo Then GoTo SkipSpecial
+        If ssh.ScriptVideoTeaseFlag Then
+            If ssh.ScriptVideoTease = "Censorship Sucks" OrElse ssh.ScriptVideoTease = "Avoid The Edge" OrElse ssh.ScriptVideoTease = "RLGL" Then GoTo SkipSpecial
+        End If
+
+        If ssh.RandomizerVideo = True Then GoTo SkipSpecial
+
+        If My.Settings.CBJOI = True Then _
+            allFiles.AddRange(videoMetaDatas.Where(Function(vmd) vmd.Genre = VideoGenre.Joi AndAlso Not vmd.FeaturesDomme))
+
+        If My.Settings.CBCH = True Then _
+            allFiles.AddRange(videoMetaDatas.Where(Function(vmd) vmd.Genre = VideoGenre.CockHero AndAlso Not vmd.FeaturesDomme))
+
+SkipSpecial:
+        If My.Settings.CBGeneral Then _
+            allFiles.AddRange(videoMetaDatas.Where(Function(vmd) vmd.Genre = VideoGenre.General AndAlso Not vmd.FeaturesDomme))
+
+        ' Domme Videos
+        If My.Settings.CBHardcoreD Then _
+            allFiles.AddRange(videoMetaDatas.Where(Function(vmd) vmd.Genre = VideoGenre.General AndAlso vmd.FeaturesDomme))
+
+        If My.Settings.CBSoftcoreD Then _
+            allFiles.AddRange(videoMetaDatas.Where(Function(vmd) vmd.Genre = VideoGenre.Softcore AndAlso vmd.FeaturesDomme))
+
+        If My.Settings.CBLesbianD Then _
+            allFiles.AddRange(videoMetaDatas.Where(Function(vmd) vmd.Genre = VideoGenre.Lesbian AndAlso vmd.FeaturesDomme))
+
+        If My.Settings.CBBlowjobD Then _
+            allFiles.AddRange(videoMetaDatas.Where(Function(vmd) vmd.Genre = VideoGenre.Blowjob AndAlso vmd.FeaturesDomme))
+
+        If My.Settings.CBFemdomD Then _
+            allFiles.AddRange(videoMetaDatas.Where(Function(vmd) vmd.Genre = VideoGenre.FemDom AndAlso vmd.FeaturesDomme))
+
+        If My.Settings.CBFemsubD Then _
+            allFiles.AddRange(videoMetaDatas.Where(Function(vmd) vmd.Genre = VideoGenre.FemSub AndAlso vmd.FeaturesDomme))
+
+        If ssh.NoSpecialVideo Then GoTo SkipSpecialD
+        If ssh.ScriptVideoTeaseFlag Then
+            If ssh.ScriptVideoTease = "Censorship Sucks" OrElse ssh.ScriptVideoTease = "Avoid The Edge" OrElse ssh.ScriptVideoTease = "RLGL" Then GoTo SkipSpecialD
+        End If
+
+        If ssh.RandomizerVideo = True Then GoTo SkipSpecialD
+
+        ' Domme Special Videos
+        If My.Settings.CBJOID Then _
+            allFiles.AddRange(videoMetaDatas.Where(Function(vmd) vmd.Genre = VideoGenre.Joi AndAlso vmd.FeaturesDomme))
+
+        If My.Settings.CBCHD = True Then _
+            allFiles.AddRange(videoMetaDatas.Where(Function(vmd) vmd.Genre = VideoGenre.CockHero AndAlso vmd.FeaturesDomme))
+
+SkipSpecialD:
+        '	Domme  General Videos
+        If My.Settings.CBGeneralD Then _
+            allFiles.AddRange(videoMetaDatas.Where(Function(vmd) vmd.Genre = VideoGenre.General AndAlso vmd.FeaturesDomme))
+
+        allFiles = allFiles.Distinct().ToList()
+        If Not allFiles.Any() OrElse ssh.VideoCheck Then Exit Sub
+
+        Dim videoMetaData As VideoMetaData = allFiles(myRandomNumberService.Roll(0, allFiles.Count))
+        Dim genre As VideoGenre = videoMetaData.Genre
+        Dim containsDomme As Boolean = videoMetaData.FeaturesDomme
+
+        ssh.VideoType = genre.ToString() + IIf(containsDomme, "D", String.Empty)
+        ssh.DommeVideo = containsDomme
+
+        PlayVideo(videoMetaData, False)
+    End Sub
 
     Public Sub RandomVideo()
         ' Reset retentive global variables
@@ -3830,11 +3886,7 @@ DommeSlideshowFallback:
             If ssh.ScriptVideoTease = "Censorship Sucks" Or ssh.ScriptVideoTease = "Avoid The Edge" Or ssh.ScriptVideoTease = "RLGL" Then GoTo SkipSpecial
         End If
 
-        If ssh.RandomizerVideo = True Then GoTo SkipSpecial
-
-        '======================================================================================
-        '								Special - Videos
-        '======================================================================================
+        If ssh.RandomizerVideo Then GoTo SkipSpecial
         If My.Settings.CBJOI = True Then _
             __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoJOI))
 
@@ -4117,7 +4169,7 @@ GetAnotherRandomVideo:
                     Return
                 End If
 
-                CensorVideo = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Video\Censorship Sucks\CensorBarOff.txt"
+                CensorVideo = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Video\Censorship Sucks\CensorBarOff.txt"
 
             Else
 
@@ -4153,7 +4205,7 @@ CensorConstant:
                     Return
                 End If
 
-                CensorVideo = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Video\Censorship Sucks\CensorBarOn.txt"
+                CensorVideo = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Video\Censorship Sucks\CensorBarOn.txt"
 
             End If
 
@@ -4205,12 +4257,12 @@ CensorConstant:
             ' Read File according to state and set the next timer-tick-duration.
             If ssh.RedLight Then
                 '################################## RED - Light ##################################
-                file2read = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Video\Red Light Green Light\Red Light.txt"
+                file2read = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Video\Red Light Green Light\Red Light.txt"
                 tempList = Txt2List(file2read)
                 ssh.RLGLTick = ssh.randomizer.Next(FrmSettings.NBRedLightMin.Value, FrmSettings.NBRedLightMax.Value + 1)
             Else
                 '################################## Green - Light ################################
-                file2read = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Video\Red Light Green Light\Green Light.txt"
+                file2read = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Video\Red Light Green Light\Green Light.txt"
                 tempList = Txt2List(file2read)
                 ssh.RLGLTick = ssh.randomizer.Next(FrmSettings.NBGreenLightMin.Value, FrmSettings.NBGreenLightMax.Value + 1)
             End If
@@ -4228,9 +4280,13 @@ CensorConstant:
 
     Private Sub domName_Leave(sender As Object, e As EventArgs) Handles domName.Leave
         mySettingsAccessor.DommeName = domName.Text
+        My.Settings.Save()
+        mySession.Session.Domme.Name = mySettingsAccessor.DommeName
     End Sub
-    Private Sub subName_Leave(sender As Object, e As EventArgs) Handles subName.Leave
-        My.Settings.SubName = subName.Text
+    Private Sub SubName_Leave(sender As Object, e As EventArgs) Handles SubName.Leave
+        mySettingsAccessor.SubName = SubName.Text.Trim()
+        My.Settings.Save()
+        mySession.Session.Sub.Name = mySettingsAccessor.SubName
     End Sub
 
     Public Sub StatusUpdatePost()
@@ -4352,9 +4408,9 @@ CensorConstant:
         ssh.StatusText2 = ssh.StatusText2.Replace("#ShortName", My.Settings.GlitterSN)
         ssh.StatusText3 = ssh.StatusText3.Replace("#ShortName", My.Settings.GlitterSN)
 
-        ssh.StatusText1 = ssh.StatusText1.Replace("#SubName", subName.Text)
-        ssh.StatusText2 = ssh.StatusText2.Replace("#SubName", subName.Text)
-        ssh.StatusText3 = ssh.StatusText3.Replace("#SubName", subName.Text)
+        ssh.StatusText1 = ssh.StatusText1.Replace("#SubName", SubName.Text)
+        ssh.StatusText2 = ssh.StatusText2.Replace("#SubName", SubName.Text)
+        ssh.StatusText3 = ssh.StatusText3.Replace("#SubName", SubName.Text)
 
         ssh.StatusText1 = PoundClean(ssh.StatusText1)
         ssh.StatusText2 = PoundClean(ssh.StatusText2)
@@ -4661,37 +4717,37 @@ StatusUpdateEnd:
                 ssh.UpdateList.Clear()
 
                 If My.Settings.CBTease = True Then
-                    For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Apps\Glitter\Tease\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
+                    For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Apps\Glitter\Tease\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
                         ssh.UpdateList.Add(foundFile)
                     Next
                 End If
 
                 If My.Settings.CBEgotist = True Then
-                    For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Apps\Glitter\Egotist\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
+                    For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Apps\Glitter\Egotist\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
                         ssh.UpdateList.Add(foundFile)
                     Next
                 End If
 
                 If My.Settings.CBTrivia = True Then
-                    For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Apps\Glitter\Trivia\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
+                    For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Apps\Glitter\Trivia\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
                         ssh.UpdateList.Add(foundFile)
                     Next
                 End If
 
                 If My.Settings.CBDaily = True Then
-                    For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Apps\Glitter\Daily\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
+                    For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Apps\Glitter\Daily\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
                         ssh.UpdateList.Add(foundFile)
                     Next
                 End If
 
                 If My.Settings.CBCustom1 = True Then
-                    For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Apps\Glitter\Custom 1\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
+                    For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Apps\Glitter\Custom 1\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
                         ssh.UpdateList.Add(foundFile)
                     Next
                 End If
 
                 If My.Settings.CBCustom2 = True Then
-                    For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Apps\Glitter\Custom 2\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
+                    For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Apps\Glitter\Custom 2\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
                         ssh.UpdateList.Add(foundFile)
                     Next
                 End If
@@ -5008,7 +5064,7 @@ SkipTextedTags:
                     If TS.TraceVerbose Then Trace.WriteLine(String.Format("Applying vocabulary: ""{0}""", keyword.Value))
 #End If
 
-                    Dim filepath As String = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Vocabulary\" & keyword.Value & ".txt"
+                    Dim filepath As String = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Vocabulary\" & keyword.Value & ".txt"
 
                     If Directory.Exists(Path.GetDirectoryName(filepath)) AndAlso File.Exists(filepath) Then
                         Dim lines As List(Of String) = Txt2List(filepath)
@@ -5632,7 +5688,7 @@ TaskCleanSet:
                     SCGotVar = SCGotVar.Replace("=[", "")
                     SCGotVar = SCGotVar.Replace(" ", "")
 
-                    My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\" & VarName, SCGotVar, False)
+                    My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & VarName, SCGotVar, False)
 
                 End If
 
@@ -5681,7 +5737,7 @@ TaskCleanSet:
                      And Not UCase(FlagArray(1)).Contains(UCase("DAY")) And Not UCase(FlagArray(1)).Contains(UCase("WEEK")) And Not UCase(FlagArray(1)).Contains(UCase("MONTH")) _
                      And Not UCase(FlagArray(1)).Contains(UCase("YEAR")) Then SetDate = DateAdd(DateInterval.Day, Val(FlagArray(1)), SetDate)
 
-                    My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\" & FlagArray(0), FormatDateTime(SetDate, DateFormat.GeneralDate), False)
+                    My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & FlagArray(0), FormatDateTime(SetDate, DateFormat.GeneralDate), False)
 
                     ' CheckArray(i) = CheckArray(i).Replace("@SetDate(" & OriginalCheck, "")
 
@@ -5721,7 +5777,7 @@ TaskCleanSet:
                 Dim VarName As String = SCGotVarSplit(0)
                 Dim Val1 As Integer
 
-                Dim VarCheck As String = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\" & VarName
+                Dim VarCheck As String = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & VarName
 
 
                 'TODO: Remove unsecure IO.Access to file, for there is no DirectoryCheck.
@@ -5740,7 +5796,7 @@ TaskCleanSet:
 
                     Val1 = VarValue * Math.Round(Val1 / VarValue)
 
-                    My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\" & VarName, Val1, False)
+                    My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & VarName, Val1, False)
 
                 End If
 
@@ -5795,8 +5851,8 @@ TaskCleanSet:
 
                     If IsNumeric(ChangeVal1) = False Then
                         'TODO: Remove unsecure IO.Access to file, for there is no DirectoryCheck.
-                        If File.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\" & ChangeVal1) Then
-                            Val1 = TxtReadLine(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\" & ChangeVal1)
+                        If File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & ChangeVal1) Then
+                            Val1 = TxtReadLine(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & ChangeVal1)
                         Else
                             Val1 = 0
                         End If
@@ -5806,8 +5862,8 @@ TaskCleanSet:
 
                     If IsNumeric(ChangeVal2) = False Then
                         'TODO: Remove unsecure IO.Access To file, for there is no DirectoryCheck.
-                        If File.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\" & ChangeVal2) Then
-                            Val2 = TxtReadLine(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\" & ChangeVal2)
+                        If File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & ChangeVal2) Then
+                            Val2 = TxtReadLine(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & ChangeVal2)
                         Else
                             Val2 = 0
                         End If
@@ -5828,7 +5884,7 @@ TaskCleanSet:
                     If ssh.ScriptOperator = "Multiply" Then ChangeVal = Val1 * Val2
                     If ssh.ScriptOperator = "Divide" Then ChangeVal = Val1 / Val2
 
-                    My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\" & ChangeVar, ChangeVal, False)
+                    My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & ChangeVar, ChangeVal, False)
 
                 End If
 
@@ -6111,7 +6167,7 @@ TaskCleanSet:
                 Dim SetDate As Date = FormatDateTime(Now, DateFormat.GeneralDate)
 
                 SetDate = DateAdd(DateInterval.Second, TotalSeconds, SetDate)
-                My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\SYS_OrgasmRestricted", FormatDateTime(SetDate, DateFormat.GeneralDate), False)
+                My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\SYS_OrgasmRestricted", FormatDateTime(SetDate, DateFormat.GeneralDate), False)
 
             Else
 
@@ -6129,7 +6185,7 @@ TaskCleanSet:
                  And Not UCase(CheckFlag).Contains(UCase("DAY")) And Not UCase(CheckFlag).Contains(UCase("WEEK")) And Not UCase(CheckFlag).Contains(UCase("MONTH")) _
                  And Not UCase(CheckFlag).Contains(UCase("YEAR")) Then SetDate = DateAdd(DateInterval.Day, Val(CheckFlag), SetDate)
 
-                My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\SYS_OrgasmRestricted", FormatDateTime(SetDate, DateFormat.GeneralDate), False)
+                My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\SYS_OrgasmRestricted", FormatDateTime(SetDate, DateFormat.GeneralDate), False)
 
             End If
             ssh.OrgasmRestricted = True
@@ -6368,9 +6424,9 @@ TaskCleanSet:
 
         If StringClean.Contains("@StartStroking") Then
 
-            If Not File.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\SYS_FirstRun") Then
+            If Not File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\SYS_FirstRun") Then
                 Dim SetDate As Date = FormatDateTime(Now, DateFormat.GeneralDate)
-                My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\SYS_FirstRun", SetDate, False)
+                My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\SYS_FirstRun", SetDate, False)
             End If
 
             SetVariable("SYS_StrokeRound", Val(GetVariable("SYS_StrokeRound")) + 1)
@@ -6879,12 +6935,12 @@ TaskCleanSet:
 
             Dim CustomArray As String() = CustomFlag.Split(",")
 
-            If File.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Custom\Tasks\" & CustomArray(0) & "_First.txt") And
-             File.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Custom\Tasks\" & CustomArray(0) & ".txt") Then
+            If File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Custom\Tasks\" & CustomArray(0) & "_First.txt") And
+             File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Custom\Tasks\" & CustomArray(0) & ".txt") Then
                 ssh.CustomTask = True
                 ssh.CustomTaskActive = True
-                ssh.CustomTaskText = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Custom\Tasks\" & CustomArray(0) & ".txt"
-                ssh.CustomTaskTextFirst = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Custom\Tasks\" & CustomArray(0) & "_First.txt"
+                ssh.CustomTaskText = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Custom\Tasks\" & CustomArray(0) & ".txt"
+                ssh.CustomTaskTextFirst = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Custom\Tasks\" & CustomArray(0) & "_First.txt"
             End If
 
             If CustomArray.Count > 1 Then
@@ -7005,9 +7061,9 @@ OrgasmDecided:
             Dim GlitterFlag As String = GetParentheses(StringClean, Keyword.Glitter)
 
             If My.Settings.CBGlitterFeedOff = False And ssh.UpdatingPost = False Then
-                If File.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Apps\Glitter\Script\" & GlitterFlag & ".txt") And ssh.UpdatingPost = False Then
+                If File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Apps\Glitter\Script\" & GlitterFlag & ".txt") And ssh.UpdatingPost = False Then
                     ssh.UpdateList.Clear()
-                    ssh.UpdateList.Add(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Apps\Glitter\Script\" & GlitterFlag & ".txt")
+                    ssh.UpdateList.Add(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Apps\Glitter\Script\" & GlitterFlag & ".txt")
                     StatusUpdatePost()
                 End If
             End If
@@ -7137,9 +7193,9 @@ OrgasmDecided:
             If ssh.AskedToGiveUpSection = True Then
 
                 If ssh.SubGaveUp = True Then
-                    ssh.ResponseFile = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Vocabulary\Responses\System\GiveUpREHASH.txt"
+                    ssh.ResponseFile = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Vocabulary\Responses\System\GiveUpREHASH.txt"
                 Else
-                    ssh.ResponseFile = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Vocabulary\Responses\System\GiveUpREPEAT.txt"
+                    ssh.ResponseFile = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Vocabulary\Responses\System\GiveUpREPEAT.txt"
                 End If
                 'StringClean = ResponseClean(StringClean)
 
@@ -7161,7 +7217,7 @@ OrgasmDecided:
                 'If GiveUpVal > GiveUpCheck Then
                 If GiveUpVal > GiveUpCheck And Not ssh.LastScript Then
                     ' you can give up
-                    ssh.ResponseFile = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Vocabulary\Responses\System\GiveUpALLOWED.txt"
+                    ssh.ResponseFile = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Vocabulary\Responses\System\GiveUpALLOWED.txt"
                     ssh.LockImage = False
                     If ssh.SlideshowLoaded = True Then
                         ImageSlideShowNextButton.Enabled = True
@@ -7172,7 +7228,7 @@ OrgasmDecided:
                     ssh.FirstRound = False
                 Else
                     ' you can't give up
-                    ssh.ResponseFile = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Vocabulary\Responses\System\GiveUpDENIED.txt"
+                    ssh.ResponseFile = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Vocabulary\Responses\System\GiveUpDENIED.txt"
                 End If
 
 
@@ -7229,7 +7285,7 @@ OrgasmDecided:
 
             Dim EdgeList As New List(Of String)
 
-            For Each EdgeFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Interrupt\Long Edge\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
+            For Each EdgeFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Interrupt\Long Edge\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
                 EdgeList.Add(EdgeFile)
             Next
 
@@ -7255,7 +7311,7 @@ OrgasmDecided:
                 ssh.ShowModule = True
 
             Else
-                MessageBox.Show(Me, "No files were found in " & Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Interrupt\Long Edge!" & Environment.NewLine _
+                MessageBox.Show(Me, "No files were found in " & Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Interrupt\Long Edge!" & Environment.NewLine _
                  & Environment.NewLine & "Please make sure at lease one LongEdge_ file exists.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
             End If
             StringClean = StringClean.Replace("@InterruptLongEdge", "")
@@ -7271,7 +7327,7 @@ OrgasmDecided:
 
             Dim StrokeList As New List(Of String)
 
-            For Each StrokeFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Interrupt\Start Stroking\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
+            For Each StrokeFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Interrupt\Start Stroking\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
                 StrokeList.Add(StrokeFile)
             Next
 
@@ -7300,7 +7356,7 @@ OrgasmDecided:
                 ssh.MiniScript = False
 
             Else
-                MessageBox.Show(Me, "No files were found in " & Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Interrupt\Start Stroking!" & Environment.NewLine _
+                MessageBox.Show(Me, "No files were found in " & Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Interrupt\Start Stroking!" & Environment.NewLine _
                  & Environment.NewLine & "Please make sure at lease one StartStroking_ file exists.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
             End If
             StringClean = StringClean.Replace("@InterruptStartStroking", "")
@@ -7314,9 +7370,9 @@ OrgasmDecided:
                 InterruptClean = InterruptClean.Remove(0, 1)
             Next
             Dim InterruptS As String() = InterruptClean.Split(")")
-            InterruptClean = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Interrupt\" & InterruptS(0) & ".txt"
+            InterruptClean = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Interrupt\" & InterruptS(0) & ".txt"
 
-            If File.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Interrupt\" & InterruptS(0) & ".txt") Then
+            If File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Interrupt\" & InterruptS(0) & ".txt") Then
 
                 ssh.FirstRound = False
                 ssh.CBTCockFlag = False
@@ -7355,7 +7411,7 @@ OrgasmDecided:
                 ssh.MiniScript = False
 
             Else
-                MessageBox.Show(Me, InterruptS(0) & ".txt was not found in " & Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Interrupt!" & Environment.NewLine _
+                MessageBox.Show(Me, InterruptS(0) & ".txt was not found in " & Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Interrupt!" & Environment.NewLine _
                  & Environment.NewLine & "Please make sure the file exists and that it is spelled correctly in the script.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
             End If
             StringClean = StringClean.Replace("@Interrupt(" & InterruptS(0) & ")", "")
@@ -7579,7 +7635,7 @@ OrgasmDecided:
 
         If StringClean.Contains("@VitalSubAssignment") Then
             ' Read all lines of the given file.
-            Dim AssignList As List(Of String) = Txt2List(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Apps\VitalSub\Assignments.txt")
+            Dim AssignList As List(Of String) = Txt2List(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Apps\VitalSub\Assignments.txt")
 
             Dim TempAssign As String
 
@@ -8210,13 +8266,13 @@ VTSkip:
         If StringClean.Contains("@SpeedUpCheck") Then
 
             If ssh.AskedToSpeedUp = True Then
-                ssh.ResponseFile = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Vocabulary\Responses\System\SpeedUpREPEAT.txt"
+                ssh.ResponseFile = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Vocabulary\Responses\System\SpeedUpREPEAT.txt"
                 StringClean = ResponseClean(StringClean)
 
             Else
 
                 If StrokePace < 201 Then
-                    ssh.ResponseFile = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Vocabulary\Responses\System\SpeedUpMAX.txt"
+                    ssh.ResponseFile = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Vocabulary\Responses\System\SpeedUpMAX.txt"
                     StringClean = ResponseClean(StringClean)
 
                 Else
@@ -8234,13 +8290,13 @@ VTSkip:
                     If SpeedUpVal > SpeedUpCheck Then
 
                         ' you can speed up
-                        ssh.ResponseFile = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Vocabulary\Responses\System\SpeedUpALLOWED.txt"
+                        ssh.ResponseFile = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Vocabulary\Responses\System\SpeedUpALLOWED.txt"
 
                     Else
 
                         ' you can't speed up
                         ssh.AskedToSpeedUp = True
-                        ssh.ResponseFile = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Vocabulary\Responses\System\SpeedUpDENIED.txt"
+                        ssh.ResponseFile = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Vocabulary\Responses\System\SpeedUpDENIED.txt"
 
                     End If
 
@@ -8258,13 +8314,13 @@ VTSkip:
         If StringClean.Contains("@SlowDownCheck") Then
 
             If ssh.AskedToSpeedUp = True Then
-                ssh.ResponseFile = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Vocabulary\Responses\System\SlowDownREPEAT.txt"
+                ssh.ResponseFile = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Vocabulary\Responses\System\SlowDownREPEAT.txt"
                 StringClean = ResponseClean(StringClean)
 
             Else
 
                 If StrokePace > 999 Then
-                    ssh.ResponseFile = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Vocabulary\Responses\System\SlowDownMIN.txt"
+                    ssh.ResponseFile = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Vocabulary\Responses\System\SlowDownMIN.txt"
                     StringClean = ResponseClean(StringClean)
 
                 Else
@@ -8282,13 +8338,13 @@ VTSkip:
                     If SpeedUpVal > SpeedUpCheck Then
 
                         ' you can speed up
-                        ssh.ResponseFile = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Vocabulary\Responses\System\SlowDownALLOWED.txt"
+                        ssh.ResponseFile = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Vocabulary\Responses\System\SlowDownALLOWED.txt"
 
                     Else
 
                         ' you can't speed up
                         ssh.AskedToSpeedUp = True
-                        ssh.ResponseFile = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Vocabulary\Responses\System\SlowDownDENIED.txt"
+                        ssh.ResponseFile = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Vocabulary\Responses\System\SlowDownDENIED.txt"
 
                     End If
 
@@ -8383,7 +8439,7 @@ VTSkip:
             End If
             ssh.BronzeTokens += FrmCardList.TokensPaid
             FrmCardList.LBLRiskTokens.Text = ssh.BronzeTokens
-            My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\RP_Edges", FrmCardList.EdgesOwed, False)
+            My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\RP_Edges", FrmCardList.EdgesOwed, False)
             StringClean = StringClean.Replace("@RiskyPayout", "")
         End If
 
@@ -8468,14 +8524,14 @@ VTSkip:
                 CheckFlag = FixCommas(CheckFlag)
 
                 Dim CallSplit As String() = CheckFlag.Split(",")
-                ssh.FileText = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\" & CallSplit(0)
+                ssh.FileText = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\" & CallSplit(0)
                 ssh.FileGoto = CallSplit(1)
                 ssh.SkipGotoLine = True
                 GetGoto()
 
             Else
 
-                ssh.FileText = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\" & CheckFlag
+                ssh.FileText = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\" & CheckFlag
                 ssh.StrokeTauntVal = -1
 
             End If
@@ -8496,14 +8552,14 @@ VTSkip:
                 CheckFlag = FixCommas(CheckFlag)
 
                 Dim CallSplit As String() = CheckFlag.Split(",")
-                ssh.FileText = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\" & CallSplit(0)
+                ssh.FileText = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\" & CallSplit(0)
                 ssh.FileGoto = CallSplit(1)
                 ssh.SkipGotoLine = True
                 GetGoto()
 
             Else
 
-                ssh.FileText = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\" & CheckFlag
+                ssh.FileText = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\" & CheckFlag
                 ssh.StrokeTauntVal = -1
 
             End If
@@ -8518,18 +8574,18 @@ VTSkip:
             Dim CheckFlag As String = GetParentheses(StringClean, "@CallRandom(")
             Dim CallReplace As String = CheckFlag
 
-            If Not Directory.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\" & CheckFlag) Then
+            If Not Directory.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\" & CheckFlag) Then
                 MessageBox.Show(Me, "The current script attempted to @Call from a directory that does not exist!" & Environment.NewLine & Environment.NewLine &
-                 Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\" & CheckFlag, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                 Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\" & CheckFlag, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Else
                 Dim RandomFile As New List(Of String)
                 RandomFile.Clear()
-                For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\" & CheckFlag & "\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
+                For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\" & CheckFlag & "\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
                     RandomFile.Add(foundFile)
                 Next
                 If RandomFile.Count < 1 Then
                     MessageBox.Show(Me, "The current script attempted to @Call from a directory that does not contain any scripts!" & Environment.NewLine & Environment.NewLine &
-                      Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\" & CheckFlag, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                      Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\" & CheckFlag, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Else
                     ssh.FileText = RandomFile(ssh.randomizer.Next(0, RandomFile.Count))
                     ssh.StrokeTauntVal = -1
@@ -8686,11 +8742,11 @@ VTSkip:
             End If
 
 
-            If File.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Custom\Modules\" & TempMod & ".txt") Then
-                ssh.SetModule = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Custom\Modules\" & TempMod & ".txt"
+            If File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Custom\Modules\" & TempMod & ".txt") Then
+                ssh.SetModule = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Custom\Modules\" & TempMod & ".txt"
             End If
-            If File.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Modules\" & TempMod & ".txt") Then
-                ssh.SetModule = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Modules\" & TempMod & ".txt"
+            If File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Modules\" & TempMod & ".txt") Then
+                ssh.SetModule = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Modules\" & TempMod & ".txt"
             End If
 
             If ssh.SetModule = "" Then ssh.SetModuleGoto = ""
@@ -8700,11 +8756,11 @@ VTSkip:
 
         If StringClean.Contains("@SetLink(") Then
             Dim TempMod As String = GetParentheses(StringClean, "@SetLink(")
-            If File.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Custom\Link\" & TempMod & ".txt") Then
-                ssh.SetLink = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Custom\Link\" & TempMod & ".txt"
+            If File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Custom\Link\" & TempMod & ".txt") Then
+                ssh.SetLink = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Custom\Link\" & TempMod & ".txt"
             End If
-            If File.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Link\" & TempMod & ".txt") Then
-                ssh.SetLink = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Link\" & TempMod & ".txt"
+            If File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Link\" & TempMod & ".txt") Then
+                ssh.SetLink = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Link\" & TempMod & ".txt"
             End If
             StringClean = StringClean.Replace("@SetLink(" & GetParentheses(StringClean, "@SetLink(") & ")", "")
         End If
@@ -8794,9 +8850,9 @@ VTSkip:
             Dim MiniTemp As String = GetParentheses(StringClean, "@MiniScript(")
 
 
-            If File.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Custom\MiniScripts\" & MiniTemp & ".txt") Then ' And MiniScript = False Then
+            If File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Custom\MiniScripts\" & MiniTemp & ".txt") Then ' And MiniScript = False Then
                 ssh.MiniScript = True
-                ssh.MiniScriptText = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Custom\MiniScripts\" & MiniTemp & ".txt"
+                ssh.MiniScriptText = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Custom\MiniScripts\" & MiniTemp & ".txt"
                 ssh.MiniTauntVal = -1
                 ssh.MiniTimerCheck = ScriptTimer.Enabled
                 ssh.ScriptTick = 2
@@ -9118,14 +9174,14 @@ VTSkip:
 
     Public Function SetVariable(ByVal VarName As String, ByVal VarValue As String)
 
-        My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\" & VarName, VarValue, False)
+        My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & VarName, VarValue, False)
 
     End Function
 
     Public Function DeleteVariable(ByVal FlagDir As String)
 
-        If File.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\" & FlagDir) Then _
-                    My.Computer.FileSystem.DeleteFile(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\" & FlagDir)
+        If File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & FlagDir) Then _
+                    My.Computer.FileSystem.DeleteFile(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & FlagDir)
 
     End Function
 
@@ -9136,8 +9192,8 @@ VTSkip:
 
         If IsNumeric(ChangeVal1) = False Then
             'TODO: Remove unsecure IO.Access To file, for there is no DirectoryCheck.
-            If File.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\" & ChangeVal1) Then
-                Val1 = Val(TxtReadLine(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\" & ChangeVal1))
+            If File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & ChangeVal1) Then
+                Val1 = Val(TxtReadLine(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & ChangeVal1))
             Else
                 Val1 = 0
             End If
@@ -9147,8 +9203,8 @@ VTSkip:
 
         If IsNumeric(ChangeVal2) = False Then
             'TODO: Remove unsecure IO.Access To file, for there is no DirectoryCheck.
-            If File.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\" & ChangeVal2) Then
-                Val2 = Val(TxtReadLine(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\" & ChangeVal2))
+            If File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & ChangeVal2) Then
+                Val2 = Val(TxtReadLine(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & ChangeVal2))
             Else
                 Val2 = 0
             End If
@@ -9169,7 +9225,7 @@ VTSkip:
         If ssh.ScriptOperator = "Multiply" Then ChangeVal = Val1 * Val2
         If ssh.ScriptOperator = "Divide" Then ChangeVal = Val1 / Val2
 
-        My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\" & ChangeVar, ChangeVal, False)
+        My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & ChangeVar, ChangeVal, False)
 
     End Function
 
@@ -9177,12 +9233,12 @@ VTSkip:
 
         Dim VarGet As String
         'TODO: Remove unsecure IO.Access To file, for there is no DirectoryCheck.
-        If File.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\" & VarName) Then
+        If File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & VarName) Then
             '### DEBUG
 
             ' VarGet = Val(VarReader.ReadLine())
 
-            VarGet = TxtReadLine(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\" & VarName)
+            VarGet = TxtReadLine(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & VarName)
         Else
             VarGet = 0
         End If
@@ -9274,8 +9330,8 @@ VTSkip:
 
         Dim VarGet As String
         'TODO: Remove unsecure IO.Access To file, for there is no DirectoryCheck.
-        If File.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\" & VarName) Then
-            VarGet = CDate(TxtReadLine(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\" & VarName))
+        If File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & VarName) Then
+            VarGet = CDate(TxtReadLine(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & VarName))
         Else
             VarGet = FormatDateTime(Now, DateFormat.GeneralDate)
         End If
@@ -9289,8 +9345,8 @@ VTSkip:
 
         Dim VarGet As String
         'TODO: Remove unsecure IO.Access To file, for there is no DirectoryCheck.
-        If File.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\" & VarName) Then
-            VarGet = CDate(TxtReadLine(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\" & VarName))
+        If File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & VarName) Then
+            VarGet = CDate(TxtReadLine(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & VarName))
         Else
             VarGet = FormatDateTime(Now, DateFormat.LongTime)
         End If
@@ -10372,13 +10428,13 @@ SkipTextedTags:
 
     Private Sub chatBox_DragDrop(sender As Object, e As System.Windows.Forms.DragEventArgs) Handles chatBox.DragDrop
         chatBox.Text = CType(e.Data.GetData(DataFormats.FileDrop), Array).GetValue(0).ToString
-        sendButton.PerformClick()
+        SendButton.PerformClick()
     End Sub
 
     Private Sub chatBox2_DragDrop(sender As Object, e As System.Windows.Forms.DragEventArgs) Handles ChatBox2.DragDrop
         chatBox.Text = ""
         ChatBox2.Text = CType(e.Data.GetData(DataFormats.FileDrop), Array).GetValue(0).ToString
-        sendButton.PerformClick()
+        SendButton.PerformClick()
     End Sub
 
     Private Sub chatBox_DragEnter(sender As Object, e As System.Windows.Forms.DragEventArgs) Handles chatBox.DragEnter
@@ -10395,14 +10451,14 @@ SkipTextedTags:
 
     Private Sub chatbox_KeyDown(sender As Object, e As KeyEventArgs) Handles chatBox.KeyDown
         If e.KeyCode = Keys.Return Then
-            sendButton.PerformClick()
+            SendButton.PerformClick()
             e.SuppressKeyPress = True
         End If
     End Sub
 
     Private Sub chatbox2_KeyDown(sender As Object, e As KeyEventArgs) Handles ChatBox2.KeyDown
         If e.KeyCode = Keys.Return Then
-            sendButton.PerformClick()
+            SendButton.PerformClick()
             e.SuppressKeyPress = True
         End If
     End Sub
@@ -10443,8 +10499,8 @@ SkipTextedTags:
 
 
 
-            Dim AvoidTheEdgeVideo As String = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Video\AvoidTheEdge.txt"
-            If ssh.DommeVideo = True Then AvoidTheEdgeVideo = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Video\AvoidTheEdgeD.txt"
+            Dim AvoidTheEdgeVideo As String = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Video\AvoidTheEdge.txt"
+            If ssh.DommeVideo = True Then AvoidTheEdgeVideo = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Video\AvoidTheEdgeD.txt"
 
             Dim AvoidTheEdgeLineStart As Integer
             Dim AvoidTheEdgeLineEnd As Integer
@@ -10637,7 +10693,7 @@ NoPlaylistModuleFile:
                 ssh.FileText = ssh.SetModule
             Else
 
-                For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Modules\", FileIO.SearchOption.SearchTopLevelOnly, ChastityModuleCheck)
+                For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Modules\", FileIO.SearchOption.SearchTopLevelOnly, ChastityModuleCheck)
                     Dim TempModule As String = foundFile
                     TempModule = Path.GetFileName(TempModule).Replace(".txt", "")
 
@@ -10667,11 +10723,11 @@ NoPlaylistModuleFile:
 
                 If ModuleList.Count < 1 Then
                     If My.Settings.Chastity = True Then
-                        ssh.FileText = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Scripts\Module_CHASTITY.txt"
+                        ssh.FileText = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Scripts\Module_CHASTITY.txt"
                     ElseIf IsEdging Then
-                        ssh.FileText = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Scripts\Module_EDGING.txt"
+                        ssh.FileText = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Scripts\Module_EDGING.txt"
                     Else
-                        ssh.FileText = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Scripts\Module.txt"
+                        ssh.FileText = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Scripts\Module.txt"
                     End If
                 Else
                     ssh.FileText = ModuleList(ssh.randomizer.Next(0, ModuleList.Count))
@@ -10680,11 +10736,11 @@ NoPlaylistModuleFile:
 
         Else
             If ssh.PlaylistFile(ssh.PlaylistCurrent).Contains("Regular-TeaseAI-Script") Then
-                ssh.FileText = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Modules\" & ssh.PlaylistFile(ssh.PlaylistCurrent)
+                ssh.FileText = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Modules\" & ssh.PlaylistFile(ssh.PlaylistCurrent)
                 ssh.FileText = ssh.FileText.Replace(" Regular-TeaseAI-Script", "")
                 ssh.FileText = ssh.FileText & ".txt"
             Else
-                ssh.FileText = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Playlist\Modules\" & ssh.PlaylistFile(ssh.PlaylistCurrent) & ".txt"
+                ssh.FileText = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Playlist\Modules\" & ssh.PlaylistFile(ssh.PlaylistCurrent) & ".txt"
             End If
 
         End If
@@ -10750,7 +10806,7 @@ NoPlaylistLinkFile:
                     ChastityLinkCheck = "*.txt"
                 End If
 
-                For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Stroke\Link\", FileIO.SearchOption.SearchTopLevelOnly, ChastityLinkCheck)
+                For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Stroke\Link\", FileIO.SearchOption.SearchTopLevelOnly, ChastityLinkCheck)
                     Dim TempLink As String = foundFile
                     TempLink = TempLink.Replace(".txt", "")
                     Do Until Not TempLink.Contains("\")
@@ -10772,9 +10828,9 @@ NoPlaylistLinkFile:
 
                 If LinkList.Count < 1 Then
                     If My.Settings.Chastity = True Then
-                        ssh.FileText = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Scripts\Link_CHASTITY.txt"
+                        ssh.FileText = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Scripts\Link_CHASTITY.txt"
                     Else
-                        ssh.FileText = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Scripts\Link.txt"
+                        ssh.FileText = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Scripts\Link.txt"
                     End If
                 Else
                     ssh.FileText = LinkList(ssh.randomizer.Next(0, LinkList.Count))
@@ -10784,11 +10840,11 @@ NoPlaylistLinkFile:
 
         Else
             If ssh.PlaylistFile(ssh.PlaylistCurrent).Contains("Regular-TeaseAI-Script") Then
-                ssh.FileText = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Stroke\Link\" & ssh.PlaylistFile(ssh.PlaylistCurrent)
+                ssh.FileText = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Stroke\Link\" & ssh.PlaylistFile(ssh.PlaylistCurrent)
                 ssh.FileText = ssh.FileText.Replace(" Regular-TeaseAI-Script", "")
                 ssh.FileText = ssh.FileText & ".txt"
             Else
-                ssh.FileText = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Playlist\Link\" & ssh.PlaylistFile(ssh.PlaylistCurrent) & ".txt"
+                ssh.FileText = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Playlist\Link\" & ssh.PlaylistFile(ssh.PlaylistCurrent) & ".txt"
             End If
 
         End If
@@ -10842,11 +10898,11 @@ NoPlaylistLinkFile:
 
         If ssh.Playlist AndAlso Not ssh.PlaylistFile(ssh.PlaylistCurrent).Contains("Random End") Then
             If ssh.PlaylistFile(ssh.PlaylistCurrent).Contains("Regular-TeaseAI-Script") Then
-                ssh.FileText = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Stroke\End\" & ssh.PlaylistFile(ssh.PlaylistCurrent)
+                ssh.FileText = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Stroke\End\" & ssh.PlaylistFile(ssh.PlaylistCurrent)
                 ssh.FileText = ssh.FileText.Replace(" Regular-TeaseAI-Script", "")
                 ssh.FileText = ssh.FileText & ".txt"
             Else
-                ssh.FileText = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Playlist\End\" & ssh.PlaylistFile(ssh.PlaylistCurrent) & ".txt"
+                ssh.FileText = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Playlist\End\" & ssh.PlaylistFile(ssh.PlaylistCurrent) & ".txt"
             End If
         End If
 
@@ -10877,7 +10933,7 @@ NoPlaylistLinkFile:
         Dim EndList As New List(Of String)
         EndList.Clear()
 
-        For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Stroke\End\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
+        For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Stroke\End\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
             Dim TempEnd As String = foundFile
             TempEnd = TempEnd.Replace(".txt", "")
             Do Until Not TempEnd.Contains("\")
@@ -10904,9 +10960,9 @@ NoPlaylistLinkFile:
         If EndList.Count < 1 Then
 
             If ssh.OrgasmRestricted = False Then
-                ssh.FileText = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Scripts\End_BEG.txt"
+                ssh.FileText = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Scripts\End_BEG.txt"
             Else
-                ssh.FileText = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Scripts\End_RESTRICTED.txt"
+                ssh.FileText = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Scripts\End_RESTRICTED.txt"
             End If
         Else
             ssh.FileText = EndList(ssh.randomizer.Next(0, EndList.Count))
@@ -10997,9 +11053,9 @@ NoPlaylistLinkFile:
             Dim File2Read As String = ""
 
             If ssh.GlitterTease = False Then
-                File2Read = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Stroke\Edge\Edge.txt"
+                File2Read = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Stroke\Edge\Edge.txt"
             Else
-                File2Read = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Stroke\Edge\GroupEdge.txt"
+                File2Read = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Stroke\Edge\GroupEdge.txt"
             End If
 
             'Read all lines of the given file.
@@ -11084,7 +11140,7 @@ NoPlaylistLinkFile:
 
                         Dim RepeatList As New List(Of String)
 
-                        For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Interrupt\Denial Continue\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
+                        For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Interrupt\Denial Continue\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
                             RepeatList.Add(foundFile)
                         Next
 
@@ -11161,7 +11217,7 @@ RuinedOrgasm:
 
                     Dim RepeatList As New List(Of String)
 
-                    For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Interrupt\Ruin Continue\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
+                    For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Interrupt\Ruin Continue\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
                         RepeatList.Add(foundFile)
                     Next
 
@@ -11229,7 +11285,7 @@ AllowedOrgasm:
 
                     Dim NoCumList As New List(Of String)
 
-                    For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Interrupt\Out of Orgasms\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
+                    For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Interrupt\Out of Orgasms\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
                         NoCumList.Add(foundFile)
                     Next
 
@@ -11277,7 +11333,7 @@ NoNoCumFiles:
 
                     Dim RepeatList As New List(Of String)
 
-                    For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Interrupt\Orgasm Continue\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
+                    For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Interrupt\Orgasm Continue\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
                         RepeatList.Add(foundFile)
                     Next
 
@@ -11358,9 +11414,9 @@ NoRepeatOFiles:
             Dim File2Read As String = ""
 
             If ssh.GlitterTease = False Then
-                File2Read = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Stroke\HoldTheEdge\HoldTheEdge.txt"
+                File2Read = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Stroke\HoldTheEdge\HoldTheEdge.txt"
             Else
-                File2Read = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Stroke\HoldTheEdge\GroupHoldTheEdge.txt"
+                File2Read = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Stroke\HoldTheEdge\GroupHoldTheEdge.txt"
             End If
 
             ' Read all lines of given file.
@@ -11955,13 +12011,13 @@ RestartFunction:
             ssh.VidFile = ssh.VidFile + VidSplit(i)
         Next
         If ssh.VidFile = "" Then Exit Sub
-        If File.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Video\Scripts\" & ssh.VidFile & ".txt") Then
+        If File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Video\Scripts\" & ssh.VidFile & ".txt") Then
             Dim SubCheck As String()
             Dim PlayPos As Integer
             Dim WMPPos As Integer = Math.Ceiling(DomWMP.Ctlcontrols.currentPosition)
 
             Dim SubList As New List(Of String)
-            SubList = Txt2List(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Video\Scripts\" & ssh.VidFile & ".txt")
+            SubList = Txt2List(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Video\Scripts\" & ssh.VidFile & ".txt")
 
             If Not SubList Is Nothing Then
                 For i As Integer = 0 To SubList.Count - 1
@@ -12132,7 +12188,7 @@ RestartFunction:
 
             Dim VTDir As String
 
-            If ssh.RLGLGame = True Then VTDir = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Video\Red Light Green Light\Taunts.txt"
+            If ssh.RLGLGame = True Then VTDir = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Video\Red Light Green Light\Taunts.txt"
             'TODO: Prevent File.Exits() with String.Empty
             If Not File.Exists(VTDir) Then Return
 
@@ -12188,7 +12244,7 @@ RestartFunction:
 
             Dim VTDir As String
 
-            VTDir = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Video\Red Light Green Light\Taunts.txt"
+            VTDir = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Video\Red Light Green Light\Taunts.txt"
 
             If Not File.Exists(VTDir) Then Return
 
@@ -12234,7 +12290,7 @@ RestartFunction:
 
             Dim VTDir As String
 
-            VTDir = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Video\Avoid The Edge\Taunts.txt"
+            VTDir = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Video\Avoid The Edge\Taunts.txt"
 
             If Not File.Exists(VTDir) Then Return
 
@@ -12863,7 +12919,7 @@ restartInstantly:
         'End If
 
 
-        If File.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\SYS_WakeUp") Then
+        If File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\SYS_WakeUp") Then
 
             Dim Dates As String
             'Dates = FormatDateTime(Now, DateFormat.ShortDate) & " " & GetTime("SYS_WakeUp")
@@ -13710,7 +13766,7 @@ restartInstantly:
 
     Private Sub Button25_Click(sender As Object, e As EventArgs) Handles BTNStop.Click, Button7.Click
         chatBox.Text = "Let me stop"
-        sendButton.PerformClick()
+        SendButton.PerformClick()
     End Sub
 
     Private Sub BTNYes_Click(sender As Object, e As EventArgs) Handles BTNYes.Click, Button2.Click
@@ -13720,7 +13776,7 @@ restartInstantly:
             chatBox.Text = "Yes"
         End Try
 
-        sendButton.PerformClick()
+        SendButton.PerformClick()
     End Sub
 
     Private Sub BTNNo_Click(sender As Object, e As EventArgs) Handles BTNNo.Click, Button3.Click
@@ -13730,32 +13786,32 @@ restartInstantly:
             chatBox.Text = "No"
         End Try
 
-        sendButton.PerformClick()
+        SendButton.PerformClick()
     End Sub
 
     Private Sub BTNEdge_Click(sender As Object, e As EventArgs) Handles BTNEdge.Click, Button4.Click
         chatBox.Text = "On the edge"
-        sendButton.PerformClick()
+        SendButton.PerformClick()
     End Sub
 
     Private Sub BTNSpeedUp_Click(sender As Object, e As EventArgs) Handles BTNSpeedUp.Click, Button8.Click
         chatBox.Text = "Let me speed up"
-        sendButton.PerformClick()
+        SendButton.PerformClick()
     End Sub
 
     Private Sub BTNSlowDown_Click(sender As Object, e As EventArgs) Handles BTNSlowDown.Click, Button5.Click
         chatBox.Text = "Let me slow down"
-        sendButton.PerformClick()
+        SendButton.PerformClick()
     End Sub
 
     Private Sub BTNStroke_Click(sender As Object, e As EventArgs) Handles BTNStroke.Click, Button6.Click
         chatBox.Text = "May I start stroking?"
-        sendButton.PerformClick()
+        SendButton.PerformClick()
     End Sub
 
     Private Sub BTNAskToCum_Click(sender As Object, e As EventArgs) Handles BTNAskToCum.Click, Button9.Click
         chatBox.Text = "Please let me cum!"
-        sendButton.PerformClick()
+        SendButton.PerformClick()
     End Sub
 
     Private Sub BTNGreeting_Click(sender As Object, e As EventArgs) Handles BTNGreeting.Click, Button10.Click
@@ -13777,7 +13833,7 @@ restartInstantly:
             chatBox.Text = "Hello"
         End Try
 
-        sendButton.PerformClick()
+        SendButton.PerformClick()
     End Sub
 
     Private Sub BTNSafeword_Click(sender As Object, e As EventArgs) Handles BTNSafeword.Click, Button11.Click
@@ -13787,7 +13843,7 @@ restartInstantly:
             chatBox.Text = "@Error"
         End Try
 
-        sendButton.PerformClick()
+        SendButton.PerformClick()
     End Sub
 
     Private Sub CBHideShortcuts_CheckedChanged(sender As Object, e As EventArgs) Handles CBHideShortcuts.CheckedChanged
@@ -13884,7 +13940,7 @@ restartInstantly:
         If BTNLS1.Text <> "" Then
             chatBox.Text = BTNLS1.Text
             If ssh.WritingTaskFlag = True Then CheatCheck()
-            sendButton.PerformClick()
+            SendButton.PerformClick()
         End If
 
     End Sub
@@ -13925,7 +13981,7 @@ restartInstantly:
         If BTNLS2.Text <> "" Then
             chatBox.Text = BTNLS2.Text
             If ssh.WritingTaskFlag = True Then CheatCheck()
-            sendButton.PerformClick()
+            SendButton.PerformClick()
         End If
 
     End Sub
@@ -13965,7 +14021,7 @@ restartInstantly:
         If BTNLS3.Text <> "" Then
             chatBox.Text = BTNLS3.Text
             If ssh.WritingTaskFlag = True Then CheatCheck()
-            sendButton.PerformClick()
+            SendButton.PerformClick()
         End If
 
     End Sub
@@ -14006,7 +14062,7 @@ restartInstantly:
         If BTNLS4.Text <> "" Then
             chatBox.Text = BTNLS4.Text
             If ssh.WritingTaskFlag = True Then CheatCheck()
-            sendButton.PerformClick()
+            SendButton.PerformClick()
         End If
 
     End Sub
@@ -14047,7 +14103,7 @@ restartInstantly:
         If BTNLS5.Text <> "" Then
             chatBox.Text = BTNLS5.Text
             If ssh.WritingTaskFlag = True Then CheatCheck()
-            sendButton.PerformClick()
+            SendButton.PerformClick()
         End If
 
     End Sub
@@ -14105,7 +14161,7 @@ restartInstantly:
 
     Private Sub BTNRandomVideo_Click(sender As Object, e As EventArgs) Handles BTNRandomVideo.Click
         ssh.RandomizerVideo = True
-        RandomVideo()
+        StartRandomVideo()
         ssh.RandomizerVideo = False
     End Sub
 
@@ -14231,7 +14287,7 @@ restartInstantly:
         ssh.PlaylistCurrent = 0
         chatBox.Text = "Hello " & dommePersonality.Honorific
 
-        sendButton.PerformClick()
+        SendButton.PerformClick()
 
         BTNPlaylist.Enabled = False
     End Sub
@@ -14337,7 +14393,7 @@ restartInstantly:
             ssh.StrokeTauntVal = -1
             ssh.ScriptTick = 1
             ScriptTimer.Start()
-            Dim HypnoTrack As String = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Apps\Hypnotic Guide\" & ComboBoxHypnoGenTrack.SelectedItem
+            Dim HypnoTrack As String = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Apps\Hypnotic Guide\" & ComboBoxHypnoGenTrack.SelectedItem
             If File.Exists(HypnoTrack) Then DomWMP.URL = HypnoTrack
             ssh.HypnoGen = True
             ssh.AFK = True
@@ -14517,7 +14573,7 @@ restartInstantly:
         vitalSubFail = False
         Dim VitalList As New List(Of String)
 
-        For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Apps\VitalSub\" & vitalSubState & "\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
+        For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Apps\VitalSub\" & vitalSubState & "\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
             VitalList.Add(foundFile)
         Next
 
@@ -14907,12 +14963,12 @@ playLoop:
         If Val2.StartsWith("#") Then Val2 = PoundClean(Val2)
 
         If Not IsNumeric(Val1) Then
-            Dim VarCheck As String = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\" & Val1
+            Dim VarCheck As String = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & Val1
             If File.Exists(VarCheck) Then Val1 = TxtReadLine(VarCheck)
         End If
 
         If Not IsNumeric(Val2) Then
-            Dim VarCheck As String = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\" & Val2
+            Dim VarCheck As String = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & Val2
             If File.Exists(VarCheck) Then Val2 = TxtReadLine(VarCheck)
         End If
 
@@ -15006,7 +15062,7 @@ playLoop:
         returnValue.Age = Convert.ToUInt16(FrmSettings.subAgeNumBox.Value)
         returnValue.Birthday = New DateTime(DateTime.Now.Year, My.Settings.SubBirthMonth, My.Settings.SubBirthDay)
         returnValue.CockSize = Convert.ToInt32(FrmSettings.CockSizeNumBox.Value)
-        returnValue.Name = subName.Text
+        returnValue.Name = SubName.Text
         returnValue.IsCircumsized = FrmSettings.CBSubCircumcised.Checked
         returnValue.IsCockPierced = FrmSettings.CBSubPierced.Checked
 
@@ -15304,24 +15360,24 @@ NoPlaylistStartFile:
 
 #Region "-------------------------------------------------------- File --------------------------------------------------------"
 
-    Private Sub dompersonalitycombobox_LostFocus(sender As Object, e As EventArgs) Handles dompersonalitycombobox.LostFocus
-        mySettingsAccessor.DommePersonality = dompersonalitycombobox.Text
+    Private Sub dompersonalitycombobox_LostFocus(sender As Object, e As EventArgs) Handles DommePersonalityComboBox.LostFocus
+        mySettingsAccessor.DommePersonality = DommePersonalityComboBox.Text
     End Sub
 
-    Private Sub dompersonalitycombobox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles dompersonalitycombobox.SelectedIndexChanged
+    Private Sub dompersonalitycombobox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles DommePersonalityComboBox.SelectedIndexChanged
         If FormLoading = True Then Exit Sub
 
         Try
-            mySettingsAccessor.DommePersonality = dompersonalitycombobox.Text
-            FrmSettings.LBLGlitModDomType.Text = dompersonalitycombobox.Text
+            mySettingsAccessor.DommePersonality = DommePersonalityComboBox.Text
+            FrmSettings.LBLGlitModDomType.Text = DommePersonalityComboBox.Text
 
-            ssh.DomPersonality = dompersonalitycombobox.Text
+            ssh.DomPersonality = DommePersonalityComboBox.Text
 
             FrmSettings.FrmSettingStartUp()
 
-            If File.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Apps\Glitter\Contact_Descriptions.txt") Then
+            If File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Apps\Glitter\Contact_Descriptions.txt") Then
                 Dim ContactList As New List(Of String)
-                ContactList = Txt2List(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Apps\Glitter\Contact_Descriptions.txt")
+                ContactList = Txt2List(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Apps\Glitter\Contact_Descriptions.txt")
                 FrmSettings.GBGlitter1.Text = PoundClean(ContactList(0))
                 FrmSettings.GBGlitter2.Text = PoundClean(ContactList(1))
                 FrmSettings.GBGlitter3.Text = PoundClean(ContactList(2))
@@ -15331,7 +15387,7 @@ NoPlaylistStartFile:
                 FrmSettings.GBGlitter3.Text = "Contact 3"
             End If
 
-            Form9.LBLPersonality.Text = dompersonalitycombobox.Text
+            Form9.LBLPersonality.Text = DommePersonalityComboBox.Text
 
         Catch ex As Exception
             '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
@@ -15358,7 +15414,7 @@ NoPlaylistStartFile:
                 Dim fsd As New SaveFileDialog With {.Filter = "Saved Session|*" & Path.GetExtension(SavedSessionDefaultPath) & "",
                                                     .InitialDirectory = Path.GetDirectoryName(SavedSessionDefaultPath),
                                                     .Title = "Select a destination to safe the sessin to.",
-                                                    .FileName = Now.ToString("yy-MM-dd_HH-mm-ss") & "_" & dompersonalitycombobox.Text,
+                                                    .FileName = Now.ToString("yy-MM-dd_HH-mm-ss") & "_" & DommePersonalityComboBox.Text,
                                                     .AddExtension = True,
                                                     .CheckPathExists = True,
                                                     .OverwritePrompt = True,
@@ -15571,7 +15627,7 @@ NoPlaylistStartFile:
         If PNLPlaylist.Visible = False Then
             ToggleAppVisibility(PNLPlaylist)
             LBPlaylist.Items.Clear()
-            For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Playlist\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
+            For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Playlist\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
                 LBPlaylist.Items.Add(Path.GetFileName(foundFile).Replace(".txt", ""))
             Next
         End If
@@ -15690,7 +15746,7 @@ NoPlaylistStartFile:
 
             LBHypnoGenInduction.Items.Clear()
 
-            For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Apps\Hypnotic Guide\Inductions\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
+            For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Apps\Hypnotic Guide\Inductions\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
 
                 Dim TempUrl As String = foundFile
                 TempUrl = TempUrl.Replace(".txt", "")
@@ -15701,7 +15757,7 @@ NoPlaylistStartFile:
 
             Next
 
-            For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Apps\Hypnotic Guide\", FileIO.SearchOption.SearchTopLevelOnly, "*.mp3")
+            For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Apps\Hypnotic Guide\", FileIO.SearchOption.SearchTopLevelOnly, "*.mp3")
                 Dim TempUrl As String = foundFile
                 Do Until Not TempUrl.Contains("\")
                     TempUrl = TempUrl.Remove(0, 1)
@@ -15713,7 +15769,7 @@ NoPlaylistStartFile:
 
             LBHypnoGen.Items.Clear()
 
-            For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Apps\Hypnotic Guide\Hypno Files\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
+            For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Apps\Hypnotic Guide\Hypno Files\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
 
                 Dim TempUrl As String = foundFile
                 TempUrl = TempUrl.Replace(".txt", "")
@@ -16665,7 +16721,7 @@ TaskCleanSet:
                     SCGotVar = SCGotVar.Replace("=[", "")
                     SCGotVar = SCGotVar.Replace(" ", "")
 
-                    My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\" & VarName, SCGotVar, False)
+                    My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & VarName, SCGotVar, False)
 
                 End If
 
@@ -16714,7 +16770,7 @@ TaskCleanSet:
                      And Not UCase(FlagArray(1)).Contains(UCase("DAY")) And Not UCase(FlagArray(1)).Contains(UCase("WEEK")) And Not UCase(FlagArray(1)).Contains(UCase("MONTH")) _
                      And Not UCase(FlagArray(1)).Contains(UCase("YEAR")) Then SetDate = DateAdd(DateInterval.Day, Val(FlagArray(1)), SetDate)
 
-                    My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\" & FlagArray(0), FormatDateTime(SetDate, DateFormat.GeneralDate), False)
+                    My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & FlagArray(0), FormatDateTime(SetDate, DateFormat.GeneralDate), False)
 
                     ' CheckArray(i) = CheckArray(i).Replace("@SetDate(" & OriginalCheck, "")
 
@@ -16754,7 +16810,7 @@ TaskCleanSet:
                 Dim VarName As String = SCGotVarSplit(0)
                 Dim Val1 As Integer
 
-                Dim VarCheck As String = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\" & VarName
+                Dim VarCheck As String = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & VarName
 
 
                 'TODO: Remove unsecure IO.Access to file, for there is no DirectoryCheck.
@@ -16773,7 +16829,7 @@ TaskCleanSet:
 
                     Val1 = VarValue * Math.Round(Val1 / VarValue)
 
-                    My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\" & VarName, Val1, False)
+                    My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & VarName, Val1, False)
 
                 End If
 
@@ -16828,8 +16884,8 @@ TaskCleanSet:
 
                     If IsNumeric(ChangeVal1) = False Then
                         'TODO: Remove unsecure IO.Access to file, for there is no DirectoryCheck.
-                        If File.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\" & ChangeVal1) Then
-                            Val1 = TxtReadLine(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\" & ChangeVal1)
+                        If File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & ChangeVal1) Then
+                            Val1 = TxtReadLine(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & ChangeVal1)
                         Else
                             Val1 = 0
                         End If
@@ -16839,8 +16895,8 @@ TaskCleanSet:
 
                     If IsNumeric(ChangeVal2) = False Then
                         'TODO: Remove unsecure IO.Access To file, for there is no DirectoryCheck.
-                        If File.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\" & ChangeVal2) Then
-                            Val2 = TxtReadLine(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\" & ChangeVal2)
+                        If File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & ChangeVal2) Then
+                            Val2 = TxtReadLine(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & ChangeVal2)
                         Else
                             Val2 = 0
                         End If
@@ -16861,7 +16917,7 @@ TaskCleanSet:
                     If ssh.ScriptOperator = "Multiply" Then ChangeVal = Val1 * Val2
                     If ssh.ScriptOperator = "Divide" Then ChangeVal = Val1 / Val2
 
-                    My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\" & ChangeVar, ChangeVal, False)
+                    My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & ChangeVar, ChangeVal, False)
 
                 End If
 
@@ -17143,7 +17199,7 @@ TaskCleanSet:
                 Dim SetDate As Date = FormatDateTime(Now, DateFormat.GeneralDate)
 
                 SetDate = DateAdd(DateInterval.Second, TotalSeconds, SetDate)
-                My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\SYS_OrgasmRestricted", FormatDateTime(SetDate, DateFormat.GeneralDate), False)
+                My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\SYS_OrgasmRestricted", FormatDateTime(SetDate, DateFormat.GeneralDate), False)
 
             Else
 
@@ -17161,7 +17217,7 @@ TaskCleanSet:
                  And Not UCase(CheckFlag).Contains(UCase("DAY")) And Not UCase(CheckFlag).Contains(UCase("WEEK")) And Not UCase(CheckFlag).Contains(UCase("MONTH")) _
                  And Not UCase(CheckFlag).Contains(UCase("YEAR")) Then SetDate = DateAdd(DateInterval.Day, Val(CheckFlag), SetDate)
 
-                My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\SYS_OrgasmRestricted", FormatDateTime(SetDate, DateFormat.GeneralDate), False)
+                My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\SYS_OrgasmRestricted", FormatDateTime(SetDate, DateFormat.GeneralDate), False)
 
             End If
             ssh.OrgasmRestricted = True
@@ -17376,9 +17432,9 @@ TaskCleanSet:
 
         If inputString.Contains("@StartStroking") Then
 
-            If Not File.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\SYS_FirstRun") Then
+            If Not File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\SYS_FirstRun") Then
                 Dim SetDate As Date = FormatDateTime(Now, DateFormat.GeneralDate)
-                My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\SYS_FirstRun", SetDate, False)
+                My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\SYS_FirstRun", SetDate, False)
             End If
 
             ssh.AskedToGiveUpSection = False
@@ -17840,12 +17896,12 @@ TaskCleanSet:
 
             Dim CustomArray As String() = CustomFlag.Split(",")
 
-            If File.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Custom\Tasks\" & CustomArray(0) & "_First.txt") And
-             File.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Custom\Tasks\" & CustomArray(0) & ".txt") Then
+            If File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Custom\Tasks\" & CustomArray(0) & "_First.txt") And
+             File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Custom\Tasks\" & CustomArray(0) & ".txt") Then
                 ssh.CustomTask = True
                 ssh.CustomTaskActive = True
-                ssh.CustomTaskText = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Custom\Tasks\" & CustomArray(0) & ".txt"
-                ssh.CustomTaskTextFirst = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Custom\Tasks\" & CustomArray(0) & "_First.txt"
+                ssh.CustomTaskText = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Custom\Tasks\" & CustomArray(0) & ".txt"
+                ssh.CustomTaskTextFirst = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Custom\Tasks\" & CustomArray(0) & "_First.txt"
             End If
 
             If CustomArray.Count > 1 Then
@@ -17965,9 +18021,9 @@ OrgasmDecided:
             Dim GlitterFlag As String = GetParentheses(inputString, Keyword.Glitter)
 
             If My.Settings.CBGlitterFeedOff = False And ssh.UpdatingPost = False Then
-                If File.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Apps\Glitter\Script\" & GlitterFlag & ".txt") And ssh.UpdatingPost = False Then
+                If File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Apps\Glitter\Script\" & GlitterFlag & ".txt") And ssh.UpdatingPost = False Then
                     ssh.UpdateList.Clear()
-                    ssh.UpdateList.Add(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Apps\Glitter\Script\" & GlitterFlag & ".txt")
+                    ssh.UpdateList.Add(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Apps\Glitter\Script\" & GlitterFlag & ".txt")
                     StatusUpdatePost()
                 End If
             End If
@@ -18091,9 +18147,9 @@ OrgasmDecided:
             If ssh.AskedToGiveUpSection = True Then
 
                 If ssh.SubGaveUp = True Then
-                    ssh.ResponseFile = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Vocabulary\Responses\System\GiveUpREHASH.txt"
+                    ssh.ResponseFile = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Vocabulary\Responses\System\GiveUpREHASH.txt"
                 Else
-                    ssh.ResponseFile = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Vocabulary\Responses\System\GiveUpREPEAT.txt"
+                    ssh.ResponseFile = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Vocabulary\Responses\System\GiveUpREPEAT.txt"
                 End If
                 'StringClean = ResponseClean(StringClean)
 
@@ -18115,7 +18171,7 @@ OrgasmDecided:
                 'If GiveUpVal > GiveUpCheck Then
                 If GiveUpVal > GiveUpCheck And Not ssh.LastScript Then
                     ' you can give up
-                    ssh.ResponseFile = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Vocabulary\Responses\System\GiveUpALLOWED.txt"
+                    ssh.ResponseFile = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Vocabulary\Responses\System\GiveUpALLOWED.txt"
                     ssh.LockImage = False
                     If ssh.SlideshowLoaded = True Then
                         ImageSlideShowNextButton.Enabled = True
@@ -18126,7 +18182,7 @@ OrgasmDecided:
                     ssh.FirstRound = False
                 Else
                     ' you can't give up
-                    ssh.ResponseFile = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Vocabulary\Responses\System\GiveUpDENIED.txt"
+                    ssh.ResponseFile = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Vocabulary\Responses\System\GiveUpDENIED.txt"
                 End If
 
 
@@ -18182,7 +18238,7 @@ OrgasmDecided:
 
             Dim EdgeList As New List(Of String)
 
-            For Each EdgeFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Interrupt\Long Edge\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
+            For Each EdgeFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Interrupt\Long Edge\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
                 EdgeList.Add(EdgeFile)
             Next
 
@@ -18208,7 +18264,7 @@ OrgasmDecided:
                 ssh.ShowModule = True
 
             Else
-                MessageBox.Show(Me, "No files were found in " & Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Interrupt\Long Edge!" & Environment.NewLine _
+                MessageBox.Show(Me, "No files were found in " & Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Interrupt\Long Edge!" & Environment.NewLine _
                  & Environment.NewLine & "Please make sure at lease one LongEdge_ file exists.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
             End If
             inputString = inputString.Replace("@InterruptLongEdge", "")
@@ -18224,7 +18280,7 @@ OrgasmDecided:
 
             Dim StrokeList As New List(Of String)
 
-            For Each StrokeFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Interrupt\Start Stroking\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
+            For Each StrokeFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Interrupt\Start Stroking\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
                 StrokeList.Add(StrokeFile)
             Next
 
@@ -18254,7 +18310,7 @@ OrgasmDecided:
                 ssh.MiniScript = False
 
             Else
-                MessageBox.Show(Me, "No files were found in " & Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Interrupt\Start Stroking!" & Environment.NewLine _
+                MessageBox.Show(Me, "No files were found in " & Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Interrupt\Start Stroking!" & Environment.NewLine _
                  & Environment.NewLine & "Please make sure at lease one StartStroking_ file exists.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
             End If
             inputString = inputString.Replace("@InterruptStartStroking", "")
@@ -18268,9 +18324,9 @@ OrgasmDecided:
                 InterruptClean = InterruptClean.Remove(0, 1)
             Next
             Dim InterruptS As String() = InterruptClean.Split(")")
-            InterruptClean = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Interrupt\" & InterruptS(0) & ".txt"
+            InterruptClean = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Interrupt\" & InterruptS(0) & ".txt"
 
-            If File.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Interrupt\" & InterruptS(0) & ".txt") Then
+            If File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Interrupt\" & InterruptS(0) & ".txt") Then
 
                 ssh.FirstRound = False
                 ssh.CBTCockFlag = False
@@ -18309,7 +18365,7 @@ OrgasmDecided:
                 ssh.MiniScript = False
 
             Else
-                MessageBox.Show(Me, InterruptS(0) & ".txt was not found in " & Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Interrupt!" & Environment.NewLine _
+                MessageBox.Show(Me, InterruptS(0) & ".txt was not found in " & Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Interrupt!" & Environment.NewLine _
                  & Environment.NewLine & "Please make sure the file exists and that it is spelled correctly in the script.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
             End If
             inputString = inputString.Replace("@Interrupt(" & InterruptS(0) & ")", "")
@@ -18505,7 +18561,7 @@ OrgasmDecided:
 
         If inputString.Contains("@VitalSubAssignment") Then
             ' Read all lines of the given file.
-            Dim AssignList As List(Of String) = Txt2List(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Apps\VitalSub\Assignments.txt")
+            Dim AssignList As List(Of String) = Txt2List(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Apps\VitalSub\Assignments.txt")
 
             Dim TempAssign As String
 
@@ -19134,13 +19190,13 @@ VTSkip:
         If inputString.Contains("@SpeedUpCheck") Then
 
             If ssh.AskedToSpeedUp = True Then
-                ssh.ResponseFile = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Vocabulary\Responses\System\SpeedUpREPEAT.txt"
+                ssh.ResponseFile = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Vocabulary\Responses\System\SpeedUpREPEAT.txt"
                 inputString = ResponseClean(inputString)
 
             Else
 
                 If StrokePace < 201 Then
-                    ssh.ResponseFile = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Vocabulary\Responses\System\SpeedUpMAX.txt"
+                    ssh.ResponseFile = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Vocabulary\Responses\System\SpeedUpMAX.txt"
                     inputString = ResponseClean(inputString)
 
                 Else
@@ -19158,13 +19214,13 @@ VTSkip:
                     If SpeedUpVal > SpeedUpCheck Then
 
                         ' you can speed up
-                        ssh.ResponseFile = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Vocabulary\Responses\System\SpeedUpALLOWED.txt"
+                        ssh.ResponseFile = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Vocabulary\Responses\System\SpeedUpALLOWED.txt"
 
                     Else
 
                         ' you can't speed up
                         ssh.AskedToSpeedUp = True
-                        ssh.ResponseFile = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Vocabulary\Responses\System\SpeedUpDENIED.txt"
+                        ssh.ResponseFile = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Vocabulary\Responses\System\SpeedUpDENIED.txt"
 
                     End If
 
@@ -19182,13 +19238,13 @@ VTSkip:
         If inputString.Contains("@SlowDownCheck") Then
 
             If ssh.AskedToSpeedUp = True Then
-                ssh.ResponseFile = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Vocabulary\Responses\System\SlowDownREPEAT.txt"
+                ssh.ResponseFile = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Vocabulary\Responses\System\SlowDownREPEAT.txt"
                 inputString = ResponseClean(inputString)
 
             Else
 
                 If StrokePace > 999 Then
-                    ssh.ResponseFile = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Vocabulary\Responses\System\SlowDownMIN.txt"
+                    ssh.ResponseFile = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Vocabulary\Responses\System\SlowDownMIN.txt"
                     inputString = ResponseClean(inputString)
 
                 Else
@@ -19206,13 +19262,13 @@ VTSkip:
                     If SpeedUpVal > SpeedUpCheck Then
 
                         ' you can speed up
-                        ssh.ResponseFile = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Vocabulary\Responses\System\SlowDownALLOWED.txt"
+                        ssh.ResponseFile = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Vocabulary\Responses\System\SlowDownALLOWED.txt"
 
                     Else
 
                         ' you can't speed up
                         ssh.AskedToSpeedUp = True
-                        ssh.ResponseFile = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Vocabulary\Responses\System\SlowDownDENIED.txt"
+                        ssh.ResponseFile = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Vocabulary\Responses\System\SlowDownDENIED.txt"
 
                     End If
 
@@ -19307,7 +19363,7 @@ VTSkip:
             End If
             ssh.BronzeTokens += FrmCardList.TokensPaid
             FrmCardList.LBLRiskTokens.Text = ssh.BronzeTokens
-            My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\System\Variables\RP_Edges", FrmCardList.EdgesOwed, False)
+            My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\RP_Edges", FrmCardList.EdgesOwed, False)
             inputString = inputString.Replace("@RiskyPayout", "")
         End If
 
@@ -19392,14 +19448,14 @@ VTSkip:
                 CheckFlag = FixCommas(CheckFlag)
 
                 Dim CallSplit As String() = CheckFlag.Split(",")
-                ssh.FileText = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\" & CallSplit(0)
+                ssh.FileText = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\" & CallSplit(0)
                 ssh.FileGoto = CallSplit(1)
                 ssh.SkipGotoLine = True
                 GetGoto()
 
             Else
 
-                ssh.FileText = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\" & CheckFlag
+                ssh.FileText = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\" & CheckFlag
                 ssh.StrokeTauntVal = -1
 
             End If
@@ -19420,14 +19476,14 @@ VTSkip:
                 CheckFlag = FixCommas(CheckFlag)
 
                 Dim CallSplit As String() = CheckFlag.Split(",")
-                ssh.FileText = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\" & CallSplit(0)
+                ssh.FileText = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\" & CallSplit(0)
                 ssh.FileGoto = CallSplit(1)
                 ssh.SkipGotoLine = True
                 GetGoto()
 
             Else
 
-                ssh.FileText = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\" & CheckFlag
+                ssh.FileText = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\" & CheckFlag
                 ssh.StrokeTauntVal = -1
 
             End If
@@ -19442,18 +19498,18 @@ VTSkip:
             Dim CheckFlag As String = GetParentheses(inputString, "@CallRandom(")
             Dim CallReplace As String = CheckFlag
 
-            If Not Directory.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\" & CheckFlag) Then
+            If Not Directory.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\" & CheckFlag) Then
                 MessageBox.Show(Me, "The current script attempted to @Call from a directory that does not exist!" & Environment.NewLine & Environment.NewLine &
-                 Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\" & CheckFlag, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                 Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\" & CheckFlag, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Else
                 Dim RandomFile As New List(Of String)
                 RandomFile.Clear()
-                For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\" & CheckFlag & "\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
+                For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\" & CheckFlag & "\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
                     RandomFile.Add(foundFile)
                 Next
                 If RandomFile.Count < 1 Then
                     MessageBox.Show(Me, "The current script attempted to @Call from a directory that does not contain any scripts!" & Environment.NewLine & Environment.NewLine &
-                      Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\" & CheckFlag, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                      Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\" & CheckFlag, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Else
                     ssh.FileText = RandomFile(ssh.randomizer.Next(0, RandomFile.Count))
                     ssh.StrokeTauntVal = -1
@@ -19610,11 +19666,11 @@ VTSkip:
             End If
 
 
-            If File.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Custom\Modules\" & TempMod & ".txt") Then
-                ssh.SetModule = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Custom\Modules\" & TempMod & ".txt"
+            If File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Custom\Modules\" & TempMod & ".txt") Then
+                ssh.SetModule = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Custom\Modules\" & TempMod & ".txt"
             End If
-            If File.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Modules\" & TempMod & ".txt") Then
-                ssh.SetModule = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Modules\" & TempMod & ".txt"
+            If File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Modules\" & TempMod & ".txt") Then
+                ssh.SetModule = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Modules\" & TempMod & ".txt"
             End If
 
             If ssh.SetModule = "" Then ssh.SetModuleGoto = ""
@@ -19624,11 +19680,11 @@ VTSkip:
 
         If inputString.Contains("@SetLink(") Then
             Dim TempMod As String = GetParentheses(inputString, "@SetLink(")
-            If File.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Custom\Link\" & TempMod & ".txt") Then
-                ssh.SetLink = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Custom\Link\" & TempMod & ".txt"
+            If File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Custom\Link\" & TempMod & ".txt") Then
+                ssh.SetLink = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Custom\Link\" & TempMod & ".txt"
             End If
-            If File.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Link\" & TempMod & ".txt") Then
-                ssh.SetLink = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Link\" & TempMod & ".txt"
+            If File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Link\" & TempMod & ".txt") Then
+                ssh.SetLink = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Link\" & TempMod & ".txt"
             End If
             inputString = inputString.Replace("@SetLink(" & GetParentheses(inputString, "@SetLink(") & ")", "")
         End If
@@ -19695,9 +19751,9 @@ VTSkip:
             Dim MiniTemp As String = GetParentheses(inputString, "@MiniScript(")
 
 
-            If File.Exists(Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Custom\MiniScripts\" & MiniTemp & ".txt") Then ' And MiniScript = False Then
+            If File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Custom\MiniScripts\" & MiniTemp & ".txt") Then ' And MiniScript = False Then
                 ssh.MiniScript = True
-                ssh.MiniScriptText = Application.StartupPath & "\Scripts\" & dompersonalitycombobox.Text & "\Custom\MiniScripts\" & MiniTemp & ".txt"
+                ssh.MiniScriptText = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Custom\MiniScripts\" & MiniTemp & ".txt"
                 ssh.MiniTauntVal = -1
                 ssh.MiniTimerCheck = ScriptTimer.Enabled
                 ssh.ScriptTick = 2

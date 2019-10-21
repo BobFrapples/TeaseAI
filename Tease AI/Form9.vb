@@ -87,7 +87,7 @@ Public Class Form9
 
 			For i As Integer = NextCycle To GetaiBoxList.Count - 1
 
-				If GetaiBoxList(i).Contains("[aiBox File Begin]") Then aiFile = Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\" & GetaiBoxList(i).Replace("[aiBox File Begin] ", "")
+				If GetaiBoxList(i).Contains("[aiBox File Begin]") Then aiFile = Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\" & GetaiBoxList(i).Replace("[aiBox File Begin] ", "")
 
 				If GetaiBoxList(i).Contains("[aiBox File Begin]") Then aiFileType = "Linear"
 				If GetaiBoxList(i).Contains("[aiBox File Begin]") Then aiScriptType = "Linear"
@@ -582,7 +582,7 @@ FoundScriptType:
 	End Sub
 
 	Private Sub Form9_Load(sender As Object, e As System.EventArgs) Handles Me.Load
-		LBLPersonality.Text = MainWindow.dompersonalitycombobox.Text
+		LBLPersonality.Text = MainWindow.DommePersonalityComboBox.Text
 
 		CBOpenText.Checked = My.Settings.AIBoxOpen
 		CBSubDir.Checked = My.Settings.AIBoxDir
@@ -632,7 +632,7 @@ FoundScriptType:
 
 		If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
 
-			If Not FolderBrowserDialog1.SelectedPath.Contains("\" & MainWindow.dompersonalitycombobox.Text & "\") Then
+			If Not FolderBrowserDialog1.SelectedPath.Contains("\" & MainWindow.DommePersonalityComboBox.Text & "\") Then
 				MessageBox.Show(Me, "You can only add items to an AI Box that exist in your currently selected Personality's directory!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
 				Return
 			End If
@@ -685,7 +685,7 @@ FoundScriptType:
 				Next
 			End If
 
-			If Not AIBoxList(0).Contains("\" & MainWindow.dompersonalitycombobox.Text & "\") Then
+			If Not AIBoxList(0).Contains("\" & MainWindow.DommePersonalityComboBox.Text & "\") Then
 				MessageBox.Show(Me, "You can only add items to an AI Box that exist in your currently selected Personality's directory!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
 				Return
 			End If
@@ -706,12 +706,12 @@ FoundScriptType:
 		AIBoxContents.Clear()
 
 		For i As Integer = 0 To AIBoxList.Count - 1
-			AIBoxContents.Add("[aiBox File Begin] " & AIBoxList(i).Replace(Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\", ""))
+			AIBoxContents.Add("[aiBox File Begin] " & AIBoxList(i).Replace(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\", ""))
 			AIBoxCurrent = Txt2List(AIBoxList(i))
 			For j As Integer = 0 To AIBoxCurrent.Count - 1
 				AIBoxContents.Add(AIBoxCurrent(j))
 			Next
-			AIBoxContents.Add("[aiBox File End] " & AIBoxList(i).Replace(Application.StartupPath & "\Scripts\" & MainWindow.dompersonalitycombobox.Text & "\", ""))
+			AIBoxContents.Add("[aiBox File End] " & AIBoxList(i).Replace(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\", ""))
 		Next
 
 		Dim CheckNumber As Integer = CLBAIBox.Items.Count
@@ -806,7 +806,7 @@ FoundScriptType:
 
 
 
-		SaveFileDialog1.FileName = "My " & MainWindow.dompersonalitycombobox.Text & " AI Box.txt"
+		SaveFileDialog1.FileName = "My " & MainWindow.DommePersonalityComboBox.Text & " AI Box.txt"
 
 		If SaveFileDialog1.ShowDialog() = DialogResult.OK Then
 
