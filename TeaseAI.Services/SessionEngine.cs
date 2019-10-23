@@ -42,9 +42,10 @@ namespace TeaseAI.Services
             , IVocabularyAccessor vocabularyAccessor
             , ILineCollectionFilter lineCollectionFilter
             , IRandomNumberService randomNumberService
+            , IConfigurationAccessor configurationAccessor
             )
         {
-            CommandProcessors = CreateCommandProcessors(scriptAccessor, flagAccessor, new LineService(), imageAccessor, videoAccessor, variableAccessor, tauntAccessor);
+            CommandProcessors = CreateCommandProcessors(scriptAccessor, flagAccessor, new LineService(), imageAccessor, videoAccessor, variableAccessor, tauntAccessor, configurationAccessor, randomNumberService);
 
             CommandProcessors[Keyword.StartStroking].CommandProcessed += StartStrokingCommandProcessed;
             CommandProcessors[Keyword.Edge].CommandProcessed += EdgeCommandProcessed;
@@ -217,7 +218,9 @@ namespace TeaseAI.Services
             , IImageAccessor imageAccessor
             , IVideoAccessor videoAccessor
             , IVariableAccessor variableAccessor
-            , ITauntAccessor tauntAccessor)
+            , ITauntAccessor tauntAccessor
+            , IConfigurationAccessor configurationAccessor
+            , IRandomNumberService randomNumberService)
         {
             var rVal = new Dictionary<string, ICommandProcessor>();
             rVal.Add(Keyword.Wait, new WaitCommandProcessor(lineService));
@@ -283,6 +286,8 @@ namespace TeaseAI.Services
             rVal.Add(Keyword.OrgasmAllow, new OrgasmAllowCommandProcessor(lineService));
             rVal.Add(Keyword.OrgasmDeny, new OrgasmDenyCommandProcessor(lineService));
             rVal.Add(Keyword.Call, new CallCommandProcessor(scriptAccessor, lineService));
+
+            rVal.Add(Keyword.CockTorture, new CockTortureCommandProcessor(lineService,configurationAccessor, randomNumberService));
 
             rVal.Add(Keyword.End, new EndCommandProcessor(lineService));
             rVal.Add(Keyword.NullResponse, new NullResponseCommandProcessor());

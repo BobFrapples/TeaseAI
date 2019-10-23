@@ -61,6 +61,8 @@ namespace TeaseAI.Common
                 IsVideoPlaying = this.IsVideoPlaying,
                 IsLongEdge = this.IsLongEdge,
                 TimeRemaining = this.TimeRemaining,
+                MaximumTaskTime = MaximumTaskTime,
+                MinimumTaskTime = MinimumTaskTime,
             };
             var scripts = this.Scripts.ToArray().ToList();
             scripts.Reverse();
@@ -83,6 +85,8 @@ namespace TeaseAI.Common
         /// </summary>
         public bool IsVideoPlaying { get; set; }
         public bool IsLongEdge { get; set; }
+        public int MaximumTaskTime { get; set; }
+        public int MinimumTaskTime { get; set; }
         #endregion
     }
 }

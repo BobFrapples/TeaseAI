@@ -225,6 +225,9 @@ namespace TeaseAI.Common.Constants
         public const string PlayJoiVideo = @"@PlayJOIVideo";
         public const  string PlaySpecificVideo = @"@PlayVideo(";
         public const  string PlaySpecificVideoSquareBrackets = @"@PlayVideo[";
+        /// <summary>
+        /// Make the sub torture his cock. pause briefly for it to happen (TaskPauseMinimum and TaskPauseMaximum in settings)
+        /// </summary>
         public const  string CockTorture = @"@CBTCock";
 
         /// <summary>

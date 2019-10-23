@@ -7,7 +7,7 @@ Public Class ServiceFactory
         Return New PathsAccessor(CreateConfigurationAccessor(), CreateSettingsAccessor())
     End Function
 
-    Private Shared Function CreateConfigurationAccessor() As IConfigurationAccessor
+    Public Shared Function CreateConfigurationAccessor() As IConfigurationAccessor
         Return New ConfigurationAccessor()
     End Function
 

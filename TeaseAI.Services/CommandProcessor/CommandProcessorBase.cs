@@ -23,6 +23,7 @@ namespace TeaseAI.Services.CommandProcessor
         /// </summary>
         /// <param name="session"></param>
         protected virtual void OnCommandProcessed(Session session) => OnCommandProcessed(session, null);
+
         /// <summary>
         /// Fires <see cref="CommandProcessed"/> event, passing <paramref name="session"/> and <paramref name="parameter"/> to subscribers
         /// </summary>

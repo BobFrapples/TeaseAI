@@ -282,7 +282,7 @@ ByVal lpstrReturnString As String, ByVal uReturnLength As Integer, ByVal hwndCal
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles Me.Load
         If mySession Is Nothing Then
-            mySession = New SessionEngine(New SettingsAccessor(), New StringService(), New ScriptAccessor(New CldAccessor()), New TimerFactory(), New FlagAccessor(), New ImageAccessor(), New VideoAccessor(), New VariableAccessor(), New TauntAccessor(), New SystemVocabularyAccessor(), New VocabularyAccessor(), New LineCollectionFilter(), New RandomNumberService())
+            mySession = New SessionEngine(ServiceFactory.CreateSettingsAccessor(), New StringService(), New ScriptAccessor(New CldAccessor()), New TimerFactory(), New FlagAccessor(), New ImageAccessor(), New VideoAccessor(), New VariableAccessor(), New TauntAccessor(), New SystemVocabularyAccessor(), New VocabularyAccessor(), New LineCollectionFilter(), New RandomNumberService(), ServiceFactory.CreateConfigurationAccessor())
             AddHandler mySession.DommeSaid, AddressOf mySession_DommeSaid
             AddHandler mySession.ShowImage, AddressOf mySession_ShowImage
             AddHandler mySession.PlayVideo, AddressOf mySession_PlayVideo
@@ -1503,31 +1503,6 @@ NullSkip:
 
         ssh.CBTBallsFirst = False
 
-    End Sub
-
-    Public Sub CBTCock()
-        ssh.CBTCockActive
-        Dim File2Read As String = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\CBT\CBTCock_First.txt"
-
-        If ssh.CBTCockFirst = False Then
-            File2Read = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\CBT\CBTCock.txt"
-        Else
-            ssh.CBTCockCount += 1
-        End If
-
-        ' Read all Lines of the given File.
-        Dim CockList As List(Of String) = Txt2List(File2Read)
-
-        Try
-            CockList = FilterList(CockList)
-            ssh.DomTask = CockList(ssh.randomizer.Next(0, CockList.Count))
-        Catch ex As Exception
-            Log.WriteError("Tease AI did not return a valid @CBTCock line from file: " &
-                           File2Read, ex, "CBTCock()")
-            ssh.DomTask = "ERROR: Tease AI did not return a valid @CBTCock line"
-        End Try
-
-        ssh.CBTCockFirst = False
     End Sub
 
     Public Sub CBTBoth()
@@ -3132,10 +3107,6 @@ DommeSlideshowFallback:
                         ssh.CBTBothFirst = True
                         ssh.CustomTaskFirst = True
                     End If
-                End If
-
-                If ssh.CBTCockFlag = True Then
-                    CBTCock()
                 End If
 
                 If ssh.CBTBallsFlag = True Then
@@ -6876,7 +6847,7 @@ TaskCleanSet:
             If FrmSettings.BallTortureEnabledCB.Checked = True Then
                 ssh.CBTBallsActive = True
                 ssh.CBTBallsFlag = True
-                ssh.TasksCount = ssh.randomizer.Next(FrmSettings.NBTasksMin.Value, FrmSettings.NBTasksMax.Value + 1)
+                ssh.TasksCount = ssh.randomizer.Next(FrmSettings.TaskWaitMinimum.Value, FrmSettings.TaskWaitMaximum.Value + 1)
             End If
             StringClean = StringClean.Replace("@CBTBalls", "")
         End If
@@ -6885,7 +6856,7 @@ TaskCleanSet:
             If FrmSettings.CockTortureEnabledCB.Checked = True And FrmSettings.BallTortureEnabledCB.Checked = True Then
                 ssh.CBTBothActive = True
                 ssh.CBTBothFlag = True
-                ssh.TasksCount = ssh.randomizer.Next(FrmSettings.NBTasksMin.Value, FrmSettings.NBTasksMax.Value + 1)
+                ssh.TasksCount = ssh.randomizer.Next(FrmSettings.TaskWaitMinimum.Value, FrmSettings.TaskWaitMaximum.Value + 1)
             End If
 
             StringClean = StringClean.Replace("@CBT", "")
@@ -6914,7 +6885,7 @@ TaskCleanSet:
             If CustomArray.Count > 1 Then
                 ssh.TasksCount = Val(CustomArray(1))
             Else
-                ssh.TasksCount = ssh.randomizer.Next(FrmSettings.NBTasksMin.Value, FrmSettings.NBTasksMax.Value + 1)
+                ssh.TasksCount = ssh.randomizer.Next(FrmSettings.TaskWaitMinimum.Value, FrmSettings.TaskWaitMaximum.Value + 1)
             End If
 
 
@@ -15101,6 +15072,8 @@ playLoop:
         returnValue.IsOrgasmAllowed = ssh.OrgasmAllowed
         returnValue.IsOrgasmRuined = ssh.OrgasmRuined
         returnValue.IsBeforeTease = ssh.BeforeTease
+        returnValue.MinimumTaskTime = FrmSettings.TaskWaitMinimum.Value
+        returnValue.MaximumTaskTime = FrmSettings.TaskWaitMaximum.Value
 
         Return returnValue
     End Function
@@ -15168,11 +15141,11 @@ playLoop:
         If InvokeRequired Then
             BeginInvoke(New MethodInvoker(Sub() mySession_DommeSaid(sender, e)))
         Else
+            myDommeMessages.Enqueue(e.ChatMessage)
             If myDommeMessages.Any() Then
                 SendTimer.Enabled = True
-                SendTimer.Interval = GetTypingDelay(e.ChatMessage, mySettingsAccessor.DoesDommeTypeInstantly)
+                SendTimer.Interval = GetTypingDelay(myDommeMessages.Peek(), mySettingsAccessor.DoesDommeTypeInstantly)
             End If
-            myDommeMessages.Enqueue(e.ChatMessage)
         End If
     End Sub
 
@@ -17798,7 +17771,7 @@ TaskCleanSet:
             If FrmSettings.BallTortureEnabledCB.Checked = True Then
                 ssh.CBTBallsActive = True
                 ssh.CBTBallsFlag = True
-                ssh.TasksCount = ssh.randomizer.Next(FrmSettings.NBTasksMin.Value, FrmSettings.NBTasksMax.Value + 1)
+                ssh.TasksCount = ssh.randomizer.Next(FrmSettings.TaskWaitMinimum.Value, FrmSettings.TaskWaitMaximum.Value + 1)
             End If
             inputString = inputString.Replace("@CBTBalls", "")
         End If
@@ -17808,7 +17781,7 @@ TaskCleanSet:
             If FrmSettings.CockTortureEnabledCB.Checked = True And FrmSettings.BallTortureEnabledCB.Checked = True Then
                 ssh.CBTBothActive = True
                 ssh.CBTBothFlag = True
-                ssh.TasksCount = ssh.randomizer.Next(FrmSettings.NBTasksMin.Value, FrmSettings.NBTasksMax.Value + 1)
+                ssh.TasksCount = ssh.randomizer.Next(FrmSettings.TaskWaitMinimum.Value, FrmSettings.TaskWaitMaximum.Value + 1)
             End If
 
             inputString = inputString.Replace("@CBT", "")
@@ -17837,7 +17810,7 @@ TaskCleanSet:
             If CustomArray.Count > 1 Then
                 ssh.TasksCount = Val(CustomArray(1))
             Else
-                ssh.TasksCount = ssh.randomizer.Next(FrmSettings.NBTasksMin.Value, FrmSettings.NBTasksMax.Value + 1)
+                ssh.TasksCount = ssh.randomizer.Next(FrmSettings.TaskWaitMinimum.Value, FrmSettings.TaskWaitMaximum.Value + 1)
             End If
 
 

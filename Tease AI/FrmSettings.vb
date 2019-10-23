@@ -6824,12 +6824,12 @@ checkFolder:
         If NBTaskCBTTimeMax.Value < NBTaskCBTTimeMin.Value Then NBTaskCBTTimeMax.Value = NBTaskCBTTimeMin.Value
     End Sub
 
-    Private Sub NBTasksMin_ValueChanged(sender As Object, e As EventArgs) Handles NBTasksMin.ValueChanged
-        If NBTasksMin.Value > NBTasksMax.Value Then NBTasksMin.Value = NBTasksMax.Value
+    Private Sub NBTasksMin_ValueChanged(sender As Object, e As EventArgs) Handles TaskWaitMinimum.ValueChanged
+        If TaskWaitMinimum.Value > TaskWaitMaximum.Value Then TaskWaitMinimum.Value = TaskWaitMaximum.Value
     End Sub
 
-    Private Sub NBTasksMax_ValueChanged(sender As Object, e As EventArgs) Handles NBTasksMax.ValueChanged
-        If NBTasksMax.Value < NBTasksMin.Value Then NBTasksMax.Value = NBTasksMin.Value
+    Private Sub NBTasksMax_ValueChanged(sender As Object, e As EventArgs) Handles TaskWaitMaximum.ValueChanged
+        If TaskWaitMaximum.Value < TaskWaitMinimum.Value Then TaskWaitMaximum.Value = TaskWaitMinimum.Value
     End Sub
 
     Private Sub TypeSpeedSlider_Scroll(sender As Object, e As EventArgs) Handles TypeSpeedSlider.Scroll

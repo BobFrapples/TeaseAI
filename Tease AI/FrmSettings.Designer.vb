@@ -812,8 +812,8 @@ Partial Class FrmSettings
         Me.TimedWriting = New System.Windows.Forms.CheckBox()
         Me.TypeSpeedSlider = New System.Windows.Forms.TrackBar()
         Me.GroupBox68 = New System.Windows.Forms.GroupBox()
-        Me.NBTasksMax = New System.Windows.Forms.NumericUpDown()
-        Me.NBTasksMin = New System.Windows.Forms.NumericUpDown()
+        Me.TaskWaitMaximum = New System.Windows.Forms.NumericUpDown()
+        Me.TaskWaitMinimum = New System.Windows.Forms.NumericUpDown()
         Me.Label165 = New System.Windows.Forms.Label()
         Me.Label166 = New System.Windows.Forms.Label()
         Me.GroupBox67 = New System.Windows.Forms.GroupBox()
@@ -1287,8 +1287,8 @@ Partial Class FrmSettings
         Me.GroupBox69.SuspendLayout
         CType(Me.TypeSpeedSlider, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GroupBox68.SuspendLayout
-        CType(Me.NBTasksMax, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.NBTasksMin, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TaskWaitMaximum, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TaskWaitMinimum, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GroupBox67.SuspendLayout
         CType(Me.NBTaskCBTTimeMax, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NBTaskCBTTimeMin, System.ComponentModel.ISupportInitialize).BeginInit
@@ -11561,8 +11561,8 @@ Partial Class FrmSettings
         '
         'GroupBox68
         '
-        Me.GroupBox68.Controls.Add(Me.NBTasksMax)
-        Me.GroupBox68.Controls.Add(Me.NBTasksMin)
+        Me.GroupBox68.Controls.Add(Me.TaskWaitMaximum)
+        Me.GroupBox68.Controls.Add(Me.TaskWaitMinimum)
         Me.GroupBox68.Controls.Add(Me.Label165)
         Me.GroupBox68.Controls.Add(Me.Label166)
         Me.GroupBox68.Location = New System.Drawing.Point(236, 287)
@@ -11574,24 +11574,24 @@ Partial Class FrmSettings
         '
         'NBTasksMax
         '
-        Me.NBTasksMax.DataBindings.Add(New System.Windows.Forms.Binding("Value", Global.Tease_AI.My.MySettings.Default, "TasksMax", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.NBTasksMax.Location = New System.Drawing.Point(113, 20)
-        Me.NBTasksMax.Maximum = New Decimal(New Integer() {500, 0, 0, 0})
-        Me.NBTasksMax.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
-        Me.NBTasksMax.Name = "NBTasksMax"
-        Me.NBTasksMax.Size = New System.Drawing.Size(44, 20)
-        Me.NBTasksMax.TabIndex = 187
-        Me.NBTasksMax.Value = New Decimal(New Integer() {6, 0, 0, 0})
+        Me.TaskWaitMaximum.DataBindings.Add(New System.Windows.Forms.Binding("Value", Global.Tease_AI.My.MySettings.Default, "TasksMax", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.TaskWaitMaximum.Location = New System.Drawing.Point(113, 20)
+        Me.TaskWaitMaximum.Maximum = New Decimal(New Integer() {500, 0, 0, 0})
+        Me.TaskWaitMaximum.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.TaskWaitMaximum.Name = "NBTasksMax"
+        Me.TaskWaitMaximum.Size = New System.Drawing.Size(44, 20)
+        Me.TaskWaitMaximum.TabIndex = 187
+        Me.TaskWaitMaximum.Value = New Decimal(New Integer() {6, 0, 0, 0})
         '
         'NBTasksMin
         '
-        Me.NBTasksMin.DataBindings.Add(New System.Windows.Forms.Binding("Value", Global.Tease_AI.My.MySettings.Default, "TasksMin", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.NBTasksMin.Location = New System.Drawing.Point(54, 21)
-        Me.NBTasksMin.Minimum = New Decimal(New Integer() {3, 0, 0, 0})
-        Me.NBTasksMin.Name = "NBTasksMin"
-        Me.NBTasksMin.Size = New System.Drawing.Size(44, 20)
-        Me.NBTasksMin.TabIndex = 186
-        Me.NBTasksMin.Value = New Decimal(New Integer() {3, 0, 0, 0})
+        Me.TaskWaitMinimum.DataBindings.Add(New System.Windows.Forms.Binding("Value", Global.Tease_AI.My.MySettings.Default, "TasksMin", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.TaskWaitMinimum.Location = New System.Drawing.Point(54, 21)
+        Me.TaskWaitMinimum.Minimum = New Decimal(New Integer() {3, 0, 0, 0})
+        Me.TaskWaitMinimum.Name = "NBTasksMin"
+        Me.TaskWaitMinimum.Size = New System.Drawing.Size(44, 20)
+        Me.TaskWaitMinimum.TabIndex = 186
+        Me.TaskWaitMinimum.Value = New Decimal(New Integer() {3, 0, 0, 0})
         '
         'Label165
         '
@@ -15033,8 +15033,8 @@ Partial Class FrmSettings
         Me.GroupBox69.PerformLayout
         CType(Me.TypeSpeedSlider, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox68.ResumeLayout(False)
-        CType(Me.NBTasksMax, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.NBTasksMin, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TaskWaitMaximum, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TaskWaitMinimum, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox67.ResumeLayout(False)
         CType(Me.NBTaskCBTTimeMax, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NBTaskCBTTimeMin, System.ComponentModel.ISupportInitialize).EndInit
@@ -16028,8 +16028,8 @@ Partial Class FrmSettings
 	Friend WithEvents BtnImportSettings As Button
 	Friend WithEvents LblImportSettings As Label
 	Friend WithEvents GroupBox68 As System.Windows.Forms.GroupBox
-	Friend WithEvents NBTasksMax As System.Windows.Forms.NumericUpDown
-	Friend WithEvents NBTasksMin As System.Windows.Forms.NumericUpDown
+	Friend WithEvents TaskWaitMaximum As System.Windows.Forms.NumericUpDown
+	Friend WithEvents TaskWaitMinimum As System.Windows.Forms.NumericUpDown
 	Friend WithEvents Label165 As System.Windows.Forms.Label
 	Friend WithEvents Label166 As System.Windows.Forms.Label
 	Friend WithEvents GroupBox69 As System.Windows.Forms.GroupBox
