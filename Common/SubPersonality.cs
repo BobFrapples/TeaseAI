@@ -77,6 +77,8 @@ namespace TeaseAI.Common
         public int WritingTaskMax { get; set; }
         public bool IsCockBeingTortured { get; set; }
         public int CockTortureCount { get; set; }
+        public bool AreBallsBeingTortured { get; set; }
+        public int BallsTortureCount { get; set; }
 
         private List<string> _toyBox;
         private List<string> _petNames;
@@ -105,6 +107,8 @@ namespace TeaseAI.Common
                 WillBeAllowedToOrgasm = WillBeAllowedToOrgasm,
                 IsCockBeingTortured = IsCockBeingTortured,
                 CockTortureCount = CockTortureCount,
+                AreBallsBeingTortured = AreBallsBeingTortured,
+                BallsTortureCount = BallsTortureCount,
                 CallBallsAPussy = CallBallsAPussy,
                 CallCockAClit = CallCockAClit,
                 EdgeCount = EdgeCount,

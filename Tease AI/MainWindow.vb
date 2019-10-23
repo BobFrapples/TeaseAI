@@ -6843,15 +6843,6 @@ TaskCleanSet:
             StringClean = StringClean.Replace("@Edge", "")
         End If
 
-        If StringClean.Contains("@CBTBalls") Then
-            If FrmSettings.BallTortureEnabledCB.Checked = True Then
-                ssh.CBTBallsActive = True
-                ssh.CBTBallsFlag = True
-                ssh.TasksCount = ssh.randomizer.Next(FrmSettings.TaskWaitMinimum.Value, FrmSettings.TaskWaitMaximum.Value + 1)
-            End If
-            StringClean = StringClean.Replace("@CBTBalls", "")
-        End If
-
         If StringClean.Contains("@CBT") And Not StringClean.Contains("@CBTLevel") Then
             If FrmSettings.CockTortureEnabledCB.Checked = True And FrmSettings.BallTortureEnabledCB.Checked = True Then
                 ssh.CBTBothActive = True
@@ -10233,8 +10224,6 @@ SkipTextedTags:
                 .Add("@VideoFemdomDomme", ssh.VideoTease = False Or ssh.VideoType <> "FemdomD")
                 .Add("@VideoFemsubDomme", ssh.VideoTease = False Or ssh.VideoType <> "FemsubD")
                 .Add("@VideoGeneralDomme", ssh.VideoTease = False Or ssh.VideoType <> "GeneralD")
-                .Add("@CockTorture", FrmSettings.CockTortureEnabledCB.Checked = False)
-                .Add("@BallTorture", FrmSettings.BallTortureEnabledCB.Checked = False)
                 .Add("@BallTorture0", ssh.CBTBallsCount <> 0)
                 .Add("@BallTorture1", ssh.CBTBallsCount <> 1)
                 .Add("@BallTorture2", ssh.CBTBallsCount <> 2)
@@ -17765,15 +17754,6 @@ TaskCleanSet:
             ContactEdgeCheck(inputString)
             Edge()
             inputString = inputString.Replace("@Edge", "")
-        End If
-
-        If inputString.Contains("@CBTBalls") Then
-            If FrmSettings.BallTortureEnabledCB.Checked = True Then
-                ssh.CBTBallsActive = True
-                ssh.CBTBallsFlag = True
-                ssh.TasksCount = ssh.randomizer.Next(FrmSettings.TaskWaitMinimum.Value, FrmSettings.TaskWaitMaximum.Value + 1)
-            End If
-            inputString = inputString.Replace("@CBTBalls", "")
         End If
 
         If inputString.Contains("@CBT") And Not inputString.Contains("@CBTLevel") Then

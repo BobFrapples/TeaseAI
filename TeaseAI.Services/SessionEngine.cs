@@ -288,6 +288,7 @@ namespace TeaseAI.Services
             rVal.Add(Keyword.Call, new CallCommandProcessor(scriptAccessor, lineService));
 
             rVal.Add(Keyword.CockTorture, new CockTortureCommandProcessor(lineService,configurationAccessor, randomNumberService));
+            rVal.Add(Keyword.BallTorture, new BallTortureCommandProcessor(lineService,configurationAccessor, randomNumberService));
 
             rVal.Add(Keyword.End, new EndCommandProcessor(lineService));
             rVal.Add(Keyword.NullResponse, new NullResponseCommandProcessor());

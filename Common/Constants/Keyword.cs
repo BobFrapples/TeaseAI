@@ -219,6 +219,7 @@ namespace TeaseAI.Common.Constants
         /// Plays a random video *not* in JOI or CH genre
         /// </summary>
         public static string PlayVideo = @"@PlayVideo";
+
         /// <summary>
         /// specifically play a Jerk Off Instruction Video
         /// </summary>
@@ -229,6 +230,10 @@ namespace TeaseAI.Common.Constants
         /// Make the sub torture his cock. pause briefly for it to happen (TaskPauseMinimum and TaskPauseMaximum in settings)
         /// </summary>
         public const  string CockTorture = @"@CBTCock";
+        /// <summary>
+        /// Make the sub torture his balls. pause briefly for it to happen (TaskPauseMinimum and TaskPauseMaximum in settings)
+        /// </summary>
+        public const string BallTorture = @"@CBTBall";
 
         /// <summary>
         /// When used in conjunction with a PlayVideo command, it will randomize the starting location,
