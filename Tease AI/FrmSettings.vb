@@ -2242,10 +2242,12 @@ Public Class FrmSettings
     ''' ImageLoaction-Property and My.Settings.</remarks>
     Private Sub CardImageSet(sender As PictureBox, filepath As String)
         Try
-            Dim target As PictureBox = CType(sender, PictureBox)
-            Dim savePath As String = String.Format("{0}\Images\Cards\Card{1}.bmp",
-                                                   Application.StartupPath,
-                                                   target.Name)
+            Dim target As PictureBox = sender
+            Dim dirName As String = String.Format("{0}\Images\Cards\", Application.StartupPath)
+            If Not Directory.Exists(dirName) Then
+                Throw New Exception(dirName & " must be created")
+            End If
+            Dim savePath As String = dirName & "Card{1}.bmp" + target.Name
 
             savePath = savePath.Replace("CardCard", "Card")
 
@@ -2258,9 +2260,6 @@ Public Class FrmSettings
             target.Image = Nothing
             target.ImageLocation = ""
 
-            GC.Collect()
-            Application.DoEvents()
-
             ' Check if the file is locked. Sometimes the GC needs some time
             ' to finally release the file lock after the image was disposed.
             Dim retrycounter As Integer = 5
@@ -2270,17 +2269,17 @@ Public Class FrmSettings
                 Application.DoEvents()
             Loop
 
-            If retrycounter <= 0 Then Throw New IO.IOException(
+            If retrycounter <= 0 Then Throw New IOException(
                 String.Format("The file """"{0}"" is already in use."), savePath)
 
             ' Check if the Databinding is properly set.
             If target.DataBindings.Item("ImageLocation") Is Nothing Then
-                Throw New Exception("There is no databinding set on """ & target.Name &
-                                    """'s image location. Set the databinding and recompile!")
+                Throw New Exception("There is no databinding set on """ & target.Name & """'s image location. Set the databinding and recompile!")
             End If
 
             ' Set the resized image as picturebox image and write it to disk
-            target.Image = ResizeImage(filepath, New Size(138, 179))
+            Dim doScaleImage As Result(Of Image) = ScaleImage(filepath, New Size(138, 179))
+            target.Image = doScaleImage.GetResultOrDefault()
             target.Image.Save(savePath)
 
             ' Set the image Location-Property. Property has to be databound with My.Settings!
@@ -2293,9 +2292,6 @@ Public Class FrmSettings
 
             MainWindow.GamesToolStripMenuItem1.Enabled = CardGameCheck()
         Catch ex As Exception
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-            '                                            All Errors
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Unable to set Card Image")
         End Try
     End Sub
