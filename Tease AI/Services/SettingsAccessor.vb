@@ -478,7 +478,7 @@ Public Class SettingsAccessor
         End Set
     End Property
 
-    Public Property IsOnline As Boolean Implements ISettingsAccessor.IsOnline
+    Public Property IsOffline As Boolean Implements ISettingsAccessor.IsOffline
         Get
             Return Settings.OfflineMode
         End Get
@@ -520,6 +520,15 @@ Public Class SettingsAccessor
         End Get
         Set(value As Boolean)
             Settings.CBWebtease = value
+        End Set
+    End Property
+
+    Public Property InChastity As Boolean Implements ISettingsAccessor.InChastity
+        Get
+            Return Settings.Chastity
+        End Get
+        Set(value As Boolean)
+            Settings.Chastity = value
         End Set
     End Property
 End Class

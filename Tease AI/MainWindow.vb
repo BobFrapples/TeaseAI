@@ -654,9 +654,6 @@ retryStart:
                 FrmSettings.GBGlitter3.Text = "Contact 3"
             End If
 
-            FrmSettings.LBLChastityState.Text = BooleanToOnOff(My.Settings.Chastity)
-            FrmSettings.LBLChastityState.ForeColor = BooleanToOnOffColor(My.Settings.Chastity)
-
             WMPTimer.Start()
 
             splashScreen.UpdateText("Loading Shorthands...")
@@ -3489,10 +3486,6 @@ DommeSlideshowFallback:
             ' TauntText = Application.StartupPath & "\Scripts\" & dompersonalityComboBox.Text & "\StrokeTaunts.txt"
 
             If ssh.TempScriptCount = 0 Then
-
-
-
-
                 'BlankLineLoop:
 
                 Dim TauntFile As String
@@ -5866,20 +5859,6 @@ TaskCleanSet:
             Next
 
         End If
-
-
-        If StringClean.Contains("@ChastityOn") Then
-            My.Settings.Chastity = True
-            StringClean = StringClean.Replace("@ChastityOn", "")
-        End If
-
-        If StringClean.Contains("@ChastityOff") Then
-            My.Settings.Chastity = False
-            StringClean = StringClean.Replace("@ChastityOff", "")
-        End If
-
-        FrmSettings.LBLChastityState.Text = BooleanToOnOff(My.Settings.Chastity)
-        FrmSettings.LBLChastityState.ForeColor = BooleanToOnOffColor(My.Settings.Chastity)
 
         If StringClean.Contains("@AddTokens(") Then
 
@@ -16818,19 +16797,6 @@ TaskCleanSet:
             Next
 
         End If
-
-
-        If inputString.Contains("@ChastityOn") Then
-            My.Settings.Chastity = True
-            inputString = inputString.Replace("@ChastityOn", "")
-        End If
-
-        If inputString.Contains("@ChastityOff") Then
-            My.Settings.Chastity = False
-            inputString = inputString.Replace("@ChastityOff", "")
-        End If
-        FrmSettings.LBLChastityState.Text = BooleanToOnOff(My.Settings.Chastity)
-        FrmSettings.LBLChastityState.ForeColor = BooleanToOnOffColor(My.Settings.Chastity)
 
         If inputString.Contains("@AddTokens(") Then
 

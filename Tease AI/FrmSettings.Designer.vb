@@ -986,7 +986,7 @@ Partial Class FrmSettings
         Me.LBLOfflineMode = New System.Windows.Forms.Label()
         Me.Label140 = New System.Windows.Forms.Label()
         Me.Button11 = New System.Windows.Forms.Button()
-        Me.LBLChastityState = New System.Windows.Forms.Label()
+        Me.InChastityLabel = New System.Windows.Forms.Label()
         Me.Label120 = New System.Windows.Forms.Label()
         Me.GroupBox27 = New System.Windows.Forms.GroupBox()
         Me.Button6 = New System.Windows.Forms.Button()
@@ -13509,7 +13509,7 @@ Partial Class FrmSettings
         Me.GroupBox33.Controls.Add(Me.LBLOfflineMode)
         Me.GroupBox33.Controls.Add(Me.Label140)
         Me.GroupBox33.Controls.Add(Me.Button11)
-        Me.GroupBox33.Controls.Add(Me.LBLChastityState)
+        Me.GroupBox33.Controls.Add(Me.InChastityLabel)
         Me.GroupBox33.Controls.Add(Me.Label120)
         Me.GroupBox33.Location = New System.Drawing.Point(420, 268)
         Me.GroupBox33.Name = "GroupBox33"
@@ -13563,16 +13563,16 @@ Partial Class FrmSettings
         '
         'LBLChastityState
         '
-        Me.LBLChastityState.BackColor = System.Drawing.Color.LightGray
-        Me.LBLChastityState.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.LBLChastityState.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LBLChastityState.ForeColor = System.Drawing.Color.Red
-        Me.LBLChastityState.Location = New System.Drawing.Point(120, 33)
-        Me.LBLChastityState.Name = "LBLChastityState"
-        Me.LBLChastityState.Size = New System.Drawing.Size(37, 23)
-        Me.LBLChastityState.TabIndex = 3
-        Me.LBLChastityState.Text = "OFF"
-        Me.LBLChastityState.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.InChastityLabel.BackColor = System.Drawing.Color.LightGray
+        Me.InChastityLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.InChastityLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.InChastityLabel.ForeColor = System.Drawing.Color.Red
+        Me.InChastityLabel.Location = New System.Drawing.Point(120, 33)
+        Me.InChastityLabel.Name = "LBLChastityState"
+        Me.InChastityLabel.Size = New System.Drawing.Size(37, 23)
+        Me.InChastityLabel.TabIndex = 3
+        Me.InChastityLabel.Text = "OFF"
+        Me.InChastityLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'Label120
         '
@@ -15817,7 +15817,7 @@ Partial Class FrmSettings
 	Friend WithEvents CBGlitterFeed As System.Windows.Forms.RadioButton
 	Friend WithEvents GroupBox33 As System.Windows.Forms.GroupBox
 	Friend WithEvents Button11 As System.Windows.Forms.Button
-	Friend WithEvents LBLChastityState As System.Windows.Forms.Label
+	Friend WithEvents InChastityLabel As System.Windows.Forms.Label
 	Friend WithEvents Label120 As System.Windows.Forms.Label
 	Friend WithEvents TTDir As System.Windows.Forms.ToolTip
 	Friend WithEvents BtnContact3ImageDirClear As System.Windows.Forms.Button

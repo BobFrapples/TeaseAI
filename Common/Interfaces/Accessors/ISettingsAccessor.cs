@@ -77,11 +77,12 @@ namespace TeaseAI.Common.Interfaces.Accessors
         /// Date orgasms are locked until
         /// </summary>
         DateTime OrgasmLockDate { get; set; }
-        bool IsOnline { get; set; }
+        bool IsOffline { get; set; }
 
         bool IsTimeStampEnabled { get; set; }
         bool ShowNames { get; set; }
         bool DoesDommeTypeInstantly { get; set; }
         bool WebTeaseModeEnabled { get; set; }
+        bool InChastity { get; set; }
     }
 }

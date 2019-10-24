@@ -81,14 +81,120 @@ Public Class FrmSettings
         My.Settings.Save()
     End Sub
 
+    Private Sub FrmSettings_Visible(sender As Object, e As EventArgs) Handles Me.VisibleChanged
+        LoadSettings()
+    End Sub
+
+    ''' <summary>
+    ''' Load all settings into the form
+    ''' </summary>
+    Private Sub LoadSettings()
+        ' Domme Tab
+        Dim domLevel As DomLevel = mySettingsAccessor.DominationLevel
+        DominationLevel.Value = domLevel
+        DomLevelDescLabel.Text = domLevel.ToString()
+
+        Dim apathyLevel As ApathyLevel = mySettingsAccessor.ApathyLevel
+        NBEmpathy.Value = apathyLevel
+        LBLEmpathy.Text = apathyLevel.ToString()
+
+        DommeDecideOrgasmCB.Checked = mySettingsAccessor.DoesDommeDecideOrgasmRange
+        AllowOrgasmOftenNB.Enabled = Not DommeDecideOrgasmCB.Checked
+        AllowOrgasmOftenNB.Value = mySettingsAccessor.AllowOrgasmOftenPercent
+        NBAllowSometimes.Enabled = Not DommeDecideOrgasmCB.Checked
+        NBAllowSometimes.Value = mySettingsAccessor.AllowOrgasmSometimesPercent
+        NBAllowRarely.Enabled = Not DommeDecideOrgasmCB.Checked
+        NBAllowRarely.Value = mySettingsAccessor.AllowOrgasmRarelyPercent
+
+        DommeDecideRuinCB.Checked = mySettingsAccessor.DoesDommeDecideRuinRange
+        NBRuinOften.Enabled = Not DommeDecideRuinCB.Checked
+        NBRuinOften.Value = mySettingsAccessor.RuinOrgasmOftenPercent
+        NBRuinSometimes.Enabled = Not DommeDecideRuinCB.Checked
+        NBRuinSometimes.Value = mySettingsAccessor.RuinOrgasmSometimesPercent
+        NBRuinRarely.Enabled = Not DommeDecideRuinCB.Checked
+        NBRuinRarely.Value = mySettingsAccessor.RuinOrgasmRarelyPercent
+
+        TBSafeword.Text = mySettingsAccessor.SafeWord
+
+        ' Sub Tab
+        AllowLongEdgeInterruptCB.Checked = mySettingsAccessor.CanInterruptLongEdge
+
+        HoldEdgeMaximum.Value = ConvertHoldTime(mySettingsAccessor.HoldEdgeMaximum)
+        LBLMaxHold.Text = ConvertHoldTimeUnits(mySettingsAccessor.HoldEdgeMaximum)
+        HoldEdgeMinimum.Value = ConvertHoldTime(mySettingsAccessor.HoldEdgeMinimum)
+        HoldEdgeMinimumUnits.Text = ConvertHoldTime(mySettingsAccessor.HoldEdgeMinimum)
+
+        LongEdgeHoldMaximum.Value = mySettingsAccessor.LongHoldEdgeMaximum
+        LongEdgeHoldMinimum.Value = mySettingsAccessor.LongHoldEdgeMinimum
+
+        ExtremeEdgeHoldMaximum.Value = mySettingsAccessor.ExtremeHoldEdgeMaximum
+        ExtremeEdgeHoldMinimum.Value = mySettingsAccessor.ExtremeHoldEdgeMinimum
+
+        CockAndBallTortureLevelSlider.Value = mySettingsAccessor.CockAndBallTortureLevel
+        CockAndBallTortureLevelLbl.Text = "CBT Level:  " & CockAndBallTortureLevelSlider.Value
+
+        CBSubCircumcised.Checked = mySettingsAccessor.IsSubCircumcised
+        CBSubPierced.Checked = mySettingsAccessor.IsSubPierced
+
+        CockTortureEnabledCB.Checked = mySettingsAccessor.IsCockTortureEnabled
+        BallTortureEnabledCB.Checked = mySettingsAccessor.IsBallTortureEnabled
+
+        CBOwnChastity.Checked = mySettingsAccessor.HasChastityDevice
+
+        DoesChastityDeviceRequirePiercingCB.Checked = mySettingsAccessor.DoesChastityDeviceRequirePiercing
+        DoesChastityDeviceRequirePiercingCB.Enabled = CBOwnChastity.Checked
+        ChastityDeviceContainsSpikesCB.Checked = mySettingsAccessor.DoesChastityDeviceContainSpikes
+        ChastityDeviceContainsSpikesCB.Enabled = CBOwnChastity.Checked
+
+        UseAverageEdgeThresholdCB.Checked = mySettingsAccessor.UseAverageEdgeTimeAsThreshold
+        AllowLongEdgeTauntCB.Checked = mySettingsAccessor.AllowsLongEdgeTaunts
+        AllowLongEdgeInterruptCB.Checked = mySettingsAccessor.AllowsLongEdgeInterrupts
+
+        TeaseLengthDommeDetermined.Checked = mySettingsAccessor.IsTeaseLengthDommeDetermined
+        CBTauntCycleDD.Checked = mySettingsAccessor.IsTauntCycleDommeDetermined
+
+        ' If orgasms are locked, then check the lock until date and possibly unlock them
+        If Not mySettingsAccessor.AreOrgasmsLocked Then
+            limitcheckbox.Checked = True
+            limitcheckbox.Enabled = False
+            orgasmsPerNumBox.Enabled = False
+            orgasmsperComboBox.Enabled = False
+            orgasmsperlockButton.Enabled = False
+            orgasmlockrandombutton.Enabled = False
+        End If
+
+        CBHimHer.Checked = mySettingsAccessor.IsSubFemale
+        CBCockToClit.Checked = mySettingsAccessor.CallCockAClit
+        CBBallsToPussy.Checked = mySettingsAccessor.CallBallsPussy
+
+        CBDomDel.Checked = mySettingsAccessor.CanDommeDeleteFiles
+
+        NBTeaseLengthMin.Value = mySettingsAccessor.TeaseLengthMinimum
+        NBTeaseLengthMax.Value = mySettingsAccessor.TeaseLengthMaximum
+
+        NBTauntCycleMin.Value = mySettingsAccessor.TauntCycleMinimum
+        NBTauntCycleMax.Value = mySettingsAccessor.TauntCycleMaximum
+
+        ' Miscellaneous Tab
+        LBLOfflineMode.Text = mySettingsAccessor.IsOffline.ToOnOff()
+        LBLOfflineMode.ForeColor = mySettingsAccessor.IsOffline.ToColor()
+
+        InChastityLabel.Text = mySettingsAccessor.InChastity.ToOnOff()
+        InChastityLabel.ForeColor = mySettingsAccessor.InChastity.ToColor()
+    End Sub
+
     ''' <summary>
     ''' Called when we want to validate everything
     ''' </summary>
     Public Sub FrmSettingStartUp()
         FrmSettingsLoading = True
 
-        FrmSplash.UpdateText("Checking installed voices...")
+        FrmSplash.UpdateText("Loading Settings...")
+        LoadSettings()
+        ' Sub tab
+        NBLongEdge.Value = My.Settings.LongEdge
 
+        FrmSplash.UpdateText("Checking installed voices...")
         Dim oSpeech As New SpeechSynthesizer()
         Dim installedVoices As ObjectModel.ReadOnlyCollection(Of InstalledVoice) = oSpeech.GetInstalledVoices
 
@@ -148,7 +254,6 @@ Public Class FrmSettings
         myScriptAccessor.Save(scripts, mySettingsAccessor.DommePersonality, scriptType, SessionPhase.End)
 
         FrmSplash.UpdateText("Populating available voices...")
-
         Dim voicecheck As Integer
         'Dim voices = Fringe.GetInstalledVoices()
         For Each v As InstalledVoice In installedVoices
@@ -164,58 +269,6 @@ Public Class FrmSettings
             TTSCheckBox.Enabled = False
         End If
 
-        FrmSplash.UpdateText("Loading Sub settings...")
-
-        CockTortureEnabledCB.Checked = mySettingsAccessor.IsCockTortureEnabled
-        BallTortureEnabledCB.Checked = mySettingsAccessor.IsBallTortureEnabled
-
-        NBLongEdge.Value = My.Settings.LongEdge
-
-        AllowLongEdgeInterruptCB.Checked = mySettingsAccessor.CanInterruptLongEdge
-
-        HoldEdgeMaximum.Value = ConvertHoldTime(mySettingsAccessor.HoldEdgeMaximum)
-        LBLMaxHold.Text = ConvertHoldTimeUnits(mySettingsAccessor.HoldEdgeMaximum)
-        HoldEdgeMinimum.Value = ConvertHoldTime(mySettingsAccessor.HoldEdgeMinimum)
-        HoldEdgeMinimumUnits.Text = ConvertHoldTime(mySettingsAccessor.HoldEdgeMinimum)
-
-        LongEdgeHoldMaximum.Value = mySettingsAccessor.LongHoldEdgeMaximum
-        LongEdgeHoldMinimum.Value = mySettingsAccessor.LongHoldEdgeMinimum
-
-        ExtremeEdgeHoldMaximum.Value = mySettingsAccessor.ExtremeHoldEdgeMaximum
-        ExtremeEdgeHoldMinimum.Value = mySettingsAccessor.ExtremeHoldEdgeMinimum
-
-        CockAndBallTortureLevelSlider.Value = mySettingsAccessor.CockAndBallTortureLevel
-        CockAndBallTortureLevelLbl.Text = "CBT Level:  " & CockAndBallTortureLevelSlider.Value
-
-        CBSubCircumcised.Checked = mySettingsAccessor.IsSubCircumcised
-        CBSubPierced.Checked = mySettingsAccessor.IsSubPierced
-
-        FrmSplash.UpdateText("Loading Domme settings...")
-        Dim domLevel As DomLevel = mySettingsAccessor.DominationLevel
-        DominationLevel.Value = domLevel
-        DomLevelDescLabel.Text = domLevel.ToString()
-
-        Dim apathyLevel As ApathyLevel = mySettingsAccessor.ApathyLevel
-        NBEmpathy.Value = apathyLevel
-        LBLEmpathy.Text = apathyLevel.ToString()
-
-        DommeDecideOrgasmCB.Checked = mySettingsAccessor.DoesDommeDecideOrgasmRange
-        AllowOrgasmOftenNB.Enabled = Not DommeDecideOrgasmCB.Checked
-        AllowOrgasmOftenNB.Value = mySettingsAccessor.AllowOrgasmOftenPercent
-        NBAllowSometimes.Enabled = Not DommeDecideOrgasmCB.Checked
-        NBAllowSometimes.Value = mySettingsAccessor.AllowOrgasmSometimesPercent
-        NBAllowRarely.Enabled = Not DommeDecideOrgasmCB.Checked
-        NBAllowRarely.Value = mySettingsAccessor.AllowOrgasmRarelyPercent
-
-        DommeDecideRuinCB.Checked = mySettingsAccessor.DoesDommeDecideRuinRange
-        NBRuinOften.Enabled = Not DommeDecideRuinCB.Checked
-        NBRuinOften.Value = mySettingsAccessor.RuinOrgasmOftenPercent
-        NBRuinSometimes.Enabled = Not DommeDecideRuinCB.Checked
-        NBRuinSometimes.Value = mySettingsAccessor.RuinOrgasmSometimesPercent
-        NBRuinRarely.Enabled = Not DommeDecideRuinCB.Checked
-        NBRuinRarely.Value = mySettingsAccessor.RuinOrgasmRarelyPercent
-
-        TBSafeword.Text = mySettingsAccessor.SafeWord
 
         FrmSplash.UpdateText("Loading card images...")
 
@@ -223,42 +276,7 @@ Public Class FrmSettings
 
         FrmSplash.UpdateText("Checking user settings...")
 
-        CBOwnChastity.Checked = mySettingsAccessor.HasChastityDevice
-
-        DoesChastityDeviceRequirePiercingCB.Checked = mySettingsAccessor.DoesChastityDeviceRequirePiercing
-        DoesChastityDeviceRequirePiercingCB.Enabled = CBOwnChastity.Checked
-        ChastityDeviceContainsSpikesCB.Checked = mySettingsAccessor.DoesChastityDeviceContainSpikes
-        ChastityDeviceContainsSpikesCB.Enabled = CBOwnChastity.Checked
-
-        UseAverageEdgeThresholdCB.Checked = mySettingsAccessor.UseAverageEdgeTimeAsThreshold
-        AllowLongEdgeTauntCB.Checked = mySettingsAccessor.AllowsLongEdgeTaunts
-        AllowLongEdgeInterruptCB.Checked = mySettingsAccessor.AllowsLongEdgeInterrupts
-
-        TeaseLengthDommeDetermined.Checked = mySettingsAccessor.IsTeaseLengthDommeDetermined
-        CBTauntCycleDD.Checked = mySettingsAccessor.IsTauntCycleDommeDetermined
-
-        ' If orgasms are locked, then check the lock until date and possibly unlock them
-        If Not mySettingsAccessor.AreOrgasmsLocked Then
-            limitcheckbox.Checked = True
-            limitcheckbox.Enabled = False
-            orgasmsPerNumBox.Enabled = False
-            orgasmsperComboBox.Enabled = False
-            orgasmsperlockButton.Enabled = False
-            orgasmlockrandombutton.Enabled = False
-        End If
-
-        CBHimHer.Checked = mySettingsAccessor.IsSubFemale
-        CBCockToClit.Checked = mySettingsAccessor.CallCockAClit
-        CBBallsToPussy.Checked = mySettingsAccessor.CallBallsPussy
-
         NBNextImageChance.Value = My.Settings.NextImageChance
-        CBDomDel.Checked = mySettingsAccessor.CanDommeDeleteFiles
-
-        NBTeaseLengthMin.Value = mySettingsAccessor.TeaseLengthMinimum
-        NBTeaseLengthMax.Value = mySettingsAccessor.TeaseLengthMaximum
-
-        NBTauntCycleMin.Value = mySettingsAccessor.TauntCycleMinimum
-        NBTauntCycleMax.Value = mySettingsAccessor.TauntCycleMaximum
 
         NBRedLightMin.Value = My.Settings.RedLightMin
         NBRedLightMax.Value = My.Settings.RedLightMax
@@ -271,13 +289,11 @@ Public Class FrmSettings
         TBWebStart.Text = My.Settings.WebToyStart
         TBWebStop.Text = My.Settings.WebToyStop
 
-
         FrmSplash.UpdateText("Calculating space of saved session images...")
 
         Dim imageInfo As Tuple(Of Integer, Long) = GetImageCountSize(Application.StartupPath & "\Images\Session Images\")
         LBLSesFiles.Text = imageInfo.Item1.ToString()
         LBLSesSpace.Text = FormatBytes(imageInfo.Item2)
-
         FrmSplash.UpdateText("Loading Settings Menu options...")
         SaveSettingsDialog.InitialDirectory = Application.StartupPath & "\System"
         OpenSettingsDialog.InitialDirectory = Application.StartupPath & "\System"
@@ -312,13 +328,6 @@ Public Class FrmSettings
         LBLVVolume.Text = SliderVVolume.Value
         LBLVRate.Text = SliderVRate.Value
 
-        If mySettingsAccessor.IsOnline Then
-            LBLOfflineMode.Text = "OFF"
-            LBLOfflineMode.ForeColor = Color.Red
-        Else
-            LBLOfflineMode.Text = "ON"
-            LBLOfflineMode.ForeColor = Color.Green
-        End If
 
         CBNewSlideshow.Checked = My.Settings.CBNewSlideshow
 
@@ -6386,20 +6395,10 @@ checkFolder:
 
         If MsgBox("This will change the Chastity state of Tease AI. Depending on the Personality or Scripts used so far, this could cause unexpected behavior or break certain scripts." & Environment.NewLine _
                   & Environment.NewLine & "It is recommended to only change this state if you are otherwise stuck. Are you sure you wish to change the Chastity state?", vbYesNo, "Warning!") = MsgBoxResult.Yes Then
-            If My.Settings.Chastity Then
-                My.Settings.Chastity = False
-                LBLChastityState.Text = "OFF"
-                LBLChastityState.ForeColor = Color.Red
-            Else
-                My.Settings.Chastity = True
-                LBLChastityState.Text = "ON"
-                LBLChastityState.ForeColor = Color.Green
-            End If
-        Else
-            Return
+            mySettingsAccessor.InChastity = Not mySettingsAccessor.InChastity
+            InChastityLabel.ForeColor = mySettingsAccessor.InChastity.ToColor()
+            InChastityLabel.Text = mySettingsAccessor.InChastity.ToOnOff()
         End If
-
-
     End Sub
 
     Public Sub EnglishMenu()
@@ -6743,8 +6742,8 @@ checkFolder:
     End Sub
 
     Private Sub BTNOfflineMode_Click(sender As Object, e As EventArgs) Handles BTNOfflineMode.Click
-        mySettingsAccessor.IsOnline = Not mySettingsAccessor.IsOnline
-        If mySettingsAccessor.IsOnline Then
+        mySettingsAccessor.IsOffline = Not mySettingsAccessor.IsOffline
+        If mySettingsAccessor.IsOffline Then
             LBLOfflineMode.Text = "ON"
             LBLOfflineMode.ForeColor = Color.Green
         Else

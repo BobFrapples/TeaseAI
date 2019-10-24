@@ -206,6 +206,7 @@
     </Compile>
     <Compile Include="ServiceFactory.vb" />
     <Compile Include="Services\BlogImageAccessor.vb" />
+    <Compile Include="Extensions\BooleanExtension.vb" />
     <Compile Include="Services\CldAccessor.vb" />
     <Compile Include="Services\ConfigurationAccessor.vb" />
     <Compile Include="Services\FlagAccessor.vb" />

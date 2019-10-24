@@ -327,5 +327,15 @@ namespace TeaseAI.Common.Constants
         /// Porn is allowed
         /// </summary>
         public const string PornAllowedOn = @"@PornAllowedOn";
+
+        /// <summary>
+        /// Enables chastity in settings
+        /// </summary>
+        public const string ChastityOn = @"@ChastityOn";
+
+        /// <summary>
+        /// Disables chastity in settings
+        /// </summary>
+        public const string ChastityOff = @"@ChastityOff";
     }
 }
