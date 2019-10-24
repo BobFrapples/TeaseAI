@@ -6853,38 +6853,6 @@ TaskCleanSet:
             StringClean = StringClean.Replace("@CBT", "")
         End If
 
-
-        ' The @CustomTask() Command works similarly to @CBTBalls and @CBTCock. It allows the user to have the domme run custom instructions from scripts located in Custom\Tasks. For example,
-        ' @CustomTask(Spanking) would pull its first instruction from Custom\Tasks\Spanking_First.txt, and all subsequent instructions would be pulled from Custom\Tasks\Spanking.txt.
-
-        If StringClean.Contains("@CustomTask(") Then
-
-            Dim CustomFlag As String = GetParentheses(StringClean, "@CustomTask(")
-
-            CustomFlag = FixCommas(CustomFlag)
-
-            Dim CustomArray As String() = CustomFlag.Split(",")
-
-            If File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Custom\Tasks\" & CustomArray(0) & "_First.txt") And
-             File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Custom\Tasks\" & CustomArray(0) & ".txt") Then
-                ssh.CustomTask = True
-                ssh.CustomTaskActive = True
-                ssh.CustomTaskText = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Custom\Tasks\" & CustomArray(0) & ".txt"
-                ssh.CustomTaskTextFirst = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Custom\Tasks\" & CustomArray(0) & "_First.txt"
-            End If
-
-            If CustomArray.Count > 1 Then
-                ssh.TasksCount = Val(CustomArray(1))
-            Else
-                ssh.TasksCount = ssh.randomizer.Next(FrmSettings.TaskWaitMinimum.Value, FrmSettings.TaskWaitMaximum.Value + 1)
-            End If
-
-
-            StringClean = StringClean.Replace("@CustomTask(" & GetParentheses(StringClean, "@CustomTask(") & ")", "")
-
-        End If
-
-
         If StringClean.Contains("@DecideOrgasm") Then
 
             ssh.OrgasmDenied = False
@@ -17766,38 +17734,6 @@ TaskCleanSet:
 
             inputString = inputString.Replace("@CBT", "")
         End If
-
-
-        ' The @CustomTask() Command works similarly to @CBTBalls and @CBTCock. It allows the user to have the domme run custom instructions from scripts located in Custom\Tasks. For example,
-        ' @CustomTask(Spanking) would pull its first instruction from Custom\Tasks\Spanking_First.txt, and all subsequent instructions would be pulled from Custom\Tasks\Spanking.txt.
-
-        If inputString.Contains("@CustomTask(") Then
-
-            Dim CustomFlag As String = GetParentheses(inputString, "@CustomTask(")
-
-            CustomFlag = FixCommas(CustomFlag)
-
-            Dim CustomArray As String() = CustomFlag.Split(",")
-
-            If File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Custom\Tasks\" & CustomArray(0) & "_First.txt") And
-             File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Custom\Tasks\" & CustomArray(0) & ".txt") Then
-                ssh.CustomTask = True
-                ssh.CustomTaskActive = True
-                ssh.CustomTaskText = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Custom\Tasks\" & CustomArray(0) & ".txt"
-                ssh.CustomTaskTextFirst = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Custom\Tasks\" & CustomArray(0) & "_First.txt"
-            End If
-
-            If CustomArray.Count > 1 Then
-                ssh.TasksCount = Val(CustomArray(1))
-            Else
-                ssh.TasksCount = ssh.randomizer.Next(FrmSettings.TaskWaitMinimum.Value, FrmSettings.TaskWaitMaximum.Value + 1)
-            End If
-
-
-            inputString = inputString.Replace("@CustomTask(" & GetParentheses(inputString, "@CustomTask(") & ")", "")
-
-        End If
-
 
         If inputString.Contains("@DecideOrgasm") Then
 

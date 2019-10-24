@@ -226,14 +226,25 @@ namespace TeaseAI.Common.Constants
         public const string PlayJoiVideo = @"@PlayJOIVideo";
         public const  string PlaySpecificVideo = @"@PlayVideo(";
         public const  string PlaySpecificVideoSquareBrackets = @"@PlayVideo[";
+
         /// <summary>
-        /// Make the sub torture his cock. pause briefly for it to happen (TaskPauseMinimum and TaskPauseMaximum in settings)
+        /// <para>Make the sub torture his cock. pause briefly for it to happen (TaskPauseMinimum and TaskPauseMaximum in settings)</para>
+        /// <para>files are located in BASE_FOLDER\Scripts\DOMME_PERSONALITY\CBT\CBTCock[_First].txt with _First being called the first time</para>    
         /// </summary>
         public const  string CockTorture = @"@CBTCock";
+
         /// <summary>
-        /// Make the sub torture his balls. pause briefly for it to happen (TaskPauseMinimum and TaskPauseMaximum in settings)
+        /// <para>Make the sub torture his balls. pause briefly for it to happen (TaskPauseMinimum and TaskPauseMaximum in settings)</para>
+        /// <para>files are located in BASE_FOLDER\Scripts\DOMME_PERSONALITY\CBT\CBTBalls[_First].txt with _First being called the first time</para>    
         /// </summary>
         public const string BallTorture = @"@CBTBall";
+
+        /// <summary>
+        /// <para>Usage: @CustomTask(TASKNAME)</para>
+        /// <para>Create a custom task for the sub, pausing briefly for it to happen (TaskPauseMinimum and TaskPauseMaximum in settings)</para>
+        /// <para>Files are located in BASE_FOLDER\Scripts\DOMME_PERSONALITY\Custom\Tasks\TASKNAME[_First].txt with _First being called the first time</para>    
+        /// </summary>
+        public const string CustomTask = @"@CustomTask(";
 
         /// <summary>
         /// When used in conjunction with a PlayVideo command, it will randomize the starting location,
