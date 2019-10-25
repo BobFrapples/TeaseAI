@@ -43,9 +43,10 @@ namespace TeaseAI.Services
             , ILineCollectionFilter lineCollectionFilter
             , IRandomNumberService randomNumberService
             , IConfigurationAccessor configurationAccessor
+            , INotifyUser notifyUser
             )
         {
-            CommandProcessors = CreateCommandProcessors(scriptAccessor, flagAccessor, new LineService(), imageAccessor, videoAccessor, variableAccessor, tauntAccessor, configurationAccessor, randomNumberService);
+            CommandProcessors = CreateCommandProcessors(scriptAccessor, flagAccessor, new LineService(), imageAccessor, videoAccessor, variableAccessor, tauntAccessor, configurationAccessor, randomNumberService, notifyUser, settingsAccessor);
 
             CommandProcessors[Keyword.StartStroking].CommandProcessed += StartStrokingCommandProcessed;
             CommandProcessors[Keyword.Edge].CommandProcessed += EdgeCommandProcessed;
@@ -220,7 +221,9 @@ namespace TeaseAI.Services
             , IVariableAccessor variableAccessor
             , ITauntAccessor tauntAccessor
             , IConfigurationAccessor configurationAccessor
-            , IRandomNumberService randomNumberService)
+            , IRandomNumberService randomNumberService
+            , INotifyUser notifyUser
+            , ISettingsAccessor settingsAccessor)
         {
             var rVal = new Dictionary<string, ICommandProcessor>();
             rVal.Add(Keyword.Wait, new WaitCommandProcessor(lineService));
@@ -290,6 +293,8 @@ namespace TeaseAI.Services
             rVal.Add(Keyword.CockTorture, new CockTortureCommandProcessor(lineService, configurationAccessor, randomNumberService));
             rVal.Add(Keyword.BallTorture, new BallTortureCommandProcessor(lineService, configurationAccessor, randomNumberService));
             rVal.Add(Keyword.CustomTask, new CustomTaskCommandProcessor(lineService, configurationAccessor, randomNumberService, variableAccessor));
+
+            rVal.Add(Keyword.AddTokens, new AddTokensCommandProcessor(lineService, settingsAccessor, notifyUser));
 
             rVal.Add(Keyword.End, new EndCommandProcessor(lineService));
             rVal.Add(Keyword.NullResponse, new NullResponseCommandProcessor());

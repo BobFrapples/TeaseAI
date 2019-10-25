@@ -119,5 +119,11 @@ namespace TeaseAI.Common
                 WritingTaskMin = WritingTaskMin,
             };
         }
+
+        /// <summary>
+        /// How many tokens of what denomination does the sub have
+        /// </summary>
+        public Dictionary<TokenDenomination, int> Purse => _purse ?? (_purse = new Dictionary<TokenDenomination, int>());
+        private Dictionary<TokenDenomination, int> _purse;
     }
 }

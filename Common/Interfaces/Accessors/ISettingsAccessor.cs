@@ -84,5 +84,8 @@ namespace TeaseAI.Common.Interfaces.Accessors
         bool DoesDommeTypeInstantly { get; set; }
         bool WebTeaseModeEnabled { get; set; }
         bool InChastity { get; set; }
+        int BronzeTokens { get; set; }
+        int SilverTokens { get; set; }
+        int GoldTokens { get; set; }
     }
 }

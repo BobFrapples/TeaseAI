@@ -282,7 +282,7 @@ ByVal lpstrReturnString As String, ByVal uReturnLength As Integer, ByVal hwndCal
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles Me.Load
         If mySession Is Nothing Then
-            mySession = New SessionEngine(ServiceFactory.CreateSettingsAccessor(), New StringService(), New ScriptAccessor(New CldAccessor()), New TimerFactory(), New FlagAccessor(), New ImageAccessor(), New VideoAccessor(), New VariableAccessor(), New TauntAccessor(), New SystemVocabularyAccessor(), New VocabularyAccessor(), New LineCollectionFilter(), New RandomNumberService(), ServiceFactory.CreateConfigurationAccessor())
+            mySession = New SessionEngine(ServiceFactory.CreateSettingsAccessor(), New StringService(), New ScriptAccessor(New CldAccessor()), New TimerFactory(), New FlagAccessor(), New ImageAccessor(), New VideoAccessor(), New VariableAccessor(), New TauntAccessor(), New SystemVocabularyAccessor(), New VocabularyAccessor(), New LineCollectionFilter(), New RandomNumberService(), ServiceFactory.CreateConfigurationAccessor(), New NotifyUser())
             AddHandler mySession.DommeSaid, AddressOf mySession_DommeSaid
             AddHandler mySession.ShowImage, AddressOf mySession_ShowImage
             AddHandler mySession.PlayVideo, AddressOf mySession_PlayVideo
@@ -5860,37 +5860,6 @@ TaskCleanSet:
 
         End If
 
-        If StringClean.Contains("@AddTokens(") Then
-
-            Dim TokenFlag As String = GetParentheses(StringClean, "@AddTokens(")
-            TokenFlag = FixCommas(TokenFlag)
-            Dim TokenAdd As Integer
-
-            If TokenFlag.Contains(",") Then
-                Dim TokenArray As String() = TokenFlag.Split(",")
-                For i As Integer = 0 To TokenArray.Count - 1
-                    TokenAdd = Val(TokenArray(i))
-                    If UCase(TokenArray(i)).Contains("B") Then ssh.BronzeTokens += TokenAdd
-                    If UCase(TokenArray(i)).Contains("S") Then ssh.SilverTokens += TokenAdd
-                    If UCase(TokenArray(i)).Contains("G") Then ssh.GoldTokens += TokenAdd
-                Next
-            Else
-                TokenAdd = Val(TokenFlag)
-                If UCase(TokenFlag).Contains("B") Then ssh.BronzeTokens += TokenAdd
-                If UCase(TokenFlag).Contains("S") Then ssh.SilverTokens += TokenAdd
-                If UCase(TokenFlag).Contains("G") Then ssh.GoldTokens += TokenAdd
-            End If
-
-            My.Settings.BronzeTokens = ssh.BronzeTokens
-            My.Settings.SilverTokens = ssh.SilverTokens
-            My.Settings.GoldTokens = ssh.GoldTokens
-
-
-            StringClean = StringClean.Replace("@AddTokens(" & TokenFlag & ")", "")
-
-        End If
-
-
         If StringClean.Contains("@RemoveTokens(") Then
 
             Dim TokenFlag As String = GetParentheses(StringClean, "@RemoveTokens(")
@@ -9019,6 +8988,13 @@ VTSkip:
 
     End Function
 
+    Private Function ConvertToTokens(tokenData As String) As Token
+        Throw New NotImplementedException()
+    End Function
+    Public Class Token
+        Public Property Amount As Integer
+        Public Property Denomination As Constants.TokenDenomination
+    End Class
 #Region "-------------------------------------------- Webtoy --------------------------------------------"
 
     Public Sub ActivateWebToy()
@@ -15531,8 +15507,8 @@ NoPlaylistStartFile:
             My.Settings.WishlistPreview = wishItem(1)
 
             LBLWishlistCost.Text = wishItem(2)
-            Dim token = GetToken(wishItem(2))
-            WishlistCostSilver.Visible = token = Token.Silver
+            Dim token = GetTokenDenomination(wishItem(2))
+            WishlistCostSilver.Visible = token = TokenDenomination.Silver
             My.Settings.WishlistTokenType = token.ToString()
 
             My.Settings.WishlistCost = Val(LBLWishlistCost.Text)
@@ -15540,10 +15516,10 @@ NoPlaylistStartFile:
             LBLWishListText.Text = wishItem(3)
             My.Settings.WishlistNote = wishItem(3)
 
-            If token = Token.Gold AndAlso ssh.GoldTokens >= Val(LBLWishlistCost.Text) Then
+            If token = TokenDenomination.Gold AndAlso ssh.GoldTokens >= Val(LBLWishlistCost.Text) Then
                 BTNWishlist.Enabled = True
                 BTNWishlist.Text = "Purchase for " & domName.Text
-            ElseIf token = Token.Silver AndAlso ssh.SilverTokens >= Val(LBLWishlistCost.Text) Then
+            ElseIf token = TokenDenomination.Silver AndAlso ssh.SilverTokens >= Val(LBLWishlistCost.Text) Then
                 BTNWishlist.Enabled = True
                 BTNWishlist.Text = "Purchase for " & domName.Text
             Else
@@ -16233,10 +16209,10 @@ RinseLatherRepeat:
             Dim foundString As String = GetLocalImage(Tags, Nothing)
 
             'TODO: @ShowTaggedImage - Add a dedicated ErrorImage when there are no tagged images.
-            If String.IsNullOrWhiteSpace(FoundString) Then FoundString = myPathsAccessor.PathImageErrorNoLocalImages
+            If String.IsNullOrWhiteSpace(foundString) Then foundString = myPathsAccessor.PathImageErrorNoLocalImages
 
             ssh.JustShowedBlogImage = True
-            ShowImage(FoundString, False)
+            ShowImage(foundString, False)
 
             Tags.ForEach(Sub(x) inputString = inputString.Replace(x, ""))
             inputString = inputString.Replace("@ShowTaggedImage", "")
@@ -16797,37 +16773,6 @@ TaskCleanSet:
             Next
 
         End If
-
-        If inputString.Contains("@AddTokens(") Then
-
-            Dim TokenFlag As String = GetParentheses(inputString, "@AddTokens(")
-            TokenFlag = FixCommas(TokenFlag)
-            Dim TokenAdd As Integer
-
-            If TokenFlag.Contains(",") Then
-                Dim TokenArray As String() = TokenFlag.Split(",")
-                For i As Integer = 0 To TokenArray.Count - 1
-                    TokenAdd = Val(TokenArray(i))
-                    If UCase(TokenArray(i)).Contains("B") Then ssh.BronzeTokens += TokenAdd
-                    If UCase(TokenArray(i)).Contains("S") Then ssh.SilverTokens += TokenAdd
-                    If UCase(TokenArray(i)).Contains("G") Then ssh.GoldTokens += TokenAdd
-                Next
-            Else
-                TokenAdd = Val(TokenFlag)
-                If UCase(TokenFlag).Contains("B") Then ssh.BronzeTokens += TokenAdd
-                If UCase(TokenFlag).Contains("S") Then ssh.SilverTokens += TokenAdd
-                If UCase(TokenFlag).Contains("G") Then ssh.GoldTokens += TokenAdd
-            End If
-
-            My.Settings.BronzeTokens = ssh.BronzeTokens
-            My.Settings.SilverTokens = ssh.SilverTokens
-            My.Settings.GoldTokens = ssh.GoldTokens
-
-
-            inputString = inputString.Replace("@AddTokens(" & TokenFlag & ")", "")
-
-        End If
-
 
         If inputString.Contains("@RemoveTokens(") Then
 
@@ -19842,13 +19787,13 @@ VTSkip:
         Await Task.Run(Sub() Thread.Sleep(sleepTime))
     End Function
 
-    Private Function GetToken(input As String) As Token
+    Private Function GetTokenDenomination(input As String) As TokenDenomination
         If input.ToLower().Contains("gold") Then
-            Return Token.Gold
+            Return TokenDenomination.Gold
         ElseIf input.ToLower().Contains("silver") Then
-            Return Token.Silver
+            Return TokenDenomination.Silver
         Else
-            Return Token.Copper
+            Return TokenDenomination.Bronze
         End If
     End Function
 

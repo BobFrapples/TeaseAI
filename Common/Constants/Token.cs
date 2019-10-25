@@ -1,8 +1,8 @@
 ﻿namespace TeaseAI.Common.Constants
 {
-    public enum Token
+    public enum TokenDenomination
     {
-        Copper,
+        Bronze,
         Silver,
         Gold
     }

@@ -531,4 +531,31 @@ Public Class SettingsAccessor
             Settings.Chastity = value
         End Set
     End Property
+
+    Public Property BronzeTokens As Integer Implements ISettingsAccessor.BronzeTokens
+        Get
+            Return Settings.BronzeTokens
+        End Get
+        Set(value As Integer)
+            Settings.BronzeTokens = value
+        End Set
+    End Property
+
+    Public Property SilverTokens As Integer Implements ISettingsAccessor.SilverTokens
+        Get
+            Return Settings.SilverTokens
+        End Get
+        Set(value As Integer)
+            Settings.SilverTokens = value
+        End Set
+    End Property
+
+    Public Property GoldTokens As Integer Implements ISettingsAccessor.GoldTokens
+        Get
+            Return Settings.GoldTokens
+        End Get
+        Set(value As Integer)
+            Settings.GoldTokens = value
+        End Set
+    End Property
 End Class

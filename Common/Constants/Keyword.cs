@@ -337,5 +337,11 @@ namespace TeaseAI.Common.Constants
         /// Disables chastity in settings
         /// </summary>
         public const string ChastityOff = @"@ChastityOff";
+
+        /// <summary>
+        /// <para>Usage: @AddTokens(AMOUNT [Gold|Silver|Bronze][,AMOUNT[Gold|Silver|Bronze]])</para>
+        /// <para>Add AMOUNT of Gold, Silver, or Bronze tokens to the subs purse. This can be repeated multiple times</para>
+        /// </summary>
+        public const string AddTokens = @"@AddTokens(";
     }
 }
