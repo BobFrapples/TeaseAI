@@ -148,10 +148,10 @@
     <Compile Include="FrmSettings.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form3.Designer.vb">
-      <DependentUpon>Form3.vb</DependentUpon>
+    <Compile Include="GamesWindow.Designer.vb">
+      <DependentUpon>GamesWindow.vb</DependentUpon>
     </Compile>
-    <Compile Include="Form3.vb">
+    <Compile Include="GamesWindow.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form6.Designer.vb">
@@ -237,8 +237,8 @@
       <DependentUpon>FrmSettings.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form3.resx">
-      <DependentUpon>Form3.vb</DependentUpon>
+    <EmbeddedResource Include="GamesWindow.resx">
+      <DependentUpon>GamesWindow.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Form6.resx">

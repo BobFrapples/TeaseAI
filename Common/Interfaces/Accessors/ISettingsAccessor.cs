@@ -87,5 +87,7 @@ namespace TeaseAI.Common.Interfaces.Accessors
         int BronzeTokens { get; set; }
         int SilverTokens { get; set; }
         int GoldTokens { get; set; }
+
+        void Save();
     }
 }

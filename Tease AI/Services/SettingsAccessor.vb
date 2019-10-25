@@ -327,6 +327,10 @@ Public Class SettingsAccessor
         Return MySettings.Default.SubGreeting.Split(","(0)).Select(Function(str) str.Trim()).ToList()
     End Function
 
+    Public Sub Save() Implements ISettingsAccessor.Save
+        Settings.Save()
+    End Sub
+
     Public Property DommePersonality As String Implements ISettingsAccessor.DommePersonality
         Get
             Return Settings.DomPersonality

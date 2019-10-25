@@ -131,5 +131,11 @@ Public Class PathsAccessor
             Return myConfigurationAccessor.GetBaseFolder() & "\System\SavedState.save"
         End Get
     End Property
+
+    Public ReadOnly Property RiskyPickScript As String
+        Get
+            Return Personality & "Apps\Games\Risky Pick\Risky Pick.txt"
+        End Get
+    End Property
 End Class
 
