@@ -346,7 +346,7 @@ Partial Class FrmCardList
 		Me.BTNPickIt = New System.Windows.Forms.Button()
 		Me.BTNRiskIt = New System.Windows.Forms.Button()
 		Me.PBRiskyPic = New System.Windows.Forms.PictureBox()
-		Me.BTNRiskyPlay = New System.Windows.Forms.Button()
+		Me.PlayRiskyPickButton = New System.Windows.Forms.Button()
 		Me.Panel49 = New System.Windows.Forms.Panel()
 		Me.LblRiskType = New System.Windows.Forms.Label()
 		Me.CardTimer = New Tease_AI.teaseAI_Timer()
@@ -4112,7 +4112,7 @@ Partial Class FrmCardList
 		Me.Panel48.Controls.Add(Me.BTNPickIt)
 		Me.Panel48.Controls.Add(Me.BTNRiskIt)
 		Me.Panel48.Controls.Add(Me.PBRiskyPic)
-		Me.Panel48.Controls.Add(Me.BTNRiskyPlay)
+		Me.Panel48.Controls.Add(Me.PlayRiskyPickButton)
 		Me.Panel48.Location = New System.Drawing.Point(908, 16)
 		Me.Panel48.Name = "Panel48"
 		Me.Panel48.Size = New System.Drawing.Size(159, 671)
@@ -4291,13 +4291,13 @@ Partial Class FrmCardList
 		'
 		'BTNRiskyPlay
 		'
-		Me.BTNRiskyPlay.Font = New System.Drawing.Font("Microsoft Sans Serif", 24.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.BTNRiskyPlay.Location = New System.Drawing.Point(8, 601)
-		Me.BTNRiskyPlay.Name = "BTNRiskyPlay"
-		Me.BTNRiskyPlay.Size = New System.Drawing.Size(143, 60)
-		Me.BTNRiskyPlay.TabIndex = 10
-		Me.BTNRiskyPlay.Text = "PLAY"
-		Me.BTNRiskyPlay.UseVisualStyleBackColor = True
+		Me.PlayRiskyPickButton.Font = New System.Drawing.Font("Microsoft Sans Serif", 24.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+		Me.PlayRiskyPickButton.Location = New System.Drawing.Point(8, 601)
+		Me.PlayRiskyPickButton.Name = "BTNRiskyPlay"
+		Me.PlayRiskyPickButton.Size = New System.Drawing.Size(143, 60)
+		Me.PlayRiskyPickButton.TabIndex = 10
+		Me.PlayRiskyPickButton.Text = "PLAY"
+		Me.PlayRiskyPickButton.UseVisualStyleBackColor = True
 		'
 		'Panel49
 		'
@@ -4814,7 +4814,7 @@ Partial Class FrmCardList
 	Friend WithEvents LBLRisk15 As System.Windows.Forms.Label
 	Friend WithEvents LBLRisk60 As System.Windows.Forms.Label
 	Friend WithEvents LBLRisk95 As System.Windows.Forms.Label
-	Friend WithEvents BTNRiskyPlay As System.Windows.Forms.Button
+	Friend WithEvents PlayRiskyPickButton As System.Windows.Forms.Button
 	Friend WithEvents Panel48 As System.Windows.Forms.Panel
 	Friend WithEvents WBRiskyChat As System.Windows.Forms.WebBrowser
 	Friend WithEvents BTNPickIt As System.Windows.Forms.Button
