@@ -123,7 +123,12 @@ namespace TeaseAI.Common
         /// <summary>
         /// How many tokens of what denomination does the sub have
         /// </summary>
-        public Dictionary<TokenDenomination, int> Purse => _purse ?? (_purse = new Dictionary<TokenDenomination, int>());
+        public Dictionary<TokenDenomination, int> Purse => _purse ?? (_purse = new Dictionary<TokenDenomination, int>
+        {
+            {TokenDenomination.Bronze , 0 },
+            {TokenDenomination.Silver , 0 },
+            {TokenDenomination.Gold , 0 },
+        });
         private Dictionary<TokenDenomination, int> _purse;
     }
 }

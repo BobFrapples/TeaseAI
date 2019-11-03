@@ -17,10 +17,7 @@ namespace TeaseAI.Services.CommandProcessor
 
         public event EventHandler<CommandProcessedEventArgs> CommandProcessed;
 
-        public bool IsRelevant(Session session, string line)
-        {
-            return session.CurrentScript.CurrentLine.Contains(Keyword.Wait);
-        }
+        public bool IsRelevant(Session session, string line) => line.Contains(Keyword.Wait);
 
         public Result<Session> PerformCommand(Session session, string line)
         {

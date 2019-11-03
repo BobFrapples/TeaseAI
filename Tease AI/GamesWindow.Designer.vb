@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class FrmCardList
+Partial Class GamesWindow
 	Inherits System.Windows.Forms.Form
 
 	'Form overrides dispose to clean up the component list.
@@ -23,7 +23,7 @@ Partial Class FrmCardList
 	<System.Diagnostics.DebuggerStepThrough()>
 	Private Sub InitializeComponent()
 		Me.components = New System.ComponentModel.Container()
-		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmCardList))
+		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(GamesWindow))
 		Me.TCGames = New System.Windows.Forms.TabControl()
 		Me.TabPage3 = New System.Windows.Forms.TabPage()
 		Me.GameWMP = New AxWMPLib.AxWindowsMediaPlayer()
@@ -320,16 +320,16 @@ Partial Class FrmCardList
 		Me.Risk5 = New System.Windows.Forms.Label()
 		Me.Panel11 = New System.Windows.Forms.Panel()
 		Me.BTNRisk4 = New System.Windows.Forms.Button()
-		Me.Risk4 = New System.Windows.Forms.Label()
+		Me.RiskyCase4Contents = New System.Windows.Forms.Label()
 		Me.Panel12 = New System.Windows.Forms.Panel()
 		Me.BTNRisk3 = New System.Windows.Forms.Button()
-		Me.Risk3 = New System.Windows.Forms.Label()
+		Me.RiskyCase3Contents = New System.Windows.Forms.Label()
 		Me.Panel8 = New System.Windows.Forms.Panel()
-		Me.BTNRisk2 = New System.Windows.Forms.Button()
-		Me.Risk2 = New System.Windows.Forms.Label()
+		Me.RiskyCase2Button = New System.Windows.Forms.Button()
+		Me.RiskyCase2Contents = New System.Windows.Forms.Label()
 		Me.Panel7 = New System.Windows.Forms.Panel()
-		Me.BTNRisk1 = New System.Windows.Forms.Button()
-		Me.Risk1 = New System.Windows.Forms.Label()
+		Me.RiskyCase1Button = New System.Windows.Forms.Button()
+		Me.RiskyCase1Contents = New System.Windows.Forms.Label()
 		Me.Panel48 = New System.Windows.Forms.Panel()
 		Me.LblRiskMinPot = New System.Windows.Forms.Label()
 		Me.LBLRiskMaxPot = New System.Windows.Forms.Label()
@@ -337,12 +337,12 @@ Partial Class FrmCardList
 		Me.Label23 = New System.Windows.Forms.Label()
 		Me.PictureBox4 = New System.Windows.Forms.PictureBox()
 		Me.LBLRiskTokens = New System.Windows.Forms.Label()
-		Me.LBLPick6 = New System.Windows.Forms.Label()
-		Me.LBLPick5 = New System.Windows.Forms.Label()
-		Me.LBLPick4 = New System.Windows.Forms.Label()
-		Me.LBLPick3 = New System.Windows.Forms.Label()
-		Me.LBLPick2 = New System.Windows.Forms.Label()
-		Me.LBLPick1 = New System.Windows.Forms.Label()
+		Me.SelectedCase6Label = New System.Windows.Forms.Label()
+		Me.SelectedCase5Label = New System.Windows.Forms.Label()
+		Me.SelectedCase4Label = New System.Windows.Forms.Label()
+		Me.SelectedCase3Label = New System.Windows.Forms.Label()
+		Me.SelectedCase2Label = New System.Windows.Forms.Label()
+		Me.SelectedCase1Label = New System.Windows.Forms.Label()
 		Me.BTNPickIt = New System.Windows.Forms.Button()
 		Me.BTNRiskIt = New System.Windows.Forms.Button()
 		Me.PBRiskyPic = New System.Windows.Forms.PictureBox()
@@ -3957,7 +3957,7 @@ Partial Class FrmCardList
 		'
 		Me.Panel11.BackColor = System.Drawing.Color.Gray
 		Me.Panel11.Controls.Add(Me.BTNRisk4)
-		Me.Panel11.Controls.Add(Me.Risk4)
+		Me.Panel11.Controls.Add(Me.RiskyCase4Contents)
 		Me.Panel11.Location = New System.Drawing.Point(448, 4)
 		Me.Panel11.Name = "Panel11"
 		Me.Panel11.Size = New System.Drawing.Size(145, 93)
@@ -3977,22 +3977,22 @@ Partial Class FrmCardList
 		'
 		'Risk4
 		'
-		Me.Risk4.BackColor = System.Drawing.Color.DarkGray
-		Me.Risk4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-		Me.Risk4.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.Risk4.ForeColor = System.Drawing.Color.DarkGray
-		Me.Risk4.Location = New System.Drawing.Point(4, 66)
-		Me.Risk4.Name = "Risk4"
-		Me.Risk4.Size = New System.Drawing.Size(139, 23)
-		Me.Risk4.TabIndex = 6
-		Me.Risk4.Text = "?????"
-		Me.Risk4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+		Me.RiskyCase4Contents.BackColor = System.Drawing.Color.DarkGray
+		Me.RiskyCase4Contents.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+		Me.RiskyCase4Contents.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+		Me.RiskyCase4Contents.ForeColor = System.Drawing.Color.DarkGray
+		Me.RiskyCase4Contents.Location = New System.Drawing.Point(4, 66)
+		Me.RiskyCase4Contents.Name = "Risk4"
+		Me.RiskyCase4Contents.Size = New System.Drawing.Size(139, 23)
+		Me.RiskyCase4Contents.TabIndex = 6
+		Me.RiskyCase4Contents.Text = "?????"
+		Me.RiskyCase4Contents.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
 		'
 		'Panel12
 		'
 		Me.Panel12.BackColor = System.Drawing.Color.Gray
 		Me.Panel12.Controls.Add(Me.BTNRisk3)
-		Me.Panel12.Controls.Add(Me.Risk3)
+		Me.Panel12.Controls.Add(Me.RiskyCase3Contents)
 		Me.Panel12.Location = New System.Drawing.Point(300, 4)
 		Me.Panel12.Name = "Panel12"
 		Me.Panel12.Size = New System.Drawing.Size(145, 93)
@@ -4013,22 +4013,22 @@ Partial Class FrmCardList
 		'
 		'Risk3
 		'
-		Me.Risk3.BackColor = System.Drawing.Color.DarkGray
-		Me.Risk3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-		Me.Risk3.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.Risk3.ForeColor = System.Drawing.Color.DarkGray
-		Me.Risk3.Location = New System.Drawing.Point(3, 66)
-		Me.Risk3.Name = "Risk3"
-		Me.Risk3.Size = New System.Drawing.Size(139, 23)
-		Me.Risk3.TabIndex = 6
-		Me.Risk3.Text = "?????"
-		Me.Risk3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+		Me.RiskyCase3Contents.BackColor = System.Drawing.Color.DarkGray
+		Me.RiskyCase3Contents.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+		Me.RiskyCase3Contents.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+		Me.RiskyCase3Contents.ForeColor = System.Drawing.Color.DarkGray
+		Me.RiskyCase3Contents.Location = New System.Drawing.Point(3, 66)
+		Me.RiskyCase3Contents.Name = "Risk3"
+		Me.RiskyCase3Contents.Size = New System.Drawing.Size(139, 23)
+		Me.RiskyCase3Contents.TabIndex = 6
+		Me.RiskyCase3Contents.Text = "?????"
+		Me.RiskyCase3Contents.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
 		'
 		'Panel8
 		'
 		Me.Panel8.BackColor = System.Drawing.Color.Gray
-		Me.Panel8.Controls.Add(Me.BTNRisk2)
-		Me.Panel8.Controls.Add(Me.Risk2)
+		Me.Panel8.Controls.Add(Me.RiskyCase2Button)
+		Me.Panel8.Controls.Add(Me.RiskyCase2Contents)
 		Me.Panel8.Location = New System.Drawing.Point(152, 4)
 		Me.Panel8.Name = "Panel8"
 		Me.Panel8.Size = New System.Drawing.Size(145, 93)
@@ -4036,34 +4036,34 @@ Partial Class FrmCardList
 		'
 		'BTNRisk2
 		'
-		Me.BTNRisk2.Enabled = False
-		Me.BTNRisk2.Font = New System.Drawing.Font("Microsoft Sans Serif", 24.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.BTNRisk2.ForeColor = System.Drawing.Color.Black
-		Me.BTNRisk2.Location = New System.Drawing.Point(3, 3)
-		Me.BTNRisk2.Name = "BTNRisk2"
-		Me.BTNRisk2.Size = New System.Drawing.Size(139, 60)
-		Me.BTNRisk2.TabIndex = 0
-		Me.BTNRisk2.Text = "2"
-		Me.BTNRisk2.UseVisualStyleBackColor = True
+		Me.RiskyCase2Button.Enabled = False
+		Me.RiskyCase2Button.Font = New System.Drawing.Font("Microsoft Sans Serif", 24.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+		Me.RiskyCase2Button.ForeColor = System.Drawing.Color.Black
+		Me.RiskyCase2Button.Location = New System.Drawing.Point(3, 3)
+		Me.RiskyCase2Button.Name = "BTNRisk2"
+		Me.RiskyCase2Button.Size = New System.Drawing.Size(139, 60)
+		Me.RiskyCase2Button.TabIndex = 0
+		Me.RiskyCase2Button.Text = "2"
+		Me.RiskyCase2Button.UseVisualStyleBackColor = True
 		'
 		'Risk2
 		'
-		Me.Risk2.BackColor = System.Drawing.Color.DarkGray
-		Me.Risk2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-		Me.Risk2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.Risk2.ForeColor = System.Drawing.Color.DarkGray
-		Me.Risk2.Location = New System.Drawing.Point(4, 66)
-		Me.Risk2.Name = "Risk2"
-		Me.Risk2.Size = New System.Drawing.Size(139, 23)
-		Me.Risk2.TabIndex = 6
-		Me.Risk2.Text = "?????"
-		Me.Risk2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+		Me.RiskyCase2Contents.BackColor = System.Drawing.Color.DarkGray
+		Me.RiskyCase2Contents.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+		Me.RiskyCase2Contents.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+		Me.RiskyCase2Contents.ForeColor = System.Drawing.Color.DarkGray
+		Me.RiskyCase2Contents.Location = New System.Drawing.Point(4, 66)
+		Me.RiskyCase2Contents.Name = "Risk2"
+		Me.RiskyCase2Contents.Size = New System.Drawing.Size(139, 23)
+		Me.RiskyCase2Contents.TabIndex = 6
+		Me.RiskyCase2Contents.Text = "?????"
+		Me.RiskyCase2Contents.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
 		'
 		'Panel7
 		'
 		Me.Panel7.BackColor = System.Drawing.Color.Gray
-		Me.Panel7.Controls.Add(Me.BTNRisk1)
-		Me.Panel7.Controls.Add(Me.Risk1)
+		Me.Panel7.Controls.Add(Me.RiskyCase1Button)
+		Me.Panel7.Controls.Add(Me.RiskyCase1Contents)
 		Me.Panel7.Location = New System.Drawing.Point(4, 4)
 		Me.Panel7.Name = "Panel7"
 		Me.Panel7.Size = New System.Drawing.Size(145, 93)
@@ -4071,28 +4071,28 @@ Partial Class FrmCardList
 		'
 		'BTNRisk1
 		'
-		Me.BTNRisk1.Enabled = False
-		Me.BTNRisk1.Font = New System.Drawing.Font("Microsoft Sans Serif", 24.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.BTNRisk1.ForeColor = System.Drawing.Color.Black
-		Me.BTNRisk1.Location = New System.Drawing.Point(3, 3)
-		Me.BTNRisk1.Name = "BTNRisk1"
-		Me.BTNRisk1.Size = New System.Drawing.Size(139, 60)
-		Me.BTNRisk1.TabIndex = 0
-		Me.BTNRisk1.Text = "1"
-		Me.BTNRisk1.UseVisualStyleBackColor = True
+		Me.RiskyCase1Button.Enabled = False
+		Me.RiskyCase1Button.Font = New System.Drawing.Font("Microsoft Sans Serif", 24.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+		Me.RiskyCase1Button.ForeColor = System.Drawing.Color.Black
+		Me.RiskyCase1Button.Location = New System.Drawing.Point(3, 3)
+		Me.RiskyCase1Button.Name = "BTNRisk1"
+		Me.RiskyCase1Button.Size = New System.Drawing.Size(139, 60)
+		Me.RiskyCase1Button.TabIndex = 0
+		Me.RiskyCase1Button.Text = "1"
+		Me.RiskyCase1Button.UseVisualStyleBackColor = True
 		'
 		'Risk1
 		'
-		Me.Risk1.BackColor = System.Drawing.Color.DarkGray
-		Me.Risk1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-		Me.Risk1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.Risk1.ForeColor = System.Drawing.Color.DarkGray
-		Me.Risk1.Location = New System.Drawing.Point(3, 66)
-		Me.Risk1.Name = "Risk1"
-		Me.Risk1.Size = New System.Drawing.Size(139, 23)
-		Me.Risk1.TabIndex = 6
-		Me.Risk1.Text = "?????"
-		Me.Risk1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+		Me.RiskyCase1Contents.BackColor = System.Drawing.Color.DarkGray
+		Me.RiskyCase1Contents.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+		Me.RiskyCase1Contents.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+		Me.RiskyCase1Contents.ForeColor = System.Drawing.Color.DarkGray
+		Me.RiskyCase1Contents.Location = New System.Drawing.Point(3, 66)
+		Me.RiskyCase1Contents.Name = "Risk1"
+		Me.RiskyCase1Contents.Size = New System.Drawing.Size(139, 23)
+		Me.RiskyCase1Contents.TabIndex = 6
+		Me.RiskyCase1Contents.Text = "?????"
+		Me.RiskyCase1Contents.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
 		'
 		'Panel48
 		'
@@ -4103,12 +4103,12 @@ Partial Class FrmCardList
 		Me.Panel48.Controls.Add(Me.Label23)
 		Me.Panel48.Controls.Add(Me.PictureBox4)
 		Me.Panel48.Controls.Add(Me.LBLRiskTokens)
-		Me.Panel48.Controls.Add(Me.LBLPick6)
-		Me.Panel48.Controls.Add(Me.LBLPick5)
-		Me.Panel48.Controls.Add(Me.LBLPick4)
-		Me.Panel48.Controls.Add(Me.LBLPick3)
-		Me.Panel48.Controls.Add(Me.LBLPick2)
-		Me.Panel48.Controls.Add(Me.LBLPick1)
+		Me.Panel48.Controls.Add(Me.SelectedCase6Label)
+		Me.Panel48.Controls.Add(Me.SelectedCase5Label)
+		Me.Panel48.Controls.Add(Me.SelectedCase4Label)
+		Me.Panel48.Controls.Add(Me.SelectedCase3Label)
+		Me.Panel48.Controls.Add(Me.SelectedCase2Label)
+		Me.Panel48.Controls.Add(Me.SelectedCase1Label)
 		Me.Panel48.Controls.Add(Me.BTNPickIt)
 		Me.Panel48.Controls.Add(Me.BTNRiskIt)
 		Me.Panel48.Controls.Add(Me.PBRiskyPic)
@@ -4193,63 +4193,63 @@ Partial Class FrmCardList
 		'
 		'LBLPick6
 		'
-		Me.LBLPick6.Font = New System.Drawing.Font("Erbos Draco 1st Open NBP", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.LBLPick6.ForeColor = System.Drawing.Color.White
-		Me.LBLPick6.Location = New System.Drawing.Point(86, 291)
-		Me.LBLPick6.Name = "LBLPick6"
-		Me.LBLPick6.Size = New System.Drawing.Size(57, 40)
-		Me.LBLPick6.TabIndex = 19
-		Me.LBLPick6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+		Me.SelectedCase6Label.Font = New System.Drawing.Font("Erbos Draco 1st Open NBP", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+		Me.SelectedCase6Label.ForeColor = System.Drawing.Color.White
+		Me.SelectedCase6Label.Location = New System.Drawing.Point(86, 291)
+		Me.SelectedCase6Label.Name = "LBLPick6"
+		Me.SelectedCase6Label.Size = New System.Drawing.Size(57, 40)
+		Me.SelectedCase6Label.TabIndex = 19
+		Me.SelectedCase6Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
 		'
 		'LBLPick5
 		'
-		Me.LBLPick5.Font = New System.Drawing.Font("Erbos Draco 1st Open NBP", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.LBLPick5.ForeColor = System.Drawing.Color.White
-		Me.LBLPick5.Location = New System.Drawing.Point(86, 251)
-		Me.LBLPick5.Name = "LBLPick5"
-		Me.LBLPick5.Size = New System.Drawing.Size(57, 40)
-		Me.LBLPick5.TabIndex = 18
-		Me.LBLPick5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+		Me.SelectedCase5Label.Font = New System.Drawing.Font("Erbos Draco 1st Open NBP", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+		Me.SelectedCase5Label.ForeColor = System.Drawing.Color.White
+		Me.SelectedCase5Label.Location = New System.Drawing.Point(86, 251)
+		Me.SelectedCase5Label.Name = "LBLPick5"
+		Me.SelectedCase5Label.Size = New System.Drawing.Size(57, 40)
+		Me.SelectedCase5Label.TabIndex = 18
+		Me.SelectedCase5Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
 		'
 		'LBLPick4
 		'
-		Me.LBLPick4.Font = New System.Drawing.Font("Erbos Draco 1st Open NBP", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.LBLPick4.ForeColor = System.Drawing.Color.White
-		Me.LBLPick4.Location = New System.Drawing.Point(86, 213)
-		Me.LBLPick4.Name = "LBLPick4"
-		Me.LBLPick4.Size = New System.Drawing.Size(57, 40)
-		Me.LBLPick4.TabIndex = 17
-		Me.LBLPick4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+		Me.SelectedCase4Label.Font = New System.Drawing.Font("Erbos Draco 1st Open NBP", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+		Me.SelectedCase4Label.ForeColor = System.Drawing.Color.White
+		Me.SelectedCase4Label.Location = New System.Drawing.Point(86, 213)
+		Me.SelectedCase4Label.Name = "LBLPick4"
+		Me.SelectedCase4Label.Size = New System.Drawing.Size(57, 40)
+		Me.SelectedCase4Label.TabIndex = 17
+		Me.SelectedCase4Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
 		'
 		'LBLPick3
 		'
-		Me.LBLPick3.Font = New System.Drawing.Font("Erbos Draco 1st Open NBP", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.LBLPick3.ForeColor = System.Drawing.Color.White
-		Me.LBLPick3.Location = New System.Drawing.Point(23, 291)
-		Me.LBLPick3.Name = "LBLPick3"
-		Me.LBLPick3.Size = New System.Drawing.Size(57, 40)
-		Me.LBLPick3.TabIndex = 16
-		Me.LBLPick3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+		Me.SelectedCase3Label.Font = New System.Drawing.Font("Erbos Draco 1st Open NBP", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+		Me.SelectedCase3Label.ForeColor = System.Drawing.Color.White
+		Me.SelectedCase3Label.Location = New System.Drawing.Point(23, 291)
+		Me.SelectedCase3Label.Name = "LBLPick3"
+		Me.SelectedCase3Label.Size = New System.Drawing.Size(57, 40)
+		Me.SelectedCase3Label.TabIndex = 16
+		Me.SelectedCase3Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
 		'
 		'LBLPick2
 		'
-		Me.LBLPick2.Font = New System.Drawing.Font("Erbos Draco 1st Open NBP", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.LBLPick2.ForeColor = System.Drawing.Color.White
-		Me.LBLPick2.Location = New System.Drawing.Point(23, 251)
-		Me.LBLPick2.Name = "LBLPick2"
-		Me.LBLPick2.Size = New System.Drawing.Size(57, 40)
-		Me.LBLPick2.TabIndex = 15
-		Me.LBLPick2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+		Me.SelectedCase2Label.Font = New System.Drawing.Font("Erbos Draco 1st Open NBP", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+		Me.SelectedCase2Label.ForeColor = System.Drawing.Color.White
+		Me.SelectedCase2Label.Location = New System.Drawing.Point(23, 251)
+		Me.SelectedCase2Label.Name = "LBLPick2"
+		Me.SelectedCase2Label.Size = New System.Drawing.Size(57, 40)
+		Me.SelectedCase2Label.TabIndex = 15
+		Me.SelectedCase2Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
 		'
 		'LBLPick1
 		'
-		Me.LBLPick1.Font = New System.Drawing.Font("Erbos Draco 1st Open NBP", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.LBLPick1.ForeColor = System.Drawing.Color.White
-		Me.LBLPick1.Location = New System.Drawing.Point(23, 213)
-		Me.LBLPick1.Name = "LBLPick1"
-		Me.LBLPick1.Size = New System.Drawing.Size(57, 40)
-		Me.LBLPick1.TabIndex = 14
-		Me.LBLPick1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+		Me.SelectedCase1Label.Font = New System.Drawing.Font("Erbos Draco 1st Open NBP", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+		Me.SelectedCase1Label.ForeColor = System.Drawing.Color.White
+		Me.SelectedCase1Label.Location = New System.Drawing.Point(23, 213)
+		Me.SelectedCase1Label.Name = "LBLPick1"
+		Me.SelectedCase1Label.Size = New System.Drawing.Size(57, 40)
+		Me.SelectedCase1Label.TabIndex = 14
+		Me.SelectedCase1Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
 		'
 		'BTNPickIt
 		'
@@ -4718,17 +4718,17 @@ Partial Class FrmCardList
 	Friend WithEvents TabPage5 As System.Windows.Forms.TabPage
 	Friend WithEvents Panel2 As System.Windows.Forms.Panel
 	Friend WithEvents Panel7 As System.Windows.Forms.Panel
-	Friend WithEvents BTNRisk1 As System.Windows.Forms.Button
-	Friend WithEvents Risk1 As System.Windows.Forms.Label
+	Friend WithEvents RiskyCase1Button As System.Windows.Forms.Button
+	Friend WithEvents RiskyCase1Contents As System.Windows.Forms.Label
 	Friend WithEvents Panel11 As System.Windows.Forms.Panel
 	Friend WithEvents BTNRisk4 As System.Windows.Forms.Button
-	Friend WithEvents Risk4 As System.Windows.Forms.Label
+	Friend WithEvents RiskyCase4Contents As System.Windows.Forms.Label
 	Friend WithEvents Panel12 As System.Windows.Forms.Panel
 	Friend WithEvents BTNRisk3 As System.Windows.Forms.Button
-	Friend WithEvents Risk3 As System.Windows.Forms.Label
+	Friend WithEvents RiskyCase3Contents As System.Windows.Forms.Label
 	Friend WithEvents Panel8 As System.Windows.Forms.Panel
-	Friend WithEvents BTNRisk2 As System.Windows.Forms.Button
-	Friend WithEvents Risk2 As System.Windows.Forms.Label
+	Friend WithEvents RiskyCase2Button As System.Windows.Forms.Button
+	Friend WithEvents RiskyCase2Contents As System.Windows.Forms.Label
 	Friend WithEvents Panel18 As System.Windows.Forms.Panel
 	Friend WithEvents BTNRisk6 As System.Windows.Forms.Button
 	Friend WithEvents Risk6 As System.Windows.Forms.Label
@@ -4821,12 +4821,12 @@ Partial Class FrmCardList
 	Friend WithEvents BTNRiskIt As System.Windows.Forms.Button
 	Friend WithEvents PBRiskyPic As System.Windows.Forms.PictureBox
 	Friend WithEvents Panel49 As System.Windows.Forms.Panel
-	Friend WithEvents LBLPick6 As System.Windows.Forms.Label
-	Friend WithEvents LBLPick5 As System.Windows.Forms.Label
-	Friend WithEvents LBLPick4 As System.Windows.Forms.Label
-	Friend WithEvents LBLPick3 As System.Windows.Forms.Label
-	Friend WithEvents LBLPick2 As System.Windows.Forms.Label
-	Friend WithEvents LBLPick1 As System.Windows.Forms.Label
+	Friend WithEvents SelectedCase6Label As System.Windows.Forms.Label
+	Friend WithEvents SelectedCase5Label As System.Windows.Forms.Label
+	Friend WithEvents SelectedCase4Label As System.Windows.Forms.Label
+	Friend WithEvents SelectedCase3Label As System.Windows.Forms.Label
+	Friend WithEvents SelectedCase2Label As System.Windows.Forms.Label
+	Friend WithEvents SelectedCase1Label As System.Windows.Forms.Label
 	Friend WithEvents LblRiskType As System.Windows.Forms.Label
 	Friend WithEvents PictureBox4 As System.Windows.Forms.PictureBox
 	Friend WithEvents LBLRiskTokens As System.Windows.Forms.Label

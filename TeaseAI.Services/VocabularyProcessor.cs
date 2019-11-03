@@ -153,8 +153,10 @@ namespace TeaseAI.Services
                     workingLine = workingLine.Replace(vocabularyWord, replacement);
                 }
                 maxCycles--;
+                // We can't figure it out. Show it to the user
                 if (maxCycles == 0)
-                    return "Unable to map the vocabulary word " + vocabularyWord;
+                    return workingLine;
+                    //return "Unable to map the vocabulary word " + vocabularyWord;
             }
             return workingLine;
         }

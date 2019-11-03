@@ -18,6 +18,7 @@ Imports TeaseAI.Services.Processor
 Imports TeaseAI.Services.Keywords
 Imports TeaseAI.Common.Events
 Imports TeaseAI.Common.Interfaces.Accessors
+Imports TeaseAI.Common.Data.RiskyPick
 
 Public Class MainWindow
 #Region "-------------------------------------- File Constants ------------------------------------------"
@@ -238,8 +239,8 @@ ByVal lpstrReturnString As String, ByVal uReturnLength As Integer, ByVal hwndCal
             End Try
 
             Try
-                FrmCardList.Close()
-                FrmCardList.Dispose()
+                GamesWindow.Close()
+                GamesWindow.Dispose()
             Catch ex As Exception
             End Try
 
@@ -282,7 +283,7 @@ ByVal lpstrReturnString As String, ByVal uReturnLength As Integer, ByVal hwndCal
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles Me.Load
         If mySession Is Nothing Then
-            mySession = New SessionEngine(ServiceFactory.CreateSettingsAccessor(), New StringService(), New ScriptAccessor(New CldAccessor()), New TimerFactory(), New FlagAccessor(), New ImageAccessor(), New VideoAccessor(), New VariableAccessor(), New TauntAccessor(), New SystemVocabularyAccessor(), New VocabularyAccessor(), New LineCollectionFilter(), New RandomNumberService(), ServiceFactory.CreateConfigurationAccessor(), New NotifyUser())
+            mySession = New SessionEngine(ServiceFactory.CreateSettingsAccessor(), New StringService(), New ScriptAccessor(New CldAccessor()), New TimerFactory(), New FlagAccessor(), New ImageAccessor(), New VideoAccessor(), New VariableAccessor(), New TauntAccessor(), New SystemVocabularyAccessor(), New VocabularyAccessor(), New LineCollectionFilter(), New RandomNumberService(), ServiceFactory.CreateConfigurationAccessor(), New NotifyUser(), CType(ServiceFactory.CreatePathsAccessor(), IPathsAccessor))
             AddHandler mySession.DommeSaid, AddressOf mySession_DommeSaid
             AddHandler mySession.ShowImage, AddressOf mySession_ShowImage
             AddHandler mySession.PlayVideo, AddressOf mySession_PlayVideo
@@ -1935,7 +1936,7 @@ NonModuleEnd:
                 ssh.TypeDelay -= 1
             Else
                 Timer1.Stop()
-                If ssh.RiskyDeal Then FrmCardList.LblRiskType.Visible = True
+                If ssh.RiskyDeal Then GamesWindow.LblRiskType.Visible = True
                 If Not ssh.NullResponse Then
                     ssh.IsTyping = True
                     Dim typingName As String = domName.Text
@@ -1974,7 +1975,7 @@ SkipIsTyping:
                 ssh.TypeToggle = 0
                 Timer1.Stop()
                 ssh.IsTyping = False
-                If ssh.RiskyDeal = True Then FrmCardList.LblRiskType.Visible = False
+                If ssh.RiskyDeal = True Then GamesWindow.LblRiskType.Visible = False
 
                 ssh.ResponseYes = ""
                 ssh.ResponseNo = ""
@@ -2387,7 +2388,7 @@ NullResponse:
                         'ChatText.DocumentText = ssh.Chat
                         'ChatText2.DocumentText = ssh.Chat
 
-                        If ssh.RiskyDeal = True Then FrmCardList.WBRiskyChat.DocumentText = "<body style=""word-wrap:break-word;""><font face=""Cambria"" size=""3"" font color=""" &
+                        If ssh.RiskyDeal = True Then GamesWindow.WBRiskyChat.DocumentText = "<body style=""word-wrap:break-word;""><font face=""Cambria"" size=""3"" font color=""" &
                           TypeColor & """><b>" & TypeName & ": </b></font><font face=""" & TypeFont & """ size=""" & TypeSize & """ color=""" & TextColor & """>" & ssh.DomTask & "<br></font></body>"
 
 
@@ -2406,7 +2407,7 @@ NullResponse:
                         'ChatText.DocumentText = ssh.Chat
                         'ChatText2.DocumentText = ssh.Chat
 
-                        If ssh.RiskyDeal = True Then FrmCardList.WBRiskyChat.DocumentText = "<body style=""word-wrap:break-word;""><font face=""Cambria"" size=""3"" font color=""" &
+                        If ssh.RiskyDeal = True Then GamesWindow.WBRiskyChat.DocumentText = "<body style=""word-wrap:break-word;""><font face=""Cambria"" size=""3"" font color=""" &
                           TypeColor & """><b>" & TypeName & ": </b></font><font face=""" & TypeFont & """ size=""" & TypeSize & """ color=""" & TextColor & """>" & ssh.DomTask & "<br></font></body>"
 
                     End If
@@ -2437,7 +2438,7 @@ NoResponse:
 
                     ElseIf ssh.RiskyDeal = True Then
                         ' ######################## Risky Pick #########################
-                        FrmCardList.PBRiskyPic.Image = Image.FromFile(ContactToUse.NavigateNextTease)
+                        GamesWindow.PBRiskyPic.Image = Image.FromFile(ContactToUse.NavigateNextTease)
 
                     ElseIf Not String.IsNullOrWhiteSpace(ssh.DommeImageSTR) Then
                         ' ######################## Domme Tags #########################
@@ -2607,9 +2608,9 @@ DommeSlideshowFallback:
                 End If
 
                 If ssh.YesOrNo = True And ssh.RiskyDeal = True Then
-                    FrmCardList.BTNPickIt.Visible = True
-                    FrmCardList.BTNRiskIt.Visible = True
-                    FrmCardList.HighlightCaseLabelsOffer()
+                    GamesWindow.BTNPickIt.Visible = True
+                    GamesWindow.BTNRiskIt.Visible = True
+                    GamesWindow.HighlightCaseLabelsOffer()
 
                 End If
 
@@ -2678,7 +2679,7 @@ DommeSlideshowFallback:
     Private Async Sub SendTimer_Tick(sender As Object, e As EventArgs) Handles SendTimer.Tick
         SendTimer.Enabled = False
         Dim chatMessage As ChatMessage = myDommeMessages.Dequeue()
-
+        chatMessage.Message = HashTagReplace(chatMessage.Message, mySession.Session.Domme)
         UpdateChatWindow(chatMessage)
 
         Dim nextMessage As ChatMessage = myDommeMessages.FirstOrDefault()
@@ -2728,7 +2729,7 @@ DommeSlideshowFallback:
                 ' Stop the timer while we do stuff
                 SendTimer.Stop()
 
-                If ssh.RiskyDeal = True Then FrmCardList.LblRiskType.Visible = True
+                If ssh.RiskyDeal = True Then GamesWindow.LblRiskType.Visible = True
                 ssh.IsTyping = True
                 Dim TypingName As String = domName.Text
                 If chatMessage.Contains("@Contact1") Then TypingName = My.Settings.Glitter1
@@ -2767,7 +2768,7 @@ SkipIsTyping:
                 ssh.ResponseYes = ""
                 ssh.ResponseNo = ""
 
-                If ssh.RiskyDeal = True Then FrmCardList.LblRiskType.Visible = False
+                If ssh.RiskyDeal = True Then GamesWindow.LblRiskType.Visible = False
 
 NullResponseLine:
                 '################## Display a Slideimage? #################
@@ -2950,7 +2951,7 @@ TryNextWithTease:
                     'ChatText.DocumentText = ssh.Chat
                     'ChatText2.DocumentText = ssh.Chat
 
-                    If ssh.RiskyDeal = True Then FrmCardList.WBRiskyChat.DocumentText = "<body style=""word-wrap:break-word;""><font face=""Cambria"" size=""3"" font color=""" &
+                    If ssh.RiskyDeal = True Then GamesWindow.WBRiskyChat.DocumentText = "<body style=""word-wrap:break-word;""><font face=""Cambria"" size=""3"" font color=""" &
               TypeColor & """><b>" & TypeName & ": </b></font><font face=""" & TypeFont & """ size=""" & TypeSize & """ color=""" & TextColor & """>" & chatMessage & "<br></font></body>"
 
                 Else
@@ -2967,7 +2968,7 @@ TryNextWithTease:
                     'ChatText.DocumentText = ssh.Chat
                     'ChatText2.DocumentText = ssh.Chat
 
-                    If ssh.RiskyDeal = True Then FrmCardList.WBRiskyChat.DocumentText = "<body style=""word-wrap:break-word;""><font face=""Cambria"" size=""3"" font color=""" &
+                    If ssh.RiskyDeal = True Then GamesWindow.WBRiskyChat.DocumentText = "<body style=""word-wrap:break-word;""><font face=""Cambria"" size=""3"" font color=""" &
               TypeColor & """><b>" & TypeName & ": </b></font><font face=""" & TypeFont & """ size=""" & TypeSize & """ color=""" & TextColor & """>" & chatMessage & "<br></font></body>"
 
                 End If
@@ -2993,7 +2994,7 @@ NullResponseLine2:
 
                     ElseIf ssh.RiskyDeal = True Then
                         ' ######################## Risky Pick #########################
-                        FrmCardList.PBRiskyPic.Image = Image.FromFile(ContactToUse.NavigateNextTease)
+                        GamesWindow.PBRiskyPic.Image = Image.FromFile(ContactToUse.NavigateNextTease)
 
                     ElseIf Not String.IsNullOrWhiteSpace(ssh.DommeImageSTR) Then
                         ' ######################## Domme Tags #########################
@@ -4762,21 +4763,7 @@ StatusUpdateEnd:
         If ssh.AssImage = True Then StringClean = StringClean.Replace("#TnAFastSlidesResult", "#BBnB_Ass")
         If ssh.BoobImage = True Then StringClean = StringClean.Replace("#TnAFastSlidesResult", "#BBnB_Boobs")
 
-#Region "Risky Pick Game"
-        StringClean = StringClean.Replace("#RP_ChosenCase", FrmCardList.RiskyPickNumber)
-        StringClean = StringClean.Replace("#RP_RespondCase", FrmCardList.RiskyResponse)
-        'StringClean = StringClean.Replace("#RP_CaseNumber", FrmCardList.RiskyCase)
-        If FrmCardList.RiskyPickCount = 0 Then StringClean = StringClean.Replace("#RP_CaseNumber", FrmCardList.LBLPick1.Text)
-        If FrmCardList.RiskyPickCount = 1 Then StringClean = StringClean.Replace("#RP_CaseNumber", FrmCardList.LBLPick2.Text)
-        If FrmCardList.RiskyPickCount = 2 Then StringClean = StringClean.Replace("#RP_CaseNumber", FrmCardList.LBLPick3.Text)
-        If FrmCardList.RiskyPickCount = 3 Then StringClean = StringClean.Replace("#RP_CaseNumber", FrmCardList.LBLPick4.Text)
-        If FrmCardList.RiskyPickCount = 4 Then StringClean = StringClean.Replace("#RP_CaseNumber", FrmCardList.LBLPick5.Text)
-        If FrmCardList.RiskyPickCount > 4 Then StringClean = StringClean.Replace("#RP_CaseNumber", FrmCardList.LBLPick6.Text)
-        StringClean = StringClean.Replace("#RP_EdgeOffer", FrmCardList.RiskyEdgeOffer)
-        StringClean = StringClean.Replace("#RP_TokenOffer", FrmCardList.RiskyTokenOffer)
-        StringClean = StringClean.Replace("#RP_EdgesOwed", FrmCardList.EdgesOwed)
-        StringClean = StringClean.Replace("#RP_TokensPaid", FrmCardList.TokensPaid)
-#End Region
+
 
         StringClean = StringClean.Replace("#BronzeTokens", ssh.BronzeTokens)
         StringClean = StringClean.Replace("#SilverTokens", ssh.SilverTokens)
@@ -5897,7 +5884,7 @@ TaskCleanSet:
         If StringClean.Contains("@Add1Token") Then
             ssh.BronzeTokens += 1
             My.Settings.BronzeTokens = ssh.BronzeTokens
-            FrmCardList.UpdateBronzeTokens()
+            GamesWindow.UpdateBronzeTokens()
             MessageBox.Show(Me, domName.Text & " has given you 1 Bronze token!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
             StringClean = StringClean.Replace("@Add1Token", "")
         End If
@@ -5905,7 +5892,7 @@ TaskCleanSet:
         If StringClean.Contains("@Add3Tokens") Then
             ssh.BronzeTokens += 3
             My.Settings.BronzeTokens = ssh.BronzeTokens
-            FrmCardList.UpdateBronzeTokens()
+            GamesWindow.UpdateBronzeTokens()
             MessageBox.Show(Me, domName.Text & " has given you 3 Bronze tokens!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
             StringClean = StringClean.Replace("@Add3Tokens", "")
         End If
@@ -5913,7 +5900,7 @@ TaskCleanSet:
         If StringClean.Contains("@Add5Tokens") Then
             ssh.BronzeTokens += 5
             My.Settings.BronzeTokens = ssh.BronzeTokens
-            FrmCardList.UpdateBronzeTokens()
+            GamesWindow.UpdateBronzeTokens()
             StringClean = StringClean.Replace("@Add5Tokens", "")
             MessageBox.Show(Me, domName.Text & " has given you 5 Bronze tokens!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
@@ -5921,7 +5908,7 @@ TaskCleanSet:
         If StringClean.Contains("@Add10Tokens") Then
             ssh.BronzeTokens += 10
             My.Settings.BronzeTokens = ssh.BronzeTokens
-            FrmCardList.UpdateBronzeTokens()
+            GamesWindow.UpdateBronzeTokens()
             MessageBox.Show(Me, domName.Text & " has given you 10 Bronze tokens!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
             StringClean = StringClean.Replace("@Add10Tokens", "")
         End If
@@ -5929,7 +5916,7 @@ TaskCleanSet:
         If StringClean.Contains("@Add25Tokens") Then
             ssh.BronzeTokens += 25
             My.Settings.BronzeTokens = ssh.BronzeTokens
-            FrmCardList.UpdateBronzeTokens()
+            GamesWindow.UpdateBronzeTokens()
             MessageBox.Show(Me, domName.Text & " has given you 25 Bronze tokens!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
             StringClean = StringClean.Replace("@Add25Tokens", "")
         End If
@@ -5937,7 +5924,7 @@ TaskCleanSet:
         If StringClean.Contains("@Add50Tokens") Then
             ssh.BronzeTokens += 50
             My.Settings.BronzeTokens = ssh.BronzeTokens
-            FrmCardList.UpdateBronzeTokens()
+            GamesWindow.UpdateBronzeTokens()
             MessageBox.Show(Me, domName.Text & " has given you 50 Bronze tokens!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
             StringClean = StringClean.Replace("@Add50Tokens", "")
         End If
@@ -5945,7 +5932,7 @@ TaskCleanSet:
         If StringClean.Contains("@Add100Tokens") Then
             ssh.BronzeTokens += 100
             My.Settings.BronzeTokens = ssh.BronzeTokens
-            FrmCardList.UpdateBronzeTokens()
+            GamesWindow.UpdateBronzeTokens()
             MessageBox.Show(Me, domName.Text & " has given you 100 Bronze tokens!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
             StringClean = StringClean.Replace("@Add50Tokens", "")
         End If
@@ -5953,7 +5940,7 @@ TaskCleanSet:
         If StringClean.Contains("@Remove100Tokens") Then
             ssh.BronzeTokens -= 100
             My.Settings.BronzeTokens = ssh.BronzeTokens
-            FrmCardList.UpdateBronzeTokens()
+            GamesWindow.UpdateBronzeTokens()
             MessageBox.Show(Me, domName.Text & " has taken 100 Bronze tokens!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
             StringClean = StringClean.Replace("@@Remove100Tokens", "")
         End If
@@ -8209,47 +8196,47 @@ VTSkip:
         If StringClean.Contains("@PlayRiskyPick") Then
             ssh.RiskyDeal = True
             'FrmCardList.RiskyRound += 1
-            FrmCardList.TCGames.SelectTab(2)
-            FrmCardList.Show()
-            FrmCardList.Focus()
-            FrmCardList.InitializeRiskyDeal()
+            GamesWindow.TCGames.SelectTab(2)
+            GamesWindow.Show()
+            GamesWindow.Focus()
+            GamesWindow.SetupRiskyPick()
             StringClean = StringClean.Replace("@PlayRiskyPick", "")
         End If
 
         If StringClean.Contains("@ChooseRiskyPick") Then
             ssh.RiskyDelay = True
-            If FrmCardList.BTNRisk1.Text <> "" Then FrmCardList.BTNRisk1.Enabled = True
-            If FrmCardList.BTNRisk2.Text <> "" Then FrmCardList.BTNRisk2.Enabled = True
-            If FrmCardList.BTNRisk3.Text <> "" Then FrmCardList.BTNRisk3.Enabled = True
-            If FrmCardList.BTNRisk4.Text <> "" Then FrmCardList.BTNRisk4.Enabled = True
-            If FrmCardList.BTNRisk5.Text <> "" Then FrmCardList.BTNRisk5.Enabled = True
-            If FrmCardList.BTNRisk6.Text <> "" Then FrmCardList.BTNRisk6.Enabled = True
-            If FrmCardList.BTNRisk7.Text <> "" Then FrmCardList.BTNRisk7.Enabled = True
-            If FrmCardList.BTNRisk8.Text <> "" Then FrmCardList.BTNRisk8.Enabled = True
-            If FrmCardList.BTNRisk9.Text <> "" Then FrmCardList.BTNRisk9.Enabled = True
-            If FrmCardList.BTNRisk10.Text <> "" Then FrmCardList.BTNRisk10.Enabled = True
+            If GamesWindow.RiskyCase1Button.Text <> "" Then GamesWindow.RiskyCase1Button.Enabled = True
+            If GamesWindow.RiskyCase2Button.Text <> "" Then GamesWindow.RiskyCase2Button.Enabled = True
+            If GamesWindow.BTNRisk3.Text <> "" Then GamesWindow.BTNRisk3.Enabled = True
+            If GamesWindow.BTNRisk4.Text <> "" Then GamesWindow.BTNRisk4.Enabled = True
+            If GamesWindow.BTNRisk5.Text <> "" Then GamesWindow.BTNRisk5.Enabled = True
+            If GamesWindow.BTNRisk6.Text <> "" Then GamesWindow.BTNRisk6.Enabled = True
+            If GamesWindow.BTNRisk7.Text <> "" Then GamesWindow.BTNRisk7.Enabled = True
+            If GamesWindow.BTNRisk8.Text <> "" Then GamesWindow.BTNRisk8.Enabled = True
+            If GamesWindow.BTNRisk9.Text <> "" Then GamesWindow.BTNRisk9.Enabled = True
+            If GamesWindow.BTNRisk10.Text <> "" Then GamesWindow.BTNRisk10.Enabled = True
 
-            If FrmCardList.BTNRisk11.Text <> "" Then FrmCardList.BTNRisk11.Enabled = True
-            If FrmCardList.BTNRisk12.Text <> "" Then FrmCardList.BTNRisk12.Enabled = True
-            If FrmCardList.BTNRisk13.Text <> "" Then FrmCardList.BTNRisk13.Enabled = True
-            If FrmCardList.BTNRisk14.Text <> "" Then FrmCardList.BTNRisk14.Enabled = True
-            If FrmCardList.BTNRisk15.Text <> "" Then FrmCardList.BTNRisk15.Enabled = True
-            If FrmCardList.BTNRisk16.Text <> "" Then FrmCardList.BTNRisk16.Enabled = True
-            If FrmCardList.BTNRisk17.Text <> "" Then FrmCardList.BTNRisk17.Enabled = True
-            If FrmCardList.BTNRisk18.Text <> "" Then FrmCardList.BTNRisk18.Enabled = True
-            If FrmCardList.BTNRisk19.Text <> "" Then FrmCardList.BTNRisk19.Enabled = True
-            If FrmCardList.BTNRisk20.Text <> "" Then FrmCardList.BTNRisk20.Enabled = True
+            If GamesWindow.BTNRisk11.Text <> "" Then GamesWindow.BTNRisk11.Enabled = True
+            If GamesWindow.BTNRisk12.Text <> "" Then GamesWindow.BTNRisk12.Enabled = True
+            If GamesWindow.BTNRisk13.Text <> "" Then GamesWindow.BTNRisk13.Enabled = True
+            If GamesWindow.BTNRisk14.Text <> "" Then GamesWindow.BTNRisk14.Enabled = True
+            If GamesWindow.BTNRisk15.Text <> "" Then GamesWindow.BTNRisk15.Enabled = True
+            If GamesWindow.BTNRisk16.Text <> "" Then GamesWindow.BTNRisk16.Enabled = True
+            If GamesWindow.BTNRisk17.Text <> "" Then GamesWindow.BTNRisk17.Enabled = True
+            If GamesWindow.BTNRisk18.Text <> "" Then GamesWindow.BTNRisk18.Enabled = True
+            If GamesWindow.BTNRisk19.Text <> "" Then GamesWindow.BTNRisk19.Enabled = True
+            If GamesWindow.BTNRisk20.Text <> "" Then GamesWindow.BTNRisk20.Enabled = True
 
-            If FrmCardList.BTNRisk21.Text <> "" Then FrmCardList.BTNRisk21.Enabled = True
-            If FrmCardList.BTNRisk22.Text <> "" Then FrmCardList.BTNRisk22.Enabled = True
-            If FrmCardList.BTNRisk23.Text <> "" Then FrmCardList.BTNRisk23.Enabled = True
-            If FrmCardList.BTNRisk24.Text <> "" Then FrmCardList.BTNRisk24.Enabled = True
+            If GamesWindow.BTNRisk21.Text <> "" Then GamesWindow.BTNRisk21.Enabled = True
+            If GamesWindow.BTNRisk22.Text <> "" Then GamesWindow.BTNRisk22.Enabled = True
+            If GamesWindow.BTNRisk23.Text <> "" Then GamesWindow.BTNRisk23.Enabled = True
+            If GamesWindow.BTNRisk24.Text <> "" Then GamesWindow.BTNRisk24.Enabled = True
 
-            FrmCardList.RiskyChoiceCount = 0
-            FrmCardList.RiskyRound += 1
-            FrmCardList.RiskyPickCount = 0
-            FrmCardList.RiskyChoices.Clear()
-            FrmCardList.ClearCaseLabelsOffer()
+            GamesWindow.RiskyChoiceCount = 0
+            GamesWindow.RiskyRound += 1
+            GamesWindow.RiskyPickCount = 0
+            GamesWindow.RiskyChoices.Clear()
+            GamesWindow.ClearCaseLabelsOffer()
             'FrmCardList.Show()
             'FrmCardList.TCGames.SelectTab(4)
             'FrmCardList.Focus()
@@ -8260,57 +8247,57 @@ VTSkip:
 
         If StringClean.Contains("@CheckRiskyPick") Then
             'FrmCardList.Focus()
-            FrmCardList.CheckRiskyPick()
+            GamesWindow.CheckRiskyPick()
             StringClean = StringClean.Replace("@CheckRiskyPick", "")
         End If
 
         If StringClean.Contains("@FinalRiskyPick") Then
             'FrmCardList.Focus()
-            FrmCardList.BTNRiskIt.Text = "LAST CASE"
-            FrmCardList.BTNPickIt.Text = "MY CASE"
+            GamesWindow.BTNRiskIt.Text = "LAST CASE"
+            GamesWindow.BTNPickIt.Text = "MY CASE"
             StringClean = StringClean.Replace("@FinalRiskyPick", "")
         End If
 
         If StringClean.Contains("@ClearRiskyLabels") Then
             'FrmCardList.Focus()
-            FrmCardList.ClearCaseLabelsOffer()
+            GamesWindow.ClearCaseLabelsOffer()
             StringClean = StringClean.Replace("@ClearRiskyLabels", "")
         End If
 
         If StringClean.Contains("@RiskyPayout") Then
             If FrmSettings.CBGameSounds.Checked = True And File.Exists(Application.StartupPath & "\Audio\System\PayoutSmall.wav") Then
-                FrmCardList.GameWMP.settings.setMode("loop", False)
-                FrmCardList.GameWMP.settings.volume = 20
-                FrmCardList.GameWMP.URL = Application.StartupPath & "\Audio\System\PayoutSmall.wav"
+                GamesWindow.GameWMP.settings.setMode("loop", False)
+                GamesWindow.GameWMP.settings.volume = 20
+                GamesWindow.GameWMP.URL = Application.StartupPath & "\Audio\System\PayoutSmall.wav"
             End If
-            ssh.BronzeTokens += FrmCardList.TokensPaid
-            FrmCardList.LBLRiskTokens.Text = ssh.BronzeTokens
-            My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\RP_Edges", FrmCardList.EdgesOwed, False)
+            ssh.BronzeTokens += GamesWindow.TokensPaid
+            GamesWindow.LBLRiskTokens.Text = ssh.BronzeTokens
+            My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\RP_Edges", GamesWindow.EdgesOwed, False)
             StringClean = StringClean.Replace("@RiskyPayout", "")
         End If
 
         If StringClean.Contains("@CloseRiskyPick") Then
-            FrmCardList.CloseRiskyPick()
+            GamesWindow.CloseRiskyPick()
             StringClean = StringClean.Replace("@CloseRiskyPick", "")
         End If
 
         If StringClean.Contains("@RevealLastCase") Then
-            FrmCardList.RevealLastCase()
+            GamesWindow.RevealLastCase()
             StringClean = StringClean.Replace("@RevealLastCase", "")
         End If
 
         If StringClean.Contains("@RevealUserCase") Then
-            FrmCardList.RevealUserCase()
+            GamesWindow.RevealUserCase()
             StringClean = StringClean.Replace("@RevealUserCase", "")
         End If
 
         If StringClean.Contains("@RiskyState") Then
-            If FrmCardList.RiskyState = True Then
+            If GamesWindow.RiskyState = True Then
                 ssh.FileGoto = "(Risky Game)"
             Else
                 ssh.FileGoto = "(Risky Tease)"
             End If
-            FrmCardList.RiskyState = False
+            GamesWindow.RiskyState = False
             ssh.SkipGotoLine = True
             GetGoto()
             StringClean = StringClean.Replace("@RiskyState", "")
@@ -11892,7 +11879,7 @@ RestartFunction:
 #End Region 'Domme-WMP
 
     Private Sub domAvatar_MouseEnter(ByVal sender As Object, ByVal e As EventArgs) Handles domAvatar.MouseEnter
-        If FrmSettings.Visible = False And FrmCardList.Visible = False Then domAvatar.Focus()
+        If FrmSettings.Visible = False And GamesWindow.Visible = False Then domAvatar.Focus()
     End Sub
 
     Private Sub domAvatar_MouseWheel(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles domAvatar.MouseWheel
@@ -11968,47 +11955,47 @@ RestartFunction:
 
     Public Sub RefreshCards()
         Try
-            FrmCardList.GoldN1.Text = FrmSettings.GN1.Text
-            FrmCardList.GoldN2.Text = FrmSettings.GN2.Text
-            FrmCardList.GoldN3.Text = FrmSettings.GN3.Text
-            FrmCardList.GoldN4.Text = FrmSettings.GN4.Text
-            FrmCardList.GoldN5.Text = FrmSettings.GN5.Text
-            FrmCardList.GoldN6.Text = FrmSettings.GN6.Text
+            GamesWindow.GoldN1.Text = FrmSettings.GN1.Text
+            GamesWindow.GoldN2.Text = FrmSettings.GN2.Text
+            GamesWindow.GoldN3.Text = FrmSettings.GN3.Text
+            GamesWindow.GoldN4.Text = FrmSettings.GN4.Text
+            GamesWindow.GoldN5.Text = FrmSettings.GN5.Text
+            GamesWindow.GoldN6.Text = FrmSettings.GN6.Text
 
-            FrmCardList.GoldP1.Image = Image.FromFile(My.Settings.GP1)
-            FrmCardList.GoldP2.Image = Image.FromFile(My.Settings.GP2)
-            FrmCardList.GoldP3.Image = Image.FromFile(My.Settings.GP3)
-            FrmCardList.GoldP4.Image = Image.FromFile(My.Settings.GP4)
-            FrmCardList.GoldP5.Image = Image.FromFile(My.Settings.GP5)
-            FrmCardList.GoldP6.Image = Image.FromFile(My.Settings.GP6)
+            GamesWindow.GoldP1.Image = Image.FromFile(My.Settings.GP1)
+            GamesWindow.GoldP2.Image = Image.FromFile(My.Settings.GP2)
+            GamesWindow.GoldP3.Image = Image.FromFile(My.Settings.GP3)
+            GamesWindow.GoldP4.Image = Image.FromFile(My.Settings.GP4)
+            GamesWindow.GoldP5.Image = Image.FromFile(My.Settings.GP5)
+            GamesWindow.GoldP6.Image = Image.FromFile(My.Settings.GP6)
 
-            FrmCardList.SilverN1.Text = FrmSettings.SN1.Text
-            FrmCardList.SilverN2.Text = FrmSettings.SN2.Text
-            FrmCardList.SilverN3.Text = FrmSettings.SN3.Text
-            FrmCardList.SilverN4.Text = FrmSettings.SN4.Text
-            FrmCardList.SilverN5.Text = FrmSettings.SN5.Text
-            FrmCardList.SilverN6.Text = FrmSettings.SN6.Text
+            GamesWindow.SilverN1.Text = FrmSettings.SN1.Text
+            GamesWindow.SilverN2.Text = FrmSettings.SN2.Text
+            GamesWindow.SilverN3.Text = FrmSettings.SN3.Text
+            GamesWindow.SilverN4.Text = FrmSettings.SN4.Text
+            GamesWindow.SilverN5.Text = FrmSettings.SN5.Text
+            GamesWindow.SilverN6.Text = FrmSettings.SN6.Text
 
-            FrmCardList.SilverP1.Image = Image.FromFile(My.Settings.SP1)
-            FrmCardList.SilverP2.Image = Image.FromFile(My.Settings.SP2)
-            FrmCardList.SilverP3.Image = Image.FromFile(My.Settings.SP3)
-            FrmCardList.SilverP4.Image = Image.FromFile(My.Settings.SP4)
-            FrmCardList.SilverP5.Image = Image.FromFile(My.Settings.SP5)
-            FrmCardList.SilverP6.Image = Image.FromFile(My.Settings.SP6)
+            GamesWindow.SilverP1.Image = Image.FromFile(My.Settings.SP1)
+            GamesWindow.SilverP2.Image = Image.FromFile(My.Settings.SP2)
+            GamesWindow.SilverP3.Image = Image.FromFile(My.Settings.SP3)
+            GamesWindow.SilverP4.Image = Image.FromFile(My.Settings.SP4)
+            GamesWindow.SilverP5.Image = Image.FromFile(My.Settings.SP5)
+            GamesWindow.SilverP6.Image = Image.FromFile(My.Settings.SP6)
 
-            FrmCardList.BronzeN1.Text = FrmSettings.BN1.Text
-            FrmCardList.BronzeN2.Text = FrmSettings.BN2.Text
-            FrmCardList.BronzeN3.Text = FrmSettings.BN3.Text
-            FrmCardList.BronzeN4.Text = FrmSettings.BN4.Text
-            FrmCardList.BronzeN5.Text = FrmSettings.BN5.Text
-            FrmCardList.BronzeN6.Text = FrmSettings.BN6.Text
+            GamesWindow.BronzeN1.Text = FrmSettings.BN1.Text
+            GamesWindow.BronzeN2.Text = FrmSettings.BN2.Text
+            GamesWindow.BronzeN3.Text = FrmSettings.BN3.Text
+            GamesWindow.BronzeN4.Text = FrmSettings.BN4.Text
+            GamesWindow.BronzeN5.Text = FrmSettings.BN5.Text
+            GamesWindow.BronzeN6.Text = FrmSettings.BN6.Text
 
-            FrmCardList.BronzeP1.Image = Image.FromFile(My.Settings.BP1)
-            FrmCardList.BronzeP2.Image = Image.FromFile(My.Settings.BP2)
-            FrmCardList.BronzeP3.Image = Image.FromFile(My.Settings.BP3)
-            FrmCardList.BronzeP4.Image = Image.FromFile(My.Settings.BP4)
-            FrmCardList.BronzeP5.Image = Image.FromFile(My.Settings.BP5)
-            FrmCardList.BronzeP6.Image = Image.FromFile(My.Settings.BP6)
+            GamesWindow.BronzeP1.Image = Image.FromFile(My.Settings.BP1)
+            GamesWindow.BronzeP2.Image = Image.FromFile(My.Settings.BP2)
+            GamesWindow.BronzeP3.Image = Image.FromFile(My.Settings.BP3)
+            GamesWindow.BronzeP4.Image = Image.FromFile(My.Settings.BP4)
+            GamesWindow.BronzeP5.Image = Image.FromFile(My.Settings.BP5)
+            GamesWindow.BronzeP6.Image = Image.FromFile(My.Settings.BP6)
         Catch
             ' This is intentionally suppressed because RefreshCards is poorly written and throws exceptions a lot
         End Try
@@ -12407,7 +12394,7 @@ RestartFunction:
         ImageSlideShowPreviousButton.Enabled = True
         PicStripTSMIdommeSlideshow.Enabled = True
 
-        If ssh.RiskyDeal = True Then FrmCardList.PBRiskyPic.Image = Image.FromFile(ssh.SlideshowMain.CurrentImage)
+        If ssh.RiskyDeal = True Then GamesWindow.PBRiskyPic.Image = Image.FromFile(ssh.SlideshowMain.CurrentImage)
 
         If FrmSettings.TimedSlideShowRadio.Checked = True Then
             ssh.SlideshowTimerTick = FrmSettings.SlideShowNumBox.Value
@@ -15053,6 +15040,8 @@ playLoop:
         If InvokeRequired Then
             BeginInvoke(New MethodInvoker(Sub() mySession_DommeSaid(sender, e)))
         Else
+            e.ChatMessage.Message = ToBeMigrated(CreateDommePersonality(), e.ChatMessage.Message)
+            If String.IsNullOrWhiteSpace(e.ChatMessage.Message) Then Return
             myDommeMessages.Enqueue(e.ChatMessage)
             If myDommeMessages.Any() Then
                 SendTimer.Enabled = True
@@ -15640,37 +15629,37 @@ NoPlaylistStartFile:
 
     Private Sub SlotsToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles SlotsToolStripMenuItem1.Click,
                                                                                                     SlotsToolStripMenuItem.Click
-        FrmCardList.TCGames.SelectTab(0)
-        FrmCardList.Show()
-        FrmCardList.Focus()
+        GamesWindow.TCGames.SelectTab(0)
+        GamesWindow.Show()
+        GamesWindow.Focus()
     End Sub
 
     Private Sub MatchGameToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles MatchGameToolStripMenuItem1.Click,
                                                                                                         MatchGameToolStripMenuItem.Click
-        FrmCardList.TCGames.SelectTab(1)
-        FrmCardList.Show()
-        FrmCardList.Focus()
+        GamesWindow.TCGames.SelectTab(1)
+        GamesWindow.Show()
+        GamesWindow.Focus()
     End Sub
 
     Private Sub RiskyPickToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles RiskyPickToolStripMenuItem1.Click,
                                                                                                         RiskyPickToolStripMenuItem.Click
-        FrmCardList.TCGames.SelectTab(2)
-        FrmCardList.Show()
-        FrmCardList.Focus()
+        GamesWindow.TCGames.SelectTab(2)
+        GamesWindow.Show()
+        GamesWindow.Focus()
     End Sub
 
     Private Sub ExchangeToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles ExchangeToolStripMenuItem1.Click,
                                                                                                         ExchangeToolStripMenuItem.Click
-        FrmCardList.TCGames.SelectTab(3)
-        FrmCardList.Show()
-        FrmCardList.Focus()
+        GamesWindow.TCGames.SelectTab(3)
+        GamesWindow.Show()
+        GamesWindow.Focus()
     End Sub
 
     Private Sub CollectionToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles CollectionToolStripMenuItem1.Click,
                                                                                                         CollectionToolStripMenuItem.Click
-        FrmCardList.TCGames.SelectTab(4)
-        FrmCardList.Show()
-        FrmCardList.Focus()
+        GamesWindow.TCGames.SelectTab(4)
+        GamesWindow.Show()
+        GamesWindow.Focus()
     End Sub
 
 #End Region ' Games
@@ -15935,6 +15924,14 @@ NoPlaylistStartFile:
 
 #End Region
 
+    Public Sub UnpauseScripts()
+        mySession.Session.IsScriptPaused = False
+    End Sub
+
+    Public Sub PauseScripts()
+        mySession.Session.IsScriptPaused = True
+    End Sub
+
 #Region "Prepare for extraction to service"
     ''' <summary>
     ''' Updates the chat window with <paramref name="messageString"/>, then optionally saves the log
@@ -16001,7 +15998,95 @@ NoPlaylistStartFile:
         Return messageString
     End Function
 
+    Private Function ToBeMigrated(domme As DommePersonality, message As String) As String
+        Dim inputString As String = message
+#Region "Risky Pick Game"
+        If inputString.Contains(Keyword.ChooseRiskyPick) Then
+            mySession.Session.IsScriptPaused = True
+            GamesWindow.EnableCases()
+            GamesWindow.ClearCaseLabelsOffer()
+
+            inputString = inputString.Replace("@ChooseRiskyPick", "")
+        End If
+
+        If inputString.Contains("@CheckRiskyPick") Then
+            'FrmCardList.Focus()
+            GamesWindow.CheckRiskyPick()
+            inputString = inputString.Replace("@CheckRiskyPick", "")
+            mySession.Session.IsScriptPaused = True
+        End If
+
+        If inputString.Contains("@FinalRiskyPick") Then
+            'FrmCardList.Focus()
+            GamesWindow.BTNRiskIt.Text = "LAST CASE"
+            GamesWindow.BTNPickIt.Text = "MY CASE"
+            inputString = inputString.Replace("@FinalRiskyPick", "")
+        End If
+
+        If inputString.Contains("@ClearRiskyLabels") Then
+            'FrmCardList.Focus()
+            GamesWindow.ClearCaseLabelsOffer()
+            inputString = inputString.Replace("@ClearRiskyLabels", "")
+        End If
+
+        If inputString.Contains("@RiskyPayout") Then
+            If FrmSettings.CBGameSounds.Checked = True And File.Exists(Application.StartupPath & "\Audio\System\PayoutSmall.wav") Then
+                GamesWindow.GameWMP.settings.setMode("loop", False)
+                GamesWindow.GameWMP.settings.volume = 20
+                GamesWindow.GameWMP.URL = Application.StartupPath & "\Audio\System\PayoutSmall.wav"
+            End If
+            ssh.BronzeTokens += GamesWindow.TokensPaid
+            GamesWindow.LBLRiskTokens.Text = ssh.BronzeTokens
+            My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\RP_Edges", GamesWindow.EdgesOwed, False)
+            inputString = inputString.Replace("@RiskyPayout", "")
+        End If
+
+        If inputString.Contains("@CloseRiskyPick") Then
+            GamesWindow.CloseRiskyPick()
+            inputString = inputString.Replace("@CloseRiskyPick", "")
+        End If
+
+        If inputString.Contains("@RevealLastCase") Then
+            GamesWindow.RevealLastCase()
+            inputString = inputString.Replace("@RevealLastCase", "")
+        End If
+
+        If inputString.Contains("@RevealUserCase") Then
+            GamesWindow.RevealUserCase()
+            inputString = inputString.Replace("@RevealUserCase", "")
+        End If
+
+        If inputString.Contains("@RiskyState") Then
+            If GamesWindow.RiskyState = True Then
+                ssh.FileGoto = "(Risky Game)"
+            Else
+                ssh.FileGoto = "(Risky Tease)"
+            End If
+            GamesWindow.RiskyState = False
+            ssh.SkipGotoLine = True
+            inputString = inputString.Replace("@RiskyState", "")
+        End If
+
+        inputString = inputString.Replace("#RP_ChosenCase", GamesWindow.RiskyPickChosenCaseNumber)
+        inputString = inputString.Replace("#RP_RespondCase", GamesWindow.RiskyPickChosenCaseEdges)
+        'inputstring = inputstring.Replace("#RP_CaseNumber", FrmCardList.RiskyCase)
+        If GamesWindow.RiskyPickCount = 0 Then inputString = inputString.Replace("#RP_CaseNumber", GamesWindow.SelectedCase1Label.Text)
+        If GamesWindow.RiskyPickCount = 1 Then inputString = inputString.Replace("#RP_CaseNumber", GamesWindow.SelectedCase2Label.Text)
+        If GamesWindow.RiskyPickCount = 2 Then inputString = inputString.Replace("#RP_CaseNumber", GamesWindow.SelectedCase3Label.Text)
+        If GamesWindow.RiskyPickCount = 3 Then inputString = inputString.Replace("#RP_CaseNumber", GamesWindow.SelectedCase4Label.Text)
+        If GamesWindow.RiskyPickCount = 4 Then inputString = inputString.Replace("#RP_CaseNumber", GamesWindow.SelectedCase5Label.Text)
+        If GamesWindow.RiskyPickCount > 4 Then inputString = inputString.Replace("#RP_CaseNumber", GamesWindow.SelectedCase6Label.Text)
+        inputString = inputString.Replace("#RP_EdgeOffer", GamesWindow.RiskyPickOffer.Edges)
+        inputString = inputString.Replace("#RP_TokenOffer", GamesWindow.RiskyPickOffer.Tokens)
+        inputString = inputString.Replace("#RP_EdgesOwed", GamesWindow.EdgesOwed)
+        inputString = inputString.Replace("#RP_TokensPaid", GamesWindow.TokensPaid)
+#End Region
+
+        Return inputString
+    End Function
+
     Public Function PerformCommands(inputString As String, shouldTaskClean As Boolean) As String
+#Region "Ignore this"
         'ssh.FileGoto = "(Sub Not Stroking)"
         'ssh.SkipGotoLine = True
         'GetGoto("(Sub Not Stroking)")
@@ -16811,7 +16896,7 @@ TaskCleanSet:
         If inputString.Contains("@Add1Token") Then
             ssh.BronzeTokens += 1
             My.Settings.BronzeTokens = ssh.BronzeTokens
-            FrmCardList.UpdateBronzeTokens()
+            GamesWindow.UpdateBronzeTokens()
             MessageBox.Show(Me, domName.Text & " has given you 1 Bronze token!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
             inputString = inputString.Replace("@Add1Token", "")
         End If
@@ -16819,7 +16904,7 @@ TaskCleanSet:
         If inputString.Contains("@Add3Tokens") Then
             ssh.BronzeTokens += 3
             My.Settings.BronzeTokens = ssh.BronzeTokens
-            FrmCardList.UpdateBronzeTokens()
+            GamesWindow.UpdateBronzeTokens()
             MessageBox.Show(Me, domName.Text & " has given you 3 Bronze tokens!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
             inputString = inputString.Replace("@Add3Tokens", "")
         End If
@@ -16827,7 +16912,7 @@ TaskCleanSet:
         If inputString.Contains("@Add5Tokens") Then
             ssh.BronzeTokens += 5
             My.Settings.BronzeTokens = ssh.BronzeTokens
-            FrmCardList.UpdateBronzeTokens()
+            GamesWindow.UpdateBronzeTokens()
             inputString = inputString.Replace("@Add5Tokens", "")
             MessageBox.Show(Me, domName.Text & " has given you 5 Bronze tokens!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
@@ -16835,7 +16920,7 @@ TaskCleanSet:
         If inputString.Contains("@Add10Tokens") Then
             ssh.BronzeTokens += 10
             My.Settings.BronzeTokens = ssh.BronzeTokens
-            FrmCardList.UpdateBronzeTokens()
+            GamesWindow.UpdateBronzeTokens()
             MessageBox.Show(Me, domName.Text & " has given you 10 Bronze tokens!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
             inputString = inputString.Replace("@Add10Tokens", "")
         End If
@@ -16843,7 +16928,7 @@ TaskCleanSet:
         If inputString.Contains("@Add25Tokens") Then
             ssh.BronzeTokens += 25
             My.Settings.BronzeTokens = ssh.BronzeTokens
-            FrmCardList.UpdateBronzeTokens()
+            GamesWindow.UpdateBronzeTokens()
             MessageBox.Show(Me, domName.Text & " has given you 25 Bronze tokens!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
             inputString = inputString.Replace("@Add25Tokens", "")
         End If
@@ -16851,7 +16936,7 @@ TaskCleanSet:
         If inputString.Contains("@Add50Tokens") Then
             ssh.BronzeTokens += 50
             My.Settings.BronzeTokens = ssh.BronzeTokens
-            FrmCardList.UpdateBronzeTokens()
+            GamesWindow.UpdateBronzeTokens()
             MessageBox.Show(Me, domName.Text & " has given you 50 Bronze tokens!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
             inputString = inputString.Replace("@Add50Tokens", "")
         End If
@@ -16859,7 +16944,7 @@ TaskCleanSet:
         If inputString.Contains("@Add100Tokens") Then
             ssh.BronzeTokens += 100
             My.Settings.BronzeTokens = ssh.BronzeTokens
-            FrmCardList.UpdateBronzeTokens()
+            GamesWindow.UpdateBronzeTokens()
             MessageBox.Show(Me, domName.Text & " has given you 100 Bronze tokens!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
             inputString = inputString.Replace("@Add50Tokens", "")
         End If
@@ -16867,7 +16952,7 @@ TaskCleanSet:
         If inputString.Contains("@Remove100Tokens") Then
             ssh.BronzeTokens -= 100
             My.Settings.BronzeTokens = ssh.BronzeTokens
-            FrmCardList.UpdateBronzeTokens()
+            GamesWindow.UpdateBronzeTokens()
             MessageBox.Show(Me, domName.Text & " has taken 100 Bronze tokens!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
             inputString = inputString.Replace("@@Remove100Tokens", "")
         End If
@@ -18669,8 +18754,6 @@ ExternalAudio:
             inputString = inputString.Replace("@RemoveStrokeTime(" & OriginalFlag & ")", "")
         End If
 
-
-
         If inputString.Contains("@AddStrokeTime") Then
             If StrokeTimer.Enabled = True Then
                 If FrmSettings.CBTauntCycleDD.Checked = True Then
@@ -19013,115 +19096,15 @@ VTSkip:
 
         End If
 
-
+#End Region
         If inputString.Contains("@PlayRiskyPick") Then
             ssh.RiskyDeal = True
             'FrmCardList.RiskyRound += 1
-            FrmCardList.TCGames.SelectTab(2)
-            FrmCardList.Show()
-            FrmCardList.Focus()
-            FrmCardList.InitializeRiskyDeal()
+            GamesWindow.TCGames.SelectTab(2)
+            GamesWindow.Show()
+            GamesWindow.Focus()
+            GamesWindow.SetupRiskyPick()
             inputString = inputString.Replace("@PlayRiskyPick", "")
-        End If
-
-        If inputString.Contains("@ChooseRiskyPick") Then
-            ssh.RiskyDelay = True
-            If FrmCardList.BTNRisk1.Text <> "" Then FrmCardList.BTNRisk1.Enabled = True
-            If FrmCardList.BTNRisk2.Text <> "" Then FrmCardList.BTNRisk2.Enabled = True
-            If FrmCardList.BTNRisk3.Text <> "" Then FrmCardList.BTNRisk3.Enabled = True
-            If FrmCardList.BTNRisk4.Text <> "" Then FrmCardList.BTNRisk4.Enabled = True
-            If FrmCardList.BTNRisk5.Text <> "" Then FrmCardList.BTNRisk5.Enabled = True
-            If FrmCardList.BTNRisk6.Text <> "" Then FrmCardList.BTNRisk6.Enabled = True
-            If FrmCardList.BTNRisk7.Text <> "" Then FrmCardList.BTNRisk7.Enabled = True
-            If FrmCardList.BTNRisk8.Text <> "" Then FrmCardList.BTNRisk8.Enabled = True
-            If FrmCardList.BTNRisk9.Text <> "" Then FrmCardList.BTNRisk9.Enabled = True
-            If FrmCardList.BTNRisk10.Text <> "" Then FrmCardList.BTNRisk10.Enabled = True
-
-            If FrmCardList.BTNRisk11.Text <> "" Then FrmCardList.BTNRisk11.Enabled = True
-            If FrmCardList.BTNRisk12.Text <> "" Then FrmCardList.BTNRisk12.Enabled = True
-            If FrmCardList.BTNRisk13.Text <> "" Then FrmCardList.BTNRisk13.Enabled = True
-            If FrmCardList.BTNRisk14.Text <> "" Then FrmCardList.BTNRisk14.Enabled = True
-            If FrmCardList.BTNRisk15.Text <> "" Then FrmCardList.BTNRisk15.Enabled = True
-            If FrmCardList.BTNRisk16.Text <> "" Then FrmCardList.BTNRisk16.Enabled = True
-            If FrmCardList.BTNRisk17.Text <> "" Then FrmCardList.BTNRisk17.Enabled = True
-            If FrmCardList.BTNRisk18.Text <> "" Then FrmCardList.BTNRisk18.Enabled = True
-            If FrmCardList.BTNRisk19.Text <> "" Then FrmCardList.BTNRisk19.Enabled = True
-            If FrmCardList.BTNRisk20.Text <> "" Then FrmCardList.BTNRisk20.Enabled = True
-
-            If FrmCardList.BTNRisk21.Text <> "" Then FrmCardList.BTNRisk21.Enabled = True
-            If FrmCardList.BTNRisk22.Text <> "" Then FrmCardList.BTNRisk22.Enabled = True
-            If FrmCardList.BTNRisk23.Text <> "" Then FrmCardList.BTNRisk23.Enabled = True
-            If FrmCardList.BTNRisk24.Text <> "" Then FrmCardList.BTNRisk24.Enabled = True
-
-            FrmCardList.RiskyChoiceCount = 0
-            FrmCardList.RiskyRound += 1
-            FrmCardList.RiskyPickCount = 0
-            FrmCardList.RiskyChoices.Clear()
-            FrmCardList.ClearCaseLabelsOffer()
-            'FrmCardList.Show()
-            'FrmCardList.TCGames.SelectTab(4)
-            'FrmCardList.Focus()
-
-            inputString = inputString.Replace("@ChooseRiskyPick", "")
-        End If
-
-
-        If inputString.Contains("@CheckRiskyPick") Then
-            'FrmCardList.Focus()
-            FrmCardList.CheckRiskyPick()
-            inputString = inputString.Replace("@CheckRiskyPick", "")
-        End If
-
-        If inputString.Contains("@FinalRiskyPick") Then
-            'FrmCardList.Focus()
-            FrmCardList.BTNRiskIt.Text = "LAST CASE"
-            FrmCardList.BTNPickIt.Text = "MY CASE"
-            inputString = inputString.Replace("@FinalRiskyPick", "")
-        End If
-
-        If inputString.Contains("@ClearRiskyLabels") Then
-            'FrmCardList.Focus()
-            FrmCardList.ClearCaseLabelsOffer()
-            inputString = inputString.Replace("@ClearRiskyLabels", "")
-        End If
-
-        If inputString.Contains("@RiskyPayout") Then
-            If FrmSettings.CBGameSounds.Checked = True And File.Exists(Application.StartupPath & "\Audio\System\PayoutSmall.wav") Then
-                FrmCardList.GameWMP.settings.setMode("loop", False)
-                FrmCardList.GameWMP.settings.volume = 20
-                FrmCardList.GameWMP.URL = Application.StartupPath & "\Audio\System\PayoutSmall.wav"
-            End If
-            ssh.BronzeTokens += FrmCardList.TokensPaid
-            FrmCardList.LBLRiskTokens.Text = ssh.BronzeTokens
-            My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\RP_Edges", FrmCardList.EdgesOwed, False)
-            inputString = inputString.Replace("@RiskyPayout", "")
-        End If
-
-        If inputString.Contains("@CloseRiskyPick") Then
-            FrmCardList.CloseRiskyPick()
-            inputString = inputString.Replace("@CloseRiskyPick", "")
-        End If
-
-        If inputString.Contains("@RevealLastCase") Then
-            FrmCardList.RevealLastCase()
-            inputString = inputString.Replace("@RevealLastCase", "")
-        End If
-
-        If inputString.Contains("@RevealUserCase") Then
-            FrmCardList.RevealUserCase()
-            inputString = inputString.Replace("@RevealUserCase", "")
-        End If
-
-        If inputString.Contains("@RiskyState") Then
-            If FrmCardList.RiskyState = True Then
-                ssh.FileGoto = "(Risky Game)"
-            Else
-                ssh.FileGoto = "(Risky Tease)"
-            End If
-            FrmCardList.RiskyState = False
-            ssh.SkipGotoLine = True
-            GetGoto()
-            inputString = inputString.Replace("@RiskyState", "")
         End If
 
         If inputString.Contains("@SystemMessage ") Then
@@ -19770,7 +19753,7 @@ VTSkip:
     End Function
 
     Private Function GetTypingDelay(chatMessage As ChatMessage, isInstantType As Boolean) As Integer
-        Dim typeDelay As Integer = 0
+        Dim typeDelay As Integer = 1
         If Not isInstantType Then
             typeDelay = Math.Min(chatMessage.Message.Length, 60)
         End If
@@ -19864,5 +19847,12 @@ VTSkip:
         Return result
     End Function
 
+    Public Function SendCommand(command As String) As Result
+        Return mySession.SendCommand(command)
+    End Function
+
+    Public Function GetGameBoard() As RiskyPickGameBoard
+        Return mySession.Session.GameBoard
+    End Function
 #End Region
 End Class

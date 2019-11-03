@@ -44,11 +44,13 @@ namespace TeaseAI.Services
             , IRandomNumberService randomNumberService
             , IConfigurationAccessor configurationAccessor
             , INotifyUser notifyUser
+            , IPathsAccessor pathsAccessor
             )
         {
-            CommandProcessors = CreateCommandProcessors(scriptAccessor, flagAccessor, new LineService(), imageAccessor, videoAccessor, variableAccessor, tauntAccessor, configurationAccessor, randomNumberService, notifyUser, settingsAccessor);
+            CommandProcessors = CreateCommandProcessors(scriptAccessor, flagAccessor, new LineService(), imageAccessor, videoAccessor, variableAccessor, tauntAccessor, configurationAccessor, randomNumberService, notifyUser, settingsAccessor, pathsAccessor);
 
             CommandProcessors[Keyword.StartStroking].CommandProcessed += StartStrokingCommandProcessed;
+            CommandProcessors[Keyword.StartRiskyPick].CommandProcessed += StartRiskyPickCommandProcessed;
             CommandProcessors[Keyword.Edge].CommandProcessed += EdgeCommandProcessed;
             CommandProcessors[Keyword.End].CommandProcessed += EndCommandProcessed;
             CommandProcessors[Keyword.ShowImage].CommandProcessed += ShowImageCommandProcessed;
@@ -151,20 +153,24 @@ namespace TeaseAI.Services
                         return _scriptAccessor.GetFallbackMetaData(Session, Session.Phase);
                     return Result.Ok(scripts[new Random().Next(scripts.Count)]);
                 })
-                .OnSuccess(smd => _scriptAccessor.GetScript(smd));
-
+                .OnSuccess(smd => _scriptAccessor.GetScript(smd))
+                .OnSuccess(s => BeginSession(s));
             if (selectScript.IsFailure)
             {
                 OnDommeSaid(Session.Domme, "Error: " + selectScript.Error);
                 return;
             }
-            Debug.Print("Script: " + selectScript.Value.MetaData.Key);
+        }
+
+        public void BeginSession(Script script)
+        {
+            Debug.Print("Script: " + script.MetaData.Key);
 
             var setStrokeRound = _variableAccessor.SetVariable(Session.Domme, SystemVariable.StrokeRound, "0");
             var updateSubLeftEarly = _variableAccessor.GetVariable(Session.Domme, SystemVariable.SubLeftEarly)
                 .OnSuccess(val => _variableAccessor.SetVariable(Session.Domme, SystemVariable.SubLeftEarly, (int.Parse(val) + 1).ToString()));
 
-            Session.Scripts.Push(selectScript.Value);
+            Session.Scripts.Push(script);
             Session.TimeRemaining = GetTeaseDuration(Session);
             // fire off once a minute (60s * 1000ms)
             _teaseCountDown.Interval = 60000;
@@ -175,6 +181,7 @@ namespace TeaseAI.Services
             _scriptTimer.Interval = Session.Domme.MessageTimer;
             _scriptTimer.Enabled = true;
             _scriptTimer.AutoReset = false;
+
         }
 
         /// <summary>
@@ -212,6 +219,32 @@ namespace TeaseAI.Services
             Session = newSession;
         }
 
+        /// <summary>
+        /// Process the command passed in. This is expected to be only the command on the line
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        public Result SendCommand(string command)
+        {
+            lock (_sessionLock)
+            {
+                var workingSession = Session.Clone();
+
+                foreach (var processor in CommandProcessors.Values)
+                {
+                    if (processor.IsRelevant(workingSession, command))
+                    {
+                        var doCommand = processor.PerformCommand(workingSession, command)
+                            .OnSuccess(ws => workingSession = ws)
+                            .OnSuccess(ws => command = processor.DeleteCommandFrom(command));
+                        if (doCommand.IsFailure)
+                            return doCommand.Map();
+                    }
+                }
+                return Result.Ok();
+            }
+        }
+
         #region private methods
         private Dictionary<string, ICommandProcessor> CreateCommandProcessors(IScriptAccessor scriptAccessor
             , IFlagAccessor flagAccessor
@@ -223,7 +256,8 @@ namespace TeaseAI.Services
             , IConfigurationAccessor configurationAccessor
             , IRandomNumberService randomNumberService
             , INotifyUser notifyUser
-            , ISettingsAccessor settingsAccessor)
+            , ISettingsAccessor settingsAccessor
+            , IPathsAccessor pathsAccessor)
         {
             var rVal = new Dictionary<string, ICommandProcessor>();
             rVal.Add(Keyword.Wait, new WaitCommandProcessor(lineService));
@@ -296,6 +330,7 @@ namespace TeaseAI.Services
 
             rVal.Add(Keyword.AddTokens, new AddTokensCommandProcessor(lineService, settingsAccessor, notifyUser));
 
+            rVal.Add(Keyword.StartRiskyPick, new StartRiskyPickCommandProcessor(lineService, pathsAccessor, settingsAccessor));
             rVal.Add(Keyword.End, new EndCommandProcessor(lineService));
             rVal.Add(Keyword.NullResponse, new NullResponseCommandProcessor());
 
@@ -379,6 +414,9 @@ namespace TeaseAI.Services
                 return true;
 
             if (session.IsVideoPlaying)
+                return true;
+
+            if (session.IsScriptPaused)
                 return true;
 
             return false;
@@ -574,6 +612,11 @@ namespace TeaseAI.Services
         {
             //StrokeTimer.Start()
             //TauntTimer.Start();
+        }
+
+        private void StartRiskyPickCommandProcessed(object sender, CommandProcessedEventArgs e)
+        {
+            BeginSession((Script)e.Parameter);
         }
         #endregion
 

@@ -3,6 +3,7 @@ Option Strict On
 Imports TeaseAI.Common.Interfaces.Accessors
 
 Public Class PathsAccessor
+    Implements IPathsAccessor
     Private mySettingsAccessor As ISettingsAccessor
     Private myConfigurationAccessor As IConfigurationAccessor
 
@@ -132,7 +133,7 @@ Public Class PathsAccessor
         End Get
     End Property
 
-    Public ReadOnly Property RiskyPickScript As String
+    Public ReadOnly Property RiskyPickScript As String Implements IPathsAccessor.RiskyPickScript
         Get
             Return Personality & "Apps\Games\Risky Pick\Risky Pick.txt"
         End Get

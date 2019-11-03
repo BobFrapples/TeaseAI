@@ -343,5 +343,14 @@ namespace TeaseAI.Common.Constants
         /// <para>Add AMOUNT of Gold, Silver, or Bronze tokens to the subs purse. This can be repeated multiple times</para>
         /// </summary>
         public const string AddTokens = @"@AddTokens(";
+
+        /// <summary>
+        /// Start a new game of Risky Pick
+        /// </summary>
+        public const string StartRiskyPick = @"@StartRiskyPick";
+        /// <summary>
+        /// Pauses the script until a risky pick box is chosen
+        /// </summary>
+        public static string ChooseRiskyPick => @"@ChooseRiskyPick";
     }
 }

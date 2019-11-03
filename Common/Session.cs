@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TeaseAI.Common.Constants;
 using TeaseAI.Common.Data;
+using TeaseAI.Common.Data.RiskyPick;
 
 namespace TeaseAI.Common
 {
@@ -18,16 +19,13 @@ namespace TeaseAI.Common
         public Stack<Script> Scripts { get; private set; }
         public Script CurrentScript => (Scripts.Count == 0) ? default(Script) : Scripts.Peek();
         public SessionPhase Phase { get; set; }
-        public string PointInSession
-        {
-            get
-            {
-                if (IsFirstRound)
-                    return Response.FirstRound;
-                return Response.BeforeTease;
-            }
-        }
         public int TimeRemaining { get; set; }
+        public RiskyPickGameBoard GameBoard { get; set; }
+
+        /// <summary>
+        /// Used to pause reading the script. some commands do this instead of using @wait, etc.
+        /// </summary>
+        public bool IsScriptPaused { get; set; }
         #endregion
 
         public Session(DommePersonality domme, SubPersonality sub)
@@ -53,16 +51,19 @@ namespace TeaseAI.Common
             var returnValue = new Session(Domme.Clone(), Sub.Clone())
             {
 
-                IsFirstRound = this.IsFirstRound,
-                IsOrgasmAllowed = this.IsOrgasmAllowed,
-                IsOrgasmRuined = this.IsOrgasmRuined,
-                IsBeforeTease = this.IsBeforeTease,
-                Phase = this.Phase,
-                IsVideoPlaying = this.IsVideoPlaying,
-                IsLongEdge = this.IsLongEdge,
-                TimeRemaining = this.TimeRemaining,
+                IsFirstRound = IsFirstRound,
+                IsOrgasmAllowed = IsOrgasmAllowed,
+                IsScriptPaused = IsScriptPaused,
+                IsOrgasmRuined = IsOrgasmRuined,
+                IsBeforeTease = IsBeforeTease,
+                Phase = Phase,
+                IsVideoPlaying = IsVideoPlaying,
+                IsLongEdge = IsLongEdge,
+                TimeRemaining = TimeRemaining,
                 MaximumTaskTime = MaximumTaskTime,
                 MinimumTaskTime = MinimumTaskTime,
+                GameBoard = GameBoard?.Clone(),
+                Glitter = Glitter.Select(dp => dp.Clone()).ToList(),
             };
             var scripts = this.Scripts.ToArray().ToList();
             scripts.Reverse();

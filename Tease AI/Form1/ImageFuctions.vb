@@ -2,6 +2,8 @@
 Imports System.IO
 Imports System.Threading
 Imports System.Windows.Forms
+Imports TeaseAI.Common.Data
+Imports TeaseAI.Common.Data.RiskyPick
 
 Partial Class MainWindow
 
@@ -377,17 +379,17 @@ NoneFound:
             .Add(ImageGenre.Blog, New ImageDataContainer With
                  {
                     .Name = ImageGenre.Blog,
-                    .SYS_NoPornAllowed = SysNoPornAllowed
+                    .SYS_NoPornAllowed = sysNoPornAllowed
                  })
             .Add(ImageGenre.Liked, New ImageDataContainer With
                  {
                     .Name = ImageGenre.Liked,
-                    .SYS_NoPornAllowed = SysNoPornAllowed
+                    .SYS_NoPornAllowed = sysNoPornAllowed
                  })
             .Add(ImageGenre.Disliked, New ImageDataContainer With
                  {
                     .Name = ImageGenre.Disliked,
-                    .SYS_NoPornAllowed = SysNoPornAllowed
+                    .SYS_NoPornAllowed = sysNoPornAllowed
                  })
 
             .Add(ImageGenre.Butt, New ImageDataContainer With
@@ -396,7 +398,7 @@ NoneFound:
                     .LocalDirectory = If(My.Settings.CBIButts, My.Settings.LBLButtPath, ""),
                     .LocalSubDirectories = My.Settings.CBButtSubDir,
                     .UrlFile = If(My.Settings.UrlFileButtEnabled, My.Settings.UrlFileButt, ""),
-                    .SYS_NoPornAllowed = SysNoPornAllowed
+                    .SYS_NoPornAllowed = sysNoPornAllowed
                 })
 
             .Add(ImageGenre.Boobs, New ImageDataContainer With
@@ -405,7 +407,7 @@ NoneFound:
                     .LocalDirectory = If(My.Settings.CBIBoobs, My.Settings.LBLBoobPath, ""),
                     .LocalSubDirectories = My.Settings.CBButtSubDir,
                     .UrlFile = If(My.Settings.UrlFileBoobsEnabled, My.Settings.UrlFileBoobs, ""),
-                    .SYS_NoPornAllowed = SysNoPornAllowed
+                    .SYS_NoPornAllowed = sysNoPornAllowed
                 })
 
             .Add(ImageGenre.Hardcore, New ImageDataContainer With
@@ -414,7 +416,7 @@ NoneFound:
                     .LocalDirectory = If(My.Settings.CBIHardcore, My.Settings.IHardcore, ""),
                     .LocalSubDirectories = My.Settings.CBHardcore,
                     .UrlFile = If(My.Settings.UrlFileHardcoreEnabled, My.Settings.UrlFileHardcore, ""),
-                    .SYS_NoPornAllowed = SysNoPornAllowed
+                    .SYS_NoPornAllowed = sysNoPornAllowed
                 })
 
             .Add(ImageGenre.Softcore, New ImageDataContainer With
@@ -423,7 +425,7 @@ NoneFound:
                     .LocalDirectory = If(My.Settings.CBISoftcore, My.Settings.ISoftcore, ""),
                     .LocalSubDirectories = My.Settings.CBSoftcore,
                     .UrlFile = If(My.Settings.UrlFileSoftcoreEnabled, My.Settings.UrlFileSoftcore, ""),
-                    .SYS_NoPornAllowed = SysNoPornAllowed
+                    .SYS_NoPornAllowed = sysNoPornAllowed
                 })
 
             .Add(ImageGenre.Lesbian, New ImageDataContainer With
@@ -432,7 +434,7 @@ NoneFound:
                     .LocalDirectory = If(My.Settings.CBILesbian, My.Settings.ILesbian, ""),
                     .LocalSubDirectories = My.Settings.CBLesbian,
                     .UrlFile = If(My.Settings.UrlFileLesbianEnabled, My.Settings.UrlFileLesbian, ""),
-                    .SYS_NoPornAllowed = SysNoPornAllowed
+                    .SYS_NoPornAllowed = sysNoPornAllowed
                 })
 
             .Add(ImageGenre.Blowjob, New ImageDataContainer With
@@ -441,7 +443,7 @@ NoneFound:
                     .LocalDirectory = If(My.Settings.CBIBlowjob, My.Settings.IBlowjob, ""),
                     .LocalSubDirectories = My.Settings.CBBlowjob,
                     .UrlFile = If(My.Settings.UrlFileBlowjobEnabled, My.Settings.UrlFileBlowjob, ""),
-                    .SYS_NoPornAllowed = SysNoPornAllowed
+                    .SYS_NoPornAllowed = sysNoPornAllowed
                 })
 
             .Add(ImageGenre.Femdom, New ImageDataContainer With
@@ -450,7 +452,7 @@ NoneFound:
                     .LocalDirectory = If(My.Settings.CBIFemdom, My.Settings.IFemdom, ""),
                     .LocalSubDirectories = My.Settings.CBFemdom,
                     .UrlFile = If(My.Settings.UrlFileFemdomEnabled, My.Settings.UrlFileFemdom, ""),
-                    .SYS_NoPornAllowed = SysNoPornAllowed
+                    .SYS_NoPornAllowed = sysNoPornAllowed
                 })
 
             .Add(ImageGenre.Lezdom, New ImageDataContainer With
@@ -459,7 +461,7 @@ NoneFound:
                     .LocalDirectory = If(My.Settings.CBILezdom, My.Settings.ILezdom, ""),
                     .LocalSubDirectories = My.Settings.ILezdomSD,
                     .UrlFile = If(My.Settings.UrlFileLezdomEnabled, My.Settings.UrlFileLezdom, ""),
-                    .SYS_NoPornAllowed = SysNoPornAllowed
+                    .SYS_NoPornAllowed = sysNoPornAllowed
                 })
 
             .Add(ImageGenre.Hentai, New ImageDataContainer With
@@ -468,7 +470,7 @@ NoneFound:
                     .LocalDirectory = If(My.Settings.CBIHentai, My.Settings.IHentai, ""),
                     .LocalSubDirectories = My.Settings.IHentaiSD,
                     .UrlFile = If(My.Settings.UrlFileHentaiEnabled, My.Settings.UrlFileHentai, ""),
-                    .SYS_NoPornAllowed = SysNoPornAllowed
+                    .SYS_NoPornAllowed = sysNoPornAllowed
                 })
 
             .Add(ImageGenre.Gay, New ImageDataContainer With
@@ -477,7 +479,7 @@ NoneFound:
                     .LocalDirectory = If(My.Settings.CBIGay, My.Settings.IGay, ""),
                     .LocalSubDirectories = My.Settings.IGaySD,
                     .UrlFile = If(My.Settings.UrlFileGayEnabled, My.Settings.UrlFileGay, ""),
-                    .SYS_NoPornAllowed = SysNoPornAllowed
+                    .SYS_NoPornAllowed = sysNoPornAllowed
                 })
 
             .Add(ImageGenre.Maledom, New ImageDataContainer With
@@ -486,7 +488,7 @@ NoneFound:
                     .LocalDirectory = If(My.Settings.CBIMaledom, My.Settings.IMaledom, ""),
                     .LocalSubDirectories = My.Settings.IMaledomSD,
                     .UrlFile = If(My.Settings.UrlFileMaledomEnabled, My.Settings.UrlFileMaledom, ""),
-                    .SYS_NoPornAllowed = SysNoPornAllowed
+                    .SYS_NoPornAllowed = sysNoPornAllowed
                 })
 
             .Add(ImageGenre.Captions, New ImageDataContainer With
@@ -495,7 +497,7 @@ NoneFound:
                     .LocalDirectory = If(My.Settings.CBICaptions, My.Settings.ICaptions, ""),
                     .LocalSubDirectories = My.Settings.ICaptionsSD,
                     .UrlFile = If(My.Settings.UrlFileCaptionsEnabled, My.Settings.UrlFileCaptions, ""),
-                    .SYS_NoPornAllowed = SysNoPornAllowed
+                    .SYS_NoPornAllowed = sysNoPornAllowed
                 })
 
             .Add(ImageGenre.General, New ImageDataContainer With
@@ -504,7 +506,7 @@ NoneFound:
                     .LocalDirectory = If(My.Settings.CBIGeneral, My.Settings.IGeneral, ""),
                     .LocalSubDirectories = My.Settings.IGeneralSD,
                     .UrlFile = If(My.Settings.UrlFileGeneralEnabled, My.Settings.UrlFileGeneral, ""),
-                    .SYS_NoPornAllowed = SysNoPornAllowed
+                    .SYS_NoPornAllowed = sysNoPornAllowed
                 })
         End With
 
@@ -699,11 +701,11 @@ retryLocal: ' If an exception occures the function is restarted and the Errorima
             Catch ex As ThreadAbortException
                 Debug.Print("ImageFetch - DoWork - Thread aborted.")
                 e.Result = e.Argument
-            Catch ex As Exception When .ImageLocation <> errorimagepath
+            Catch ex As Exception When .ImageLocation <> errorImagePath
                 Debug.Print("ImageFetch - DoWork - 1st Exception perfomaing fallback")
                 Log.WriteError("Error loading Image: """ & .ImageLocation & """", ex,
                         "Error loading image. Performing fallback to errorimage.")
-                .ImageLocation = errorimagepath
+                .ImageLocation = errorImagePath
                 GoTo retryLocal
             Catch ex As Exception
                 Debug.Print("ImageFetch - DoWork - 2nd Exception - fallback failed.")
@@ -1113,6 +1115,8 @@ retryLocal: ' If an exception occures the function is restarted and the Errorima
 
         Return rtnInt
     End Function
+
+
 #End Region ' Image administration
 
 End Class

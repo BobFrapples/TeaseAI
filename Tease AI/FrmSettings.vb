@@ -2252,8 +2252,8 @@ Public Class FrmSettings
             savePath = savePath.Replace("CardCard", "Card")
 
             ' Close Games form and end file access.
-            If FrmCardList.Visible Then FrmCardList.Dispose()
-            FrmCardList.ClearAllCards()
+            If GamesWindow.Visible Then GamesWindow.Dispose()
+            GamesWindow.ClearAllCards()
 
             ' Release all ressources.
             If target.Image IsNot Nothing Then target.Image.Dispose()

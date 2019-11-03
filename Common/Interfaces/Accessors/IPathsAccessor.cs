@@ -4,7 +4,8 @@ using System.Text;
 
 namespace TeaseAI.Common.Interfaces.Accessors
 {
-    interface IPathsAccessor
+    public interface IPathsAccessor
     {
+        string RiskyPickScript { get; }
     }
 }
