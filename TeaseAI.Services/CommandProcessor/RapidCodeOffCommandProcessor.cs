@@ -5,9 +5,9 @@ namespace TeaseAI.Services.CommandProcessor
 {
     public class RapidCodeOffCommandProcessor : CommandProcessorBase
     {
-        public override string DeleteCommandFrom(string line) => line.Replace(Keyword.RapidCodeOff, string.Empty);
+        public override string DeleteCommandFrom(string line) => line.Replace(Keyword.RapidCodeOff, string.Empty).Replace(Keyword.RapidTextOff, string.Empty);
 
-        public override bool IsRelevant(Session session, string line) => line.Contains(Keyword.RapidCodeOff);
+        public override bool IsRelevant(Session session, string line) => line.Contains(Keyword.RapidCodeOff) || line.Contains(Keyword.RapidTextOff);
 
         public override Result<Session> PerformCommand(Session session, string line)
         {

@@ -8048,18 +8048,6 @@ ExternalAudio:
             StringClean = StringClean.Replace("@PlaylistOff", "")
         End If
 
-        If StringClean.Contains("@RapidTextOn") Or StringClean.Contains("@RTOn") Then
-            ssh.RapidFire = True
-            StringClean = StringClean.Replace("@RapidTextOn", "")
-            StringClean = StringClean.Replace("@RTOn", "")
-        End If
-
-        If StringClean.Contains("@RapidTextOff") Or StringClean.Contains("@RTOff") Then
-            ssh.RapidFire = False
-            StringClean = StringClean.Replace("@RapidTextOff", "")
-            StringClean = StringClean.Replace("@RTOff", "")
-        End If
-
         If StringClean.Contains("@AddContact1") Or StringClean.Contains("@RemoveContact1") Then
             ssh.AddContactTick = 2
             Contact1Timer.Start()

@@ -156,10 +156,12 @@ namespace TeaseAI.Common.Constants
         /// Set sleep time between messages to default value
         /// </summary>
         public const string RapidCodeOff = @"@RapidCodeOff";
+        public const string RapidTextOff = @"@RapidTextOff";
         /// <summary>
         /// Set sleep time between messages to zero
         /// </summary>
         public const string RapidCodeOn = @"@RapidCodeOn";
+        public const string RapidTextOn = @"@RapidTextOn";
 
         /// <summary>
         /// Alias for <see cref="RandomText"/> 
