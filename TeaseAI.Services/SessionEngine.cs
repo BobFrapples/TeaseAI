@@ -50,7 +50,6 @@ namespace TeaseAI.Services
             CommandProcessors = CreateCommandProcessors(scriptAccessor, flagAccessor, new LineService(), imageAccessor, videoAccessor, variableAccessor, tauntAccessor, configurationAccessor, randomNumberService, notifyUser, settingsAccessor, pathsAccessor);
 
             CommandProcessors[Keyword.StartStroking].CommandProcessed += StartStrokingCommandProcessed;
-            CommandProcessors[Keyword.StartRiskyPick].CommandProcessed += StartRiskyPickCommandProcessed;
             CommandProcessors[Keyword.Edge].CommandProcessed += EdgeCommandProcessed;
             CommandProcessors[Keyword.End].CommandProcessed += EndCommandProcessed;
             CommandProcessors[Keyword.ShowImage].CommandProcessed += ShowImageCommandProcessed;
@@ -81,6 +80,8 @@ namespace TeaseAI.Services
 
             MessageProcessors[MessageProcessor.ScriptResponse].MessageProcessed += ScriptResponse_MessageProcessed;
             MessageProcessors[MessageProcessor.EdgeDetection].MessageProcessed += EdgeDetection_MessageProcessed;
+
+            CommandProcessors[Keyword.RiskyPickStart].CommandProcessed += RiskyPickStartCommandProcessed;
 
             _scriptAccessor = scriptAccessor;
             _variableAccessor = variableAccessor;
@@ -241,6 +242,7 @@ namespace TeaseAI.Services
                             return doCommand.Map();
                     }
                 }
+                Session = workingSession;
                 return Result.Ok();
             }
         }
@@ -323,6 +325,7 @@ namespace TeaseAI.Services
             rVal.Add(Keyword.OrgasmAllow, new OrgasmAllowCommandProcessor(lineService));
             rVal.Add(Keyword.OrgasmDeny, new OrgasmDenyCommandProcessor(lineService));
             rVal.Add(Keyword.Call, new CallCommandProcessor(scriptAccessor, lineService));
+            rVal.Add(Keyword.Unpause, new UnpauseCommandProcessor(lineService));
 
             rVal.Add(Keyword.CockTorture, new CockTortureCommandProcessor(lineService, configurationAccessor, randomNumberService));
             rVal.Add(Keyword.BallTorture, new BallTortureCommandProcessor(lineService, configurationAccessor, randomNumberService));
@@ -330,7 +333,11 @@ namespace TeaseAI.Services
 
             rVal.Add(Keyword.AddTokens, new AddTokensCommandProcessor(lineService, settingsAccessor, notifyUser));
 
-            rVal.Add(Keyword.StartRiskyPick, new StartRiskyPickCommandProcessor(lineService, pathsAccessor, settingsAccessor));
+            rVal.Add(Keyword.RiskyPickStart, new RiskyPickStartCommandProcessor(lineService, pathsAccessor, settingsAccessor));
+            rVal.Add(Keyword.RiskyPickWaitForCase, new RiskyPickWaitForCaseCommandProcessor(lineService));
+            rVal.Add(Keyword.RiskyPickSelectCase, new RiskyPickSelectCaseCommandProcessor(lineService));
+            rVal.Add(Keyword.RiskyPickCheck, new RiskyPickCheckCommandProcessor(lineService));
+
             rVal.Add(Keyword.End, new EndCommandProcessor(lineService));
             rVal.Add(Keyword.NullResponse, new NullResponseCommandProcessor());
 
@@ -614,8 +621,12 @@ namespace TeaseAI.Services
             //TauntTimer.Start();
         }
 
-        private void StartRiskyPickCommandProcessed(object sender, CommandProcessedEventArgs e)
+        private void RiskyPickStartCommandProcessed(object sender, CommandProcessedEventArgs e)
         {
+            lock (_sessionLock)
+            {
+                Session = e.Session;
+            }
             BeginSession((Script)e.Parameter);
         }
         #endregion

@@ -108,6 +108,7 @@ namespace TeaseAI.Common
             IsSuccess = isSuccess;
             _error = error;
         }
+
     }
 
     public static class ResultExtensions

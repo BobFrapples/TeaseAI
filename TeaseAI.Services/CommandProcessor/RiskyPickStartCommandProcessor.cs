@@ -8,23 +8,23 @@ using TeaseAI.Common.Interfaces.Accessors;
 
 namespace TeaseAI.Services.CommandProcessor
 {
-    public class StartRiskyPickCommandProcessor : CommandProcessorBase
+    public class RiskyPickStartCommandProcessor : CommandProcessorBase
     {
         private readonly int RiskyPickCost = 0;
         private readonly LineService _lineService;
         private readonly IPathsAccessor _pathsAccessor;
         private readonly ISettingsAccessor _settingsAccessor;
 
-        public StartRiskyPickCommandProcessor(LineService lineService, IPathsAccessor pathsAccessor, ISettingsAccessor settingsAccessor)
+        public RiskyPickStartCommandProcessor(LineService lineService, IPathsAccessor pathsAccessor, ISettingsAccessor settingsAccessor)
         {
             _lineService = lineService;
             _pathsAccessor = pathsAccessor;
             _settingsAccessor = settingsAccessor;
         }
 
-        public override string DeleteCommandFrom(string line) => _lineService.DeleteCommand(line, Keyword.StartRiskyPick);
+        public override string DeleteCommandFrom(string line) => _lineService.DeleteCommand(line, Keyword.RiskyPickStart);
 
-        public override bool IsRelevant(Session session, string line) => line.Contains(Keyword.StartRiskyPick) && session.GameBoard == null;
+        public override bool IsRelevant(Session session, string line) => line.Contains(Keyword.RiskyPickStart) && session.GameBoard == null;
 
         public override Result<Session> PerformCommand(Session session, string line)
         {

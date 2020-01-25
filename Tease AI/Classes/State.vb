@@ -415,12 +415,6 @@ Public Class SessionState
 
     <Category("Risky Pick")> Public Property RiskyDeal As Boolean
     <Category("Risky Pick")> Public Property RiskyEdges As Boolean
-    ''' <summary>
-    ''' Wait until a button is clicked to move forward with Risky Pick. Use Session.IsScriptPaused
-    ''' </summary>
-    ''' <returns></returns>
-    <Obsolete("Use Session.IsScriptPaused")>
-    <Category("Risky Pick")> Public Property RiskyDelay As Boolean
 
     Public Property SysMes As Boolean
     Public Property EmoMes As Boolean

@@ -290,6 +290,7 @@ ByVal lpstrReturnString As String, ByVal uReturnLength As Integer, ByVal hwndCal
             AddHandler mySession.MessageProcessors(MessageProcessor.RequestTask).MessageProcessed, AddressOf Task_Requested
             AddHandler mySession.MessageProcessors(MessageProcessor.Greeting).MessageProcessed, AddressOf Greeting_Spoken
             AddHandler mySession.MessageProcessors(MessageProcessor.Safeword).MessageProcessed, AddressOf Safeword_Spoken
+            AddHandler mySession.CommandProcessors(Keyword.RiskyPickWaitForCase).CommandProcessed, AddressOf RiskyPickWaitForCase
         End If
         Try
 retryStart:
@@ -1578,7 +1579,6 @@ NullSkip:
         If ssh.CBTCockFlag OrElse ssh.CBTBallsFlag OrElse ssh.CBTBothFlag OrElse ssh.CustomTask Then Return
         If ssh.WritingTaskFlag Then Return
         If ssh.TeaseVideo Then Return
-        If ssh.RiskyDelay Then Return
         If ssh.InputFlag Then Return
 
         ' Miniscripts can interrupt another thing
@@ -2388,7 +2388,7 @@ NullResponse:
                         'ChatText.DocumentText = ssh.Chat
                         'ChatText2.DocumentText = ssh.Chat
 
-                        If ssh.RiskyDeal = True Then GamesWindow.WBRiskyChat.DocumentText = "<body style=""word-wrap:break-word;""><font face=""Cambria"" size=""3"" font color=""" &
+                        If ssh.RiskyDeal = True Then GamesWindow.RiskyPickChat.DocumentText = "<body style=""word-wrap:break-word;""><font face=""Cambria"" size=""3"" font color=""" &
                           TypeColor & """><b>" & TypeName & ": </b></font><font face=""" & TypeFont & """ size=""" & TypeSize & """ color=""" & TextColor & """>" & ssh.DomTask & "<br></font></body>"
 
 
@@ -2407,7 +2407,7 @@ NullResponse:
                         'ChatText.DocumentText = ssh.Chat
                         'ChatText2.DocumentText = ssh.Chat
 
-                        If ssh.RiskyDeal = True Then GamesWindow.WBRiskyChat.DocumentText = "<body style=""word-wrap:break-word;""><font face=""Cambria"" size=""3"" font color=""" &
+                        If ssh.RiskyDeal = True Then GamesWindow.RiskyPickChat.DocumentText = "<body style=""word-wrap:break-word;""><font face=""Cambria"" size=""3"" font color=""" &
                           TypeColor & """><b>" & TypeName & ": </b></font><font face=""" & TypeFont & """ size=""" & TypeSize & """ color=""" & TextColor & """>" & ssh.DomTask & "<br></font></body>"
 
                     End If
@@ -2951,7 +2951,7 @@ TryNextWithTease:
                     'ChatText.DocumentText = ssh.Chat
                     'ChatText2.DocumentText = ssh.Chat
 
-                    If ssh.RiskyDeal = True Then GamesWindow.WBRiskyChat.DocumentText = "<body style=""word-wrap:break-word;""><font face=""Cambria"" size=""3"" font color=""" &
+                    If ssh.RiskyDeal = True Then GamesWindow.RiskyPickChat.DocumentText = "<body style=""word-wrap:break-word;""><font face=""Cambria"" size=""3"" font color=""" &
               TypeColor & """><b>" & TypeName & ": </b></font><font face=""" & TypeFont & """ size=""" & TypeSize & """ color=""" & TextColor & """>" & chatMessage & "<br></font></body>"
 
                 Else
@@ -2968,7 +2968,7 @@ TryNextWithTease:
                     'ChatText.DocumentText = ssh.Chat
                     'ChatText2.DocumentText = ssh.Chat
 
-                    If ssh.RiskyDeal = True Then GamesWindow.WBRiskyChat.DocumentText = "<body style=""word-wrap:break-word;""><font face=""Cambria"" size=""3"" font color=""" &
+                    If ssh.RiskyDeal = True Then GamesWindow.RiskyPickChat.DocumentText = "<body style=""word-wrap:break-word;""><font face=""Cambria"" size=""3"" font color=""" &
               TypeColor & """><b>" & TypeName & ": </b></font><font face=""" & TypeFont & """ size=""" & TypeSize & """ color=""" & TextColor & """>" & chatMessage & "<br></font></body>"
 
                 End If
@@ -8204,51 +8204,15 @@ VTSkip:
         End If
 
         If StringClean.Contains("@ChooseRiskyPick") Then
-            ssh.RiskyDelay = True
-            If GamesWindow.RiskyCase1Button.Text <> "" Then GamesWindow.RiskyCase1Button.Enabled = True
-            If GamesWindow.RiskyCase2Button.Text <> "" Then GamesWindow.RiskyCase2Button.Enabled = True
-            If GamesWindow.BTNRisk3.Text <> "" Then GamesWindow.BTNRisk3.Enabled = True
-            If GamesWindow.BTNRisk4.Text <> "" Then GamesWindow.BTNRisk4.Enabled = True
-            If GamesWindow.BTNRisk5.Text <> "" Then GamesWindow.BTNRisk5.Enabled = True
-            If GamesWindow.BTNRisk6.Text <> "" Then GamesWindow.BTNRisk6.Enabled = True
-            If GamesWindow.BTNRisk7.Text <> "" Then GamesWindow.BTNRisk7.Enabled = True
-            If GamesWindow.BTNRisk8.Text <> "" Then GamesWindow.BTNRisk8.Enabled = True
-            If GamesWindow.BTNRisk9.Text <> "" Then GamesWindow.BTNRisk9.Enabled = True
-            If GamesWindow.BTNRisk10.Text <> "" Then GamesWindow.BTNRisk10.Enabled = True
-
-            If GamesWindow.BTNRisk11.Text <> "" Then GamesWindow.BTNRisk11.Enabled = True
-            If GamesWindow.BTNRisk12.Text <> "" Then GamesWindow.BTNRisk12.Enabled = True
-            If GamesWindow.BTNRisk13.Text <> "" Then GamesWindow.BTNRisk13.Enabled = True
-            If GamesWindow.BTNRisk14.Text <> "" Then GamesWindow.BTNRisk14.Enabled = True
-            If GamesWindow.BTNRisk15.Text <> "" Then GamesWindow.BTNRisk15.Enabled = True
-            If GamesWindow.BTNRisk16.Text <> "" Then GamesWindow.BTNRisk16.Enabled = True
-            If GamesWindow.BTNRisk17.Text <> "" Then GamesWindow.BTNRisk17.Enabled = True
-            If GamesWindow.BTNRisk18.Text <> "" Then GamesWindow.BTNRisk18.Enabled = True
-            If GamesWindow.BTNRisk19.Text <> "" Then GamesWindow.BTNRisk19.Enabled = True
-            If GamesWindow.BTNRisk20.Text <> "" Then GamesWindow.BTNRisk20.Enabled = True
-
-            If GamesWindow.BTNRisk21.Text <> "" Then GamesWindow.BTNRisk21.Enabled = True
-            If GamesWindow.BTNRisk22.Text <> "" Then GamesWindow.BTNRisk22.Enabled = True
-            If GamesWindow.BTNRisk23.Text <> "" Then GamesWindow.BTNRisk23.Enabled = True
-            If GamesWindow.BTNRisk24.Text <> "" Then GamesWindow.BTNRisk24.Enabled = True
+            GamesWindow.EnableCases()
 
             GamesWindow.RiskyChoiceCount = 0
             GamesWindow.RiskyRound += 1
             GamesWindow.RiskyPickCount = 0
             GamesWindow.RiskyChoices.Clear()
             GamesWindow.ClearCaseLabelsOffer()
-            'FrmCardList.Show()
-            'FrmCardList.TCGames.SelectTab(4)
-            'FrmCardList.Focus()
 
             StringClean = StringClean.Replace("@ChooseRiskyPick", "")
-        End If
-
-
-        If StringClean.Contains("@CheckRiskyPick") Then
-            'FrmCardList.Focus()
-            GamesWindow.CheckRiskyPick()
-            StringClean = StringClean.Replace("@CheckRiskyPick", "")
         End If
 
         If StringClean.Contains("@FinalRiskyPick") Then
@@ -15089,6 +15053,14 @@ playLoop:
         Return
     End Sub
 
+    Private Sub RiskyPickWaitForCase(sender As Object, e As CommandProcessedEventArgs)
+        If InvokeRequired Then
+            Invoke(New MethodInvoker(Sub() RiskyPickWaitForCase(sender, e)))
+        Else
+            GamesWindow.UpdateUiFromBoard(GetGameBoard())
+        End If
+    End Sub
+
     Private Sub Greeting_Spoken(sender As Object, e As MessageProcessedEventArgs)
         ssh.BeforeTease = True
         Dim sesh As Session = mySession.Session
@@ -15941,6 +15913,10 @@ NoPlaylistStartFile:
     Private Sub AppendChatMessage(messageString As String, shouldSave As Boolean)
         ChatText.DocumentText = messageString
         ChatText2.DocumentText = messageString
+        Dim gameBoard = GetGameBoard()
+        If gameBoard IsNot Nothing Then
+            GamesWindow.UpdateRiskyChat(messageString, gameBoard)
+        End If
 
         If shouldSave = True Then My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Chatlogs\Autosave.html", messageString, False)
     End Sub
@@ -16001,12 +15977,13 @@ NoPlaylistStartFile:
     Private Function ToBeMigrated(domme As DommePersonality, message As String) As String
         Dim inputString As String = message
 #Region "Risky Pick Game"
-        If inputString.Contains(Keyword.ChooseRiskyPick) Then
-            mySession.Session.IsScriptPaused = True
-            GamesWindow.EnableCases()
-            GamesWindow.ClearCaseLabelsOffer()
+        If inputString.Contains(Keyword.RiskyPickWaitForCase) Then
+            GamesWindow.UpdateUiFromBoard(GetGameBoard())
+            'mySession.Session.IsScriptPaused = True
+            'GamesWindow.EnableCases()
+            'GamesWindow.ClearCaseLabelsOffer()
 
-            inputString = inputString.Replace("@ChooseRiskyPick", "")
+            'inputString = inputString.Replace("@ChooseRiskyPick", "")
         End If
 
         If inputString.Contains("@CheckRiskyPick") Then
@@ -16067,17 +16044,10 @@ NoPlaylistStartFile:
             inputString = inputString.Replace("@RiskyState", "")
         End If
 
+
         inputString = inputString.Replace("#RP_ChosenCase", GamesWindow.RiskyPickChosenCaseNumber)
         inputString = inputString.Replace("#RP_RespondCase", GamesWindow.RiskyPickChosenCaseEdges)
-        'inputstring = inputstring.Replace("#RP_CaseNumber", FrmCardList.RiskyCase)
-        If GamesWindow.RiskyPickCount = 0 Then inputString = inputString.Replace("#RP_CaseNumber", GamesWindow.SelectedCase1Label.Text)
-        If GamesWindow.RiskyPickCount = 1 Then inputString = inputString.Replace("#RP_CaseNumber", GamesWindow.SelectedCase2Label.Text)
-        If GamesWindow.RiskyPickCount = 2 Then inputString = inputString.Replace("#RP_CaseNumber", GamesWindow.SelectedCase3Label.Text)
-        If GamesWindow.RiskyPickCount = 3 Then inputString = inputString.Replace("#RP_CaseNumber", GamesWindow.SelectedCase4Label.Text)
-        If GamesWindow.RiskyPickCount = 4 Then inputString = inputString.Replace("#RP_CaseNumber", GamesWindow.SelectedCase5Label.Text)
-        If GamesWindow.RiskyPickCount > 4 Then inputString = inputString.Replace("#RP_CaseNumber", GamesWindow.SelectedCase6Label.Text)
-        inputString = inputString.Replace("#RP_EdgeOffer", GamesWindow.RiskyPickOffer.Edges)
-        inputString = inputString.Replace("#RP_TokenOffer", GamesWindow.RiskyPickOffer.Tokens)
+        ' See Vocabulary processor for the rest
         inputString = inputString.Replace("#RP_EdgesOwed", GamesWindow.EdgesOwed)
         inputString = inputString.Replace("#RP_TokensPaid", GamesWindow.TokensPaid)
 #End Region

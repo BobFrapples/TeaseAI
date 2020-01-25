@@ -101,6 +101,9 @@ namespace TeaseAI.Services
                 { "#CurrentMonth", (line, session) => line.Replace("#CurrentMonth", DateTime.Now.ToString("MMMMM")) },
                 { "#CurrentYear", (line, session) => line.Replace("#CurrentYear", DateTime.Now.ToString("yyyy")) },
                 { "#CurrentDate", (line, session) => line.Replace("#CurrentDate", DateTime.Now.ToShortDateString()) },
+                { "#RP_CaseNumber", (line, session) => line.Replace("#RP_CaseNumber", session.GameBoard.SelectedCases.LastOrDefault().ToString()) },
+                { "#RP_EdgeOffer", (line, session) => line.Replace("#RP_EdgeOffer", (session.GameBoard.Offer?.Edges).GetValueOrDefault().ToString()) },
+                { "#RP_TokenOffer", (line, session) => line.Replace("#RP_TokenOffer", (session.GameBoard.Offer?.Tokens).GetValueOrDefault().ToString()) },
             };
         }
 

@@ -347,10 +347,29 @@ namespace TeaseAI.Common.Constants
         /// <summary>
         /// Start a new game of Risky Pick
         /// </summary>
-        public const string StartRiskyPick = @"@StartRiskyPick";
+        public const string RiskyPickStart = @"@StartRiskyPick";
+
         /// <summary>
-        /// Pauses the script until a risky pick box is chosen
+        /// Pauses the script until all risky pick boxes have been chosen for the current round
         /// </summary>
-        public static string ChooseRiskyPick => @"@ChooseRiskyPick";
+        public static string RiskyPickWaitForCase => @"@ChooseRiskyPick";
+
+        /// <summary>
+        /// <para>Make an offer from the Domme at the end of the round</para>
+        /// <para>Requires Risky pick be running and the sub has at least chosen their case</para>
+        /// </summary>
+        public static string RiskyPickCheck => @"@CheckRiskyPick" ;
+
+        /// <summary>
+        /// <para>Usage: @SelectCaseRiskyPick(CaseNumber)</para>
+        /// <para>Select the next case for Risky Pick</para>
+        /// </summary>
+        public static string RiskyPickSelectCase => @"@SelectCaseRiskyPick(";
+
+        /// <summary>
+        /// Pauses script execution. Used for code 
+        /// </summary>
+        public static string Unpause => @"@Unpause";
+        public static string Pause => @"@Unpause";
     }
 }

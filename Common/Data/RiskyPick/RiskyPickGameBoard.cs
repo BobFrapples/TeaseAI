@@ -32,15 +32,20 @@ namespace TeaseAI.Common.Data.RiskyPick
 
         public List<int> SelectedCases => _selectedCases ?? (_selectedCases = new List<int>());
 
+        public RiskyPickOffer Offer { get; set; }
+
         public RiskyPickGameBoard Clone()
         {
-            var newBoard = new RiskyPickGameBoard();
+            var newBoard = new RiskyPickGameBoard
+            {
+                Offer = Offer?.Clone(),
+                CurrentRound = CurrentRound,
+                _selectedCases = _selectedCases,
+            };
             foreach (var i in Cases.Keys)
                 newBoard.Cases[i] = Cases[i].Clone();
             if (PlayersCase != null)
                 newBoard.PlayersCase = newBoard.Cases[PlayersCase.CaseNumber];
-            newBoard.CurrentRound = CurrentRound;
-            newBoard._selectedCases = _selectedCases;
             return newBoard;
         }
 

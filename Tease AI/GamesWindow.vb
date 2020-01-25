@@ -3,6 +3,7 @@ Imports TeaseAI.Common.Interfaces.Accessors
 Imports TeaseAI.Common
 Imports TeaseAI.Common.Data
 Imports TeaseAI.Common.Data.RiskyPick
+Imports TeaseAI.Common.Constants
 
 Public Class GamesWindow
 
@@ -4150,10 +4151,16 @@ Card9:
         Dim caseButton = CType(sender, Button)
         If caseButton.BackColor = mySelectedCase Then Return
         RiskyPickChosenCaseNumber = GetCaseNumber(caseButton)
-        RiskyPickChosenCaseEdges = MainWindow.GetGameBoard().Cases(RiskyPickChosenCaseNumber).ToString()
-        Dim newGameBoard = SelectCase(MainWindow.GetGameBoard(), RiskyPickChosenCaseNumber)
-        UpdateUiFromBoard(newGameBoard)
-        caseButton.BackColor = mySelectedCase
+        Dim command As String = Keyword.RiskyPickSelectCase + RiskyPickChosenCaseNumber.ToString() + ")"
+        Dim selectCase As Result = MainWindow.SendCommand(command) _
+            .OnSuccess(Sub()
+                           Dim gameBoard = MainWindow.GetGameBoard()
+                           RiskyPickChosenCaseEdges = gameBoard.Cases(RiskyPickChosenCaseNumber).ToString()
+                           UpdateUiFromBoard(gameBoard)
+                           caseButton.BackColor = mySelectedCase
+
+                           MainWindow.SendCommand(Keyword.Unpause)
+                       End Sub)
     End Sub
 
     ''' <summary>
@@ -4829,7 +4836,7 @@ Card9:
         LBLRisk2.ForeColor = Color.White
         LBLRisk1.ForeColor = Color.White
 
-        WBRiskyChat.DocumentText = ""
+        RiskyPickChat.DocumentText = ""
         LBLRiskMaxPot.Text = "N/A"
         LblRiskMinPot.Text = "N/A"
         BTNRiskIt.Visible = False
@@ -4841,12 +4848,6 @@ Card9:
         MainWindow.ssh.RiskyEdges = True
 
         Me.Close()
-
-
-
-
-
-
     End Sub
 
     'Public Sub PickedMyCase()
@@ -4925,7 +4926,8 @@ Card9:
     ''' <param name="mainWindow"></param>
     ''' <returns></returns>
     Private Function StartRiskyPick(mainWindow As MainWindow) As Result
-        Return mainWindow.SendCommand(Constants.Keyword.StartRiskyPick) _
+        DisableCases()
+        Return mainWindow.SendCommand(Keyword.RiskyPickStart) _
             .OnSuccess(Sub()
                            SetupRiskyPick()
 
@@ -4956,19 +4958,17 @@ Card9:
 
         For Each caseNumber In newGameBoard.Cases.Keys
             Dim caseButton As Button = GetCaseButton(caseNumber)
-            caseButton.Enabled = Not (newGameBoard.PlayersCase.CaseNumber = caseNumber) AndAlso Not (newGameBoard.Cases(caseNumber).IsOpened) AndAlso Not (newGameBoard.SelectedCases.Contains(caseNumber))
+            caseButton.Enabled = Not ((newGameBoard.PlayersCase?.CaseNumber).GetValueOrDefault() = caseNumber) AndAlso Not (newGameBoard.Cases(caseNumber).IsOpened) AndAlso Not (newGameBoard.SelectedCases.Contains(caseNumber))
 
             Dim caseLabel As Label = GetCaseLabel(caseNumber)
             caseLabel.Text = If(newGameBoard.Cases(caseNumber).IsOpened, newGameBoard.Cases(caseNumber).ToString(), String.Empty)
         Next
 
-        PlayRiskyPickButton.Text = newGameBoard.PlayersCase.CaseNumber.ToString()
+        PlayRiskyPickButton.Text = newGameBoard.PlayersCase?.CaseNumber.ToString()
         If (newGameBoard.CurrentRound = 0 AndAlso newGameBoard.PlayersCase IsNot Nothing) OrElse newGameBoard.CasesToPick(newGameBoard.CurrentRound) = newGameBoard.SelectedCases.Count Then
             DisableCases()
             newGameBoard.CurrentRound += 1
         End If
-
-        MainWindow.UnpauseScripts()
     End Sub
 
     ''' <summary>
@@ -5124,20 +5124,6 @@ Card9:
 
     End Function
 
-    Private Function SelectCase(input As RiskyPickGameBoard, selectedCase As Integer) As RiskyPickGameBoard
-        Dim gameBoard As RiskyPickGameBoard = input.Clone()
-        ' If this is the first round, assign that to the player's case
-        If gameBoard.CurrentRound = 0 Then
-            gameBoard.PlayersCase = gameBoard.Cases(selectedCase)
-        Else
-            gameBoard.Cases(selectedCase).IsOpened = True
-            gameBoard.SelectedCases.Add(selectedCase)
-        End If
-
-        'CheckRiskyCount(RiskyRound, RiskyChoiceCount)
-        Return gameBoard
-    End Function
-
     Public Sub CheckRiskyPick()
         CheckRiskyPick(MainWindow.GetGameBoard())
     End Sub
@@ -5262,6 +5248,11 @@ Card9:
             GameWMP.settings.volume = 20
             GameWMP.URL = Application.StartupPath & "\Audio\System\CardFlip.wav"
         End If
+    End Sub
+
+    Friend Sub UpdateRiskyChat(messageString As String, gameBoard As RiskyPickGameBoard)
+        RiskyPickChat.DocumentText = messageString
+        UpdateUiFromBoard(gameBoard)
     End Sub
 #End Region
 End Class
