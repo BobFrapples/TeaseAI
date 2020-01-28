@@ -355,6 +355,11 @@ namespace TeaseAI.Common.Constants
         /// Pauses the script until all risky pick boxes have been chosen for the current round
         /// </summary>
         public static string RiskyPickWaitForCase => @"@ChooseRiskyPick";
+        /// <summary>
+        /// State the number of edges and trigger the next round of risky pick
+        /// </summary>
+        [Obsolete("This is not a command and needs to be moved to vocabulary")]
+        public static string RiskyPickRespondCase => @"#RP_RespondCase";
 
         /// <summary>
         /// <para>Make an offer from the Domme at the end of the round</para>

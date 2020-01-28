@@ -7,21 +7,17 @@ using TeaseAI.Common.Interfaces.Accessors;
 
 namespace TeaseAI.Services.CommandProcessor
 {
-    public class CheckFlagCommandProcessor : ICommandProcessor
+    public class CheckFlagCommandProcessor : CommandProcessorBase
     {
         public CheckFlagCommandProcessor(IFlagAccessor flagAccessor, LineService lineService)
         {
             _flagAccessor = flagAccessor;
             _lineService = lineService;
         }
-        public event EventHandler<CommandProcessedEventArgs> CommandProcessed;
 
-        public string DeleteCommandFrom(string line) => _lineService.DeleteCommand(line, Keyword.CheckFlag);
+        public override string DeleteCommandFrom(string line) => _lineService.DeleteCommand(line, Keyword.CheckFlag);
 
-        public bool IsRelevant(Session session, string line)
-        {
-            return line.Contains(Keyword.CheckFlag);
-        }
+        public override bool IsRelevant(Session session, string line)=> line.Contains(Keyword.CheckFlag);
 
         /// <summary>
         /// Returns (BookmarkName) if the line contains a matching flag, string.Empty if not
@@ -32,7 +28,7 @@ namespace TeaseAI.Services.CommandProcessor
         /// </summary>
         /// <param name="line">input line</param>
         /// <returns></returns>
-        public Result<Session> PerformCommand(Session session, string line)
+        public override Result<Session> PerformCommand(Session session, string line)
         {
             var workingSession = session.Clone();
 

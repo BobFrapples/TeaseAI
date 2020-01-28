@@ -104,6 +104,7 @@ namespace TeaseAI.Services
                 { "#RP_CaseNumber", (line, session) => line.Replace("#RP_CaseNumber", session.GameBoard.SelectedCases.LastOrDefault().ToString()) },
                 { "#RP_EdgeOffer", (line, session) => line.Replace("#RP_EdgeOffer", (session.GameBoard.Offer?.Edges).GetValueOrDefault().ToString()) },
                 { "#RP_TokenOffer", (line, session) => line.Replace("#RP_TokenOffer", (session.GameBoard.Offer?.Tokens).GetValueOrDefault().ToString()) },
+                //{ "#RP_RespondCase", (line, session) => line.Replace("#RP_RespondCase", session.GameBoard.LastSelectedCase ?? string.Empty) },
             };
         }
 
@@ -159,7 +160,7 @@ namespace TeaseAI.Services
                 // We can't figure it out. Show it to the user
                 if (maxCycles == 0)
                     return workingLine;
-                    //return "Unable to map the vocabulary word " + vocabularyWord;
+                //return "Unable to map the vocabulary word " + vocabularyWord;
             }
             return workingLine;
         }

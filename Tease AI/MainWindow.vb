@@ -16034,7 +16034,7 @@ NoPlaylistStartFile:
 
 
         inputString = inputString.Replace("#RP_ChosenCase", GamesWindow.RiskyPickChosenCaseNumber)
-        inputString = inputString.Replace("#RP_RespondCase", GamesWindow.RiskyPickChosenCaseEdges)
+        'inputString = inputString.Replace("#RP_RespondCase", GamesWindow.RiskyPickChosenCaseEdges)
         ' See Vocabulary processor for the rest
         inputString = inputString.Replace("#RP_EdgesOwed", GamesWindow.EdgesOwed)
         inputString = inputString.Replace("#RP_TokensPaid", GamesWindow.TokensPaid)

@@ -28,6 +28,8 @@ namespace TeaseAI.Common.Data.RiskyPick
 
         public GameCase PlayersCase { get; set; }
 
+        public GameCase LastSelectedCase => GetLastSelectedCase();
+
         public int CurrentRound { get; set; }
 
         public List<int> SelectedCases => _selectedCases ?? (_selectedCases = new List<int>());
@@ -61,6 +63,14 @@ namespace TeaseAI.Common.Data.RiskyPick
                 .ToList();
             cases.ForEach(c => newBoard.Cases[c.CaseNumber] = c);
             return newBoard;
+        }
+
+        private GameCase GetLastSelectedCase()
+        {
+            var selCase = SelectedCases.LastOrDefault();
+            if (selCase == 0)
+                return PlayersCase;
+            return Cases[selCase];
         }
 
         private Dictionary<int, GameCase> _cases;

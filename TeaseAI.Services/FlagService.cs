@@ -1,11 +1,12 @@
-﻿using TeaseAI.Common;
+﻿using System;
+using TeaseAI.Common;
 using TeaseAI.Common.Constants;
 using TeaseAI.Common.Interfaces.Accessors;
 
 namespace TeaseAI.Services
 {
     /// <summary>
-    /// Service to process / handle @Checkflag and @SetFlag
+    /// Service to process / handle checking and setting flags
     /// </summary>
     public class FlagService
     {
@@ -29,6 +30,7 @@ namespace TeaseAI.Services
         /// </summary>
         /// <param name="input">input line</param>
         /// <returns></returns>
+        [Obsolete("deprecated, don't use")]
         public string GetNextStep(DommePersonality domme, string input)
         {
             var subString = input;
@@ -43,58 +45,31 @@ namespace TeaseAI.Services
                         return Result.Fail<string>("Not Found");
                     });
                 if (checkFlag.IsSuccess)
-                    return "(" + checkFlag.Value +")";
-                subString = input.Substring(input.IndexOf(Keyword.CheckFlag ) + Keyword.CheckFlag.Length);
+                    return "(" + checkFlag.Value + ")";
+                subString = input.Substring(input.IndexOf(Keyword.CheckFlag) + Keyword.CheckFlag.Length);
             }
 
             return string.Empty;
         }
 
         /// <summary>
-        /// The @SetFlag() Command creates a Flag in System\Flags. You can use multiple @SetFlag() Commands in the same line to set multiple flags at once (For example, @SetFlag(Flag1) @SetFlag(Flag2)).
-        /// You can also set multiple flags at once by separating them in single @SetFlag() Commands with a comma (For example, @SetFlag(Flag1, Flag2, Flag3)).
+        /// Set a flag
         /// </summary>
         /// <param name="domme"></param>
-        /// <param name="input"></param>
-        public void SetFlags(DommePersonality domme, string input)
+        /// <param name="flagName"></param>
+        public void SetFlags(DommePersonality domme, string flagName)
         {
-            var subString = input;
-            while (subString.Contains(Keyword.SetFlag))
-            {
-                var setFlag = _lineService.GetParenData(input, Keyword.SetFlag)
-                    .OnSuccess(flags =>
-                    {
-                        foreach(var flag in flags)
-                        {
-                            _flagAccessor.SetFlag(domme, flag, false);
-                        }
-                    });
-                subString = input.Substring(input.IndexOf(Keyword.SetFlag) + Keyword.SetFlag.Length);
-            }
+            _flagAccessor.SetFlag(domme, flagName, false);
         }
 
         /// <summary>
-        /// The @TempFlag() Command creates a Flag in System\Flags\Temp. These work like @SetFlag() Commands, the only difference is that Flags set this way are deleted the next time Tease AI is run.
-        /// You can use multiple @TempFlag() Commands in the same line to set multiple flags at once (For example, @TempFlag(Flag1) @TempFlag(Flag2)).
-        /// You can also set multiple flags at once by separating them in single @TempFlag() Commands with a comma (For example, @TempFlag(Flag1, Flag2, Flag3)).
+        /// Create a temporary flag
         /// </summary>
         /// <param name="domme"></param>
-        /// <param name="input"></param>
-        public void SetTempFlags(DommePersonality domme, string input)
+        /// <param name="flagName"></param>
+        public void SetTempFlags(DommePersonality domme, string flagName)
         {
-            var subString = input;
-            while (subString.Contains(Keyword.SetTempFlag))
-            {
-                var setFlag = _lineService.GetParenData(input, Keyword.SetTempFlag)
-                    .OnSuccess(flags =>
-                    {
-                        foreach (var flag in flags)
-                        {
-                            _flagAccessor.SetFlag(domme, flag, true);
-                        }
-                    });
-                subString = input.Substring(input.IndexOf(Keyword.SetTempFlag) + Keyword.SetTempFlag.Length);
-            }
+            _flagAccessor.SetFlag(domme, flagName, true);
         }
 
         private readonly IFlagAccessor _flagAccessor;
