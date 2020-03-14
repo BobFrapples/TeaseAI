@@ -82,7 +82,6 @@ namespace TeaseAI.Services
             MessageProcessors[MessageProcessor.EdgeDetection].MessageProcessed += EdgeDetection_MessageProcessed;
 
             CommandProcessors[Keyword.RiskyPickStart].CommandProcessed += RiskyPickStartCommandProcessed;
-            CommandProcessors[Keyword.RiskyPickRespondCase].CommandProcessed += RiskyPickRespondCaseCommandProcessor;
 
             _scriptAccessor = scriptAccessor;
             _variableAccessor = variableAccessor;
@@ -338,7 +337,6 @@ namespace TeaseAI.Services
             rVal.Add(Keyword.RiskyPickWaitForCase, new RiskyPickWaitForCaseCommandProcessor(lineService));
             rVal.Add(Keyword.RiskyPickSelectCase, new RiskyPickSelectCaseCommandProcessor(lineService));
             rVal.Add(Keyword.RiskyPickCheck, new RiskyPickCheckCommandProcessor(lineService));
-            rVal.Add(Keyword.RiskyPickRespondCase, new RiskyPickRespondCaseCommandProcessor(lineService));
 
             rVal.Add(Keyword.End, new EndCommandProcessor(lineService));
             rVal.Add(Keyword.NullResponse, new NullResponseCommandProcessor());
@@ -632,10 +630,6 @@ namespace TeaseAI.Services
             BeginSession((Script)e.Parameter);
         }
 
-        private void RiskyPickRespondCaseCommandProcessor(object sender, CommandProcessedEventArgs e)
-        {
-            OnDommeSaid(e.Session.Domme, e.Parameter.ToString());
-        }
         #endregion
 
         #region Services

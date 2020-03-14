@@ -4962,9 +4962,13 @@ Card9:
 
             Dim caseLabel As Label = GetCaseLabel(caseNumber)
             caseLabel.Text = If(newGameBoard.Cases(caseNumber).IsOpened, newGameBoard.Cases(caseNumber).ToString(), String.Empty)
+
+            Dim edgeLight As Label = GetEdgeLight(newGameBoard.Cases(caseNumber))
+            edgeLight.ForeColor = If(newGameBoard.Cases(caseNumber).IsOpened, Color.DimGray, Color.White)
         Next
 
         PlayRiskyPickButton.Text = newGameBoard.PlayersCase?.CaseNumber.ToString()
+
         If (newGameBoard.CurrentRound = 0 AndAlso newGameBoard.PlayersCase IsNot Nothing) OrElse newGameBoard.CasesToPick(newGameBoard.CurrentRound) = newGameBoard.SelectedCases.Count Then
             DisableCases()
             newGameBoard.CurrentRound += 1
@@ -5127,6 +5131,59 @@ Card9:
     Public Sub CheckRiskyPick()
         CheckRiskyPick(MainWindow.GetGameBoard())
     End Sub
+
+    Public Function GetEdgeLight(gameCase As GameCase) As Label
+        If gameCase.Edges = 1 Then
+            Return LBLRisk1
+        ElseIf gameCase.Edges = 2 Then
+            Return LBLRisk2
+        ElseIf gameCase.Edges = 3 Then
+            Return LBLRisk3
+        ElseIf gameCase.Edges = 4 Then
+            Return LBLRisk4
+        ElseIf gameCase.Edges = 5 Then
+            Return LBLRisk5
+        ElseIf gameCase.Edges = 7 Then
+            Return LBLRisk7
+        ElseIf gameCase.Edges = 10 Then
+            Return LBLRisk10
+        ElseIf gameCase.Edges = 12 Then
+            Return LBLRisk12
+        ElseIf gameCase.Edges = 15 Then
+            Return LBLRisk15
+        ElseIf gameCase.Edges = 20 Then
+            Return LBLRisk20
+        ElseIf gameCase.Edges = 25 Then
+            Return LBLRisk25
+        ElseIf gameCase.Edges = 30 Then
+            Return LBLRisk30
+        ElseIf gameCase.Edges = 40 Then
+            Return LBLRisk40
+        ElseIf gameCase.Edges = 50 Then
+            Return LBLRisk50
+        ElseIf gameCase.Edges = 55 Then
+            Return LBLRisk55
+        ElseIf gameCase.Edges = 60 Then
+            Return LBLRisk60
+        ElseIf gameCase.Edges = 65 Then
+            Return LBLRisk65
+        ElseIf gameCase.Edges = 70 Then
+            Return LBLRisk70
+        ElseIf gameCase.Edges = 75 Then
+            Return LBLRisk75
+        ElseIf gameCase.Edges = 80 Then
+            Return LBLRisk80
+        ElseIf gameCase.Edges = 85 Then
+            Return LBLRisk85
+        ElseIf gameCase.Edges = 90 Then
+            Return LBLRisk90
+        ElseIf gameCase.Edges = 95 Then
+            Return LBLRisk95
+        ElseIf gameCase.Edges = 100 Then
+            Return LBLRisk100
+        End If
+        Throw New ArgumentException(gameCase.Edges.ToString() + " light was not found.")
+    End Function
 
     Private Sub CheckRiskyPick(gameBoard As RiskyPickGameBoard)
         If gameBoard.PlayersCase Is Nothing Then Return

@@ -104,7 +104,7 @@ namespace TeaseAI.Services
                 { "#RP_CaseNumber", (line, session) => line.Replace("#RP_CaseNumber", session.GameBoard.SelectedCases.LastOrDefault().ToString()) },
                 { "#RP_EdgeOffer", (line, session) => line.Replace("#RP_EdgeOffer", (session.GameBoard.Offer?.Edges).GetValueOrDefault().ToString()) },
                 { "#RP_TokenOffer", (line, session) => line.Replace("#RP_TokenOffer", (session.GameBoard.Offer?.Tokens).GetValueOrDefault().ToString()) },
-                //{ "#RP_RespondCase", (line, session) => line.Replace("#RP_RespondCase", session.GameBoard.LastSelectedCase ?? string.Empty) },
+                { "#RP_RespondCase", (line, session) => line.Replace("#RP_RespondCase", session.GameBoard.LastSelectedCase?.ToString() ?? string.Empty) },
             };
         }
 
