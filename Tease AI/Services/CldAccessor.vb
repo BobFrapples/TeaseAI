@@ -21,16 +21,17 @@ Public Class CldAccessor
         End Using
     End Sub
 
-    Public Function ReadCld(fileName As String) As Result(Of List(Of ScriptMetaData)) Implements ICldAccessor.ReadCld
+    Public Function ReadCld(scriptHomeDir As String, fileName As String) As Result(Of List(Of ScriptMetaData)) Implements ICldAccessor.ReadCld
         If Not File.Exists(fileName) Then
             Return Result.Fail(Of List(Of ScriptMetaData))("Checklist file " + fileName + " does not exist")
         End If
         Dim returnValue As List(Of ScriptMetaData) = New List(Of ScriptMetaData)()
         Using fs As New FileStream(fileName, FileMode.Open), binRead As New BinaryReader(fs)
             Do While fs.Position < fs.Length
+                Dim name As String = binRead.ReadString()
                 Dim cldData As ScriptMetaData = New ScriptMetaData With {
-                    .Key = String.Empty,
-                    .Name = binRead.ReadString(),
+                    .Key = scriptHomeDir & Path.DirectorySeparatorChar & name,
+                    .Name = name,
                     .IsEnabled = binRead.ReadBoolean(),
                     .Info = String.Empty
                 }
@@ -39,4 +40,5 @@ Public Class CldAccessor
         End Using
         Return Result.Ok(returnValue)
     End Function
+
 End Class

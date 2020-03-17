@@ -1,0 +1,78 @@
+﻿<Page
+    x:Class="TeaseAI.PersonalityEditor.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TeaseAI.PersonalityEditor"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    >
+
+    <controls:DockPanel Loaded="{x:Bind DefaultViewModel.LoadedEvent}" LastChildFill="True">
+        <CommandBar controls:DockPanel.Dock="Top">
+            <CommandBar.Content>
+                <controls:WrapPanel Height="50">
+                    <AppBarButton Icon="NewFolder" Label="New Personality" 
+                                   Click="{x:Bind DefaultViewModel.CreateDommePersonalityEvent}"/>
+                    <AppBarButton Icon="Download" Label="Export Personality" 
+                                   Click="{x:Bind DefaultViewModel.ExportDommePersonalityEvent}"/>
+                    <ComboBox HorizontalAlignment="Left" 
+                              Margin="0,0,0,0" 
+                              VerticalAlignment="Center" 
+                              Width="500" 
+                              ItemsSource="{x:Bind DefaultViewModel.Personalities}" 
+                              DisplayMemberPath="Name"
+                              SelectedValuePath="Id"
+                              SelectionChanged="{x:Bind DefaultViewModel.PersonalityChangedEvent}"
+                              SelectedItem="{x:Bind DefaultViewModel.SelectedPersonality, Mode=TwoWay}"
+                        >
+                    </ComboBox>
+                    <AppBarButton Icon="Save" Label="Save Script" 
+                                  Click="{x:Bind DefaultViewModel.SaveScriptEvent}"
+                                  />
+                    <AppBarButton Icon="Preview" Label="Test Script" 
+                                   Click="{x:Bind DefaultViewModel.TestScriptEvent}"/>
+
+                </controls:WrapPanel>
+            </CommandBar.Content>
+        </CommandBar>
+        <controls:TabView Name="Items" controls:DockPanel.Dock="Bottom">
+            <controls:TabViewItem Header="Scripts">
+                <controls:DockPanel LastChildFill="True">
+                    <controls:TabView Name="Scripts" controls:DockPanel.Dock="Left" Width="300">
+                        <controls:TabViewItem Header="Startup">
+                            <ListView ItemsSource="{x:Bind DefaultViewModel.StartupScripts}" 
+                                      ItemClick="{x:Bind DefaultViewModel.ScriptClickedEvent}"
+                                      IsItemClickEnabled="True"
+                                      >
+                                <ListView.ItemTemplate>
+                                    <DataTemplate >
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Name}" TextWrapping="Wrap"/>
+                                            <TextBlock Text="{Binding SessionPhase}" TextWrapping="Wrap"/>
+                                            <TextBlock Text="{Binding Info}" TextWrapping="Wrap"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </controls:TabViewItem>
+                        <controls:TabViewItem Header="Modules">
+                        </controls:TabViewItem>
+                        <controls:TabViewItem Header="Link">
+                        </controls:TabViewItem>
+                        <controls:TabViewItem Header="End">
+                        </controls:TabViewItem>
+                    </controls:TabView>
+                    <controls:DockPanel LastChildFill="True">
+                        <TextBox Text="{x:Bind DefaultViewModel.CurrentScriptText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             TextWrapping="Wrap"
+                             AcceptsReturn="True">
+                        </TextBox>
+                    </controls:DockPanel>
+                </controls:DockPanel>
+            </controls:TabViewItem>
+        </controls:TabView>
+    </controls:DockPanel>
+</Page>

@@ -1,4 +1,6 @@
-﻿namespace TeaseAI.Common.Data
+﻿using TeaseAI.Common.Constants;
+
+namespace TeaseAI.Common.Data
 {
     /// <summary>
     /// Information about scripts, but not the actual script or where the domme is in the script
@@ -24,6 +26,7 @@
         /// Is this script enabled or not
         /// </summary>
         public bool IsEnabled { get; set; }
+        public SessionPhase SessionPhase { get; set; }
 
         public ScriptMetaData Clone()
         {

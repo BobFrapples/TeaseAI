@@ -56,10 +56,10 @@ Public Class ScriptAccessor
 
     Public Function GetAllScripts(dommePersonalityName As String, type As String, stage As SessionPhase, isDefaultEnabled As Boolean) As List(Of ScriptMetaData) Implements IScriptAccessor.GetAllScripts
         Dim baseDir As String = GetDommeBaseDir(dommePersonalityName)
+        Dim scriptDir As String = GetDirPath(dommePersonalityName, type, stage)
         Dim checkListFile As String = baseDir + "System\" + stage.ToString() + "CheckList.cld"
 
-        Dim cldData As List(Of ScriptMetaData) = myCldAccessor.ReadCld(checkListFile).GetResultOrDefault(New List(Of ScriptMetaData))
-        Dim scriptDir As String = GetDirPath(dommePersonalityName, type, stage)
+        Dim cldData As List(Of ScriptMetaData) = myCldAccessor.ReadCld(scriptDir, checkListFile).GetResultOrDefault(New List(Of ScriptMetaData))
         cldData.ForEach(Function(cld) cld.Key = scriptDir & cld.Name & ".txt")
 
         Dim finalCld As List(Of ScriptMetaData) = cldData.Where(Function(cld) File.Exists(cld.Key)).ToList()
@@ -205,6 +205,10 @@ Public Class ScriptAccessor
         myCldAccessor.WriteCld(scripts, checkListFile)
     End Sub
 
+    Public Function Save(script As Script) As Result Implements IScriptAccessor.Save
+        Throw New NotImplementedException()
+    End Function
+
 #Region "File location information"
     Private Function GetDirPath(dommePersonalityName As String, type As String, stage As SessionPhase) As String
         Dim baseDir As String = GetDommeBaseDir(dommePersonalityName)
@@ -225,6 +229,24 @@ Public Class ScriptAccessor
     Private Function GetDommeBaseDir(dommePersonalityName As String) As String
         Return Application.StartupPath + "\Scripts\" + dommePersonalityName + "\"
     End Function
+
+    Public Function GetAllScripts(dommePersonalityName As String) As Result(Of List(Of ScriptMetaData)) Implements IScriptAccessor.GetAllScripts
+        Throw New NotImplementedException()
+    End Function
+
+    Public Function GetScript(id As String) As Result(Of Script) Implements IScriptAccessor.GetScript
+        Try
+            If (Not File.Exists(id)) Then
+                Return Result.Fail(Of Script)(id + "does not exist please try again.")
+            End If
+
+            Dim metaData As ScriptMetaData = CreateScriptMetaData(id)
+            Return Result.Ok(New Script(metaData, File.ReadAllLines(metaData.Key).ToList()))
+        Catch ex As Exception
+            Return Result.Fail(Of Script)(ex.Message)
+        End Try
+    End Function
+
 #End Region
     Private myCldAccessor As ICldAccessor
 End Class

@@ -36,30 +36,37 @@ namespace TeaseAI.Common
             _error = error;
         }
 
+        [DebuggerStepThrough]
         public static Result Fail(string message)
         {
             return new Result(false, new Error(message));
         }
 
+        [DebuggerStepThrough]
         public static Result<T> Fail<T>(string message)
         {
             return new Result<T>(default(T), false, new Error(message));
         }
 
+        [DebuggerStepThrough]
         public static Result Fail(Error error)
         {
             return new Result(false, error);
         }
 
+        [DebuggerStepThrough]
         public static Result<T> Fail<T>(Error error)
         {
             return new Result<T>(default(T), false, error);
         }
 
+        [DebuggerStepThrough]
         public static Result Ok()
         {
             return new Result(true, default(Error));
         }
+
+        [DebuggerStepThrough]
         public static Result<T> Ok<T>(T value)
         {
             return new Result<T>(value, true, default(Error));
@@ -114,6 +121,7 @@ namespace TeaseAI.Common
     public static class ResultExtensions
     {
 
+        [DebuggerStepThrough]
         public static Result OnSuccess(this Result result, Action action)
         {
             if (result.IsSuccess)
@@ -121,6 +129,8 @@ namespace TeaseAI.Common
 
             return result;
         }
+
+        [DebuggerStepThrough]
         public static Result<K> OnSuccess<K>(this Result result, Func<Result<K>> func)
         {
             if (result.IsFailure)
@@ -129,6 +139,7 @@ namespace TeaseAI.Common
             return func();
         }
 
+        [DebuggerStepThrough]
         public static Result<K> OnSuccess<T, K>(this Result<T> result, Func<T, K> func)
         {
             if (result.IsFailure)
@@ -161,6 +172,7 @@ namespace TeaseAI.Common
             return func();
         }
 
+        [DebuggerStepThrough]
         public static Result<T> OnSuccess<T>(this Result<T> result, Func<T> func)
         {
             if (result.IsFailure)
@@ -169,6 +181,7 @@ namespace TeaseAI.Common
             return Result.Ok(func());
         }
 
+        [DebuggerStepThrough]
         public static Result<T> OnSuccess<T>(this Result<T> result, Action<T> action)
         {
             if (result.IsSuccess)
@@ -177,6 +190,7 @@ namespace TeaseAI.Common
             return result;
         }
 
+        [DebuggerStepThrough]
         /// <summary>
         /// Perform the task when Result is a failure
         /// </summary>
@@ -192,6 +206,7 @@ namespace TeaseAI.Common
             return Result.Ok(func(result.Error));
         }
 
+        [DebuggerStepThrough]
         /// <summary>
         /// perform action when result is a failure
         /// </summary>
@@ -207,11 +222,13 @@ namespace TeaseAI.Common
             return result;
         }
 
+        [DebuggerStepThrough]
         public static K OnBoth<T, K>(this Result<T> result, Func<Result<T>, K> func)
         {
             return func(result);
         }
 
+        [DebuggerStepThrough]
         public static Result Ensure(this Result result, Func<bool> predicate, string errorMessage)
         {
             if (result.IsFailure)
@@ -223,6 +240,7 @@ namespace TeaseAI.Common
             return result;
         }
 
+        [DebuggerStepThrough]
         public static Result<T> Ensure<T>(this Result<T> result, Func<T, bool> predicate, string errorMessage)
         {
             if (result.IsFailure)
@@ -234,6 +252,7 @@ namespace TeaseAI.Common
             return result;
         }
 
+        [DebuggerStepThrough]
         public static Result<K> Map<T, K>(this Result<T> result, Func<T, K> func)
         {
             if (result.IsFailure)
@@ -241,6 +260,8 @@ namespace TeaseAI.Common
 
             return Result.Ok(func(result.Value));
         }
+
+        [DebuggerStepThrough]
         public static Result Map<T>(this Result<T> result)
         {
             if (result.IsFailure)
