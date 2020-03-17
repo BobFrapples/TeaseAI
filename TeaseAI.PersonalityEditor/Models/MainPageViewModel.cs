@@ -20,8 +20,10 @@ namespace TeaseAI.PersonalityEditor.Models
     {
         public MainPageViewModel()
         {
-            _personalityService = ServiceFactory.CreatePersonalityService(_applicationData.Path);
-            _scriptService = ServiceFactory.CreateScriptService(_applicationData.Path);
+            _notifyUser = ServiceFactory.CreateNotifyUser();
+            _personalityService = ServiceFactory.CreatePersonalityService();
+            _scriptService = ServiceFactory.CreateScriptAccessor();
+            _getCommandProcessorsService = ServiceFactory.CreateGetCommandProcessorsService();
         }
 
         #region Commands and events
@@ -46,15 +48,13 @@ namespace TeaseAI.PersonalityEditor.Models
                     CurrentScript = new Script(CurrentScript.MetaData, CurrentScriptText.Split(Environment.NewLine).ToList());
                     return _scriptService.Save(CurrentScript);
                 });
-            if(saveScript.IsFailure)
+            if (saveScript.IsFailure)
             {
-                var dialog = new MessageDialog(saveScript.Error.Message);
-                await dialog.ShowAsync();
+                await _notifyUser.ModalMessageAsync(saveScript.Error.Message);
             }
         }
 
-        public void TestScriptEvent(object s, object e)
-        { }
+        public void TestScriptEvent(object s, object e) => TestScript(CurrentScript);
         #endregion
 
         public ObservableCollection<Personality> Personalities => _personalities ?? (_personalities = new ObservableCollection<Personality>());
@@ -106,6 +106,10 @@ namespace TeaseAI.PersonalityEditor.Models
             CurrentScriptText = string.Join(Environment.NewLine, CurrentScript.Lines.ToList());
         }
 
+        private void TestScript(Script currentScript)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
 
         private XamlUICommand CreateCommand(TypedEventHandler<XamlUICommand, ExecuteRequestedEventArgs> commandAction)
@@ -115,7 +119,6 @@ namespace TeaseAI.PersonalityEditor.Models
             return command;
         }
 
-        private StorageFolder _applicationData = ApplicationData.Current.LocalFolder;
         private ObservableCollection<Personality> _personalities;
         private Personality _selectedPersonality;
         private ObservableCollection<ScriptMetaData> _startupScripts;
@@ -123,5 +126,9 @@ namespace TeaseAI.PersonalityEditor.Models
         private Script _currentScript;
         private readonly IPersonalityService _personalityService;
         private readonly IScriptAccessor _scriptService;
+
+        public IGetCommandProcessorsService _getCommandProcessorsService { get; }
+
+        private readonly INotifyUser _notifyUser;
     }
 }

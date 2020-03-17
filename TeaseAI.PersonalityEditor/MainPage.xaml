@@ -13,7 +13,7 @@
     <controls:DockPanel Loaded="{x:Bind DefaultViewModel.LoadedEvent}" LastChildFill="True">
         <CommandBar controls:DockPanel.Dock="Top">
             <CommandBar.Content>
-                <controls:WrapPanel Height="50">
+                <controls:WrapPanel Height="75">
                     <AppBarButton Icon="NewFolder" Label="New Personality" 
                                    Click="{x:Bind DefaultViewModel.CreateDommePersonalityEvent}"/>
                     <AppBarButton Icon="Download" Label="Export Personality" 

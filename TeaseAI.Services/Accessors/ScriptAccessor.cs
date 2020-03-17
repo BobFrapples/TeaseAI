@@ -16,9 +16,9 @@ namespace TeaseAI.Services.Accessors
         private readonly string _baseDir;
         private readonly ICldAccessor _cldAccessor;
 
-        public ScriptAccessor(string baseDir, ICldAccessor cldAccessor)
+        public ScriptAccessor(IConfigurationAccessor configurationAccessor, ICldAccessor cldAccessor)
         {
-            _baseDir = baseDir;
+            _baseDir = configurationAccessor.GetBaseFolder();
             _cldAccessor = cldAccessor;
         }
 

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using TeaseAI.Common.Data;
 using TeaseAI.Common.Interfaces;
+using TeaseAI.Common.Interfaces.Accessors;
 
 namespace TeaseAI.Services
 {
@@ -11,9 +12,9 @@ namespace TeaseAI.Services
     {
         private readonly string _baseFolder;
 
-        public PersonalityService(string basefolder)
+        public PersonalityService(IConfigurationAccessor configurationAccessor)
         {
-            _baseFolder = basefolder;
+            _baseFolder = configurationAccessor.GetBaseFolder();
         }
 
         public List<Personality> GetAllPersonalities()
