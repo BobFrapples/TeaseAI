@@ -1,18 +1,14 @@
 ﻿using TeaseAI.Common;
 using TeaseAI.Common.Constants;
+using TeaseAI.Common.Data;
 
 namespace TeaseAI.Services.CommandProcessor
 {
     public class AfkOnCommandProcessor : CommandProcessorBase
     {
-        public AfkOnCommandProcessor(LineService lineService)
+        public AfkOnCommandProcessor(LineService lineService) : base(Keyword.AfkOn, lineService)
         {
-            _lineService = lineService;
         }
-
-        public override string DeleteCommandFrom(string line) => _lineService.DeleteCommand(line, Keyword.AfkOn);
-
-        public override bool IsRelevant(Session session, string line) => line.Contains(Keyword.AfkOn);
 
         public override Result<Session> PerformCommand(Session session, string line)
         {
@@ -27,6 +23,7 @@ namespace TeaseAI.Services.CommandProcessor
             return Result.Ok(workingSession);
         }
 
-        private LineService _lineService;
+        protected override Result ParseCommandSpecific(Script script, string personalityhName, string line) => Result.Ok();
+
     }
 }

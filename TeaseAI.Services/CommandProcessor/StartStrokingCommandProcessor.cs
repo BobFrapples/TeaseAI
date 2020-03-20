@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TeaseAI.Common;
 using TeaseAI.Common.Constants;
+using TeaseAI.Common.Data;
 using TeaseAI.Common.Events;
 using TeaseAI.Common.Interfaces;
 using TeaseAI.Common.Interfaces.Accessors;
@@ -13,14 +14,11 @@ namespace TeaseAI.Services.CommandProcessor
 {
     public class StartStrokingCommandProcessor : CommandProcessorBase
     {
-        public StartStrokingCommandProcessor(IVariableAccessor variableAccessor)
+        public StartStrokingCommandProcessor(IVariableAccessor variableAccessor
+            , LineService lineService) : base(Keyword.StartStroking, lineService)
         {
             _variableAccessor = variableAccessor;
         }
-
-        public override string DeleteCommandFrom(string line) => line.Replace(Keyword.StartStroking, string.Empty);
-
-        public override bool IsRelevant(Session session, string line) => line.Contains(Keyword.StartStroking);
 
         public override Result<Session> PerformCommand(Session session, string line)
         {
@@ -68,6 +66,8 @@ namespace TeaseAI.Services.CommandProcessor
 
             return Result.Ok(workingSession);
         }
+
+        protected override Result ParseCommandSpecific(Script script, string personalityName, string line) => Result.Ok();
 
         /// <summary>
         /// Get the Speed at which the sub should be stroking.

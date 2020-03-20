@@ -1,16 +1,15 @@
 ﻿using TeaseAI.Common.Constants;
+using TeaseAI.Common.Interfaces;
 using TeaseAI.Common.Interfaces.Accessors;
 
 namespace TeaseAI.Services.CommandProcessor
 {
     public class ShowLikedImageCommandProcessor : ShowImageCommandProcessorBase
     {
-        public ShowLikedImageCommandProcessor(IImageAccessor imageAccessor) : base(imageAccessor)
+        public ShowLikedImageCommandProcessor(IImageAccessor imageAccessor
+            , LineService lineService
+            , IRandomNumberService randomNumberService) : base(Common.Constants.Keyword.ShowLikedImage, ImageGenre.Liked, lineService, imageAccessor, randomNumberService)
         {
         }
-
-        protected override ImageGenre Genre => ImageGenre.Liked;
-
-        protected override string Keyword => Common.Constants.Keyword.ShowLikedImage;
     }
 }

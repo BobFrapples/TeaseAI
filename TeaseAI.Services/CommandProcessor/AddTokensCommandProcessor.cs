@@ -8,16 +8,12 @@ namespace TeaseAI.Services.CommandProcessor
 {
     public class AddTokensCommandProcessor : CommandProcessorBase
     {
-        public AddTokensCommandProcessor(LineService lineService, ISettingsAccessor settingsAccessor, INotifyUser notifyUser)
+        public AddTokensCommandProcessor(LineService lineService, ISettingsAccessor settingsAccessor, INotifyUser notifyUser):base(Keyword.AddTokens,lineService)
         {
             _lineService = lineService;
             _settingsAccessor = settingsAccessor;
             _notifyUser = notifyUser;
         }
-
-        public override string DeleteCommandFrom(string line) => _lineService.DeleteCommand(line, Keyword.AddTokens);
-
-        public override bool IsRelevant(Session session, string line) => line.Contains(Keyword.AddTokens);
 
         public override Result<Session> PerformCommand(Session session, string line)
         {
@@ -40,6 +36,21 @@ namespace TeaseAI.Services.CommandProcessor
                     _notifyUser.ModalMessage(workingSession.Domme.Name + " has given you some tokens!");
 
                     return Result.Ok(workingSession);
+                });
+        }
+
+        protected override Result ParseCommandSpecific(Script script, string personalityName, string line)
+        {
+            return _lineService.GetParenData(line, Keyword.AddTokens)
+                .OnSuccess(lineData =>
+                {
+                    foreach (var tokenData in lineData)
+                    {
+                        var createToken = Token.Create(tokenData).Map();
+                        if (createToken.IsFailure)
+                            return createToken;
+                    }
+                    return Result.Ok();
                 });
         }
 

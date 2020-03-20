@@ -23,7 +23,9 @@ namespace TeaseAI.Services.CommandProcessor
             return line.Replace(Keyword.SearchImageBlog, string.Empty).Replace(Keyword.SearchImageBlogAgain, string.Empty);
         }
 
-        public bool IsRelevant(Session session, string line) => line.Contains(Keyword.SearchImageBlog) || line.Contains(Keyword.SearchImageBlogAgain);
+        public bool IsRelevant(Session session, string line) => IsRelevant(line);
+
+        public bool IsRelevant(string line) => line.Contains(Keyword.SearchImageBlog) || line.Contains(Keyword.SearchImageBlogAgain);
 
         public Result<Session> PerformCommand(Session session, string line)
         {
@@ -39,6 +41,14 @@ namespace TeaseAI.Services.CommandProcessor
         {
             CommandProcessed?.Invoke(this, new CommandProcessedEventArgs() { Session = session, Parameter = selected });
         }
+
+        public Result ParseCommand(Script script, string personalityName, string line)
+        {
+            if (line.Contains(Keyword.SearchImageBlogAgain))
+                return Result.Fail(Keyword.SearchImageBlogAgain + " is deprecated, please use " + Keyword.SearchImageBlog + " instead");
+            return Result.Ok();
+        }
+
 
         private readonly IImageAccessor _imageAccessor;
     }

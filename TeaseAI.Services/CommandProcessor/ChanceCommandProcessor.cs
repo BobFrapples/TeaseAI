@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TeaseAI.Common;
 using TeaseAI.Common.Constants;
+using TeaseAI.Common.Data;
 using TeaseAI.Common.Events;
 using TeaseAI.Common.Interfaces;
 
@@ -12,16 +13,16 @@ namespace TeaseAI.Services.CommandProcessor
     /// The @Chance Command gives a chance to either jump to the line specified, or move to the next line as normal. The odds of jumping to the specified line are indicated in the Command
     /// itself. For example, @Chance50(Domme Instructions) would have a 50% chance of jumping to (Domme Instructions).
     ///</summary>
-    public class ChanceCommandProcessor : ICommandProcessor
+    public class ChanceCommandProcessor : CommandProcessorBase
     {
-        public ChanceCommandProcessor(LineService lineService)
+        public ChanceCommandProcessor(LineService lineService
+            , IBookmarkService bookmarkService) : base(Keyword.Chance, lineService)
         {
             _lineService = lineService;
+            _bookmarkService = bookmarkService;
         }
 
-        public event EventHandler<CommandProcessedEventArgs> CommandProcessed;
-
-        public string DeleteCommandFrom(string input)
+        public override string DeleteCommandFrom(string input)
         {
             if (!input.Contains(Keyword.Chance))
                 return input;
@@ -30,9 +31,7 @@ namespace TeaseAI.Services.CommandProcessor
             return _lineService.DeleteCommand(input, Keyword.Chance + chance + "(");
         }
 
-        public bool IsRelevant(Session session, string line) => line.Contains(Keyword.Chance);
-
-        public Result<Session> PerformCommand(Session session, string line)
+        public override Result<Session> PerformCommand(Session session, string line)
         {
             var chance = line.Substring(line.IndexOf(Keyword.Chance) + Keyword.Chance.Length, 2);
             var chanceNum = 0;
@@ -45,7 +44,7 @@ namespace TeaseAI.Services.CommandProcessor
                 var workingSession = session.Clone();
                 var result = _lineService.GetParenData(line, Keyword.Chance + chance + "(")
                     .OnSuccess(pd => "(" + pd[new Random().Next(pd.Count)] + ")")
-                    .OnSuccess(bm => FindBookmark(workingSession.CurrentScript.Lines.ToList(), bm))
+                    .OnSuccess(bm => _bookmarkService.FindBookmark(workingSession.CurrentScript.Lines.ToList(), bm))
                     .OnSuccess(ln => workingSession.CurrentScript.LineNumber = ln)
                     .Map(ln => workingSession)
                     .OnSuccess(sesh => OnCommandProcessed(sesh));
@@ -54,27 +53,31 @@ namespace TeaseAI.Services.CommandProcessor
             return Result.Ok(session);
         }
 
-        /// <summary>
-        /// finds the location of <paramref name="bookmark"/> in the script. 
-        /// </summary>
-        /// <param name="script"></param>
-        /// <param name="bookmark">bookmark keyword with parens, (BookmarkName)</param>
-        /// <returns></returns>
-        private Result<int> FindBookmark(List<string> script, string bookmark)
+        protected override Result ParseCommandSpecific(Script script, string personalityName, string line)
         {
-            for (var i = 0; i < script.Count; i++)
-            {
-                if (script[i] == bookmark)
-                    return Result.Ok(i);
-            }
-            return Result.Fail<int>("Bookmark " + bookmark + " is not in this script.");
+            var chance = line.Substring(line.IndexOf(Keyword.Chance) + Keyword.Chance.Length, 2);
+            var chanceNum = 0;
+            if (!int.TryParse(chance, out chanceNum))
+                return Result.Fail("Unable to determine a chance percentage for " + chance);
+            var result = _lineService.GetParenData(line, Keyword.Chance + chance + "(")
+                .OnSuccess(pData =>
+                {
+                    var results = new List<Result>();
+                    foreach (var bookmark in pData)
+                    {
+                        results.Add(_bookmarkService.FindBookmark(script.Lines, "(" + bookmark + ")").Map());
+                    }
+
+                    if (results.All(r => r.IsSuccess))
+                        return Result.Ok();
+                    return Result.Fail(string.Join(Environment.NewLine, results
+                        .Where(r => r.IsFailure)
+                        .Select(r => r.Error.Message)));
+                });
+            return result;
         }
 
-        void OnCommandProcessed(Session session)
-        {
-            CommandProcessed?.Invoke(this, new CommandProcessedEventArgs() { Session = session, });
-        }
-
-        LineService _lineService;
+        private readonly LineService _lineService;
+        private readonly IBookmarkService _bookmarkService;
     }
 }

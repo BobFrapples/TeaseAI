@@ -13,12 +13,12 @@ namespace TeaseAI.Services.Accessors
 {
     public class ScriptAccessor : IScriptAccessor
     {
-        private readonly string _baseDir;
+        private readonly IPathsAccessor _pathsAccessor;
         private readonly ICldAccessor _cldAccessor;
 
-        public ScriptAccessor(IConfigurationAccessor configurationAccessor, ICldAccessor cldAccessor)
+        public ScriptAccessor(IPathsAccessor pathsAccessor, ICldAccessor cldAccessor)
         {
-            _baseDir = configurationAccessor.GetBaseFolder();
+            _pathsAccessor = pathsAccessor;
             _cldAccessor = cldAccessor;
         }
 
@@ -29,11 +29,11 @@ namespace TeaseAI.Services.Accessors
 
         public Result<List<ScriptMetaData>> GetAllScripts(string dommePersonalityName)
         {
-            var personalityDir = GetDommeBaseDir(dommePersonalityName);
+            var personalityDir = _pathsAccessor.GetPersonalityFolder(dommePersonalityName);
 
             var sessionPhase = SessionPhase.Start;
-            var cldFile = personalityDir + "System" + Path.DirectorySeparatorChar + sessionPhase.ToString() + "CheckList.cld";
-            var scriptDir = GetScriptDirPath(dommePersonalityName, "stroke", sessionPhase);
+            var cldFile = _pathsAccessor.GetScriptCld(dommePersonalityName, sessionPhase);
+            var scriptDir = _pathsAccessor.GetScriptDir(dommePersonalityName, "stroke", sessionPhase);
             var checkList = _cldAccessor.ReadCld(scriptDir, cldFile)
                 .OnSuccess(clData =>
                 {
@@ -125,19 +125,6 @@ namespace TeaseAI.Services.Accessors
             return info;
         }
 
-        private string GetScriptDirPath(string dommePersonalityName, string type, SessionPhase stage)
-        {
-            var baseDir = GetDommeBaseDir(dommePersonalityName);
 
-            if (stage == SessionPhase.Modules)
-                baseDir += "Modules" + Path.DirectorySeparatorChar;
-            else
-                baseDir += type + Path.DirectorySeparatorChar + stage.ToString() + Path.DirectorySeparatorChar;
-
-            return baseDir;
-        }
-
-        private string GetDommeBaseDir(string dommePersonalityName) =>
-             _baseDir + Path.DirectorySeparatorChar + "personalities" + Path.DirectorySeparatorChar + dommePersonalityName + Path.DirectorySeparatorChar;
     }
 }

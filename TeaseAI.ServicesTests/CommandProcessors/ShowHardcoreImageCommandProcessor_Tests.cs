@@ -20,7 +20,7 @@ namespace TeaseAI.ServicesTests.CommandProcessors
         public void Initialize()
         {
             _imageAccessor = TrueFake.Of<IImageAccessor>();
-            _service = new ShowHardcoreImageCommandProcessor(_imageAccessor);
+            _service = new ShowHardcoreImageCommandProcessor(_imageAccessor, new Services.LineService(), new Services.RandomNumberService());
             _session = new Session(new DommePersonality(), new SubPersonality());
         }
 

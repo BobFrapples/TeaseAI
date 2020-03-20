@@ -1,34 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using TeaseAI.Common;
 using TeaseAI.Common.Constants;
 using TeaseAI.Common.Data;
 using TeaseAI.Common.Events;
+using TeaseAI.Common.Interfaces;
 using TeaseAI.Common.Interfaces.Accessors;
 
 namespace TeaseAI.Services.CommandProcessor
 {
     public class PlayJoiVideoCommandProcessor : CommandProcessorBase
     {
-        public PlayJoiVideoCommandProcessor(IVideoAccessor videoAccessor)
+        public PlayJoiVideoCommandProcessor(LineService lineService
+            , IVideoAccessor videoAccessor
+            , IRandomNumberService randomNumberService) : base(Keyword.PlayJoiVideo, lineService)
         {
             _videoAccessor = videoAccessor;
+            _randomNumberService = randomNumberService;
         }
-
-        public override string DeleteCommandFrom(string line) => line.Replace(Keyword.PlayJoiVideo, string.Empty);
-
-        public override bool IsRelevant(Session session, string line) => line.Contains(Keyword.PlayJoiVideo);
 
         public override Result<Session> PerformCommand(Session session, string line)
         {
             var workingSession = session.Clone();
             var getVideos = _videoAccessor.GetVideoData(default(VideoGenre?));
 
-            var videos = getVideos.Value.Where(vmd =>vmd.Genre == VideoGenre.Joi).ToList();
+            var videos = getVideos.Value.Where(vmd => vmd.Genre == VideoGenre.Joi).ToList();
 
-            var selected = videos[new Random().Next(videos.Count)];
+            var selected = videos[_randomNumberService.Roll(0, videos.Count)];
 
             var ea = new PlayVideoEventArgs()
             {
@@ -44,6 +41,13 @@ namespace TeaseAI.Services.CommandProcessor
             return Result.Fail<Session>(ea.Result.Error);
         }
 
+        protected override Result ParseCommandSpecific(Script script, string personalityName, string line)
+        {
+            return _videoAccessor.GetVideoData(VideoGenre.Joi)
+                .Map();
+        }
+
         private readonly IVideoAccessor _videoAccessor;
+        private readonly IRandomNumberService _randomNumberService;
     }
 }

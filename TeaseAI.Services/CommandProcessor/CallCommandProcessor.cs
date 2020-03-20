@@ -1,23 +1,26 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using TeaseAI.Common;
 using TeaseAI.Common.Constants;
 using TeaseAI.Common.Data;
 using TeaseAI.Common.Interfaces;
+using TeaseAI.Common.Interfaces.Accessors;
 
 namespace TeaseAI.Services.CommandProcessor
 {
     public class CallCommandProcessor : CommandProcessorBase
     {
-        public CallCommandProcessor(IScriptAccessor scriptAccessor, LineService lineService)
+        public CallCommandProcessor(IScriptAccessor scriptAccessor
+            , LineService lineService
+            , IPathsAccessor pathsAccessor
+            , IBookmarkService bookmarkService) : base(Keyword.Call, lineService)
         {
             _lineService = lineService;
             _scriptAccessor = scriptAccessor;
+            _pathsAccessor = pathsAccessor;
+            _bookmarkService = bookmarkService;
         }
-
-        public override string DeleteCommandFrom(string line) => _lineService.DeleteCommand(line, Keyword.Call);
-
-        public override bool IsRelevant(Session session, string line) => line.Contains(Keyword.Call);
 
         public override Result<Session> PerformCommand(Session session, string line)
         {
@@ -31,7 +34,7 @@ namespace TeaseAI.Services.CommandProcessor
 
             if (getOptions.Value.Count == 2)
             {
-                var findBookmark = FindBookmark(newScript.Value.Lines, getOptions.Value[1]);
+                var findBookmark = _bookmarkService.FindBookmark(newScript.Value.Lines, getOptions.Value[1]);
                 if (findBookmark.IsFailure)
                     return Result.Fail<Session>(findBookmark.Error);
                 newScript.Value.LineNumber = findBookmark.Value;
@@ -42,23 +45,24 @@ namespace TeaseAI.Services.CommandProcessor
             return Result.Ok(workingSession);
         }
 
-        /// <summary>
-        /// finds the location of <paramref name="bookmark"/> in the script. 
-        /// </summary>
-        /// <param name="script"></param>
-        /// <param name="bookmark">bookmark keyword with parens, (BookmarkName)</param>
-        /// <returns></returns>
-        private Result<int> FindBookmark(IEnumerable<string> script, string bookmark)
+        protected override Result ParseCommandSpecific(Script script, string personalityId, string line)
         {
-            for (var i = 0; i < script.Count(); i++)
-            {
-                if (script.ElementAt(i) == bookmark)
-                    return Result.Ok(i);
-            }
-            return Result.Fail<int>("Bookmark " + bookmark + " is not in this script.");
+            var getOptions = _lineService.GetParenData(line, Keyword.Call)
+                .Ensure(pData => pData.Count == 2, Keyword.Call + " has an incorrect number of parameters in " + line)
+                .OnSuccess(pData =>
+                {
+                    var fileName = _pathsAccessor.GetPersonalityFolder(personalityId) + Path.DirectorySeparatorChar + pData[0];
+                    return _scriptAccessor.GetScript(fileName)
+                        .OnSuccess(s => _bookmarkService.FindBookmark(s.Lines, pData[1]))
+                        .Map();
+                });
+
+            return getOptions;
         }
 
         private LineService _lineService;
         private IScriptAccessor _scriptAccessor;
+        private readonly IPathsAccessor _pathsAccessor;
+        private readonly IBookmarkService _bookmarkService;
     }
 }

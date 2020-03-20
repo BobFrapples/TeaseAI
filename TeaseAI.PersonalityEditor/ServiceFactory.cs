@@ -16,10 +16,10 @@ namespace TeaseAI.PersonalityEditor
         public static INotifyUser CreateNotifyUser() => new NotifyUser();
 
         public static IConfigurationAccessor CreateConfigurationAccessor() => new ConfigurationAccessor();
-        
-        public static IPersonalityService CreatePersonalityService() => new PersonalityService(CreateConfigurationAccessor());
 
-        public static IScriptAccessor CreateScriptAccessor() => new ScriptAccessor(CreateConfigurationAccessor(), CreateCldAccessor());
+        public static IPersonalityService CreatePersonalityService() => new PersonalityService(CreatePathsAccessor());
+
+        public static IScriptAccessor CreateScriptAccessor() => new ScriptAccessor(CreatePathsAccessor(), CreateCldAccessor());
 
         public static ICldAccessor CreateCldAccessor() => new CldAccessor();
 

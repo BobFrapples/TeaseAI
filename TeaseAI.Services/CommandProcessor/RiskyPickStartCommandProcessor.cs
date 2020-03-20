@@ -15,7 +15,9 @@ namespace TeaseAI.Services.CommandProcessor
         private readonly IPathsAccessor _pathsAccessor;
         private readonly ISettingsAccessor _settingsAccessor;
 
-        public RiskyPickStartCommandProcessor(LineService lineService, IPathsAccessor pathsAccessor, ISettingsAccessor settingsAccessor)
+        public RiskyPickStartCommandProcessor(LineService lineService
+            , IPathsAccessor pathsAccessor
+            , ISettingsAccessor settingsAccessor) : base(Keyword.RiskyPickStart,lineService)
         {
             _lineService = lineService;
             _pathsAccessor = pathsAccessor;
@@ -67,6 +69,8 @@ namespace TeaseAI.Services.CommandProcessor
                     return s;
                 });
         }
+
+        protected override Result ParseCommandSpecific(Script script, string personalityName, string line) => Result.Ok();
 
         private List<int> GetRiskyPickCaseValues() => new List<int> {
             1,

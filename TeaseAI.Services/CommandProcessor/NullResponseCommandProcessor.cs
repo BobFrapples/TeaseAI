@@ -1,17 +1,17 @@
 ﻿using TeaseAI.Common;
 using TeaseAI.Common.Constants;
+using TeaseAI.Common.Data;
 
 namespace TeaseAI.Services.CommandProcessor
 {
     public class NullResponseCommandProcessor : CommandProcessorBase
     {
-        public override string DeleteCommandFrom(string line) => line.Replace(Keyword.NullResponse, string.Empty);
-
-        public override bool IsRelevant(Session session, string line) => line.Contains(Keyword.NullResponse);
-
-        public override Result<Session> PerformCommand(Session session, string line)
+        public NullResponseCommandProcessor(LineService lineService) : base(Keyword.NullResponse, lineService)
         {
-            return Result.Ok(session);
         }
+
+        public override Result<Session> PerformCommand(Session session, string line) => Result.Ok(session);
+
+        protected override Result ParseCommandSpecific(Script script, string personalityName, string line) => Result.Ok();
     }
 }

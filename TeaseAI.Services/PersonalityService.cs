@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using TeaseAI.Common.Data;
@@ -10,16 +9,16 @@ namespace TeaseAI.Services
 {
     public class PersonalityService : IPersonalityService
     {
-        private readonly string _baseFolder;
+        private readonly IPathsAccessor _pathsAccessor;
 
-        public PersonalityService(IConfigurationAccessor configurationAccessor)
+        public PersonalityService(IPathsAccessor pathsAccessor)
         {
-            _baseFolder = configurationAccessor.GetBaseFolder();
+            _pathsAccessor = pathsAccessor;
         }
 
         public List<Personality> GetAllPersonalities()
         {
-            var personalityFolder = _baseFolder + Path.DirectorySeparatorChar + "personalities";
+            var personalityFolder = _pathsAccessor.GetPersonalitiesFolder();
             Directory.CreateDirectory(personalityFolder);
             var personalities = Directory.GetDirectories(personalityFolder).ToList();
 

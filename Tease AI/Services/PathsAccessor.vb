@@ -1,5 +1,6 @@
 ﻿Option Infer Off
 Option Strict On
+Imports TeaseAI.Common.Constants
 Imports TeaseAI.Common.Interfaces.Accessors
 
 Public Class PathsAccessor
@@ -138,5 +139,21 @@ Public Class PathsAccessor
             Return Personality & "Apps\Games\Risky Pick\Risky Pick.txt"
         End Get
     End Property
+
+    Public Function GetPersonalityFolder() As String Implements IPathsAccessor.GetPersonalitiesFolder
+        Throw New NotImplementedException()
+    End Function
+
+    Public Function GetPersonalityFolder(dommePersonalityName As String) As String Implements IPathsAccessor.GetPersonalityFolder
+        Throw New NotImplementedException()
+    End Function
+
+    Public Function GetScriptDir(dommePersonalityName As String, type As String, sessionPhase As SessionPhase) As String Implements IPathsAccessor.GetScriptDir
+        Throw New NotImplementedException()
+    End Function
+
+    Public Function GetScriptCld(dommePersonalityName As String, sessionPhase As SessionPhase) As String Implements IPathsAccessor.GetScriptCld
+        Throw New NotImplementedException()
+    End Function
 End Class
 

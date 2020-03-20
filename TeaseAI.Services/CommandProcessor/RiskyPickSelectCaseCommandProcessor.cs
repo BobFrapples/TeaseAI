@@ -1,6 +1,7 @@
 ﻿using System;
 using TeaseAI.Common;
 using TeaseAI.Common.Constants;
+using TeaseAI.Common.Data;
 
 namespace TeaseAI.Services.CommandProcessor
 {
@@ -8,12 +9,10 @@ namespace TeaseAI.Services.CommandProcessor
     {
         private readonly LineService _lineService;
 
-        public RiskyPickSelectCaseCommandProcessor(LineService lineService)
+        public RiskyPickSelectCaseCommandProcessor(LineService lineService) : base(Keyword.RiskyPickSelectCase, lineService)
         {
             _lineService = lineService;
         }
-
-        public override string DeleteCommandFrom(string line) => _lineService.DeleteCommand(line, Keyword.RiskyPickSelectCase);
 
         public override bool IsRelevant(Session session, string line) => line.Contains(Keyword.RiskyPickSelectCase) && session.GameBoard != null;
 
@@ -44,6 +43,14 @@ namespace TeaseAI.Services.CommandProcessor
 
                     return workingSession;
                 });
+        }
+
+        protected override Result ParseCommandSpecific(Script script, string personalityName, string line)
+        {
+            return _lineService.GetParenData(line, Keyword.RiskyPickSelectCase)
+                .Ensure(l => l.Count == 1, "Too many parameters passed to " + Keyword.RiskyPickSelectCase + " in " + line)
+                .Ensure(l => int.TryParse(l[0], out var toss), Keyword.RiskyPickSelectCase + " requires inputs be a whole number")
+                .Map();
         }
     }
 }

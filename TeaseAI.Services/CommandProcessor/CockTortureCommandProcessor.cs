@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using TeaseAI.Common;
 using TeaseAI.Common.Constants;
@@ -13,17 +14,19 @@ namespace TeaseAI.Services.CommandProcessor
         private readonly LineService _lineService;
         private readonly IConfigurationAccessor _configurationAccessor;
         private readonly IRandomNumberService _randomNumberService;
+        private readonly IPathsAccessor _pathsAccessor;
 
-        public CockTortureCommandProcessor(LineService lineService, IConfigurationAccessor configurationAccessor, IRandomNumberService randomNumberService)
+        public CockTortureCommandProcessor(LineService lineService
+            , IConfigurationAccessor configurationAccessor
+            , IRandomNumberService randomNumberService
+            , IPathsAccessor pathsAccessor) : base(Keyword.CockTorture, lineService)
+
         {
             _lineService = lineService;
             _configurationAccessor = configurationAccessor;
             _randomNumberService = randomNumberService;
+            _pathsAccessor = pathsAccessor;
         }
-
-        public override string DeleteCommandFrom(string line) => _lineService.DeleteCommand(line, Keyword.CockTorture);
-
-        public override bool IsRelevant(Session session, string line) => line.Contains(Keyword.CockTorture);
 
         public override Result<Session> PerformCommand(Session session, string line)
         {
@@ -57,6 +60,14 @@ namespace TeaseAI.Services.CommandProcessor
             OnCommandProcessed(workingSession, null);
 
             return Result.Ok(workingSession);
+        }
+
+        protected override Result ParseCommandSpecific(Script script, string personalityName, string line)
+        {
+            var cbtFolder = _pathsAccessor.GetPersonalityFolder(personalityName) + Path.DirectorySeparatorChar + "cbt" + Path.DirectorySeparatorChar;
+            return Result.Ok()
+                .Ensure(() => File.Exists(cbtFolder + "cbtball.txt"), "Ball torture script does not exist at " + cbtFolder + "cbtball.txt")
+                .Ensure(() => File.Exists(cbtFolder + "cbtball_first.txt"), "First ball torture script does not exist at " + cbtFolder + "cbtball_first.txt");
         }
     }
 }

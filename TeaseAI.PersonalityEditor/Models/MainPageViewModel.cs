@@ -2,15 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Input;
 using TeaseAI.Common;
 using TeaseAI.Common.Constants;
 using TeaseAI.Common.Data;
 using TeaseAI.Common.Interfaces;
-using TeaseAI.Services;
 using Windows.Foundation;
-using Windows.Storage;
-using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
@@ -108,7 +104,19 @@ namespace TeaseAI.PersonalityEditor.Models
 
         private void TestScript(Script currentScript)
         {
-            throw new NotImplementedException();
+            var results = new List<Result>();
+            var commandProcessors = _getCommandProcessorsService.CreateCommandProcessors();
+
+            foreach (var line in currentScript.Lines)
+            {
+                foreach (var command in commandProcessors.Keys)
+                {
+                    if (commandProcessors[command].IsRelevant(line))
+                    {
+                        results.Add(commandProcessors[command].ParseCommand(currentScript, _selectedPersonality.Id, line));
+                    }
+                }
+            }
         }
         #endregion
 

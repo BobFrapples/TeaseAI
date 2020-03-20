@@ -1,61 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using TeaseAI.Common;
+﻿using TeaseAI.Common;
 using TeaseAI.Common.Constants;
-using TeaseAI.Common.Events;
+using TeaseAI.Common.Data;
 using TeaseAI.Common.Interfaces;
 
 
 namespace TeaseAI.Services.CommandProcessor
+{
+    public class OrgasmDenyCommandProcessor : CommandProcessorBase
     {
-        public class OrgasmDenyCommandProcessor : ICommandProcessor
+        public OrgasmDenyCommandProcessor(LineService lineService
+             , IBookmarkService bookmarkService) : base(Keyword.OrgasmAllow, lineService)
         {
-            public OrgasmDenyCommandProcessor(LineService lineService)
-            {
-                _lineService = lineService;
-            }
-
-            public event EventHandler<CommandProcessedEventArgs> CommandProcessed;
-
-            public Result<Session> PerformCommand(Session session, string line)
-            {
-                var workingSession = session.Clone();
-                workingSession.Sub.WillBeAllowedToOrgasm = true;
-
-                var result = FindBookmark(workingSession.CurrentScript.Lines.ToList(), "(Orgasm Deny)")
-                     .OnSuccess(ln => workingSession.CurrentScript.LineNumber = ln)
-                     .Map(ln => workingSession)
-                     .OnSuccess(sesh => OnCommandProcessed(sesh));
-
-                return result;
-            }
-
-            public string DeleteCommandFrom(string input) => _lineService.DeleteCommand(input, Keyword.OrgasmDeny);
-
-            public bool IsRelevant(Session session, string line) => line.Contains(Keyword.OrgasmDeny);
-
-            /// <summary>
-            /// finds the location of <paramref name="bookmark"/> in the script. 
-            /// </summary>
-            /// <param name="script"></param>
-            /// <param name="bookmark">bookmark keyword with parens, (BookmarkName)</param>
-            /// <returns></returns>
-            private Result<int> FindBookmark(List<string> script, string bookmark)
-            {
-                for (var i = 0; i < script.Count; i++)
-                {
-                    if (script[i] == bookmark)
-                        return Result.Ok(i);
-                }
-                return Result.Fail<int>("Bookmark " + bookmark + " is not in this script.");
-            }
-
-            void OnCommandProcessed(Session session)
-            {
-                CommandProcessed?.Invoke(this, new CommandProcessedEventArgs() { Session = session, });
-            }
-
-            private LineService _lineService;
+            _lineService = lineService;
+            _bookmarkService = bookmarkService;
         }
+
+        public override Result<Session> PerformCommand(Session session, string line)
+        {
+            var workingSession = session.Clone();
+            workingSession.Sub.WillBeAllowedToOrgasm = false;
+
+            var result = _bookmarkService.FindBookmark(workingSession.CurrentScript.Lines, OrgasmDenyBookmark)
+                 .OnSuccess(ln => workingSession.CurrentScript.LineNumber = ln)
+                 .Map(ln => workingSession)
+                 .OnSuccess(sesh => OnCommandProcessed(sesh));
+
+            return result;
+        }
+
+        protected override Result ParseCommandSpecific(Script script, string personalityName, string line)
+        {
+            var findBookmark = _bookmarkService.FindBookmark(script.Lines, OrgasmDenyBookmark);
+            if (findBookmark.IsFailure)
+                return Result.Fail(OrgasmDenyBookmark + " must be a bookmark in your script");
+
+            return Result.Ok();
+        }
+
+        private string OrgasmDenyBookmark = "(Orgasm Deny)";
+        private LineService _lineService;
+        private IBookmarkService _bookmarkService;
     }
+}

@@ -1,35 +1,28 @@
-﻿using System;
-using TeaseAI.Common;
+﻿using TeaseAI.Common;
 using TeaseAI.Common.Constants;
-using TeaseAI.Common.Events;
-using TeaseAI.Common.Interfaces;
+using TeaseAI.Common.Data;
 
 namespace TeaseAI.Services.CommandProcessor
 {
-    public class DecreaseOrgasmChanceCommand : ICommandProcessor
+    public class DecreaseOrgasmChanceCommand : CommandProcessorBase
     {
-        public event EventHandler<CommandProcessedEventArgs> CommandProcessed;
-
-        public string DeleteCommandFrom(string line)
+        public DecreaseOrgasmChanceCommand(LineService lineService) : base(Keyword.DecreaseOrgasmChance, lineService)
         {
-            return line.Replace(Keyword.DecreaseOrgasmChance, string.Empty);
         }
 
-        public bool IsRelevant(Session session, string line)
-        {
-            return line.Contains(Keyword.DecreaseOrgasmChance);
-        }
-
-        public Result<Session> PerformCommand(Session session, string line)
+        public override Result<Session> PerformCommand(Session session, string line)
         {
             var workingSession = session.Clone();
             if (line.Contains(Keyword.DecreaseOrgasmChance))
             {
                 workingSession.Domme.AllowsOrgasms--;
             }
-            CommandProcessed.Invoke(this, new CommandProcessedEventArgs() { Session = workingSession });
+
+            OnCommandProcessed(workingSession);
 
             return Result.Ok(workingSession);
         }
+
+        protected override Result ParseCommandSpecific(Script script, string personalityName, string line) => Result.Ok();
     }
 }

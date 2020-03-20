@@ -1,25 +1,17 @@
-﻿using System;
-using TeaseAI.Common;
+﻿using TeaseAI.Common;
 using TeaseAI.Common.Constants;
-using TeaseAI.Common.Events;
-using TeaseAI.Common.Interfaces;
+using TeaseAI.Common.Data;
 
 namespace TeaseAI.Services.CommandProcessor
 {
-    public class EndCommandProcessor : ICommandProcessor
+    public class EndCommandProcessor : CommandProcessorBase
     {
-        public EndCommandProcessor(LineService lineService)
+        public EndCommandProcessor(LineService lineService): base(Keyword.End, lineService)
         {
             _lineService = lineService;
         }
 
-        public event EventHandler<CommandProcessedEventArgs> CommandProcessed;
-
-        public string DeleteCommandFrom(string input) => _lineService.DeleteCommand(input, Keyword.End);
-
-        public bool IsRelevant(Session session, string line) => line.Contains(Keyword.End);
-
-        public Result<Session> PerformCommand(Session session, string line)
+        public override Result<Session> PerformCommand(Session session, string line)
         {
             var workingSession = session.Clone();
             if (workingSession.IsBeforeTease && workingSession.Sub.IsStroking)
@@ -29,12 +21,8 @@ namespace TeaseAI.Services.CommandProcessor
             return Result.Ok(workingSession);
         }
 
-        private void OnCommandProcessed(Session session)
-        {
-            CommandProcessed?.Invoke(this, new CommandProcessedEventArgs() { Session = session, });
-        }
+        protected override Result ParseCommandSpecific(Script script, string personalityName, string line) => Result.Ok();
 
         private LineService _lineService;
-
     }
 }

@@ -1,16 +1,15 @@
 ﻿using TeaseAI.Common.Constants;
+using TeaseAI.Common.Interfaces;
 using TeaseAI.Common.Interfaces.Accessors;
 
 namespace TeaseAI.Services.CommandProcessor
 {
     public class ShowLesbianImageCommandProcessor : ShowImageCommandProcessorBase
     {
-        public ShowLesbianImageCommandProcessor(IImageAccessor imageAccessor) : base(imageAccessor)
+        public ShowLesbianImageCommandProcessor(IImageAccessor imageAccessor
+            , LineService lineService
+            , IRandomNumberService randomNumberService) : base(Common.Constants.Keyword.ShowLesbianImage, ImageGenre.Lesbian, lineService, imageAccessor, randomNumberService)
         {
         }
-
-        protected override ImageGenre Genre => ImageGenre.Lesbian;
-
-        protected override string Keyword => Common.Constants.Keyword.ShowLesbianImage;
     }
 }
