@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using TeaseAI.Common;
 using TeaseAI.Common.Constants;
 using TeaseAI.Common.Data;
@@ -50,7 +51,7 @@ namespace TeaseAI.PersonalityEditor.Models
             }
         }
 
-        public void TestScriptEvent(object s, object e) => TestScript(CurrentScript);
+        public async void TestScriptEvent(object s, object e) => await TestScript(CurrentScript);
         #endregion
 
         public ObservableCollection<Personality> Personalities => _personalities ?? (_personalities = new ObservableCollection<Personality>());
@@ -102,10 +103,11 @@ namespace TeaseAI.PersonalityEditor.Models
             CurrentScriptText = string.Join(Environment.NewLine, CurrentScript.Lines.ToList());
         }
 
-        private void TestScript(Script currentScript)
+        private async Task TestScript(Script currentScript)
         {
-            var results = new List<Result>();
+            var errors = new List<string>();
             var commandProcessors = _getCommandProcessorsService.CreateCommandProcessors();
+            var lineNumber = 1;
 
             foreach (var line in currentScript.Lines)
             {
@@ -113,10 +115,18 @@ namespace TeaseAI.PersonalityEditor.Models
                 {
                     if (commandProcessors[command].IsRelevant(line))
                     {
-                        results.Add(commandProcessors[command].ParseCommand(currentScript, _selectedPersonality.Id, line));
+                        var processCommand = commandProcessors[command].ParseCommand(currentScript, _selectedPersonality.Id, line);
+                        if (processCommand.IsFailure)
+                        {
+                            errors.Add(lineNumber.ToString() + " : " + processCommand.Error.Message);
+                        }
                     }
                 }
+                lineNumber++;
             }
+
+            var errorMessage = string.Join(Environment.NewLine, errors);
+            await _notifyUser.ModalMessageAsync(errorMessage);
         }
         #endregion
 

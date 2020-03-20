@@ -50,12 +50,16 @@ namespace TeaseAI.Services.CommandProcessor
             if (!line.Contains("="))
                 return Result.Fail<Tuple<string, string>>(line + " does not set a variable");
             var variableCommandStart = line.IndexOf(Keyword.SetVar);
-            var equalsSign = line.Substring(variableCommandStart).IndexOf('=');
+            var equalsSign = line.Substring(variableCommandStart).IndexOf('=') + variableCommandStart;
             var variableCommandEnd = line.Substring(equalsSign).IndexOf(']') + equalsSign;
 
-            var tokens = line.Substring(variableCommandStart, variableCommandStart - variableCommandEnd).Split('=').ToList();
+            var tokens = line.Substring(variableCommandStart, variableCommandEnd - variableCommandStart).Split('=').ToList();
             if (tokens.Count() > 2)
                 return Result.Fail<Tuple<string, string>>(line + " cannot have = in the variable name or value");
+
+            if(tokens.Count() < 2)
+                return Result.Fail<Tuple<string, string>>(line + " does not use a format of @SetVar[VARNAME] = [VALUE]");
+
             return Result.Ok(Tuple.Create(tokens[0], tokens[1]));
         }
     }

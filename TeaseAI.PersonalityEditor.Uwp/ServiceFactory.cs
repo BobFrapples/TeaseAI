@@ -37,9 +37,12 @@ namespace TeaseAI.PersonalityEditor
                 CreateRandomNumberService(),
                 CreateNotifyUser(),
                 CreateSettingsAccessor(),
-                CreatePathsAccessor()
+                CreatePathsAccessor(),
+                CreateBookmarkService()
             );
         }
+
+        private static IBookmarkService CreateBookmarkService() => new BookmarkService();
 
         public static IPathsAccessor CreatePathsAccessor() => new PathsAccessor(CreateConfigurationAccessor());
 

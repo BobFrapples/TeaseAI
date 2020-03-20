@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using TeaseAI.Common;
@@ -24,40 +25,54 @@ namespace TeaseAI.Services.CommandProcessor
 
         public override Result<Session> PerformCommand(Session session, string line)
         {
-            var getOptions = _lineService.GetParenData(line, Keyword.Call);
-            if (getOptions.IsFailure)
-                return Result.Fail<Session>(getOptions.Error);
-            var workingSession = session.Clone();
-            Result<Script> newScript = _scriptAccessor.GetScript(workingSession.Domme, getOptions.Value[0]);
-            if (newScript.IsFailure)
-                return Result.Fail<Session>(newScript.Error);
 
-            if (getOptions.Value.Count == 2)
-            {
-                var findBookmark = _bookmarkService.FindBookmark(newScript.Value.Lines, getOptions.Value[1]);
-                if (findBookmark.IsFailure)
-                    return Result.Fail<Session>(findBookmark.Error);
-                newScript.Value.LineNumber = findBookmark.Value;
-            }
+            var verify = GetTargets(line)
+                .OnSuccess(targets =>
+                {
+                    var workingSession = session.Clone();
+                    var newScript = _scriptAccessor.GetScript(workingSession.Domme, targets.Item1)
+                        .OnSuccess(s =>
+                         {
+                             return _bookmarkService.FindBookmark(s.Lines, targets.Item2)
+                                 .OnSuccess(ln => s.LineNumber = ln)
+                                 .Map(ln => s);
+                         })
+                        .OnSuccess(s => workingSession.Scripts.Push(s));
 
-            workingSession.Scripts.Push(newScript.Value);
-
-            return Result.Ok(workingSession);
+                    return newScript.Map(s => workingSession);
+                });
+            return verify;
         }
 
         protected override Result ParseCommandSpecific(Script script, string personalityId, string line)
         {
-            var getOptions = _lineService.GetParenData(line, Keyword.Call)
-                .Ensure(pData => pData.Count == 2, Keyword.Call + " has an incorrect number of parameters in " + line)
-                .OnSuccess(pData =>
+            var verify = GetTargets(line)
+                .OnSuccess(targets =>
                 {
-                    var fileName = _pathsAccessor.GetPersonalityFolder(personalityId) + Path.DirectorySeparatorChar + pData[0];
+                    var fileName = _pathsAccessor.GetPersonalityFolder(personalityId) + Path.DirectorySeparatorChar + targets.Item1;
                     return _scriptAccessor.GetScript(fileName)
-                        .OnSuccess(s => _bookmarkService.FindBookmark(s.Lines, pData[1]))
+                        .OnSuccess(s => _bookmarkService.FindBookmark(s.Lines, targets.Item2))
                         .Map();
                 });
+            return verify;
+        }
 
-            return getOptions;
+        /// <summary>
+        /// Get the target of the <seealso cref="Keyword.Call"/> command
+        /// </summary>
+        /// <param name="line"></param>
+        /// <returns></returns>
+        private Result<Tuple<string, string>> GetTargets(string line)
+        {
+            return _lineService.GetParenData(line, Keyword.Call)
+                .Ensure(pData => pData.Count < 3, Keyword.Call + " may only have up to 2 parameters. " + line)
+                .Ensure(pData => pData.Count > 0, Keyword.Call + " must have at least 1 parameter. " + line)
+                .OnSuccess(pData =>
+                {
+                    var file = pData[0];
+                    var bookmark = pData.Count == 2 ? pData[1] : "";
+                    return Result.Ok(Tuple.Create(file, bookmark));
+                });
         }
 
         private LineService _lineService;

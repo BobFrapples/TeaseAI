@@ -75,6 +75,8 @@
     <Compile Include="CommandDetection\HolidayDetection_Tests.cs" />
     <Compile Include="CommandDetection\TagDetection_Tests.cs" />
     <Compile Include="CommandDetection\VideoDetection_Tests.cs" />
+    <Compile Include="CommandProcessors\CheckFlagCommandProcessor_Tests.cs" />
+    <Compile Include="CommandProcessors\SetVarCommandProcessor_Tests.cs" />
     <Compile Include="CommandProcessors\ShowHardcoreImageCommandProcessor_Tests.cs" />
     <Compile Include="Keywords\ImageTagReplaceHash_Tests.cs" />
     <Compile Include="LineService_Tests.cs" />

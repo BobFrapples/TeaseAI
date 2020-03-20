@@ -25,6 +25,7 @@ namespace TeaseAI.Common
             }
         }
 
+        [DebuggerStepThrough]
         internal Result(bool isSuccess, Error error)
         {
             if (isSuccess && error != null)

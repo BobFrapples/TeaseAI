@@ -75,7 +75,7 @@ Public Class ScriptAccessor
     ''' <summary>
     ''' Get MetaData for files added to the folder without being in the checklist file
     ''' </summary>
-    ''' <param name="domme"></param>
+    ''' <param name="dommePersonalityName"></param>
     ''' <param name="type"></param>
     ''' <param name="stage"></param>
     ''' <param name="isEnabled"></param>
