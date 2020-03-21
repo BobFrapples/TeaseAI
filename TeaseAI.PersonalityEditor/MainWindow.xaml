@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TeaseAI.PersonalityEditor"
+        xmlns:localViews="clr-namespace:TeaseAI.PersonalityEditor.Views"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         mc:Ignorable="d"
         Title="MainWindow"
@@ -43,24 +44,19 @@
                             <ListView ItemsSource="{Binding StartupScripts}" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
-                                        <StackPanel MouseDown="ScriptPanel_MouseDown" Width="260">
-                                            <TextBlock Text="{Binding Name}" TextWrapping="Wrap"/>
-                                            <TextBlock Text="{Binding SessionPhase}" TextWrapping="Wrap"/>
-                                            <TextBlock Text="{Binding Info}" TextWrapping="Wrap"/>
-                                        </StackPanel>
+                                        <localViews:ScriptListItemView  MouseDown="ScriptPanel_MouseDown"
+                                                                        DataContext="{Binding}" />
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
                             </ListView>
                         </TabItem>
                         <TabItem Header="Modules">
-                            <ListView ItemsSource="{Binding ModulesScripts}" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                            <ListView ItemsSource="{Binding ModulesScripts}" 
+                                      ScrollViewer.HorizontalScrollBarVisibility="Hidden">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
-                                        <StackPanel MouseDown="ScriptPanel_MouseDown" Width="260">
-                                            <TextBlock Text="{Binding Name}" TextWrapping="Wrap" FontWeight="Heavy" FontSize="20"/>
-                                            <TextBlock Text="{Binding SessionPhase}" TextWrapping="Wrap"/>
-                                            <TextBlock Text="{Binding Info}" TextWrapping="Wrap"/>
-                                        </StackPanel>
+                                        <localViews:ScriptListItemView  MouseDown="ScriptPanel_MouseDown"
+                                                                        DataContext="{Binding}" />
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
                             </ListView>
@@ -69,11 +65,8 @@
                             <ListView ItemsSource="{Binding LinkScripts}" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
-                                        <StackPanel MouseDown="ScriptPanel_MouseDown" Width="260">
-                                            <TextBlock Text="{Binding Name}" TextWrapping="Wrap"/>
-                                            <TextBlock Text="{Binding SessionPhase}" TextWrapping="Wrap"/>
-                                            <TextBlock Text="{Binding Info}" TextWrapping="Wrap"/>
-                                        </StackPanel>
+                                        <localViews:ScriptListItemView  MouseDown="ScriptPanel_MouseDown"
+                                                                        DataContext="{Binding}" />
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
                             </ListView>
@@ -82,11 +75,8 @@
                             <ListView ItemsSource="{Binding EndScripts}" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
-                                        <StackPanel MouseDown="ScriptPanel_MouseDown" Width="260">
-                                            <TextBlock Text="{Binding Name}" TextWrapping="Wrap"/>
-                                            <TextBlock Text="{Binding SessionPhase}" TextWrapping="Wrap"/>
-                                            <TextBlock Text="{Binding Info}" TextWrapping="Wrap"/>
-                                        </StackPanel>
+                                        <localViews:ScriptListItemView  MouseDown="ScriptPanel_MouseDown"
+                                                                        DataContext="{Binding}" />
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
                             </ListView>
@@ -103,6 +93,40 @@
                              AcceptsReturn="True">
                         </TextBox>
                     </DockPanel>
+                </DockPanel>
+            </TabItem>
+            <TabItem Header="Command Reference">
+                <DockPanel LastChildFill="True">
+                    <ListView ItemsSource="{Binding ScriptCommands}" 
+                          ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                          DockPanel.Dock="Left"
+                          Width="300"
+                          SelectionChanged="ListView_SelectionChanged"
+                          >
+                        <ListView.ItemTemplate >
+                            <DataTemplate >
+                                <StackPanel Style="{StaticResource ListItemStackPanelStyle}">
+                                    <TextBlock Text="{Binding}" TextWrapping="Wrap"
+                                               Style="{StaticResource ListItemHeaderStyle}"
+                                               />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <StackPanel>
+                        <TextBlock Text="{Binding CurrentScriptCommandInformation.Command}"
+                                   Style="{StaticResource ScriptCommandHeaderStyle}"
+                                   />
+                        <Label Content="Description" Style="{StaticResource HeaderTwoLabelStyle}"/>
+                        <TextBlock Text="{Binding CurrentScriptCommandInformation.Description}"
+                                   Style="{StaticResource ScriptCommandDescriptionStyle}"
+                                   />
+
+                        <Label Content="Example" Style="{StaticResource HeaderTwoLabelStyle}" />
+                        <TextBlock Text="{Binding CurrentScriptCommandInformation.Example}"
+                                   Style="{StaticResource ScriptCommandExampleStyle}"
+                                   />
+                    </StackPanel>
                 </DockPanel>
             </TabItem>
         </TabControl>

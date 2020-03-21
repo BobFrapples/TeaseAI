@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using TeaseAI.Common.Data;
 using TeaseAI.PersonalityEditor.ViewModels;
+using TeaseAI.PersonalityEditor.Views;
 
 namespace TeaseAI.PersonalityEditor
 {
@@ -21,9 +22,16 @@ namespace TeaseAI.PersonalityEditor
 
         private void ScriptPanel_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            var smd = (ScriptMetaData)((StackPanel)sender).DataContext;
+            var smd = (ScriptMetaData)((ScriptListItemView)sender).DataContext;
 
             MainWindowViewModel.ScriptClickedCommand.Execute(smd);
+        }
+
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var command = (string)((ListView)sender).SelectedItem;
+
+            MainWindowViewModel.ScriptCommandClickedCommand.Execute(command);
         }
     }
 }

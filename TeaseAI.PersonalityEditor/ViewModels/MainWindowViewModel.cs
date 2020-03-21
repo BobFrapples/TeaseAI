@@ -25,7 +25,7 @@ namespace TeaseAI.PersonalityEditor.ViewModels
             _personalityService = ServiceFactory.CreatePersonalityService();
             _scriptService = ServiceFactory.CreateScriptAccessor();
             _getCommandProcessorsService = ServiceFactory.CreateGetCommandProcessorsService();
-            _settingsService = ServiceFactory.CreateConfigurationAccessor();
+            _getCommandInformationService = ServiceFactory.CreateGetCommandInformationService();
         }
 
         #region Commands and events
@@ -33,9 +33,11 @@ namespace TeaseAI.PersonalityEditor.ViewModels
         public ICommand LoadedCommand => _loadedCommand ?? (_loadedCommand = new DelegateCommand(Loaded));
         public ICommand NewPersonalityCommand => _newPersonalityCommand ?? (_newPersonalityCommand = new DelegateCommand(NewPersonality));
         public ICommand PersonalityChangedCommand => _personalityChangedCommand ?? (_personalityChangedCommand = new DelegateCommand(PersonalityChanged));
-        public DelegateCommand<ScriptMetaData> ScriptClickedCommand => _scriptClickedCommand ?? (_scriptClickedCommand = new DelegateCommand<ScriptMetaData>(ScriptClicked));
         public ICommand TestScriptCommand => _testScriptCommand ?? (_testScriptCommand = new DelegateCommand(TestScript));
         public ICommand SaveScriptCommand => _saveScriptCommand ?? (_saveScriptCommand = new DelegateCommand(SaveScript));
+        public DelegateCommand<ScriptMetaData> ScriptClickedCommand => _scriptClickedCommand ?? (_scriptClickedCommand = new DelegateCommand<ScriptMetaData>(ScriptClicked));
+        public DelegateCommand<string> ScriptCommandClickedCommand => _scriptCommandClickedCommand ?? (_scriptCommandClickedCommand = new DelegateCommand<string>(ScriptCommandClicked));
+
         public ICommand OpenSettingsCommand => _openSettingsCommand ?? (_openSettingsCommand = new DelegateCommand(OpenSettings));
         #endregion
 
@@ -59,10 +61,36 @@ namespace TeaseAI.PersonalityEditor.ViewModels
             set => SetProperty(ref _currentScriptText, value);
         }
 
+        public ObservableCollection<string> ScriptCommands => _scriptCommands ?? (_scriptCommands = new ObservableCollection<string>());
+
         public ObservableCollection<ScriptMetaData> StartupScripts => _startupScripts ?? (_startupScripts = new ObservableCollection<ScriptMetaData>());
         public ObservableCollection<ScriptMetaData> ModulesScripts => _modulesScripts ?? (_modulesScripts = new ObservableCollection<ScriptMetaData>());
         public ObservableCollection<ScriptMetaData> LinkScripts => _linkScripts ?? (_linkScripts = new ObservableCollection<ScriptMetaData>());
         public ObservableCollection<ScriptMetaData> EndScripts => _endScripts ?? (_endScripts = new ObservableCollection<ScriptMetaData>());
+
+        public string CurrentScriptCommandHeader
+        {
+            get => _currentScriptCommandHeader;
+            set => SetProperty(ref _currentScriptCommandHeader, value);
+        }
+
+        public string CurrentScriptCommandDescription
+        {
+            get => _currentScriptCommandDescription;
+            set => SetProperty(ref _currentScriptCommandDescription, value);
+        }
+
+        public string CurrentScriptCommandExample
+        {
+            get => _currentScriptCommandExample;
+            set => SetProperty(ref _currentScriptCommandExample, value);
+        }
+
+        public ScriptCommandInformation CurrentScriptCommandInformation
+        {
+            get => _currentScriptCommandInformation;
+            set => SetProperty(ref _currentScriptCommandInformation, value);
+        }
         #endregion
 
         #region Command Actions
@@ -97,7 +125,7 @@ namespace TeaseAI.PersonalityEditor.ViewModels
             ModulesScripts.AddRange(allScripts.Where(smd => smd.SessionPhase == SessionPhase.Modules));
 
             LinkScripts.Clear();
-            LinkScripts.AddRange(allScripts.Where(smd => smd.SessionPhase == SessionPhase.Modules));
+            LinkScripts.AddRange(allScripts.Where(smd => smd.SessionPhase == SessionPhase.Link));
 
             EndScripts.Clear();
             EndScripts.AddRange(allScripts.Where(smd => smd.SessionPhase == SessionPhase.End));
@@ -112,7 +140,7 @@ namespace TeaseAI.PersonalityEditor.ViewModels
                 .Ensure(() => !string.IsNullOrWhiteSpace(CurrentScript?.MetaData?.Key), "No script is loaded")
                 .OnSuccess(() =>
                 {
-                    CurrentScript = new Script(CurrentScript.MetaData, CurrentScriptText.Split(Environment.NewLine.ToCharArray()).ToList());
+                    CurrentScript = new Script(CurrentScript.MetaData, CurrentScriptText.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToList());
                     return _scriptService.Save(CurrentScript);
                 });
             if (saveScript.IsFailure)
@@ -128,11 +156,32 @@ namespace TeaseAI.PersonalityEditor.ViewModels
             CurrentScriptText = string.Join(Environment.NewLine, CurrentScript.Lines.ToList());
         }
 
+        private void ScriptCommandClicked(string command)
+        {
+            var getCommandInformation = _getCommandInformationService.GetCommandInformation(command);
+            if (getCommandInformation.IsSuccess)
+                CurrentScriptCommandInformation = getCommandInformation.Value;
+            else
+            {
+                CurrentScriptCommandInformation = new ScriptCommandInformation
+                {
+                    Command = command,
+                    Description = getCommandInformation.Error.Message,
+                    Example = string.Empty,
+                };
+            }
+        }
+
         private void Loaded()
         {
             var personalities = _personalityService.GetAllPersonalities();
             Personalities.Clear();
             personalities.ForEach(p => Personalities.Add(p));
+
+            var commands = _getCommandInformationService.GetAvailableCommands();
+            ScriptCommands.Clear();
+            ScriptCommands.AddRange(commands);
+
         }
 
         private async void TestScript()
@@ -198,9 +247,16 @@ namespace TeaseAI.PersonalityEditor.ViewModels
         private DelegateCommand _newPersonalityCommand;
         private DelegateCommand _saveScriptCommand;
         private DelegateCommand _openSettingsCommand;
+        private ObservableCollection<string> _scriptCommands;
+        private DelegateCommand<string> _scriptCommandClickedCommand;
+        private string _currentScriptCommandDescription;
+        private string _currentScriptCommandExample;
+        private string _currentScriptCommandHeader;
+        private ScriptCommandInformation _currentScriptCommandInformation;
         private readonly IPersonalityService _personalityService;
         private readonly IScriptAccessor _scriptService;
         private readonly IGetCommandProcessorsService _getCommandProcessorsService;
+        private readonly IGetCommandInformationAccessor _getCommandInformationService;
         private readonly IConfigurationAccessor _settingsService;
         private readonly INotifyUser _notifyUser;
         #endregion

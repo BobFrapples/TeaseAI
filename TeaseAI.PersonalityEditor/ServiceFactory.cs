@@ -1,4 +1,5 @@
-﻿using TeaseAI.Common.Interfaces;
+﻿using System;
+using TeaseAI.Common.Interfaces;
 using TeaseAI.Common.Interfaces.Accessors;
 using TeaseAI.PersonalityEditor.Services;
 using TeaseAI.Services;
@@ -36,6 +37,8 @@ namespace TeaseAI.PersonalityEditor
                 CreateBookmarkService()
             );
         }
+
+        internal static IGetCommandInformationAccessor CreateGetCommandInformationService() => new GetCommandInformationAccessor();
 
         private static IBookmarkService CreateBookmarkService() => new BookmarkService();
 
