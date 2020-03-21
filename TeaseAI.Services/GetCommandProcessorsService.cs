@@ -133,9 +133,11 @@ namespace TeaseAI.Services
 
             rVal.Add(Keyword.End, new EndCommandProcessor(_lineService));
             rVal.Add(Keyword.NullResponse, new NullResponseCommandProcessor(_lineService));
+            rVal.Add(Keyword.Info, new InfoCommandProcessor(_lineService));
+            rVal.Add(Keyword.DifferentAnswer, new DifferentAnswerCommandProcessor(_lineService));
+            rVal.Add(Keyword.AcceptAnswer, new AcceptAnswerCommandProcessor(_lineService));
 
             return rVal;
         }
-
     }
 }

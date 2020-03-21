@@ -29,21 +29,34 @@ namespace TeaseAI.Services.Accessors
 
         public Result<List<ScriptMetaData>> GetAllScripts(string dommePersonalityName)
         {
+            var checkList = new List<ScriptMetaData>();
             var personalityDir = _pathsAccessor.GetPersonalityFolder(dommePersonalityName);
+            var scriptDatas = new List<Tuple<string, SessionPhase>>
+            {
+                Tuple.Create("stroke", SessionPhase.Start ),
+                Tuple.Create("Modules", SessionPhase.Modules ),
+                Tuple.Create("stroke", SessionPhase.Link ),
+                Tuple.Create("stroke", SessionPhase.End ),
+            };
 
-            var sessionPhase = SessionPhase.Start;
-            var cldFile = _pathsAccessor.GetScriptCld(dommePersonalityName, sessionPhase);
-            var scriptDir = _pathsAccessor.GetScriptDir(dommePersonalityName, "stroke", sessionPhase);
-            var checkList = _cldAccessor.ReadCld(scriptDir, cldFile)
-                .OnSuccess(clData =>
-                {
-                    clData.ForEach(cld =>
+            foreach (var scriptData in scriptDatas)
+            {
+                var cldFile = _pathsAccessor.GetScriptCld(dommePersonalityName, scriptData.Item2);
+                var scriptDir = _pathsAccessor.GetScriptDir(dommePersonalityName, scriptData.Item1, scriptData.Item2);
+                var getScripts = _cldAccessor.ReadCld(scriptDir, cldFile)
+                    .OnSuccess(clData =>
                     {
-                        cld.SessionPhase = SessionPhase.Start;
-                        cld.Info = GetScriptInfo(cld.Key);
+                        clData.ForEach(cld =>
+                        {
+                            cld.SessionPhase = scriptData.Item2;
+                            cld.Info = GetScriptInfo(cld.Key);
+                        });
+                        checkList.AddRange(clData);
                     });
-                });
-            return checkList;
+                if (getScripts.IsFailure)
+                    return getScripts;
+            }
+            return Result.Ok(checkList);
         }
 
         public Result<List<ScriptMetaData>> GetAvailableScripts(DommePersonality domme, SubPersonality submissive, string type, SessionPhase stage)

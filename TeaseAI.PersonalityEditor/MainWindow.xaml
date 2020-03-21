@@ -7,8 +7,8 @@
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         mc:Ignorable="d"
         Title="MainWindow"
-        Height="450"
-        Width="800"
+        Height="700"
+        Width="1000"
         Name="MainWindowName">
     <DockPanel LastChildFill="True">
         <i:Interaction.Triggers>
@@ -49,10 +49,10 @@
                 <DockPanel LastChildFill="True">
                     <TabControl Name="Scripts" DockPanel.Dock="Left" Width="300">
                         <TabItem Header="Startup">
-                            <ListView ItemsSource="{Binding StartupScripts}">
+                            <ListView ItemsSource="{Binding StartupScripts}" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
-                                        <StackPanel MouseDown="ScriptPanel_MouseDown" >
+                                        <StackPanel MouseDown="ScriptPanel_MouseDown" Width="260">
                                             <TextBlock Text="{Binding Name}" TextWrapping="Wrap"/>
                                             <TextBlock Text="{Binding SessionPhase}" TextWrapping="Wrap"/>
                                             <TextBlock Text="{Binding Info}" TextWrapping="Wrap"/>
@@ -62,10 +62,43 @@
                             </ListView>
                         </TabItem>
                         <TabItem Header="Modules">
+                            <ListView ItemsSource="{Binding ModulesScripts}" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel MouseDown="ScriptPanel_MouseDown" Width="260">
+                                            <TextBlock Text="{Binding Name}" TextWrapping="Wrap" FontWeight="Heavy" FontSize="20"/>
+                                            <TextBlock Text="{Binding SessionPhase}" TextWrapping="Wrap"/>
+                                            <TextBlock Text="{Binding Info}" TextWrapping="Wrap"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
                         </TabItem>
                         <TabItem Header="Link">
+                            <ListView ItemsSource="{Binding LinkScripts}" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel MouseDown="ScriptPanel_MouseDown" Width="260">
+                                            <TextBlock Text="{Binding Name}" TextWrapping="Wrap"/>
+                                            <TextBlock Text="{Binding SessionPhase}" TextWrapping="Wrap"/>
+                                            <TextBlock Text="{Binding Info}" TextWrapping="Wrap"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
                         </TabItem>
                         <TabItem Header="End">
+                            <ListView ItemsSource="{Binding EndScripts}" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel MouseDown="ScriptPanel_MouseDown" Width="260">
+                                            <TextBlock Text="{Binding Name}" TextWrapping="Wrap"/>
+                                            <TextBlock Text="{Binding SessionPhase}" TextWrapping="Wrap"/>
+                                            <TextBlock Text="{Binding Info}" TextWrapping="Wrap"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
                         </TabItem>
                     </TabControl>
                     <DockPanel LastChildFill="True">

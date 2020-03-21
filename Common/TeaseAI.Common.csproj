@@ -2,5 +2,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\source\TeaseAI\Common\TeaseAI.Common.xml</DocumentationFile>
+  </PropertyGroup>
 
 </Project>

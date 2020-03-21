@@ -70,11 +70,10 @@ namespace TeaseAI.PersonalityEditor.Models
             set => SetProperty(ref _currentScriptText, value);
         }
 
-        public ObservableCollection<ScriptMetaData> StartupScripts
-        {
-            get => _startupScripts ?? (_startupScripts = new ObservableCollection<ScriptMetaData>());
-            set => SetProperty(ref _startupScripts, value);
-        }
+        public ObservableCollection<ScriptMetaData> StartupScripts => _startupScripts ?? (_startupScripts = new ObservableCollection<ScriptMetaData>());
+        public ObservableCollection<ScriptMetaData> ModulesScripts => _modulesScripts ?? (_modulesScripts = new ObservableCollection<ScriptMetaData>());
+        public ObservableCollection<ScriptMetaData> LinkScripts => _linkScripts ?? (_linkScripts = new ObservableCollection<ScriptMetaData>());
+        public ObservableCollection<ScriptMetaData> EndScripts => _endScripts ?? (_endScripts = new ObservableCollection<ScriptMetaData>());
 
         #region Command Actions
         private void SelectBaseFolder()
@@ -88,8 +87,17 @@ namespace TeaseAI.PersonalityEditor.Models
         {
             var allScripts = _scriptService.GetAllScripts(SelectedPersonality.Name).GetResultOrDefault(new List<ScriptMetaData>());
             StartupScripts.Clear();
-            allScripts.Where(smd => smd.SessionPhase == SessionPhase.Start).ToList()
-                .ForEach(smd => StartupScripts.Add(smd));
+            StartupScripts.AddRange(allScripts.Where(smd => smd.SessionPhase == SessionPhase.Start));
+
+            ModulesScripts.Clear();
+            ModulesScripts.AddRange(allScripts.Where(smd => smd.SessionPhase == SessionPhase.Modules));
+
+            LinkScripts.Clear();
+            LinkScripts.AddRange(allScripts.Where(smd => smd.SessionPhase == SessionPhase.Link));
+
+            EndScripts.Clear();
+            EndScripts.AddRange(allScripts.Where(smd => smd.SessionPhase == SessionPhase.End));
+
             CurrentScript = new Script(new ScriptMetaData(), new List<string>());
             CurrentScriptText = string.Empty;
         }
@@ -99,7 +107,6 @@ namespace TeaseAI.PersonalityEditor.Models
             CurrentScript = _scriptService.GetScript(scriptMetaData)
                 .GetResultOrDefault(new Script(new ScriptMetaData(), new List<string>()));
             CurrentScriptText = string.Join(Environment.NewLine, CurrentScript.Lines.ToList());
-            CommandManager.InvalidateRequerySuggested();
         }
 
         private async void TestScript()
@@ -142,14 +149,17 @@ namespace TeaseAI.PersonalityEditor.Models
             var errorMessage = string.Join(Environment.NewLine, errors);
             if (string.IsNullOrWhiteSpace(errorMessage))
                 await _notifyUser.ModalMessageAsync("Script has no known errors");
-
-            await _notifyUser.ModalMessageAsync(errorMessage);
+            else
+                await _notifyUser.ModalMessageAsync(errorMessage);
         }
         #endregion
 
         private ObservableCollection<Personality> _personalities;
         private Personality _selectedPersonality;
         private ObservableCollection<ScriptMetaData> _startupScripts;
+        private ObservableCollection<ScriptMetaData> _modulesScripts;
+        private ObservableCollection<ScriptMetaData> _linkScripts;
+        private ObservableCollection<ScriptMetaData> _endScripts;
         private string _currentScriptText;
         private Script _currentScript;
         private DelegateCommand _loadedCommand;

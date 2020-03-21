@@ -21,8 +21,13 @@ namespace TeaseAI.Services.Accessors
         public string GetPersonalityFolder(string dommePersonalityName) =>
             GetPersonalitiesFolder() + Path.DirectorySeparatorChar + dommePersonalityName;
 
-        public string GetScriptCld(string dommePersonalityName, SessionPhase sessionPhase) => 
-            GetPersonalityFolder(dommePersonalityName) + Path.DirectorySeparatorChar + "System" + Path.DirectorySeparatorChar + sessionPhase.ToString() + "CheckList.cld";
+        public string GetScriptCld(string dommePersonalityName, SessionPhase sessionPhase)
+        {
+            if (sessionPhase == SessionPhase.Modules)
+                return GetPersonalityFolder(dommePersonalityName) + Path.DirectorySeparatorChar + "System" + Path.DirectorySeparatorChar + "ModuleCheckList.cld";
+            else
+                return GetPersonalityFolder(dommePersonalityName) + Path.DirectorySeparatorChar + "System" + Path.DirectorySeparatorChar + sessionPhase.ToString() + "CheckList.cld";
+        }
 
         public string GetScriptDir(string dommePersonalityName, string type, SessionPhase sessionPhase)
         {

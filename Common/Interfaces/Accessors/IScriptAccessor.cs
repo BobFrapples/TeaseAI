@@ -14,7 +14,6 @@ namespace TeaseAI.Common.Interfaces
         /// <returns></returns>
         Result<ScriptMetaData> GetFallbackMetaData(Session session, SessionPhase stage);
 
-        //Result<List<ScriptMetaData>> GetAvailableScripts(Session session, string type, string stage);
         Result<List<ScriptMetaData>> GetAvailableScripts(DommePersonality domme, SubPersonality submissive, string type, SessionPhase stage);
 
         /// <summary>

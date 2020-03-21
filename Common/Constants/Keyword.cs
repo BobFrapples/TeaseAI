@@ -9,12 +9,11 @@ namespace TeaseAI.Common.Constants
     public class Keyword
     {
         /// <summary>
-        /// Accepts an answer other than what the sub spoke.
-        /// i.e:
-        /// Do you like pain?
-        /// [yes] Good
-        /// [no] Too bad
-        /// @AcceptAnswer I guess we'll find out
+        /// Accepts an answer other than what the sub spoke, works similar to <see cref="DifferentAnswer"/>
+        /// <para>Do you like pain?
+        /// <para>[yes] Good</para>
+        /// <para>[no] Too bad</para>
+        /// <para>@AcceptAnswer I guess we'll find out</para>
         /// </summary>
         public const string AcceptAnswer = @"@AcceptAnswer";
 
@@ -56,6 +55,13 @@ namespace TeaseAI.Common.Constants
 
         public const string DeleteFlag = @"@DeleteFlag(";
 
+        /// <summary>
+        /// This isn't an actual command, but a flag to note a default when trying to handle a user response
+        /// <para>Are you sure you want to continue? </para>
+        /// <para> [yes] Well...alright then *grin* </para>
+        /// <para> [no] No problem, honey</para>
+        /// <para> @DifferentAnswer Yes or no?</para>
+        /// </summary>
         public const string DifferentAnswer = @"@DifferentAnswer";
 
         /// <summary>

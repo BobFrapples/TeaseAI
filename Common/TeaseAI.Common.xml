@@ -1,0 +1,1324 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TeaseAI.Common</name>
+    </assembly>
+    <members>
+        <member name="T:TeaseAI.Common.ChatMessagePreferences">
+            <summary>
+            preferences on how chat messagaes should display (timestamp, color, etc)
+            </summary>
+        </member>
+        <member name="T:TeaseAI.Common.Constants.AllowsOrgasms">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.AllowsOrgasms.Never">
+            <summary>
+            Sub has 0 percent change of an orgasm
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.AllowsOrgasms.Rarely">
+            <summary>
+            Sub has 25 percent change of an orgasm
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.AllowsOrgasms.Sometimes">
+            <summary>
+            Sub has 50 percent change of an orgasm
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.AllowsOrgasms.Often">
+            <summary>
+            Sub has 75 percent change of an orgasm
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.AllowsOrgasms.Always">
+            <summary>
+            Sub has 100 percent change of an orgasm
+            </summary>
+        </member>
+        <member name="M:TeaseAI.Common.Constants.AllowsOrgasms.op_Implicit(TeaseAI.Common.Constants.AllowsOrgasms)~System.Int32">
+            <summary>
+            Implicity converts the orgasm value to a percent success [ 0 | 25 | 50 | 75 | 100 ]
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:TeaseAI.Common.Constants.AllowsOrgasms.ToString">
+            <summary>
+            Returns a string matching how often the orgasm is allowed.
+            i.e. Never, Rarely, Sometimes, Often, or Always
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:TeaseAI.Common.Constants.ApathyLevel">
+            <summary>
+            How much the dom cares about the sub
+            </summary>
+        </member>
+        <member name="T:TeaseAI.Common.Constants.DomLevel">
+            <summary>
+            How much the dom cares about the sub
+            </summary>
+        </member>
+        <member name="T:TeaseAI.Common.Constants.ItemTag">
+            <summary>
+            Possible tags for a TaggedItem
+            </summary>
+        </member>
+        <member name="M:TeaseAI.Common.Constants.ItemTag.#ctor(System.String)">
+            <summary>
+            private constructure ensures correct data
+            </summary>
+            <param name="name"></param>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.ItemTag.Face">
+            <summary>
+            This item has Face
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.ItemTag.Furniture">
+            <summary>
+            This item has Furniture
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.ItemTag.GarmentCovering">
+            <summary>
+            This item has a garment
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.ItemTag.Naked">
+            <summary>
+            This item has Naked
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.ItemTag.SexToy">
+            <summary>
+            This item has SexToy
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.ItemTag.Tattoo">
+            <summary>
+            This item has Tattoo
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.ItemTag.Underwear">
+            <summary>
+            This item has underwear
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.ItemTag.Smiling">
+            <summary>
+            This item has Smiling
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.ItemTag.CloseUp">
+            <summary>
+            This item has CloseUp
+            </summary>
+        </member>
+        <member name="T:TeaseAI.Common.Constants.Keyword">
+            <summary>
+            Command keywords used in the program @End, @Start, etc.
+            All commands  listed here should start with '@' in a script.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "F:TeaseAI.Common.Constants.Keyword.AcceptAnswer" -->
+        <member name="F:TeaseAI.Common.Constants.Keyword.AllowsOrgasm">
+            <summary>
+            Allows matching on specific values of AllowsOrgasm, Files use @AllowsOrgasm(XXXX) where XXXX is a value listed in <see cref="T:TeaseAI.Common.Constants.AllowsOrgasms"/>
+            This allows for language tailored specifically to if it can happen
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.ApathyLevel">
+            <summary>
+            Allows matching on specific values of ApathyLevel, Files use @ApathyLevel(XXXX) where XXXX is a value listed in <see cref="F:TeaseAI.Common.Constants.Keyword.ApathyLevel"/>
+            This allows for language tailored specifically to if it can happen
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.ApathyLevelNum">
+            <summary>
+            Matches on ApathyLevelX where X is a number from 1 - 5
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.Chance">
+            <summary>
+            This command will go to specified bookmark 50% of the time.
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.CheckFlag">
+            <summary>
+            Check to see if a flag exists.
+            @CheckFlag(FlagName) will go to bookmark (FlagName) if it exists.
+            @CheckFlag(FlagName, Bookmark Name) will go to bookmark name if FlagName exists
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.Crazy">
+            <summary>
+            This to mark matching lines when the Crazy checkbox is select in settings
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.DifferentAnswer">
+            <summary>
+            This isn't an actual command, but a flag to note a default when trying to handle a user response
+            <para>Are you sure you want to continue? </para>
+            <para> [yes] Well...alright then *grin* </para>
+            <para> [no] No problem, honey</para>
+            <para> @DifferentAnswer Yes or no?</para>
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.EndTease">
+            <summary>
+            This tease is ended. I believe it is used as a flag for sub-left early vs the tease was completed
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.End">
+            <summary>
+            This module is over
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.Glitter">
+            <summary>
+            used to denote glitter commands. 
+            Usage is @Glitter(FLAG). the program will look for FLAG in Apps\Glitter\Script for the personality
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.Goto">
+            <summary>
+            Command telling the script to move to a specific bookmark. Should only have one per line
+            Specifying multiple targets will result in a random target being chosen
+            Ex:
+                @Goto(bookmark 1)
+                @Goto(random 1, random2, random-3)
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.LoopAnswer">
+            <summary>
+            The Domme has refused to accept this answer for a question, so the script stays at the current location
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.NullResponse">
+            <summary>
+            Unsure what the intent of this command is meant to do, current implementation simply removes it.
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.OrgasmAllow">
+            <summary>
+            Sub will be allowed an orgasm
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.OrgasmDeny">
+            <summary>
+            Sub will be denied an orgasm
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.OrgasmRuin">
+            <summary>
+            Sub will be ruining their orgasm
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.RuinsOrgasm">
+            <summary>
+            Allows matching on specific values of RuinsOrgasm, Files use @RuinsOrgasm(XXXX) where XXXX is a value listed in <see cref="T:TeaseAI.Common.Constants.RuinsOrgasms"/>
+            This allows for language tailored specifically to if it can happen
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.Wait">
+            <summary>
+            Command to wait X time.
+            ex: @Wait(10) will wait 10 seconds
+              @Wait(1M) will wait 1 minute
+              @Wait(1H) will wait 1 hour 
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.IncreaseOrgasmChance">
+            <summary>
+            Increase the chance Sub will get to orgasm
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.GotoDommeOrgasm">
+            <summary>
+            Finds the bookmark matching the frequency that the domme lets the sub orgasm.
+            i.e. (Never Allows), (Often Allows), etc.
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.RandomText">
+            <summary>
+            Randomly picks a string from within the text options.
+            i.e. @RandomText(Hello, Hiya) has a roughly 50/50 chance of using either word
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.RapidCodeOff">
+            <summary>
+            Set sleep time between messages to default value
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.RapidCodeOn">
+            <summary>
+            Set sleep time between messages to zero
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.RT">
+            <summary>
+            Alias for <see cref="F:TeaseAI.Common.Constants.Keyword.RandomText"/> 
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.ShowImage">
+            <summary>
+            Show a random image local or blog
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.ShowLocalImage">
+            <summary>
+            Show a random local image.
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.ShowLocalCategoryImage">
+            <summary>
+            Show a local image in a category listed.
+            i.e. @ShowLocalImage(butt,femdom)
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.SearchImageBlog">
+            <summary>
+            Show a random blog image
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.SearchImageBlogAgain">
+            <summary>
+            alias of <see cref="F:TeaseAI.Common.Constants.Keyword.SearchImageBlog"/> 
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.NewBlogImage">
+            <summary>
+            This command is deprecated. Please use @ShowBlogImage instead
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.PlayVideo">
+            <summary>
+            Plays a random video *not* in JOI or CH genre
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.PlayJoiVideo">
+            <summary>
+            specifically play a Jerk Off Instruction Video
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.CockTorture">
+            <summary>
+            <para>Make the sub torture his cock. pause briefly for it to happen (TaskPauseMinimum and TaskPauseMaximum in settings)</para>
+            <para>files are located in BASE_FOLDER\Scripts\DOMME_PERSONALITY\CBT\CBTCock[_First].txt with _First being called the first time</para>    
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.BallTorture">
+            <summary>
+            <para>Make the sub torture his balls. pause briefly for it to happen (TaskPauseMinimum and TaskPauseMaximum in settings)</para>
+            <para>files are located in BASE_FOLDER\Scripts\DOMME_PERSONALITY\CBT\CBTBalls[_First].txt with _First being called the first time</para>    
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.CustomTask">
+            <summary>
+            <para>Usage: @CustomTask(TASKNAME)</para>
+            <para>Create a custom task for the sub, pausing briefly for it to happen (TaskPauseMinimum and TaskPauseMaximum in settings)</para>
+            <para>Files are located in BASE_FOLDER\Scripts\DOMME_PERSONALITY\Custom\Tasks\TASKNAME[_First].txt with _First being called the first time</para>    
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.JumpVideo">
+            <summary>
+            When used in conjunction with a PlayVideo command, it will randomize the starting location,
+            When used stand alone, it will randomly move the currently playing video to a new location.
+            Ignored if no video is playing
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.StartStroking">
+            <summary>
+            Tell the sub to start stroking. also triggers taunts
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.NotFlag">
+            <summary>
+            Process this line *only* if the specified flag is not set.
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.Flag">
+            <summary>
+            Process this line *only* if the specified flag is set
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.Call">
+            <summary>
+            Call another script, if a second parameter is passed, will move directly to that bookmark in the new script
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.LongEdgeFilter">
+            <summary>
+            Used to filter out lines in vocabulary files that have the LongEdge keyword
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.BigCockFilter">
+            <summary>
+            Filter used when the sub's cock is considered big
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.SmallCockFilter">
+            <summary>
+            Filter used when the sub's cock is considered small
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.SetVar">
+            <summary>
+            <code>@SetVar[png_know_you_better_questions_count]=[0]</code>
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.AfkOn">
+            <summary>
+            Set the domme away from keyboard. 
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.AfkOff">
+            <summary>
+            Set the domme back at keyboard
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.PornAllowedOff">
+            <summary>
+            Porn isn't allowed
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.PornAllowedOn">
+            <summary>
+            Porn is allowed
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.ChastityOn">
+            <summary>
+            Enables chastity in settings
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.ChastityOff">
+            <summary>
+            Disables chastity in settings
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.AddTokens">
+            <summary>
+            <para>Usage: @AddTokens(AMOUNT [Gold|Silver|Bronze][,AMOUNT[Gold|Silver|Bronze]])</para>
+            <para>Add AMOUNT of Gold, Silver, or Bronze tokens to the subs purse. This can be repeated multiple times</para>
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.RiskyPickStart">
+            <summary>
+            Start a new game of Risky Pick
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.Keyword.RiskyPickWaitForCase">
+            <summary>
+            Pauses the script until all risky pick boxes have been chosen for the current round
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.Keyword.RiskyPickRespondCase">
+            <summary>
+            State the number of edges and trigger the next round of risky pick
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.Keyword.RiskyPickCheck">
+            <summary>
+            <para>Make an offer from the Domme at the end of the round</para>
+            <para>Requires Risky pick be running and the sub has at least chosen their case</para>
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.Keyword.RiskyPickSelectCase">
+            <summary>
+            <para>Usage: @SelectCaseRiskyPick(CaseNumber)</para>
+            <para>Select the next case for Risky Pick</para>
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.Keyword.Unpause">
+            <summary>
+            Pauses script execution. Used for code 
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.Keyword.Pause">
+            <summary>
+            Unpauses script execution. Used for code 
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.Keyword.Info">
+            <summary>
+            Provides a description of the script, does nothing in the script
+            </summary>
+        </member>
+        <member name="T:TeaseAI.Common.Constants.Kink">
+            <summary>
+            Possible things to be enjoyed by the sub
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.Kink.CockTorture">
+            <summary>
+            Penis abuse
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.Kink.BallTorture">
+            <summary>
+            testicle abuse
+            </summary>
+        </member>
+        <member name="T:TeaseAI.Common.Constants.MoodLevel">
+            <summary>
+            What is the current mood of the Domme, Higher is happier
+            </summary>
+        </member>
+        <member name="T:TeaseAI.Common.Constants.RuinsOrgasms">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.RuinsOrgasms.Never">
+            <summary>
+            Sub has 0 percent change of an orgasm
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.RuinsOrgasms.Rarely">
+            <summary>
+            Sub has 25 percent change of an orgasm
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.RuinsOrgasms.Sometimes">
+            <summary>
+            Sub has 50 percent change of an orgasm
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.RuinsOrgasms.Often">
+            <summary>
+            Sub has 75 percent change of an orgasm
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.RuinsOrgasms.Always">
+            <summary>
+            Sub has 100 percent change of an orgasm
+            </summary>
+        </member>
+        <member name="M:TeaseAI.Common.Constants.RuinsOrgasms.op_Implicit(TeaseAI.Common.Constants.RuinsOrgasms)~System.Int32">
+            <summary>
+            Implicity converts the orgasm value to a percent success [ 0 | 25 | 50 | 75 | 100 ]
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="T:TeaseAI.Common.Constants.SessionPhase">
+            <summary>
+            The phases of a session in order. 
+            1. BeforeSession
+            2. Start
+            3. Modules
+            4. Link
+            5. End
+            6. AfterSession
+            </summary>
+        </member>
+        <member name="T:TeaseAI.Common.Constants.SystemVariable">
+            <summary>
+            names of system variables. these will always exist
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.SystemVariable.FirstRun">
+            <summary>
+            The first time this personality was run
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.SystemVariable.StrokeRound">
+            <summary>
+            How many times has the sub been told to stroke
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.SystemVariable.SubLeftEarly">
+            <summary>
+            keeps track of how many times the sub left before the session was complete
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.SystemVariable.EdgeTotal">
+            <summary>
+            How many times this session has the sub edged.
+            </summary>
+        </member>
+        <member name="T:TeaseAI.Common.Constants.TortureLevel">
+            <summary>
+            Acceptable level of physical pain for the sub
+            </summary>
+        </member>
+        <member name="T:TeaseAI.Common.Constants.Toy">
+            <summary>
+            List of possible toys the system can work with
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.Toy.ChastityDevice">
+            <summary>
+            Sub owns a chastity device
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.Toy.ChastityDeviceWithSpikes">
+            <summary>
+            Sub owns a chastity device with spikes
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.Toy.ChastityDeviceRequiresPiercing">
+            <summary>
+            Sub owns a chastity device which requires a piercing
+            </summary>
+        </member>
+        <member name="T:TeaseAI.Common.Constants.VideoGenre">
+            <summary>
+            What genre or type of video is this
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.VideoGenre.Blowjob">
+            <summary>
+            this video is all about blowjobs.
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.VideoGenre.CockHero">
+            <summary>
+            shortened to CH, these are teasing videos meant to push your ability to not cum
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.VideoGenre.FemDom">
+            <summary>
+            These videos include a woman in charge
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.VideoGenre.FemSub">
+            <summary>
+            These videos include a woman who is serving somone
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.VideoGenre.General">
+            <summary>
+            any other video that makes you horny
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.VideoGenre.Hardcore">
+            <summary>
+            Very graphic videos. shows *EVERYTHING*
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.VideoGenre.Joi">
+            <summary>
+            Jerk Off Instructions, usually from viewers point of view.
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.VideoGenre.Lesbian">
+            <summary>
+            multiple women enjoying each other
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.VideoGenre.Softcore">
+            <summary>
+            No insertion shown, things more like a topless car wash
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Data.ImageMetaData.ItemName">
+            <summary>
+            Name of the item
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Data.ImageMetaData.ItemTags">
+            <summary>
+            Tags for the item. Will never be null
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Data.Response.Phrases">
+            <summary>
+            words and phrases that will trigger this response
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Data.Response.Responses">
+            <summary>
+            possible responses based on where in the session we are
+            </summary>
+        </member>
+        <member name="T:TeaseAI.Common.Data.RiskyPick.GameCase">
+            <summary>
+            This is a case used to store a number of edges for Risky Pick
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Data.RiskyPick.GameCase.CaseNumber">
+            <summary>
+            Which number is this case
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Data.RiskyPick.GameCase.Edges">
+            <summary>
+            The number of edges in this box
+            </summary>
+        </member>
+        <member name="M:TeaseAI.Common.Data.RiskyPick.GameCase.ToString">
+            <summary>
+            Return how many edges in the form of X Edges
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Data.RiskyPick.GameCase.Clone">
+            <summary>
+            performs a deep copy of GameCase
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="F:TeaseAI.Common.Data.RiskyPick.RiskyPickGameBoard.TokensNumerator">
+            <summary>
+            This defines that maximum winnings you can get from the game. 
+            Winnings = TokensNumerator / PlayerCase.Edges
+            Therefore, maximum is 1000 tokens.
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Data.RiskyPick.RiskyPickGameBoard.CasesToPick">
+            <summary>
+            How many cases to pick in each round.
+            Round 0 is one case (This is the players case)
+            Round 1 is six cases, etc.
+            </summary>
+        </member>
+        <member name="T:TeaseAI.Common.Data.Script">
+            <summary>
+            This is a full script, including the Domme's location in it
+            </summary>
+        </member>
+        <member name="M:TeaseAI.Common.Data.Script.Clone">
+            <summary>
+            performs a deep copy of Script
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:TeaseAI.Common.Data.ScriptMetaData">
+            <summary>
+            Information about scripts, but not the actual script or where the domme is in the script
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Data.ScriptMetaData.Name">
+            <summary>
+            Name of the current script
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Data.ScriptMetaData.Key">
+            <summary>
+            Key to find the script, currently the fill path to the file
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Data.ScriptMetaData.Info">
+            <summary>
+            Description or information about the script
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Data.ScriptMetaData.IsEnabled">
+            <summary>
+            Is this script enabled or not
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Data.VideoMetaData.FeaturesDomme">
+            <summary>
+            Does this video have the domme in it.
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Data.VideoMetaData.Genre">
+            <summary>
+            What type of video is this
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Data.VideoMetaData.Key">
+            <summary>
+            Key to identify the video
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommePersonality.Age">
+            <summary>
+            Age of the Domme
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommePersonality.AgeYoungLimit">
+            <summary>
+            Age under which the Domme considers themself young
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommePersonality.AgeOldLimit">
+            <summary>
+            Age over which the Domme considers themself old
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommePersonality.CockBigLimit">
+            <summary>
+            Length over which the Domme considers penises to be big
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommePersonality.CockSmallLimit">
+            <summary>
+            Length under which the Domme considers penises to be small
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommePersonality.DomLevel">
+            <summary>
+            Domination level, how mean the Domme is.
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommePersonality.Honorific">
+            <summary>
+            What is the Domme's title, Princess, Mistress, etc
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommePersonality.MoodLevel">
+            <summary>
+            The Domme's current mood
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommePersonality.MoodAngry">
+            <summary>
+            The level at which the Domme gets angry
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommePersonality.MoodHappy">
+            <summary>
+            The level at which the Domme becomes happy
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommePersonality.Name">
+            <summary>
+            the name of the Domme
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommePersonality.PersonalityName">
+            <summary>
+            This is the name the program uses to find files on the Domme
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommePersonality.SubAgeYoungLimit">
+            <summary>
+            Age under which the Domme considers the sub young
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommePersonality.SubAgeOldLimit">
+            <summary>
+            Age over which the Domme considers the sub old
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommePersonality.WasGreeted">
+            <summary>
+            Was the Domme greeted properly
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommePersonality.MessageTimer">
+            <summary>
+            Time in milliseconds the Domme will wait between reading lines in the script.
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommePersonality.IsAfk">
+            <summary>
+            Is the Domme marked away from keyboard
+            </summary>
+        </member>
+        <member name="T:TeaseAI.Common.Error">
+            <summary>Error when a method that returns <see cref="T:TeaseAI.Common.Result"/> fails.</summary>
+        </member>
+        <member name="P:TeaseAI.Common.Error.Message">
+            <summary>Error message indicating why the method failed.</summary>
+        </member>
+        <member name="T:TeaseAI.Common.ArgumentError">
+            <summary>Error when a method has arguments which are incorrect</summary>
+        </member>
+        <member name="P:TeaseAI.Common.Events.CommandProcessedEventArgs.Session">
+            <summary>
+            The current session
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Events.CommandProcessedEventArgs.Parameter">
+            <summary>
+            This is not guaranteed to be set, so.... check it before you use it
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Events.MessageProcessedEventArgs.Parameter">
+            <summary>
+            subscriber needs to figure this out.
+            </summary>
+        </member>
+        <member name="T:TeaseAI.Common.Events.PlayVideoEventArgs">
+            <summary>
+            Tell the UI to start playing a video
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Events.PlayVideoEventArgs.ShouldRandomizeStart">
+            <summary>
+            Should the player randomize the starting location
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Events.PlayVideoEventArgs.Result">
+            <summary>
+            Did the video start, or did it fail, and why
+            </summary>
+        </member>
+        <member name="T:TeaseAI.Common.ILoadFileData">
+            <summary>
+            Load a string of data from a file.
+            </summary>
+        </member>
+        <member name="M:TeaseAI.Common.ILoadFileData.ReadData(System.String)">
+            <summary>
+            Load the filename and return the contents
+            </summary>
+            <param name="fileName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.Accessors.ICldAccessor.ReadCld(System.String,System.String)">
+            <summary>
+            Read a checklist file that stores Script Meta Data
+            </summary>
+            <param name="scriptHomeDir"></param>
+            <param name="fileName"></param>
+            <returns></returns>
+        </member>
+        <member name="T:TeaseAI.Common.Interfaces.Accessors.IConfigurationAccessor">
+            <summary>
+            Application level configurations Install path, etc.
+            Anything to be read from app.config. This isn't for user configs
+            </summary>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.Accessors.IConfigurationAccessor.GetBaseFolder">
+            <summary>
+            The root folder for image / videos / all other data
+            </summary>
+        </member>
+        <member name="T:TeaseAI.Common.Interfaces.Accessors.IFlagAccessor">
+            <summary>
+            Interface defining how to get / set flag state
+            </summary>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.Accessors.IFlagAccessor.IsSet(TeaseAI.Common.DommePersonality,System.String)">
+            <summary>
+            Returns whether <paramref name="flagName"/>is set or not
+            </summary>
+            <param name="domme"></param>
+            <param name="flagName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.Accessors.IPathsAccessor.GetPersonalitiesFolder">
+            <summary>
+            Get the folder which has all personalities in it
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.Accessors.IPathsAccessor.GetPersonalityFolder(System.String)">
+            <summary>
+            Get the folder for <paramref name="dommePersonalityName"/>
+            </summary>
+            <param name="dommePersonalityName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.Accessors.IPathsAccessor.GetScriptDir(System.String,System.String,TeaseAI.Common.Constants.SessionPhase)">
+            <summary>
+            Get the directory storing the scripts
+            </summary>
+            <param name="dommePersonalityName"></param>
+            <param name="type"></param>
+            <param name="sessionPhase"></param>
+            <returns></returns>
+        </member>
+        <member name="P:TeaseAI.Common.Interfaces.Accessors.ISettingsAccessor.DommePersonality">
+            <summary>
+            Name of the domme personality.
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Interfaces.Accessors.ISettingsAccessor.IsSubFemale">
+            <summary>
+            Does the sub identify as female
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Interfaces.Accessors.ISettingsAccessor.AreOrgasmsLocked">
+            <summary>
+            Are orgasms currently locked. true if <see cref="P:TeaseAI.Common.Interfaces.Accessors.ISettingsAccessor.OrgasmLockDate"/> is in the future
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Interfaces.Accessors.ISettingsAccessor.OrgasmLockDate">
+            <summary>
+            Date orgasms are locked until
+            </summary>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.Accessors.IVariableAccessor.AddToVariable(TeaseAI.Common.DommePersonality,System.String,System.Int32)">
+            <summary>
+            Increase the value of <paramref name="variableName"/> by <paramref name="add"/>
+            </summary>
+            <param name="domme"></param>
+            <param name="variableName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.Accessors.IVideoAccessor.GetVideoData(System.Nullable{TeaseAI.Common.Constants.VideoGenre})">
+            <summary>
+            Get *ALL* video meta data. including domme, joi, and ch
+            </summary>
+            <param name="Genre"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.IScriptAccessor.GetFallbackMetaData(TeaseAI.Common.Session,TeaseAI.Common.Constants.SessionPhase)">
+            <summary>
+            This will return the fall back script if no others are available
+            </summary>
+            <param name="session"></param>
+            <param name="stage"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.IScriptAccessor.GetAllScripts(System.String,System.String,TeaseAI.Common.Constants.SessionPhase,System.Boolean)">
+            <summary>
+            Get all scripts for <paramref name="domme"/>
+            </summary>
+            <param name="domme"></param>
+            <param name="type"></param>
+            <param name="stage"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.IScriptAccessor.GetAllScripts(System.String)">
+            <summary>
+            Get all scripts for a domme
+            </summary>
+            <param name="dommePersonalityName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.IScriptAccessor.Save(TeaseAI.Common.Data.Script)">
+            <summary>
+            Save a script, but not the metadata
+            </summary>
+            <param name="script"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.IScriptAccessor.GetScript(TeaseAI.Common.DommePersonality,System.String)">
+            <summary>
+            Get a script using the path relative to <paramref name="domme"/> personality.
+            </summary>
+            <param name="domme"></param>
+            <param name="fileName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.IScriptAccessor.GetScript(System.String)">
+            <summary>
+            Get the script identified by <paramref name="Id"/>
+            </summary>
+            <param name="Id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.IScriptAccessor.Save(System.Collections.Generic.List{TeaseAI.Common.Data.ScriptMetaData},System.String,System.String,TeaseAI.Common.Constants.SessionPhase)">
+            <summary>
+            Save all script metadata for <paramref name="dommePersonalityName"/>
+            This *MUST* include all metadata.
+            </summary>
+            <param name="scripts"></param>
+            <param name="dommePersonalityName"></param>
+            <param name="type"></param>
+            <param name="stage"></param>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.IBookmarkService.FindBookmark(System.Collections.Generic.IEnumerable{System.String},System.String)">
+            <summary>
+            Get the index of <paramref name="bookmark"/> in <paramref name="script"/>
+            </summary>
+            <param name="script"></param>
+            <param name="bookmark"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.ICommandProcessor.ParseCommand(TeaseAI.Common.Data.Script,System.String,System.String)">
+            <summary>
+            Confirm the command is correct within the context of the script / personality
+            </summary>
+            <param name="personalityName"></param>
+            <param name="line"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.ICommandProcessor.IsRelevant(System.String)">
+            <summary>
+            Is this command relevant to this line? 
+            </summary>
+            <param name="line"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.IGetCommandProcessorsService.CreateCommandProcessors">
+            <summary>
+            Create all command processors currently implemented
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:TeaseAI.Common.Interfaces.ILineCollectionFilter">
+            <summary>
+            remove lines from a collection that aren't relevant to the session
+            </summary>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.ILineCollectionFilter.FilterLines(TeaseAI.Common.Session,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            remove lines from a collection that aren't relevant to the session
+            </summary>
+            <param name="session"></param>
+            <param name="lines"></param>
+            <returns></returns>
+        </member>
+        <member name="E:TeaseAI.Common.Interfaces.IMessageProcessor.MessageProcessed">
+            <summary>
+            Event fired if the proccessor successfully handles this events
+            </summary>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.IMessageProcessor.ProcessMessage(TeaseAI.Common.Session,TeaseAI.Common.ChatMessage)">
+            <summary>
+            Return the Domme's response to what the sub said
+            </summary>
+            <param name="session"></param>
+            <param name="chatMessage"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.INotifyUser.ModalMessage(System.String)">
+            <summary>
+            Write a modal message to the user
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.INotifyUser.ModalMessageAsync(System.String)">
+            <summary>
+            Async version of Modal message
+            </summary>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.IPersonalityService.GetAllPersonalities">
+            <summary>
+            Get a collection of all known personalties
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.ISlideShowNavigationService.AdvanceSlideShow(TeaseAI.Common.Data.ImageSlideShow)">
+            <summary>
+            Advance the slide show to the next image. 
+            </summary>
+            <param name="imageSlideShow"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.ISlideShowNavigationService.MoveToRandomImage(TeaseAI.Common.Data.ImageSlideShow)">
+            <summary>
+            Move the slideshow to a random image
+            </summary>
+            <param name="imageSlideShow"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.ISlideShowNavigationService.MoveSlideShow(TeaseAI.Common.Data.ImageSlideShow,System.Boolean)">
+            <summary>
+            Moves the slideshow either randomly based on the slideshow, then by <paramref name="moveForward"/> 
+            </summary>
+            <param name="imageSlideShow"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.ISlideShowNavigationService.RewindSlideShow(TeaseAI.Common.Data.ImageSlideShow)">
+            <summary>
+            rewind the slideshow to the previous image
+            </summary>
+            <param name="imageSlideShow"></param>
+            <returns></returns>
+        </member>
+        <member name="T:TeaseAI.Common.Interfaces.Timers.ITimer">
+            <summary>
+            This is an interface to a timer, that implementation must be provided by the end application
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Interfaces.Timers.ITimer.AutoReset">
+            <summary>
+            if true, reset the timer after the elapse event, if false, only fire once
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Interfaces.Timers.ITimer.Enabled">
+            <summary>
+            will the timer raise the Elapsed event or not
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Interfaces.Timers.ITimer.Interval">
+            <summary>
+            Interval time in ms
+            </summary>
+        </member>
+        <member name="E:TeaseAI.Common.Interfaces.Timers.ITimer.Elapsed">
+            <summary>
+            Event raised when the interval has passed
+            </summary>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.Timers.ITimerFactory.Create">
+            <summary>
+            Create a new ITimer
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:TeaseAI.Common.MessageProcessedResult">
+            <summary>
+            Domme's reply object to the sub speaking
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.MessageProcessedResult.Session">
+            <summary>
+            The new state of the session after processing
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.MessageProcessedResult.MessageBack">
+            <summary>
+            any response the Domme is making to the message
+            </summary>
+        </member>
+        <member name="T:TeaseAI.Common.Result">
+            <summary>
+            Success / Failure with error of an operation
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Result.IsSuccess">
+            <summary>Was the operation successful</summary>
+        </member>
+        <member name="P:TeaseAI.Common.Result.IsFailure">
+            <summary>Was the operation a failure</summary>
+        </member>
+        <member name="P:TeaseAI.Common.Result.Error">
+            <summary>Reason the operation failed.</summary>
+        </member>
+        <member name="P:TeaseAI.Common.Result`1.IsSuccess">
+            <summary>Was the operation successful</summary>
+        </member>
+        <member name="P:TeaseAI.Common.Result`1.IsFailure">
+            <summary>Was the operation a failure</summary>
+        </member>
+        <member name="P:TeaseAI.Common.Result`1.Error">
+            <summary>Reason the operation failed.</summary>
+        </member>
+        <member name="M:TeaseAI.Common.ResultExtensions.GetResultOrDefault``1(TeaseAI.Common.Result{``0})">
+            <summary>
+            Returns the result, or the default value for that type if a failure
+            </summary>
+            <typeparam name="T">Data in the result</typeparam>
+            <param name="result"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.ResultExtensions.GetResultOrDefault``1(TeaseAI.Common.Result{``0},``0)">
+            <summary>
+            Returns the result, or the default value for that type
+            </summary>
+            <typeparam name="T">Data in the result</typeparam>
+            <param name="result"></param>
+            <param name="defaultValue">default value on a failure</param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.ResultExtensions.GetErrorMessageOrDefault``1(TeaseAI.Common.Result{``0})">
+            <summary>
+            Get the error message for a result, null if result is success
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="result"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.ResultExtensions.GetErrorMessageOrDefault(TeaseAI.Common.Result)">
+            <summary>
+            Get the error message for a result, null if result is success
+            </summary>
+            <param name="result"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.ResultExtensions.GetErrorMessageOrDefault``1(TeaseAI.Common.Result{``0},System.String)">
+            <summary>
+            Get the error message for a result, null if result is success
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="result"></param>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.ResultExtensions.GetErrorMessageOrDefault(TeaseAI.Common.Result,System.String)">
+            <summary>
+            Get the error message for a result, null if result is success
+            </summary>
+            <param name="result"></param>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="T:TeaseAI.Common.Session">
+            <summary>
+            Main engine of the program. 
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Session.IsScriptPaused">
+            <summary>
+            Used to pause reading the script. some commands do this instead of using @wait, etc.
+            </summary>
+        </member>
+        <member name="M:TeaseAI.Common.Session.Clone">
+            <summary>
+            Perform a deep copy of session object
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:TeaseAI.Common.Session.IsVideoPlaying">
+            <summary>
+            This is for tracking to / from the UI. is true when the UI starts a video, is false when the video stops
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubPersonality.IsStroking">
+            <summary>
+            Is the sub stroking
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubPersonality.IsEdging">
+            <summary>
+            Is the sub edging
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubPersonality.IsHoldingTheEdge">
+            <summary>
+            Should the sub hold the edge, evaluates to HoldEdgeSeconds > 0
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubPersonality.Kinks">
+            <summary>
+            List of things the sub likes. Will never be null(Nothing in VB)
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubPersonality.ToyBox">
+            <summary>
+            Lisst of toys the sub owns. Will never be null(Nothing in VB)
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubPersonality.PetNames">
+            <summary>
+            All pet names that might be used
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubPersonality.Purse">
+            <summary>
+            How many tokens of what denomination does the sub have
+            </summary>
+        </member>
+        <member name="T:TeaseAI.Common.TaggedItem">
+            <summary>
+            An item and its associated Tags
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.TaggedItem.ItemName">
+            <summary>
+            Name of the item
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.TaggedItem.ItemTags">
+            <summary>
+            Tags for the item. Will never be null
+            </summary>
+        </member>
+        <member name="T:TeaseAI.Common.TaskLetter">
+            <summary>
+            Class representing a task letter from your domme
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.TaskLetter.Body">
+            <summary>
+            Body of the letter
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.TaskLetter.FileName">
+            <summary>
+            Filename this letter should be written to
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.VocabularyResponses.TriggerWords">
+            <summary>
+            words from the sub which will trigger a response
+            </summary>
+        </member>
+    </members>
+</doc>
