@@ -1,8 +1,10 @@
-﻿using Prism.Commands;
+﻿using Microsoft.Win32;
+using Prism.Commands;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -24,33 +26,16 @@ namespace TeaseAI.PersonalityEditor.Models
         }
 
         #region Commands and events
-        public void CreateDommePersonalityEvent(object s, object e)
-        { }
-
-        public void ExportDommePersonalityEvent(object s, object e)
-        { }
-
+        public ICommand ExportPersonalityCommand => _exportPersonalityCommand ?? (_exportPersonalityCommand = new DelegateCommand(ExportPersonality));
         public ICommand LoadedCommand => _loadedCommand ?? (_loadedCommand = new DelegateCommand(SelectBaseFolder));
+        public ICommand NewPersonalityCommand => _newPersonalityCommand ?? (_newPersonalityCommand = new DelegateCommand(NewPersonality));
         public ICommand PersonalityChangedCommand => _personalityChangedCommand ?? (_personalityChangedCommand = new DelegateCommand(PersonalityChanged));
         public DelegateCommand<ScriptMetaData> ScriptClickedCommand => _scriptClickedCommand ?? (_scriptClickedCommand = new DelegateCommand<ScriptMetaData>(ScriptClicked));
         public ICommand TestScriptCommand => _testScriptCommand ?? (_testScriptCommand = new DelegateCommand(TestScript));
-
-        public async void SaveScriptEvent(object s, object e)
-        {
-            var saveScript = Result.Ok()
-                .Ensure(() => !string.IsNullOrWhiteSpace(CurrentScript?.MetaData?.Key), "No script is loaded")
-                .OnSuccess(() =>
-                {
-                    CurrentScript = new Script(CurrentScript.MetaData, CurrentScriptText.Split(Environment.NewLine.ToCharArray()).ToList());
-                    return _scriptService.Save(CurrentScript);
-                });
-            if (saveScript.IsFailure)
-            {
-                await _notifyUser.ModalMessageAsync(saveScript.Error.Message);
-            }
-        }
+        public ICommand SaveScriptCommand => _saveScriptCommand ?? (_saveScriptCommand = new DelegateCommand(SaveScript));
         #endregion
 
+        #region Properties
         public ObservableCollection<Personality> Personalities => _personalities ?? (_personalities = new ObservableCollection<Personality>());
         public Personality SelectedPersonality
         {
@@ -74,15 +59,24 @@ namespace TeaseAI.PersonalityEditor.Models
         public ObservableCollection<ScriptMetaData> ModulesScripts => _modulesScripts ?? (_modulesScripts = new ObservableCollection<ScriptMetaData>());
         public ObservableCollection<ScriptMetaData> LinkScripts => _linkScripts ?? (_linkScripts = new ObservableCollection<ScriptMetaData>());
         public ObservableCollection<ScriptMetaData> EndScripts => _endScripts ?? (_endScripts = new ObservableCollection<ScriptMetaData>());
+        #endregion
 
         #region Command Actions
-        private void SelectBaseFolder()
+        private void ExportPersonality()
         {
-            var personalities = _personalityService.GetAllPersonalities();
-            Personalities.Clear();
-            personalities.ForEach(p => Personalities.Add(p));
+            var openFileDialog = new SaveFileDialog();
+            openFileDialog.FileName = SelectedPersonality.Name + ".zip";
+            if (!openFileDialog.ShowDialog().GetValueOrDefault())
+                return;
+            var sourceDirectoryName = SelectedPersonality.Id;
+            ZipFile.CreateFromDirectory(sourceDirectoryName, openFileDialog.FileName);
         }
 
+        private void NewPersonality()
+        {
+            throw new NotImplementedException();
+        }
+        
         private void PersonalityChanged()
         {
             var allScripts = _scriptService.GetAllScripts(SelectedPersonality.Name).GetResultOrDefault(new List<ScriptMetaData>());
@@ -93,7 +87,7 @@ namespace TeaseAI.PersonalityEditor.Models
             ModulesScripts.AddRange(allScripts.Where(smd => smd.SessionPhase == SessionPhase.Modules));
 
             LinkScripts.Clear();
-            LinkScripts.AddRange(allScripts.Where(smd => smd.SessionPhase == SessionPhase.Link));
+            LinkScripts.AddRange(allScripts.Where(smd => smd.SessionPhase == SessionPhase.Modules));
 
             EndScripts.Clear();
             EndScripts.AddRange(allScripts.Where(smd => smd.SessionPhase == SessionPhase.End));
@@ -102,11 +96,33 @@ namespace TeaseAI.PersonalityEditor.Models
             CurrentScriptText = string.Empty;
         }
 
+        private async void SaveScript()
+        {
+            var saveScript = Result.Ok()
+                .Ensure(() => !string.IsNullOrWhiteSpace(CurrentScript?.MetaData?.Key), "No script is loaded")
+                .OnSuccess(() =>
+                {
+                    CurrentScript = new Script(CurrentScript.MetaData, CurrentScriptText.Split(Environment.NewLine.ToCharArray()).ToList());
+                    return _scriptService.Save(CurrentScript);
+                });
+            if (saveScript.IsFailure)
+            {
+                await _notifyUser.ModalMessageAsync(saveScript.Error.Message);
+            }
+        }
+
         private void ScriptClicked(ScriptMetaData scriptMetaData)
         {
             CurrentScript = _scriptService.GetScript(scriptMetaData)
                 .GetResultOrDefault(new Script(new ScriptMetaData(), new List<string>()));
             CurrentScriptText = string.Join(Environment.NewLine, CurrentScript.Lines.ToList());
+        }
+
+        private void SelectBaseFolder()
+        {
+            var personalities = _personalityService.GetAllPersonalities();
+            Personalities.Clear();
+            personalities.ForEach(p => Personalities.Add(p));
         }
 
         private async void TestScript()
@@ -154,6 +170,7 @@ namespace TeaseAI.PersonalityEditor.Models
         }
         #endregion
 
+        #region Private fields
         private ObservableCollection<Personality> _personalities;
         private Personality _selectedPersonality;
         private ObservableCollection<ScriptMetaData> _startupScripts;
@@ -162,15 +179,19 @@ namespace TeaseAI.PersonalityEditor.Models
         private ObservableCollection<ScriptMetaData> _endScripts;
         private string _currentScriptText;
         private Script _currentScript;
+
         private DelegateCommand _loadedCommand;
         private DelegateCommand _personalityChangedCommand;
         private DelegateCommand<ScriptMetaData> _scriptClickedCommand;
         private DelegateCommand _testScriptCommand;
+        private DelegateCommand _exportPersonalityCommand;
+        private DelegateCommand _newPersonalityCommand;
+        private DelegateCommand _saveScriptCommand;
+
         private readonly IPersonalityService _personalityService;
         private readonly IScriptAccessor _scriptService;
-
-        public IGetCommandProcessorsService _getCommandProcessorsService { get; }
-
+        private readonly IGetCommandProcessorsService _getCommandProcessorsService;
         private readonly INotifyUser _notifyUser;
+        #endregion
     }
 }

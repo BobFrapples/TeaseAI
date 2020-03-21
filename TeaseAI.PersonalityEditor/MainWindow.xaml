@@ -19,10 +19,8 @@
         <!--Loaded="{Binding LoadedEvent}"-->
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar Height="30">
-                <Button Content="New" />
-                <!--Click="{Binding CreateDommePersonalityEvent}"/>-->
-                <Button Content="Export"  />
-                <!--Click="{Binding ExportDommePersonalityEvent}"/>-->
+                <Button Content="New" Command="{Binding NewPersonalityCommand}"/>
+                <Button Content="Export" Command="{Binding ExportPersonalityCommand}"/>
                 <ComboBox HorizontalAlignment="Left" 
                           Margin="0,0,0,0" 
                           VerticalAlignment="Center" 
@@ -37,11 +35,6 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </ComboBox>
-            </ToolBar>
-            <ToolBar Height="30">
-                <Button Content="Save" />
-                <!--Click="{Binding SaveScriptEvent}" />-->
-                <Button Content="Test" Command="{Binding TestScriptCommand}"/>
             </ToolBar>
         </ToolBarTray>
         <TabControl Name="Items" DockPanel.Dock="Bottom">
@@ -102,10 +95,17 @@
                         </TabItem>
                     </TabControl>
                     <DockPanel LastChildFill="True">
+                        <ToolBarTray DockPanel.Dock="Top">
+                            <ToolBar Height="30">
+                                <Button Content="Save" Command="{Binding SaveScriptCommand}"/>
+                                <Button Content="Test" Command="{Binding TestScriptCommand}"/>
+                            </ToolBar>
+                        </ToolBarTray>
+
                         <TextBox Text="{Binding CurrentScriptText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              TextWrapping="Wrap"
                              AcceptsReturn="True">
-                        </TextBox>
+                            </TextBox>
                     </DockPanel>
                 </DockPanel>
             </TabItem>
