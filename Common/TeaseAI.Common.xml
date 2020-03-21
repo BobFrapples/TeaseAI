@@ -919,6 +919,11 @@
             <param name="flagName"></param>
             <returns></returns>
         </member>
+        <member name="T:TeaseAI.Common.Interfaces.Accessors.IGetCommandInformationAccessor">
+            <summary>
+            Get informatoin about commands
+            </summary>
+        </member>
         <member name="M:TeaseAI.Common.Interfaces.Accessors.IPathsAccessor.GetPersonalitiesFolder">
             <summary>
             Get the folder which has all personalities in it

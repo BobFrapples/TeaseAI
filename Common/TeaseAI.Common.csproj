@@ -5,5 +5,10 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>C:\source\TeaseAI\Common\TeaseAI.Common.xml</DocumentationFile>
   </PropertyGroup>
+  <ItemGroup>
+    <None Update="ScriptCommands.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 
 </Project>

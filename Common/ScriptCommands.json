@@ -1,0 +1,7 @@
+[
+  {
+    "Command": "@AcceptAnswer",
+    "Description": "Accepts an answer other than what the sub spoke, works similar to <see cref=\"DifferentAnswer\"/>",
+    "Example": "Do you like pain?\n[yes] Good\n[no] Too bad\n@AcceptAnswer I guess we'll find out"
+  }
+]
