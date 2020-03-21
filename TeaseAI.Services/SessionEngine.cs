@@ -45,9 +45,10 @@ namespace TeaseAI.Services
             , IConfigurationAccessor configurationAccessor
             , INotifyUser notifyUser
             , IPathsAccessor pathsAccessor
+            , IGetCommandProcessorsService getCommandProcessorsService
             )
         {
-            CommandProcessors = CreateCommandProcessors(scriptAccessor, flagAccessor, new LineService(), imageAccessor, videoAccessor, variableAccessor, tauntAccessor, configurationAccessor, randomNumberService, notifyUser, settingsAccessor, pathsAccessor);
+            CommandProcessors = getCommandProcessorsService.CreateCommandProcessors();
 
             CommandProcessors[Keyword.StartStroking].CommandProcessed += StartStrokingCommandProcessed;
             CommandProcessors[Keyword.Edge].CommandProcessed += EdgeCommandProcessed;
@@ -248,103 +249,6 @@ namespace TeaseAI.Services
         }
 
         #region private methods
-        private Dictionary<string, ICommandProcessor> CreateCommandProcessors(IScriptAccessor scriptAccessor
-            , IFlagAccessor flagAccessor
-            , LineService lineService
-            , IImageAccessor imageAccessor
-            , IVideoAccessor videoAccessor
-            , IVariableAccessor variableAccessor
-            , ITauntAccessor tauntAccessor
-            , IConfigurationAccessor configurationAccessor
-            , IRandomNumberService randomNumberService
-            , INotifyUser notifyUser
-            , ISettingsAccessor settingsAccessor
-            , IPathsAccessor pathsAccessor)
-        {
-            var rVal = new Dictionary<string, ICommandProcessor>();
-            rVal.Add(Keyword.Wait, new WaitCommandProcessor(lineService));
-            rVal.Add(Keyword.StartStroking, new StartStrokingCommandProcessor(variableAccessor));
-            rVal.Add(Keyword.Edge, new EdgeCommandProcessor(lineService));
-
-            // Image commands
-            rVal.Add(Keyword.ShowImage, new ShowImageCommandProcessor(imageAccessor));
-            rVal.Add(Keyword.ShowButtImage, new ShowButtImageCommandProcessor(imageAccessor));
-            rVal.Add(Keyword.ShowBoobsImage, new ShowBoobsImageCommandProcessor(imageAccessor));
-            rVal.Add(Keyword.SearchImageBlog, new SearchImageBlogCommandProcessor(imageAccessor));
-            rVal.Add(Keyword.ShowHardcoreImage, new ShowHardcoreImageCommandProcessor(imageAccessor));
-            rVal.Add(Keyword.ShowSoftcoreImage, new ShowSoftcoreImageCommandProcessor(imageAccessor));
-            rVal.Add(Keyword.ShowLesbianImage, new ShowLesbianImageCommandProcessor(imageAccessor));
-            rVal.Add(Keyword.ShowBlowjobImage, new ShowBlowjobImageCommandProcessor(imageAccessor));
-            rVal.Add(Keyword.ShowFemdomImage, new ShowFemdomImageCommandProcessor(imageAccessor));
-            rVal.Add(Keyword.ShowLezdomImage, new ShowLezdomImageCommandProcessor(imageAccessor));
-            rVal.Add(Keyword.ShowHentaiImage, new ShowHentaiImageCommandProcessor(imageAccessor));
-            rVal.Add(Keyword.ShowGayImage, new ShowGayImageCommandProcessor(imageAccessor));
-            rVal.Add(Keyword.ShowMaledomImage, new ShowMaledomImageCommandProcessor(imageAccessor));
-            rVal.Add(Keyword.ShowCaptionsImage, new ShowCaptionsImageCommandProcessor(imageAccessor));
-            rVal.Add(Keyword.ShowGeneralImage, new ShowGeneralImageCommandProcessor(imageAccessor));
-            rVal.Add(Keyword.ShowLikedImage, new ShowLikedImageCommandProcessor(imageAccessor));
-            rVal.Add(Keyword.ShowDislikedImage, new ShowDislikedImageCommandProcessor(imageAccessor));
-            rVal.Add(Keyword.ShowBlogImage, new ShowBlogImageCommandProcessor(imageAccessor));
-            rVal.Add(Keyword.NewBlogImage, new NewBlogImageCommandProcessor(imageAccessor));
-            rVal.Add(Keyword.ShowLocalImage, new ShowLocalImageCommandProcessor(imageAccessor, lineService));
-
-            // Video commands
-            rVal.Add(Keyword.PlayVideo, new PlayVideoCommandProcessor(videoAccessor));
-            rVal.Add(Keyword.PlayJoiVideo, new PlayJoiVideoCommandProcessor(videoAccessor));
-
-            rVal.Add(Keyword.RandomText, new SearchImageBlogCommandProcessor(imageAccessor));
-            rVal.Add(Keyword.IncreaseOrgasmChance, new IncreaseOrgasmChanceCommand());
-            rVal.Add(Keyword.DecreaseOrgasmChance, new DecreaseOrgasmChanceCommand());
-            rVal.Add(Keyword.IncreaseRuinChance, new IncreaseRuinChanceCommand());
-            rVal.Add(Keyword.DecreaseRuinChance, new DecreaseRuinChanceCommand());
-
-            // Flag commands used for script logic
-            rVal.Add(Keyword.SetFlag, new SetFlagCommandProcessor(new FlagService(flagAccessor), lineService));
-            rVal.Add(Keyword.SetTempFlag, new TempFlagCommandProcessor(new FlagService(flagAccessor), lineService));
-            rVal.Add(Keyword.DeleteFlag, new DeleteFlagCommandProcessor(flagAccessor, lineService));
-            rVal.Add(Keyword.NotFlag, new NotFlagCommandProcessor(flagAccessor, lineService));
-            rVal.Add(Keyword.Flag, new FlagCommandProcessor(flagAccessor, lineService));
-
-            // Variable commands, similar to flags
-            rVal.Add(Keyword.SetVar, new SetVarCommandProcessor(lineService, variableAccessor));
-
-            // Commands that affect Domme Messaging
-            rVal.Add(Keyword.RapidCodeOn, new RapidCodeOnCommandProcessor());
-            rVal.Add(Keyword.RapidCodeOff, new RapidCodeOffCommandProcessor());
-            rVal.Add(Keyword.AfkOn, new AfkOnCommandProcessor(lineService));
-            rVal.Add(Keyword.AfkOff, new AfkOffCommandProcessor(lineService));
-
-            // Commands that move you to another part of the script should be checked after commands that operate on the current line
-            rVal.Add(Keyword.Goto, new GotoCommandProcessor(lineService));
-            rVal.Add(Keyword.Chance, new ChanceCommandProcessor(lineService));
-            rVal.Add(Keyword.CheckFlag, new CheckFlagCommandProcessor(flagAccessor, lineService));
-            rVal.Add(Keyword.GotoDommeOrgasm, new GotoDommeOrgasmCommandProcessor(lineService));
-            rVal.Add(Keyword.GotoDommeRuin, new GotoDommeRuinCommandProcessor(lineService));
-            rVal.Add(Keyword.GotoDommeApathy, new GotoDommeApathyCommandProcessor(lineService));
-            rVal.Add(Keyword.GotoDommeLevel, new GotoDommeLevelCommandProcessor(lineService));
-            rVal.Add(Keyword.OrgasmAllow, new OrgasmAllowCommandProcessor(lineService));
-            rVal.Add(Keyword.OrgasmDeny, new OrgasmDenyCommandProcessor(lineService));
-            rVal.Add(Keyword.Call, new CallCommandProcessor(scriptAccessor, lineService));
-            rVal.Add(Keyword.Unpause, new UnpauseCommandProcessor(lineService));
-
-            rVal.Add(Keyword.CockTorture, new CockTortureCommandProcessor(lineService, configurationAccessor, randomNumberService));
-            rVal.Add(Keyword.BallTorture, new BallTortureCommandProcessor(lineService, configurationAccessor, randomNumberService));
-            rVal.Add(Keyword.CustomTask, new CustomTaskCommandProcessor(lineService, configurationAccessor, randomNumberService, variableAccessor));
-
-            rVal.Add(Keyword.AddTokens, new AddTokensCommandProcessor(lineService, settingsAccessor, notifyUser));
-
-            rVal.Add(Keyword.RiskyPickStart, new RiskyPickStartCommandProcessor(lineService, pathsAccessor, settingsAccessor));
-            rVal.Add(Keyword.RiskyPickWaitForCase, new RiskyPickWaitForCaseCommandProcessor(lineService));
-            rVal.Add(Keyword.RiskyPickSelectCase, new RiskyPickSelectCaseCommandProcessor(lineService));
-            rVal.Add(Keyword.RiskyPickCheck, new RiskyPickCheckCommandProcessor(lineService));
-
-            rVal.Add(Keyword.End, new EndCommandProcessor(lineService));
-            rVal.Add(Keyword.NullResponse, new NullResponseCommandProcessor());
-
-
-            return rVal;
-        }
-
         private Dictionary<MessageProcessor, IMessageProcessor> CreateMessageProcessors(ISettingsAccessor settingsService
             , IStringService stringService
             , LineService lineService

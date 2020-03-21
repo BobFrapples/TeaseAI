@@ -43,7 +43,6 @@ Public Class MainWindow
     Dim myImageTagReplaceHash As ImageTagReplaceHash = New ImageTagReplaceHash()
     Dim myFlagService As FlagService = New FlagService(New FlagAccessor())
     Dim myFlagAccessor As FlagAccessor = New FlagAccessor()
-    Dim myGotoProcessor As GotoProcessor = New GotoProcessor(New ScriptAccessor(New CldAccessor()))
     Dim mySettingsAccessor As ISettingsAccessor = ServiceFactory.CreateSettingsAccessor()
     Dim myRandomNumberService As IRandomNumberService = New RandomNumberService()
     Dim mySlideShowNavigationService As ISlideShowNavigationService = New SlideShowNavigationService()
@@ -283,7 +282,8 @@ ByVal lpstrReturnString As String, ByVal uReturnLength As Integer, ByVal hwndCal
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles Me.Load
         If mySession Is Nothing Then
-            mySession = New SessionEngine(ServiceFactory.CreateSettingsAccessor(), New StringService(), New ScriptAccessor(New CldAccessor()), New TimerFactory(), New FlagAccessor(), New ImageAccessor(), New VideoAccessor(), New VariableAccessor(), New TauntAccessor(), New SystemVocabularyAccessor(), New VocabularyAccessor(), New LineCollectionFilter(), New RandomNumberService(), ServiceFactory.CreateConfigurationAccessor(), New NotifyUser(), CType(ServiceFactory.CreatePathsAccessor(), IPathsAccessor))
+            Dim getCommandProcessor = ServiceFactory.CreateGetCommandProcessorsService()
+            mySession = ServiceFactory.CreateSessionEngine()
             AddHandler mySession.DommeSaid, AddressOf mySession_DommeSaid
             AddHandler mySession.ShowImage, AddressOf mySession_ShowImage
             AddHandler mySession.PlayVideo, AddressOf mySession_PlayVideo

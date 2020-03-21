@@ -17,19 +17,20 @@ namespace TeaseAI.Services.CommandProcessor
         private readonly IConfigurationAccessor _configurationAccessor;
         private readonly IRandomNumberService _randomNumberService;
         private readonly IVariableAccessor _variableAccessor;
+        private readonly IPathsAccessor _pathsAccessor;
 
-        public CustomTaskCommandProcessor(LineService lineService, IConfigurationAccessor configurationAccessor, IRandomNumberService randomNumberService,
-            IVariableAccessor variableAccessor)
+        public CustomTaskCommandProcessor(LineService lineService
+            , IConfigurationAccessor configurationAccessor
+            , IRandomNumberService randomNumberService
+            , IVariableAccessor variableAccessor
+            , IPathsAccessor pathsAccessor) : base(Keyword.CustomTask, lineService)
         {
             _lineService = lineService;
             _configurationAccessor = configurationAccessor;
             _randomNumberService = randomNumberService;
             _variableAccessor = variableAccessor;
+            _pathsAccessor = pathsAccessor;
         }
-
-        public override string DeleteCommandFrom(string line) => _lineService.DeleteCommand(line, Keyword.CustomTask);
-
-        public override bool IsRelevant(Session session, string line) => line.Contains(Keyword.CustomTask);
 
         public override Result<Session> PerformCommand(Session session, string line)
         {
@@ -46,7 +47,11 @@ namespace TeaseAI.Services.CommandProcessor
             if (getTaskData.Value.Count > 1)
                 int.TryParse(getTaskData.Value[1], out waitTime);
 
-            var filePath = _configurationAccessor.GetBaseFolder() + "\\Scripts\\" + workingSession.Domme.PersonalityName + "\\Custom\\Tasks\\" + fileName;
+            var filePath = _pathsAccessor.GetPersonalityFolder(workingSession.Domme.PersonalityName)
+                + Path.DirectorySeparatorChar + "Custom"
+                + Path.DirectorySeparatorChar + "Tasks"
+                + Path.DirectorySeparatorChar + fileName;
+
             var lines = File.ReadAllLines(filePath);
             var message = lines[_randomNumberService.Roll(0, lines.Count())];
             var smd = new Script(new ScriptMetaData
@@ -67,6 +72,36 @@ namespace TeaseAI.Services.CommandProcessor
             OnCommandProcessed(workingSession, null);
 
             return Result.Ok(workingSession);
+        }
+
+        protected override Result ParseCommandSpecific(Script script, string personalityName, string line)
+        {
+            var getTaskData = _lineService.GetParenData(line, Keyword.CustomTask)
+                .Ensure(pd => pd.Count == 1, Keyword.CustomTask + " can only have one parameter")
+                .OnSuccess(pd =>
+            {
+                var errors = new List<string>();
+                var fileName = GetFullFilename(personalityName, pd[0] + ".txt");
+                if (!File.Exists(fileName))
+                    errors.Add(fileName + " is missing, please create it.");
+                var firstFileName = GetFullFilename(personalityName, pd[0] + "_First.txt");
+                if (!File.Exists(firstFileName))
+                    errors.Add(firstFileName + " is missing, please create it.");
+
+                if (errors.Count == 0)
+                    return Result.Ok();
+
+                return Result.Fail(string.Join(Environment.NewLine, errors));
+            });
+            return getTaskData;
+        }
+
+        private string GetFullFilename(string personalityName, string fileName)
+        {
+            return _pathsAccessor.GetPersonalityFolder(personalityName)
+                        + Path.DirectorySeparatorChar + "Custom"
+                        + Path.DirectorySeparatorChar + "Tasks"
+                        + Path.DirectorySeparatorChar + fileName;
         }
     }
 }

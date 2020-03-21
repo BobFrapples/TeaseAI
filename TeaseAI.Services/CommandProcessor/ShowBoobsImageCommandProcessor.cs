@@ -12,36 +12,12 @@ namespace TeaseAI.Services.CommandProcessor
     /// <summary>
     /// Process image commands for both ShowBoobImage and ShowBoobsImage
     /// </summary>
-    public class ShowBoobsImageCommandProcessor : ICommandProcessor
+    public class ShowBoobsImageCommandProcessor : ShowImageCommandProcessorBase
     {
-        public ShowBoobsImageCommandProcessor(IImageAccessor imageAccessor)
+        public ShowBoobsImageCommandProcessor(IImageAccessor imageAccessor
+            , LineService lineService
+            , IRandomNumberService randomNumberService) : base(Common.Constants.Keyword.ShowBoobsImage, ImageGenre.Boobs, lineService, imageAccessor, randomNumberService)
         {
-            _imageAccessor = imageAccessor;
         }
-
-        public event EventHandler<CommandProcessedEventArgs> CommandProcessed;
-
-        public string DeleteCommandFrom(string line)
-        {
-            return line.Replace(Keyword.ShowBoobImage, string.Empty).Replace(Keyword.ShowBoobsImage, string.Empty);
-        }
-
-        public bool IsRelevant(Session session, string line) => line.Contains(Keyword.ShowBoobImage) || line.Contains(Keyword.ShowBoobsImage);
-
-        public Result<Session> PerformCommand(Session session, string line)
-        {
-            return _imageAccessor.GetImageMetaDataList(default(ImageSource?), ImageGenre.Boobs)
-                .Ensure(data => data.Count > 0, "No  images of genre " + ImageGenre.Boobs.ToString() + " to load")
-                .OnSuccess(data => data[new Random().Next(data.Count)])
-                .OnSuccess(img => OnCommandProcessed(session, img))
-                .Map(img => session);
-        }
-
-        private void OnCommandProcessed(Session session, ImageMetaData selected)
-        {
-            CommandProcessed?.Invoke(this, new CommandProcessedEventArgs() { Session = session, Parameter = selected });
-        }
-
-        private readonly IImageAccessor _imageAccessor;
     }
 }

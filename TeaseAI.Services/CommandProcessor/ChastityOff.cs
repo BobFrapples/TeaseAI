@@ -1,20 +1,17 @@
 ﻿using TeaseAI.Common;
 using TeaseAI.Common.Constants;
+using TeaseAI.Common.Data;
 using TeaseAI.Common.Interfaces.Accessors;
 
 namespace TeaseAI.Services.CommandProcessor
 {
     public class ChastityOff : CommandProcessorBase
     {
-        public ChastityOff(LineService lineService, ISettingsAccessor settingsAccessor)
+        public ChastityOff(LineService lineService, ISettingsAccessor settingsAccessor) : base(Keyword.ChastityOff, lineService)
         {
             _lineService = lineService;
             _settingsAccessor = settingsAccessor;
         }
-
-        public override string DeleteCommandFrom(string line) => _lineService.DeleteCommand(line, Keyword.ChastityOff);
-
-        public override bool IsRelevant(Session session, string line) => line.Contains(Keyword.ChastityOff);
 
         public override Result<Session> PerformCommand(Session session, string line)
         {
@@ -29,6 +26,8 @@ namespace TeaseAI.Services.CommandProcessor
 
             return Result.Ok(workingSession);
         }
+
+        protected override Result ParseCommandSpecific(Script script, string personalityName, string line) => Result.Ok();
 
         private readonly LineService _lineService;
         private readonly ISettingsAccessor _settingsAccessor;

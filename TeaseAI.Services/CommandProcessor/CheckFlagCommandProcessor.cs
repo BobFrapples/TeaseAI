@@ -1,7 +1,6 @@
-﻿using System;
-using TeaseAI.Common;
+﻿using TeaseAI.Common;
 using TeaseAI.Common.Constants;
-using TeaseAI.Common.Events;
+using TeaseAI.Common.Data;
 using TeaseAI.Common.Interfaces;
 using TeaseAI.Common.Interfaces.Accessors;
 
@@ -9,15 +8,15 @@ namespace TeaseAI.Services.CommandProcessor
 {
     public class CheckFlagCommandProcessor : CommandProcessorBase
     {
-        public CheckFlagCommandProcessor(IFlagAccessor flagAccessor, LineService lineService)
+        public CheckFlagCommandProcessor(IFlagAccessor flagAccessor
+            , LineService lineService
+            , IBookmarkService bookmarkService
+            ) : base(Keyword.CheckFlag, lineService)
         {
             _flagAccessor = flagAccessor;
             _lineService = lineService;
+            _bookmarkService = bookmarkService;
         }
-
-        public override string DeleteCommandFrom(string line) => _lineService.DeleteCommand(line, Keyword.CheckFlag);
-
-        public override bool IsRelevant(Session session, string line)=> line.Contains(Keyword.CheckFlag);
 
         /// <summary>
         /// Returns (BookmarkName) if the line contains a matching flag, string.Empty if not
@@ -44,6 +43,21 @@ namespace TeaseAI.Services.CommandProcessor
             return Result.Ok(workingSession);
         }
 
+        protected override Result ParseCommandSpecific(Script script, string personalityName, string line)
+        {
+            var checkFlag = _lineService.GetParenData(line, Keyword.CheckFlag)
+                .Ensure(pd => (pd.Count > 0 && pd.Count < 3), Keyword.CheckFlag + " must have only one or two parameters.")
+                .OnSuccess(pd =>
+                {
+                    var targetBookmark = pd[0];
+                    if (pd.Count == 2)
+                        targetBookmark = pd[1];
+                    return _bookmarkService.FindBookmark(script.Lines, targetBookmark).Map();
+                });
+            return checkFlag;
+        }
+
+
         private string GetNextStep(DommePersonality domme, string input)
         {
             var subString = input;
@@ -67,5 +81,6 @@ namespace TeaseAI.Services.CommandProcessor
 
         private readonly IFlagAccessor _flagAccessor;
         private readonly LineService _lineService;
+        private readonly IBookmarkService _bookmarkService;
     }
 }

@@ -1,6 +1,7 @@
-﻿using System;
-using TeaseAI.Common;
+﻿using TeaseAI.Common;
 using TeaseAI.Common.Constants;
+using TeaseAI.Common.Data;
+using TeaseAI.Common.Interfaces;
 using TeaseAI.Common.Interfaces.Accessors;
 
 namespace TeaseAI.Services.CommandProcessor
@@ -12,34 +13,43 @@ namespace TeaseAI.Services.CommandProcessor
     public abstract class ShowImageCommandProcessorBase : CommandProcessorBase
     {
         /// <summary>
-        /// The Command keyword this processor should handle
-        /// </summary>
-        protected abstract string Keyword { get; }
-        /// <summary>
         /// The genre of image this processor should handle
         /// </summary>
-        protected abstract ImageGenre Genre { get; }
+        protected ImageGenre Genre { get; }
 
-        public ShowImageCommandProcessorBase(IImageAccessor imageAccessor)
+        /// <summary>
+        /// The Command keyword this processor should handle
+        /// </summary>
+        protected string Keyword { get; }
+
+        public ShowImageCommandProcessorBase(string keyword
+            , ImageGenre imageGenre
+            , LineService lineService
+            , IImageAccessor imageAccessor
+            , IRandomNumberService randomNumberService
+            ) : base(keyword, lineService)
         {
+            Keyword = keyword;
+            _lineService = lineService;
             _imageAccessor = imageAccessor;
+            _randomNumberService = randomNumberService;
         }
-
-        public override string DeleteCommandFrom(string line) => string.IsNullOrWhiteSpace(line) ? string.Empty : line.Replace(Keyword, string.Empty).Trim();
-
-        public override bool IsRelevant(Session session, string line) => string.IsNullOrWhiteSpace(line) ? false : line.Contains(Keyword);
 
         public override Result<Session> PerformCommand(Session session, string line)
         {
             var doCommand = _imageAccessor.GetImageMetaDataList(default(ImageSource?), Genre)
                 .Ensure(mdl => mdl.Count > 0, ErrorMessage.NoImagesFound)
-                .OnSuccess(mdl => mdl[new Random().Next(mdl.Count)])
+                .OnSuccess(mdl => mdl[_randomNumberService.Roll(0, mdl.Count)])
                 .OnSuccess(img => OnCommandProcessed(session, img))
                 .Map(img => session);
 
             return doCommand;
         }
 
+        protected override Result ParseCommandSpecific(Script script, string personalityName, string line) => Result.Ok();
+
         private readonly IImageAccessor _imageAccessor;
+        private readonly IRandomNumberService _randomNumberService;
+        private readonly LineService _lineService;
     }
 }

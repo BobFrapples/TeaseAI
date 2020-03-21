@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using TeaseAI.Common;
 using TeaseAI.Common.Constants;
+using TeaseAI.Common.Data;
 using TeaseAI.Common.Data.RiskyPick;
 
 namespace TeaseAI.Services.CommandProcessor
@@ -12,12 +11,10 @@ namespace TeaseAI.Services.CommandProcessor
     {
         private readonly LineService _lineService;
 
-        public RiskyPickCheckCommandProcessor(LineService lineService)
+        public RiskyPickCheckCommandProcessor(LineService lineService): base(Keyword.RiskyPickCheck, lineService)
         {
             _lineService = lineService;
         }
-
-        public override string DeleteCommandFrom(string line) => _lineService.DeleteCommand(line, Keyword.RiskyPickCheck);
 
         public override bool IsRelevant(Session session, string line) => line.Contains(Keyword.RiskyPickCheck) && session.GameBoard?.PlayersCase != null;
 
@@ -29,6 +26,8 @@ namespace TeaseAI.Services.CommandProcessor
             OnCommandProcessed(workingSession);
             return Result.Ok(workingSession);
         }
+
+        protected override Result ParseCommandSpecific(Script script, string personalityName, string line) => Result.Ok();
 
         private RiskyPickOffer GetOffer(RiskyPickGameBoard gameBoard)
         {

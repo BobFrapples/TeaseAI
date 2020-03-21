@@ -1,24 +1,21 @@
 ﻿using TeaseAI.Common;
 using TeaseAI.Common.Constants;
+using TeaseAI.Common.Data;
 using TeaseAI.Common.Interfaces.Accessors;
 
 namespace TeaseAI.Services.CommandProcessor
 {
     public class FlagCommandProcessor : CommandProcessorBase
     {
-        public FlagCommandProcessor(IFlagAccessor flagAccessor, LineService lineService)
+        public FlagCommandProcessor(IFlagAccessor flagAccessor, LineService lineService) : base(Keyword.Flag, lineService)
         {
             _flagAccessor = flagAccessor;
             _lineService = lineService;
         }
 
-        public override string DeleteCommandFrom(string line) => _lineService.DeleteCommand(line, Keyword.Flag);
-
-        public override bool IsRelevant(Session session, string line) => line.Contains(Keyword.Flag);
-
         public override Result<Session> PerformCommand(Session session, string line)
         {
-            var flag = _lineService.GetParenData(line, Keyword.NotFlag);
+            var flag = _lineService.GetParenData(line, Keyword.Flag);
             if (flag.IsFailure)
                 return Result.Fail<Session>(flag.Error);
 
@@ -29,6 +26,8 @@ namespace TeaseAI.Services.CommandProcessor
             workingSession.CurrentScript.LineNumber++;
             return Result.Ok(workingSession);
         }
+
+        protected override Result ParseCommandSpecific(Script script, string personalityName, string line) => _lineService.GetParenData(line, Keyword.Flag).Map();
 
         private readonly IFlagAccessor _flagAccessor;
         private readonly LineService _lineService;

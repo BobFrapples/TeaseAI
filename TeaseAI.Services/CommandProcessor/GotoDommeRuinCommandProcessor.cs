@@ -3,28 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using TeaseAI.Common;
 using TeaseAI.Common.Constants;
+using TeaseAI.Common.Data;
 using TeaseAI.Common.Events;
 using TeaseAI.Common.Interfaces;
 
 namespace TeaseAI.Services.CommandProcessor
 {
-    public class GotoDommeRuinCommandProcessor : ICommandProcessor
+    public class GotoDommeRuinCommandProcessor : CommandProcessorBase
     {
-        public GotoDommeRuinCommandProcessor(LineService lineService)
+        public GotoDommeRuinCommandProcessor(LineService lineService
+            , IBookmarkService bookmarkService) : base(Keyword.GotoDommeRuin, lineService)
         {
+            _bookmarkService = bookmarkService;
             _lineService = lineService;
         }
 
-        public event EventHandler<CommandProcessedEventArgs> CommandProcessed;
-
-        public string DeleteCommandFrom(string input) => _lineService.DeleteCommand(input, Keyword.GotoDommeRuin);
-
-        public bool IsRelevant(Session session, string line) => line.Contains(Keyword.GotoDommeRuin);
-
-        public Result<Session> PerformCommand(Session session, string line)
+        public override Result<Session> PerformCommand(Session session, string line)
         {
             var workingSession = session.Clone();
-            var result = FindBookmark(workingSession.CurrentScript.Lines.ToList(), "(" + workingSession.Domme.RuinsOrgasms.ToString() + " Ruins)")
+            var result = _bookmarkService.FindBookmark(workingSession.CurrentScript.Lines.ToList(), "(" + workingSession.Domme.RuinsOrgasms.ToString() + " Ruins)")
                  .OnSuccess(ln => workingSession.CurrentScript.LineNumber = ln)
                  .Map(ln => workingSession)
                  .OnSuccess(sesh => OnCommandProcessed(sesh));
@@ -32,27 +29,24 @@ namespace TeaseAI.Services.CommandProcessor
             return result;
         }
 
-        /// <summary>
-        /// finds the location of <paramref name="bookmark"/> in the script. 
-        /// </summary>
-        /// <param name="script"></param>
-        /// <param name="bookmark">bookmark keyword with parens, (BookmarkName)</param>
-        /// <returns></returns>
-        private Result<int> FindBookmark(List<string> script, string bookmark)
+        protected override Result ParseCommandSpecific(Script script, string personalityName, string line)
         {
-            for (var i = 0; i < script.Count; i++)
+            var errors = new List<string>();
+            foreach (var ruinsOrgasms in new List<string> { "Never", "Rarely", "Sometimes", "Often", "Always" })
             {
-                if (script[i] == bookmark)
-                    return Result.Ok(i);
+                var findBookmark = _bookmarkService.FindBookmark(script.Lines, "(" + ruinsOrgasms + ")");
+                if (findBookmark.IsFailure)
+                    errors.Add(findBookmark.Error.Message);
             }
-            return Result.Fail<int>("Bookmark " + bookmark + " is not in this script.");
+
+            if (errors.Count == 0)
+                return Result.Ok();
+
+            return Result.Fail(string.Join(Environment.NewLine, errors));
         }
 
-        private void OnCommandProcessed(Session session)
-        {
-            CommandProcessed?.Invoke(this, new CommandProcessedEventArgs() { Session = session, });
-        }
 
+        private readonly IBookmarkService _bookmarkService;
         private LineService _lineService;
     }
 }

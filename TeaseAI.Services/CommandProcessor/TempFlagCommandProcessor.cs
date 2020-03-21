@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TeaseAI.Common;
 using TeaseAI.Common.Constants;
+using TeaseAI.Common.Data;
 using TeaseAI.Common.Events;
 using TeaseAI.Common.Interfaces;
 
@@ -14,23 +15,18 @@ namespace TeaseAI.Services.CommandProcessor
     /// You can use multiple @TempFlag() Commands in the same line to set multiple flags at once (For example, @TempFlag(Flag1) @TempFlag(Flag2)).
     /// You can also set multiple flags at once by separating them in single @TempFlag() Commands with a comma (For example, @TempFlag(Flag1, Flag2, Flag3)).
 
-    public class TempFlagCommandProcessor : ICommandProcessor
+    public class TempFlagCommandProcessor : CommandProcessorBase
     {
-        public TempFlagCommandProcessor(FlagService flagService, LineService lineService)
+        public TempFlagCommandProcessor(FlagService flagService
+            , LineService lineService) :base(Keyword.SetTempFlag,lineService)
         {
             _flagService = flagService;
             _lineService = lineService;
         }
 
-        public event EventHandler<CommandProcessedEventArgs> CommandProcessed;
-
-        public string DeleteCommandFrom(string line) => _lineService.DeleteCommand(line, Keyword.SetTempFlag);
-
-        public bool IsRelevant(Session session, string line) => line.Contains(Keyword.SetTempFlag);
-
-        public Result<Session> PerformCommand(Session session, string line)
+        public override Result<Session> PerformCommand(Session session, string line)
         {
-            _lineService.GetParenData(line, Keyword.SetFlag)
+            _lineService.GetParenData(line, Keyword.SetTempFlag)
                 .OnSuccess(pd =>
                 {
                     foreach (var flagName in pd)
@@ -44,9 +40,11 @@ namespace TeaseAI.Services.CommandProcessor
             return Result.Ok(session);
         }
 
-        void OnCommandProcessed(Session session)
+        protected override Result ParseCommandSpecific(Script script, string personalityName, string line)
         {
-            CommandProcessed?.Invoke(this, new CommandProcessedEventArgs() { Session = session, });
+            return _lineService.GetParenData(line, Keyword.SetTempFlag)
+                .Ensure(pd => pd.Any(), Keyword.SetTempFlag + " requires at least one parameter")
+                .Map();
         }
 
         private FlagService _flagService;

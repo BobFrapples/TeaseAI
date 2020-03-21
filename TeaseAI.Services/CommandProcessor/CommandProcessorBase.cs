@@ -1,5 +1,6 @@
 ﻿using System;
 using TeaseAI.Common;
+using TeaseAI.Common.Data;
 using TeaseAI.Common.Events;
 using TeaseAI.Common.Interfaces;
 
@@ -7,17 +8,34 @@ namespace TeaseAI.Services.CommandProcessor
 {
     public abstract class CommandProcessorBase : ICommandProcessor
     {
-        public CommandProcessorBase()
+        private readonly string _keyword;
+        private LineService _lineService;
+
+        public CommandProcessorBase(string keyword, LineService lineService)
         {
+            _keyword = keyword;
+            _lineService = lineService;
         }
 
         public event EventHandler<CommandProcessedEventArgs> CommandProcessed;
 
-        public abstract string DeleteCommandFrom(string line);
-
-        public abstract bool IsRelevant(Session session, string line);
-
         public abstract Result<Session> PerformCommand(Session session, string line);
+
+        protected abstract Result ParseCommandSpecific(Script script, string personalityName, string line);
+
+        public virtual Result ParseCommand(Script script, string personalityName, string line)
+        {
+            return Result.Ok()
+                .Ensure(() => IsRelevant(line), _keyword + " is not used in this line")
+                .OnSuccess(() => ParseCommandSpecific(script, personalityName, line));
+        }
+
+        public virtual string DeleteCommandFrom(string line) => _lineService.DeleteCommand(line, _keyword);
+
+        public virtual bool IsRelevant(string line) => line.Contains(_keyword);
+
+        public virtual bool IsRelevant(Session session, string line) => line.Contains(_keyword);
+
         /// <summary>
         /// Fires <see cref="CommandProcessed"/> event passing session to subscribers.
         /// </summary>

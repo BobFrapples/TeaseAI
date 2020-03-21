@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using TeaseAI.Common;
 using TeaseAI.Common.Constants;
-using TeaseAI.Common.Events;
+using TeaseAI.Common.Data;
 using TeaseAI.Common.Interfaces;
 
 namespace TeaseAI.Services.CommandProcessor
@@ -11,21 +9,23 @@ namespace TeaseAI.Services.CommandProcessor
     /// <summary>
     /// Processor for the Goto command
     /// </summary>
-    public class GotoCommandProcessor : ICommandProcessor
+    public class GotoCommandProcessor : CommandProcessorBase
     {
-        public GotoCommandProcessor(LineService lineService)
+        public GotoCommandProcessor(LineService lineService
+            , IBookmarkService bookmarkService
+            , IRandomNumberService randomNumberService) : base(Keyword.Goto, lineService)
         {
             _lineService = lineService;
+            _bookmarkService = bookmarkService;
+            _randomNumberService = randomNumberService;
         }
 
-        public event EventHandler<CommandProcessedEventArgs> CommandProcessed;
-
-        public Result<Session> PerformCommand(Session session, string line)
+        public override Result<Session> PerformCommand(Session session, string line)
         {
             var workingSession = session.Clone();
             var result = _lineService.GetParenData(line, Keyword.Goto)
                  .OnSuccess(pd => "(" + pd[new Random().Next(0, pd.Count)] + ")")
-                 .OnSuccess(bm => FindBookmark(workingSession.CurrentScript.Lines.ToList(), bm))
+                 .OnSuccess(bm => _bookmarkService.FindBookmark(workingSession.CurrentScript.Lines, bm))
                  .OnSuccess(ln => workingSession.CurrentScript.LineNumber = ln)
                  .Map(ln => workingSession)
                  .OnSuccess(sesh => OnCommandProcessed(sesh));
@@ -33,31 +33,17 @@ namespace TeaseAI.Services.CommandProcessor
             return result;
         }
 
-        public string DeleteCommandFrom(string input) => _lineService.DeleteCommand(input, Keyword.Goto);
-
-        public bool IsRelevant(Session session, string line) => line.Contains(Keyword.Goto);
-
-        /// <summary>
-        /// finds the location of <paramref name="bookmark"/> in the script. 
-        /// </summary>
-        /// <param name="script"></param>
-        /// <param name="bookmark">bookmark keyword with parens, (BookmarkName)</param>
-        /// <returns></returns>
-        private Result<int> FindBookmark(List<string> script, string bookmark)
+        protected override Result ParseCommandSpecific(Script script, string personalityName, string line)
         {
-            for (var i = 0; i < script.Count; i++)
-            {
-                if (script[i] == bookmark)
-                    return Result.Ok(i);
-            }
-            return Result.Fail<int>("Bookmark " + bookmark + " is not in this script.");
-        }
-
-        void OnCommandProcessed(Session session)
-        {
-            CommandProcessed?.Invoke(this, new CommandProcessedEventArgs() { Session = session, });
+            return _lineService.GetParenData(line, Keyword.Goto)
+                .Ensure(pd => pd.Count > 0, Keyword.Goto + " must have at least one parameter")
+                .OnSuccess(pd => "(" + pd[_randomNumberService.Roll(0, pd.Count)] + ")")
+                .OnSuccess(bm => _bookmarkService.FindBookmark(script.Lines, bm))
+                .Map();
         }
 
         private LineService _lineService;
+        private readonly IBookmarkService _bookmarkService;
+        private readonly IRandomNumberService _randomNumberService;
     }
 }

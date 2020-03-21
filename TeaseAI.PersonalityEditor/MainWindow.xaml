@@ -1,0 +1,110 @@
+﻿<Window x:Class="TeaseAI.PersonalityEditor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TeaseAI.PersonalityEditor"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        mc:Ignorable="d"
+        Title="MainWindow"
+        Height="700"
+        Width="1000"
+        Name="MainWindowName">
+    <DockPanel LastChildFill="True">
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="Loaded" >
+                <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
+        <ToolBar Height="30" DockPanel.Dock="Top">
+            <Button Content="New" Command="{Binding NewPersonalityCommand}"/>
+            <Button Content="Export" Command="{Binding ExportPersonalityCommand}"/>
+            <ComboBox HorizontalAlignment="Left" 
+                          Margin="0,0,0,0" 
+                          VerticalAlignment="Center" 
+                          Width="500" 
+                          ItemsSource="{Binding Personalities}" 
+                          DisplayMemberPath="Name"
+                          SelectedValuePath="Id"
+                          SelectedItem="{Binding SelectedPersonality, Mode=TwoWay}" >
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged" >
+                        <i:InvokeCommandAction Command="{Binding PersonalityChangedCommand}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ComboBox>
+            <Button Content="Settings" Command="{Binding OpenSettingsCommand}"/>
+        </ToolBar>
+        <TabControl Name="Items" DockPanel.Dock="Bottom">
+            <TabItem Header="Scripts">
+                <DockPanel LastChildFill="True">
+                    <TabControl Name="Scripts" DockPanel.Dock="Left" Width="300">
+                        <TabItem Header="Startup">
+                            <ListView ItemsSource="{Binding StartupScripts}" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel MouseDown="ScriptPanel_MouseDown" Width="260">
+                                            <TextBlock Text="{Binding Name}" TextWrapping="Wrap"/>
+                                            <TextBlock Text="{Binding SessionPhase}" TextWrapping="Wrap"/>
+                                            <TextBlock Text="{Binding Info}" TextWrapping="Wrap"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </TabItem>
+                        <TabItem Header="Modules">
+                            <ListView ItemsSource="{Binding ModulesScripts}" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel MouseDown="ScriptPanel_MouseDown" Width="260">
+                                            <TextBlock Text="{Binding Name}" TextWrapping="Wrap" FontWeight="Heavy" FontSize="20"/>
+                                            <TextBlock Text="{Binding SessionPhase}" TextWrapping="Wrap"/>
+                                            <TextBlock Text="{Binding Info}" TextWrapping="Wrap"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </TabItem>
+                        <TabItem Header="Link">
+                            <ListView ItemsSource="{Binding LinkScripts}" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel MouseDown="ScriptPanel_MouseDown" Width="260">
+                                            <TextBlock Text="{Binding Name}" TextWrapping="Wrap"/>
+                                            <TextBlock Text="{Binding SessionPhase}" TextWrapping="Wrap"/>
+                                            <TextBlock Text="{Binding Info}" TextWrapping="Wrap"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </TabItem>
+                        <TabItem Header="End">
+                            <ListView ItemsSource="{Binding EndScripts}" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel MouseDown="ScriptPanel_MouseDown" Width="260">
+                                            <TextBlock Text="{Binding Name}" TextWrapping="Wrap"/>
+                                            <TextBlock Text="{Binding SessionPhase}" TextWrapping="Wrap"/>
+                                            <TextBlock Text="{Binding Info}" TextWrapping="Wrap"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </TabItem>
+                    </TabControl>
+                    <DockPanel LastChildFill="True">
+                        <ToolBar Height="30" DockPanel.Dock="Top">
+                            <Button Content="Save" Command="{Binding SaveScriptCommand}"/>
+                            <Button Content="Test" Command="{Binding TestScriptCommand}"/>
+                        </ToolBar>
+
+                        <TextBox Text="{Binding CurrentScriptText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             TextWrapping="Wrap"
+                             AcceptsReturn="True">
+                        </TextBox>
+                    </DockPanel>
+                </DockPanel>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+</Window>

@@ -1,5 +1,6 @@
 ﻿using System;
 using TeaseAI.Common;
+using TeaseAI.Common.Data;
 using TeaseAI.Common.Events;
 using TeaseAI.Common.Interfaces;
 
@@ -15,9 +16,13 @@ namespace TeaseAI.Services.CommandProcessor
                 .Replace(@"@DecreaseRuinChance", string.Empty);
         }
 
-        public bool IsRelevant(Session session, string line)
+        public bool IsRelevant(Session session, string line) => IsRelevant(line);
+
+        public bool IsRelevant(string line) => line.Contains(@"@IncreaseRuinChance") || line.Contains(@"@DecreaseRuinChance");
+
+        public Result ParseCommand(Script script, string personalityName, string line)
         {
-            return line.Contains(@"@IncreaseRuinChance") || line.Contains(@"@DecreaseRuinChance");
+            throw new NotImplementedException();
         }
 
         public Result<Session> PerformCommand(Session session, string line)

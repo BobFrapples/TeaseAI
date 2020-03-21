@@ -7,7 +7,7 @@ namespace TeaseAI.Services.CommandProcessor
 {
     public class EdgeCommandProcessor : CommandProcessorBase
     {
-        public EdgeCommandProcessor(LineService lineService)
+        public EdgeCommandProcessor(LineService lineService): base(Keyword.Edge, lineService)
         {
             _lineService = lineService;
         }
@@ -58,6 +58,8 @@ namespace TeaseAI.Services.CommandProcessor
             };
             return new Script(metaData, lines);
         }
+
+        protected override Result ParseCommandSpecific(Script script, string personalityName, string line) => Result.Ok();
 
         private LineService _lineService;
     }

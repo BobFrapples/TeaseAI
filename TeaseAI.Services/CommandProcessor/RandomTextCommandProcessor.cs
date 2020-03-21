@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using TeaseAI.Common;
 using TeaseAI.Common.Constants;
+using TeaseAI.Common.Data;
 using TeaseAI.Common.Events;
 using TeaseAI.Common.Interfaces;
 
@@ -36,16 +35,29 @@ namespace TeaseAI.Services.CommandProcessor
                 .OnSuccess(pd => pd[new Random().Next(pd.Count)])
                 .OnSuccess(text => _lineService.ReplaceParenData(input, command, text));
 
-            
+
             return result.Value;
         }
 
-        public bool IsRelevant(Session session, string line) => line.Contains(Keyword.RT) || line.Contains(Keyword.RandomText);
+        public bool IsRelevant(Session session, string line) => IsRelevant(line);
+
+        public bool IsRelevant(string line) => line.Contains(Keyword.RT) || line.Contains(Keyword.RandomText);
 
         void OnCommandProcessed(Session session)
         {
             CommandProcessed?.Invoke(this, new CommandProcessedEventArgs() { Session = session, });
         }
+
+        public Result ParseCommand(Script script, string personalityName, string line)
+        {
+            if (line.Contains(Keyword.RT))
+                return Result.Fail(Keyword.RT + " is deprecated, please use " + Keyword.RandomText);
+
+            return _lineService.GetParenData(line, Keyword.RandomText)
+                .Ensure(pd => pd.Count > 0, Keyword.RandomText + " requires at least one parameter")
+                .Map();
+        }
+
 
         private LineService _lineService;
     }

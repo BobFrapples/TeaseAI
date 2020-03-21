@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TeaseAI.Common;
 using TeaseAI.Common.Constants;
+using TeaseAI.Common.Data;
 using TeaseAI.Common.Interfaces.Accessors;
 
 namespace TeaseAI.Services.CommandProcessor
@@ -11,7 +12,7 @@ namespace TeaseAI.Services.CommandProcessor
     /// </summary>
     public class ShowLocalImageCommandProcessor : CommandProcessorBase
     {
-        public ShowLocalImageCommandProcessor(IImageAccessor imageAccessor, LineService lineService)
+        public ShowLocalImageCommandProcessor(IImageAccessor imageAccessor, LineService lineService) : base(Keyword.ShowLocalImage, lineService)
         {
             _imageAccessor = imageAccessor;
             _lineService = lineService;
@@ -39,6 +40,8 @@ namespace TeaseAI.Services.CommandProcessor
             var data = _lineService.GetParenData(line, Keyword.ShowLocalCategoryImage);
             return data.GetResultOrDefault();
         }
+
+        protected override Result ParseCommandSpecific(Script script, string personalityName, string line) => Result.Ok();
 
         private readonly IImageAccessor _imageAccessor;
         private readonly LineService _lineService;
