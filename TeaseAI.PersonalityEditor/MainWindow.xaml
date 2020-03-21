@@ -16,12 +16,10 @@
                 <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
             </i:EventTrigger>
         </i:Interaction.Triggers>
-        <!--Loaded="{Binding LoadedEvent}"-->
-        <ToolBarTray DockPanel.Dock="Top">
-            <ToolBar Height="30">
-                <Button Content="New" Command="{Binding NewPersonalityCommand}"/>
-                <Button Content="Export" Command="{Binding ExportPersonalityCommand}"/>
-                <ComboBox HorizontalAlignment="Left" 
+        <ToolBar Height="30" DockPanel.Dock="Top">
+            <Button Content="New" Command="{Binding NewPersonalityCommand}"/>
+            <Button Content="Export" Command="{Binding ExportPersonalityCommand}"/>
+            <ComboBox HorizontalAlignment="Left" 
                           Margin="0,0,0,0" 
                           VerticalAlignment="Center" 
                           Width="500" 
@@ -29,14 +27,14 @@
                           DisplayMemberPath="Name"
                           SelectedValuePath="Id"
                           SelectedItem="{Binding SelectedPersonality, Mode=TwoWay}" >
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="SelectionChanged" >
-                            <i:InvokeCommandAction Command="{Binding PersonalityChangedCommand}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ComboBox>
-            </ToolBar>
-        </ToolBarTray>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged" >
+                        <i:InvokeCommandAction Command="{Binding PersonalityChangedCommand}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ComboBox>
+            <Button Content="Settings" Command="{Binding OpenSettingsCommand}"/>
+        </ToolBar>
         <TabControl Name="Items" DockPanel.Dock="Bottom">
             <TabItem Header="Scripts">
                 <DockPanel LastChildFill="True">
@@ -95,17 +93,15 @@
                         </TabItem>
                     </TabControl>
                     <DockPanel LastChildFill="True">
-                        <ToolBarTray DockPanel.Dock="Top">
-                            <ToolBar Height="30">
-                                <Button Content="Save" Command="{Binding SaveScriptCommand}"/>
-                                <Button Content="Test" Command="{Binding TestScriptCommand}"/>
-                            </ToolBar>
-                        </ToolBarTray>
+                        <ToolBar Height="30" DockPanel.Dock="Top">
+                            <Button Content="Save" Command="{Binding SaveScriptCommand}"/>
+                            <Button Content="Test" Command="{Binding TestScriptCommand}"/>
+                        </ToolBar>
 
                         <TextBox Text="{Binding CurrentScriptText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              TextWrapping="Wrap"
                              AcceptsReturn="True">
-                            </TextBox>
+                        </TextBox>
                     </DockPanel>
                 </DockPanel>
             </TabItem>

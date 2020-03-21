@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using TeaseAI.Common.Data;
-using TeaseAI.PersonalityEditor.Models;
+using TeaseAI.PersonalityEditor.ViewModels;
 
 namespace TeaseAI.PersonalityEditor
 {

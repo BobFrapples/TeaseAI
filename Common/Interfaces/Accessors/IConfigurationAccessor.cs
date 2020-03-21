@@ -1,4 +1,6 @@
-﻿namespace TeaseAI.Common.Interfaces.Accessors
+﻿using TeaseAI.Common.Data;
+
+namespace TeaseAI.Common.Interfaces.Accessors
 {
     /// <summary>
     /// Application level configurations Install path, etc.
@@ -7,8 +9,21 @@
     public interface IConfigurationAccessor
     {
         /// <summary>
+        /// Get the applicationConfiguration
+        /// </summary>
+        /// <returns></returns>
+        ApplicationConfiguration GetApplicationConfiguration();
+
+        /// <summary>
+        /// Save <paramref name="applicationConfiguration"/>
+        /// </summary>
+        /// <param name="applicationConfiguration"></param>
+        /// <returns></returns>
+        Result SaveApplicationConfiguration(ApplicationConfiguration applicationConfiguration);
+
+        /// <summary>
         /// The root folder for image / videos / all other data
         /// </summary>
-         string GetBaseFolder();
+        string GetBaseFolder();
     }
 }

@@ -616,6 +616,16 @@
             No insertion shown, things more like a topless car wash
             </summary>
         </member>
+        <member name="T:TeaseAI.Common.Data.ApplicationConfiguration">
+            <summary>
+            Configuration options for any application
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Data.ApplicationConfiguration.PersonalityHome">
+            <summary>
+            Directory where all personalities are stored
+            </summary>
+        </member>
         <member name="P:TeaseAI.Common.Data.ImageMetaData.ItemName">
             <summary>
             Name of the item
@@ -877,6 +887,19 @@
             Application level configurations Install path, etc.
             Anything to be read from app.config. This isn't for user configs
             </summary>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.Accessors.IConfigurationAccessor.GetApplicationConfiguration">
+            <summary>
+            Get the applicationConfiguration
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.Accessors.IConfigurationAccessor.SaveApplicationConfiguration(TeaseAI.Common.Data.ApplicationConfiguration)">
+            <summary>
+            Save <paramref name="applicationConfiguration"/>
+            </summary>
+            <param name="applicationConfiguration"></param>
+            <returns></returns>
         </member>
         <member name="M:TeaseAI.Common.Interfaces.Accessors.IConfigurationAccessor.GetBaseFolder">
             <summary>

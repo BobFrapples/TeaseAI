@@ -12,8 +12,10 @@ using TeaseAI.Common;
 using TeaseAI.Common.Constants;
 using TeaseAI.Common.Data;
 using TeaseAI.Common.Interfaces;
+using TeaseAI.Common.Interfaces.Accessors;
+using TeaseAI.PersonalityEditor.Views;
 
-namespace TeaseAI.PersonalityEditor.Models
+namespace TeaseAI.PersonalityEditor.ViewModels
 {
     public class MainWindowViewModel : BindableBase
     {
@@ -23,16 +25,18 @@ namespace TeaseAI.PersonalityEditor.Models
             _personalityService = ServiceFactory.CreatePersonalityService();
             _scriptService = ServiceFactory.CreateScriptAccessor();
             _getCommandProcessorsService = ServiceFactory.CreateGetCommandProcessorsService();
+            _settingsService = ServiceFactory.CreateConfigurationAccessor();
         }
 
         #region Commands and events
         public ICommand ExportPersonalityCommand => _exportPersonalityCommand ?? (_exportPersonalityCommand = new DelegateCommand(ExportPersonality));
-        public ICommand LoadedCommand => _loadedCommand ?? (_loadedCommand = new DelegateCommand(SelectBaseFolder));
+        public ICommand LoadedCommand => _loadedCommand ?? (_loadedCommand = new DelegateCommand(Loaded));
         public ICommand NewPersonalityCommand => _newPersonalityCommand ?? (_newPersonalityCommand = new DelegateCommand(NewPersonality));
         public ICommand PersonalityChangedCommand => _personalityChangedCommand ?? (_personalityChangedCommand = new DelegateCommand(PersonalityChanged));
         public DelegateCommand<ScriptMetaData> ScriptClickedCommand => _scriptClickedCommand ?? (_scriptClickedCommand = new DelegateCommand<ScriptMetaData>(ScriptClicked));
         public ICommand TestScriptCommand => _testScriptCommand ?? (_testScriptCommand = new DelegateCommand(TestScript));
         public ICommand SaveScriptCommand => _saveScriptCommand ?? (_saveScriptCommand = new DelegateCommand(SaveScript));
+        public ICommand OpenSettingsCommand => _openSettingsCommand ?? (_openSettingsCommand = new DelegateCommand(OpenSettings));
         #endregion
 
         #region Properties
@@ -76,7 +80,13 @@ namespace TeaseAI.PersonalityEditor.Models
         {
             throw new NotImplementedException();
         }
-        
+
+        private void OpenSettings()
+        {
+            var settingsDialog = new SettingsView();
+            settingsDialog.ShowDialog();
+        }
+
         private void PersonalityChanged()
         {
             var allScripts = _scriptService.GetAllScripts(SelectedPersonality.Name).GetResultOrDefault(new List<ScriptMetaData>());
@@ -118,7 +128,7 @@ namespace TeaseAI.PersonalityEditor.Models
             CurrentScriptText = string.Join(Environment.NewLine, CurrentScript.Lines.ToList());
         }
 
-        private void SelectBaseFolder()
+        private void Loaded()
         {
             var personalities = _personalityService.GetAllPersonalities();
             Personalities.Clear();
@@ -187,10 +197,11 @@ namespace TeaseAI.PersonalityEditor.Models
         private DelegateCommand _exportPersonalityCommand;
         private DelegateCommand _newPersonalityCommand;
         private DelegateCommand _saveScriptCommand;
-
+        private DelegateCommand _openSettingsCommand;
         private readonly IPersonalityService _personalityService;
         private readonly IScriptAccessor _scriptService;
         private readonly IGetCommandProcessorsService _getCommandProcessorsService;
+        private readonly IConfigurationAccessor _settingsService;
         private readonly INotifyUser _notifyUser;
         #endregion
     }
