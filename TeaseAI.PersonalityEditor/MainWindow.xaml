@@ -101,11 +101,11 @@
                           ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                           DockPanel.Dock="Left"
                           Width="300"
+                          SelectionChanged="ListView_SelectionChanged"
                           >
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel MouseDown="ScriptCommandPanel_MouseDown"
-                                            Style="{StaticResource ListItemStackPanelStyle}">
+                        <ListView.ItemTemplate >
+                            <DataTemplate >
+                                <StackPanel Style="{StaticResource ListItemStackPanelStyle}">
                                     <TextBlock Text="{Binding}" TextWrapping="Wrap"
                                                Style="{StaticResource ListItemHeaderStyle}"
                                                />

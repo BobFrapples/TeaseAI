@@ -924,6 +924,19 @@
             Get informatoin about commands
             </summary>
         </member>
+        <member name="M:TeaseAI.Common.Interfaces.Accessors.IGetCommandInformationAccessor.GetAvailableCommands">
+            <summary>
+            Get a list of all commands we have documentation for
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.Accessors.IGetCommandInformationAccessor.GetCommandInformation(System.String)">
+            <summary>
+            Get the documenatation information for <paramref name="command"/>
+            </summary>
+            <param name="command"></param>
+            <returns></returns>
+        </member>
         <member name="M:TeaseAI.Common.Interfaces.Accessors.IPathsAccessor.GetPersonalitiesFolder">
             <summary>
             Get the folder which has all personalities in it

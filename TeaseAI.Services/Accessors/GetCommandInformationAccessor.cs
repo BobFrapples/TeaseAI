@@ -10,8 +10,14 @@ namespace TeaseAI.Services.Accessors
 {
     public class GetCommandInformationAccessor : IGetCommandInformationAccessor
     {
-        public GetCommandInformationAccessor()
+        public List<string> GetAvailableCommands()
         {
+            var data = File.ReadAllText("ScriptCommands.json");
+            var commands = JsonConvert.DeserializeObject<List<ScriptCommandInformation>>(data);
+            return commands.Select(c => c.Command)
+                .Distinct()
+                .OrderBy(c => c)
+                .ToList();
         }
 
         public Result<ScriptCommandInformation> GetCommandInformation(string command)

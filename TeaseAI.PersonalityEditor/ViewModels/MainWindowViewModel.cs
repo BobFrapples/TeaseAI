@@ -178,8 +178,7 @@ namespace TeaseAI.PersonalityEditor.ViewModels
             Personalities.Clear();
             personalities.ForEach(p => Personalities.Add(p));
 
-            var commandProcessors = _getCommandProcessorsService.CreateCommandProcessors();
-            var commands = commandProcessors.Keys.ToList().OrderBy(cmd => cmd);
+            var commands = _getCommandInformationService.GetAvailableCommands();
             ScriptCommands.Clear();
             ScriptCommands.AddRange(commands);
 

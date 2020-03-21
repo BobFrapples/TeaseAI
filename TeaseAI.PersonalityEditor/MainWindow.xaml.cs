@@ -27,9 +27,9 @@ namespace TeaseAI.PersonalityEditor
             MainWindowViewModel.ScriptClickedCommand.Execute(smd);
         }
 
-        private void ScriptCommandPanel_MouseDown(object sender, MouseButtonEventArgs e)
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var command = (string)((StackPanel)sender).DataContext;
+            var command = (string)((ListView)sender).SelectedItem;
 
             MainWindowViewModel.ScriptCommandClickedCommand.Execute(command);
         }

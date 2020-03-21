@@ -1,7 +1,282 @@
 [
   {
+    "Command": "(BOOKMARK)",
+    "Description": "Set a line as a bookmark for searching with commands.\n *MUST* be the only thing on the line to be detected.",
+    "Example": "(Bookmark Name)"
+  },
+  {
     "Command": "@AcceptAnswer",
-    "Description": "Accepts an answer other than what the sub spoke, works similar to <see cref=\"DifferentAnswer\"/>",
+    "Description": "Accepts an answer other than what the sub spoke and continues, related to @DifferentAnswer/>",
     "Example": "Do you like pain?\n[yes] Good\n[no] Too bad\n@AcceptAnswer I guess we'll find out"
-  }
+  },
+  {
+    "Command": "@AllowsOrgasm(FREQUENCY)",
+    "Description": "Restricts a line to specific values of AllowsOrgasm, Accepts one of [Never, Rarely, Sometimes, Often, Always] as a parameter",
+    "Example": "@AllowsOrgasm(Never) But it's not going to happen\n@AllowsOrgasm(Always) But you already know I'll let you, so why do you keep asking"
+  },
+  {
+    "Command": "@ApathyLevel(LEVEL)",
+    "Description": "Restricts a line to specific values of ApathyLevel, Accepts one of [Cautious, Caring, Moderate, Cruel, Merciless] as a parameter",
+    "Example": "@ApathyLevel(Cautious) Swat your balls 2 times\n@ApathyLevel(Merciless) Swat your balls 10 times"
+  },
+  {
+    "Command": "@ApathyLevelX",
+    "Description": "Restricts a line to specific values of ApathyLevel. Instead of a parameter, set a numeric value in the command. ",
+    "Example": "@ApathyLevel1 Swat your balls 2 times\n@ApathyLevel5 Swat your balls 10 times"
+  },
+  {
+    "Command": "@ChanceXX(FLAG)",
+    "Description": "Go to the specified bookmark X percent of the time",
+    "Example": "@Chance50(Its Fifty Fifty)\n@Chance25(25 Percent Chance)"
+  },
+  {
+    "Command": "@CheckFlag(FLAG)",
+    "Description": "Check to see if a flag exists, if so, go to the bookmark indicated.\nIf only one parameter is specified, that will be both the flag and the bookmark",
+    "Example": "@CheckFlag(Flag Is Bookmark)\n @CheckFlag(Flag, Bookmark)"
+  },
+  {
+    "Command": "@Crazy",
+    "Description": "Restricts a line to when the Crazy checkbox is enabled in the personality config",
+    "Example": "@Crazy You know that you're mine forever, right?"
+  },
+  {
+    "Command": "@Degrading",
+    "Description": "Restricts a line to when the Degrading checkbox is enabled in the personality config",
+    "Example": "@Degrading You look soo stupid, edging in front a computer, no one to play with but me and i'll never touch you! "
+  },
+  {
+    "Command": "@DeleteFlag(FLAG)",
+    "Description": "Delete the flag passed in as a parameter",
+    "Example": "@Delete(Flag To Delete)"
+  },
+  {
+    "Command": "@DifferentAnswer",
+    "Description": "When expecting a response, wait until an accepted answer is returned. Related to @AcceptAnswer",
+    "Example": "Do you like pain?\n[yes] Good\n[no] Too bad\n@DifferentAnswer yes or no?,"
+  },
+  {
+    "Command": "@EndTease",
+    "Description": "This tease is ended. I believe it is used as a flag for sub-left early vs the tease was completed",
+    "Example": "@EndTease"
+  },
+  {
+    "Command": "@End",
+    "Description": "This script is terminated. The tease may continue depending.",
+    "Example": "@End"
+  },
+  {
+    "Command": "@Glitter(SCRIPT)",
+    "Description": "Load a Glitter script from from Apps\\Glitter\\Script\\SCRIPT.txt",
+    "Example": "So, you are a sex slave, right? @Glitter(AV_Disconnected)"
+  },
+  {
+    "Command": "@Goto(BOOKMARK)",
+    "Description": "Go to a specific bookmark, if multiple parameters are passed, will pick one randomly",
+    "Example": "@Goto(Go To This Bookmark)\n@Goto(Random 1, Random 2, Random 3)"
+  },
+  {
+    "Command": "@LoopAnswer",
+    "Description": "Mark a specific answer as not acceptable. Will not continue if this answer is matched",
+    "Example": "Do you have a dildo or a buttplug?\n[yes] which one? @LoopAnswer\n[no,neither] That's too bad @Goto(nothingavailable)\n[dildo] Awesome! @SetFlag(pthevDildo)\n[buttplug] Great! @SetFlag(pthevButtPlug)\n[both] I was hoping you'd say that! @SetFlag(pthevDildo) @SetFlag(pthevButtPlug)"
+  },
+  {
+    "Command": "@NullResponse",
+    "Description": "Not sure what this is intended to do. Right now I just remove it.",
+    "Example": ""
+  },
+  {
+    "Command": "@OrgasmAllow",
+    "Description": "Sub will be allowed an orgasm",
+    "Example": "@OrgasmAllow"
+  },
+  {
+    "Command": "@OrgasmDeny",
+    "Description": "Sub will be denied an orgasm",
+    "Example": "@OrgasmDeny"
+  },
+  {
+    "Command": "@OrgasmRuin",
+    "Description": "Sub will be ruining their orgasm",
+    "Example": "@OrgasmRuin"
+  },
+  {
+    "Command": "@RuinsOrgasm(FREQUENCY)",
+    "Description": "Restricts a line to specific values of RuinsOrgasm, Accepts one of [Never, Rarely, Sometimes, Often, Always] as a parameter",
+    "Example": "@RuinsOrgasm(Never) You're going to enjoy this orgasm\n@RuinsOrgasm(Always) Ruining your orgasm reminds you who is in charge."
+  },
+  {
+    "Command": "@Sadistic",
+    "Description": "Restricts a line to when the Sadistic checkbox is enabled in the personality config",
+    "Example": "@Sadistic I enjoy watching you hurt yourself. Squeeze those balls again."
+  },
+  {
+    "Command": "@Supremacist",
+    "Description": "Restricts a line to when the Supremacist checkbox is enabled in the personality config",
+    "Example": "@Supremacist I'm not sure I want to waste my attention on you, worm."
+  },
+  {
+    "Command": "@Vulgar",
+    "Description": "Restricts a line to when the Vulgar checkbox is enabled in the personality config",
+    "Example": "@Vulgar I'm going to fuck your face hole with my big cock."
+  },
+  {
+    "Command": "@SetFlag(FLAG)",
+    "Description": "Sets a flag to be remembered between sessions. @GetFlag(FLAG) is used to check for it",
+    "Example": "@SetFlag(Has Dildo) I'll remember you have a dildo for later?"
+  },
+  {
+    "Command": "@TempFlag(FLAG)",
+    "Description": "Sets a flag to be remembered only this session. @GetFlag(FLAG) is used to check for it",
+    "Example": "Put on your nipple clamps\n[done] Good boy. @TempFlag(Wearing Nipple Clamps)\n@DifferentAnswer Go do it, I'll wait."
+  },
+  {
+    "Command": "@Wait(TIME)",
+    "Description": "Wait the specified period of time. M specifies minutes, H specifies Hours",
+    "Example": "You've been bad. go to the corner for 5 minutes.\n@Wait(6M)"
+  },
+  {
+    "Command": "@IncreaseOrgasmChance",
+    "Description": "Increases the likelihood the sub will get to orgasm by 20%",
+    "Example": "You've been good, I may let you cum today. @IncreaseOrgasmChance"
+  },
+  {
+    "Command": "@DecreaseOrgasmChance",
+    "Description": "Decreases the likelihood the sub will get to orgasm by 20%",
+    "Example": "Quit begging, it's unbecoming. @DecreaseOrgasmChance"
+  },
+  {
+    "Command": "@IncreaseRuinChance",
+    "Description": "Increases the likelihood the sub will get to ruin their orgasm by 20%",
+    "Example": "I enjoy watching you suffer. @IncreaseRuinChance"
+  },
+  {
+    "Command": "@DecreaseRuinChance",
+    "Description": "Decreases the likelihood the sub will get to ruin their orgasm by 20%",
+    "Example": "My, you'll do THAT for a full orgasm? @DecreaseRuinChance"
+  },
+  {
+    "Command": "@GotoDommeOrgasm",
+    "Description": "Finds the bookmark matching the frequency that the domme lets the sub orgasm. Your script should include all five levels, Never, Rarely, Sometimes, Often, Always\ni.e. (Never Allows)",
+    "Example": "@GotoDommeOrgasm\n(Never Allows)\nYou don't get to cum today\n(Often Allows)\n You'll get a chance to try. *LOL*"
+  },
+  {
+    "Command": "@GotoDommeRuin",
+    "Description": "Finds the bookmark matching the frequency that the domme lets the sub orgasm. Your script should include all five levels, Never, Rarely, Sometimes, Often, Always\ni.e. (Never Ruins)",
+    "Example": "@GotoDommeRuin\n(Never Ruins)\nI would like it if you let me ruin your orgasm today.\n(Always Ruins)\nIt amuses me to watch the pleasure and hope drain from your face."
+  },
+  {
+    "Command": "@GotoDommeApathy",
+    "Description": "Finds the bookmark matching how apathetic the domme is about the sub. Your script should include all five levels, 1-5\ni.e. (ApathyLevel1)",
+    "Example": "@GotoDommeApathy\n(ApathyLevel1)\nYou don't get to cum today\n(ApathyLevel5)\n You'll get a chance to try. *LOL*"
+  },
+  {
+    "Command": "@GotoDommeLevel",
+    "Description": "Finds the bookmark matching how mean the domme is to the sub. Your script should include all five levels, 1-5\ni.e. (DommeLevel5)",
+    "Example": "@GotoDommeLevel\n(DommeLevel1)\nHold the edge for 10 seconds\n@Wait(10)\n(DommeLevel5)\nHold the edge for 60 seconds\n@Wait(60)"
+  },
+  {
+    "Command": "@RandomText(OPTION1, OPTION2)",
+    "Description": "Randomly pick a stirng from within the text options",
+    "Example": "@RandomText(Hello, Hiya) my little subbie"
+  },
+  {
+    "Command": "@RT(OPTION1, OPTION2)",
+    "Description": "Same as @RandomText, please use that instead",
+    "Example": "@RT(Hello, Hiya) my little subbie"
+  },
+  {
+    "Command": "@RapidTextOn",
+    "Description": "Set the time between messages to 0",
+    "Example": "@RapidTextOn Try to keep up\nKneel\nStand\nSit\n*LOL* You can't move nearly fast enough can you?"
+  },
+  {
+    "Command": "@RapidTextOff",
+    "Description": "Set the time between messages back to the default",
+    "Example": "@RapidTextOff Now we're going back to the normal time between lines"
+  },
+  {
+    "Command": "@ShowButtImage",
+    "Description": "Shows a picture of a butt.",
+    "Example": "Would you just look at that ass. @ShowButtImage"
+  },
+  {
+    "Command": "@ShowButtsImage",
+    "Description": "Same as @ShowButtImage, please use that instead",
+    "Example": "Would you just look at that ass. @ShowButtImage"
+  },
+  {
+    "Command": "@ShowImage",
+    "Description": "Shows a random image, could be from a blog, or local.",
+    "Example": "Now we have picture roulette, what will we get today? @ShowImage"
+  },
+  {
+    "Command": "@ShowLocalImage",
+    "Description": "Show a random local image.",
+    "Example": "Why is this on your hard drive? @ShowLocalImage"
+  },
+  {
+    "Command": "@ShowLocalImage(CATEGORY1)",
+    "Description": "Show a random local image from the categories passed in.\nChoose from Butt, Boobs, Hardcore, Softcore, Lesbian, Blowjob, Femdom, Lezdom, Hentai, Gay, Maledom, Captions, General, Liked, Disliked",
+    "Example": "@ShowLocalIamge(Femdom,Butt)"
+  },
+  {
+    "Command": "@SearchImageBlog",
+    "Description": "Show a random blog image",
+    "Example": "@SearchImageBlog"
+  },
+  {
+    "Command": "@SearchImageBlogAgain",
+    "Description": "Same as @SearchImageBlog, please use it instead",
+    "Example": "@SearchImageBlogAgain"
+  },
+  {
+    "Command": "@ShowCATEGORYImage",
+    "Description": "Show a random local image from a category.\nChoose from Butt, Boobs, Hardcore, Softcore, Lesbian, Blowjob, Femdom, Lezdom, Hentai, Gay, Maledom, Captions, General, Liked, Disliked",
+    "Example": "@ShowSoftcoreImage"
+  },
+  {
+    "Command": "@PlayVideo",
+    "Description": "Play a random video that isn't JOI or Cock Hero",
+    "Example": "@PlayVideo"
+  },
+  {
+    "Command": "@CBTBall",
+    "Description": "Make the sub torture his balls. pause briefly for it to happen (TaskPauseMinimum and TaskPauseMaximum in settings)\nfiles are located in CBT\\CBTCock[_First].txt with _First being called the first time",
+    "Example": "@CBTBall"
+  },
+  {
+    "Command": "@CBTCock",
+    "Description": "Make the sub torture his cock. pause briefly for it to happen (TaskPauseMinimum and TaskPauseMaximum in settings)\nfiles are located in CBT\\CBTBall[_First].txt with _First being called the first time",
+    "Example": "@CBTBall"
+  },
+  {
+    "Command": "@JumpVideo",
+    "Description": "Move the currently playing video to a random location",
+    "Example": "@JumpVideo"
+  },
+  {
+    "Command": "@StartStroking",
+    "Description": "Tell the sub to start stroking, also triggers taunts to start. ",
+    "Example": "@StartStroking"
+  },
+  {
+    "Command": "@Flag(FLAG)",
+    "Description": "Process this line only if FLAG is set",
+    "Example": "@Flag(Has Chastity Cage) Put that little wee wee in its cage for me."
+  },
+  {
+    "Command": "@NotFlag(FLAG)",
+    "Description": "Process this line only if FLAG is set",
+    "Example": "@NotFlag(Has Chastity Cage) You need to buy a chastity cage so I can make you desire more."
+  },
+  {
+    "Command": "@Call(SCRIPT,BOOKMARK)",
+    "Description": "Pause this script and load SCRIPT, if BOOKMARK is set, go there, otherwise start at the beginning",
+    "Example": "@Supremecist @Call(Playlist\\Start\\ruin-you.txt)\n@Degrading @Call(Playlist\\Start\\ruin-you.txt,(And Eat Your Filth)"
+  },
+  {
+    "Command": "@Command",
+    "Description": "description",
+    "Example": "@example"
+  },
 ]
