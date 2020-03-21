@@ -226,14 +226,14 @@ namespace TeaseAI.Common.Constants
         /// specifically play a Jerk Off Instruction Video
         /// </summary>
         public const string PlayJoiVideo = @"@PlayJOIVideo";
-        public const  string PlaySpecificVideo = @"@PlayVideo(";
-        public const  string PlaySpecificVideoSquareBrackets = @"@PlayVideo[";
+        public const string PlaySpecificVideo = @"@PlayVideo(";
+        public const string PlaySpecificVideoSquareBrackets = @"@PlayVideo[";
 
         /// <summary>
         /// <para>Make the sub torture his cock. pause briefly for it to happen (TaskPauseMinimum and TaskPauseMaximum in settings)</para>
         /// <para>files are located in BASE_FOLDER\Scripts\DOMME_PERSONALITY\CBT\CBTCock[_First].txt with _First being called the first time</para>    
         /// </summary>
-        public const  string CockTorture = @"@CBTCock";
+        public const string CockTorture = @"@CBTCock";
 
         /// <summary>
         /// <para>Make the sub torture his balls. pause briefly for it to happen (TaskPauseMinimum and TaskPauseMaximum in settings)</para>
@@ -365,7 +365,7 @@ namespace TeaseAI.Common.Constants
         /// <para>Make an offer from the Domme at the end of the round</para>
         /// <para>Requires Risky pick be running and the sub has at least chosen their case</para>
         /// </summary>
-        public static string RiskyPickCheck => @"@CheckRiskyPick" ;
+        public static string RiskyPickCheck => @"@CheckRiskyPick";
 
         /// <summary>
         /// <para>Usage: @SelectCaseRiskyPick(CaseNumber)</para>
@@ -377,6 +377,15 @@ namespace TeaseAI.Common.Constants
         /// Pauses script execution. Used for code 
         /// </summary>
         public static string Unpause => @"@Unpause";
+
+        /// <summary>
+        /// Unpauses script execution. Used for code 
+        /// </summary>
         public static string Pause => @"@Unpause";
+
+        /// <summary>
+        /// Provides a description of the script, does nothing in the script
+        /// </summary>
+        public static string Info => @"@Info";
     }
 }
