@@ -54,7 +54,7 @@ namespace TeaseAI.PersonalityEditor
 
         public static IVideoAccessor CreateVideoAccessor() => new VideoAccessor(CreateConfigurationAccessor());
 
-        public static IImageAccessor CreateImageAccessor() => new ImageAccessor(CreateConfigurationAccessor());
+        public static IImageAccessor CreateImageAccessor() => new ImageAccessor(CreateConfigurationAccessor(), CreatePathsAccessor());
 
         public static LineService CreateLineService() => new LineService();
 

@@ -393,5 +393,10 @@ namespace TeaseAI.Common.Constants
         /// Provides a description of the script, does nothing in the script
         /// </summary>
         public static string Info => @"@Info";
+
+        /// <summary>
+        /// flag whatever image is being displaed as liked.
+        /// </summary>
+        public static string LikeImage => @"@LikeBlogImage";
     }
 }

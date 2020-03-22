@@ -81,6 +81,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Drawing" />
@@ -205,10 +208,10 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="ServiceFactory.vb" />
+    <Compile Include="Services\ApplicationConfigMarshalling.vb" />
     <Compile Include="Services\BlogImageAccessor.vb" />
     <Compile Include="Extensions\BooleanExtension.vb" />
     <Compile Include="Services\CldAccessor.vb" />
-    <Compile Include="Services\ConfigurationAccessor.vb" />
     <Compile Include="Services\FlagAccessor.vb" />
     <Compile Include="Services\NotifyUser.vb" />
     <Compile Include="Services\PathsAccessor.vb" />
@@ -298,6 +301,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Resources\TAI_Banner_small.png" />
   </ItemGroup>
   <ItemGroup>

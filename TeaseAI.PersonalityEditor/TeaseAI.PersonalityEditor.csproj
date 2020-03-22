@@ -85,7 +85,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ServiceFactory.cs" />
-    <Compile Include="Services\ConfigurationAccessor.cs" />
     <Compile Include="Services\NotifyUser.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="Views\ScriptListItemView.xaml.cs">

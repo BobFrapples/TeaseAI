@@ -5,7 +5,7 @@ using TeaseAI.Common;
 using TeaseAI.Common.Data;
 using TeaseAI.Common.Interfaces.Accessors;
 
-namespace TeaseAI.PersonalityEditor.Services
+namespace TeaseAI.Services.Accessors
 {
     public class ConfigurationAccessor : IConfigurationAccessor
     {
@@ -18,14 +18,14 @@ namespace TeaseAI.PersonalityEditor.Services
             return JsonConvert.DeserializeObject<ApplicationConfiguration>(data);
         }
 
-        public string GetBaseFolder() => GetApplicationConfiguration().PersonalityHome;
+        public string GetBaseFolder() => GetApplicationConfiguration().BaseDataFolder;
 
         public Result SaveApplicationConfiguration(ApplicationConfiguration applicationConfiguration)
         {
             try
             {
                 var configFile = GetAppSettingsFolder() + Path.DirectorySeparatorChar + "applicationsettings.json";
-                var data = JsonConvert.SerializeObject(applicationConfiguration);
+                var data = JsonConvert.SerializeObject(applicationConfiguration, Formatting.Indented);
                 File.WriteAllText(configFile, data);
                 return Result.Ok();
             }
@@ -39,7 +39,7 @@ namespace TeaseAI.PersonalityEditor.Services
         {
             return new ApplicationConfiguration
             {
-                PersonalityHome = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + Path.DirectorySeparatorChar + "TeaseAI"
+                BaseDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + Path.DirectorySeparatorChar + "TeaseAI"
             };
         }
 

@@ -5,9 +5,6 @@ Imports TeaseAI.Common.Interfaces.Accessors
 
 Public Class PathsAccessor
     Implements IPathsAccessor
-    Private mySettingsAccessor As ISettingsAccessor
-    Private myConfigurationAccessor As IConfigurationAccessor
-
     Sub New(configurationAccessor As IConfigurationAccessor, settingsAccessor As ISettingsAccessor)
         mySettingsAccessor = settingsAccessor
         myConfigurationAccessor = configurationAccessor
@@ -155,5 +152,12 @@ Public Class PathsAccessor
     Public Function GetScriptCld(dommePersonalityName As String, sessionPhase As SessionPhase) As String Implements IPathsAccessor.GetScriptCld
         Throw New NotImplementedException()
     End Function
+
+    Public Function GetSystemImages() As String Implements IPathsAccessor.GetSystemImages
+        Return myConfigurationAccessor.GetBaseFolder() + IO.Path.DirectorySeparatorChar + "Images" + IO.Path.DirectorySeparatorChar + "System"
+    End Function
+
+    Private mySettingsAccessor As ISettingsAccessor
+    Private myConfigurationAccessor As IConfigurationAccessor
 End Class
 

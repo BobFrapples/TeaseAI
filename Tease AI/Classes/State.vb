@@ -651,7 +651,7 @@ Public Class SessionState
 #End Region ' DataSection
 
     <NonSerialized> <OptionalField> Friend Files As New FileClass(Me)
-    <NonSerialized> <OptionalField> Friend Folders As PathsAccessor = ServiceFactory.CreatePathsAccessor()
+    <NonSerialized> <OptionalField> Friend Folders As PathsAccessor = New PathsAccessor(ServiceFactory.CreateConfigurationAccessor(), ServiceFactory.CreateSettingsAccessor())
 
     <NonSerialized> Dim ActivationForm As MainWindow
 
@@ -735,7 +735,7 @@ Public Class SessionState
     Sub onDeserialized_FixFields(sc As StreamingContext)
         ' Marked as <NonSerialized> <OptionalField> have to be initialized on every deserialization.
         If Files Is Nothing Then Files = New FileClass(Me)
-        If Folders Is Nothing Then Folders = ServiceFactory.CreatePathsAccessor()
+        If Folders Is Nothing Then Folders = New PathsAccessor(ServiceFactory.CreateConfigurationAccessor(), ServiceFactory.CreateSettingsAccessor())
     End Sub
 
 #End Region

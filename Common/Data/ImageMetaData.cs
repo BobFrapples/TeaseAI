@@ -1,12 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using TeaseAI.Common.Constants;
 
 namespace TeaseAI.Common.Data
 {
+    /// <summary>
+    /// metadata about an image
+    /// </summary>
     public class ImageMetaData
     {
+        /// <summary>
+        /// Is this local or blog
+        /// </summary>
         public ImageSource Source { get; set; }
-       public ImageGenre Genre { get; set; }
+
+        /// <summary>
+        /// what kind of image is it
+        /// </summary>
+        public ImageGenre Genre { get; set; }
 
         /// <summary>
         /// Name of the item
@@ -23,5 +35,20 @@ namespace TeaseAI.Common.Data
         }
 
         private List<ItemTag> _itemTags;
+
+        /// <summary>
+        /// Create a new instances of this image meta data
+        /// </summary>
+        /// <returns></returns>
+        public ImageMetaData Clone()
+        {
+            return new ImageMetaData
+            {
+                Source = Source,
+                Genre = Genre,
+                ItemName = ItemName,
+                ItemTags = ItemTags.ToList()
+            };
+        }
     }
 }

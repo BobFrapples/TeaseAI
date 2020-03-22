@@ -14,7 +14,6 @@ Imports TeaseAI.Services
 Imports TeaseAI.Services.CommandDetection
 Imports System.Threading.Tasks
 Imports TeaseAI.Common.Interfaces
-Imports TeaseAI.Services.Processor
 Imports TeaseAI.Services.Keywords
 Imports TeaseAI.Common.Events
 Imports TeaseAI.Common.Interfaces.Accessors
@@ -280,7 +279,24 @@ ByVal lpstrReturnString As String, ByVal uReturnLength As Integer, ByVal hwndCal
         MyBase.OnClosing(e)
     End Sub
 
+    Private Sub UpdateConfigs()
+        ' Force the personality home to be the current directory for now.
+        Dim applicationConfigMarshalling As ApplicationConfigMarshalling = New ApplicationConfigMarshalling()
+        Dim oldConfig As ApplicationConfiguration = applicationConfigMarshalling.GetApplicationConfiguration()
+
+        Dim configurationAccessor As IConfigurationAccessor = ServiceFactory.CreateConfigurationAccessor()
+        Dim appConfig As ApplicationConfiguration = configurationAccessor.GetApplicationConfiguration()
+        appConfig.BaseDataFolder = Application.StartupPath
+        appConfig.ImageContainers = oldConfig.ImageContainers
+
+        configurationAccessor.SaveApplicationConfiguration(appConfig)
+    End Sub
+
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles Me.Load
+        UpdateConfigs()
+
+        Dim imageAccessor = ServiceFactory.CreateImageAccessor()
+        Dim images = imageAccessor.GetImageMetaDataList(Nothing, Nothing)
         If mySession Is Nothing Then
             Dim getCommandProcessor = ServiceFactory.CreateGetCommandProcessorsService()
             mySession = ServiceFactory.CreateSessionEngine()

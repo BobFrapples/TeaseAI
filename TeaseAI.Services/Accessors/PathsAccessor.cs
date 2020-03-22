@@ -40,5 +40,12 @@ namespace TeaseAI.Services.Accessors
 
             return baseDir;
         }
+
+        public string GetSystemImages() 
+        {
+            return _configurationAccessor.GetBaseFolder() 
+                + Path.DirectorySeparatorChar + "Images"
+                + Path.DirectorySeparatorChar + "System";
+        }
     }
 }

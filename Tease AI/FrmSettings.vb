@@ -7,6 +7,7 @@ Imports TeaseAI.Common.Constants
 Imports TeaseAI.Common.Data
 Imports TeaseAI.Common.Interfaces
 Imports TeaseAI.Common.Interfaces.Accessors
+Imports TeaseAI.Services.Accessors
 Imports TeaseAI.Services.TagData
 
 Public Class FrmSettings
@@ -61,6 +62,7 @@ Public Class FrmSettings
 
     Public Sub New()
         mySettingsAccessor = ServiceFactory.CreateSettingsAccessor()
+        myConfigurationAccessor = ServiceFactory.CreateConfigurationAccessor()
         myBlogAccessor = New BlogImageAccessor()
         myCldAccessor = New CldAccessor()
         myScriptAccessor = New ScriptAccessor(New CldAccessor())
@@ -3018,9 +3020,12 @@ checkFolder:
 
         Dim def As String = String.Empty
 
+        If Not mySettingsAccessor.IsImageGenreEnabled(imageGenre) Then
+            Return False
+        End If
         Dim folderCheck As Tuple(Of Boolean, String) = CheckFolderSettings(imageGenre.ToString(), imageFolder, def, isSubdir)
 
-        mySettingsAccessor.ImageGenreFolder(imageGenre) = folderCheck.Item2
+            mySettingsAccessor.ImageGenreFolder(imageGenre) = folderCheck.Item2
         mySettingsAccessor.IsImageGenreEnabled(imageGenre) = Not (folderCheck.Item2 = def)
         mySettingsAccessor.ImageGenreIncludeSubDirectory(imageGenre) = folderCheck.Item1
 
@@ -7828,6 +7833,7 @@ checkFolder:
     End Function
 
     Private mySettingsAccessor As ISettingsAccessor
+    Private myConfigurationAccessor As IConfigurationAccessor
     Private myBlogAccessor As BlogImageAccessor
     Private myCldAccessor As ICldAccessor
     Private myScriptAccessor As IScriptAccessor
