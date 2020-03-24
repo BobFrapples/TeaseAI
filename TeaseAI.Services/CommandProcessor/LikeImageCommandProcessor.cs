@@ -8,6 +8,9 @@ using TeaseAI.Common.Interfaces.Accessors;
 
 namespace TeaseAI.Services.CommandProcessor
 {
+    /// <summary>
+    /// Proceess the image liked command
+    /// </summary>
     public class LikeImageCommandProcessor : CommandProcessorBase
     {
         public LikeImageCommandProcessor(LineService lineService
@@ -24,7 +27,7 @@ namespace TeaseAI.Services.CommandProcessor
 
             if (showImageEventArgs.ImageMetaData != null)
             {
-                var getLikedImages = _imageAccessor.GetImageMetaDataList(ImageSource.Local, ImageGenre.Liked)
+                var getLikedImages = _imageAccessor.GetImageMetaDataList(default(ImageSource?), ImageGenre.Liked)
                     .OnSuccess(li =>
                     {
                         if (li.All(imd => imd.ItemName != showImageEventArgs.ImageMetaData.ItemName))

@@ -1,9 +1,9 @@
 ﻿Imports System.ComponentModel
 Imports System.IO
 Imports System.Threading
-Imports System.Windows.Forms
+Imports TeaseAI.Common.Constants
 Imports TeaseAI.Common.Data
-Imports TeaseAI.Common.Data.RiskyPick
+Imports TeaseAI.Common.Events
 
 Partial Class MainWindow
 
@@ -602,9 +602,18 @@ NoNeFound:
 #End Region ' Get Random Image
 
     ''' <summary>
+    ''' Set the currently displayed image to eventArgs.ImageMetaData
+    ''' </summary>
+    ''' <param name="eventArgs"></param>
+    Private Sub QueryImage(eventArgs As ShowImageEventArgs)
+        eventArgs.ImageMetaData = myDisplayedImage
+    End Sub
+
+    ''' <summary>
     ''' Displays the image passed in as <paramref name="imageToShow"/> to the window
     ''' </summary>
     ''' <param name="imageToShow">The local path to the image to display.</param>
+    <Obsolete("Use the version that takes ImageMetaData")>
     Public Sub ShowImage(imageToShow As String, ignored As Boolean)
         If FormLoading Then
             Return
@@ -620,6 +629,19 @@ NoNeFound:
         mainPictureBox.Image = Image.FromFile(imageToShow)
     End Sub
 
+    Public Sub ShowImage(imageToShow As ImageMetaData)
+        If FormLoading Then
+            Return
+        End If
+
+        If imageToShow.Source = ImageSource.Local AndAlso Not File.Exists(imageToShow.ItemName) Then
+            Throw New ArgumentException(NameOf(imageToShow), imageToShow.ItemName + " does not exist.")
+        End If
+
+
+        myDisplayedImage = imageToShow
+        mainPictureBox.Image = Image.FromFile(imageToShow.ItemName)
+    End Sub
 #Region "---------------------------------------------------- BWimageSync -----------------------------------------------------"
 
 #Region "---------------------------------------------------- Declarations ----------------------------------------------------"
@@ -915,6 +937,7 @@ retryLocal: ' If an exception occures the function is restarted and the Errorima
     ''' Signals the ImageAnimatorThread to suspend when the signal is set.
     ''' </summary>
     Shared mreImageanimator As New ManualResetEvent(True)
+
     ''' <summary>
     ''' This Method will stop the ImageAnimatorThread
     ''' </summary>

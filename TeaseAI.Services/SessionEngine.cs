@@ -84,6 +84,8 @@ namespace TeaseAI.Services
 
             CommandProcessors[Keyword.RiskyPickStart].CommandProcessed += RiskyPickStartCommandProcessed;
 
+            CommandProcessors[Keyword.LikeImage].CommandProcessed += LikeImageCommandProcessed;
+
             _scriptAccessor = scriptAccessor;
             _variableAccessor = variableAccessor;
 
@@ -133,6 +135,15 @@ namespace TeaseAI.Services
         private void OnShowImage(ImageMetaData imageMetaData)
         {
             ShowImage?.Invoke(this, new ShowImageEventArgs() { ImageMetaData = imageMetaData });
+        }
+
+        /// <summary>
+        /// Event used to ask the UI what image is currently being displayed
+        /// </summary>
+        public event EventHandler<ShowImageEventArgs> QueryImage;
+        private void OnQueryImage(ShowImageEventArgs queryImageEventArgs)
+        {
+            QueryImage?.Invoke(this, queryImageEventArgs);
         }
 
         public event EventHandler<PlayVideoEventArgs> PlayVideo;
@@ -532,6 +543,12 @@ namespace TeaseAI.Services
                 Session = e.Session;
             }
             BeginSession((Script)e.Parameter);
+        }
+
+        private void LikeImageCommandProcessed(object sender, CommandProcessedEventArgs e)
+        {
+            var eventArgs = (ShowImageEventArgs)e.Parameter;
+            OnQueryImage(eventArgs);
         }
 
         #endregion

@@ -47,6 +47,7 @@ Public Class MainWindow
     Dim mySlideShowNavigationService As ISlideShowNavigationService = New SlideShowNavigationService()
     Dim myPathsAccessor As PathsAccessor = ServiceFactory.CreatePathsAccessor()
     Dim WithEvents mySession As SessionEngine
+    Private myDisplayedImage As ImageMetaData
 
     'TODO: Use a custom class to pass data between ScriptParsing methods.
     <Obsolete("QND-Implementation of ContactData.GetTaggedImage. ")>
@@ -302,6 +303,7 @@ ByVal lpstrReturnString As String, ByVal uReturnLength As Integer, ByVal hwndCal
             mySession = ServiceFactory.CreateSessionEngine()
             AddHandler mySession.DommeSaid, AddressOf mySession_DommeSaid
             AddHandler mySession.ShowImage, AddressOf mySession_ShowImage
+            AddHandler mySession.QueryImage, AddressOf mySession_QueryImage
             AddHandler mySession.PlayVideo, AddressOf mySession_PlayVideo
             AddHandler mySession.MessageProcessors(MessageProcessor.RequestTask).MessageProcessed, AddressOf Task_Requested
             AddHandler mySession.MessageProcessors(MessageProcessor.Greeting).MessageProcessed, AddressOf Greeting_Spoken
@@ -6269,22 +6271,6 @@ TaskCleanSet:
 
         End If
 
-        ' The @LikeBlogImage Command takes the URL of the most recently viewed blog image and adds it to the "Liked" list located in [Tease AI Root Directory]\Images\System\LikedImageURLS.txt
-
-        If StringClean.Contains("@LikeBlogImage") Then
-
-            If ssh.ImageLocation <> "" Then
-
-                If File.Exists(Application.StartupPath & "\Images\System\LikedImageURLs.txt") Then
-                    My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Images\System\LikedImageURLs.txt", Environment.NewLine & ssh.ImageLocation, True)
-                Else
-                    My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Images\System\LikedImageURLs.txt", ssh.ImageLocation, True)
-                End If
-                StringClean = StringClean.Replace("@LikeBlogImage", "")
-            End If
-
-        End If
-
         '  ╔═╗┌┬┐┬─┐┌─┐┬┌─┌─┐╔═╗┌─┐┌─┐┌┬┐┌─┐┬─┐
         '  ╚═╗ │ ├┬┘│ │├┴┐├┤ ╠╣ ├─┤└─┐ │ ├┤ ├┬┘
         '  ╚═╝ ┴ ┴└─└─┘┴ ┴└─┘╚  ┴ ┴└─┘ ┴ └─┘┴└─
@@ -12129,8 +12115,6 @@ RestartFunction:
         End If
     End Sub
 
-
-
 #End Region ' MainPictureBox
 
 #Region "-------------------------------------------------- PictureStrip ------------------------------------------------------"
@@ -15018,6 +15002,12 @@ playLoop:
         End If
     End Sub
 
+    Private Sub mySession_QueryImage(sender As Object, e As ShowImageEventArgs)
+        If (InvokeRequired) Then
+            BeginInvoke(New MethodInvoker(Sub() QueryImage(e)))
+        End If
+    End Sub
+
     Private Sub mySession_ShowImage(sender As Object, e As ShowImageEventArgs)
         If (InvokeRequired) Then
             BeginInvoke(New MethodInvoker(Sub() ShowImage(e.ImageMetaData.ItemName, False)))
@@ -17212,22 +17202,6 @@ TaskCleanSet:
                     My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Images\System\DislikedImageURLs.txt", ssh.ImageLocation, True)
                 End If
                 inputString = inputString.Replace("@DislikeBlogImage", "")
-            End If
-
-        End If
-
-        ' The @LikeBlogImage Command takes the URL of the most recently viewed blog image and adds it to the "Liked" list located in [Tease AI Root Directory]\Images\System\LikedImageURLS.txt
-
-        If inputString.Contains("@LikeBlogImage") Then
-
-            If ssh.ImageLocation <> "" Then
-
-                If File.Exists(Application.StartupPath & "\Images\System\LikedImageURLs.txt") Then
-                    My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Images\System\LikedImageURLs.txt", Environment.NewLine & ssh.ImageLocation, True)
-                Else
-                    My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Images\System\LikedImageURLs.txt", ssh.ImageLocation, True)
-                End If
-                inputString = inputString.Replace("@LikeBlogImage", "")
             End If
 
         End If
