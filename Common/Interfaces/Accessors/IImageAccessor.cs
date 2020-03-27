@@ -36,5 +36,7 @@ namespace TeaseAI.Common.Interfaces.Accessors
         /// <param name="images"></param>
         /// <returns></returns>
         void Create(List<ImageMetaData> images);
+
+        Result<List<ImageMetaData>> GetImagesInContainer(int containerId);
     }
 }

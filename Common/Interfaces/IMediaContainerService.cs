@@ -8,7 +8,8 @@ namespace TeaseAI.Common.Interfaces
     public interface IMediaContainerService
     {
         void Initialize();
-        List<MediaContainer> Get();
         void Update(List<MediaContainer> mediaContainers);
+        List<MediaContainer> Get();
+        Result<MediaContainer> Get(int containerId);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TeaseAI.Common;
 using TeaseAI.Common.Constants;
 using TeaseAI.Common.Data;
 using TeaseAI.Common.Interfaces;
@@ -21,6 +22,8 @@ namespace TeaseAI.Services
         }
 
         public List<MediaContainer> Get() => _mediaContainerRepository.Get();
+
+        public Result<MediaContainer> Get(int containerId) => _mediaContainerRepository.Get(containerId);
 
         public void Initialize()
         {

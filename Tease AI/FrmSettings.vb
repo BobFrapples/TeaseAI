@@ -1,4 +1,5 @@
 ﻿Imports System.ComponentModel
+Imports System.Data
 Imports System.IO
 Imports System.Speech.Synthesis
 Imports Tease_AI.URL_Files
@@ -60,6 +61,9 @@ Public Class FrmSettings
 
     Dim CheckImgDir As New List(Of String)
 
+    Private myTaggingImageMetaDatas As List(Of ImageMetaData)
+    Private myImageTagIndex As Integer
+
     Public Sub New()
         mySettingsAccessor = ApplicationFactory.CreateSettingsAccessor()
         myConfigurationAccessor = ApplicationFactory.CreateConfigurationAccessor()
@@ -69,6 +73,8 @@ Public Class FrmSettings
         myLoadFileData = New LoadFileData()
         myParseTagDataService = New ParseOldTagDataService()
         myPathsAccessor = ApplicationFactory.CreatePathsAccessor()
+        myMediaContainerService = ApplicationFactory.CreateMediaContainerService()
+        myImageMetaDataService = ApplicationFactory.CreateImageMetaDataService()
 
         InitializeComponent()
     End Sub
@@ -3025,7 +3031,7 @@ checkFolder:
         End If
         Dim folderCheck As Tuple(Of Boolean, String) = CheckFolderSettings(imageGenre.ToString(), imageFolder, def, isSubdir)
 
-            mySettingsAccessor.ImageGenreFolder(imageGenre) = folderCheck.Item2
+        mySettingsAccessor.ImageGenreFolder(imageGenre) = folderCheck.Item2
         mySettingsAccessor.IsImageGenreEnabled(imageGenre) = Not (folderCheck.Item2 = def)
         mySettingsAccessor.ImageGenreIncludeSubDirectory(imageGenre) = folderCheck.Item1
 
@@ -3803,6 +3809,103 @@ checkFolder:
 
 #End Region ' Videos
 
+#Region "Tagging"
+    Private Sub LocalTagsTab_Selecting(sender As Object, e As TabControlCancelEventArgs) Handles LocalTagsTab.Selecting
+        Dim mediaContainers As List(Of MediaContainer) = myMediaContainerService.Get().Where(Function(mc) mc.MediaTypeId = 1 AndAlso mc.SourceId = ImageSource.Local).ToList()
+
+        Dim containerData As DataTable = New DataTable()
+        containerData.Columns.Add("Id", GetType(Integer))
+        containerData.Columns.Add("Display", GetType(String))
+
+        For Each mediaContainer As MediaContainer In mediaContainers
+            Dim dataRow As DataRow = containerData.NewRow()
+            dataRow("Id") = mediaContainer.Id
+            dataRow("Display") = mediaContainer.Name
+            containerData.Rows.Add(dataRow)
+        Next
+
+        GenreCombo.DataSource = containerData
+        GenreCombo.DisplayMember = "Display"
+        GenreCombo.ValueMember = "Id"
+    End Sub
+
+    Private Sub GenreCombo_SelectedValueChanged(sender As Object, e As EventArgs) Handles GenreCombo.SelectedValueChanged
+        If (Not GenreCombo.Visible) Then
+            Return
+        End If
+        Dim containerId As Integer = GenreCombo.SelectedValue
+        Dim imageMetaData As Result(Of List(Of ImageMetaData)) = myImageMetaDataService.GetImagesInContainer(containerId)
+        If imageMetaData.IsFailure Then
+            MessageBox.Show(imageMetaData.Error.Message)
+        End If
+        myTaggingImageMetaDatas = imageMetaData.Value
+        myImageTagIndex = 0
+        LBLLocalTagCount.Text = String.Format("{0} / {1} ", myImageTagIndex + 1, myTaggingImageMetaDatas.Count)
+    End Sub
+
+    'Private Sub SetLocalTagDirectoryButton_Click(sender As Object, e As EventArgs)
+
+    '    MainWindow.mainPictureBox.LoadAsync(CurrentLocalImageTagImage)
+
+    '    Dim taggedItem As TeaseAI.Common.TaggedItem = GetTaggedItem(LocalImageTagFile, CurrentLocalImageTagImage)
+    '    SetLocalTagCheckboxes(taggedItem.ItemTags)
+
+    '    LocalTagCount = 1
+
+    '    BTNLocalTagSave.Enabled = True
+    '    BTNLocalTagNext.Enabled = LocalImageTagDir.Count < LocalTagCount
+    '    BTNLocalTagPrevious.Enabled = False
+    '    SetLocalTagDirectoryButton.Enabled = False
+    '    TBLocalTagDir.Enabled = False
+
+    '    SetLocalImageEnabled(True)
+
+    '    LBLLocalTagCount.Enabled = True
+    'End Sub
+
+    'Private Sub SetLocalTagDirectoryButton_Click(sender As Object, e As EventArgs)
+    '    Dim folderBrowser As FolderBrowserDialog = New FolderBrowserDialog()
+    '    If (folderBrowser.ShowDialog() <> DialogResult.OK) Then
+    '        Return
+    '    End If
+    '    LocalImageTagDir.Clear()
+
+    '    Dim tagLocalImageFolder As String = folderBrowser.SelectedPath
+    '    Dim supportedExtensions As String = "*.png,*.jpg,*.gif,*.bmp,*.jpeg"
+    '    Dim files As List(Of String) = myDirectory.GetFiles(tagLocalImageFolder, "*.*").ToList()
+    '    files.Sort()
+
+    '    For Each fi As String In files
+    '        If supportedExtensions.Contains(Path.GetExtension(fi.ToLower())) Then
+    '            LocalImageTagDir.Add(fi)
+    '        End If
+    '    Next
+
+    '    If Not LocalImageTagDir.Any() Then
+    '        MessageBox.Show(Me, "There are no images in the specified folder.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+    '        Return
+    '    End If
+
+    '    CurrentLocalImageTagImage = LocalImageTagDir(0)
+
+    '    Dim taggedItem As TeaseAI.Common.TaggedItem = GetTaggedItem(LocalImageTagFile, CurrentLocalImageTagImage)
+    '    SetLocalTagCheckboxes(taggedItem.ItemTags)
+
+    '    LocalTagCount = 1
+    '    LBLLocalTagCount.Text = LocalTagCount & "/" & LocalImageTagDir.Count
+
+    '    BTNLocalTagSave.Enabled = True
+    '    BTNLocalTagNext.Enabled = LocalImageTagDir.Count < LocalTagCount
+    '    BTNLocalTagPrevious.Enabled = False
+    '    SetLocalTagDirectoryButton.Enabled = False
+    '    TBLocalTagDir.Enabled = False
+
+    '    SetLocalImageEnabled(True)
+
+    '    LBLLocalTagCount.Enabled = True
+    'End Sub
+
+#End Region
 
     Private Sub ComboBox1_DrawItem(ByVal sender As Object, ByVal e As Windows.Forms.DrawItemEventArgs) Handles SubMessageFontCB.DrawItem
         e.DrawBackground()
@@ -4656,47 +4759,6 @@ checkFolder:
         mySettingsAccessor.IsBallTortureEnabled = BallTortureEnabledCB.Checked
     End Sub
 
-    Private Sub Button9_Click_1(sender As Object, e As EventArgs) Handles BTNLocalTagDir.Click
-        Dim folderBrowser As FolderBrowserDialog = New FolderBrowserDialog()
-        If (folderBrowser.ShowDialog() = DialogResult.OK) Then
-            LocalImageTagDir.Clear()
-
-            Dim tagLocalImageFolder As String = folderBrowser.SelectedPath
-            Dim supportedExtensions As String = "*.png,*.jpg,*.gif,*.bmp,*.jpeg"
-            Dim files As List(Of String) = myDirectory.GetFiles(tagLocalImageFolder, "*.*").ToList()
-            files.Sort()
-
-            For Each fi As String In files
-                If supportedExtensions.Contains(Path.GetExtension(fi.ToLower())) Then
-                    LocalImageTagDir.Add(fi)
-                End If
-            Next
-
-            If Not LocalImageTagDir.Any() Then
-                MessageBox.Show(Me, "There are no images in the specified folder.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Return
-            End If
-
-            CurrentLocalImageTagImage = LocalImageTagDir(0)
-            MainWindow.mainPictureBox.LoadAsync(CurrentLocalImageTagImage)
-
-            Dim taggedItem As TeaseAI.Common.TaggedItem = GetTaggedItem(LocalImageTagFile, CurrentLocalImageTagImage)
-            SetLocalTagCheckboxes(taggedItem.ItemTags)
-
-            LocalTagCount = 1
-            LBLLocalTagCount.Text = LocalTagCount & "/" & LocalImageTagDir.Count
-
-            BTNLocalTagSave.Enabled = True
-            BTNLocalTagNext.Enabled = LocalImageTagDir.Count < LocalTagCount
-            BTNLocalTagPrevious.Enabled = False
-            BTNLocalTagDir.Enabled = False
-            TBLocalTagDir.Enabled = False
-
-            SetLocalImageEnabled(True)
-
-            LBLLocalTagCount.Enabled = True
-        End If
-    End Sub
 
     Private Sub BTNLocalTagNext_Click(sender As Object, e As EventArgs) Handles BTNLocalTagNext.Click
 
@@ -5127,8 +5189,6 @@ checkFolder:
 
         SaveLocalImageTags(CurrentLocalImageTagImage)
 
-        BTNLocalTagDir.Enabled = True
-        TBLocalTagDir.Enabled = True
         BTNLocalTagSave.Enabled = False
         BTNLocalTagNext.Enabled = False
         BTNLocalTagPrevious.Enabled = False
@@ -5139,44 +5199,6 @@ checkFolder:
         LBLLocalTagCount.Enabled = False
 
         MainWindow.mainPictureBox.Image = Nothing
-    End Sub
-
-    Private Sub TBLocalTagDir_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TBLocalTagDir.KeyPress
-        If e.KeyChar <> Convert.ToChar(13) Then
-            Return
-        End If
-
-        e.Handled = True
-        e.KeyChar = Chr(0)
-
-        Dim getImages As Result(Of List(Of String)) = GetImagesInFolder(TBLocalTagDir.Text) _
-            .Ensure(Function(data) data.Any(), TBLocalTagDir.Text & " does not have any images in it.")
-
-        LocalImageTagDir = getImages.GetResultOrDefault(New List(Of String))
-
-        If getImages.IsFailure Then
-            MessageBox.Show(Me, getImages.GetErrorMessageOrDefault(), "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            Return
-        End If
-
-        CurrentLocalImageTagImage = LocalImageTagDir.First()
-        MainWindow.mainPictureBox.LoadAsync(CurrentLocalImageTagImage)
-
-        Dim taggedItem As TeaseAI.Common.TaggedItem = GetTaggedItem(LocalImageTagFile, CurrentLocalImageTagImage)
-        SetLocalTagCheckboxes(taggedItem.ItemTags)
-
-        LocalTagCount = 1
-        LBLLocalTagCount.Text = LocalTagCount.ToString() & "/" & LocalImageTagDir.Count.ToString()
-
-        BTNLocalTagSave.Enabled = True
-        BTNLocalTagNext.Enabled = LocalImageTagDir.Count < LocalTagCount
-        BTNLocalTagPrevious.Enabled = False
-        BTNLocalTagDir.Enabled = False
-        TBLocalTagDir.Enabled = False
-
-        SetLocalImageEnabled(True)
-
-        LBLLocalTagCount.Enabled = True
     End Sub
 
     Private Sub CBRangeOrgasm_CheckedChanged(sender As Object, e As EventArgs) Handles DommeDecideOrgasmCB.CheckedChanged
@@ -5562,7 +5584,6 @@ checkFolder:
             "The domme will not move to an End script until the first @End point of a Module that occurs after tease time expires." & Environment.NewLine & Environment.NewLine &
             "If the domme decides to tease you again, the tease time will be reset to a new amount based Tease Length settings."
     End Sub
-
 
     Private Sub CBTeaseLengthDD_LostFocus(sender As Object, e As EventArgs) Handles TeaseLengthDommeDetermined.LostFocus
         mySettingsAccessor.IsTeaseLengthDommeDetermined = TeaseLengthDommeDetermined.Checked
@@ -7840,4 +7861,7 @@ checkFolder:
     Private myLoadFileData As ILoadFileData
     Private myParseTagDataService As ParseOldTagDataService
     Private myPathsAccessor As PathsAccessor
+    Private myMediaContainerService As IMediaContainerService
+    Private myImageMetaDataService As IImageAccessor
+
 End Class

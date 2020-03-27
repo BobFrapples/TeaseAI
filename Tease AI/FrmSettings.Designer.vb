@@ -387,7 +387,7 @@ Partial Class FrmSettings
         Me.BTNICaptions = New System.Windows.Forms.Button()
         Me.BTNIGeneral = New System.Windows.Forms.Button()
         Me.TabPage33 = New System.Windows.Forms.TabPage()
-        Me.TabControl5 = New System.Windows.Forms.TabControl()
+        Me.LocalTagsTab = New System.Windows.Forms.TabControl()
         Me.TabPage34 = New System.Windows.Forms.TabPage()
         Me.CBTagSeeThrough = New System.Windows.Forms.RadioButton()
         Me.CBTagAllFours = New System.Windows.Forms.CheckBox()
@@ -428,6 +428,8 @@ Partial Class FrmSettings
         Me.ImageTagPictureBox = New System.Windows.Forms.PictureBox()
         Me.CBTagFace = New System.Windows.Forms.CheckBox()
         Me.TabPage35 = New System.Windows.Forms.TabPage()
+        Me.GenreDropDownLabel = New System.Windows.Forms.Label()
+        Me.GenreCombo = New System.Windows.Forms.ComboBox()
         Me.GroupBox55 = New System.Windows.Forms.GroupBox()
         Me.CBTagNurse = New System.Windows.Forms.CheckBox()
         Me.CBTagSchoolgirl = New System.Windows.Forms.CheckBox()
@@ -535,12 +537,10 @@ Partial Class FrmSettings
         Me.CBTagSoloF = New System.Windows.Forms.CheckBox()
         Me.CBTagChastity = New System.Windows.Forms.CheckBox()
         Me.CBTagShower = New System.Windows.Forms.CheckBox()
-        Me.TBLocalTagDir = New System.Windows.Forms.TextBox()
         Me.BTNLocalTagPrevious = New System.Windows.Forms.Button()
         Me.BTNLocalTagNext = New System.Windows.Forms.Button()
         Me.LBLLocalTagCount = New System.Windows.Forms.Label()
         Me.BTNLocalTagSave = New System.Windows.Forms.Button()
-        Me.BTNLocalTagDir = New System.Windows.Forms.Button()
         Me.TabPage11 = New System.Windows.Forms.TabPage()
         Me.Panel7 = New System.Windows.Forms.Panel()
         Me.BTNWIContinue = New System.Windows.Forms.Button()
@@ -1200,7 +1200,7 @@ Partial Class FrmSettings
         Me.GbxImagesGenre.SuspendLayout
         Me.TableLayoutPanel1.SuspendLayout
         Me.TabPage33.SuspendLayout
-        Me.TabControl5.SuspendLayout
+        Me.LocalTagsTab.SuspendLayout
         Me.TabPage34.SuspendLayout
         CType(Me.ImageTagPictureBox, System.ComponentModel.ISupportInitialize).BeginInit
         Me.TabPage35.SuspendLayout
@@ -1505,7 +1505,7 @@ Partial Class FrmSettings
         Me.GBDommeImages.TabStop = False
         Me.GBDommeImages.Text = "Slideshow Options"
         '
-        'slideshowNumBox
+        'SlideShowNumBox
         '
         Me.SlideShowNumBox.BackColor = System.Drawing.Color.White
         Me.SlideShowNumBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1513,19 +1513,19 @@ Partial Class FrmSettings
         Me.SlideShowNumBox.Location = New System.Drawing.Point(93, 20)
         Me.SlideShowNumBox.Maximum = New Decimal(New Integer() {120, 0, 0, 0})
         Me.SlideShowNumBox.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.SlideShowNumBox.Name = "slideshowNumBox"
+        Me.SlideShowNumBox.Name = "SlideShowNumBox"
         Me.SlideShowNumBox.Size = New System.Drawing.Size(47, 20)
         Me.SlideShowNumBox.TabIndex = 20
         Me.SlideShowNumBox.Value = New Decimal(New Integer() {30, 0, 0, 0})
         '
-        'teaseRadio
+        'TeaseSlideShowRadio
         '
         Me.TeaseSlideShowRadio.AutoSize = True
         Me.TeaseSlideShowRadio.Checked = True
         Me.TeaseSlideShowRadio.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TeaseSlideShowRadio.ForeColor = System.Drawing.Color.Black
         Me.TeaseSlideShowRadio.Location = New System.Drawing.Point(149, 21)
-        Me.TeaseSlideShowRadio.Name = "teaseRadio"
+        Me.TeaseSlideShowRadio.Name = "TeaseSlideShowRadio"
         Me.TeaseSlideShowRadio.Size = New System.Drawing.Size(55, 17)
         Me.TeaseSlideShowRadio.TabIndex = 21
         Me.TeaseSlideShowRadio.TabStop = True
@@ -1546,13 +1546,13 @@ Partial Class FrmSettings
         Me.CBNewSlideshow.Text = "Load New Slideshow When Finished"
         Me.CBNewSlideshow.UseVisualStyleBackColor = True
         '
-        'offRadio
+        'ManualSlideShowRadio
         '
         Me.ManualSlideShowRadio.AutoSize = True
         Me.ManualSlideShowRadio.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ManualSlideShowRadio.ForeColor = System.Drawing.Color.Black
         Me.ManualSlideShowRadio.Location = New System.Drawing.Point(6, 21)
-        Me.ManualSlideShowRadio.Name = "offRadio"
+        Me.ManualSlideShowRadio.Name = "ManualSlideShowRadio"
         Me.ManualSlideShowRadio.Size = New System.Drawing.Size(60, 17)
         Me.ManualSlideShowRadio.TabIndex = 18
         Me.ManualSlideShowRadio.Text = "Manual"
@@ -1570,13 +1570,13 @@ Partial Class FrmSettings
         Me.BTNDomImageDir.Text = "Set Domme Images Directory"
         Me.BTNDomImageDir.UseVisualStyleBackColor = False
         '
-        'timedRadio
+        'TimedSlideShowRadio
         '
         Me.TimedSlideShowRadio.AutoSize = True
         Me.TimedSlideShowRadio.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TimedSlideShowRadio.ForeColor = System.Drawing.Color.Black
         Me.TimedSlideShowRadio.Location = New System.Drawing.Point(72, 23)
-        Me.TimedSlideShowRadio.Name = "timedRadio"
+        Me.TimedSlideShowRadio.Name = "TimedSlideShowRadio"
         Me.TimedSlideShowRadio.Size = New System.Drawing.Size(14, 13)
         Me.TimedSlideShowRadio.TabIndex = 19
         Me.TimedSlideShowRadio.UseVisualStyleBackColor = True
@@ -1839,12 +1839,12 @@ Partial Class FrmSettings
         Me.CBSlideshowRandom.Text = "Display Slideshow Pictures Randomly"
         Me.CBSlideshowRandom.UseVisualStyleBackColor = True
         '
-        'landscapeCheckBox
+        'LandscapeCheckBox
         '
         Me.LandscapeCheckBox.AutoSize = True
         Me.LandscapeCheckBox.ForeColor = System.Drawing.Color.Black
         Me.LandscapeCheckBox.Location = New System.Drawing.Point(6, 87)
-        Me.LandscapeCheckBox.Name = "landscapeCheckBox"
+        Me.LandscapeCheckBox.Name = "LandscapeCheckBox"
         Me.LandscapeCheckBox.Size = New System.Drawing.Size(153, 17)
         Me.LandscapeCheckBox.TabIndex = 15
         Me.LandscapeCheckBox.TabStop = False
@@ -1908,12 +1908,12 @@ Partial Class FrmSettings
         Me.GBGeneralSettings.TabStop = False
         Me.GBGeneralSettings.Text = "Chat Window"
         '
-        'CBWebtease
+        'WebTeaseMode
         '
         Me.WebTeaseMode.AutoSize = True
         Me.WebTeaseMode.ForeColor = System.Drawing.Color.Black
         Me.WebTeaseMode.Location = New System.Drawing.Point(6, 110)
-        Me.WebTeaseMode.Name = "CBWebtease"
+        Me.WebTeaseMode.Name = "WebTeaseMode"
         Me.WebTeaseMode.Size = New System.Drawing.Size(105, 17)
         Me.WebTeaseMode.TabIndex = 5
         Me.WebTeaseMode.TabStop = False
@@ -2086,40 +2086,40 @@ Partial Class FrmSettings
         Me.CBInputIcon.Text = "Show Icon During Input Questions"
         Me.CBInputIcon.UseVisualStyleBackColor = True
         '
-        'typeinstantlyCheckBox
+        'TypeInstantlyCheckBox
         '
         Me.TypeInstantlyCheckBox.AutoSize = True
         Me.TypeInstantlyCheckBox.ForeColor = System.Drawing.Color.Black
         Me.TypeInstantlyCheckBox.Location = New System.Drawing.Point(6, 64)
-        Me.TypeInstantlyCheckBox.Name = "typeinstantlyCheckBox"
+        Me.TypeInstantlyCheckBox.Name = "TypeInstantlyCheckBox"
         Me.TypeInstantlyCheckBox.Size = New System.Drawing.Size(136, 17)
         Me.TypeInstantlyCheckBox.TabIndex = 3
         Me.TypeInstantlyCheckBox.TabStop = False
         Me.TypeInstantlyCheckBox.Text = "Domme Types Instantly"
         Me.TypeInstantlyCheckBox.UseVisualStyleBackColor = True
         '
-        'timestampCheckBox
+        'TimeStampCheckBox
         '
         Me.TimeStampCheckBox.AutoSize = True
         Me.TimeStampCheckBox.Checked = True
         Me.TimeStampCheckBox.CheckState = System.Windows.Forms.CheckState.Checked
         Me.TimeStampCheckBox.ForeColor = System.Drawing.Color.Black
         Me.TimeStampCheckBox.Location = New System.Drawing.Point(6, 18)
-        Me.TimeStampCheckBox.Name = "timestampCheckBox"
+        Me.TimeStampCheckBox.Name = "TimeStampCheckBox"
         Me.TimeStampCheckBox.Size = New System.Drawing.Size(112, 17)
         Me.TimeStampCheckBox.TabIndex = 1
         Me.TimeStampCheckBox.TabStop = False
         Me.TimeStampCheckBox.Text = "Show Timestamps"
         Me.TimeStampCheckBox.UseVisualStyleBackColor = True
         '
-        'shownamesCheckBox
+        'ShowNamesCheckBox
         '
         Me.ShowNamesCheckBox.AutoSize = True
         Me.ShowNamesCheckBox.Checked = True
         Me.ShowNamesCheckBox.CheckState = System.Windows.Forms.CheckState.Checked
         Me.ShowNamesCheckBox.ForeColor = System.Drawing.Color.Black
         Me.ShowNamesCheckBox.Location = New System.Drawing.Point(6, 41)
-        Me.ShowNamesCheckBox.Name = "shownamesCheckBox"
+        Me.ShowNamesCheckBox.Name = "ShowNamesCheckBox"
         Me.ShowNamesCheckBox.Size = New System.Drawing.Size(125, 17)
         Me.ShowNamesCheckBox.TabIndex = 2
         Me.ShowNamesCheckBox.TabStop = False
@@ -3268,13 +3268,13 @@ Partial Class FrmSettings
         Me.petnameBox8.Text = "slut"
         Me.petnameBox8.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
-        'petnameBox1
+        'PetNameBox1
         '
         Me.PetNameBox1.BackColor = System.Drawing.Color.White
         Me.PetNameBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.PetNameBox1.ForeColor = System.Drawing.Color.Black
         Me.PetNameBox1.Location = New System.Drawing.Point(8, 32)
-        Me.PetNameBox1.Name = "petnameBox1"
+        Me.PetNameBox1.Name = "PetNameBox1"
         Me.PetNameBox1.Size = New System.Drawing.Size(114, 23)
         Me.PetNameBox1.TabIndex = 7
         Me.PetNameBox1.Text = "stroker"
@@ -4303,28 +4303,28 @@ Partial Class FrmSettings
         Me.Panel9.Size = New System.Drawing.Size(708, 437)
         Me.Panel9.TabIndex = 94
         '
-        'BTNScriptAvailable
+        'SelectAvailableScriptsButton
         '
         Me.SelectAvailableScriptsButton.Location = New System.Drawing.Point(204, 294)
-        Me.SelectAvailableScriptsButton.Name = "BTNScriptAvailable"
+        Me.SelectAvailableScriptsButton.Name = "SelectAvailableScriptsButton"
         Me.SelectAvailableScriptsButton.Size = New System.Drawing.Size(100, 23)
         Me.SelectAvailableScriptsButton.TabIndex = 160
         Me.SelectAvailableScriptsButton.Text = "Select Available"
         Me.SelectAvailableScriptsButton.UseVisualStyleBackColor = True
         '
-        'BTNScriptNone
+        'SelectNoScriptsButton
         '
         Me.SelectNoScriptsButton.Location = New System.Drawing.Point(108, 294)
-        Me.SelectNoScriptsButton.Name = "BTNScriptNone"
+        Me.SelectNoScriptsButton.Name = "SelectNoScriptsButton"
         Me.SelectNoScriptsButton.Size = New System.Drawing.Size(75, 23)
         Me.SelectNoScriptsButton.TabIndex = 159
         Me.SelectNoScriptsButton.Text = "Select None"
         Me.SelectNoScriptsButton.UseVisualStyleBackColor = True
         '
-        'BTNScriptAll
+        'SelectAllScriptsButton
         '
         Me.SelectAllScriptsButton.Location = New System.Drawing.Point(13, 294)
-        Me.SelectAllScriptsButton.Name = "BTNScriptAll"
+        Me.SelectAllScriptsButton.Name = "SelectAllScriptsButton"
         Me.SelectAllScriptsButton.Size = New System.Drawing.Size(75, 23)
         Me.SelectAllScriptsButton.TabIndex = 158
         Me.SelectAllScriptsButton.Text = "Select All"
@@ -4453,11 +4453,11 @@ Partial Class FrmSettings
         Me.ScriptsEndTab.TabIndex = 7
         Me.ScriptsEndTab.Text = "End"
         '
-        'CLBEndList
+        'EndScripts
         '
         Me.EndScripts.FormattingEnabled = True
         Me.EndScripts.Location = New System.Drawing.Point(4, 4)
-        Me.EndScripts.Name = "CLBEndList"
+        Me.EndScripts.Name = "EndScripts"
         Me.EndScripts.Size = New System.Drawing.Size(283, 214)
         Me.EndScripts.Sorted = True
         Me.EndScripts.TabIndex = 156
@@ -6121,7 +6121,7 @@ Partial Class FrmSettings
         'TabPage33
         '
         Me.TabPage33.BackColor = System.Drawing.Color.Silver
-        Me.TabPage33.Controls.Add(Me.TabControl5)
+        Me.TabPage33.Controls.Add(Me.LocalTagsTab)
         Me.TabPage33.Location = New System.Drawing.Point(4, 22)
         Me.TabPage33.Name = "TabPage33"
         Me.TabPage33.Padding = New System.Windows.Forms.Padding(3)
@@ -6129,15 +6129,15 @@ Partial Class FrmSettings
         Me.TabPage33.TabIndex = 21
         Me.TabPage33.Text = "Tagging"
         '
-        'TabControl5
+        'LocalTagsTab
         '
-        Me.TabControl5.Controls.Add(Me.TabPage34)
-        Me.TabControl5.Controls.Add(Me.TabPage35)
-        Me.TabControl5.Location = New System.Drawing.Point(6, 6)
-        Me.TabControl5.Name = "TabControl5"
-        Me.TabControl5.SelectedIndex = 0
-        Me.TabControl5.Size = New System.Drawing.Size(708, 437)
-        Me.TabControl5.TabIndex = 0
+        Me.LocalTagsTab.Controls.Add(Me.TabPage34)
+        Me.LocalTagsTab.Controls.Add(Me.TabPage35)
+        Me.LocalTagsTab.Location = New System.Drawing.Point(6, 6)
+        Me.LocalTagsTab.Name = "LocalTagsTab"
+        Me.LocalTagsTab.SelectedIndex = 0
+        Me.LocalTagsTab.Size = New System.Drawing.Size(708, 437)
+        Me.LocalTagsTab.TabIndex = 0
         '
         'TabPage34
         '
@@ -6616,6 +6616,8 @@ Partial Class FrmSettings
         'TabPage35
         '
         Me.TabPage35.BackColor = System.Drawing.Color.LightGray
+        Me.TabPage35.Controls.Add(Me.GenreDropDownLabel)
+        Me.TabPage35.Controls.Add(Me.GenreCombo)
         Me.TabPage35.Controls.Add(Me.GroupBox55)
         Me.TabPage35.Controls.Add(Me.GroupBox53)
         Me.TabPage35.Controls.Add(Me.GroupBox49)
@@ -6624,18 +6626,33 @@ Partial Class FrmSettings
         Me.TabPage35.Controls.Add(Me.GroupBox51)
         Me.TabPage35.Controls.Add(Me.GroupBox50)
         Me.TabPage35.Controls.Add(Me.GroupBox48)
-        Me.TabPage35.Controls.Add(Me.TBLocalTagDir)
         Me.TabPage35.Controls.Add(Me.BTNLocalTagPrevious)
         Me.TabPage35.Controls.Add(Me.BTNLocalTagNext)
         Me.TabPage35.Controls.Add(Me.LBLLocalTagCount)
         Me.TabPage35.Controls.Add(Me.BTNLocalTagSave)
-        Me.TabPage35.Controls.Add(Me.BTNLocalTagDir)
         Me.TabPage35.Location = New System.Drawing.Point(4, 22)
         Me.TabPage35.Name = "TabPage35"
         Me.TabPage35.Padding = New System.Windows.Forms.Padding(3)
         Me.TabPage35.Size = New System.Drawing.Size(700, 411)
         Me.TabPage35.TabIndex = 1
         Me.TabPage35.Text = "Local Tags"
+        '
+        'GenreDropDownLabel
+        '
+        Me.GenreDropDownLabel.AutoSize = True
+        Me.GenreDropDownLabel.Location = New System.Drawing.Point(20, 14)
+        Me.GenreDropDownLabel.Name = "GenreDropDownLabel"
+        Me.GenreDropDownLabel.Size = New System.Drawing.Size(68, 13)
+        Me.GenreDropDownLabel.TabIndex = 243
+        Me.GenreDropDownLabel.Text = "Image Genre"
+        '
+        'GenreCombo
+        '
+        Me.GenreCombo.FormattingEnabled = True
+        Me.GenreCombo.Location = New System.Drawing.Point(119, 10)
+        Me.GenreCombo.Name = "GenreCombo"
+        Me.GenreCombo.Size = New System.Drawing.Size(266, 21)
+        Me.GenreCombo.TabIndex = 242
         '
         'GroupBox55
         '
@@ -7996,14 +8013,6 @@ Partial Class FrmSettings
         Me.CBTagShower.Text = "Shower"
         Me.CBTagShower.UseVisualStyleBackColor = True
         '
-        'TBLocalTagDir
-        '
-        Me.TBLocalTagDir.Location = New System.Drawing.Point(55, 9)
-        Me.TBLocalTagDir.Name = "TBLocalTagDir"
-        Me.TBLocalTagDir.Size = New System.Drawing.Size(330, 20)
-        Me.TBLocalTagDir.TabIndex = 233
-        Me.TBLocalTagDir.Text = "Enter Image Directory"
-        '
         'BTNLocalTagPrevious
         '
         Me.BTNLocalTagPrevious.BackColor = System.Drawing.Color.LightGray
@@ -8053,16 +8062,6 @@ Partial Class FrmSettings
         Me.BTNLocalTagSave.TabIndex = 229
         Me.BTNLocalTagSave.Text = "Finished"
         Me.BTNLocalTagSave.UseVisualStyleBackColor = True
-        '
-        'BTNLocalTagDir
-        '
-        Me.BTNLocalTagDir.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
-        Me.BTNLocalTagDir.Location = New System.Drawing.Point(6, 8)
-        Me.BTNLocalTagDir.Name = "BTNLocalTagDir"
-        Me.BTNLocalTagDir.Size = New System.Drawing.Size(43, 23)
-        Me.BTNLocalTagDir.TabIndex = 228
-        Me.BTNLocalTagDir.Text = "1"
-        Me.BTNLocalTagDir.UseVisualStyleBackColor = True
         '
         'TabPage11
         '
@@ -11572,23 +11571,23 @@ Partial Class FrmSettings
         Me.GroupBox68.TabStop = False
         Me.GroupBox68.Text = "Session Tasks"
         '
-        'NBTasksMax
+        'TaskWaitMaximum
         '
         Me.TaskWaitMaximum.DataBindings.Add(New System.Windows.Forms.Binding("Value", Global.Tease_AI.My.MySettings.Default, "TasksMax", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
         Me.TaskWaitMaximum.Location = New System.Drawing.Point(113, 20)
         Me.TaskWaitMaximum.Maximum = New Decimal(New Integer() {500, 0, 0, 0})
         Me.TaskWaitMaximum.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
-        Me.TaskWaitMaximum.Name = "NBTasksMax"
+        Me.TaskWaitMaximum.Name = "TaskWaitMaximum"
         Me.TaskWaitMaximum.Size = New System.Drawing.Size(44, 20)
         Me.TaskWaitMaximum.TabIndex = 187
         Me.TaskWaitMaximum.Value = New Decimal(New Integer() {6, 0, 0, 0})
         '
-        'NBTasksMin
+        'TaskWaitMinimum
         '
         Me.TaskWaitMinimum.DataBindings.Add(New System.Windows.Forms.Binding("Value", Global.Tease_AI.My.MySettings.Default, "TasksMin", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
         Me.TaskWaitMinimum.Location = New System.Drawing.Point(54, 21)
         Me.TaskWaitMinimum.Minimum = New Decimal(New Integer() {3, 0, 0, 0})
-        Me.TaskWaitMinimum.Name = "NBTasksMin"
+        Me.TaskWaitMinimum.Name = "TaskWaitMinimum"
         Me.TaskWaitMinimum.Size = New System.Drawing.Size(44, 20)
         Me.TaskWaitMinimum.TabIndex = 186
         Me.TaskWaitMinimum.Value = New Decimal(New Integer() {3, 0, 0, 0})
@@ -13561,14 +13560,14 @@ Partial Class FrmSettings
         Me.Button11.Text = "Toggle"
         Me.Button11.UseVisualStyleBackColor = True
         '
-        'LBLChastityState
+        'InChastityLabel
         '
         Me.InChastityLabel.BackColor = System.Drawing.Color.LightGray
         Me.InChastityLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.InChastityLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.InChastityLabel.ForeColor = System.Drawing.Color.Red
         Me.InChastityLabel.Location = New System.Drawing.Point(120, 33)
-        Me.InChastityLabel.Name = "LBLChastityState"
+        Me.InChastityLabel.Name = "InChastityLabel"
         Me.InChastityLabel.Size = New System.Drawing.Size(37, 23)
         Me.InChastityLabel.TabIndex = 3
         Me.InChastityLabel.Text = "OFF"
@@ -14916,7 +14915,7 @@ Partial Class FrmSettings
         Me.TableLayoutPanel1.ResumeLayout(False)
         Me.TableLayoutPanel1.PerformLayout
         Me.TabPage33.ResumeLayout(False)
-        Me.TabControl5.ResumeLayout(False)
+        Me.LocalTagsTab.ResumeLayout(False)
         Me.TabPage34.ResumeLayout(False)
         Me.TabPage34.PerformLayout
         CType(Me.ImageTagPictureBox, System.ComponentModel.ISupportInitialize).EndInit
@@ -16057,7 +16056,7 @@ Partial Class FrmSettings
 	Friend WithEvents Button24 As System.Windows.Forms.Button
 	Friend WithEvents Button33 As System.Windows.Forms.Button
 	Friend WithEvents TabPage33 As TabPage
-	Friend WithEvents TabControl5 As TabControl
+	Friend WithEvents LocalTagsTab As TabControl
 	Friend WithEvents TabPage34 As TabPage
 	Friend WithEvents TabPage35 As TabPage
 	Friend WithEvents CBTagSeeThrough As RadioButton
@@ -16205,13 +16204,13 @@ Partial Class FrmSettings
 	Friend WithEvents CBTagSoloF As CheckBox
 	Friend WithEvents CBTagChastity As CheckBox
 	Friend WithEvents CBTagShower As CheckBox
-	Friend WithEvents TBLocalTagDir As TextBox
-	Friend WithEvents BTNLocalTagPrevious As Button
-	Friend WithEvents BTNLocalTagNext As Button
-	Friend WithEvents LBLLocalTagCount As Label
-	Friend WithEvents BTNLocalTagSave As Button
-	Friend WithEvents BTNLocalTagDir As Button
-	Friend WithEvents CBLockOrgasmChances As CheckBox
-	Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
-	Friend WithEvents GrbGlitterfeed As GroupBox
+    Friend WithEvents BTNLocalTagPrevious As Button
+    Friend WithEvents BTNLocalTagNext As Button
+    Friend WithEvents LBLLocalTagCount As Label
+    Friend WithEvents BTNLocalTagSave As Button
+    Friend WithEvents CBLockOrgasmChances As CheckBox
+    Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
+    Friend WithEvents GrbGlitterfeed As GroupBox
+    Friend WithEvents GenreDropDownLabel As Label
+    Friend WithEvents GenreCombo As ComboBox
 End Class
