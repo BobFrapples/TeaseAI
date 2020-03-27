@@ -37,7 +37,7 @@ namespace TeaseAI.Services.CommandProcessor
 
         public override Result<Session> PerformCommand(Session session, string line)
         {
-            var doCommand = _imageAccessor.GetImageMetaDataList(default(ImageSource?), Genre)
+            var doCommand = Result.Ok(_imageAccessor.Get(default(ImageSource?), Genre))
                 .Ensure(mdl => mdl.Count > 0, ErrorMessage.NoImagesFound)
                 .OnSuccess(mdl => mdl[_randomNumberService.Roll(0, mdl.Count)])
                 .OnSuccess(img => OnCommandProcessed(session, img))

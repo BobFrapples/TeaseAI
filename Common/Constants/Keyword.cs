@@ -398,5 +398,10 @@ namespace TeaseAI.Common.Constants
         /// flag whatever image is being displaed as liked.
         /// </summary>
         public static string LikeImage => @"@LikeBlogImage";
+
+        /// <summary>
+        /// Flag whatever image is being displayed as disliked
+        /// </summary>
+        public static string DislikeImage => @"@DislikeBlogImage";
     }
 }

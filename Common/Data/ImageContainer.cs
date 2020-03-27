@@ -1,7 +1,9 @@
-﻿using TeaseAI.Common.Constants;
+﻿using System;
+using TeaseAI.Common.Constants;
 
 namespace TeaseAI.Common.Data
 {
+    [Obsolete("Switch to MediaContainer")]
     public class ImageContainer
     {
         public ImageGenre Genre { get; set; }

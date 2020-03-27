@@ -35,7 +35,7 @@ namespace TeaseAI.ServicesTests.TagData
 
             var taggedItem = actual.Value.Single();
             Assert.AreEqual("11659355_10153451530162269_1602366008473968760_n.jpg", taggedItem.ItemName);
-            Assert.AreEqual(ItemTag.Face, taggedItem.ItemTags.Single());
+            Assert.AreEqual(TaggedItem.Face, taggedItem.ItemTags.Single());
         }
 
         [TestMethod]

@@ -14,25 +14,6 @@ Partial Class MainWindow
         Remote
     End Enum
 
-    Enum ImageGenre
-        Blog
-        Butt
-        Boobs
-        Hardcore
-        Softcore
-        Lesbian
-        Blowjob
-        Femdom
-        Lezdom
-        Hentai
-        Gay
-        Maledom
-        Captions
-        General
-        Liked
-        Disliked
-    End Enum
-
     ''' <summary>
     ''' Represents a Object which can store all necessary Data related to genere-Images. 
     ''' This obejct is intended for managing Images. All Data and conditions can be stored in here
@@ -42,7 +23,7 @@ Partial Class MainWindow
         Private ReadOnly myPathsAccessor As PathsAccessor
 
         Public Sub New()
-            myPathsAccessor = ServiceFactory.CreatePathsAccessor()
+            myPathsAccessor = ApplicationFactory.CreatePathsAccessor()
         End Sub
 
         'TODO: ImageDataContainer Improve the usage of System Ressources.
@@ -634,7 +615,7 @@ NoNeFound:
             Return
         End If
 
-        If imageToShow.Source = ImageSource.Local AndAlso Not File.Exists(imageToShow.ItemName) Then
+        If imageToShow.SourceId = ImageSource.Local AndAlso Not File.Exists(imageToShow.ItemName) Then
             Throw New ArgumentException(NameOf(imageToShow), imageToShow.ItemName + " does not exist.")
         End If
 

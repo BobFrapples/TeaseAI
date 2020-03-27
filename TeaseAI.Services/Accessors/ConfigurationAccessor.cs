@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Data.SQLite;
 using System.IO;
 using TeaseAI.Common;
 using TeaseAI.Common.Data;
@@ -41,6 +42,15 @@ namespace TeaseAI.Services.Accessors
             {
                 BaseDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + Path.DirectorySeparatorChar + "TeaseAI"
             };
+        }
+
+        public string GetDatabaseConnectionString()
+        {
+            var dbFile = GetAppSettingsFolder() + Path.DirectorySeparatorChar + "teaseai-database.sqlite";
+            if (!File.Exists(dbFile))
+                File.Copy("default.sqlite", dbFile);
+
+            return "Data Source=" + dbFile + ";Version=3;";
         }
 
         private string GetAppSettingsFolder()

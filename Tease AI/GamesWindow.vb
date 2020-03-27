@@ -145,8 +145,8 @@ Public Class GamesWindow
 #End Region
 
     Public Sub New()
-        mySettingsAccessor = ServiceFactory.CreateSettingsAccessor()
-        myPathsAccessor = ServiceFactory.CreatePathsAccessor()
+        mySettingsAccessor = ApplicationFactory.CreateSettingsAccessor()
+        myPathsAccessor = ApplicationFactory.CreatePathsAccessor()
 
         ' This call is required by the designer.
         InitializeComponent()

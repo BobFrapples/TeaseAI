@@ -35,23 +35,26 @@ Public Class MainWindow
 
     Dim parseTagDataService As ParseOldTagDataService = New ParseOldTagDataService()
     Dim myLineService As LineService = New LineService()
-    Dim loadFileData As ILoadFileData = ServiceFactory.CreateLoadFileData()
+    Dim loadFileData As ILoadFileData = ApplicationFactory.CreateLoadFileData()
     Dim myChatLogToHtmlService As IChatLogToHtmlService = New ChatLogToHtmlService()
     Dim myStringService As StringService = New StringService()
     Dim myGetScripts As IScriptAccessor = New ScriptAccessor(New CldAccessor())
     Dim myImageTagReplaceHash As ImageTagReplaceHash = New ImageTagReplaceHash()
     Dim myFlagService As FlagService = New FlagService(New FlagAccessor())
     Dim myFlagAccessor As FlagAccessor = New FlagAccessor()
-    Dim mySettingsAccessor As ISettingsAccessor = ServiceFactory.CreateSettingsAccessor()
+    Dim mySettingsAccessor As ISettingsAccessor = ApplicationFactory.CreateSettingsAccessor()
     Dim myRandomNumberService As IRandomNumberService = New RandomNumberService()
     Dim mySlideShowNavigationService As ISlideShowNavigationService = New SlideShowNavigationService()
-    Dim myPathsAccessor As PathsAccessor = ServiceFactory.CreatePathsAccessor()
+    Dim myPathsAccessor As PathsAccessor = ApplicationFactory.CreatePathsAccessor()
     Dim WithEvents mySession As SessionEngine
     Private myDisplayedImage As ImageMetaData
 
     'TODO: Use a custom class to pass data between ScriptParsing methods.
     <Obsolete("QND-Implementation of ContactData.GetTaggedImage. ")>
     Dim ContactToUse As ContactData
+
+    Private ReadOnly mySystemImageDIr As String = Windows.Forms.Application.StartupPath + "\Images\System\"
+    Private myPathUrlFileDir As String = mySystemImageDIr + "URL Files\"
 
     Dim sshSyncLock As New Object
     ''' <summary>
@@ -280,27 +283,15 @@ ByVal lpstrReturnString As String, ByVal uReturnLength As Integer, ByVal hwndCal
         MyBase.OnClosing(e)
     End Sub
 
-    Private Sub UpdateConfigs()
-        ' Force the personality home to be the current directory for now.
-        Dim applicationConfigMarshalling As ApplicationConfigMarshalling = New ApplicationConfigMarshalling()
-        Dim oldConfig As ApplicationConfiguration = applicationConfigMarshalling.GetApplicationConfiguration()
-
-        Dim configurationAccessor As IConfigurationAccessor = ServiceFactory.CreateConfigurationAccessor()
-        Dim appConfig As ApplicationConfiguration = configurationAccessor.GetApplicationConfiguration()
-        appConfig.BaseDataFolder = Application.StartupPath
-        appConfig.ImageContainers = oldConfig.ImageContainers
-
-        configurationAccessor.SaveApplicationConfiguration(appConfig)
-    End Sub
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles Me.Load
-        UpdateConfigs()
+        ConvertToSqLite()
 
-        Dim imageAccessor = ServiceFactory.CreateImageAccessor()
-        Dim images = imageAccessor.GetImageMetaDataList(Nothing, Nothing)
+        Dim imageAccessor = ApplicationFactory.CreateImageMetaDataService()
+        Dim images = imageAccessor.Get(Nothing, Nothing)
         If mySession Is Nothing Then
-            Dim getCommandProcessor = ServiceFactory.CreateGetCommandProcessorsService()
-            mySession = ServiceFactory.CreateSessionEngine()
+            Dim getCommandProcessor = ApplicationFactory.CreateGetCommandProcessorsService()
+            mySession = ApplicationFactory.CreateSessionEngine()
             AddHandler mySession.DommeSaid, AddressOf mySession_DommeSaid
             AddHandler mySession.ShowImage, AddressOf mySession_ShowImage
             AddHandler mySession.QueryImage, AddressOf mySession_QueryImage
@@ -9320,6 +9311,7 @@ VTSkip:
 
     End Function
 
+    <Obsolete("Don't use me")>
     Public Function GetLocalImage(Optional ByVal IncludeTags As List(Of String) = Nothing,
                                   Optional ByVal ExcludeTags As List(Of String) = Nothing) As String
 
@@ -14986,6 +14978,458 @@ playLoop:
     End Function
 #End Region
 
+#Region "conversion methods"
+    Private Sub ConvertToSqLite()
+        ' Force the personality home to be the current directory for now.
+        Dim mediaContainerService As IMediaContainerService = ApplicationFactory.CreateMediaContainerService()
+        Dim imageMetaDataService As IImageAccessor = ApplicationFactory.CreateImageMetaDataService()
+        Dim configurationAccessor As IConfigurationAccessor = ApplicationFactory.CreateConfigurationAccessor()
+        Dim genreService As IGenreService = ApplicationFactory.CreateGenreService()
+        Dim itemTagService As IItemTagService = ApplicationFactory.CreateItemTagService()
+
+        If Not itemTagService.Get().Any() Then
+            itemTagService.Initialize()
+        End If
+
+        If Not genreService.Get().Any() Then
+            genreService.Initialize()
+        End If
+
+        Dim mediaContainers As List(Of MediaContainer) = mediaContainerService.Get()
+        If (Not mediaContainers.Any()) Then
+            mediaContainerService.Initialize()
+            mediaContainers = UpdateContainersFromOldConfigs(mediaContainerService.Get())
+            mediaContainerService.Update(mediaContainers)
+        End If
+
+        If (Not imageMetaDataService.Get(Nothing, Nothing).Any()) Then
+            Dim oldImages = GetOldImages(mediaContainers)
+            imageMetaDataService.Create(oldImages)
+            UpdateItemTags(oldImages)
+        End If
+
+        Dim appConfig As ApplicationConfiguration = configurationAccessor.GetApplicationConfiguration()
+        appConfig.BaseDataFolder = Application.StartupPath
+        configurationAccessor.SaveApplicationConfiguration(appConfig)
+    End Sub
+
+    Private Function UpdateContainersFromOldConfigs(containers As List(Of MediaContainer)) As List(Of MediaContainer)
+
+        Dim inputs As List(Of Tuple(Of Boolean, ImageSource, ImageGenre, String, Boolean)) = New List(Of Tuple(Of Boolean, ImageSource, ImageGenre, String, Boolean))()
+
+        inputs.Add(Tuple.Create(My.MySettings.Default.CBIBlowjob, ImageSource.Local, ImageGenre.Blowjob, My.MySettings.Default.IBlowjob, My.MySettings.Default.CBBlowjob))
+        inputs.Add(Tuple.Create(My.MySettings.Default.UrlFileBlowjobEnabled, ImageSource.Remote, ImageGenre.Blowjob, My.MySettings.Default.UrlFileBlowjob, False))
+
+        inputs.Add(Tuple.Create(My.MySettings.Default.CBIBoobs, ImageSource.Local, ImageGenre.Boobs, My.MySettings.Default.LBLBoobPath, My.MySettings.Default.CBBoobSubDir))
+        inputs.Add(Tuple.Create(My.MySettings.Default.UrlFileBoobsEnabled, ImageSource.Remote, ImageGenre.Boobs, My.MySettings.Default.UrlFileBoobs, False))
+
+        inputs.Add(Tuple.Create(My.MySettings.Default.CBIButts, ImageSource.Local, ImageGenre.Butt, My.MySettings.Default.LBLButtPath, My.MySettings.Default.CBButtSubDir))
+        inputs.Add(Tuple.Create(My.MySettings.Default.UrlFileButtEnabled, ImageSource.Remote, ImageGenre.Butt, My.MySettings.Default.UrlFileButt, False))
+
+        inputs.Add(Tuple.Create(My.MySettings.Default.CBICaptions, ImageSource.Local, ImageGenre.Captions, My.MySettings.Default.ICaptions, My.MySettings.Default.ICaptionsSD))
+        inputs.Add(Tuple.Create(My.MySettings.Default.UrlFileCaptionsEnabled, ImageSource.Remote, ImageGenre.Captions, My.MySettings.Default.UrlFileCaptions, False))
+
+        inputs.Add(Tuple.Create(My.MySettings.Default.CBIFemdom, ImageSource.Local, ImageGenre.Femdom, My.MySettings.Default.IFemdom, My.MySettings.Default.IFemdomSD))
+        inputs.Add(Tuple.Create(My.MySettings.Default.UrlFileFemdomEnabled, ImageSource.Remote, ImageGenre.Femdom, My.MySettings.Default.UrlFileFemdom, False))
+
+        inputs.Add(Tuple.Create(My.MySettings.Default.CBIGay, ImageSource.Local, ImageGenre.Gay, My.MySettings.Default.IGay, My.MySettings.Default.IGaySD))
+        inputs.Add(Tuple.Create(My.MySettings.Default.UrlFileGayEnabled, ImageSource.Remote, ImageGenre.Gay, My.MySettings.Default.UrlFileGay, False))
+
+        inputs.Add(Tuple.Create(My.MySettings.Default.CBIGeneral, ImageSource.Local, ImageGenre.General, My.MySettings.Default.IGeneral, My.MySettings.Default.IGeneralSD))
+        inputs.Add(Tuple.Create(My.MySettings.Default.UrlFileGeneralEnabled, ImageSource.Remote, ImageGenre.General, My.MySettings.Default.UrlFileGeneral, False))
+
+        inputs.Add(Tuple.Create(My.MySettings.Default.CBIHardcore, ImageSource.Local, ImageGenre.Hardcore, My.MySettings.Default.IHardcore, My.MySettings.Default.IHardcoreSD))
+        inputs.Add(Tuple.Create(My.MySettings.Default.UrlFileHardcoreEnabled, ImageSource.Remote, ImageGenre.Hardcore, My.MySettings.Default.UrlFileHardcore, False))
+
+        inputs.Add(Tuple.Create(My.MySettings.Default.CBIHentai, ImageSource.Local, ImageGenre.Hentai, My.MySettings.Default.IHentai, My.MySettings.Default.IHentaiSD))
+        inputs.Add(Tuple.Create(My.MySettings.Default.UrlFileHentaiEnabled, ImageSource.Remote, ImageGenre.Hentai, My.MySettings.Default.UrlFileHentai, False))
+
+        inputs.Add(Tuple.Create(My.MySettings.Default.CBILesbian, ImageSource.Local, ImageGenre.Lesbian, My.MySettings.Default.ILesbian, My.MySettings.Default.ILesbianSD))
+        inputs.Add(Tuple.Create(My.MySettings.Default.UrlFileLesbianEnabled, ImageSource.Remote, ImageGenre.Lesbian, My.MySettings.Default.UrlFileLesbian, False))
+
+        inputs.Add(Tuple.Create(My.MySettings.Default.CBILezdom, ImageSource.Local, ImageGenre.Lezdom, My.MySettings.Default.ILesbian, My.MySettings.Default.ILezdomSD))
+        inputs.Add(Tuple.Create(My.MySettings.Default.UrlFileLezdomEnabled, ImageSource.Remote, ImageGenre.Lezdom, My.MySettings.Default.UrlFileLezdom, False))
+
+        inputs.Add(Tuple.Create(My.MySettings.Default.CBIMaledom, ImageSource.Local, ImageGenre.Maledom, My.MySettings.Default.IMaledom, My.MySettings.Default.IMaledomSD))
+        inputs.Add(Tuple.Create(My.MySettings.Default.UrlFileMaledomEnabled, ImageSource.Remote, ImageGenre.Maledom, My.MySettings.Default.UrlFileMaledom, False))
+
+        inputs.Add(Tuple.Create(My.MySettings.Default.CBISoftcore, ImageSource.Local, ImageGenre.Softcore, My.MySettings.Default.ISoftcore, My.MySettings.Default.ISoftcoreSD))
+        inputs.Add(Tuple.Create(My.MySettings.Default.UrlFileSoftcoreEnabled, ImageSource.Remote, ImageGenre.Softcore, My.MySettings.Default.UrlFileSoftcore, False))
+
+        For Each inputData As Tuple(Of Boolean, ImageSource, ImageGenre, String, Boolean) In inputs
+            Dim container As MediaContainer = Nothing
+            For Each thing As MediaContainer In containers
+                If (thing.Name = inputData.Item3.ToString() AndAlso thing.SourceId = inputData.Item2 AndAlso thing.MediaTypeId = 1) Then
+                    container = thing
+                End If
+            Next
+            If (container Is Nothing) Then
+                containers.Add(New MediaContainer With
+                           {
+                           .IsEnabled = inputData.Item1,
+                           .SourceId = inputData.Item2,
+                           .GenreId = inputData.Item3,
+                           .Path = inputData.Item4,
+                           .UseSubFolders = inputData.Item5,
+                           .Name = inputData.Item3.ToString(),
+                           .MediaTypeId = 1
+                           })
+            Else
+                container.IsEnabled = inputData.Item1
+                container.SourceId = inputData.Item2
+                container.GenreId = inputData.Item3
+                container.Path = inputData.Item4
+                container.UseSubFolders = inputData.Item5
+            End If
+        Next
+
+        ' These are special "meta" containers. I hate them.
+        Dim metaContainer As MediaContainer = containers.First(Function(mc) mc.Name = NameOf(ImageGenre.Blog) AndAlso mc.MediaTypeId = 1)
+        metaContainer.IsEnabled = True
+        metaContainer.SourceId = ImageSource.Remote
+        metaContainer.GenreId = ImageGenre.Blog
+
+        metaContainer = containers.First(Function(mc) mc.Name = NameOf(ImageGenre.Liked) AndAlso mc.MediaTypeId = 1 AndAlso mc.SourceId = ImageSource.Local)
+        metaContainer.IsEnabled = True
+        metaContainer.Path = mySystemImageDIr + "LikedImageURLs.txt"
+
+        metaContainer = containers.First(Function(mc) mc.Name = NameOf(ImageGenre.Liked) AndAlso mc.MediaTypeId = 1 AndAlso mc.SourceId = ImageSource.Remote)
+        metaContainer.IsEnabled = True
+        metaContainer.Path = mySystemImageDIr + "LikedImageURLs.txt"
+
+        metaContainer = containers.First(Function(mc) mc.Name = NameOf(ImageGenre.Disliked) AndAlso mc.MediaTypeId = 1 AndAlso mc.SourceId = ImageSource.Local)
+        metaContainer.IsEnabled = True
+        metaContainer.Path = mySystemImageDIr + "DislikedImageURLs.txt"
+
+        metaContainer = containers.First(Function(mc) mc.Name = NameOf(ImageGenre.Disliked) AndAlso mc.MediaTypeId = 1 AndAlso mc.SourceId = ImageSource.Remote)
+        metaContainer.IsEnabled = True
+        metaContainer.Path = mySystemImageDIr + "DislikedImageURLs.txt"
+
+        Return containers
+    End Function
+
+    Public Function GetOldImages(mediaContainers As List(Of MediaContainer)) As List(Of ImageMetaData)
+        Dim returnValue As List(Of ImageMetaData) = New List(Of ImageMetaData)()
+
+        For Each container As MediaContainer In mediaContainers
+            Dim searchLevel As FileIO.SearchOption = If(container.UseSubFolders, FileIO.SearchOption.SearchAllSubDirectories, FileIO.SearchOption.SearchTopLevelOnly)
+
+            If Not container.IsEnabled Then
+                Continue For
+            End If
+            If (container.SourceId = ImageSource.Local) Then
+                If (container.GenreId = ImageGenre.Liked) OrElse (container.GenreId = ImageGenre.Disliked) Then
+                    For Each foundFile As String In File.ReadAllLines(container.Path)
+                        If (Not foundFile.ToLower().StartsWith("http")) Then
+                            returnValue.Add(New ImageMetaData() With
+                                        {
+                                            .ItemName = Path.GetFileNameWithoutExtension(foundFile),
+                                            .FullFileName = foundFile,
+                                            .MediaContainerId = container.Id,
+                                            .SourceId = container.SourceId,
+                                            .GenreId = container.GenreId
+                                        })
+                        End If
+                    Next
+                Else
+                    For Each foundFile As String In My.Computer.FileSystem.GetFiles(container.Path, searchLevel, "*.jpg")
+                        returnValue.Add(New ImageMetaData() With
+                        {
+                                            .ItemName = Path.GetFileNameWithoutExtension(foundFile),
+                                            .FullFileName = foundFile,
+                                            .MediaContainerId = container.Id,
+                                            .SourceId = container.SourceId,
+                                            .GenreId = container.GenreId
+                        })
+                    Next
+                End If
+            ElseIf container.SourceId = ImageSource.Remote Then
+                If (container.GenreId = ImageGenre.Liked) OrElse (container.GenreId = ImageGenre.Disliked) Then
+                    For Each foundFile As String In File.ReadAllLines(container.Path)
+                        If (foundFile.ToLower().StartsWith("http")) Then
+                            returnValue.Add(New ImageMetaData() With
+                                        {
+                                            .ItemName = Path.GetFileNameWithoutExtension(foundFile),
+                                            .FullFileName = foundFile,
+                                            .MediaContainerId = container.Id,
+                                            .SourceId = container.SourceId,
+                                            .GenreId = container.GenreId
+                                        })
+                        End If
+                    Next
+                ElseIf (container.GenreId = ImageGenre.Blog) Then
+                    'For Each blogFile As String In GetAvailableBlogFiles()
+                    '    For Each foundFile As String In File.ReadAllLines(blogFile)
+                    '        returnValue.Add(New ImageMetaData() With
+                    '                    {
+                    '                        .ItemName = Path.GetFileNameWithoutExtension(foundFile),
+                    '                        .FullFileName = foundFile,
+                    '                        .MediaContainerId = container.Id,
+                    '                        .SourceId = container.SourceId,
+                    '                        .GenreId = container.GenreId
+                    '                    })
+                    '    Next
+                    'Next
+                Else
+                    Dim fileName As String = myPathUrlFileDir + container.Path
+                    For Each foundFile As String In File.ReadAllLines(fileName)
+                        returnValue.Add(New ImageMetaData() With
+                                        {
+                                            .ItemName = Path.GetFileNameWithoutExtension(foundFile),
+                                            .FullFileName = foundFile,
+                                            .MediaContainerId = container.Id,
+                                            .SourceId = container.SourceId,
+                                            .GenreId = container.GenreId
+                                        })
+                    Next
+                End If
+            End If
+        Next
+
+        Return returnValue
+    End Function
+
+    Public Sub UpdateItemTags(imageMetaDatas As List(Of ImageMetaData))
+        Dim oldImageTagFile As String = Application.StartupPath & "\Images\System\LocalImageTags.txt"
+        Dim oldTagDatas As List(Of OldImageTag) = New List(Of OldImageTag)()
+        If (File.Exists(oldImageTagFile)) Then
+            Dim fileLines As List(Of String) = File.ReadAllLines(oldImageTagFile).ToList()
+
+            For Each line As String In fileLines
+                Dim tokens As List(Of String) = line.Split(" ").ToList()
+                Dim oldTag As OldImageTag = New OldImageTag()
+                If (line.IndexOf("Tag") > 0) Then
+                    oldTag.filename = line.Substring(0, line.IndexOf("Tag")).Trim()
+                Else
+                    oldTag.filename = line.Trim()
+                End If
+                tokens.RemoveAt(0)
+                Dim tags As List(Of String) = tokens.Where(Function(tag) Not String.IsNullOrWhiteSpace(tag) AndAlso tag.Contains("Tag")).Select(Function(tag) tag.Replace("Tag", String.Empty)).ToList()
+                oldTag.TagIds = ConvertTags(tags)
+                oldTagDatas.Add(oldTag)
+            Next
+        End If
+        Dim nonBlogs As List(Of ImageMetaData) = imageMetaDatas.Where(Function(imd) imd.SourceId <> CType(ImageSource.Remote, Integer)).ToList()
+        Dim itemTagService As IItemTagService = ApplicationFactory.CreateItemTagService()
+        Dim itemTags As List(Of ItemTag) = itemTagService.Get()
+        For Each oldTagData As OldImageTag In oldTagDatas
+            Dim foundFile As ImageMetaData = imageMetaDatas.FirstOrDefault(Function(imd) imd.FullFileName = oldTagData.filename)
+            If (foundFile IsNot Nothing) Then
+                Dim imageTagMapService As IImageTagMapService = ApplicationFactory.CreateImageTagMapService()
+                imageTagMapService.SetTagsForImage(foundFile.Id, oldTagData.TagIds.Select(Function(ti) CType(ti, Integer)))
+            End If
+        Next
+    End Sub
+
+    Private Function GetAvailableBlogFiles() As List(Of String)
+        Dim checkList As String = myPathUrlFileDir + "..\URLFileCheckList.cld"
+
+        Dim returnValue As List(Of String) = New List(Of String)()
+        Using fs As New FileStream(checkList, FileMode.Open), binRead As New BinaryReader(fs)
+            Do While fs.Position < fs.Length
+                Dim fileName As String = binRead.ReadString()
+                Dim enabled As Boolean = binRead.ReadBoolean()
+                Dim fullFilePath As String = myPathUrlFileDir + fileName + ".txt"
+
+                If File.Exists(fullFilePath) AndAlso enabled Then
+                    returnValue.Add(fullFilePath)
+                End If
+            Loop
+        End Using
+        Return returnValue.Distinct().ToList()
+    End Function
+
+    Private Class OldImageTag
+        Public filename As String
+        Public TagIds As List(Of ItemTagId)
+    End Class
+
+    Private Function ConvertTags(oldTags As List(Of String)) As List(Of ItemTagId)
+        Dim returnValue As List(Of ItemTagId) = New List(Of ItemTagId)()
+        For Each oldTag In oldTags
+            returnValue.Add(ConvertTag(oldTag))
+        Next
+        Return returnValue
+    End Function
+
+    Private Function ConvertTag(oldTag As String) As ItemTagId
+        Select Case oldTag.ToLower()
+            Case "hardCore"
+                Return ItemTagId.Hardcore
+            Case "lesbian"
+                Return ItemTagId.Lesbian
+            Case "gay"
+                Return ItemTagId.Gay
+            Case "bisexual"
+                Return ItemTagId.Bisexual
+            Case "solof"
+                Return ItemTagId.SoloFemale
+            Case "solom"
+                Return ItemTagId.SoloMale
+            Case "solofuta"
+                Return ItemTagId.SoloFuta
+            Case "pov"
+                Return ItemTagId.PointOfView
+            Case "bondage"
+                Return ItemTagId.Bondage
+            Case "sm"
+                Return ItemTagId.SadismAndMasochism
+            Case "td"
+                Return ItemTagId.TeaseAndDenial
+            Case "Chastity"
+                Return ItemTagId.Chastity
+            Case "cfnm"
+                Return ItemTagId.ClothedFemaleNakedMale
+            Case "bath"
+                Return ItemTagId.Bath
+            Case "shower"
+                Return ItemTagId.Shower
+            Case "outdoors"
+                Return ItemTagId.Outdoors
+            Case "artwork"
+                Return ItemTagId.Artwork
+            Case "masturbation"
+                Return ItemTagId.Masturbation
+            Case "handjob"
+                Return ItemTagId.Handjob
+            Case "fingering"
+                Return ItemTagId.Fingering
+            Case "blowjob"
+                Return ItemTagId.Blowjob
+            Case "cunnilingus"
+                Return ItemTagId.Cunnilingus
+            Case "titjob"
+                Return ItemTagId.Titjob
+            Case "footjob"
+                Return ItemTagId.Footjob
+            Case "facesitting"
+                Return ItemTagId.Facesitting
+            Case "rimming"
+                Return ItemTagId.Rimming
+            Case "missionary"
+                Return ItemTagId.Missionary
+            Case "doggystyle"
+                Return ItemTagId.DoggyStyle
+            Case "cowgirl"
+                Return ItemTagId.Cowgirl
+            Case "rcowgirl"
+                Return ItemTagId.ReverseCowgirl
+            Case "standing"
+                Return ItemTagId.Standing
+            Case "analsex"
+                Return ItemTagId.AnalSex
+            Case "dp"
+                Return ItemTagId.DoublePenetration
+            Case "gangbang"
+                Return ItemTagId.Gangbang
+            Case "1f"
+                Return ItemTagId.OneWoman
+            Case "2f"
+                Return ItemTagId.TwoWomen
+            Case "3f"
+                Return ItemTagId.ThreeWomen
+            Case "1m"
+                Return ItemTagId.OneMan
+            Case "2m"
+                Return ItemTagId.TwoMen
+            Case "3m"
+                Return ItemTagId.ThreeMen
+            Case "1futa"
+                Return ItemTagId.OneFuta
+            Case "2futa"
+                Return ItemTagId.TwoFutas
+            Case "3futa"
+                Return ItemTagId.ThreeFutas
+            Case "femdom"
+                Return ItemTagId.Femdom
+            Case "maledom"
+                Return ItemTagId.Maledom
+            Case "futadom"
+                Return ItemTagId.Futadom
+            Case "femsub"
+                Return ItemTagId.Femsub
+            Case "malesub"
+                Return ItemTagId.Malesub
+            Case "futasub"
+                Return ItemTagId.Futasub
+            Case "multidom"
+                Return ItemTagId.MultiDom
+            Case "multisub"
+                Return ItemTagId.MultiSub
+            Case "bodyface"
+                Return ItemTagId.Face
+            Case "bodyfingers"
+                Return ItemTagId.Fingers
+            Case "bodymouth"
+                Return ItemTagId.Mouth
+            Case "bodytits"
+                Return ItemTagId.Tits
+            Case "bodynipples"
+                Return ItemTagId.Nipples
+            Case "bodypussy"
+                Return ItemTagId.Pussy
+            Case "bodyass"
+                Return ItemTagId.Ass
+            Case "bodylegs"
+                Return ItemTagId.Legs
+            Case "bodyfeet"
+                Return ItemTagId.Feet
+            Case "bodycock"
+                Return ItemTagId.Cock
+            Case "bodyballs"
+                Return ItemTagId.Balls
+            Case "nurse"
+                Return ItemTagId.Nurse
+            Case "teacher"
+                Return ItemTagId.Teacher
+            Case "schoolgirl"
+                Return ItemTagId.Schoolgirl
+            Case "maid"
+                Return ItemTagId.Maid
+            Case "superhero"
+                Return ItemTagId.Superhero
+            Case "multisub"
+                Return ItemTagId.MultiSub
+        End Select
+
+        'CBTagWhipping.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagWhipping").Value)
+        'CBTagSpanking.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagSpanking").Value)
+        'CBTagCockTorture.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagCockTorture").Value)
+        'CBTagBallTorture.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagBallTorture").Value)
+        'CBTagStrapon.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagStrapon").Value)
+        'CBTagBlindfold.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagBlindfold").Value)
+        'CBTagGag.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagGag").Value)
+        'CBTagClamps.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagClamps").Value)
+        'CBTagHotWax.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagHotWax").Value)
+        'CBTagNeedles.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagNeedles").Value)
+        'CBTagElectro.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagElectro").Value)
+
+        'CBTagDomme.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagDomme").Value)
+        'CBTagCumshot.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagCumshot").Value)
+        'CBTagCumEating.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagCumEating").Value)
+        'CBTagKissing.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagKissing").Value)
+        'CBTagTattoos.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagTattoos").Value)
+        'CBTagStockings.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagStockings").Value)
+        'CBTagVibrator.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagVibrator").Value)
+        'CBTagDildo.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagDildo").Value)
+        'CBTagPocketPussy.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagPocketPussy").Value)
+        'CBTagAnalToy.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagAnalToy").Value)
+        'CBTagWatersports.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagWaterSports").Value)
+
+        'CBTagShibari.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagShibari").Value)
+        'CBTagTentacles.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagTentacles").Value)
+        'CBTagBukkake.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagBukkake").Value)
+        'CBTagBakunyuu.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagBakunyuu").Value)
+        'CBTagAhegao.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagAhegao").Value)
+        'CBTagBodyWriting.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagBodyWriting").Value)
+        'CBTagTrap.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagTrap").Value)
+        'CBTagGanguro.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagGanguro").Value)
+        'CBTagMahouShoujo.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagMahouShoujo").Value)
+        'CBTagMonsterGirl.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagMonsterGirl").Value)
+    End Function
+
+#End Region
+
 #Region "Session Engine Events"
     Public Sub mySession_DommeSaid(sender As Object, e As DommeSaidEventArgs)
         Dim session As SessionEngine = CType(sender, SessionEngine)
@@ -15932,7 +16376,7 @@ NoPlaylistStartFile:
             ' This loads tag data from the file, because some tags have options, such as Garment
             If (ssh.SlideshowLoaded And mainPictureBox.Image IsNot Nothing And Not DomWMP.Visible) Then
                 Dim tagList = loadFileData.ReadData(fileName) _
-                        .OnSuccess(Function(data) parseTagDataService.ParseTagData(data)).GetResultOrDefault(New List(Of TaggedItem))
+                        .OnSuccess(Function(data) parseTagDataService.ParseTagData(data)).GetResultOrDefault(New List(Of TeaseAI.Common.TaggedItem))
                 Dim imageData = tagList.FirstOrDefault(Function(ti) ti.ItemName = Path.GetFileName(slide.CurrentImage))
                 messageString = myImageTagReplaceHash.ReplaceImageTags(messageString, imageData)
             End If

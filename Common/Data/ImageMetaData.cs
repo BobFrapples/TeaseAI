@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using TeaseAI.Common.Constants;
 
@@ -8,33 +9,24 @@ namespace TeaseAI.Common.Data
     /// <summary>
     /// metadata about an image
     /// </summary>
+    [Table("ImageMetaData")]
     public class ImageMetaData
     {
         /// <summary>
-        /// Is this local or blog
+        /// Primary key of this in the database
         /// </summary>
-        public ImageSource Source { get; set; }
+        public int Id { get; set; }
 
-        /// <summary>
-        /// what kind of image is it
-        /// </summary>
-        public ImageGenre Genre { get; set; }
+        public int MediaContainerId { get; set; }
 
         /// <summary>
         /// Name of the item
         /// </summary>
         public string ItemName { get; set; }
 
-        /// <summary>
-        /// Tags for the item. Will never be null
-        /// </summary>
-        public List<ItemTag> ItemTags
-        {
-            get { return _itemTags ?? (_itemTags = new List<ItemTag>()); }
-            set { _itemTags = value; }
-        }
+        public string FullFileName { get; set; }
 
-        private List<ItemTag> _itemTags;
+
 
         /// <summary>
         /// Create a new instances of this image meta data
@@ -44,11 +36,18 @@ namespace TeaseAI.Common.Data
         {
             return new ImageMetaData
             {
-                Source = Source,
-                Genre = Genre,
+                SourceId = SourceId,
+                GenreId = GenreId,
                 ItemName = ItemName,
-                ItemTags = ItemTags.ToList()
+                //ItemTags = ItemTags.ToList()
             };
         }
+
+        [Obsolete("Use MediaContainer.SourceId")]
+        public ImageSource SourceId { get; set; }
+
+        [Obsolete("Use MediaContainer.GenreId")]
+        public ImageGenre GenreId { get; set; }
+
     }
 }

@@ -27,17 +27,14 @@ namespace TeaseAI.Services.CommandProcessor
 
             if (showImageEventArgs.ImageMetaData != null)
             {
-                var getLikedImages = _imageAccessor.GetImageMetaDataList(default(ImageSource?), ImageGenre.Liked)
-                    .OnSuccess(li =>
-                    {
-                        if (li.All(imd => imd.ItemName != showImageEventArgs.ImageMetaData.ItemName))
-                        {
-                            var likedImage = showImageEventArgs.ImageMetaData.Clone();
-                            likedImage.Genre = ImageGenre.Liked;
-                            li.Add(showImageEventArgs.ImageMetaData);
-                        }
-                    });
-                Result save = _imageAccessor.SaveImageMetaData(getLikedImages.Value);
+                var li = _imageAccessor.Get(default(ImageSource?), ImageGenre.Liked);
+                if (li.All(imd => imd.ItemName != showImageEventArgs.ImageMetaData.ItemName))
+                {
+                    var likedImage = showImageEventArgs.ImageMetaData.Clone();
+                    likedImage.GenreId = ImageGenre.Liked;
+                    li.Add(showImageEventArgs.ImageMetaData);
+                }
+                Result save = _imageAccessor.Update(li);
 
             }
 

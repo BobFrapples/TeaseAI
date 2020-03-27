@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TeaseAI.Common.Constants
+﻿namespace TeaseAI.Common.Constants
 {
     public enum ImageSource
     {
-        Local,
-        Remote
+        Local = 1,
+        Remote = 2,
     }
 }

@@ -62,60 +62,9 @@
             How much the dom cares about the sub
             </summary>
         </member>
-        <member name="T:TeaseAI.Common.Constants.ItemTag">
+        <member name="T:TeaseAI.Common.Constants.ItemTagId">
             <summary>
-            Possible tags for a TaggedItem
-            </summary>
-        </member>
-        <member name="M:TeaseAI.Common.Constants.ItemTag.#ctor(System.String)">
-            <summary>
-            private constructure ensures correct data
-            </summary>
-            <param name="name"></param>
-        </member>
-        <member name="P:TeaseAI.Common.Constants.ItemTag.Face">
-            <summary>
-            This item has Face
-            </summary>
-        </member>
-        <member name="P:TeaseAI.Common.Constants.ItemTag.Furniture">
-            <summary>
-            This item has Furniture
-            </summary>
-        </member>
-        <member name="P:TeaseAI.Common.Constants.ItemTag.GarmentCovering">
-            <summary>
-            This item has a garment
-            </summary>
-        </member>
-        <member name="P:TeaseAI.Common.Constants.ItemTag.Naked">
-            <summary>
-            This item has Naked
-            </summary>
-        </member>
-        <member name="P:TeaseAI.Common.Constants.ItemTag.SexToy">
-            <summary>
-            This item has SexToy
-            </summary>
-        </member>
-        <member name="P:TeaseAI.Common.Constants.ItemTag.Tattoo">
-            <summary>
-            This item has Tattoo
-            </summary>
-        </member>
-        <member name="P:TeaseAI.Common.Constants.ItemTag.Underwear">
-            <summary>
-            This item has underwear
-            </summary>
-        </member>
-        <member name="P:TeaseAI.Common.Constants.ItemTag.Smiling">
-            <summary>
-            This item has Smiling
-            </summary>
-        </member>
-        <member name="P:TeaseAI.Common.Constants.ItemTag.CloseUp">
-            <summary>
-            This item has CloseUp
+            Database Ids for default tags
             </summary>
         </member>
         <member name="T:TeaseAI.Common.Constants.Keyword">
@@ -454,6 +403,11 @@
             flag whatever image is being displaed as liked.
             </summary>
         </member>
+        <member name="P:TeaseAI.Common.Constants.Keyword.DislikeImage">
+            <summary>
+            Flag whatever image is being displayed as disliked
+            </summary>
+        </member>
         <member name="T:TeaseAI.Common.Constants.Kink">
             <summary>
             Possible things to be enjoyed by the sub
@@ -546,6 +500,62 @@
             How many times this session has the sub edged.
             </summary>
         </member>
+        <member name="T:TeaseAI.Common.Constants.TaggedItem">
+            <summary>
+            Possible tags for a TaggedItem
+            </summary>
+        </member>
+        <member name="M:TeaseAI.Common.Constants.TaggedItem.#ctor(System.String)">
+            <summary>
+            private constructure ensures correct data
+            </summary>
+            <param name="name"></param>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.TaggedItem.Face">
+            <summary>
+            This item has Face
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.TaggedItem.Furniture">
+            <summary>
+            This item has Furniture
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.TaggedItem.GarmentCovering">
+            <summary>
+            This item has a garment
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.TaggedItem.Naked">
+            <summary>
+            This item has Naked
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.TaggedItem.SexToy">
+            <summary>
+            This item has SexToy
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.TaggedItem.Tattoo">
+            <summary>
+            This item has Tattoo
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.TaggedItem.Underwear">
+            <summary>
+            This item has underwear
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.TaggedItem.Smiling">
+            <summary>
+            This item has Smiling
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.TaggedItem.CloseUp">
+            <summary>
+            This item has CloseUp
+            </summary>
+        </member>
         <member name="T:TeaseAI.Common.Constants.TortureLevel">
             <summary>
             Acceptable level of physical pain for the sub
@@ -631,24 +641,14 @@
             Directory where all personalities are stored
             </summary>
         </member>
-        <member name="P:TeaseAI.Common.Data.ApplicationConfiguration.ImageContainers">
-            <summary>
-            Configuration options for image containers 
-            </summary>
-        </member>
         <member name="T:TeaseAI.Common.Data.ImageMetaData">
             <summary>
             metadata about an image
             </summary>
         </member>
-        <member name="P:TeaseAI.Common.Data.ImageMetaData.Source">
+        <member name="P:TeaseAI.Common.Data.ImageMetaData.Id">
             <summary>
-            Is this local or blog
-            </summary>
-        </member>
-        <member name="P:TeaseAI.Common.Data.ImageMetaData.Genre">
-            <summary>
-            what kind of image is it
+            Primary key of this in the database
             </summary>
         </member>
         <member name="P:TeaseAI.Common.Data.ImageMetaData.ItemName">
@@ -656,16 +656,37 @@
             Name of the item
             </summary>
         </member>
-        <member name="P:TeaseAI.Common.Data.ImageMetaData.ItemTags">
-            <summary>
-            Tags for the item. Will never be null
-            </summary>
-        </member>
         <member name="M:TeaseAI.Common.Data.ImageMetaData.Clone">
             <summary>
             Create a new instances of this image meta data
             </summary>
             <returns></returns>
+        </member>
+        <member name="T:TeaseAI.Common.Data.ItemTag">
+            <summary>
+            Tags for videos, images, etc.
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Data.ItemTag.Id">
+            <summary>
+            Database key for this tag
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Data.ItemTag.Name">
+            <summary>
+            Name of this tag, Face, Furniture, etc.
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Data.ItemTag.Description">
+            <summary>
+            Description of this tag
+            </summary>
+        </member>
+        <member name="T:TeaseAI.Common.Data.MediaContainer">
+            <summary>
+            Data model for media containers 
+            where does the media live, is it remote or local, Video or Image
+            </summary>
         </member>
         <member name="P:TeaseAI.Common.Data.Response.Phrases">
             <summary>
@@ -937,6 +958,12 @@
             The root folder for image / videos / all other data
             </summary>
         </member>
+        <member name="M:TeaseAI.Common.Interfaces.Accessors.IConfigurationAccessor.GetDatabaseConnectionString">
+            <summary>
+            Get the full path and filename to the SQLite database file. Will create it if it doesn't exist.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:TeaseAI.Common.Interfaces.Accessors.IFlagAccessor">
             <summary>
             Interface defining how to get / set flag state
@@ -973,7 +1000,7 @@
             
             </summary>
         </member>
-        <member name="M:TeaseAI.Common.Interfaces.Accessors.IImageAccessor.GetImageMetaDataList(System.Nullable{TeaseAI.Common.Constants.ImageSource},System.Nullable{TeaseAI.Common.Constants.ImageGenre})">
+        <member name="M:TeaseAI.Common.Interfaces.Accessors.IImageAccessor.Get(System.Nullable{TeaseAI.Common.Constants.ImageSource},System.Nullable{TeaseAI.Common.Constants.ImageGenre})">
             <summary>
             Get the ImageMetaData requested
             </summary>
@@ -981,11 +1008,23 @@
             <param name="genre"></param>
             <returns></returns>
         </member>
-        <member name="M:TeaseAI.Common.Interfaces.Accessors.IImageAccessor.SaveImageMetaData(System.Collections.Generic.List{TeaseAI.Common.Data.ImageMetaData})">
+        <member name="M:TeaseAI.Common.Interfaces.Accessors.IImageAccessor.Update(System.Collections.Generic.IEnumerable{TeaseAI.Common.Data.ImageMetaData})">
             <summary>
             Save the ImageMetaData
             </summary>
             <param name="imageMetaDatas"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.Accessors.IImageAccessor.Initialize">
+            <summary>
+            Initialize the database with any default data.
+            </summary>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.Accessors.IImageAccessor.Create(System.Collections.Generic.List{TeaseAI.Common.Data.ImageMetaData})">
+            <summary>
+            Create all images in  <paramref name="images"/>
+            </summary>
+            <param name="images"></param>
             <returns></returns>
         </member>
         <member name="M:TeaseAI.Common.Interfaces.Accessors.IPathsAccessor.GetPersonalitiesFolder">

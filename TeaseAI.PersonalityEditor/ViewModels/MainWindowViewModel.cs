@@ -174,6 +174,20 @@ namespace TeaseAI.PersonalityEditor.ViewModels
 
         private void Loaded()
         {
+            var gService = ServiceFactory.CreateGenreService();
+            //gService.Initialize();
+            var gData = gService.Get();
+
+            var service = ServiceFactory.CreateMediaContainerService();
+            //service.Initialize();
+            var data = service.Get();
+
+            var iService = ServiceFactory.CreateImageAccessor();
+            //iService.Initialize();
+
+            var images = iService.Get(null, null);
+
+
             var personalities = _personalityService.GetAllPersonalities();
             Personalities.Clear();
             personalities.ForEach(p => Personalities.Add(p));
@@ -181,7 +195,6 @@ namespace TeaseAI.PersonalityEditor.ViewModels
             var commands = _getCommandInformationService.GetAvailableCommands();
             ScriptCommands.Clear();
             ScriptCommands.AddRange(commands);
-
         }
 
         private async void TestScript()

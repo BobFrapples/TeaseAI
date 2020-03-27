@@ -20,8 +20,8 @@ namespace TeaseAI.Services.CommandProcessor
 
         public override Result<Session> PerformCommand(Session session, string line)
         {
-            var images = _imageAccessor.GetImageMetaDataList(ImageSource.Local, default(ImageGenre?));
-            var selected = images.Value[new Random().Next(images.Value.Count)];
+            var images = _imageAccessor.Get(ImageSource.Local, default(ImageGenre?));
+            var selected = images[new Random().Next(images.Count)];
 
             OnCommandProcessed(session, selected);
 
@@ -30,7 +30,9 @@ namespace TeaseAI.Services.CommandProcessor
 
         protected override Result ParseCommandSpecific(Script script, string personalityName, string line)
         {
-            return _imageAccessor.GetImageMetaDataList(ImageSource.Local, default(ImageGenre?))
+            var images = _imageAccessor.Get(ImageSource.Local, default(ImageGenre?));
+
+            return Result.Ok(images)
                 .Ensure(imd => imd.Count() > 0, Keyword.ShowImage + " requires at least one image.")
                 .Map();
         }

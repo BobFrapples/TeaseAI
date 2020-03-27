@@ -136,6 +136,7 @@ namespace TeaseAI.Services
             rVal.Add(Keyword.Info, new InfoCommandProcessor(_lineService));
             rVal.Add(Keyword.DifferentAnswer, new DifferentAnswerCommandProcessor(_lineService));
             rVal.Add(Keyword.AcceptAnswer, new AcceptAnswerCommandProcessor(_lineService));
+            rVal.Add(Keyword.LikeImage, new LikeImageCommandProcessor(_lineService, _imageAccessor));
 
             return rVal;
         }

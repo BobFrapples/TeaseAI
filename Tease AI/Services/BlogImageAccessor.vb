@@ -41,8 +41,8 @@ Public Class BlogImageAccessor
         For Each imageUrl As String In File.ReadAllLines(blogImageList)
             returnValue.Add(New ImageMetaData() With
                                 {
-                                .Genre = ImageGenre.Blog,
-                                .Source = ImageSource.Remote,
+                                .GenreId = ImageGenre.Blog,
+                                .SourceId = ImageSource.Remote,
                                 .ItemName = imageUrl
                                 })
         Next

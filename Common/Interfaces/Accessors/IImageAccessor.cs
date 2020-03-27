@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using TeaseAI.Common.Constants;
 using TeaseAI.Common.Data;
 
@@ -15,13 +16,25 @@ namespace TeaseAI.Common.Interfaces.Accessors
         /// <param name="source"></param>
         /// <param name="genre"></param>
         /// <returns></returns>
-        Result<List<ImageMetaData>> GetImageMetaDataList(ImageSource? source, ImageGenre? genre);
+        List<ImageMetaData> Get(ImageSource? source, ImageGenre? genre);
 
         /// <summary>
         /// Save the ImageMetaData
         /// </summary>
         /// <param name="imageMetaDatas"></param>
         /// <returns></returns>
-        Result SaveImageMetaData(List<ImageMetaData> imageMetaDatas);
+        Result Update(IEnumerable<ImageMetaData> imageMetaDatas);
+
+        /// <summary>
+        /// Initialize the database with any default data.
+        /// </summary>
+        void Initialize();
+
+        /// <summary>
+        /// Create all images in  <paramref name="images"/>
+        /// </summary>
+        /// <param name="images"></param>
+        /// <returns></returns>
+        void Create(List<ImageMetaData> images);
     }
 }

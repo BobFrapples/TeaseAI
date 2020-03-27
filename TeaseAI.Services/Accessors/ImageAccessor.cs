@@ -2,71 +2,65 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using TeaseAI.Common;
 using TeaseAI.Common.Constants;
 using TeaseAI.Common.Data;
+using TeaseAI.Common.Interfaces;
 using TeaseAI.Common.Interfaces.Accessors;
+using TeaseAI.Data.Interfaces;
 
 namespace TeaseAI.Services.Accessors
 {
     public class ImageAccessor : IImageAccessor
     {
         public ImageAccessor(IConfigurationAccessor configurationAccessor
-            , IPathsAccessor pathsAccessor)
+            , IPathsAccessor pathsAccessor
+            , IImageMetaDataRepository imageMetaDataRepository
+            , IMediaContainerService mediaContainerService)
         {
             _configurationAccessor = configurationAccessor;
             _pathsAccessor = pathsAccessor;
+            _imageMetaDataRepository = imageMetaDataRepository;
+            _mediaContainerService = mediaContainerService;
         }
 
-        public Result<List<ImageMetaData>> GetImageMetaDataList(ImageSource? source, ImageGenre? genre)
+        public List<ImageMetaData> Get(ImageSource? source, ImageGenre? genre)
+        {
+            return _imageMetaDataRepository.Get(source, genre);
+        }
+
+        public Result Update(IEnumerable<ImageMetaData> imageMetaDatas)
+        {
+            return _imageMetaDataRepository.Update(imageMetaDatas);
+        }
+
+        public void Initialize()
         {
             var applicationConfig = _configurationAccessor.GetApplicationConfiguration();
-            var returnValue = new List<ImageMetaData>();
-
-            foreach (var container in applicationConfig.ImageContainers)
+            var mediaContainers = _mediaContainerService.Get();
+            var imageContainers = mediaContainers.Where(mc => mc.MediaTypeId == 1 && mc.SourceId == ImageSource.Local && mc.IsEnabled).ToList();
+            foreach (var imageContainer in imageContainers)
             {
-                if ((genre.GetValueOrDefault(container.Genre) != container.Genre)
-                    || source.GetValueOrDefault(container.Source) != container.Source)
-                    continue;
+                var searchLevel = imageContainer.UseSubFolders ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
 
-                var searchLevel = container.UseSubFolders ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
-                if (container.Source == ImageSource.Remote && container.Genre == ImageGenre.Blog)
+                var files = Directory.GetFiles(imageContainer.Path, "*.*", searchLevel).ToList();
+                foreach (var file in files)
                 {
-                    foreach (var blogFile in GetAvailableBlogFiles())
+                    if (File.Exists(file))
                     {
-                        container.Path = Path.GetFileName(blogFile);
-                        var files = GetFiles(container, searchLevel);
-                        foreach (var file in files)
-                        {
-                            returnValue.Add(new ImageMetaData
+                        _imageMetaDataRepository.Create(
+                            new ImageMetaData
                             {
-                                Genre = container.Genre,
-                                ItemName = file,
-                                Source = container.Source,
+                                MediaContainerId = imageContainer.Id,
+                                ItemName = Path.GetFileNameWithoutExtension(file),
+                                FullFileName = file,
+                                SourceId = imageContainer.SourceId,
+                                GenreId = imageContainer.GenreId,
                             });
-                        }
-                    }
-                }
-                else
-                {
-                    var files = GetFiles(container, searchLevel);
-                    foreach (var file in files)
-                    {
-                        returnValue.Add(new ImageMetaData
-                        {
-                            Genre = container.Genre,
-                            ItemName = file,
-                            Source = container.Source,
-                        });
                     }
                 }
             }
-            return Result.Ok(returnValue);
-        }
-
-        public Result SaveImageMetaData(List<ImageMetaData> imageMetaDatas)
-        {
-            throw new NotImplementedException();
         }
 
         private IEnumerable<string> GetAvailableBlogFiles()
@@ -116,10 +110,14 @@ namespace TeaseAI.Services.Accessors
             return File.ReadAllLines(urlFileDir).ToList();
         }
 
+        public void Create(List<ImageMetaData> images)
+        {
+            _imageMetaDataRepository.Create(images);
+        }
+
         private readonly IConfigurationAccessor _configurationAccessor;
         private readonly IPathsAccessor _pathsAccessor;
-
-        //private string _systemImageDir  = Application.StartupPath + "\Images\System\"
-        //private string _pathUrlFileDir  = mySystemImageDIr + "URL Files\"
+        private readonly IImageMetaDataRepository _imageMetaDataRepository;
+        private readonly IMediaContainerService _mediaContainerService;
     }
 }
