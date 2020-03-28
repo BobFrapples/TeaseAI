@@ -45,7 +45,7 @@ Public Class MainWindow
     Dim mySettingsAccessor As ISettingsAccessor = ApplicationFactory.CreateSettingsAccessor()
     Dim myRandomNumberService As IRandomNumberService = New RandomNumberService()
     Dim mySlideShowNavigationService As ISlideShowNavigationService = New SlideShowNavigationService()
-    Dim myPathsAccessor As PathsAccessor = ApplicationFactory.CreatePathsAccessor()
+    Dim myPathsAccessor As PathsAccessor = New PathsAccessor(ApplicationFactory.CreateConfigurationAccessor, ApplicationFactory.CreateSettingsAccessor())
     Dim WithEvents mySession As SessionEngine
     Private myDisplayedImage As ImageMetaData
 
@@ -15245,187 +15245,12 @@ playLoop:
     End Class
 
     Private Function ConvertTags(oldTags As List(Of String)) As List(Of ItemTagId)
+        Dim convertTagLogic As ConvertTagLogic = New ConvertTagLogic()
         Dim returnValue As List(Of ItemTagId) = New List(Of ItemTagId)()
         For Each oldTag In oldTags
-            returnValue.Add(ConvertTag(oldTag))
+            returnValue.Add(convertTagLogic.ConvertTag(oldTag))
         Next
         Return returnValue
-    End Function
-
-    Private Function ConvertTag(oldTag As String) As ItemTagId
-        Select Case oldTag.ToLower()
-            Case "hardCore"
-                Return ItemTagId.Hardcore
-            Case "lesbian"
-                Return ItemTagId.Lesbian
-            Case "gay"
-                Return ItemTagId.Gay
-            Case "bisexual"
-                Return ItemTagId.Bisexual
-            Case "solof"
-                Return ItemTagId.SoloFemale
-            Case "solom"
-                Return ItemTagId.SoloMale
-            Case "solofuta"
-                Return ItemTagId.SoloFuta
-            Case "pov"
-                Return ItemTagId.PointOfView
-            Case "bondage"
-                Return ItemTagId.Bondage
-            Case "sm"
-                Return ItemTagId.SadismAndMasochism
-            Case "td"
-                Return ItemTagId.TeaseAndDenial
-            Case "Chastity"
-                Return ItemTagId.Chastity
-            Case "cfnm"
-                Return ItemTagId.ClothedFemaleNakedMale
-            Case "bath"
-                Return ItemTagId.Bath
-            Case "shower"
-                Return ItemTagId.Shower
-            Case "outdoors"
-                Return ItemTagId.Outdoors
-            Case "artwork"
-                Return ItemTagId.Artwork
-            Case "masturbation"
-                Return ItemTagId.Masturbation
-            Case "handjob"
-                Return ItemTagId.Handjob
-            Case "fingering"
-                Return ItemTagId.Fingering
-            Case "blowjob"
-                Return ItemTagId.Blowjob
-            Case "cunnilingus"
-                Return ItemTagId.Cunnilingus
-            Case "titjob"
-                Return ItemTagId.Titjob
-            Case "footjob"
-                Return ItemTagId.Footjob
-            Case "facesitting"
-                Return ItemTagId.Facesitting
-            Case "rimming"
-                Return ItemTagId.Rimming
-            Case "missionary"
-                Return ItemTagId.Missionary
-            Case "doggystyle"
-                Return ItemTagId.DoggyStyle
-            Case "cowgirl"
-                Return ItemTagId.Cowgirl
-            Case "rcowgirl"
-                Return ItemTagId.ReverseCowgirl
-            Case "standing"
-                Return ItemTagId.Standing
-            Case "analsex"
-                Return ItemTagId.AnalSex
-            Case "dp"
-                Return ItemTagId.DoublePenetration
-            Case "gangbang"
-                Return ItemTagId.Gangbang
-            Case "1f"
-                Return ItemTagId.OneWoman
-            Case "2f"
-                Return ItemTagId.TwoWomen
-            Case "3f"
-                Return ItemTagId.ThreeWomen
-            Case "1m"
-                Return ItemTagId.OneMan
-            Case "2m"
-                Return ItemTagId.TwoMen
-            Case "3m"
-                Return ItemTagId.ThreeMen
-            Case "1futa"
-                Return ItemTagId.OneFuta
-            Case "2futa"
-                Return ItemTagId.TwoFutas
-            Case "3futa"
-                Return ItemTagId.ThreeFutas
-            Case "femdom"
-                Return ItemTagId.Femdom
-            Case "maledom"
-                Return ItemTagId.Maledom
-            Case "futadom"
-                Return ItemTagId.Futadom
-            Case "femsub"
-                Return ItemTagId.Femsub
-            Case "malesub"
-                Return ItemTagId.Malesub
-            Case "futasub"
-                Return ItemTagId.Futasub
-            Case "multidom"
-                Return ItemTagId.MultiDom
-            Case "multisub"
-                Return ItemTagId.MultiSub
-            Case "bodyface"
-                Return ItemTagId.Face
-            Case "bodyfingers"
-                Return ItemTagId.Fingers
-            Case "bodymouth"
-                Return ItemTagId.Mouth
-            Case "bodytits"
-                Return ItemTagId.Tits
-            Case "bodynipples"
-                Return ItemTagId.Nipples
-            Case "bodypussy"
-                Return ItemTagId.Pussy
-            Case "bodyass"
-                Return ItemTagId.Ass
-            Case "bodylegs"
-                Return ItemTagId.Legs
-            Case "bodyfeet"
-                Return ItemTagId.Feet
-            Case "bodycock"
-                Return ItemTagId.Cock
-            Case "bodyballs"
-                Return ItemTagId.Balls
-            Case "nurse"
-                Return ItemTagId.Nurse
-            Case "teacher"
-                Return ItemTagId.Teacher
-            Case "schoolgirl"
-                Return ItemTagId.Schoolgirl
-            Case "maid"
-                Return ItemTagId.Maid
-            Case "superhero"
-                Return ItemTagId.Superhero
-            Case "multisub"
-                Return ItemTagId.MultiSub
-        End Select
-
-        'CBTagWhipping.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagWhipping").Value)
-        'CBTagSpanking.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagSpanking").Value)
-        'CBTagCockTorture.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagCockTorture").Value)
-        'CBTagBallTorture.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagBallTorture").Value)
-        'CBTagStrapon.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagStrapon").Value)
-        'CBTagBlindfold.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagBlindfold").Value)
-        'CBTagGag.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagGag").Value)
-        'CBTagClamps.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagClamps").Value)
-        'CBTagHotWax.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagHotWax").Value)
-        'CBTagNeedles.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagNeedles").Value)
-        'CBTagElectro.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagElectro").Value)
-
-        'CBTagDomme.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagDomme").Value)
-        'CBTagCumshot.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagCumshot").Value)
-        'CBTagCumEating.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagCumEating").Value)
-        'CBTagKissing.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagKissing").Value)
-        'CBTagTattoos.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagTattoos").Value)
-        'CBTagStockings.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagStockings").Value)
-        'CBTagVibrator.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagVibrator").Value)
-        'CBTagDildo.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagDildo").Value)
-        'CBTagPocketPussy.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagPocketPussy").Value)
-        'CBTagAnalToy.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagAnalToy").Value)
-        'CBTagWatersports.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagWaterSports").Value)
-
-        'CBTagShibari.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagShibari").Value)
-        'CBTagTentacles.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagTentacles").Value)
-        'CBTagBukkake.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagBukkake").Value)
-        'CBTagBakunyuu.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagBakunyuu").Value)
-        'CBTagAhegao.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagAhegao").Value)
-        'CBTagBodyWriting.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagBodyWriting").Value)
-        'CBTagTrap.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagTrap").Value)
-        'CBTagGanguro.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagGanguro").Value)
-        'CBTagMahouShoujo.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagMahouShoujo").Value)
-        'CBTagMonsterGirl.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagMonsterGirl").Value)
     End Function
 
 #End Region

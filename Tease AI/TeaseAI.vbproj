@@ -149,6 +149,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Classes\TranslationService.vb" />
+    <Compile Include="Logics\ConvertTagLogic.vb" />
     <Compile Include="MainWindow.vb">
       <SubType>Form</SubType>
     </Compile>

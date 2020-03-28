@@ -95,7 +95,7 @@
         MonsterGirl= 88,
         TeaseAiDomme = 89,
         Cumshot = 90,
-        Cumeating = 91,
+        CumEating = 91,
         Kissing = 92,
         Tattoos = 93,
         Stockings = 94,

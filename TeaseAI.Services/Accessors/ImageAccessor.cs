@@ -157,6 +157,8 @@ namespace TeaseAI.Services.Accessors
             return temp.ToList();
         }
 
+        public List<ImageMetaData> GetImagesWithTag(ItemTagId itemTagId) => _imageMetaDataRepository.GetImagesWithTag(itemTagId);
+
         private readonly IConfigurationAccessor _configurationAccessor;
         private readonly IPathsAccessor _pathsAccessor;
         private readonly IImageMetaDataRepository _imageMetaDataRepository;

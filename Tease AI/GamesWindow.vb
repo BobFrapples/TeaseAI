@@ -141,12 +141,10 @@ Public Class GamesWindow
     Public CardImage8 As Image
     Public CardImage9 As Image
     Private ReadOnly mySettingsAccessor As ISettingsAccessor
-    Private ReadOnly myPathsAccessor As PathsAccessor
 #End Region
 
     Public Sub New()
         mySettingsAccessor = ApplicationFactory.CreateSettingsAccessor()
-        myPathsAccessor = ApplicationFactory.CreatePathsAccessor()
 
         ' This call is required by the designer.
         InitializeComponent()
@@ -263,7 +261,7 @@ Public Class GamesWindow
 
 
         If My.Settings.CBIHardcore = True And Directory.Exists(My.Settings.IHardcore) Then
-            If FrmSettings.CBIHardcoreSD.Checked = True Then
+            If FrmSettings.IncludeHardcoreSubDirectories.Checked = True Then
                 files = myDirectory.GetFiles(My.Settings.IHardcore, "*.*", SearchOption.AllDirectories)
             Else
                 files = myDirectory.GetFiles(My.Settings.IHardcore, "*.*")
@@ -493,7 +491,7 @@ Public Class GamesWindow
 
 
         If My.Settings.CBIHardcore = True And Directory.Exists(My.Settings.IHardcore) Then
-            If FrmSettings.CBIHardcoreSD.Checked = True Then
+            If FrmSettings.IncludeHardcoreSubDirectories.Checked = True Then
                 files = myDirectory.GetFiles(My.Settings.IHardcore, "*.*", SearchOption.AllDirectories)
             Else
                 files = myDirectory.GetFiles(My.Settings.IHardcore, "*.*")

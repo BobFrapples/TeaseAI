@@ -13,7 +13,7 @@ Imports TeaseAI.Services.Services
 Public Class ApplicationFactory
 
     Public Shared Function CreatePathsAccessor() As IPathsAccessor
-        Return New PathsAccessor(CreateConfigurationAccessor(), CreateSettingsAccessor())
+        Return New Accessors.PathsAccessor(CreateConfigurationAccessor())
     End Function
 
     Public Shared Function CreateConfigurationAccessor() As IConfigurationAccessor

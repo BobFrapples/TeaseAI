@@ -38,5 +38,6 @@ namespace TeaseAI.Common.Interfaces.Accessors
         void Create(List<ImageMetaData> images);
 
         Result<List<ImageMetaData>> GetImagesInContainer(int containerId);
+        List<ImageMetaData> GetImagesWithTag(ItemTagId itemTagId);
     }
 }

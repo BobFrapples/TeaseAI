@@ -24,6 +24,7 @@ Public Class FrmSettings
     ''' Location of the local image tag file.
     ''' </summary>
     ''' <returns></returns>
+    <Obsolete("TODO: go away")>
     Private ReadOnly Property LocalImageTagFile As String
         Get
             Return Application.StartupPath & "\Images\System\LocalImageTags.txt"
@@ -35,9 +36,6 @@ Public Class FrmSettings
     Dim LocalImageDir As New List(Of String)
 
     Dim ImageTagDir As New List(Of String)
-    ''' <summary>
-    ''' List of images in the current genre
-    ''' </summary>
     Dim LocalImageTagDir As New List(Of String)
     Dim ImageTagCount As Integer
     Dim CurrentImageTagImage As String
@@ -58,14 +56,15 @@ Public Class FrmSettings
         mySettingsAccessor = ApplicationFactory.CreateSettingsAccessor()
         myConfigurationAccessor = ApplicationFactory.CreateConfigurationAccessor()
         myBlogAccessor = New BlogImageAccessor()
-        myCldAccessor = New CldAccessor()
-        myScriptAccessor = New ScriptAccessor(New CldAccessor())
-        myLoadFileData = New LoadFileData()
+        myCldAccessor = ApplicationFactory.CreateCldAccessor()
+        myScriptAccessor = ApplicationFactory.CreateScriptAccessor()
+        myLoadFileData = ApplicationFactory.CreateLoadFileData()
         myParseTagDataService = New ParseOldTagDataService()
-        myPathsAccessor = ApplicationFactory.CreatePathsAccessor()
+        myPathsAccessor = New PathsAccessor(ApplicationFactory.CreateConfigurationAccessor, ApplicationFactory.CreateSettingsAccessor())
         myMediaContainerService = ApplicationFactory.CreateMediaContainerService()
         myImageMetaDataService = ApplicationFactory.CreateImageMetaDataService()
         myImageTagMapService = ApplicationFactory.CreateImageTagMapService()
+        myGetCommandProcessorsService = ApplicationFactory.CreateGetCommandProcessorsService()
 
         InitializeComponent()
     End Sub
@@ -343,10 +342,6 @@ Public Class FrmSettings
             languageCode = "de"
         End If
         SetToolTips(languageCode)
-    End Sub
-
-    Private Sub SettingsTabs_TabIndexChanged(sender As Object, e As EventArgs) Handles SettingsTabs.SelectedIndexChanged
-        If SettingsTabs.SelectedTab Is TabPage16 Then TCScripts_TabIndexChanged(TCScripts, Nothing)
     End Sub
 
 #Region "set tooltips"
@@ -1721,23 +1716,33 @@ Public Class FrmSettings
 
 #End Region ' Domme
 
-#Region "-------------------------------------- Scripts -------------------------------------------------"
-
-    ''' <summary>
-    ''' Forces the Focus onto the CheckedListBoxes in Tabcontrol.
-    ''' </summary>
-    ''' <param name="sender"></param>
-    ''' <param name="e"></param>
-    Private Sub TCScripts_TabIndexChanged(sender As Object, e As EventArgs) Handles TCScripts.SelectedIndexChanged
-        If TCScripts.SelectedTab Is ScriptsStartTab Then
-            StartScripts.Focus()
-        ElseIf TCScripts.SelectedTab Is ScriptsModuleTab Then
-            ModuleScripts.Focus()
-        ElseIf TCScripts.SelectedTab Is ScriptsLinkTab Then
-            LinkScripts.Focus()
-        ElseIf TCScripts.SelectedTab Is ScriptsEndTab Then
-            EndScripts.Focus()
+#Region "Scripts Tab"
+    Public Sub ScriptsStartTab_VisibleChanged() Handles ScriptsStartTab.VisibleChanged
+        If (Not ScriptsStartTab.Visible) Then
+            Return
         End If
+        LoadScriptMetaData(StartScripts, mySettingsAccessor.DommePersonality, "Stroke", SessionPhase.Start, False)
+    End Sub
+
+    Public Sub ScriptsModuleTab_VisibleChanged() Handles ScriptsModuleTab.VisibleChanged
+        If (Not ScriptsModuleTab.Visible) Then
+            Return
+        End If
+        LoadScriptMetaData(ModuleScripts, mySettingsAccessor.DommePersonality, "Modules", SessionPhase.Modules, False)
+    End Sub
+
+    Public Sub ScriptsLinkTab_VisibleChanged() Handles ScriptsLinkTab.VisibleChanged
+        If (Not ScriptsLinkTab.Visible) Then
+            Return
+        End If
+        LoadScriptMetaData(LinkScripts, mySettingsAccessor.DommePersonality, "Stroke", Constants.SessionPhase.Link, False)
+    End Sub
+
+    Public Sub ScriptsEndTab_VisibleChanged() Handles ScriptsEndTab.VisibleChanged
+        If (Not ScriptsEndTab.Visible) Then
+            Return
+        End If
+        LoadScriptMetaData(EndScripts, mySettingsAccessor.DommePersonality, "Stroke", Constants.SessionPhase.End, False)
     End Sub
 
     Public Shared Sub saveCheckedListBox(target As CheckedListBox, filePath As String)
@@ -1766,34 +1771,6 @@ Public Class FrmSettings
 
     Private Sub SaveEndScripts() Handles EndScripts.LostFocus
         saveCheckedListBox(EndScripts, Ssh.Files.EndChecklist)
-    End Sub
-
-    Public Sub ScriptsStartTab_VisibleChanged() Handles ScriptsStartTab.VisibleChanged
-        If (Not ScriptsStartTab.Visible) Then
-            Return
-        End If
-        LoadScriptMetaData(StartScripts, mySettingsAccessor.DommePersonality, "Stroke", SessionPhase.Start, False)
-    End Sub
-
-    Public Sub ScriptsModuleTab_VisibleChanged() Handles ScriptsModuleTab.VisibleChanged
-        If (Not ScriptsModuleTab.Visible) Then
-            Return
-        End If
-        LoadScriptMetaData(ModuleScripts, mySettingsAccessor.DommePersonality, "Modules", SessionPhase.Modules, False)
-    End Sub
-
-    Public Sub ScriptsLinkTab_VisibleChanged() Handles ScriptsLinkTab.VisibleChanged
-        If (Not ScriptsLinkTab.Visible) Then
-            Return
-        End If
-        LoadScriptMetaData(LinkScripts, mySettingsAccessor.DommePersonality, "Stroke", Constants.SessionPhase.Link, False)
-    End Sub
-
-    Public Sub ScriptsEndTab_VisibleChanged() Handles ScriptsEndTab.VisibleChanged
-        If (Not ScriptsEndTab.Visible) Then
-            Return
-        End If
-        LoadScriptMetaData(EndScripts, mySettingsAccessor.DommePersonality, "Stroke", Constants.SessionPhase.End, False)
     End Sub
 
     Private Sub Scripts_SelectedIndexChanged(sender As Object, e As EventArgs) Handles StartScripts.SelectedIndexChanged, ModuleScripts.SelectedIndexChanged, LinkScripts.SelectedIndexChanged, EndScripts.SelectedIndexChanged
@@ -1830,11 +1807,11 @@ Public Class FrmSettings
     Private Sub ScriptStatusUnlock(state As Boolean)
         BTNScriptOpen.Enabled = state
         ScriptInfoTextArea.Enabled = state
-        RTBScriptReq.Enabled = state
+        ScriptRequirements.Enabled = state
         LBLScriptReq.Enabled = state
         If Not state Then
             ScriptInfoTextArea.Text = ""
-            RTBScriptReq.Text = ""
+            ScriptRequirements.Text = ""
             LBLScriptReq.Text = ""
         End If
     End Sub
@@ -1903,6 +1880,284 @@ Public Class FrmSettings
         SelectAllScriptsButton.Enabled = True
     End Sub
 
+    ''' <summary>
+    ''' Load script metadata into the checked list box
+    ''' </summary>
+    ''' <param name="target"></param>
+    ''' <param name="dommePersonalityName"></param>
+    ''' <param name="type"></param>
+    ''' <param name="stage"></param>
+    ''' <param name="isEnabledByDefault"></param>
+    Private Sub LoadScriptMetaData(target As CheckedListBox, dommePersonalityName As String, type As String, stage As SessionPhase, isEnabledByDefault As Boolean)
+        Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(dommePersonalityName, type, stage, isEnabledByDefault)
+
+        Dim lastIndex As Integer = target.SelectedIndex
+        Dim lastItem As String = target.SelectedItem
+
+        target.BeginUpdate()
+        target.Items.Clear()
+        For Each cldFile In scripts
+            target.Items.Add(cldFile.Name, cldFile.IsEnabled)
+        Next
+
+        If lastIndex = -1 Then
+            ScriptStatusUnlock(False)
+        ElseIf target.Items.Count >= lastIndex Then
+            target.SelectedIndex = lastIndex
+        ElseIf target.Items.Contains(lastItem) Then
+            target.SelectedItem = lastItem
+        End If
+        target.EndUpdate()
+    End Sub
+
+    ''' <summary>
+    ''' Determine requirements for <paramref name="scriptMetaData"/>
+    ''' </summary>
+    ''' <param name="scriptMetaData"></param>
+    Public Function GetScriptRequirements(scriptMetaData As ScriptMetaData) As Tuple(Of Boolean, String)
+        Dim commandProcessors As Dictionary(Of String, ICommandProcessor) = myGetCommandProcessorsService.CreateCommandProcessors()
+        Dim areScriptRequirementsMet As Boolean = True
+        Dim requirements As List(Of String) = New List(Of String)()
+        Dim getScript As Result(Of Script) = myScriptAccessor.GetScript(scriptMetaData)
+        If (getScript.IsFailure) Then
+            Throw New ApplicationException(getScript.Error.Message)
+        End If
+        Dim script As Script = getScript.Value
+        For Each line In script.Lines
+            Dim workingLine As String = line
+            For Each scriptCommand In commandProcessors.Keys
+                If (commandProcessors(scriptCommand).IsRelevant(workingLine)) Then
+                    Dim parseCommand = commandProcessors(scriptCommand).ParseCommand(script, mySettingsAccessor.DommePersonality, workingLine)
+                    areScriptRequirementsMet = areScriptRequirementsMet AndAlso parseCommand.IsSuccess
+                    Dim requirement As String = GetCommandRequirement(scriptCommand)
+                    If (parseCommand.IsFailure) Then
+                        requirements.Add("-  " + requirement + Environment.NewLine + "   " + parseCommand.Error.Message)
+                    ElseIf Not String.IsNullOrWhiteSpace(requirement) Then
+                        requirements.Add("+ " + requirement)
+                    End If
+                End If
+            Next
+        Next
+
+
+
+        'If script.Lines.Any(Function(l) l.Contains(Keyword.ShowLocalImage) OrElse l.Contains(Keyword.ShowImage)) Then
+        '    requirements.Add("* At least one Local Image path selected with a valid directory *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.IsImageGenreEnabled.Values.Any(Function(isEn) isEn)
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains("@CBTBalls")) Then
+        '    requirements.Add("* Ball Torture must be enabled *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.IsBallTortureEnabled
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains("@CBTCock")) Then
+        '    requirements.Add("* Cock Torture must be enabled *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.IsCockTortureEnabled
+        'End If
+
+        'If script.Lines.Any(Function(l) Not l.Contains("@CBTCock") AndAlso Not l.Contains("@CBTBalls") AndAlso l.Contains("@CBT")) Then
+        '    requirements.Add("* Cock Torture must be enabled *")
+        '    requirements.Add("* Ball Torture must be enabled *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.IsCockTortureEnabled AndAlso mySettingsAccessor.IsBallTortureEnabled
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains(Keyword.PlayJoiVideo)) Then
+        '    requirements.Add("* JOI or JOI Domme Video path selected with a valid directory *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet _
+        '            AndAlso ((CBVideoJOI.Checked AndAlso Convert.ToInt32(LblVideoJOITotal.Text) > 0) _
+        '                OrElse (CBVideoJOID.Checked AndAlso Convert.ToInt32(LblVideoJOITotalD.Text) > 0)
+        '            )
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains("PlayCHVideo")) Then
+        '    requirements.Add("* CH or CH Domme Video path selected with a valid directory *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet _
+        '            AndAlso ((CBVideoCH.Checked AndAlso Convert.ToInt32(LblVideoCHTotal.Text) > 0) _
+        '                OrElse (CBVideoCHD.Checked AndAlso Convert.ToInt32(LblVideoCHTotalD.Text) > 0)
+        '            )
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains(Keyword.ShowButtImage) OrElse l.Contains(Keyword.ShowButtsImage)) Then
+        '    requirements.Add("* BnB Butt path must be set to a valid directory or URL File *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso
+        '            ((mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Butt) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Butt))) OrElse
+        '            (ChbImageUrlButts.Checked AndAlso File.Exists(My.Settings.UrlFileButt)))
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains(Keyword.ShowBoobImage) OrElse l.Contains(Keyword.ShowBoobsImage)) Then
+        '    requirements.Add("* BnB Boobs path must be set to a valid directory or URL File *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso
+        '        ((mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Boobs) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Boobs))) OrElse
+        '        (ChbImageUrlButts.Checked AndAlso File.Exists(My.Settings.UrlFileButt)))
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains(Keyword.ShowHardcoreImage)) Then
+        '    requirements.Add("* Local Hardcore images must be enabled and set to a valid directory  *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso
+        '        mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Hardcore) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Hardcore))
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains(Keyword.ShowLesbianImage)) Then
+        '    requirements.Add("* Local Lesbian images must be enabled and set to a valid directory  *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso
+        '        mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Lesbian) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Lesbian))
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains(Keyword.ShowBlowjobImage)) Then
+        '    requirements.Add("* Local Blowjob images must be enabled and set to a valid directory  *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso
+        '        mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Blowjob) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Blowjob))
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains(Keyword.ShowFemdomImage)) Then
+        '    requirements.Add("* Local Femdom images must be enabled and set to a valid directory  *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso
+        '        mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Femdom) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Femdom))
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains(Keyword.ShowLezdomImage)) Then
+        '    requirements.Add("* Local Lezdom images must be enabled and set to a valid directory  *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso
+        '        mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Lezdom) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Lezdom))
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains(Keyword.ShowHentaiImage)) Then
+        '    requirements.Add("* Local Hentai images must be enabled and set to a valid directory  *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso
+        '        mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Hentai) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Hentai))
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains(Keyword.ShowGayImage)) Then
+        '    requirements.Add("* Local gay images must be enabled and set to a valid directory  *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso
+        '        mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Gay) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Gay))
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains(Keyword.ShowMaledomImage)) Then
+        '    requirements.Add("* Local maledom images must be enabled and set to a valid directory  *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso
+        '        mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Maledom) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Maledom))
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains(Keyword.ShowCaptionsImage)) Then
+        '    requirements.Add("* Local caption images must be enabled and set to a valid directory  *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso
+        '        mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Captions) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Captions))
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains(Keyword.ShowGeneralImage)) Then
+        '    requirements.Add("* Local general images must be enabled and set to a valid directory  *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso
+        '        mySettingsAccessor.IsImageGenreEnabled(ImageGenre.General) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.General))
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains("@ShowTaggedImage") AndAlso l.Contains("@Tag")) Then
+        '    Dim scriptTags As List(Of String) = String.Join(" ", script.Lines.All(Function(l) l.Contains("@Tag"))) _
+        '        .Split(" ") _
+        '        .Where(Function(l) l.StartsWith("@Tag")) _
+        '        .Select(Function(l) l.Replace("@Tag", "Tag")) _
+        '        .Distinct() _
+        '        .ToList()
+
+        '    Dim convertTagLogic = New ConvertTagLogic()
+        '    Dim missingTags As List(Of String) = New List(Of String)
+        '    For Each scriptTag In scriptTags
+        '        Dim images As List(Of ImageMetaData) = myImageMetaDataService.GetImagesWithTag(convertTagLogic.ConvertTag(scriptTag))
+        '        If (Not images.Any()) Then
+        '            missingTags.Add(scriptTag)
+        '        End If
+        '    Next
+        '    requirements.Add("* Images in LocalImageTags.txt tagged with: " & String.Join(" ", missingTags))
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso Not missingTags.Any()
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains("@ShowTaggedImage") AndAlso Not l.Contains("@Tag")) Then
+        '    Dim images As List(Of ImageMetaData) = myImageMetaDataService.Get(ImageSource.Local, Nothing)
+        '    requirements.Add("* Local images must be configured, and some images must exist *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso images.Any()
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains("@CheckVideo")) Then
+        '    MainWindow.ssh.VideoCheck = True
+        '    MainWindow.RandomVideo()
+        '    requirements.Add("* At least one Genre or Domme Video path set and selected *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso Not MainWindow.ssh.NoVideo
+        '    MainWindow.ssh.VideoCheck = False
+        '    MainWindow.ssh.NoVideo = False
+        'End If
+
+        '' Need to find out if we have videos for the next few
+        'MainWindow.ssh.VideoCheck = True
+        'MainWindow.RandomVideo()
+        'Dim hasVideos = Not MainWindow.ssh.NoVideo
+        'MainWindow.ssh.VideoCheck = False
+        'MainWindow.ssh.NoVideo = False
+
+        'If script.Lines.Any(Function(l) l.Contains("@CheckVideo")) Then
+        '    requirements.Add("* At least one Genre or Domme Video path set and selected *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso hasVideos
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains("@PlayCensorShipSucks") OrElse l.Contains("@PlayAvoidTheEdge") OrElse l.Contains("@PlayRedLightGreenLight")) Then
+        '    requirements.Add("* At least one non-Special Genre or Domme Video path set and selected *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso hasVideos
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains("@ChastityOn") OrElse l.Contains("@ChastityOff")) Then
+        '    requirements.Add("* You must indicate you own a chastity device *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.HasChastityDevice
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains("@DeleteLocalImage")) Then
+        '    requirements.Add("* ""Allow Domme to Delete Local Media"" muct be checked *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.CanDommeDeleteFiles
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains("@DeleteLocalImage")) Then
+        '    requirements.Add("* ""Allow Domme to Delete Local Media"" muct be checked *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.CanDommeDeleteFiles
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains("@VitalSubAssignment")) Then
+        '    requirements.Add("* ""Allow Domme to Delete Local Media"" muct be checked *")
+        '    requirements.Add("* VitalSub must be enabled *")
+        '    requirements.Add("* ""Domme Assignments"" must be checked in the VitalSub app *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso MainWindow.CBVitalSub.Checked AndAlso MainWindow.CBVitalSubDomTask.Checked
+        'End If
+        Return Tuple.Create(areScriptRequirementsMet, String.Join(Environment.NewLine, requirements.Distinct()).Replace("**", "* *"))
+    End Function
+
+    ''' <summary>
+    ''' Determine requirements for <paramref name="scriptMetaData"/>
+    ''' </summary>
+    ''' <param name="scriptMetaData"></param>
+    Public Sub GetScriptStatus(scriptMetaData As ScriptMetaData)
+        Dim scriptRequirements = GetScriptRequirements(scriptMetaData)
+
+        Try
+            ScriptStatusUnlock(True)
+            Me.ScriptRequirements.Text = scriptRequirements.Item2
+
+            If Not scriptRequirements.Item1 Then
+                LBLScriptReq.ForeColor = Color.Red
+                LBLScriptReq.Text = "All requirements not met!"
+            Else
+                LBLScriptReq.ForeColor = Color.Green
+                LBLScriptReq.Text = "All requirements met!"
+            End If
+        Catch ex As Exception
+            ScriptStatusUnlock(False)
+            MessageBox.Show(ex.Message, "Error Checking ScriptStatus", MessageBoxButtons.OK, MessageBoxIcon.Hand)
+        End Try
+    End Sub
+
+    Public Function GetCommandRequirement(scriptCommand As String) As String
+        If scriptCommand.Contains(Keyword.ShowBlogImage) OrElse scriptCommand.Contains(Keyword.NewBlogImage) OrElse scriptCommand.Contains(Keyword.ShowImage) Then
+            Return "At least one URL File must be configured"
+        End If
+        Return String.Empty
+    End Function
 #End Region ' Scripts
 
 #Region "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Apps ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
@@ -3029,7 +3284,7 @@ checkFolder:
         Return mySettingsAccessor.IsImageGenreEnabled(imageGenre)
     End Function
 
-#Region "------------------------------------- Hardcore Images -------------------------------------------"
+#Region "Genre Image Tab"
 
     Private Sub BTNIHardcore_Click(sender As Object, e As EventArgs) Handles BTNIHardcore.Click
         SetFolderFromDialog(ImageGenre.Hardcore)
@@ -3800,7 +4055,7 @@ checkFolder:
 
 #End Region ' Videos
 
-#Region "Tagging"
+#Region "Local Tags"
     Private Sub LocalTagsTab_Selecting(sender As Object, e As TabControlCancelEventArgs) Handles LocalTagsTab.Selecting
         Dim mediaContainers As List(Of MediaContainer) = myMediaContainerService.Get() _
             .Where(Function(mc) mc.MediaTypeId = 1 AndAlso mc.SourceId = ImageSource.Local) _
@@ -4061,7 +4316,7 @@ checkFolder:
 
         CBTagDomme.Checked = itemTags.Contains(ItemTagId.TeaseAiDomme)
         CBTagCumshot.Checked = itemTags.Contains(ItemTagId.Cumshot)
-        CBTagCumEating.Checked = itemTags.Contains(ItemTagId.Cumeating)
+        CBTagCumEating.Checked = itemTags.Contains(ItemTagId.CumEating)
         CBTagKissing.Checked = itemTags.Contains(ItemTagId.Kissing)
         CBTagTattoos.Checked = itemTags.Contains(ItemTagId.Tattoos)
         CBTagStockings.Checked = itemTags.Contains(ItemTagId.Stockings)
@@ -4172,7 +4427,7 @@ checkFolder:
 
         If CBTagDomme Is checkBox Then Return ItemTagId.TeaseAiDomme
         If CBTagCumshot Is checkBox Then Return ItemTagId.Cumshot
-        If CBTagCumEating Is checkBox Then Return ItemTagId.Cumeating
+        If CBTagCumEating Is checkBox Then Return ItemTagId.CumEating
         If CBTagKissing Is checkBox Then Return ItemTagId.Kissing
         If CBTagTattoos Is checkBox Then Return ItemTagId.Tattoos
         If CBTagStockings Is checkBox Then Return ItemTagId.Stockings
@@ -4210,6 +4465,365 @@ checkFolder:
             myImageTagMapService.Delete(selectedImage.Id, imageTagId)
         End If
     End Sub
+#End Region
+
+#Region "Domme Tags"
+
+    Private Sub DommeTagDirectoryButton_Click(sender As Object, e As EventArgs) Handles DommeTagDirectoryButton.Click
+
+        Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
+        If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
+            ImageTagDir.Clear()
+
+            DommeTagDirInput.Text = folderBrowserDialog.SelectedPath
+
+            Dim supportedExtensions As String = "*.png,*.jpg,*.gif,*.bmp,*.jpeg"
+            Dim files As String() = myDirectory.GetFiles(DommeTagDirInput.Text, "*.*")
+
+            Array.Sort(files)
+
+            For Each fi As String In files
+                If supportedExtensions.Contains(Path.GetExtension(LCase(fi))) Then
+                    ImageTagDir.Add(fi)
+                End If
+            Next
+
+            If ImageTagDir.Count < 1 Then
+                MessageBox.Show(Me, "There are no images in the specified folder.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return
+            End If
+
+            ImageTagPictureBox.Image = Image.FromFile(ImageTagDir(0))
+            MainWindow.mainPictureBox.LoadAsync(ImageTagDir(0))
+            CurrentImageTagImage = ImageTagDir(0)
+
+            Dim taggedItem As TeaseAI.Common.TaggedItem = GetTaggedItem(DommeTagDirInput.Text & "\ImageTags.txt", CurrentImageTagImage)
+            SetDommeTagCheckboxes(taggedItem.ItemTags)
+
+            TagCount = 1
+            LBLTagCount.Text = TagCount & "/" & ImageTagDir.Count
+
+            ImageTagCount = 0
+
+            BTNTagSave.Enabled = True
+            BTNTagNext.Enabled = True
+            BTNTagPrevious.Enabled = False
+            DommeTagDirectoryButton.Enabled = False
+            DommeTagDirInput.Enabled = False
+
+            SetDommeTagCheckboxesEnabled(True)
+            LBLTagCount.Enabled = True
+        End If
+    End Sub
+
+    Private Sub DommeTagDirInput_KeyPress(sender As Object, e As KeyPressEventArgs) Handles DommeTagDirInput.KeyPress
+        If e.KeyChar <> Convert.ToChar(13) Then
+            Return
+        End If
+
+        e.Handled = True
+        e.KeyChar = Chr(0)
+
+        Dim getImages As Result(Of List(Of String)) = GetImagesInFolder(DommeTagDirInput.Text) _
+            .Ensure(Function(data) data.Any(), DommeTagDirInput.Text & " does not have any images in it.")
+
+        LocalImageTagDir = getImages.GetResultOrDefault(New List(Of String))
+
+        If Not getImages.IsFailure() Then
+            MessageBox.Show(Me, getImages.GetErrorMessageOrDefault(), "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Return
+        End If
+
+
+        CurrentImageTagImage = ImageTagDir.First()
+        ImageTagPictureBox.Image = Image.FromFile(CurrentImageTagImage)
+        MainWindow.mainPictureBox.LoadAsync(CurrentImageTagImage)
+
+        Dim taggedItem As TeaseAI.Common.TaggedItem = GetTaggedItem(DommeTagDirInput.Text & "\ImageTags.txt", CurrentImageTagImage)
+        SetDommeTagCheckboxes(taggedItem.ItemTags)
+
+        TagCount = 1
+        LBLTagCount.Text = TagCount & "/" & ImageTagDir.Count
+
+        ImageTagCount = 0
+        BTNTagSave.Enabled = True
+        BTNTagNext.Enabled = TagCount < ImageTagDir.Count
+        BTNTagPrevious.Enabled = TagCount > 1
+        DommeTagDirectoryButton.Enabled = False
+        DommeTagDirInput.Enabled = False
+        SetDommeTagCheckboxesEnabled(True)
+    End Sub
+
+    Private Sub BTNTagSave_Click(sender As Object, e As EventArgs) Handles BTNTagSave.Click
+
+        SaveDommeTags(DommeTagDirInput.Text & "\ImageTags.txt", CurrentImageTagImage)
+
+        DommeTagDirectoryButton.Enabled = True
+        DommeTagDirInput.Enabled = True
+        BTNTagSave.Enabled = False
+        BTNTagNext.Enabled = False
+        BTNTagPrevious.Enabled = False
+
+
+
+
+        ' If BTNTagSave.Text = "Save and Finish" Then
+        'BTNTagSave.Text = "Save and Display Next Image"
+        'BTNTagSave.Enabled = False
+        'MessageBox.Show(Me, "All images in this folder have been successfully tagged.", "Success!", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        'ImageTagPictureBox.Image = Nothing
+        'Return
+        'End If
+
+        SetDommeTagCheckboxes(New List(Of Constants.TaggedItem)())
+        SetDommeTagCheckboxesEnabled(False)
+
+        LBLTagCount.Text = "0/0"
+        LBLTagCount.Enabled = False
+
+        ImageTagPictureBox.Image = Nothing
+    End Sub
+
+    Private Sub BTNTagNext_Click(sender As Object, e As EventArgs) Handles BTNTagNext.Click
+        TagCount += 1
+        LBLTagCount.Text = TagCount & "/" & ImageTagDir.Count
+
+        SaveDommeTags(DommeTagDirInput.Text & "\ImageTags.txt", CurrentImageTagImage)
+
+        ImageTagCount += 1
+
+        CurrentImageTagImage = ImageTagDir(ImageTagCount - 1)
+        ImageTagPictureBox.Image = Image.FromFile(CurrentImageTagImage)
+        MainWindow.mainPictureBox.LoadAsync(CurrentImageTagImage)
+
+        BTNTagNext.Enabled = TagCount < ImageTagDir.Count
+        BTNTagPrevious.Enabled = TagCount > 1
+
+        Dim taggedItem As TeaseAI.Common.TaggedItem = GetTaggedItem(DommeTagDirInput.Text & "\ImageTags.txt", CurrentImageTagImage)
+        SetDommeTagCheckboxes(taggedItem.ItemTags)
+    End Sub
+
+    Private Sub BTNTagPrevious_Click(sender As Object, e As EventArgs) Handles BTNTagPrevious.Click
+
+        TagCount -= 1
+        LBLTagCount.Text = TagCount & "/" & ImageTagDir.Count
+        BTNTagNext.Enabled = True
+
+
+        SaveDommeTags(DommeTagDirInput.Text & "\ImageTags.txt", CurrentImageTagImage)
+
+        ImageTagCount -= 1
+
+        Try
+            ImageTagPictureBox.Image.Dispose()
+        Catch
+        End Try
+
+        ImageTagPictureBox.Image = Nothing
+        GC.Collect()
+
+        ImageTagPictureBox.Image = Image.FromFile(ImageTagDir(ImageTagCount))
+        MainWindow.mainPictureBox.LoadAsync(ImageTagDir(ImageTagCount))
+        CurrentImageTagImage = ImageTagDir(ImageTagCount)
+
+        BTNTagPrevious.Enabled = ImageTagCount > 0
+        Dim taggedItem As TeaseAI.Common.TaggedItem = GetTaggedItem(DommeTagDirInput.Text & "\ImageTags.txt", CurrentImageTagImage)
+        SetDommeTagCheckboxes(taggedItem.ItemTags)
+    End Sub
+
+    Private Function GetTaggedItem(tagFile As String, imageFile As String) As TeaseAI.Common.TaggedItem
+        Dim taggedItems As List(Of TeaseAI.Common.TaggedItem) = ReadTagFile(tagFile)
+        Return taggedItems.FirstOrDefault(Function(ti) ti.ItemName.ToLower() = imageFile.ToLower())
+    End Function
+
+    Private Sub SetDommeTagCheckboxesEnabled(isEnabled As Boolean)
+        CBTagFace.Enabled = isEnabled
+        CBTagBoobs.Enabled = isEnabled
+        CBTagPussy.Enabled = isEnabled
+        CBTagAss.Enabled = isEnabled
+        CBTagLegs.Enabled = isEnabled
+        CBTagFeet.Enabled = isEnabled
+        CBTagFullyDressed.Enabled = isEnabled
+        CBTagHalfDressed.Enabled = isEnabled
+        CBTagGarmentCovering.Enabled = isEnabled
+        CBTagHandsCovering.Enabled = isEnabled
+        CBTagNaked.Enabled = isEnabled
+        CBTagSideView.Enabled = isEnabled
+        CBTagCloseUp.Enabled = isEnabled
+        CBTagMasturbating.Enabled = isEnabled
+        CBTagSucking.Enabled = isEnabled
+        CBTagPiercing.Enabled = isEnabled
+        CBTagSmiling.Enabled = isEnabled
+        CBTagGlaring.Enabled = isEnabled
+        CBTagSeeThrough.Enabled = isEnabled
+        CBTagAllFours.Enabled = isEnabled
+
+        CBTagGarment.Enabled = isEnabled
+        CBTagUnderwear.Enabled = isEnabled
+        CBTagTattoo.Enabled = isEnabled
+        CBTagSexToy.Enabled = isEnabled
+        CBTagFurniture.Enabled = isEnabled
+
+        TBTagGarment.Enabled = isEnabled
+        TBTagUnderwear.Enabled = isEnabled
+        TBTagTattoo.Enabled = isEnabled
+        TBTagSexToy.Enabled = isEnabled
+        TBTagFurniture.Enabled = isEnabled
+
+        LBLTagCount.Enabled = isEnabled
+    End Sub
+
+    ''' <summary>
+    ''' Set the domme tag checkboxes
+    ''' </summary>
+    ''' <param name="itemTags"></param>
+    Private Sub SetDommeTagCheckboxes(itemTags As List(Of Constants.TaggedItem))
+        CBTagFace.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagFace").Value)
+        CBTagBoobs.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagBoobs").Value)
+        CBTagPussy.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagPussy").Value)
+        CBTagAss.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagAss").Value)
+        CBTagLegs.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagLegs").Value)
+        CBTagFeet.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagFeet").Value)
+        CBTagFullyDressed.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagFullyDressed").Value)
+        CBTagHalfDressed.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagHalfDressed").Value)
+        CBTagGarmentCovering.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagGarmentCovering").Value)
+        CBTagHandsCovering.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagHandsCovering").Value)
+        CBTagNaked.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagNaked").Value)
+        CBTagSideView.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagSideView").Value)
+        CBTagCloseUp.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagCloseUp").Value)
+        CBTagMasturbating.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagMasturbating").Value)
+        CBTagSucking.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagSucking").Value)
+        CBTagPiercing.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagPiercing").Value)
+        CBTagSmiling.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagSmiling").Value)
+        CBTagGlaring.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagGlaring").Value)
+        CBTagSeeThrough.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagSeeThrough").Value)
+        CBTagAllFours.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagAllFours").Value)
+
+        Dim garmentTag As Constants.TaggedItem? = itemTags.FirstOrDefault(Function(it) it.Equals(Constants.TaggedItem.Create("TagGarment").Value))
+        CBTagGarment.Checked = garmentTag.HasValue
+        TBTagGarment.Text = If(garmentTag.HasValue, String.Empty, garmentTag.Value.ToString().Replace("TagGarment", ""))
+
+        Dim underwearTag As Constants.TaggedItem? = itemTags.FirstOrDefault(Function(it) it.Equals(Constants.TaggedItem.Create("TagUnderwear").Value))
+        CBTagUnderwear.Checked = underwearTag.HasValue
+        TBTagUnderwear.Text = If(underwearTag.HasValue, String.Empty, underwearTag.Value.ToString().Replace("TagUnderwear", ""))
+
+        Dim tattooTag As Constants.TaggedItem? = itemTags.FirstOrDefault(Function(it) it.Equals(Constants.TaggedItem.Create("TagTattoo").Value))
+        CBTagTattoo.Checked = tattooTag.HasValue
+        TBTagTattoo.Text = If(tattooTag.HasValue, String.Empty, tattooTag.Value.ToString().Replace("TagTattoo", ""))
+
+        Dim sexToyTag As Constants.TaggedItem? = itemTags.FirstOrDefault(Function(it) it.Equals(Constants.TaggedItem.Create("TagSexToy").Value))
+        CBTagSexToy.Checked = sexToyTag.HasValue
+        TBTagSexToy.Text = If(sexToyTag.HasValue, String.Empty, sexToyTag.Value.ToString().Replace("TagSexToy", ""))
+
+        Dim furnitureTag As Constants.TaggedItem? = itemTags.FirstOrDefault(Function(it) it.Equals(Constants.TaggedItem.Create("TagFurniture").Value))
+        CBTagFurniture.Checked = furnitureTag.HasValue
+        TBTagFurniture.Text = If(furnitureTag.HasValue, String.Empty, furnitureTag.Value.ToString().Replace("TagFurniture", ""))
+    End Sub
+
+    Public Sub SaveDommeTags(tagFile As String, imageFile As String)
+
+        Dim imageTagLine As String = Path.GetFileName(imageFile)
+
+        If CBTagFace.Checked Then imageTagLine = imageTagLine & " " & "TagFace"
+        If CBTagBoobs.Checked Then imageTagLine = imageTagLine & " " & "TagBoobs"
+        If CBTagPussy.Checked Then imageTagLine = imageTagLine & " " & "TagPussy"
+        If CBTagAss.Checked Then imageTagLine = imageTagLine & " " & "TagAss"
+        If CBTagLegs.Checked Then imageTagLine = imageTagLine & " " & "TagLegs"
+        If CBTagFeet.Checked Then imageTagLine = imageTagLine & " " & "TagFeet"
+        If CBTagFullyDressed.Checked Then imageTagLine = imageTagLine & " " & "TagFullyDressed"
+        If CBTagHalfDressed.Checked Then imageTagLine = imageTagLine & " " & "TagHalfDressed"
+        If CBTagGarmentCovering.Checked Then imageTagLine = imageTagLine & " " & "TagGarmentCovering"
+        If CBTagHandsCovering.Checked Then imageTagLine = imageTagLine & " " & "TagHandsCovering"
+        If CBTagNaked.Checked Then imageTagLine = imageTagLine & " " & "TagNaked"
+        If CBTagSideView.Checked Then imageTagLine = imageTagLine & " " & "TagSideView"
+        If CBTagCloseUp.Checked Then imageTagLine = imageTagLine & " " & "TagCloseUp"
+        If CBTagMasturbating.Checked Then imageTagLine = imageTagLine & " " & "TagMasturbating"
+        If CBTagSucking.Checked Then imageTagLine = imageTagLine & " " & "TagSucking"
+        If CBTagPiercing.Checked Then imageTagLine = imageTagLine & " " & "TagPiercing"
+        If CBTagSmiling.Checked Then imageTagLine = imageTagLine & " " & "TagSmiling"
+        If CBTagGlaring.Checked Then imageTagLine = imageTagLine & " " & "TagGlaring"
+        If CBTagSeeThrough.Checked Then imageTagLine = imageTagLine & " " & "TagSeeThrough"
+        If CBTagAllFours.Checked Then imageTagLine = imageTagLine & " " & "TagAllFours"
+
+        If CBTagGarment.Checked Then
+            If TBTagGarment.Text = "" Then
+                MessageBox.Show(Me, "Please enter a description in the Garment field!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
+                Return
+            Else
+                imageTagLine = imageTagLine & " " & "TagGarment" & TBTagGarment.Text
+            End If
+        End If
+
+        If CBTagUnderwear.Checked Then
+            If TBTagUnderwear.Text = "" Then
+                MessageBox.Show(Me, "Please enter a description in the Underwear field!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
+                Return
+            Else
+                imageTagLine = imageTagLine & " " & "TagUnderwear" & TBTagUnderwear.Text
+            End If
+        End If
+
+        If CBTagTattoo.Checked Then
+            If TBTagTattoo.Text = "" Then
+                MessageBox.Show(Me, "Please enter a description in the Tattoo field!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
+                Return
+            Else
+                imageTagLine = imageTagLine & " " & "TagTattoo" & TBTagTattoo.Text
+            End If
+        End If
+
+        If CBTagSexToy.Checked Then
+            If TBTagSexToy.Text = "" Then
+                MessageBox.Show(Me, "Please enter a description in the Room field!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
+                Return
+            Else
+                imageTagLine = imageTagLine & " " & "TagSexToy" & TBTagSexToy.Text
+            End If
+        End If
+
+        If CBTagFurniture.Checked Then
+            If TBTagFurniture.Text = "" Then
+                MessageBox.Show(Me, "Please enter a description in the Furniture field!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
+                Return
+            Else
+                imageTagLine = imageTagLine & " " & "TagFurniture" & TBTagFurniture.Text
+            End If
+        End If
+
+
+        If File.Exists(tagFile) Then
+            Dim TagCheckList As List(Of TeaseAI.Common.TaggedItem) = ReadTagFile(tagFile)
+            Dim LineExists As Boolean
+            LineExists = False
+            ' FINISH ME
+            'For i As Integer = 0 To TagCheckList.Count - 1
+            '    If TagCheckList(i).Contains(Path.GetFileName(CurrentImageTagImage)) Then
+            '        TagCheckList(i) = TempImageDir
+            '        LineExists = True
+            '        System.IO.File.WriteAllLines(TBTagDir.Text & "\ImageTags.txt", TagCheckList)
+            '    End If
+            'Next
+
+            If Not LineExists Then
+                My.Computer.FileSystem.WriteAllText(tagFile, Environment.NewLine & imageTagLine, True)
+                LineExists = False
+            End If
+
+        Else
+            My.Computer.FileSystem.WriteAllText(tagFile, imageTagLine, True)
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Reads the tag data from a file as a collection of strings
+    ''' </summary>
+    ''' <param name="fileName"></param>
+    ''' <returns></returns>
+    Private Function ReadTagFile(fileName As String) As List(Of TeaseAI.Common.TaggedItem)
+        Return myLoadFileData.ReadData(fileName) _
+                    .OnSuccess(Function(data) myParseTagDataService.ParseTagData(data)).GetResultOrDefault(New List(Of TeaseAI.Common.TaggedItem))
+    End Function
+
 #End Region
 
     Private Sub ComboBox1_DrawItem(ByVal sender As Object, ByVal e As Windows.Forms.DrawItemEventArgs) Handles SubMessageFontCB.DrawItem
@@ -4618,170 +5232,6 @@ checkFolder:
         If NBWritingTaskMax.Value < NBWritingTaskMin.Value Then NBWritingTaskMax.Value = NBWritingTaskMin.Value
     End Sub
 
-    Private Sub BTNTagDir_Click(sender As Object, e As EventArgs) Handles BTNTagDir.Click
-
-        Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
-        If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
-            ImageTagDir.Clear()
-
-            TBTagDir.Text = folderBrowserDialog.SelectedPath
-
-            Dim supportedExtensions As String = "*.png,*.jpg,*.gif,*.bmp,*.jpeg"
-            Dim files As String() = myDirectory.GetFiles(TBTagDir.Text, "*.*")
-
-            Array.Sort(files)
-
-            For Each fi As String In files
-                If supportedExtensions.Contains(Path.GetExtension(LCase(fi))) Then
-                    ImageTagDir.Add(fi)
-                End If
-            Next
-
-            If ImageTagDir.Count < 1 Then
-                MessageBox.Show(Me, "There are no images in the specified folder.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Return
-            End If
-
-            ImageTagPictureBox.Image = Image.FromFile(ImageTagDir(0))
-            MainWindow.mainPictureBox.LoadAsync(ImageTagDir(0))
-            CurrentImageTagImage = ImageTagDir(0)
-
-            Dim taggedItem As TeaseAI.Common.TaggedItem = GetTaggedItem(TBTagDir.Text & "\ImageTags.txt", CurrentImageTagImage)
-            SetDommeTagCheckboxes(taggedItem.ItemTags)
-
-            TagCount = 1
-            LBLTagCount.Text = TagCount & "/" & ImageTagDir.Count
-
-            'If ImageTagDir.Count = 1 Then BTNTagSave.Text = "Save and Finish"
-
-            ImageTagCount = 0
-
-            BTNTagSave.Enabled = True
-            BTNTagNext.Enabled = True
-            BTNTagPrevious.Enabled = False
-            BTNTagDir.Enabled = False
-            TBTagDir.Enabled = False
-
-            SetDommeTagCheckboxesEnabled(True)
-            LBLTagCount.Enabled = True
-        End If
-    End Sub
-
-    Private Sub TBTagDir_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TBTagDir.KeyPress
-        If e.KeyChar <> Convert.ToChar(13) Then
-            Return
-        End If
-
-        e.Handled = True
-        e.KeyChar = Chr(0)
-
-        Dim getImages As Result(Of List(Of String)) = GetImagesInFolder(TBTagDir.Text) _
-            .Ensure(Function(data) data.Any(), TBTagDir.Text & " does not have any images in it.")
-
-        LocalImageTagDir = getImages.GetResultOrDefault(New List(Of String))
-
-        If Not getImages.IsFailure() Then
-            MessageBox.Show(Me, getImages.GetErrorMessageOrDefault(), "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            Return
-        End If
-
-
-        CurrentImageTagImage = ImageTagDir.First()
-        ImageTagPictureBox.Image = Image.FromFile(CurrentImageTagImage)
-        MainWindow.mainPictureBox.LoadAsync(CurrentImageTagImage)
-
-        Dim taggedItem As TeaseAI.Common.TaggedItem = GetTaggedItem(TBTagDir.Text & "\ImageTags.txt", CurrentImageTagImage)
-        SetDommeTagCheckboxes(taggedItem.ItemTags)
-
-        TagCount = 1
-        LBLTagCount.Text = TagCount & "/" & ImageTagDir.Count
-
-        ImageTagCount = 0
-        BTNTagSave.Enabled = True
-        BTNTagNext.Enabled = TagCount < ImageTagDir.Count
-        BTNTagPrevious.Enabled = TagCount > 1
-        BTNTagDir.Enabled = False
-        TBTagDir.Enabled = False
-        SetDommeTagCheckboxesEnabled(True)
-    End Sub
-
-    Private Sub BTNTagSave_Click(sender As Object, e As EventArgs) Handles BTNTagSave.Click
-
-        SaveDommeTags(TBTagDir.Text & "\ImageTags.txt", CurrentImageTagImage)
-
-        BTNTagDir.Enabled = True
-        TBTagDir.Enabled = True
-        BTNTagSave.Enabled = False
-        BTNTagNext.Enabled = False
-        BTNTagPrevious.Enabled = False
-
-
-
-
-        ' If BTNTagSave.Text = "Save and Finish" Then
-        'BTNTagSave.Text = "Save and Display Next Image"
-        'BTNTagSave.Enabled = False
-        'MessageBox.Show(Me, "All images in this folder have been successfully tagged.", "Success!", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        'ImageTagPictureBox.Image = Nothing
-        'Return
-        'End If
-
-        SetDommeTagCheckboxes(New List(Of Constants.TaggedItem)())
-        SetDommeTagCheckboxesEnabled(False)
-
-        LBLTagCount.Text = "0/0"
-        LBLTagCount.Enabled = False
-
-        ImageTagPictureBox.Image = Nothing
-    End Sub
-
-    Private Sub BTNTagNext_Click(sender As Object, e As EventArgs) Handles BTNTagNext.Click
-        TagCount += 1
-        LBLTagCount.Text = TagCount & "/" & ImageTagDir.Count
-
-        SaveDommeTags(TBTagDir.Text & "\ImageTags.txt", CurrentImageTagImage)
-
-        ImageTagCount += 1
-
-        CurrentImageTagImage = ImageTagDir(ImageTagCount - 1)
-        ImageTagPictureBox.Image = Image.FromFile(CurrentImageTagImage)
-        MainWindow.mainPictureBox.LoadAsync(CurrentImageTagImage)
-
-        BTNTagNext.Enabled = TagCount < ImageTagDir.Count
-        BTNTagPrevious.Enabled = TagCount > 1
-
-        Dim taggedItem As TeaseAI.Common.TaggedItem = GetTaggedItem(TBTagDir.Text & "\ImageTags.txt", CurrentImageTagImage)
-        SetDommeTagCheckboxes(taggedItem.ItemTags)
-    End Sub
-
-    Private Sub BTNTagPrevious_Click(sender As Object, e As EventArgs) Handles BTNTagPrevious.Click
-
-        TagCount -= 1
-        LBLTagCount.Text = TagCount & "/" & ImageTagDir.Count
-        BTNTagNext.Enabled = True
-
-
-        SaveDommeTags(TBTagDir.Text & "\ImageTags.txt", CurrentImageTagImage)
-
-        ImageTagCount -= 1
-
-        Try
-            ImageTagPictureBox.Image.Dispose()
-        Catch
-        End Try
-
-        ImageTagPictureBox.Image = Nothing
-        GC.Collect()
-
-        ImageTagPictureBox.Image = Image.FromFile(ImageTagDir(ImageTagCount))
-        MainWindow.mainPictureBox.LoadAsync(ImageTagDir(ImageTagCount))
-        CurrentImageTagImage = ImageTagDir(ImageTagCount)
-
-        BTNTagPrevious.Enabled = ImageTagCount > 0
-        Dim taggedItem As TeaseAI.Common.TaggedItem = GetTaggedItem(TBTagDir.Text & "\ImageTags.txt", CurrentImageTagImage)
-        SetDommeTagCheckboxes(taggedItem.ItemTags)
-    End Sub
-
     Private Sub Button50_Click(sender As Object, e As EventArgs) Handles Button50.Click
 
         TBKeyWords.Text = ""
@@ -5005,9 +5455,9 @@ checkFolder:
         Return InstrCount
     End Function
 
-    Private Sub TBTagDir_MouseClick(sender As Object, e As Windows.Forms.MouseEventArgs) Handles TBTagDir.MouseClick
-        TBTagDir.SelectionStart = 0
-        TBTagDir.SelectionLength = Len(TBTagDir.Text)
+    Private Sub TBTagDir_MouseClick(sender As Object, e As Windows.Forms.MouseEventArgs) Handles DommeTagDirInput.MouseClick
+        DommeTagDirInput.SelectionStart = 0
+        DommeTagDirInput.SelectionLength = Len(DommeTagDirInput.Text)
     End Sub
 
     Private Sub TBWIDirectory_MouseClick(sender As Object, e As Windows.Forms.MouseEventArgs) Handles TBWIDirectory.MouseClick
@@ -7152,267 +7602,6 @@ checkFolder:
         Return scriptList
     End Function
 
-    ''' <summary>
-    ''' Determine requirements for <paramref name="scriptMetaData"/>
-    ''' </summary>
-    ''' <param name="scriptMetaData"></param>
-    Public Function GetScriptRequirements(scriptMetaData As ScriptMetaData) As Tuple(Of Boolean, String)
-        Dim requirements As List(Of String) = New List(Of String)()
-        Dim getScript As Result(Of Script) = myScriptAccessor.GetScript(scriptMetaData)
-        If (getScript.IsFailure) Then
-            Throw New ApplicationException(getScript.Error.Message)
-        End If
-        Dim script As Script = getScript.Value
-        Dim areScriptRequirementsMet As Boolean = True
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowBlogImage) OrElse l.Contains(Keyword.NewBlogImage) OrElse l.Contains(Keyword.ShowImage)) Then
-            requirements.Add("* At least one URL File Selected *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso URLFileList.CheckedItems.Count > 0
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowLocalImage) OrElse l.Contains(Keyword.ShowImage)) Then
-            requirements.Add("* At least one Local Image path selected with a valid directory *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.IsImageGenreEnabled.Values.Any(Function(isEn) isEn)
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains("@CBTBalls")) Then
-            requirements.Add("* Ball Torture must be enabled *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.IsBallTortureEnabled
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains("@CBTCock")) Then
-            requirements.Add("* Cock Torture must be enabled *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.IsCockTortureEnabled
-        End If
-
-        If script.Lines.Any(Function(l) Not l.Contains("@CBTCock") AndAlso Not l.Contains("@CBTBalls") AndAlso l.Contains("@CBT")) Then
-            requirements.Add("* Cock Torture must be enabled *")
-            requirements.Add("* Ball Torture must be enabled *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.IsCockTortureEnabled AndAlso mySettingsAccessor.IsBallTortureEnabled
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.PlayJoiVideo)) Then
-            requirements.Add("* JOI or JOI Domme Video path selected with a valid directory *")
-            areScriptRequirementsMet = areScriptRequirementsMet _
-                    AndAlso ((CBVideoJOI.Checked AndAlso Convert.ToInt32(LblVideoJOITotal.Text) > 0) _
-                        OrElse (CBVideoJOID.Checked AndAlso Convert.ToInt32(LblVideoJOITotalD.Text) > 0)
-                    )
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains("PlayCHVideo")) Then
-            requirements.Add("* CH or CH Domme Video path selected with a valid directory *")
-            areScriptRequirementsMet = areScriptRequirementsMet _
-                    AndAlso ((CBVideoCH.Checked AndAlso Convert.ToInt32(LblVideoCHTotal.Text) > 0) _
-                        OrElse (CBVideoCHD.Checked AndAlso Convert.ToInt32(LblVideoCHTotalD.Text) > 0)
-                    )
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowButtImage) OrElse l.Contains(Keyword.ShowButtsImage)) Then
-            requirements.Add("* BnB Butt path must be set to a valid directory or URL File *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
-                    ((mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Butt) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Butt))) OrElse
-                    (ChbImageUrlButts.Checked AndAlso File.Exists(My.Settings.UrlFileButt)))
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowBoobImage) OrElse l.Contains(Keyword.ShowBoobsImage)) Then
-            requirements.Add("* BnB Boobs path must be set to a valid directory or URL File *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
-                ((mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Boobs) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Boobs))) OrElse
-                (ChbImageUrlButts.Checked AndAlso File.Exists(My.Settings.UrlFileButt)))
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowHardcoreImage)) Then
-            requirements.Add("* Local Hardcore images must be enabled and set to a valid directory  *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
-                mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Hardcore) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Hardcore))
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowLesbianImage)) Then
-            requirements.Add("* Local Lesbian images must be enabled and set to a valid directory  *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
-                mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Lesbian) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Lesbian))
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowBlowjobImage)) Then
-            requirements.Add("* Local Blowjob images must be enabled and set to a valid directory  *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
-                mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Blowjob) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Blowjob))
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowFemdomImage)) Then
-            requirements.Add("* Local Femdom images must be enabled and set to a valid directory  *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
-                mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Femdom) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Femdom))
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowLezdomImage)) Then
-            requirements.Add("* Local Lezdom images must be enabled and set to a valid directory  *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
-                mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Lezdom) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Lezdom))
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowHentaiImage)) Then
-            requirements.Add("* Local Hentai images must be enabled and set to a valid directory  *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
-                mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Hentai) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Hentai))
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowGayImage)) Then
-            requirements.Add("* Local gay images must be enabled and set to a valid directory  *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
-                mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Gay) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Gay))
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowMaledomImage)) Then
-            requirements.Add("* Local maledom images must be enabled and set to a valid directory  *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
-                mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Maledom) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Maledom))
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowCaptionsImage)) Then
-            requirements.Add("* Local caption images must be enabled and set to a valid directory  *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
-                mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Captions) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Captions))
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowGeneralImage)) Then
-            requirements.Add("* Local general images must be enabled and set to a valid directory  *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
-                mySettingsAccessor.IsImageGenreEnabled(ImageGenre.General) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.General))
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains("@ShowTaggedImage") AndAlso l.Contains("@Tag")) Then
-            Dim tagImageList As List(Of String) = New List(Of String)()
-
-            Dim tagFile = LocalImageTagFile
-            If File.Exists(tagFile) Then
-                tagImageList = File.ReadAllText(tagFile) _
-                    .Split(" ") _
-                    .Where(Function(l) l.StartsWith("Tag")) _
-                    .Distinct() _
-                    .ToList()
-            End If
-
-            Dim scriptTags As List(Of String) = String.Join(" ", script.Lines.All(Function(l) l.Contains("@Tag"))) _
-                .Split(" ") _
-                .Where(Function(l) l.StartsWith("@Tag")) _
-                .Select(Function(l) l.Replace("@Tag", "Tag")) _
-                .Distinct() _
-                .ToList()
-
-            Dim missingTags As List(Of String) = scriptTags.Where(Function(l) Not tagFile.Contains(l)).ToList()
-            requirements.Add("* Images in LocalImageTags.txt tagged with: " & String.Join(" ", missingTags))
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso Not missingTags.Any()
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains("@ShowTaggedImage") AndAlso Not l.Contains("@Tag")) Then
-            Dim tagFile = LocalImageTagFile
-            requirements.Add("* LocalImageTags.txt must exist in \Images\System\ *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso File.Exists(tagFile)
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains("@CheckVideo")) Then
-            MainWindow.ssh.VideoCheck = True
-            MainWindow.RandomVideo()
-            requirements.Add("* At least one Genre or Domme Video path set and selected *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso Not MainWindow.ssh.NoVideo
-            MainWindow.ssh.VideoCheck = False
-            MainWindow.ssh.NoVideo = False
-        End If
-
-        ' Need to find out if we have videos for the next few
-        MainWindow.ssh.VideoCheck = True
-        MainWindow.RandomVideo()
-        Dim hasVideos = Not MainWindow.ssh.NoVideo
-        MainWindow.ssh.VideoCheck = False
-        MainWindow.ssh.NoVideo = False
-
-        If script.Lines.Any(Function(l) l.Contains("@CheckVideo")) Then
-            requirements.Add("* At least one Genre or Domme Video path set and selected *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso hasVideos
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains("@PlayCensorShipSucks") OrElse l.Contains("@PlayAvoidTheEdge") OrElse l.Contains("@PlayRedLightGreenLight")) Then
-            requirements.Add("* At least one non-Special Genre or Domme Video path set and selected *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso hasVideos
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains("@ChastityOn") OrElse l.Contains("@ChastityOff")) Then
-            requirements.Add("* You must indicate you own a chastity device *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.HasChastityDevice
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains("@DeleteLocalImage")) Then
-            requirements.Add("* ""Allow Domme to Delete Local Media"" muct be checked *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.CanDommeDeleteFiles
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains("@DeleteLocalImage")) Then
-            requirements.Add("* ""Allow Domme to Delete Local Media"" muct be checked *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.CanDommeDeleteFiles
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains("@VitalSubAssignment")) Then
-            requirements.Add("* ""Allow Domme to Delete Local Media"" muct be checked *")
-            requirements.Add("* VitalSub must be enabled *")
-            requirements.Add("* ""Domme Assignments"" must be checked in the VitalSub app *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso MainWindow.CBVitalSub.Checked AndAlso MainWindow.CBVitalSubDomTask.Checked
-        End If
-        Return Tuple.Create(areScriptRequirementsMet, String.Join(Environment.NewLine, requirements).Replace("**", "* *"))
-    End Function
-
-    ''' <summary>
-    ''' Load script metadata into the checked list box
-    ''' </summary>
-    ''' <param name="target"></param>
-    ''' <param name="dommePersonalityName"></param>
-    ''' <param name="type"></param>
-    ''' <param name="stage"></param>
-    ''' <param name="isEnabledByDefault"></param>
-    Private Sub LoadScriptMetaData(target As CheckedListBox, dommePersonalityName As String, type As String, stage As SessionPhase, isEnabledByDefault As Boolean)
-        Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(dommePersonalityName, type, stage, isEnabledByDefault)
-
-        Dim lastIndex As Integer = target.SelectedIndex
-        Dim lastItem As String = target.SelectedItem
-
-        target.BeginUpdate()
-        target.Items.Clear()
-        For Each cldFile In scripts
-            target.Items.Add(cldFile.Name, cldFile.IsEnabled)
-        Next
-
-        If lastIndex = -1 Then
-            ScriptStatusUnlock(False)
-        ElseIf target.Items.Count >= lastIndex Then
-            target.SelectedIndex = lastIndex
-        ElseIf target.Items.Contains(lastItem) Then
-            target.SelectedItem = lastItem
-        End If
-        target.EndUpdate()
-    End Sub
-
-    ''' <summary>
-    ''' Determine requirements for <paramref name="scriptMetaData"/>
-    ''' </summary>
-    ''' <param name="scriptMetaData"></param>
-    Public Sub GetScriptStatus(scriptMetaData As ScriptMetaData)
-        Dim scriptRequirements = GetScriptRequirements(scriptMetaData)
-
-        Try
-            ScriptStatusUnlock(True)
-            RTBScriptReq.Text = scriptRequirements.Item2
-
-            If Not scriptRequirements.Item1 Then
-                LBLScriptReq.ForeColor = Color.Red
-                LBLScriptReq.Text = "All requirements not met!"
-            Else
-                LBLScriptReq.ForeColor = Color.Green
-                LBLScriptReq.Text = "All requirements met!"
-            End If
-        Catch ex As Exception
-            ScriptStatusUnlock(False)
-            MessageBox.Show(ex.Message, "Error Checking ScriptStatus", MessageBoxButtons.OK, MessageBoxIcon.Hand)
-        End Try
-    End Sub
 
     Private Function GetScriptsCheckedListBox(sessionPhase As SessionPhase) As CheckedListBox
         If sessionPhase = SessionPhase.Start Then
@@ -7496,200 +7685,6 @@ checkFolder:
         Return Result.Ok(images)
     End Function
 
-    Private Function GetTaggedItem(tagFile As String, imageFile As String) As TeaseAI.Common.TaggedItem
-        Dim taggedItems As List(Of TeaseAI.Common.TaggedItem) = ReadTagFile(tagFile)
-        Return taggedItems.FirstOrDefault(Function(ti) ti.ItemName.ToLower() = imageFile.ToLower())
-    End Function
-
-    Private Sub SetDommeTagCheckboxesEnabled(isEnabled As Boolean)
-        CBTagFace.Enabled = isEnabled
-        CBTagBoobs.Enabled = isEnabled
-        CBTagPussy.Enabled = isEnabled
-        CBTagAss.Enabled = isEnabled
-        CBTagLegs.Enabled = isEnabled
-        CBTagFeet.Enabled = isEnabled
-        CBTagFullyDressed.Enabled = isEnabled
-        CBTagHalfDressed.Enabled = isEnabled
-        CBTagGarmentCovering.Enabled = isEnabled
-        CBTagHandsCovering.Enabled = isEnabled
-        CBTagNaked.Enabled = isEnabled
-        CBTagSideView.Enabled = isEnabled
-        CBTagCloseUp.Enabled = isEnabled
-        CBTagMasturbating.Enabled = isEnabled
-        CBTagSucking.Enabled = isEnabled
-        CBTagPiercing.Enabled = isEnabled
-        CBTagSmiling.Enabled = isEnabled
-        CBTagGlaring.Enabled = isEnabled
-        CBTagSeeThrough.Enabled = isEnabled
-        CBTagAllFours.Enabled = isEnabled
-
-        CBTagGarment.Enabled = isEnabled
-        CBTagUnderwear.Enabled = isEnabled
-        CBTagTattoo.Enabled = isEnabled
-        CBTagSexToy.Enabled = isEnabled
-        CBTagFurniture.Enabled = isEnabled
-
-        TBTagGarment.Enabled = isEnabled
-        TBTagUnderwear.Enabled = isEnabled
-        TBTagTattoo.Enabled = isEnabled
-        TBTagSexToy.Enabled = isEnabled
-        TBTagFurniture.Enabled = isEnabled
-
-        LBLTagCount.Enabled = isEnabled
-    End Sub
-
-    ''' <summary>
-    ''' Set the domme tag checkboxes
-    ''' </summary>
-    ''' <param name="itemTags"></param>
-    Private Sub SetDommeTagCheckboxes(itemTags As List(Of Constants.TaggedItem))
-        CBTagFace.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagFace").Value)
-        CBTagBoobs.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagBoobs").Value)
-        CBTagPussy.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagPussy").Value)
-        CBTagAss.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagAss").Value)
-        CBTagLegs.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagLegs").Value)
-        CBTagFeet.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagFeet").Value)
-        CBTagFullyDressed.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagFullyDressed").Value)
-        CBTagHalfDressed.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagHalfDressed").Value)
-        CBTagGarmentCovering.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagGarmentCovering").Value)
-        CBTagHandsCovering.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagHandsCovering").Value)
-        CBTagNaked.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagNaked").Value)
-        CBTagSideView.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagSideView").Value)
-        CBTagCloseUp.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagCloseUp").Value)
-        CBTagMasturbating.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagMasturbating").Value)
-        CBTagSucking.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagSucking").Value)
-        CBTagPiercing.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagPiercing").Value)
-        CBTagSmiling.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagSmiling").Value)
-        CBTagGlaring.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagGlaring").Value)
-        CBTagSeeThrough.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagSeeThrough").Value)
-        CBTagAllFours.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagAllFours").Value)
-
-        Dim garmentTag As Constants.TaggedItem? = itemTags.FirstOrDefault(Function(it) it.Equals(Constants.TaggedItem.Create("TagGarment").Value))
-        CBTagGarment.Checked = garmentTag.HasValue
-        TBTagGarment.Text = If(garmentTag.HasValue, String.Empty, garmentTag.Value.ToString().Replace("TagGarment", ""))
-
-        Dim underwearTag As Constants.TaggedItem? = itemTags.FirstOrDefault(Function(it) it.Equals(Constants.TaggedItem.Create("TagUnderwear").Value))
-        CBTagUnderwear.Checked = underwearTag.HasValue
-        TBTagUnderwear.Text = If(underwearTag.HasValue, String.Empty, underwearTag.Value.ToString().Replace("TagUnderwear", ""))
-
-        Dim tattooTag As Constants.TaggedItem? = itemTags.FirstOrDefault(Function(it) it.Equals(Constants.TaggedItem.Create("TagTattoo").Value))
-        CBTagTattoo.Checked = tattooTag.HasValue
-        TBTagTattoo.Text = If(tattooTag.HasValue, String.Empty, tattooTag.Value.ToString().Replace("TagTattoo", ""))
-
-        Dim sexToyTag As Constants.TaggedItem? = itemTags.FirstOrDefault(Function(it) it.Equals(Constants.TaggedItem.Create("TagSexToy").Value))
-        CBTagSexToy.Checked = sexToyTag.HasValue
-        TBTagSexToy.Text = If(sexToyTag.HasValue, String.Empty, sexToyTag.Value.ToString().Replace("TagSexToy", ""))
-
-        Dim furnitureTag As Constants.TaggedItem? = itemTags.FirstOrDefault(Function(it) it.Equals(Constants.TaggedItem.Create("TagFurniture").Value))
-        CBTagFurniture.Checked = furnitureTag.HasValue
-        TBTagFurniture.Text = If(furnitureTag.HasValue, String.Empty, furnitureTag.Value.ToString().Replace("TagFurniture", ""))
-    End Sub
-
-
-    Public Sub SaveDommeTags(tagFile As String, imageFile As String)
-
-        Dim imageTagLine As String = Path.GetFileName(imageFile)
-
-        If CBTagFace.Checked Then imageTagLine = imageTagLine & " " & "TagFace"
-        If CBTagBoobs.Checked Then imageTagLine = imageTagLine & " " & "TagBoobs"
-        If CBTagPussy.Checked Then imageTagLine = imageTagLine & " " & "TagPussy"
-        If CBTagAss.Checked Then imageTagLine = imageTagLine & " " & "TagAss"
-        If CBTagLegs.Checked Then imageTagLine = imageTagLine & " " & "TagLegs"
-        If CBTagFeet.Checked Then imageTagLine = imageTagLine & " " & "TagFeet"
-        If CBTagFullyDressed.Checked Then imageTagLine = imageTagLine & " " & "TagFullyDressed"
-        If CBTagHalfDressed.Checked Then imageTagLine = imageTagLine & " " & "TagHalfDressed"
-        If CBTagGarmentCovering.Checked Then imageTagLine = imageTagLine & " " & "TagGarmentCovering"
-        If CBTagHandsCovering.Checked Then imageTagLine = imageTagLine & " " & "TagHandsCovering"
-        If CBTagNaked.Checked Then imageTagLine = imageTagLine & " " & "TagNaked"
-        If CBTagSideView.Checked Then imageTagLine = imageTagLine & " " & "TagSideView"
-        If CBTagCloseUp.Checked Then imageTagLine = imageTagLine & " " & "TagCloseUp"
-        If CBTagMasturbating.Checked Then imageTagLine = imageTagLine & " " & "TagMasturbating"
-        If CBTagSucking.Checked Then imageTagLine = imageTagLine & " " & "TagSucking"
-        If CBTagPiercing.Checked Then imageTagLine = imageTagLine & " " & "TagPiercing"
-        If CBTagSmiling.Checked Then imageTagLine = imageTagLine & " " & "TagSmiling"
-        If CBTagGlaring.Checked Then imageTagLine = imageTagLine & " " & "TagGlaring"
-        If CBTagSeeThrough.Checked Then imageTagLine = imageTagLine & " " & "TagSeeThrough"
-        If CBTagAllFours.Checked Then imageTagLine = imageTagLine & " " & "TagAllFours"
-
-        If CBTagGarment.Checked Then
-            If TBTagGarment.Text = "" Then
-                MessageBox.Show(Me, "Please enter a description in the Garment field!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
-                Return
-            Else
-                imageTagLine = imageTagLine & " " & "TagGarment" & TBTagGarment.Text
-            End If
-        End If
-
-        If CBTagUnderwear.Checked Then
-            If TBTagUnderwear.Text = "" Then
-                MessageBox.Show(Me, "Please enter a description in the Underwear field!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
-                Return
-            Else
-                imageTagLine = imageTagLine & " " & "TagUnderwear" & TBTagUnderwear.Text
-            End If
-        End If
-
-        If CBTagTattoo.Checked Then
-            If TBTagTattoo.Text = "" Then
-                MessageBox.Show(Me, "Please enter a description in the Tattoo field!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
-                Return
-            Else
-                imageTagLine = imageTagLine & " " & "TagTattoo" & TBTagTattoo.Text
-            End If
-        End If
-
-        If CBTagSexToy.Checked Then
-            If TBTagSexToy.Text = "" Then
-                MessageBox.Show(Me, "Please enter a description in the Room field!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
-                Return
-            Else
-                imageTagLine = imageTagLine & " " & "TagSexToy" & TBTagSexToy.Text
-            End If
-        End If
-
-        If CBTagFurniture.Checked Then
-            If TBTagFurniture.Text = "" Then
-                MessageBox.Show(Me, "Please enter a description in the Furniture field!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
-                Return
-            Else
-                imageTagLine = imageTagLine & " " & "TagFurniture" & TBTagFurniture.Text
-            End If
-        End If
-
-
-        If File.Exists(tagFile) Then
-            Dim TagCheckList As List(Of TeaseAI.Common.TaggedItem) = ReadTagFile(tagFile)
-            Dim LineExists As Boolean
-            LineExists = False
-            ' FINISH ME
-            'For i As Integer = 0 To TagCheckList.Count - 1
-            '    If TagCheckList(i).Contains(Path.GetFileName(CurrentImageTagImage)) Then
-            '        TagCheckList(i) = TempImageDir
-            '        LineExists = True
-            '        System.IO.File.WriteAllLines(TBTagDir.Text & "\ImageTags.txt", TagCheckList)
-            '    End If
-            'Next
-
-            If Not LineExists Then
-                My.Computer.FileSystem.WriteAllText(tagFile, Environment.NewLine & imageTagLine, True)
-                LineExists = False
-            End If
-
-        Else
-            My.Computer.FileSystem.WriteAllText(tagFile, imageTagLine, True)
-        End If
-    End Sub
-
-    ''' <summary>
-    ''' Reads the tag data from a file as a collection of strings
-    ''' </summary>
-    ''' <param name="fileName"></param>
-    ''' <returns></returns>
-    Private Function ReadTagFile(fileName As String) As List(Of TeaseAI.Common.TaggedItem)
-        Return myLoadFileData.ReadData(fileName) _
-                    .OnSuccess(Function(data) myParseTagDataService.ParseTagData(data)).GetResultOrDefault(New List(Of TeaseAI.Common.TaggedItem))
-    End Function
-
     Private Function GetOrgasmReleaseDate(lockTimeDuration As String, startDate As Date) As Date
         If lockTimeDuration = "Week" Then startDate = DateAdd(DateInterval.Day, 7, startDate)
         If lockTimeDuration = "2 Weeks" Then startDate = DateAdd(DateInterval.Day, 14, startDate)
@@ -7741,16 +7736,19 @@ checkFolder:
         Throw New Exception("Unkonown DomLevel")
     End Function
 
-    Private mySettingsAccessor As ISettingsAccessor
-    Private myConfigurationAccessor As IConfigurationAccessor
-    Private myBlogAccessor As BlogImageAccessor
-    Private myCldAccessor As ICldAccessor
-    Private myScriptAccessor As IScriptAccessor
-    Private myLoadFileData As ILoadFileData
-    Private myParseTagDataService As ParseOldTagDataService
-    Private myPathsAccessor As PathsAccessor
-    Private myMediaContainerService As IMediaContainerService
-    Private myImageMetaDataService As IImageAccessor
-    Private myImageTagMapService As IImageTagMapService
+    Private ReadOnly mySettingsAccessor As ISettingsAccessor
+    Private ReadOnly myConfigurationAccessor As IConfigurationAccessor
+    Private ReadOnly myBlogAccessor As BlogImageAccessor
+    Private ReadOnly myCldAccessor As ICldAccessor
+    Private ReadOnly myScriptAccessor As IScriptAccessor
+    Private ReadOnly myLoadFileData As ILoadFileData
+    Private ReadOnly myParseTagDataService As ParseOldTagDataService
+    Private ReadOnly myPathsAccessor As PathsAccessor
+    Private ReadOnly myMediaContainerService As IMediaContainerService
+    Private ReadOnly myImageMetaDataService As IImageAccessor
+    Private ReadOnly myImageTagMapService As IImageTagMapService
+    Private ReadOnly myGetCommandProcessorsService As IGetCommandProcessorsService
+
     Private myIsFormSettingTags As Boolean
+
 End Class

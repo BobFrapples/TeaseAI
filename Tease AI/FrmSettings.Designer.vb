@@ -260,13 +260,8 @@ Partial Class FrmSettings
         Me.Label70 = New System.Windows.Forms.Label()
         Me.TabPage16 = New System.Windows.Forms.TabPage()
         Me.Panel9 = New System.Windows.Forms.Panel()
-        Me.SelectAvailableScriptsButton = New System.Windows.Forms.Button()
-        Me.SelectNoScriptsButton = New System.Windows.Forms.Button()
+        Me.ScriptNavPanel = New System.Windows.Forms.Panel()
         Me.SelectAllScriptsButton = New System.Windows.Forms.Button()
-        Me.BTNScriptOpen = New System.Windows.Forms.Button()
-        Me.LBLScriptReq = New System.Windows.Forms.Label()
-        Me.GroupBox31 = New System.Windows.Forms.GroupBox()
-        Me.RTBScriptReq = New System.Windows.Forms.RichTextBox()
         Me.TCScripts = New System.Windows.Forms.TabControl()
         Me.ScriptsStartTab = New System.Windows.Forms.TabPage()
         Me.StartScripts = New System.Windows.Forms.CheckedListBox()
@@ -276,12 +271,18 @@ Partial Class FrmSettings
         Me.LinkScripts = New System.Windows.Forms.CheckedListBox()
         Me.ScriptsEndTab = New System.Windows.Forms.TabPage()
         Me.EndScripts = New System.Windows.Forms.CheckedListBox()
-        Me.GroupBox42 = New System.Windows.Forms.GroupBox()
+        Me.SelectAvailableScriptsButton = New System.Windows.Forms.Button()
+        Me.ScriptTitle = New System.Windows.Forms.Label()
+        Me.BTNScriptOpen = New System.Windows.Forms.Button()
+        Me.SelectNoScriptsButton = New System.Windows.Forms.Button()
+        Me.ScriptInfoPanel = New System.Windows.Forms.Panel()
+        Me.ScriptsDescriptionGroup = New System.Windows.Forms.GroupBox()
         Me.ScriptInfoTextArea = New System.Windows.Forms.RichTextBox()
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Me.LBLScriptReq = New System.Windows.Forms.Label()
+        Me.ScriptsRequirementsGroup = New System.Windows.Forms.GroupBox()
+        Me.ScriptRequirements = New System.Windows.Forms.RichTextBox()
         Me.GroupBox43 = New System.Windows.Forms.GroupBox()
         Me.Label98 = New System.Windows.Forms.Label()
-        Me.Label104 = New System.Windows.Forms.Label()
         Me.TabPage7 = New System.Windows.Forms.TabPage()
         Me.TabControl4 = New System.Windows.Forms.TabControl()
         Me.TpImagesUrlFiles = New System.Windows.Forms.TabPage()
@@ -337,12 +338,12 @@ Partial Class FrmSettings
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
         Me.BTNIHardcore = New System.Windows.Forms.Button()
         Me.TbxIHardcore = New System.Windows.Forms.TextBox()
-        Me.CBIHardcoreSD = New System.Windows.Forms.CheckBox()
+        Me.IncludeHardcoreSubDirectories = New System.Windows.Forms.CheckBox()
         Me.CBIHardcore = New System.Windows.Forms.CheckBox()
         Me.CBISoftcore = New System.Windows.Forms.CheckBox()
         Me.TbxISoftcore = New System.Windows.Forms.TextBox()
         Me.CBButtSubDir = New System.Windows.Forms.CheckBox()
-        Me.CBISoftcoreSD = New System.Windows.Forms.CheckBox()
+        Me.IncludedSoftcoreSubDirectories = New System.Windows.Forms.CheckBox()
         Me.CBBoobSubDir = New System.Windows.Forms.CheckBox()
         Me.CBILezdomSD = New System.Windows.Forms.CheckBox()
         Me.CBIGeneralSD = New System.Windows.Forms.CheckBox()
@@ -394,7 +395,7 @@ Partial Class FrmSettings
         Me.CBTagAllFours = New System.Windows.Forms.CheckBox()
         Me.CBTagGlaring = New System.Windows.Forms.CheckBox()
         Me.CBTagSmiling = New System.Windows.Forms.CheckBox()
-        Me.TBTagDir = New System.Windows.Forms.TextBox()
+        Me.DommeTagDirInput = New System.Windows.Forms.TextBox()
         Me.CBTagPiercing = New System.Windows.Forms.CheckBox()
         Me.CBTagLegs = New System.Windows.Forms.CheckBox()
         Me.TBTagFurniture = New System.Windows.Forms.TextBox()
@@ -425,7 +426,7 @@ Partial Class FrmSettings
         Me.CBTagAss = New System.Windows.Forms.CheckBox()
         Me.CBTagPussy = New System.Windows.Forms.CheckBox()
         Me.BTNTagSave = New System.Windows.Forms.Button()
-        Me.BTNTagDir = New System.Windows.Forms.Button()
+        Me.DommeTagDirectoryButton = New System.Windows.Forms.Button()
         Me.ImageTagPictureBox = New System.Windows.Forms.PictureBox()
         Me.CBTagFace = New System.Windows.Forms.CheckBox()
         Me.FileDropDownLabel = New System.Windows.Forms.TabPage()
@@ -1165,14 +1166,15 @@ Partial Class FrmSettings
         CType(Me.CockSizeNumBox, System.ComponentModel.ISupportInitialize).BeginInit
         Me.TabPage16.SuspendLayout
         Me.Panel9.SuspendLayout
-        Me.GroupBox31.SuspendLayout
+        Me.ScriptNavPanel.SuspendLayout
         Me.TCScripts.SuspendLayout
         Me.ScriptsStartTab.SuspendLayout
         Me.ScriptsModuleTab.SuspendLayout
         Me.ScriptsLinkTab.SuspendLayout
         Me.ScriptsEndTab.SuspendLayout
-        Me.GroupBox42.SuspendLayout
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.ScriptInfoPanel.SuspendLayout
+        Me.ScriptsDescriptionGroup.SuspendLayout
+        Me.ScriptsRequirementsGroup.SuspendLayout
         Me.GroupBox43.SuspendLayout
         Me.TabPage7.SuspendLayout
         Me.TabControl4.SuspendLayout
@@ -4286,89 +4288,37 @@ Partial Class FrmSettings
         '
         Me.Panel9.BackColor = System.Drawing.Color.LightGray
         Me.Panel9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Panel9.Controls.Add(Me.SelectAvailableScriptsButton)
-        Me.Panel9.Controls.Add(Me.SelectNoScriptsButton)
-        Me.Panel9.Controls.Add(Me.SelectAllScriptsButton)
-        Me.Panel9.Controls.Add(Me.BTNScriptOpen)
-        Me.Panel9.Controls.Add(Me.LBLScriptReq)
-        Me.Panel9.Controls.Add(Me.GroupBox31)
-        Me.Panel9.Controls.Add(Me.TCScripts)
-        Me.Panel9.Controls.Add(Me.GroupBox42)
-        Me.Panel9.Controls.Add(Me.PictureBox1)
+        Me.Panel9.Controls.Add(Me.ScriptNavPanel)
+        Me.Panel9.Controls.Add(Me.ScriptInfoPanel)
         Me.Panel9.Controls.Add(Me.GroupBox43)
-        Me.Panel9.Controls.Add(Me.Label104)
         Me.Panel9.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel9.Location = New System.Drawing.Point(3, 3)
         Me.Panel9.Name = "Panel9"
         Me.Panel9.Size = New System.Drawing.Size(966, 625)
         Me.Panel9.TabIndex = 94
         '
-        'SelectAvailableScriptsButton
+        'ScriptNavPanel
         '
-        Me.SelectAvailableScriptsButton.Location = New System.Drawing.Point(204, 294)
-        Me.SelectAvailableScriptsButton.Name = "SelectAvailableScriptsButton"
-        Me.SelectAvailableScriptsButton.Size = New System.Drawing.Size(100, 23)
-        Me.SelectAvailableScriptsButton.TabIndex = 160
-        Me.SelectAvailableScriptsButton.Text = "Select Available"
-        Me.SelectAvailableScriptsButton.UseVisualStyleBackColor = True
-        '
-        'SelectNoScriptsButton
-        '
-        Me.SelectNoScriptsButton.Location = New System.Drawing.Point(108, 294)
-        Me.SelectNoScriptsButton.Name = "SelectNoScriptsButton"
-        Me.SelectNoScriptsButton.Size = New System.Drawing.Size(75, 23)
-        Me.SelectNoScriptsButton.TabIndex = 159
-        Me.SelectNoScriptsButton.Text = "Select None"
-        Me.SelectNoScriptsButton.UseVisualStyleBackColor = True
+        Me.ScriptNavPanel.Controls.Add(Me.SelectAllScriptsButton)
+        Me.ScriptNavPanel.Controls.Add(Me.TCScripts)
+        Me.ScriptNavPanel.Controls.Add(Me.SelectAvailableScriptsButton)
+        Me.ScriptNavPanel.Controls.Add(Me.ScriptTitle)
+        Me.ScriptNavPanel.Controls.Add(Me.BTNScriptOpen)
+        Me.ScriptNavPanel.Controls.Add(Me.SelectNoScriptsButton)
+        Me.ScriptNavPanel.Dock = System.Windows.Forms.DockStyle.Left
+        Me.ScriptNavPanel.Location = New System.Drawing.Point(0, 0)
+        Me.ScriptNavPanel.Name = "ScriptNavPanel"
+        Me.ScriptNavPanel.Size = New System.Drawing.Size(443, 532)
+        Me.ScriptNavPanel.TabIndex = 162
         '
         'SelectAllScriptsButton
         '
-        Me.SelectAllScriptsButton.Location = New System.Drawing.Point(13, 294)
+        Me.SelectAllScriptsButton.Location = New System.Drawing.Point(117, 409)
         Me.SelectAllScriptsButton.Name = "SelectAllScriptsButton"
         Me.SelectAllScriptsButton.Size = New System.Drawing.Size(75, 23)
         Me.SelectAllScriptsButton.TabIndex = 158
         Me.SelectAllScriptsButton.Text = "Select All"
         Me.SelectAllScriptsButton.UseVisualStyleBackColor = True
-        '
-        'BTNScriptOpen
-        '
-        Me.BTNScriptOpen.Location = New System.Drawing.Point(624, 294)
-        Me.BTNScriptOpen.Name = "BTNScriptOpen"
-        Me.BTNScriptOpen.Size = New System.Drawing.Size(75, 23)
-        Me.BTNScriptOpen.TabIndex = 157
-        Me.BTNScriptOpen.Text = "Open Script"
-        Me.BTNScriptOpen.UseVisualStyleBackColor = True
-        '
-        'LBLScriptReq
-        '
-        Me.LBLScriptReq.BackColor = System.Drawing.Color.LightGray
-        Me.LBLScriptReq.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.LBLScriptReq.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LBLScriptReq.ForeColor = System.Drawing.Color.Green
-        Me.LBLScriptReq.Location = New System.Drawing.Point(314, 292)
-        Me.LBLScriptReq.Name = "LBLScriptReq"
-        Me.LBLScriptReq.Size = New System.Drawing.Size(300, 27)
-        Me.LBLScriptReq.TabIndex = 156
-        Me.LBLScriptReq.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'GroupBox31
-        '
-        Me.GroupBox31.Controls.Add(Me.RTBScriptReq)
-        Me.GroupBox31.Location = New System.Drawing.Point(314, 169)
-        Me.GroupBox31.Name = "GroupBox31"
-        Me.GroupBox31.Size = New System.Drawing.Size(385, 110)
-        Me.GroupBox31.TabIndex = 155
-        Me.GroupBox31.TabStop = False
-        Me.GroupBox31.Text = "Requirements"
-        '
-        'RTBScriptReq
-        '
-        Me.RTBScriptReq.Location = New System.Drawing.Point(6, 16)
-        Me.RTBScriptReq.Name = "RTBScriptReq"
-        Me.RTBScriptReq.ReadOnly = True
-        Me.RTBScriptReq.Size = New System.Drawing.Size(373, 85)
-        Me.RTBScriptReq.TabIndex = 0
-        Me.RTBScriptReq.Text = ""
         '
         'TCScripts
         '
@@ -4376,10 +4326,11 @@ Partial Class FrmSettings
         Me.TCScripts.Controls.Add(Me.ScriptsModuleTab)
         Me.TCScripts.Controls.Add(Me.ScriptsLinkTab)
         Me.TCScripts.Controls.Add(Me.ScriptsEndTab)
-        Me.TCScripts.Location = New System.Drawing.Point(9, 31)
+        Me.TCScripts.Dock = System.Windows.Forms.DockStyle.Top
+        Me.TCScripts.Location = New System.Drawing.Point(0, 21)
         Me.TCScripts.Name = "TCScripts"
         Me.TCScripts.SelectedIndex = 0
-        Me.TCScripts.Size = New System.Drawing.Size(299, 248)
+        Me.TCScripts.Size = New System.Drawing.Size(443, 382)
         Me.TCScripts.TabIndex = 154
         '
         'ScriptsStartTab
@@ -4389,16 +4340,17 @@ Partial Class FrmSettings
         Me.ScriptsStartTab.Location = New System.Drawing.Point(4, 22)
         Me.ScriptsStartTab.Name = "ScriptsStartTab"
         Me.ScriptsStartTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.ScriptsStartTab.Size = New System.Drawing.Size(291, 222)
+        Me.ScriptsStartTab.Size = New System.Drawing.Size(435, 356)
         Me.ScriptsStartTab.TabIndex = 4
         Me.ScriptsStartTab.Text = "Start"
         '
         'StartScripts
         '
+        Me.StartScripts.Dock = System.Windows.Forms.DockStyle.Fill
         Me.StartScripts.FormattingEnabled = True
-        Me.StartScripts.Location = New System.Drawing.Point(4, 4)
+        Me.StartScripts.Location = New System.Drawing.Point(3, 3)
         Me.StartScripts.Name = "StartScripts"
-        Me.StartScripts.Size = New System.Drawing.Size(283, 214)
+        Me.StartScripts.Size = New System.Drawing.Size(429, 350)
         Me.StartScripts.Sorted = True
         Me.StartScripts.TabIndex = 155
         '
@@ -4409,16 +4361,17 @@ Partial Class FrmSettings
         Me.ScriptsModuleTab.Location = New System.Drawing.Point(4, 22)
         Me.ScriptsModuleTab.Name = "ScriptsModuleTab"
         Me.ScriptsModuleTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.ScriptsModuleTab.Size = New System.Drawing.Size(291, 222)
+        Me.ScriptsModuleTab.Size = New System.Drawing.Size(435, 356)
         Me.ScriptsModuleTab.TabIndex = 5
         Me.ScriptsModuleTab.Text = "Modules"
         '
         'ModuleScripts
         '
+        Me.ModuleScripts.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ModuleScripts.FormattingEnabled = True
-        Me.ModuleScripts.Location = New System.Drawing.Point(4, 4)
+        Me.ModuleScripts.Location = New System.Drawing.Point(3, 3)
         Me.ModuleScripts.Name = "ModuleScripts"
-        Me.ModuleScripts.Size = New System.Drawing.Size(283, 214)
+        Me.ModuleScripts.Size = New System.Drawing.Size(429, 350)
         Me.ModuleScripts.Sorted = True
         Me.ModuleScripts.TabIndex = 156
         '
@@ -4429,16 +4382,17 @@ Partial Class FrmSettings
         Me.ScriptsLinkTab.Location = New System.Drawing.Point(4, 22)
         Me.ScriptsLinkTab.Name = "ScriptsLinkTab"
         Me.ScriptsLinkTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.ScriptsLinkTab.Size = New System.Drawing.Size(291, 222)
+        Me.ScriptsLinkTab.Size = New System.Drawing.Size(435, 356)
         Me.ScriptsLinkTab.TabIndex = 6
         Me.ScriptsLinkTab.Text = "Link"
         '
         'LinkScripts
         '
+        Me.LinkScripts.Dock = System.Windows.Forms.DockStyle.Fill
         Me.LinkScripts.FormattingEnabled = True
-        Me.LinkScripts.Location = New System.Drawing.Point(4, 4)
+        Me.LinkScripts.Location = New System.Drawing.Point(3, 3)
         Me.LinkScripts.Name = "LinkScripts"
-        Me.LinkScripts.Size = New System.Drawing.Size(283, 214)
+        Me.LinkScripts.Size = New System.Drawing.Size(429, 350)
         Me.LinkScripts.Sorted = True
         Me.LinkScripts.TabIndex = 156
         '
@@ -4449,57 +4403,135 @@ Partial Class FrmSettings
         Me.ScriptsEndTab.Location = New System.Drawing.Point(4, 22)
         Me.ScriptsEndTab.Name = "ScriptsEndTab"
         Me.ScriptsEndTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.ScriptsEndTab.Size = New System.Drawing.Size(291, 222)
+        Me.ScriptsEndTab.Size = New System.Drawing.Size(435, 356)
         Me.ScriptsEndTab.TabIndex = 7
         Me.ScriptsEndTab.Text = "End"
         '
         'EndScripts
         '
+        Me.EndScripts.Dock = System.Windows.Forms.DockStyle.Fill
         Me.EndScripts.FormattingEnabled = True
-        Me.EndScripts.Location = New System.Drawing.Point(4, 4)
+        Me.EndScripts.Location = New System.Drawing.Point(3, 3)
         Me.EndScripts.Name = "EndScripts"
-        Me.EndScripts.Size = New System.Drawing.Size(283, 214)
+        Me.EndScripts.Size = New System.Drawing.Size(429, 350)
         Me.EndScripts.Sorted = True
         Me.EndScripts.TabIndex = 156
         '
-        'GroupBox42
+        'SelectAvailableScriptsButton
         '
-        Me.GroupBox42.Controls.Add(Me.ScriptInfoTextArea)
-        Me.GroupBox42.Location = New System.Drawing.Point(314, 53)
-        Me.GroupBox42.Name = "GroupBox42"
-        Me.GroupBox42.Size = New System.Drawing.Size(385, 110)
-        Me.GroupBox42.TabIndex = 153
-        Me.GroupBox42.TabStop = False
-        Me.GroupBox42.Text = "Description"
+        Me.SelectAvailableScriptsButton.Location = New System.Drawing.Point(315, 409)
+        Me.SelectAvailableScriptsButton.Name = "SelectAvailableScriptsButton"
+        Me.SelectAvailableScriptsButton.Size = New System.Drawing.Size(100, 23)
+        Me.SelectAvailableScriptsButton.TabIndex = 160
+        Me.SelectAvailableScriptsButton.Text = "Select Available"
+        Me.SelectAvailableScriptsButton.UseVisualStyleBackColor = True
+        '
+        'ScriptTitle
+        '
+        Me.ScriptTitle.BackColor = System.Drawing.Color.Transparent
+        Me.ScriptTitle.Dock = System.Windows.Forms.DockStyle.Top
+        Me.ScriptTitle.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ScriptTitle.ForeColor = System.Drawing.Color.Black
+        Me.ScriptTitle.Location = New System.Drawing.Point(0, 0)
+        Me.ScriptTitle.Name = "ScriptTitle"
+        Me.ScriptTitle.Size = New System.Drawing.Size(443, 21)
+        Me.ScriptTitle.TabIndex = 49
+        Me.ScriptTitle.Text = "Script Selection"
+        Me.ScriptTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'BTNScriptOpen
+        '
+        Me.BTNScriptOpen.Location = New System.Drawing.Point(15, 409)
+        Me.BTNScriptOpen.Name = "BTNScriptOpen"
+        Me.BTNScriptOpen.Size = New System.Drawing.Size(75, 23)
+        Me.BTNScriptOpen.TabIndex = 157
+        Me.BTNScriptOpen.Text = "Open Script"
+        Me.BTNScriptOpen.UseVisualStyleBackColor = True
+        '
+        'SelectNoScriptsButton
+        '
+        Me.SelectNoScriptsButton.Location = New System.Drawing.Point(219, 409)
+        Me.SelectNoScriptsButton.Name = "SelectNoScriptsButton"
+        Me.SelectNoScriptsButton.Size = New System.Drawing.Size(75, 23)
+        Me.SelectNoScriptsButton.TabIndex = 159
+        Me.SelectNoScriptsButton.Text = "Select None"
+        Me.SelectNoScriptsButton.UseVisualStyleBackColor = True
+        '
+        'ScriptInfoPanel
+        '
+        Me.ScriptInfoPanel.Controls.Add(Me.ScriptsDescriptionGroup)
+        Me.ScriptInfoPanel.Controls.Add(Me.LBLScriptReq)
+        Me.ScriptInfoPanel.Controls.Add(Me.ScriptsRequirementsGroup)
+        Me.ScriptInfoPanel.Dock = System.Windows.Forms.DockStyle.Right
+        Me.ScriptInfoPanel.Location = New System.Drawing.Point(449, 0)
+        Me.ScriptInfoPanel.Name = "ScriptInfoPanel"
+        Me.ScriptInfoPanel.Size = New System.Drawing.Size(515, 532)
+        Me.ScriptInfoPanel.TabIndex = 161
+        '
+        'ScriptsDescriptionGroup
+        '
+        Me.ScriptsDescriptionGroup.Controls.Add(Me.ScriptInfoTextArea)
+        Me.ScriptsDescriptionGroup.Dock = System.Windows.Forms.DockStyle.Top
+        Me.ScriptsDescriptionGroup.Location = New System.Drawing.Point(0, 0)
+        Me.ScriptsDescriptionGroup.Name = "ScriptsDescriptionGroup"
+        Me.ScriptsDescriptionGroup.Size = New System.Drawing.Size(515, 277)
+        Me.ScriptsDescriptionGroup.TabIndex = 153
+        Me.ScriptsDescriptionGroup.TabStop = False
+        Me.ScriptsDescriptionGroup.Text = "Description"
         '
         'ScriptInfoTextArea
         '
-        Me.ScriptInfoTextArea.Location = New System.Drawing.Point(6, 16)
+        Me.ScriptInfoTextArea.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.ScriptInfoTextArea.Location = New System.Drawing.Point(3, 16)
         Me.ScriptInfoTextArea.Name = "ScriptInfoTextArea"
         Me.ScriptInfoTextArea.ReadOnly = True
-        Me.ScriptInfoTextArea.Size = New System.Drawing.Size(373, 85)
+        Me.ScriptInfoTextArea.Size = New System.Drawing.Size(509, 258)
         Me.ScriptInfoTextArea.TabIndex = 0
         Me.ScriptInfoTextArea.Text = ""
         '
-        'PictureBox1
+        'LBLScriptReq
         '
-        Me.PictureBox1.BackColor = System.Drawing.Color.LightGray
-        Me.PictureBox1.Image = Global.Tease_AI.My.Resources.Resources.TAI_Banner_small
-        Me.PictureBox1.Location = New System.Drawing.Point(9, 6)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(160, 19)
-        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
-        Me.PictureBox1.TabIndex = 151
-        Me.PictureBox1.TabStop = False
+        Me.LBLScriptReq.BackColor = System.Drawing.Color.LightGray
+        Me.LBLScriptReq.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.LBLScriptReq.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.LBLScriptReq.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LBLScriptReq.ForeColor = System.Drawing.Color.Green
+        Me.LBLScriptReq.Location = New System.Drawing.Point(0, 283)
+        Me.LBLScriptReq.Name = "LBLScriptReq"
+        Me.LBLScriptReq.Size = New System.Drawing.Size(515, 27)
+        Me.LBLScriptReq.TabIndex = 156
+        Me.LBLScriptReq.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'ScriptsRequirementsGroup
+        '
+        Me.ScriptsRequirementsGroup.Controls.Add(Me.ScriptRequirements)
+        Me.ScriptsRequirementsGroup.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.ScriptsRequirementsGroup.Location = New System.Drawing.Point(0, 310)
+        Me.ScriptsRequirementsGroup.Name = "ScriptsRequirementsGroup"
+        Me.ScriptsRequirementsGroup.Size = New System.Drawing.Size(515, 222)
+        Me.ScriptsRequirementsGroup.TabIndex = 155
+        Me.ScriptsRequirementsGroup.TabStop = False
+        Me.ScriptsRequirementsGroup.Text = "Requirements"
+        '
+        'ScriptRequirements
+        '
+        Me.ScriptRequirements.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.ScriptRequirements.Location = New System.Drawing.Point(3, 16)
+        Me.ScriptRequirements.Name = "ScriptRequirements"
+        Me.ScriptRequirements.ReadOnly = True
+        Me.ScriptRequirements.Size = New System.Drawing.Size(509, 203)
+        Me.ScriptRequirements.TabIndex = 0
+        Me.ScriptRequirements.Text = ""
         '
         'GroupBox43
         '
         Me.GroupBox43.BackColor = System.Drawing.Color.LightGray
         Me.GroupBox43.Controls.Add(Me.Label98)
+        Me.GroupBox43.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.GroupBox43.ForeColor = System.Drawing.Color.Black
-        Me.GroupBox43.Location = New System.Drawing.Point(7, 331)
+        Me.GroupBox43.Location = New System.Drawing.Point(0, 532)
         Me.GroupBox43.Name = "GroupBox43"
-        Me.GroupBox43.Size = New System.Drawing.Size(692, 92)
+        Me.GroupBox43.Size = New System.Drawing.Size(964, 91)
         Me.GroupBox43.TabIndex = 65
         Me.GroupBox43.TabStop = False
         Me.GroupBox43.Text = "Description"
@@ -4515,18 +4547,6 @@ Partial Class FrmSettings
         Me.Label98.TabIndex = 62
         Me.Label98.Text = resources.GetString("Label98.Text")
         Me.Label98.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'Label104
-        '
-        Me.Label104.BackColor = System.Drawing.Color.Transparent
-        Me.Label104.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label104.ForeColor = System.Drawing.Color.Black
-        Me.Label104.Location = New System.Drawing.Point(7, 6)
-        Me.Label104.Name = "Label104"
-        Me.Label104.Size = New System.Drawing.Size(692, 21)
-        Me.Label104.TabIndex = 49
-        Me.Label104.Text = "Script Selection"
-        Me.Label104.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'TabPage7
         '
@@ -4570,7 +4590,7 @@ Partial Class FrmSettings
         Me.CBURLPreview.AutoSize = True
         Me.CBURLPreview.Checked = True
         Me.CBURLPreview.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CBURLPreview.Location = New System.Drawing.Point(344, 323)
+        Me.CBURLPreview.Location = New System.Drawing.Point(463, 500)
         Me.CBURLPreview.Name = "CBURLPreview"
         Me.CBURLPreview.Size = New System.Drawing.Size(240, 17)
         Me.CBURLPreview.TabIndex = 163
@@ -4580,9 +4600,9 @@ Partial Class FrmSettings
         'GroupBox66
         '
         Me.GroupBox66.Controls.Add(Me.PBURLPreview)
-        Me.GroupBox66.Location = New System.Drawing.Point(344, 3)
+        Me.GroupBox66.Location = New System.Drawing.Point(460, 9)
         Me.GroupBox66.Name = "GroupBox66"
-        Me.GroupBox66.Size = New System.Drawing.Size(350, 309)
+        Me.GroupBox66.Size = New System.Drawing.Size(492, 485)
         Me.GroupBox66.TabIndex = 162
         Me.GroupBox66.TabStop = False
         Me.GroupBox66.Text = "Example Preview"
@@ -4590,16 +4610,17 @@ Partial Class FrmSettings
         'PBURLPreview
         '
         Me.PBURLPreview.BackColor = System.Drawing.Color.Black
-        Me.PBURLPreview.Location = New System.Drawing.Point(6, 19)
+        Me.PBURLPreview.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.PBURLPreview.Location = New System.Drawing.Point(3, 16)
         Me.PBURLPreview.Name = "PBURLPreview"
-        Me.PBURLPreview.Size = New System.Drawing.Size(338, 284)
+        Me.PBURLPreview.Size = New System.Drawing.Size(486, 466)
         Me.PBURLPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
         Me.PBURLPreview.TabIndex = 0
         Me.PBURLPreview.TabStop = False
         '
         'BTNURLFilesAll
         '
-        Me.BTNURLFilesAll.Location = New System.Drawing.Point(344, 348)
+        Me.BTNURLFilesAll.Location = New System.Drawing.Point(463, 525)
         Me.BTNURLFilesAll.Name = "BTNURLFilesAll"
         Me.BTNURLFilesAll.Size = New System.Drawing.Size(75, 23)
         Me.BTNURLFilesAll.TabIndex = 160
@@ -4608,7 +4629,7 @@ Partial Class FrmSettings
         '
         'BTNURLFilesNone
         '
-        Me.BTNURLFilesNone.Location = New System.Drawing.Point(344, 380)
+        Me.BTNURLFilesNone.Location = New System.Drawing.Point(463, 557)
         Me.BTNURLFilesNone.Name = "BTNURLFilesNone"
         Me.BTNURLFilesNone.Size = New System.Drawing.Size(75, 23)
         Me.BTNURLFilesNone.TabIndex = 161
@@ -4621,7 +4642,7 @@ Partial Class FrmSettings
         Me.URLFileList.FormattingEnabled = True
         Me.URLFileList.Location = New System.Drawing.Point(6, 9)
         Me.URLFileList.Name = "URLFileList"
-        Me.URLFileList.Size = New System.Drawing.Size(332, 394)
+        Me.URLFileList.Size = New System.Drawing.Size(448, 589)
         Me.URLFileList.Sorted = True
         Me.URLFileList.TabIndex = 154
         '
@@ -4640,9 +4661,9 @@ Partial Class FrmSettings
         'GrbImageUrlFiles
         '
         Me.GrbImageUrlFiles.Controls.Add(Me.TlpImageUrls)
-        Me.GrbImageUrlFiles.Location = New System.Drawing.Point(383, 8)
+        Me.GrbImageUrlFiles.Location = New System.Drawing.Point(512, 8)
         Me.GrbImageUrlFiles.Name = "GrbImageUrlFiles"
-        Me.GrbImageUrlFiles.Size = New System.Drawing.Size(311, 400)
+        Me.GrbImageUrlFiles.Size = New System.Drawing.Size(440, 400)
         Me.GrbImageUrlFiles.TabIndex = 1
         Me.GrbImageUrlFiles.TabStop = False
         Me.GrbImageUrlFiles.Text = "URL Files"
@@ -4712,7 +4733,7 @@ Partial Class FrmSettings
         Me.TlpImageUrls.RowStyles.Add(New System.Windows.Forms.RowStyle())
         Me.TlpImageUrls.RowStyles.Add(New System.Windows.Forms.RowStyle())
         Me.TlpImageUrls.RowStyles.Add(New System.Windows.Forms.RowStyle())
-        Me.TlpImageUrls.Size = New System.Drawing.Size(305, 381)
+        Me.TlpImageUrls.Size = New System.Drawing.Size(434, 381)
         Me.TlpImageUrls.TabIndex = 0
         '
         'BtnImageUrlButt
@@ -5074,11 +5095,11 @@ Partial Class FrmSettings
         Me.TxbImageUrlBlowjob.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TxbImageUrlBlowjob.Location = New System.Drawing.Point(115, 92)
         Me.TxbImageUrlBlowjob.Margin = New System.Windows.Forms.Padding(5, 5, 8, 3)
-        Me.TxbImageUrlBlowjob.MaximumSize = New System.Drawing.Size(2, 17)
+        Me.TxbImageUrlBlowjob.MaximumSize = New System.Drawing.Size(300, 17)
         Me.TxbImageUrlBlowjob.MinimumSize = New System.Drawing.Size(182, 17)
         Me.TxbImageUrlBlowjob.Name = "TxbImageUrlBlowjob"
         Me.TxbImageUrlBlowjob.ReadOnly = True
-        Me.TxbImageUrlBlowjob.Size = New System.Drawing.Size(182, 17)
+        Me.TxbImageUrlBlowjob.Size = New System.Drawing.Size(300, 17)
         Me.TxbImageUrlBlowjob.TabIndex = 12
         Me.TxbImageUrlBlowjob.Text = Global.Tease_AI.My.MySettings.Default.UrlFileBlowjob
         '
@@ -5090,11 +5111,11 @@ Partial Class FrmSettings
         Me.TxbImageUrlSoftcore.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TxbImageUrlSoftcore.Location = New System.Drawing.Point(115, 34)
         Me.TxbImageUrlSoftcore.Margin = New System.Windows.Forms.Padding(5, 5, 8, 3)
-        Me.TxbImageUrlSoftcore.MaximumSize = New System.Drawing.Size(2, 17)
+        Me.TxbImageUrlSoftcore.MaximumSize = New System.Drawing.Size(300, 17)
         Me.TxbImageUrlSoftcore.MinimumSize = New System.Drawing.Size(182, 17)
         Me.TxbImageUrlSoftcore.Name = "TxbImageUrlSoftcore"
         Me.TxbImageUrlSoftcore.ReadOnly = True
-        Me.TxbImageUrlSoftcore.Size = New System.Drawing.Size(182, 17)
+        Me.TxbImageUrlSoftcore.Size = New System.Drawing.Size(300, 17)
         Me.TxbImageUrlSoftcore.TabIndex = 6
         Me.TxbImageUrlSoftcore.Text = Global.Tease_AI.My.MySettings.Default.UrlFileSoftcore
         '
@@ -5106,11 +5127,11 @@ Partial Class FrmSettings
         Me.TxbImageUrlLezdom.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TxbImageUrlLezdom.Location = New System.Drawing.Point(115, 150)
         Me.TxbImageUrlLezdom.Margin = New System.Windows.Forms.Padding(5, 5, 8, 3)
-        Me.TxbImageUrlLezdom.MaximumSize = New System.Drawing.Size(2, 17)
+        Me.TxbImageUrlLezdom.MaximumSize = New System.Drawing.Size(300, 17)
         Me.TxbImageUrlLezdom.MinimumSize = New System.Drawing.Size(182, 17)
         Me.TxbImageUrlLezdom.Name = "TxbImageUrlLezdom"
         Me.TxbImageUrlLezdom.ReadOnly = True
-        Me.TxbImageUrlLezdom.Size = New System.Drawing.Size(182, 17)
+        Me.TxbImageUrlLezdom.Size = New System.Drawing.Size(300, 17)
         Me.TxbImageUrlLezdom.TabIndex = 18
         Me.TxbImageUrlLezdom.Text = Global.Tease_AI.My.MySettings.Default.UrlFileLezdom
         '
@@ -5122,11 +5143,11 @@ Partial Class FrmSettings
         Me.TxbImageUrlFemdom.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TxbImageUrlFemdom.Location = New System.Drawing.Point(115, 121)
         Me.TxbImageUrlFemdom.Margin = New System.Windows.Forms.Padding(5, 5, 8, 3)
-        Me.TxbImageUrlFemdom.MaximumSize = New System.Drawing.Size(2, 17)
+        Me.TxbImageUrlFemdom.MaximumSize = New System.Drawing.Size(300, 17)
         Me.TxbImageUrlFemdom.MinimumSize = New System.Drawing.Size(182, 17)
         Me.TxbImageUrlFemdom.Name = "TxbImageUrlFemdom"
         Me.TxbImageUrlFemdom.ReadOnly = True
-        Me.TxbImageUrlFemdom.Size = New System.Drawing.Size(182, 17)
+        Me.TxbImageUrlFemdom.Size = New System.Drawing.Size(300, 17)
         Me.TxbImageUrlFemdom.TabIndex = 15
         Me.TxbImageUrlFemdom.Text = Global.Tease_AI.My.MySettings.Default.UrlFileFemdom
         '
@@ -5138,11 +5159,11 @@ Partial Class FrmSettings
         Me.TxbImageUrlHardcore.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TxbImageUrlHardcore.Location = New System.Drawing.Point(115, 5)
         Me.TxbImageUrlHardcore.Margin = New System.Windows.Forms.Padding(5, 5, 8, 3)
-        Me.TxbImageUrlHardcore.MaximumSize = New System.Drawing.Size(2, 17)
+        Me.TxbImageUrlHardcore.MaximumSize = New System.Drawing.Size(300, 17)
         Me.TxbImageUrlHardcore.MinimumSize = New System.Drawing.Size(182, 17)
         Me.TxbImageUrlHardcore.Name = "TxbImageUrlHardcore"
         Me.TxbImageUrlHardcore.ReadOnly = True
-        Me.TxbImageUrlHardcore.Size = New System.Drawing.Size(182, 17)
+        Me.TxbImageUrlHardcore.Size = New System.Drawing.Size(300, 17)
         Me.TxbImageUrlHardcore.TabIndex = 3
         Me.TxbImageUrlHardcore.Text = Global.Tease_AI.My.MySettings.Default.UrlFileHardcore
         '
@@ -5154,11 +5175,11 @@ Partial Class FrmSettings
         Me.TxbImageUrlHentai.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TxbImageUrlHentai.Location = New System.Drawing.Point(115, 179)
         Me.TxbImageUrlHentai.Margin = New System.Windows.Forms.Padding(5, 5, 8, 3)
-        Me.TxbImageUrlHentai.MaximumSize = New System.Drawing.Size(2, 17)
+        Me.TxbImageUrlHentai.MaximumSize = New System.Drawing.Size(300, 17)
         Me.TxbImageUrlHentai.MinimumSize = New System.Drawing.Size(182, 17)
         Me.TxbImageUrlHentai.Name = "TxbImageUrlHentai"
         Me.TxbImageUrlHentai.ReadOnly = True
-        Me.TxbImageUrlHentai.Size = New System.Drawing.Size(182, 17)
+        Me.TxbImageUrlHentai.Size = New System.Drawing.Size(300, 17)
         Me.TxbImageUrlHentai.TabIndex = 21
         Me.TxbImageUrlHentai.Text = Global.Tease_AI.My.MySettings.Default.UrlFileHentai
         '
@@ -5170,11 +5191,11 @@ Partial Class FrmSettings
         Me.TxbImageUrlGay.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TxbImageUrlGay.Location = New System.Drawing.Point(115, 208)
         Me.TxbImageUrlGay.Margin = New System.Windows.Forms.Padding(5, 5, 8, 3)
-        Me.TxbImageUrlGay.MaximumSize = New System.Drawing.Size(2, 17)
+        Me.TxbImageUrlGay.MaximumSize = New System.Drawing.Size(300, 17)
         Me.TxbImageUrlGay.MinimumSize = New System.Drawing.Size(182, 17)
         Me.TxbImageUrlGay.Name = "TxbImageUrlGay"
         Me.TxbImageUrlGay.ReadOnly = True
-        Me.TxbImageUrlGay.Size = New System.Drawing.Size(182, 17)
+        Me.TxbImageUrlGay.Size = New System.Drawing.Size(300, 17)
         Me.TxbImageUrlGay.TabIndex = 24
         Me.TxbImageUrlGay.Text = Global.Tease_AI.My.MySettings.Default.UrlFileGay
         '
@@ -5186,11 +5207,11 @@ Partial Class FrmSettings
         Me.TxbImageUrlLesbian.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TxbImageUrlLesbian.Location = New System.Drawing.Point(115, 63)
         Me.TxbImageUrlLesbian.Margin = New System.Windows.Forms.Padding(5, 5, 8, 3)
-        Me.TxbImageUrlLesbian.MaximumSize = New System.Drawing.Size(2, 17)
+        Me.TxbImageUrlLesbian.MaximumSize = New System.Drawing.Size(300, 17)
         Me.TxbImageUrlLesbian.MinimumSize = New System.Drawing.Size(182, 17)
         Me.TxbImageUrlLesbian.Name = "TxbImageUrlLesbian"
         Me.TxbImageUrlLesbian.ReadOnly = True
-        Me.TxbImageUrlLesbian.Size = New System.Drawing.Size(182, 17)
+        Me.TxbImageUrlLesbian.Size = New System.Drawing.Size(300, 17)
         Me.TxbImageUrlLesbian.TabIndex = 9
         Me.TxbImageUrlLesbian.Text = Global.Tease_AI.My.MySettings.Default.UrlFileLesbian
         '
@@ -5202,11 +5223,11 @@ Partial Class FrmSettings
         Me.TxbImageUrlMaledom.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TxbImageUrlMaledom.Location = New System.Drawing.Point(115, 237)
         Me.TxbImageUrlMaledom.Margin = New System.Windows.Forms.Padding(5, 5, 8, 3)
-        Me.TxbImageUrlMaledom.MaximumSize = New System.Drawing.Size(2, 17)
+        Me.TxbImageUrlMaledom.MaximumSize = New System.Drawing.Size(300, 17)
         Me.TxbImageUrlMaledom.MinimumSize = New System.Drawing.Size(182, 17)
         Me.TxbImageUrlMaledom.Name = "TxbImageUrlMaledom"
         Me.TxbImageUrlMaledom.ReadOnly = True
-        Me.TxbImageUrlMaledom.Size = New System.Drawing.Size(182, 17)
+        Me.TxbImageUrlMaledom.Size = New System.Drawing.Size(300, 17)
         Me.TxbImageUrlMaledom.TabIndex = 27
         Me.TxbImageUrlMaledom.Text = Global.Tease_AI.My.MySettings.Default.UrlFileMaledom
         '
@@ -5218,11 +5239,11 @@ Partial Class FrmSettings
         Me.TxbImageUrlCaptions.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TxbImageUrlCaptions.Location = New System.Drawing.Point(115, 266)
         Me.TxbImageUrlCaptions.Margin = New System.Windows.Forms.Padding(5, 5, 8, 3)
-        Me.TxbImageUrlCaptions.MaximumSize = New System.Drawing.Size(2, 17)
+        Me.TxbImageUrlCaptions.MaximumSize = New System.Drawing.Size(300, 17)
         Me.TxbImageUrlCaptions.MinimumSize = New System.Drawing.Size(182, 17)
         Me.TxbImageUrlCaptions.Name = "TxbImageUrlCaptions"
         Me.TxbImageUrlCaptions.ReadOnly = True
-        Me.TxbImageUrlCaptions.Size = New System.Drawing.Size(182, 17)
+        Me.TxbImageUrlCaptions.Size = New System.Drawing.Size(300, 17)
         Me.TxbImageUrlCaptions.TabIndex = 30
         Me.TxbImageUrlCaptions.Text = Global.Tease_AI.My.MySettings.Default.UrlFileCaptions
         '
@@ -5234,11 +5255,11 @@ Partial Class FrmSettings
         Me.TxbImageUrlGeneral.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TxbImageUrlGeneral.Location = New System.Drawing.Point(115, 295)
         Me.TxbImageUrlGeneral.Margin = New System.Windows.Forms.Padding(5, 5, 8, 3)
-        Me.TxbImageUrlGeneral.MaximumSize = New System.Drawing.Size(2, 17)
+        Me.TxbImageUrlGeneral.MaximumSize = New System.Drawing.Size(300, 17)
         Me.TxbImageUrlGeneral.MinimumSize = New System.Drawing.Size(182, 17)
         Me.TxbImageUrlGeneral.Name = "TxbImageUrlGeneral"
         Me.TxbImageUrlGeneral.ReadOnly = True
-        Me.TxbImageUrlGeneral.Size = New System.Drawing.Size(182, 17)
+        Me.TxbImageUrlGeneral.Size = New System.Drawing.Size(300, 17)
         Me.TxbImageUrlGeneral.TabIndex = 33
         Me.TxbImageUrlGeneral.Text = Global.Tease_AI.My.MySettings.Default.UrlFileGeneral
         '
@@ -5250,11 +5271,11 @@ Partial Class FrmSettings
         Me.TxbImageUrlBoobs.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TxbImageUrlBoobs.Location = New System.Drawing.Point(115, 324)
         Me.TxbImageUrlBoobs.Margin = New System.Windows.Forms.Padding(5, 5, 8, 3)
-        Me.TxbImageUrlBoobs.MaximumSize = New System.Drawing.Size(2, 17)
+        Me.TxbImageUrlBoobs.MaximumSize = New System.Drawing.Size(300, 17)
         Me.TxbImageUrlBoobs.MinimumSize = New System.Drawing.Size(182, 17)
         Me.TxbImageUrlBoobs.Name = "TxbImageUrlBoobs"
         Me.TxbImageUrlBoobs.ReadOnly = True
-        Me.TxbImageUrlBoobs.Size = New System.Drawing.Size(182, 17)
+        Me.TxbImageUrlBoobs.Size = New System.Drawing.Size(300, 17)
         Me.TxbImageUrlBoobs.TabIndex = 36
         Me.TxbImageUrlBoobs.Text = Global.Tease_AI.My.MySettings.Default.UrlFileBoobs
         '
@@ -5266,11 +5287,11 @@ Partial Class FrmSettings
         Me.TxbImageUrlButts.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TxbImageUrlButts.Location = New System.Drawing.Point(115, 353)
         Me.TxbImageUrlButts.Margin = New System.Windows.Forms.Padding(5, 5, 8, 3)
-        Me.TxbImageUrlButts.MaximumSize = New System.Drawing.Size(2, 17)
+        Me.TxbImageUrlButts.MaximumSize = New System.Drawing.Size(300, 17)
         Me.TxbImageUrlButts.MinimumSize = New System.Drawing.Size(182, 17)
         Me.TxbImageUrlButts.Name = "TxbImageUrlButts"
         Me.TxbImageUrlButts.ReadOnly = True
-        Me.TxbImageUrlButts.Size = New System.Drawing.Size(182, 17)
+        Me.TxbImageUrlButts.Size = New System.Drawing.Size(300, 17)
         Me.TxbImageUrlButts.TabIndex = 39
         Me.TxbImageUrlButts.Text = Global.Tease_AI.My.MySettings.Default.UrlFileButt
         '
@@ -5279,7 +5300,7 @@ Partial Class FrmSettings
         Me.GbxImagesGenre.Controls.Add(Me.TableLayoutPanel1)
         Me.GbxImagesGenre.Location = New System.Drawing.Point(6, 8)
         Me.GbxImagesGenre.Name = "GbxImagesGenre"
-        Me.GbxImagesGenre.Size = New System.Drawing.Size(371, 400)
+        Me.GbxImagesGenre.Size = New System.Drawing.Size(500, 400)
         Me.GbxImagesGenre.TabIndex = 0
         Me.GbxImagesGenre.TabStop = False
         Me.GbxImagesGenre.Text = "Local Images"
@@ -5293,12 +5314,12 @@ Partial Class FrmSettings
         Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle())
         Me.TableLayoutPanel1.Controls.Add(Me.BTNIHardcore, 1, 0)
         Me.TableLayoutPanel1.Controls.Add(Me.TbxIHardcore, 2, 0)
-        Me.TableLayoutPanel1.Controls.Add(Me.CBIHardcoreSD, 3, 0)
+        Me.TableLayoutPanel1.Controls.Add(Me.IncludeHardcoreSubDirectories, 3, 0)
         Me.TableLayoutPanel1.Controls.Add(Me.CBIHardcore, 0, 0)
         Me.TableLayoutPanel1.Controls.Add(Me.CBISoftcore, 0, 1)
         Me.TableLayoutPanel1.Controls.Add(Me.TbxISoftcore, 2, 1)
         Me.TableLayoutPanel1.Controls.Add(Me.CBButtSubDir, 3, 12)
-        Me.TableLayoutPanel1.Controls.Add(Me.CBISoftcoreSD, 3, 1)
+        Me.TableLayoutPanel1.Controls.Add(Me.IncludedSoftcoreSubDirectories, 3, 1)
         Me.TableLayoutPanel1.Controls.Add(Me.CBBoobSubDir, 3, 11)
         Me.TableLayoutPanel1.Controls.Add(Me.CBILezdomSD, 3, 5)
         Me.TableLayoutPanel1.Controls.Add(Me.CBIGeneralSD, 3, 10)
@@ -5362,7 +5383,7 @@ Partial Class FrmSettings
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle())
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle())
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
-        Me.TableLayoutPanel1.Size = New System.Drawing.Size(365, 381)
+        Me.TableLayoutPanel1.Size = New System.Drawing.Size(494, 381)
         Me.TableLayoutPanel1.TabIndex = 0
         '
         'BTNIHardcore
@@ -5395,19 +5416,20 @@ Partial Class FrmSettings
         Me.TbxIHardcore.TabIndex = 2
         Me.TbxIHardcore.Text = Global.Tease_AI.My.MySettings.Default.IHardcore
         '
-        'CBIHardcoreSD
+        'IncludeHardcoreSubDirectories
         '
-        Me.CBIHardcoreSD.AutoSize = True
-        Me.CBIHardcoreSD.Checked = Global.Tease_AI.My.MySettings.Default.IHardcoreSD
-        Me.CBIHardcoreSD.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CBIHardcoreSD.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.Tease_AI.My.MySettings.Default, "IHardcoreSD", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.CBIHardcoreSD.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.CBIHardcoreSD.ForeColor = System.Drawing.Color.Black
-        Me.CBIHardcoreSD.Location = New System.Drawing.Point(343, 3)
-        Me.CBIHardcoreSD.Name = "CBIHardcoreSD"
-        Me.CBIHardcoreSD.Size = New System.Drawing.Size(19, 23)
-        Me.CBIHardcoreSD.TabIndex = 3
-        Me.CBIHardcoreSD.UseVisualStyleBackColor = True
+        Me.IncludeHardcoreSubDirectories.AutoSize = True
+        Me.IncludeHardcoreSubDirectories.Checked = Global.Tease_AI.My.MySettings.Default.IHardcoreSD
+        Me.IncludeHardcoreSubDirectories.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.IncludeHardcoreSubDirectories.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.Tease_AI.My.MySettings.Default, "IHardcoreSD", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.IncludeHardcoreSubDirectories.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.IncludeHardcoreSubDirectories.ForeColor = System.Drawing.Color.Black
+        Me.IncludeHardcoreSubDirectories.Location = New System.Drawing.Point(343, 3)
+        Me.IncludeHardcoreSubDirectories.Name = "IncludeHardcoreSubDirectories"
+        Me.IncludeHardcoreSubDirectories.Size = New System.Drawing.Size(148, 23)
+        Me.IncludeHardcoreSubDirectories.TabIndex = 3
+        Me.IncludeHardcoreSubDirectories.Text = "Include Subdirectories"
+        Me.IncludeHardcoreSubDirectories.UseVisualStyleBackColor = True
         '
         'CBIHardcore
         '
@@ -5464,23 +5486,25 @@ Partial Class FrmSettings
         Me.CBButtSubDir.ForeColor = System.Drawing.Color.Black
         Me.CBButtSubDir.Location = New System.Drawing.Point(343, 351)
         Me.CBButtSubDir.Name = "CBButtSubDir"
-        Me.CBButtSubDir.Size = New System.Drawing.Size(19, 27)
+        Me.CBButtSubDir.Size = New System.Drawing.Size(148, 27)
         Me.CBButtSubDir.TabIndex = 51
+        Me.CBButtSubDir.Text = "Include Subdirectories"
         Me.CBButtSubDir.UseVisualStyleBackColor = True
         '
-        'CBISoftcoreSD
+        'IncludedSoftcoreSubDirectories
         '
-        Me.CBISoftcoreSD.AutoSize = True
-        Me.CBISoftcoreSD.Checked = Global.Tease_AI.My.MySettings.Default.ISoftcoreSD
-        Me.CBISoftcoreSD.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CBISoftcoreSD.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.Tease_AI.My.MySettings.Default, "ISoftcoreSD", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.CBISoftcoreSD.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.CBISoftcoreSD.ForeColor = System.Drawing.Color.Black
-        Me.CBISoftcoreSD.Location = New System.Drawing.Point(343, 32)
-        Me.CBISoftcoreSD.Name = "CBISoftcoreSD"
-        Me.CBISoftcoreSD.Size = New System.Drawing.Size(19, 23)
-        Me.CBISoftcoreSD.TabIndex = 7
-        Me.CBISoftcoreSD.UseVisualStyleBackColor = True
+        Me.IncludedSoftcoreSubDirectories.AutoSize = True
+        Me.IncludedSoftcoreSubDirectories.Checked = Global.Tease_AI.My.MySettings.Default.ISoftcoreSD
+        Me.IncludedSoftcoreSubDirectories.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.IncludedSoftcoreSubDirectories.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.Tease_AI.My.MySettings.Default, "ISoftcoreSD", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.IncludedSoftcoreSubDirectories.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.IncludedSoftcoreSubDirectories.ForeColor = System.Drawing.Color.Black
+        Me.IncludedSoftcoreSubDirectories.Location = New System.Drawing.Point(343, 32)
+        Me.IncludedSoftcoreSubDirectories.Name = "IncludedSoftcoreSubDirectories"
+        Me.IncludedSoftcoreSubDirectories.Size = New System.Drawing.Size(148, 23)
+        Me.IncludedSoftcoreSubDirectories.TabIndex = 7
+        Me.IncludedSoftcoreSubDirectories.Text = "Include Subdirectories"
+        Me.IncludedSoftcoreSubDirectories.UseVisualStyleBackColor = True
         '
         'CBBoobSubDir
         '
@@ -5492,8 +5516,9 @@ Partial Class FrmSettings
         Me.CBBoobSubDir.ForeColor = System.Drawing.Color.Black
         Me.CBBoobSubDir.Location = New System.Drawing.Point(343, 322)
         Me.CBBoobSubDir.Name = "CBBoobSubDir"
-        Me.CBBoobSubDir.Size = New System.Drawing.Size(19, 23)
+        Me.CBBoobSubDir.Size = New System.Drawing.Size(148, 23)
         Me.CBBoobSubDir.TabIndex = 47
+        Me.CBBoobSubDir.Text = "Include Subdirectories"
         Me.CBBoobSubDir.UseVisualStyleBackColor = True
         '
         'CBILezdomSD
@@ -5506,8 +5531,9 @@ Partial Class FrmSettings
         Me.CBILezdomSD.ForeColor = System.Drawing.Color.Black
         Me.CBILezdomSD.Location = New System.Drawing.Point(343, 148)
         Me.CBILezdomSD.Name = "CBILezdomSD"
-        Me.CBILezdomSD.Size = New System.Drawing.Size(19, 23)
+        Me.CBILezdomSD.Size = New System.Drawing.Size(148, 23)
         Me.CBILezdomSD.TabIndex = 23
+        Me.CBILezdomSD.Text = "Include Subdirectories"
         Me.CBILezdomSD.UseVisualStyleBackColor = True
         '
         'CBIGeneralSD
@@ -5520,8 +5546,9 @@ Partial Class FrmSettings
         Me.CBIGeneralSD.ForeColor = System.Drawing.Color.Black
         Me.CBIGeneralSD.Location = New System.Drawing.Point(343, 293)
         Me.CBIGeneralSD.Name = "CBIGeneralSD"
-        Me.CBIGeneralSD.Size = New System.Drawing.Size(19, 23)
+        Me.CBIGeneralSD.Size = New System.Drawing.Size(148, 23)
         Me.CBIGeneralSD.TabIndex = 43
+        Me.CBIGeneralSD.Text = "Include Subdirectories"
         Me.CBIGeneralSD.UseVisualStyleBackColor = True
         '
         'CBILesbianSD
@@ -5534,8 +5561,9 @@ Partial Class FrmSettings
         Me.CBILesbianSD.ForeColor = System.Drawing.Color.Black
         Me.CBILesbianSD.Location = New System.Drawing.Point(343, 61)
         Me.CBILesbianSD.Name = "CBILesbianSD"
-        Me.CBILesbianSD.Size = New System.Drawing.Size(19, 23)
+        Me.CBILesbianSD.Size = New System.Drawing.Size(148, 23)
         Me.CBILesbianSD.TabIndex = 11
+        Me.CBILesbianSD.Text = "Include Subdirectories"
         Me.CBILesbianSD.UseVisualStyleBackColor = True
         '
         'CBICaptionsSD
@@ -5548,8 +5576,9 @@ Partial Class FrmSettings
         Me.CBICaptionsSD.ForeColor = System.Drawing.Color.Black
         Me.CBICaptionsSD.Location = New System.Drawing.Point(343, 264)
         Me.CBICaptionsSD.Name = "CBICaptionsSD"
-        Me.CBICaptionsSD.Size = New System.Drawing.Size(19, 23)
+        Me.CBICaptionsSD.Size = New System.Drawing.Size(148, 23)
         Me.CBICaptionsSD.TabIndex = 39
+        Me.CBICaptionsSD.Text = "Include Subdirectories"
         Me.CBICaptionsSD.UseVisualStyleBackColor = True
         '
         'CBILesbian
@@ -5576,8 +5605,9 @@ Partial Class FrmSettings
         Me.CBIMaledomSD.ForeColor = System.Drawing.Color.Black
         Me.CBIMaledomSD.Location = New System.Drawing.Point(343, 235)
         Me.CBIMaledomSD.Name = "CBIMaledomSD"
-        Me.CBIMaledomSD.Size = New System.Drawing.Size(19, 23)
+        Me.CBIMaledomSD.Size = New System.Drawing.Size(148, 23)
         Me.CBIMaledomSD.TabIndex = 35
+        Me.CBIMaledomSD.Text = "Include Subdirectories"
         Me.CBIMaledomSD.UseVisualStyleBackColor = True
         '
         'CBIBlowjob
@@ -5604,8 +5634,9 @@ Partial Class FrmSettings
         Me.CBIGaySD.ForeColor = System.Drawing.Color.Black
         Me.CBIGaySD.Location = New System.Drawing.Point(343, 206)
         Me.CBIGaySD.Name = "CBIGaySD"
-        Me.CBIGaySD.Size = New System.Drawing.Size(19, 23)
+        Me.CBIGaySD.Size = New System.Drawing.Size(148, 23)
         Me.CBIGaySD.TabIndex = 31
+        Me.CBIGaySD.Text = "Include Subdirectories"
         Me.CBIGaySD.UseVisualStyleBackColor = True
         '
         'CBIHentaiSD
@@ -5618,8 +5649,9 @@ Partial Class FrmSettings
         Me.CBIHentaiSD.ForeColor = System.Drawing.Color.Black
         Me.CBIHentaiSD.Location = New System.Drawing.Point(343, 177)
         Me.CBIHentaiSD.Name = "CBIHentaiSD"
-        Me.CBIHentaiSD.Size = New System.Drawing.Size(19, 23)
+        Me.CBIHentaiSD.Size = New System.Drawing.Size(148, 23)
         Me.CBIHentaiSD.TabIndex = 27
+        Me.CBIHentaiSD.Text = "Include Subdirectories"
         Me.CBIHentaiSD.UseVisualStyleBackColor = True
         '
         'CBIBlowjobSD
@@ -5632,8 +5664,9 @@ Partial Class FrmSettings
         Me.CBIBlowjobSD.ForeColor = System.Drawing.Color.Black
         Me.CBIBlowjobSD.Location = New System.Drawing.Point(343, 90)
         Me.CBIBlowjobSD.Name = "CBIBlowjobSD"
-        Me.CBIBlowjobSD.Size = New System.Drawing.Size(19, 23)
+        Me.CBIBlowjobSD.Size = New System.Drawing.Size(148, 23)
         Me.CBIBlowjobSD.TabIndex = 15
+        Me.CBIBlowjobSD.Text = "Include Subdirectories"
         Me.CBIBlowjobSD.UseVisualStyleBackColor = True
         '
         'CBIFemdomSD
@@ -5646,8 +5679,9 @@ Partial Class FrmSettings
         Me.CBIFemdomSD.ForeColor = System.Drawing.Color.Black
         Me.CBIFemdomSD.Location = New System.Drawing.Point(343, 119)
         Me.CBIFemdomSD.Name = "CBIFemdomSD"
-        Me.CBIFemdomSD.Size = New System.Drawing.Size(19, 23)
+        Me.CBIFemdomSD.Size = New System.Drawing.Size(148, 23)
         Me.CBIFemdomSD.TabIndex = 19
+        Me.CBIFemdomSD.Text = "Include Subdirectories"
         Me.CBIFemdomSD.UseVisualStyleBackColor = True
         '
         'TbxIButts
@@ -6148,7 +6182,7 @@ Partial Class FrmSettings
         Me.TabPage34.Controls.Add(Me.CBTagAllFours)
         Me.TabPage34.Controls.Add(Me.CBTagGlaring)
         Me.TabPage34.Controls.Add(Me.CBTagSmiling)
-        Me.TabPage34.Controls.Add(Me.TBTagDir)
+        Me.TabPage34.Controls.Add(Me.DommeTagDirInput)
         Me.TabPage34.Controls.Add(Me.CBTagPiercing)
         Me.TabPage34.Controls.Add(Me.CBTagLegs)
         Me.TabPage34.Controls.Add(Me.TBTagFurniture)
@@ -6179,7 +6213,7 @@ Partial Class FrmSettings
         Me.TabPage34.Controls.Add(Me.CBTagAss)
         Me.TabPage34.Controls.Add(Me.CBTagPussy)
         Me.TabPage34.Controls.Add(Me.BTNTagSave)
-        Me.TabPage34.Controls.Add(Me.BTNTagDir)
+        Me.TabPage34.Controls.Add(Me.DommeTagDirectoryButton)
         Me.TabPage34.Controls.Add(Me.ImageTagPictureBox)
         Me.TabPage34.Controls.Add(Me.CBTagFace)
         Me.TabPage34.Location = New System.Drawing.Point(4, 22)
@@ -6236,13 +6270,13 @@ Partial Class FrmSettings
         Me.CBTagSmiling.Text = "Smiling"
         Me.CBTagSmiling.UseVisualStyleBackColor = True
         '
-        'TBTagDir
+        'DommeTagDirInput
         '
-        Me.TBTagDir.Location = New System.Drawing.Point(55, 9)
-        Me.TBTagDir.Name = "TBTagDir"
-        Me.TBTagDir.Size = New System.Drawing.Size(330, 20)
-        Me.TBTagDir.TabIndex = 222
-        Me.TBTagDir.Text = "Enter Image Directory"
+        Me.DommeTagDirInput.Location = New System.Drawing.Point(55, 9)
+        Me.DommeTagDirInput.Name = "DommeTagDirInput"
+        Me.DommeTagDirInput.Size = New System.Drawing.Size(330, 20)
+        Me.DommeTagDirInput.TabIndex = 222
+        Me.DommeTagDirInput.Text = "Enter Image Directory"
         '
         'CBTagPiercing
         '
@@ -6583,15 +6617,15 @@ Partial Class FrmSettings
         Me.BTNTagSave.Text = "Finished"
         Me.BTNTagSave.UseVisualStyleBackColor = True
         '
-        'BTNTagDir
+        'DommeTagDirectoryButton
         '
-        Me.BTNTagDir.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
-        Me.BTNTagDir.Location = New System.Drawing.Point(6, 8)
-        Me.BTNTagDir.Name = "BTNTagDir"
-        Me.BTNTagDir.Size = New System.Drawing.Size(43, 23)
-        Me.BTNTagDir.TabIndex = 192
-        Me.BTNTagDir.Text = "1"
-        Me.BTNTagDir.UseVisualStyleBackColor = True
+        Me.DommeTagDirectoryButton.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
+        Me.DommeTagDirectoryButton.Location = New System.Drawing.Point(6, 8)
+        Me.DommeTagDirectoryButton.Name = "DommeTagDirectoryButton"
+        Me.DommeTagDirectoryButton.Size = New System.Drawing.Size(43, 23)
+        Me.DommeTagDirectoryButton.TabIndex = 192
+        Me.DommeTagDirectoryButton.Text = "1"
+        Me.DommeTagDirectoryButton.UseVisualStyleBackColor = True
         '
         'ImageTagPictureBox
         '
@@ -14719,14 +14753,15 @@ Partial Class FrmSettings
         CType(Me.CockSizeNumBox, System.ComponentModel.ISupportInitialize).EndInit
         Me.TabPage16.ResumeLayout(False)
         Me.Panel9.ResumeLayout(False)
-        Me.GroupBox31.ResumeLayout(False)
+        Me.ScriptNavPanel.ResumeLayout(False)
         Me.TCScripts.ResumeLayout(False)
         Me.ScriptsStartTab.ResumeLayout(False)
         Me.ScriptsModuleTab.ResumeLayout(False)
         Me.ScriptsLinkTab.ResumeLayout(False)
         Me.ScriptsEndTab.ResumeLayout(False)
-        Me.GroupBox42.ResumeLayout(False)
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit
+        Me.ScriptInfoPanel.ResumeLayout(False)
+        Me.ScriptsDescriptionGroup.ResumeLayout(False)
+        Me.ScriptsRequirementsGroup.ResumeLayout(False)
         Me.GroupBox43.ResumeLayout(False)
         Me.TabPage7.ResumeLayout(False)
         Me.TabControl4.ResumeLayout(False)
@@ -15372,7 +15407,7 @@ Partial Class FrmSettings
     Friend WithEvents TbxIGeneral As System.Windows.Forms.TextBox
     Friend WithEvents BTNIGeneral As System.Windows.Forms.Button
     Friend WithEvents CBIGeneral As System.Windows.Forms.CheckBox
-    Friend WithEvents CBIHardcoreSD As System.Windows.Forms.CheckBox
+    Friend WithEvents IncludeHardcoreSubDirectories As System.Windows.Forms.CheckBox
     Friend WithEvents CBIGeneralSD As System.Windows.Forms.CheckBox
     Friend WithEvents CBIMaledomSD As System.Windows.Forms.CheckBox
     Friend WithEvents CBIGaySD As System.Windows.Forms.CheckBox
@@ -15381,7 +15416,7 @@ Partial Class FrmSettings
     Friend WithEvents CBIFemdomSD As System.Windows.Forms.CheckBox
     Friend WithEvents CBIBlowjobSD As System.Windows.Forms.CheckBox
     Friend WithEvents CBILesbianSD As System.Windows.Forms.CheckBox
-    Friend WithEvents CBISoftcoreSD As System.Windows.Forms.CheckBox
+    Friend WithEvents IncludedSoftcoreSubDirectories As System.Windows.Forms.CheckBox
     Friend WithEvents CBICaptionsSD As System.Windows.Forms.CheckBox
     Friend WithEvents TbxICaptions As System.Windows.Forms.TextBox
     Friend WithEvents BTNICaptions As System.Windows.Forms.Button
@@ -15397,13 +15432,12 @@ Partial Class FrmSettings
     Friend WithEvents ScriptsModuleTab As System.Windows.Forms.TabPage
     Friend WithEvents ScriptsLinkTab As System.Windows.Forms.TabPage
     Friend WithEvents ScriptsEndTab As System.Windows.Forms.TabPage
-    Friend WithEvents GroupBox42 As System.Windows.Forms.GroupBox
-    Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
+    Friend WithEvents ScriptsDescriptionGroup As System.Windows.Forms.GroupBox
     Friend WithEvents GroupBox43 As System.Windows.Forms.GroupBox
     Friend WithEvents Label98 As System.Windows.Forms.Label
-    Friend WithEvents Label104 As System.Windows.Forms.Label
-    Friend WithEvents GroupBox31 As System.Windows.Forms.GroupBox
-    Friend WithEvents RTBScriptReq As System.Windows.Forms.RichTextBox
+    Friend WithEvents ScriptTitle As System.Windows.Forms.Label
+    Friend WithEvents ScriptsRequirementsGroup As System.Windows.Forms.GroupBox
+    Friend WithEvents ScriptRequirements As System.Windows.Forms.RichTextBox
     Friend WithEvents ScriptInfoTextArea As System.Windows.Forms.RichTextBox
     Friend WithEvents LBLScriptReq As System.Windows.Forms.Label
     Friend WithEvents ModuleScripts As System.Windows.Forms.CheckedListBox
@@ -15866,7 +15900,7 @@ Partial Class FrmSettings
 	Friend WithEvents CBTagAllFours As CheckBox
 	Friend WithEvents CBTagGlaring As CheckBox
 	Friend WithEvents CBTagSmiling As CheckBox
-	Friend WithEvents TBTagDir As TextBox
+	Friend WithEvents DommeTagDirInput As TextBox
 	Friend WithEvents CBTagPiercing As CheckBox
 	Friend WithEvents CBTagLegs As CheckBox
 	Friend WithEvents TBTagFurniture As TextBox
@@ -15897,7 +15931,7 @@ Partial Class FrmSettings
 	Friend WithEvents CBTagAss As CheckBox
 	Friend WithEvents CBTagPussy As CheckBox
 	Friend WithEvents BTNTagSave As Button
-	Friend WithEvents BTNTagDir As Button
+	Friend WithEvents DommeTagDirectoryButton As Button
 	Friend WithEvents ImageTagPictureBox As PictureBox
 	Friend WithEvents CBTagFace As CheckBox
 	Friend WithEvents GroupBox55 As GroupBox
@@ -16019,4 +16053,6 @@ Partial Class FrmSettings
     Friend WithEvents FileTagCombo As ComboBox
     Friend WithEvents LocalTagImageNavGroup As GroupBox
     Friend WithEvents LocalTagPictureBox As PictureBox
+    Friend WithEvents ScriptInfoPanel As Panel
+    Friend WithEvents ScriptNavPanel As Panel
 End Class

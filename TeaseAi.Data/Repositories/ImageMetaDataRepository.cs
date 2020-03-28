@@ -115,5 +115,17 @@ namespace TeaseAI.Data.Repositories
         {
             throw new NotImplementedException();
         }
+
+        public List<ImageMetaData> GetImagesWithTag(ItemTagId itemTagId)
+        {
+            var sqliteConnection = new SQLiteConnection(_configurationAccessor.GetDatabaseConnectionString());
+            using (var model = new EntityFramework.Model(sqliteConnection))
+            {
+                return (from imd in model.ImageMetaDatas
+                        join itm in model.ImageTagMaps on imd.Id equals itm.ImageId
+                        where itm.ItemTagId == itemTagId
+                        select imd).ToList();
+            }
+        }
     }
 }

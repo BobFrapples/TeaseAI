@@ -11,5 +11,6 @@ namespace TeaseAI.Data.Interfaces
 
         Result Create(IEnumerable<ImageMetaData> images);
         Result Update(IEnumerable<ImageMetaData> imageMetaDatas);
+        List<ImageMetaData> GetImagesWithTag(ItemTagId itemTagId);
     }
 }
