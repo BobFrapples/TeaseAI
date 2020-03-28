@@ -816,7 +816,7 @@ retryStart:
             Return
         End If
 
-        If FrmSettings.CBSettingsPause.Checked And FrmSettings.SettingsPanel.Visible Then
+        If FrmSettings.CBSettingsPause.Checked And FrmSettings.Visible Then
             MsgBox("Please close the settings menu or disable ""Pause Program When Settings Menu is Visible"" option first!", , "Warning!")
             Return
         End If
@@ -1469,7 +1469,7 @@ NullSkip:
 
         If WaitTimer.Enabled OrElse ssh.DomTypeCheck Then Return
 
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
 
         If IsSpeechModeOn() = True Then
             If ssh.ScriptTick < 4 Then Return
@@ -1909,7 +1909,7 @@ NonModuleEnd:
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
-        If FrmSettings.CBSettingsPause.Checked AndAlso FrmSettings.SettingsPanel.Visible Then Return
+        If FrmSettings.CBSettingsPause.Checked AndAlso FrmSettings.Visible Then Return
 
         ssh.DomTyping = True
         Dim ShowPicture As Boolean = False
@@ -2723,7 +2723,7 @@ DommeSlideshowFallback:
             GoTo NullResponseLine
         End If
 
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
 
         Dim ShowPicture As Boolean = False
 
@@ -3234,7 +3234,7 @@ DommeSlideshowFallback:
         End If
 
         'TODO-Next-Stefaf: Implement enhanced RecentSlideshows.Item handling
-        If FrmSettings.CBSettingsPause.Checked AndAlso FrmSettings.SettingsPanel.Visible Then
+        If FrmSettings.CBSettingsPause.Checked AndAlso FrmSettings.Visible Then
             MsgBox("Please close the settings menu or disable ""Pause Program When Settings Menu is Visible"" option first!", , "Warning!")
             Return
         End If
@@ -3335,7 +3335,7 @@ DommeSlideshowFallback:
         Try
             EnableSlideShowControls(False)
             Dim imageSlideShow As ImageSlideShow = CreateImageSlideShow(ssh.SlideshowMain)
-            If My.Settings.CBSettingsPause AndAlso FrmSettings.SettingsPanel.Visible Then
+            If My.Settings.CBSettingsPause AndAlso FrmSettings.Visible Then
                 MsgBox("Please close the settings menu or disable ""Pause Program When Settings Menu is Visible"" option first!", , "Warning!")
                 Exit Sub
             End If
@@ -3379,7 +3379,7 @@ DommeSlideshowFallback:
 #Region " VLC "
 
     Private Sub BTNLoadVideo_Click(sender As Object, e As EventArgs) Handles BTNLoadVideo.Click
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then
             MsgBox("Please close the settings menu or disable ""Pause Program When Settings Menu is Visible"" option first!", , "Warning!")
             Return
         End If
@@ -3431,7 +3431,7 @@ DommeSlideshowFallback:
 
     Private Sub StrokeTimer_Tick(sender As Object, e As EventArgs) Handles StrokeTimer.Tick
         If ssh.InputFlag = True Then Return
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
         If ssh.DomTypeCheck = True And ssh.StrokeTick < 5 Then Return
         If chatBox.Text <> "" And ssh.StrokeTick < 5 Then Return
         If ChatBox2.Text <> "" And ssh.StrokeTick < 5 Then Return
@@ -3473,7 +3473,7 @@ DommeSlideshowFallback:
         If ssh.MiniScript = True Then Return
         If ssh.InputFlag = True Then Return
 
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
 
         If ssh.DomTyping = True Then Return
         If ssh.DomTypeCheck = True And ssh.StrokeTauntTick < 6 Then Return
@@ -4093,7 +4093,7 @@ GetAnotherRandomVideo:
 
 
         If ssh.MiniScript = True Then Return
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
 
         If ssh.DomTyping = True Then Return
         If ssh.DomTypeCheck = True And ssh.CensorshipTick < 6 Then Return
@@ -4185,7 +4185,7 @@ CensorConstant:
     Public Sub RLGLTimer_Tick(sender As Object, e As EventArgs) Handles RLGLTimer.Tick
         ' Check all Conditions before starting scripts.
         If ssh.MiniScript = True Then Return
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
 
         If ssh.DomTyping = True Then Return
         If ssh.DomTypeCheck = True And ssh.RLGLTick < 6 Then Return
@@ -4657,7 +4657,7 @@ StatusUpdateEnd:
     Private Sub UpdatesTimer_Tick(sender As Object, e As EventArgs) Handles UpdatesTimer.Tick
         ' GLITTER POSTING
 
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
 
         If My.Settings.CBGlitterFeed = True And ssh.UpdatingPost = False Then
 
@@ -10268,7 +10268,7 @@ SkipTextedTags:
 
     Private Sub AvoidTheEdge_Tick(sender As Object, e As EventArgs) Handles AvoidTheEdge.Tick
 
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
 
         If ssh.DomTyping = True Then Return
         If ssh.DomTypeCheck = True And ssh.AvoidTheEdgeTick < 6 Then Return
@@ -10400,7 +10400,7 @@ SkipTextedTags:
 
     Private Sub AvoidTheEdgeResume_Tick(sender As Object, e As EventArgs) Handles AvoidTheEdgeResume.Tick
 
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
 
         If ssh.DomTyping = True Then Return
         If ssh.DomTypeCheck = True And ssh.AtECountdown < 6 Then Return
@@ -10820,7 +10820,7 @@ NoPlaylistLinkFile:
         If ssh.MiniScript = True Then Return
         If ssh.InputFlag = True Then Return
 
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
 
         If ssh.DomTyping = True Then Return
         If ssh.DomTypeCheck = True And ssh.EdgeTauntInt < 6 Then Return
@@ -10872,7 +10872,7 @@ NoPlaylistLinkFile:
 
         If ssh.InputFlag = True Then Return
 
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
 
 
         'If DomTyping = True Then Return
@@ -11183,7 +11183,7 @@ NoRepeatOFiles:
         If ssh.MiniScript = True Then Return
         If ssh.InputFlag = True Then Return
 
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
 
         If ssh.DomTyping = True Then Return
         If ssh.DomTypeCheck = True And ssh.EdgeTauntInt < 6 Then Return
@@ -11494,7 +11494,7 @@ PoundLoop:
 
     Private Sub SlideshowTimer_Tick(sender As Object, e As EventArgs) Handles SlideshowTimer.Tick
         'TODO: Remove CrossForm data access
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
 
         If ssh.SlideshowLoaded = False Or FrmSettings.TimedSlideShowRadio.Checked = False Or ssh.TeaseVideo = True Or ssh.LockImage = True Or ssh.JustShowedBlogImage = True Or ssh.CustomSlideEnabled = True Then Return
 
@@ -11555,7 +11555,7 @@ TryNext:
 
     Private Sub EdgeCountTimer_Tick(sender As Object, e As EventArgs) Handles EdgeCountTimer.Tick
 
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
 
         ssh.EdgeCountTick += 1
 
@@ -11575,7 +11575,7 @@ TryNext:
 
     Private Sub StrokeTimeTotalTimer_Tick(sender As Object, e As EventArgs) Handles StrokeTimeTotalTimer.Tick
 
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
 
         If ssh.SubStroking = False Then Return
 
@@ -11843,7 +11843,7 @@ RestartFunction:
     End Sub
 
     Private Sub WaitTimer_Tick(sender As Object, e As EventArgs) Handles WaitTimer.Tick
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
 
         If ssh.DomTypeCheck = True Or ssh.YesOrNo = True Then Return
 
@@ -11950,7 +11950,7 @@ RestartFunction:
     Private Sub VideoTauntTimer_Tick(sender As Object, e As EventArgs) Handles VideoTauntTimer.Tick
 
         'TODO: Merge redundant code: VideoTauntTimer_Tick, RLGLTauntTimer_Tick, AvoidTheEdgeTaunts_Tick
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
         If ssh.MiniScript = True Then Return
 
         If ssh.DomTyping = True Then Return
@@ -12006,7 +12006,7 @@ RestartFunction:
 
     Public Sub RLGLTauntTimer_Tick(sender As Object, e As EventArgs) Handles RLGLTauntTimer.Tick
         'TODO: Merge redundant code: VideoTauntTimer_Tick, RLGLTauntTimer_Tick, AvoidTheEdgeTaunts_Tick
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
         If ssh.MiniScript = True Then Return
 
         If ssh.DomTyping = True Then Return
@@ -12051,7 +12051,7 @@ RestartFunction:
 
     Private Sub AvoidTheEdgeTaunts_Tick(sender As Object, e As EventArgs) Handles AvoidTheEdgeTaunts.Tick
         'TODO: Merge redundant code: VideoTauntTimer_Tick, RLGLTauntTimer_Tick, AvoidTheEdgeTaunts_Tick
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
 
         If ssh.DomTyping = True Then Return
         If ssh.DomTypeCheck = True And ssh.AvoidTheEdgeTick < 6 Then Return
@@ -12275,7 +12275,7 @@ RestartFunction:
 
     Private Sub PicStripTSMIdommeSlideshowGoToLast_Click(sender As Object, e As EventArgs) Handles PicStripTSMIdommeSlideshowGoToLast.Click
 
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then
             MsgBox("Please close the settings menu or disable ""Pause Program When Settings Menu Is Visible"" option first!", , "Warning!")
             Return
         End If
@@ -12292,7 +12292,7 @@ RestartFunction:
 
     Private Sub PicStripTSMIdommeSlideshow_GoToFirst_Click(sender As Object, e As EventArgs) Handles PicStripTSMIdommeSlideshow_GoToFirst.Click
 
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then
             MsgBox("Please close the settings menu or disable ""Pause Program When Settings Menu Is Visible"" option first!", , "Warning!")
             Return
         End If
@@ -12309,7 +12309,7 @@ RestartFunction:
 
     Private Sub PicStripTSMIdommeSlideshowLoadNewSlideshow_Click(sender As Object, e As EventArgs) Handles PicStripTSMIdommeSlideshowLoadNewSlideshow.Click
 
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then
             MsgBox("Please close the settings menu or disable ""Pause Program When Settings Menu Is Visible"" option first!", , "Warning!")
             Return
         End If
@@ -12445,7 +12445,7 @@ RestartFunction:
     End Function
 
     Private Sub CustomSlideshowTimer_Tick(sender As Object, e As EventArgs) Handles CustomSlideshowTimer.Tick
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
         Try
             Dim sw As New Stopwatch
 restartInstantly:
@@ -12596,7 +12596,7 @@ restartInstantly:
     End Sub
 
     Private Sub UpdateStageTimer_Tick(sender As Object, e As EventArgs) Handles UpdateStageTimer.Tick
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
         ssh.UpdateStageTick -= 1
         If ssh.UpdateStageTick < 1 Then
             UpdateStageTimer.Stop()
@@ -12624,7 +12624,7 @@ restartInstantly:
         WatchDogImageAnimator.Reset(TeaseAIClock.Interval * 3)
 
 
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then
             LBLTime.Text = Format(Now, "h:mm")
             LBLAMPM.Text = Format(Now, "tt")
             LBLDate.Text = Format(Now, "Long Date")
@@ -14470,7 +14470,7 @@ playLoop:
 
     Private Sub TimeoutTimer_Tick(sender As Object, e As EventArgs) Handles TimeoutTimer.Tick
 
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
 
         If chatBox.Text <> "" And ssh.TimeoutTick < 3 Then Return
         If ChatBox2.Text <> "" And ssh.TimeoutTick < 3 Then Return
@@ -14502,7 +14502,7 @@ playLoop:
 
     Private Sub VideoTimer_Tick(sender As Object, e As EventArgs) Handles VideoTimer.Tick
 
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
 
         ssh.VideoTick -= 1
 
@@ -14517,7 +14517,7 @@ playLoop:
     Private Sub MultipleEdgesTimer_Tick(sender As Object, e As EventArgs) Handles MultipleEdgesTimer.Tick
 
         If ssh.DomTypeCheck = True Then Return
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
 
         ssh.MultipleEdgesTick -= 1
 

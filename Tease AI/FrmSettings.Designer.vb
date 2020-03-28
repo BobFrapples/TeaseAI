@@ -24,7 +24,6 @@ Partial Class FrmSettings
 	Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmSettings))
-        Me.SettingsPanel = New System.Windows.Forms.Panel()
         Me.SettingsTabs = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.PNLGeneralSettings = New System.Windows.Forms.Panel()
@@ -427,7 +426,7 @@ Partial Class FrmSettings
         Me.BTNTagDir = New System.Windows.Forms.Button()
         Me.ImageTagPictureBox = New System.Windows.Forms.PictureBox()
         Me.CBTagFace = New System.Windows.Forms.CheckBox()
-        Me.TabPage35 = New System.Windows.Forms.TabPage()
+        Me.FileDropDownLabel = New System.Windows.Forms.TabPage()
         Me.GenreDropDownLabel = New System.Windows.Forms.Label()
         Me.GenreCombo = New System.Windows.Forms.ComboBox()
         Me.GroupBox55 = New System.Windows.Forms.GroupBox()
@@ -489,7 +488,7 @@ Partial Class FrmSettings
         Me.CBTagVibrator = New System.Windows.Forms.CheckBox()
         Me.CBTagDildo = New System.Windows.Forms.CheckBox()
         Me.CBTagKissing = New System.Windows.Forms.CheckBox()
-        Me.GroupBox51 = New System.Windows.Forms.GroupBox()
+        Me.BdsmTagGroup = New System.Windows.Forms.GroupBox()
         Me.CBTagBallTorture = New System.Windows.Forms.CheckBox()
         Me.CBTagGag = New System.Windows.Forms.CheckBox()
         Me.CBTagBlindfold = New System.Windows.Forms.CheckBox()
@@ -540,7 +539,7 @@ Partial Class FrmSettings
         Me.BTNLocalTagPrevious = New System.Windows.Forms.Button()
         Me.BTNLocalTagNext = New System.Windows.Forms.Button()
         Me.LBLLocalTagCount = New System.Windows.Forms.Label()
-        Me.BTNLocalTagSave = New System.Windows.Forms.Button()
+        Me.SaveTagButton = New System.Windows.Forms.Button()
         Me.TabPage11 = New System.Windows.Forms.TabPage()
         Me.Panel7 = New System.Windows.Forms.Panel()
         Me.BTNWIContinue = New System.Windows.Forms.Button()
@@ -1062,12 +1061,6 @@ Partial Class FrmSettings
         Me.Label3 = New System.Windows.Forms.Label()
         Me.PictureBox3 = New System.Windows.Forms.PictureBox()
         Me.Label41 = New System.Windows.Forms.Label()
-        Me.GroupBox47 = New System.Windows.Forms.GroupBox()
-        Me.GroupBox41 = New System.Windows.Forms.GroupBox()
-        Me.Button34 = New System.Windows.Forms.Button()
-        Me.GroupBox40 = New System.Windows.Forms.GroupBox()
-        Me.GroupBox44 = New System.Windows.Forms.GroupBox()
-        Me.Label100 = New System.Windows.Forms.Label()
         Me.GroupBox6 = New System.Windows.Forms.GroupBox()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.LBLAvgEdgeStroking = New System.Windows.Forms.Label()
@@ -1081,9 +1074,7 @@ Partial Class FrmSettings
         Me.Label13 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.GroupBox21 = New System.Windows.Forms.GroupBox()
-        Me.Label153 = New System.Windows.Forms.Label()
         Me.LBLRangeSettingsDescription = New System.Windows.Forms.Label()
-        Me.Label156 = New System.Windows.Forms.Label()
         Me.GroupBox12 = New System.Windows.Forms.GroupBox()
         Me.LBLSubSettingsDescription = New System.Windows.Forms.Label()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
@@ -1095,19 +1086,12 @@ Partial Class FrmSettings
         Me.OpenSettingsDialog = New System.Windows.Forms.OpenFileDialog()
         Me.SaveSettingsDialog = New System.Windows.Forms.SaveFileDialog()
         Me.TTDir = New System.Windows.Forms.ToolTip(Me.components)
-        Me.GroupBox65 = New System.Windows.Forms.GroupBox()
-        Me.Label136 = New System.Windows.Forms.Label()
-        Me.Label134 = New System.Windows.Forms.Label()
-        Me.Label132 = New System.Windows.Forms.Label()
-        Me.TrackBar1 = New System.Windows.Forms.TrackBar()
-        Me.ComboBox1 = New System.Windows.Forms.ComboBox()
-        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
-        Me.Label135 = New System.Windows.Forms.Label()
-        Me.TrackBar2 = New System.Windows.Forms.TrackBar()
         Me.TxbImgUrlHardcore = New System.Windows.Forms.TextBox()
         Me.TextBox2 = New System.Windows.Forms.TextBox()
         Me.BWURLFiles = New Tease_AI.URL_Files.URL_File_BGW()
-        Me.SettingsPanel.SuspendLayout
+        Me.FileTagCombo = New System.Windows.Forms.ComboBox()
+        Me.LocalTagPictureBox = New System.Windows.Forms.PictureBox()
+        Me.LocalTagImageNavGroup = New System.Windows.Forms.GroupBox()
         Me.SettingsTabs.SuspendLayout
         Me.TabPage1.SuspendLayout
         Me.PNLGeneralSettings.SuspendLayout
@@ -1203,13 +1187,13 @@ Partial Class FrmSettings
         Me.LocalTagsTab.SuspendLayout
         Me.TabPage34.SuspendLayout
         CType(Me.ImageTagPictureBox, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.TabPage35.SuspendLayout
+        Me.FileDropDownLabel.SuspendLayout
         Me.GroupBox55.SuspendLayout
         Me.GroupBox53.SuspendLayout
         Me.GroupBox49.SuspendLayout
         Me.GroupBox46.SuspendLayout
         Me.GroupBox54.SuspendLayout
-        Me.GroupBox51.SuspendLayout
+        Me.BdsmTagGroup.SuspendLayout
         Me.GroupBox50.SuspendLayout
         Me.GroupBox48.SuspendLayout
         Me.TabPage11.SuspendLayout
@@ -1357,26 +1341,12 @@ Partial Class FrmSettings
         Me.TabPage5.SuspendLayout
         Me.Panel5.SuspendLayout
         CType(Me.PictureBox3, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.GroupBox47.SuspendLayout
-        Me.GroupBox41.SuspendLayout
-        Me.GroupBox44.SuspendLayout
         Me.GroupBox6.SuspendLayout
         Me.GroupBox21.SuspendLayout
         Me.GroupBox12.SuspendLayout
-        Me.GroupBox65.SuspendLayout
-        CType(Me.TrackBar1, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TrackBar2, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.LocalTagPictureBox, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.LocalTagImageNavGroup.SuspendLayout
         Me.SuspendLayout
-        '
-        'SettingsPanel
-        '
-        Me.SettingsPanel.BackColor = System.Drawing.Color.LightGray
-        Me.SettingsPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.SettingsPanel.Controls.Add(Me.SettingsTabs)
-        Me.SettingsPanel.Location = New System.Drawing.Point(-8, -19)
-        Me.SettingsPanel.Name = "SettingsPanel"
-        Me.SettingsPanel.Size = New System.Drawing.Size(735, 484)
-        Me.SettingsPanel.TabIndex = 94
         '
         'SettingsTabs
         '
@@ -1395,10 +1365,11 @@ Partial Class FrmSettings
         Me.SettingsTabs.Controls.Add(Me.TabPage25)
         Me.SettingsTabs.Controls.Add(Me.TabPage28)
         Me.SettingsTabs.Controls.Add(Me.TabPage5)
-        Me.SettingsTabs.Location = New System.Drawing.Point(3, 15)
+        Me.SettingsTabs.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SettingsTabs.Location = New System.Drawing.Point(0, 0)
         Me.SettingsTabs.Name = "SettingsTabs"
         Me.SettingsTabs.SelectedIndex = 0
-        Me.SettingsTabs.Size = New System.Drawing.Size(728, 474)
+        Me.SettingsTabs.Size = New System.Drawing.Size(980, 657)
         Me.SettingsTabs.TabIndex = 0
         '
         'TabPage1
@@ -1408,7 +1379,7 @@ Partial Class FrmSettings
         Me.TabPage1.Location = New System.Drawing.Point(4, 22)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(720, 448)
+        Me.TabPage1.Size = New System.Drawing.Size(972, 631)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "General"
         '
@@ -1427,9 +1398,10 @@ Partial Class FrmSettings
         Me.PNLGeneralSettings.Controls.Add(Me.PictureBox2)
         Me.PNLGeneralSettings.Controls.Add(Me.GBGeneralSettings)
         Me.PNLGeneralSettings.Controls.Add(Me.LBLGeneralSettings)
-        Me.PNLGeneralSettings.Location = New System.Drawing.Point(6, 6)
+        Me.PNLGeneralSettings.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.PNLGeneralSettings.Location = New System.Drawing.Point(3, 3)
         Me.PNLGeneralSettings.Name = "PNLGeneralSettings"
-        Me.PNLGeneralSettings.Size = New System.Drawing.Size(708, 437)
+        Me.PNLGeneralSettings.Size = New System.Drawing.Size(966, 625)
         Me.PNLGeneralSettings.TabIndex = 0
         '
         'BtnImportSettings
@@ -2145,7 +2117,7 @@ Partial Class FrmSettings
         Me.TabPage2.Location = New System.Drawing.Point(4, 22)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(720, 448)
+        Me.TabPage2.Size = New System.Drawing.Size(972, 631)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Domme"
         '
@@ -2165,9 +2137,10 @@ Partial Class FrmSettings
         Me.Panel3.Controls.Add(Me.GBDomOrgasms)
         Me.Panel3.Controls.Add(Me.GBDomPetNames)
         Me.Panel3.Controls.Add(Me.Label54)
-        Me.Panel3.Location = New System.Drawing.Point(6, 6)
+        Me.Panel3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Panel3.Location = New System.Drawing.Point(3, 3)
         Me.Panel3.Name = "Panel3"
-        Me.Panel3.Size = New System.Drawing.Size(708, 437)
+        Me.Panel3.Size = New System.Drawing.Size(966, 625)
         Me.Panel3.TabIndex = 93
         '
         'BTNLoadDomSet
@@ -3381,7 +3354,7 @@ Partial Class FrmSettings
         Me.TabPage10.Location = New System.Drawing.Point(4, 22)
         Me.TabPage10.Name = "TabPage10"
         Me.TabPage10.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage10.Size = New System.Drawing.Size(720, 448)
+        Me.TabPage10.Size = New System.Drawing.Size(972, 631)
         Me.TabPage10.TabIndex = 9
         Me.TabPage10.Text = "Sub"
         '
@@ -3393,13 +3366,15 @@ Partial Class FrmSettings
         Me.Panel2.Controls.Add(Me.GroupBox45)
         Me.Panel2.Controls.Add(Me.GroupBox35)
         Me.Panel2.Controls.Add(Me.GroupBox13)
+        Me.Panel2.Controls.Add(Me.GroupBox12)
         Me.Panel2.Controls.Add(Me.GroupBox7)
         Me.Panel2.Controls.Add(Me.PictureBox12)
         Me.Panel2.Controls.Add(Me.GroupBox32)
         Me.Panel2.Controls.Add(Me.Label70)
-        Me.Panel2.Location = New System.Drawing.Point(6, 6)
+        Me.Panel2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Panel2.Location = New System.Drawing.Point(3, 3)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(708, 437)
+        Me.Panel2.Size = New System.Drawing.Size(966, 625)
         Me.Panel2.TabIndex = 94
         '
         'GroupBox22
@@ -4279,7 +4254,7 @@ Partial Class FrmSettings
         Me.TabPage16.Location = New System.Drawing.Point(4, 22)
         Me.TabPage16.Name = "TabPage16"
         Me.TabPage16.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage16.Size = New System.Drawing.Size(720, 448)
+        Me.TabPage16.Size = New System.Drawing.Size(972, 631)
         Me.TabPage16.TabIndex = 14
         Me.TabPage16.Text = "Scripts"
         '
@@ -4298,9 +4273,10 @@ Partial Class FrmSettings
         Me.Panel9.Controls.Add(Me.PictureBox1)
         Me.Panel9.Controls.Add(Me.GroupBox43)
         Me.Panel9.Controls.Add(Me.Label104)
-        Me.Panel9.Location = New System.Drawing.Point(6, 6)
+        Me.Panel9.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Panel9.Location = New System.Drawing.Point(3, 3)
         Me.Panel9.Name = "Panel9"
-        Me.Panel9.Size = New System.Drawing.Size(708, 437)
+        Me.Panel9.Size = New System.Drawing.Size(966, 625)
         Me.Panel9.TabIndex = 94
         '
         'SelectAvailableScriptsButton
@@ -4535,7 +4511,7 @@ Partial Class FrmSettings
         Me.TabPage7.Location = New System.Drawing.Point(4, 22)
         Me.TabPage7.Name = "TabPage7"
         Me.TabPage7.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage7.Size = New System.Drawing.Size(720, 448)
+        Me.TabPage7.Size = New System.Drawing.Size(972, 631)
         Me.TabPage7.TabIndex = 11
         Me.TabPage7.Text = "Images"
         '
@@ -4543,10 +4519,11 @@ Partial Class FrmSettings
         '
         Me.TabControl4.Controls.Add(Me.TpImagesUrlFiles)
         Me.TabControl4.Controls.Add(Me.TpImagesGenre)
-        Me.TabControl4.Location = New System.Drawing.Point(6, 6)
+        Me.TabControl4.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TabControl4.Location = New System.Drawing.Point(3, 3)
         Me.TabControl4.Name = "TabControl4"
         Me.TabControl4.SelectedIndex = 0
-        Me.TabControl4.Size = New System.Drawing.Size(708, 437)
+        Me.TabControl4.Size = New System.Drawing.Size(966, 625)
         Me.TabControl4.TabIndex = 154
         '
         'TpImagesUrlFiles
@@ -4560,7 +4537,7 @@ Partial Class FrmSettings
         Me.TpImagesUrlFiles.Location = New System.Drawing.Point(4, 22)
         Me.TpImagesUrlFiles.Name = "TpImagesUrlFiles"
         Me.TpImagesUrlFiles.Padding = New System.Windows.Forms.Padding(3)
-        Me.TpImagesUrlFiles.Size = New System.Drawing.Size(700, 411)
+        Me.TpImagesUrlFiles.Size = New System.Drawing.Size(958, 599)
         Me.TpImagesUrlFiles.TabIndex = 0
         Me.TpImagesUrlFiles.Text = "URL Files"
         '
@@ -6125,18 +6102,19 @@ Partial Class FrmSettings
         Me.TabPage33.Location = New System.Drawing.Point(4, 22)
         Me.TabPage33.Name = "TabPage33"
         Me.TabPage33.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage33.Size = New System.Drawing.Size(720, 448)
+        Me.TabPage33.Size = New System.Drawing.Size(972, 631)
         Me.TabPage33.TabIndex = 21
         Me.TabPage33.Text = "Tagging"
         '
         'LocalTagsTab
         '
         Me.LocalTagsTab.Controls.Add(Me.TabPage34)
-        Me.LocalTagsTab.Controls.Add(Me.TabPage35)
-        Me.LocalTagsTab.Location = New System.Drawing.Point(6, 6)
+        Me.LocalTagsTab.Controls.Add(Me.FileDropDownLabel)
+        Me.LocalTagsTab.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LocalTagsTab.Location = New System.Drawing.Point(3, 3)
         Me.LocalTagsTab.Name = "LocalTagsTab"
         Me.LocalTagsTab.SelectedIndex = 0
-        Me.LocalTagsTab.Size = New System.Drawing.Size(708, 437)
+        Me.LocalTagsTab.Size = New System.Drawing.Size(966, 625)
         Me.LocalTagsTab.TabIndex = 0
         '
         'TabPage34
@@ -6183,7 +6161,7 @@ Partial Class FrmSettings
         Me.TabPage34.Location = New System.Drawing.Point(4, 22)
         Me.TabPage34.Name = "TabPage34"
         Me.TabPage34.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage34.Size = New System.Drawing.Size(700, 411)
+        Me.TabPage34.Size = New System.Drawing.Size(958, 599)
         Me.TabPage34.TabIndex = 0
         Me.TabPage34.Text = "Domme Tags"
         '
@@ -6613,29 +6591,28 @@ Partial Class FrmSettings
         Me.CBTagFace.Text = "Face"
         Me.CBTagFace.UseVisualStyleBackColor = True
         '
-        'TabPage35
+        'FileDropDownLabel
         '
-        Me.TabPage35.BackColor = System.Drawing.Color.LightGray
-        Me.TabPage35.Controls.Add(Me.GenreDropDownLabel)
-        Me.TabPage35.Controls.Add(Me.GenreCombo)
-        Me.TabPage35.Controls.Add(Me.GroupBox55)
-        Me.TabPage35.Controls.Add(Me.GroupBox53)
-        Me.TabPage35.Controls.Add(Me.GroupBox49)
-        Me.TabPage35.Controls.Add(Me.GroupBox46)
-        Me.TabPage35.Controls.Add(Me.GroupBox54)
-        Me.TabPage35.Controls.Add(Me.GroupBox51)
-        Me.TabPage35.Controls.Add(Me.GroupBox50)
-        Me.TabPage35.Controls.Add(Me.GroupBox48)
-        Me.TabPage35.Controls.Add(Me.BTNLocalTagPrevious)
-        Me.TabPage35.Controls.Add(Me.BTNLocalTagNext)
-        Me.TabPage35.Controls.Add(Me.LBLLocalTagCount)
-        Me.TabPage35.Controls.Add(Me.BTNLocalTagSave)
-        Me.TabPage35.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage35.Name = "TabPage35"
-        Me.TabPage35.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage35.Size = New System.Drawing.Size(700, 411)
-        Me.TabPage35.TabIndex = 1
-        Me.TabPage35.Text = "Local Tags"
+        Me.FileDropDownLabel.BackColor = System.Drawing.Color.LightGray
+        Me.FileDropDownLabel.Controls.Add(Me.LocalTagImageNavGroup)
+        Me.FileDropDownLabel.Controls.Add(Me.LocalTagPictureBox)
+        Me.FileDropDownLabel.Controls.Add(Me.GenreDropDownLabel)
+        Me.FileDropDownLabel.Controls.Add(Me.GenreCombo)
+        Me.FileDropDownLabel.Controls.Add(Me.GroupBox55)
+        Me.FileDropDownLabel.Controls.Add(Me.GroupBox53)
+        Me.FileDropDownLabel.Controls.Add(Me.GroupBox49)
+        Me.FileDropDownLabel.Controls.Add(Me.GroupBox46)
+        Me.FileDropDownLabel.Controls.Add(Me.GroupBox54)
+        Me.FileDropDownLabel.Controls.Add(Me.BdsmTagGroup)
+        Me.FileDropDownLabel.Controls.Add(Me.GroupBox50)
+        Me.FileDropDownLabel.Controls.Add(Me.GroupBox48)
+        Me.FileDropDownLabel.Controls.Add(Me.SaveTagButton)
+        Me.FileDropDownLabel.Location = New System.Drawing.Point(4, 22)
+        Me.FileDropDownLabel.Name = "FileDropDownLabel"
+        Me.FileDropDownLabel.Padding = New System.Windows.Forms.Padding(3)
+        Me.FileDropDownLabel.Size = New System.Drawing.Size(958, 599)
+        Me.FileDropDownLabel.TabIndex = 1
+        Me.FileDropDownLabel.Text = "Local Tags"
         '
         'GenreDropDownLabel
         '
@@ -6661,9 +6638,9 @@ Partial Class FrmSettings
         Me.GroupBox55.Controls.Add(Me.CBTagMaid)
         Me.GroupBox55.Controls.Add(Me.CBTagTeacher)
         Me.GroupBox55.Controls.Add(Me.CBTagSuperhero)
-        Me.GroupBox55.Location = New System.Drawing.Point(341, 277)
+        Me.GroupBox55.Location = New System.Drawing.Point(8, 401)
         Me.GroupBox55.Name = "GroupBox55"
-        Me.GroupBox55.Size = New System.Drawing.Size(103, 118)
+        Me.GroupBox55.Size = New System.Drawing.Size(105, 118)
         Me.GroupBox55.TabIndex = 241
         Me.GroupBox55.TabStop = False
         Me.GroupBox55.Text = "Outfit"
@@ -6740,9 +6717,9 @@ Partial Class FrmSettings
         Me.GroupBox53.Controls.Add(Me.CBTagBakunyuu)
         Me.GroupBox53.Controls.Add(Me.CBTagAhegao)
         Me.GroupBox53.Controls.Add(Me.CBTagShibari)
-        Me.GroupBox53.Location = New System.Drawing.Point(450, 277)
+        Me.GroupBox53.Location = New System.Drawing.Point(119, 401)
         Me.GroupBox53.Name = "GroupBox53"
-        Me.GroupBox53.Size = New System.Drawing.Size(246, 118)
+        Me.GroupBox53.Size = New System.Drawing.Size(216, 118)
         Me.GroupBox53.TabIndex = 240
         Me.GroupBox53.TabStop = False
         Me.GroupBox53.Text = "Hentai/JAV Themes"
@@ -7262,7 +7239,7 @@ Partial Class FrmSettings
         Me.GroupBox54.Controls.Add(Me.CBTagVibrator)
         Me.GroupBox54.Controls.Add(Me.CBTagDildo)
         Me.GroupBox54.Controls.Add(Me.CBTagKissing)
-        Me.GroupBox54.Location = New System.Drawing.Point(561, 37)
+        Me.GroupBox54.Location = New System.Drawing.Point(450, 38)
         Me.GroupBox54.Name = "GroupBox54"
         Me.GroupBox54.Size = New System.Drawing.Size(135, 238)
         Me.GroupBox54.TabIndex = 239
@@ -7401,25 +7378,25 @@ Partial Class FrmSettings
         Me.CBTagKissing.Text = "Kissing"
         Me.CBTagKissing.UseVisualStyleBackColor = True
         '
-        'GroupBox51
+        'BdsmTagGroup
         '
-        Me.GroupBox51.Controls.Add(Me.CBTagBallTorture)
-        Me.GroupBox51.Controls.Add(Me.CBTagGag)
-        Me.GroupBox51.Controls.Add(Me.CBTagBlindfold)
-        Me.GroupBox51.Controls.Add(Me.CBTagWhipping)
-        Me.GroupBox51.Controls.Add(Me.CBTagCockTorture)
-        Me.GroupBox51.Controls.Add(Me.CBTagElectro)
-        Me.GroupBox51.Controls.Add(Me.CBTagHotWax)
-        Me.GroupBox51.Controls.Add(Me.CBTagClamps)
-        Me.GroupBox51.Controls.Add(Me.CBTagStrapon)
-        Me.GroupBox51.Controls.Add(Me.CBTagSpanking)
-        Me.GroupBox51.Controls.Add(Me.CBTagNeedles)
-        Me.GroupBox51.Location = New System.Drawing.Point(450, 37)
-        Me.GroupBox51.Name = "GroupBox51"
-        Me.GroupBox51.Size = New System.Drawing.Size(105, 238)
-        Me.GroupBox51.TabIndex = 238
-        Me.GroupBox51.TabStop = False
-        Me.GroupBox51.Text = "BDSM"
+        Me.BdsmTagGroup.Controls.Add(Me.CBTagBallTorture)
+        Me.BdsmTagGroup.Controls.Add(Me.CBTagGag)
+        Me.BdsmTagGroup.Controls.Add(Me.CBTagBlindfold)
+        Me.BdsmTagGroup.Controls.Add(Me.CBTagWhipping)
+        Me.BdsmTagGroup.Controls.Add(Me.CBTagCockTorture)
+        Me.BdsmTagGroup.Controls.Add(Me.CBTagElectro)
+        Me.BdsmTagGroup.Controls.Add(Me.CBTagHotWax)
+        Me.BdsmTagGroup.Controls.Add(Me.CBTagClamps)
+        Me.BdsmTagGroup.Controls.Add(Me.CBTagStrapon)
+        Me.BdsmTagGroup.Controls.Add(Me.CBTagSpanking)
+        Me.BdsmTagGroup.Controls.Add(Me.CBTagNeedles)
+        Me.BdsmTagGroup.Location = New System.Drawing.Point(341, 281)
+        Me.BdsmTagGroup.Name = "BdsmTagGroup"
+        Me.BdsmTagGroup.Size = New System.Drawing.Size(103, 238)
+        Me.BdsmTagGroup.TabIndex = 238
+        Me.BdsmTagGroup.TabStop = False
+        Me.BdsmTagGroup.Text = "BDSM"
         '
         'CBTagBallTorture
         '
@@ -8019,7 +7996,7 @@ Partial Class FrmSettings
         Me.BTNLocalTagPrevious.Enabled = False
         Me.BTNLocalTagPrevious.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BTNLocalTagPrevious.ForeColor = System.Drawing.Color.Black
-        Me.BTNLocalTagPrevious.Location = New System.Drawing.Point(391, 8)
+        Me.BTNLocalTagPrevious.Location = New System.Drawing.Point(66, 39)
         Me.BTNLocalTagPrevious.Name = "BTNLocalTagPrevious"
         Me.BTNLocalTagPrevious.Size = New System.Drawing.Size(47, 24)
         Me.BTNLocalTagPrevious.TabIndex = 232
@@ -8032,7 +8009,7 @@ Partial Class FrmSettings
         Me.BTNLocalTagNext.Enabled = False
         Me.BTNLocalTagNext.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BTNLocalTagNext.ForeColor = System.Drawing.Color.Black
-        Me.BTNLocalTagNext.Location = New System.Drawing.Point(560, 8)
+        Me.BTNLocalTagNext.Location = New System.Drawing.Point(235, 39)
         Me.BTNLocalTagNext.Name = "BTNLocalTagNext"
         Me.BTNLocalTagNext.Size = New System.Drawing.Size(47, 24)
         Me.BTNLocalTagNext.TabIndex = 231
@@ -8046,22 +8023,23 @@ Partial Class FrmSettings
         Me.LBLLocalTagCount.Enabled = False
         Me.LBLLocalTagCount.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LBLLocalTagCount.ForeColor = System.Drawing.Color.Black
-        Me.LBLLocalTagCount.Location = New System.Drawing.Point(444, 10)
+        Me.LBLLocalTagCount.Location = New System.Drawing.Point(119, 41)
         Me.LBLLocalTagCount.Name = "LBLLocalTagCount"
         Me.LBLLocalTagCount.Size = New System.Drawing.Size(110, 20)
         Me.LBLLocalTagCount.TabIndex = 230
         Me.LBLLocalTagCount.Text = "0/0"
         Me.LBLLocalTagCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'BTNLocalTagSave
+        'SaveTagButton
         '
-        Me.BTNLocalTagSave.Enabled = False
-        Me.BTNLocalTagSave.Location = New System.Drawing.Point(613, 9)
-        Me.BTNLocalTagSave.Name = "BTNLocalTagSave"
-        Me.BTNLocalTagSave.Size = New System.Drawing.Size(83, 23)
-        Me.BTNLocalTagSave.TabIndex = 229
-        Me.BTNLocalTagSave.Text = "Finished"
-        Me.BTNLocalTagSave.UseVisualStyleBackColor = True
+        Me.SaveTagButton.Enabled = False
+        Me.SaveTagButton.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SaveTagButton.Location = New System.Drawing.Point(832, 4)
+        Me.SaveTagButton.Name = "SaveTagButton"
+        Me.SaveTagButton.Size = New System.Drawing.Size(120, 49)
+        Me.SaveTagButton.TabIndex = 229
+        Me.SaveTagButton.Text = "Save Tags"
+        Me.SaveTagButton.UseVisualStyleBackColor = True
         '
         'TabPage11
         '
@@ -8070,7 +8048,7 @@ Partial Class FrmSettings
         Me.TabPage11.Location = New System.Drawing.Point(4, 22)
         Me.TabPage11.Name = "TabPage11"
         Me.TabPage11.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage11.Size = New System.Drawing.Size(720, 448)
+        Me.TabPage11.Size = New System.Drawing.Size(972, 631)
         Me.TabPage11.TabIndex = 10
         Me.TabPage11.Text = "URL Files"
         '
@@ -8098,9 +8076,10 @@ Partial Class FrmSettings
         Me.Panel7.Controls.Add(Me.BTNWINext)
         Me.Panel7.Controls.Add(Me.WebPictureBox)
         Me.Panel7.Controls.Add(Me.Label71)
-        Me.Panel7.Location = New System.Drawing.Point(6, 6)
+        Me.Panel7.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Panel7.Location = New System.Drawing.Point(3, 3)
         Me.Panel7.Name = "Panel7"
-        Me.Panel7.Size = New System.Drawing.Size(708, 437)
+        Me.Panel7.Size = New System.Drawing.Size(966, 625)
         Me.Panel7.TabIndex = 91
         '
         'BTNWIContinue
@@ -8346,7 +8325,7 @@ Partial Class FrmSettings
         Me.TpVideoSettings.Location = New System.Drawing.Point(4, 22)
         Me.TpVideoSettings.Name = "TpVideoSettings"
         Me.TpVideoSettings.Padding = New System.Windows.Forms.Padding(6)
-        Me.TpVideoSettings.Size = New System.Drawing.Size(720, 448)
+        Me.TpVideoSettings.Size = New System.Drawing.Size(972, 631)
         Me.TpVideoSettings.TabIndex = 2
         Me.TpVideoSettings.Text = "Video"
         '
@@ -8368,7 +8347,7 @@ Partial Class FrmSettings
         Me.PnlVideoSettings.Location = New System.Drawing.Point(6, 6)
         Me.PnlVideoSettings.Margin = New System.Windows.Forms.Padding(6)
         Me.PnlVideoSettings.Name = "PnlVideoSettings"
-        Me.PnlVideoSettings.Size = New System.Drawing.Size(708, 436)
+        Me.PnlVideoSettings.Size = New System.Drawing.Size(960, 619)
         Me.PnlVideoSettings.TabIndex = 92
         '
         'PbBannerVideoSettings
@@ -9536,7 +9515,7 @@ Partial Class FrmSettings
         Me.TabPage20.Location = New System.Drawing.Point(4, 22)
         Me.TabPage20.Name = "TabPage20"
         Me.TabPage20.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage20.Size = New System.Drawing.Size(720, 448)
+        Me.TabPage20.Size = New System.Drawing.Size(972, 631)
         Me.TabPage20.TabIndex = 16
         Me.TabPage20.Text = "Apps"
         '
@@ -9545,10 +9524,11 @@ Partial Class FrmSettings
         Me.TabControl1.Controls.Add(Me.TabPage22)
         Me.TabControl1.Controls.Add(Me.TpGames)
         Me.TabControl1.Controls.Add(Me.TabPage6)
-        Me.TabControl1.Location = New System.Drawing.Point(6, 6)
+        Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TabControl1.Location = New System.Drawing.Point(3, 3)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(708, 437)
+        Me.TabControl1.Size = New System.Drawing.Size(966, 625)
         Me.TabControl1.TabIndex = 0
         '
         'TabPage22
@@ -9558,7 +9538,7 @@ Partial Class FrmSettings
         Me.TabPage22.Location = New System.Drawing.Point(4, 22)
         Me.TabPage22.Name = "TabPage22"
         Me.TabPage22.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage22.Size = New System.Drawing.Size(700, 411)
+        Me.TabPage22.Size = New System.Drawing.Size(958, 599)
         Me.TabPage22.TabIndex = 0
         Me.TabPage22.Text = "Glitter"
         '
@@ -9573,9 +9553,10 @@ Partial Class FrmSettings
         Me.PNLGlitter.Controls.Add(Me.GBGlitter1)
         Me.PNLGlitter.Controls.Add(Me.GBGlitter3)
         Me.PNLGlitter.Controls.Add(Me.GBGlitter2)
-        Me.PNLGlitter.Location = New System.Drawing.Point(-3, 5)
+        Me.PNLGlitter.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.PNLGlitter.Location = New System.Drawing.Point(3, 3)
         Me.PNLGlitter.Name = "PNLGlitter"
-        Me.PNLGlitter.Size = New System.Drawing.Size(708, 404)
+        Me.PNLGlitter.Size = New System.Drawing.Size(952, 593)
         Me.PNLGlitter.TabIndex = 91
         '
         'Button15
@@ -10322,7 +10303,7 @@ Partial Class FrmSettings
         Me.TpGames.Location = New System.Drawing.Point(4, 22)
         Me.TpGames.Name = "TpGames"
         Me.TpGames.Padding = New System.Windows.Forms.Padding(3)
-        Me.TpGames.Size = New System.Drawing.Size(700, 411)
+        Me.TpGames.Size = New System.Drawing.Size(958, 599)
         Me.TpGames.TabIndex = 1
         Me.TpGames.Text = "Games"
         '
@@ -10897,7 +10878,7 @@ Partial Class FrmSettings
         Me.TabPage6.Location = New System.Drawing.Point(4, 22)
         Me.TabPage6.Name = "TabPage6"
         Me.TabPage6.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage6.Size = New System.Drawing.Size(700, 411)
+        Me.TabPage6.Size = New System.Drawing.Size(958, 599)
         Me.TabPage6.TabIndex = 2
         Me.TabPage6.Text = "Wishlist"
         '
@@ -11123,7 +11104,7 @@ Partial Class FrmSettings
         Me.TabPage26.Location = New System.Drawing.Point(4, 22)
         Me.TabPage26.Name = "TabPage26"
         Me.TabPage26.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage26.Size = New System.Drawing.Size(720, 448)
+        Me.TabPage26.Size = New System.Drawing.Size(972, 631)
         Me.TabPage26.TabIndex = 19
         Me.TabPage26.Text = "Themes"
         '
@@ -11137,9 +11118,10 @@ Partial Class FrmSettings
         Me.Panel12.Controls.Add(Me.GroupBox11)
         Me.Panel12.Controls.Add(Me.GroupBox1)
         Me.Panel12.Controls.Add(Me.Label164)
-        Me.Panel12.Location = New System.Drawing.Point(6, 6)
+        Me.Panel12.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Panel12.Location = New System.Drawing.Point(3, 3)
         Me.Panel12.Name = "Panel12"
-        Me.Panel12.Size = New System.Drawing.Size(708, 437)
+        Me.Panel12.Size = New System.Drawing.Size(966, 625)
         Me.Panel12.TabIndex = 93
         '
         'GroupBox9
@@ -11480,7 +11462,7 @@ Partial Class FrmSettings
         Me.TabPage4.Location = New System.Drawing.Point(4, 22)
         Me.TabPage4.Name = "TabPage4"
         Me.TabPage4.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage4.Size = New System.Drawing.Size(720, 448)
+        Me.TabPage4.Size = New System.Drawing.Size(972, 631)
         Me.TabPage4.TabIndex = 3
         Me.TabPage4.Text = "Ranges"
         '
@@ -11495,12 +11477,14 @@ Partial Class FrmSettings
         Me.Panel6.Controls.Add(Me.GroupBox57)
         Me.Panel6.Controls.Add(Me.GBRangeRuinChance)
         Me.Panel6.Controls.Add(Me.GroupBox17)
+        Me.Panel6.Controls.Add(Me.GroupBox21)
         Me.Panel6.Controls.Add(Me.GBRangeOrgasmChance)
         Me.Panel6.Controls.Add(Me.PictureBox8)
         Me.Panel6.Controls.Add(Me.Label38)
-        Me.Panel6.Location = New System.Drawing.Point(6, 6)
+        Me.Panel6.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Panel6.Location = New System.Drawing.Point(3, 3)
         Me.Panel6.Name = "Panel6"
-        Me.Panel6.Size = New System.Drawing.Size(708, 437)
+        Me.Panel6.Size = New System.Drawing.Size(966, 625)
         Me.Panel6.TabIndex = 91
         '
         'GroupBox69
@@ -12759,7 +12743,7 @@ Partial Class FrmSettings
         Me.TabPage13.Location = New System.Drawing.Point(4, 22)
         Me.TabPage13.Name = "TabPage13"
         Me.TabPage13.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage13.Size = New System.Drawing.Size(720, 448)
+        Me.TabPage13.Size = New System.Drawing.Size(972, 631)
         Me.TabPage13.TabIndex = 13
         Me.TabPage13.Text = "Modding"
         '
@@ -12770,10 +12754,11 @@ Partial Class FrmSettings
         Me.TabControl2.Controls.Add(Me.TabPage24)
         Me.TabControl2.Controls.Add(Me.TabPage8)
         Me.TabControl2.Controls.Add(Me.TabPage15)
-        Me.TabControl2.Location = New System.Drawing.Point(6, 6)
+        Me.TabControl2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TabControl2.Location = New System.Drawing.Point(3, 3)
         Me.TabControl2.Name = "TabControl2"
         Me.TabControl2.SelectedIndex = 0
-        Me.TabControl2.Size = New System.Drawing.Size(708, 437)
+        Me.TabControl2.Size = New System.Drawing.Size(966, 625)
         Me.TabControl2.TabIndex = 0
         '
         'TabPage27
@@ -12796,7 +12781,7 @@ Partial Class FrmSettings
         Me.TabPage27.Location = New System.Drawing.Point(4, 22)
         Me.TabPage27.Name = "TabPage27"
         Me.TabPage27.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage27.Size = New System.Drawing.Size(700, 411)
+        Me.TabPage27.Size = New System.Drawing.Size(958, 599)
         Me.TabPage27.TabIndex = 5
         Me.TabPage27.Text = "Playlists"
         '
@@ -12960,7 +12945,7 @@ Partial Class FrmSettings
         Me.TabPage14.Location = New System.Drawing.Point(4, 22)
         Me.TabPage14.Name = "TabPage14"
         Me.TabPage14.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage14.Size = New System.Drawing.Size(700, 411)
+        Me.TabPage14.Size = New System.Drawing.Size(958, 599)
         Me.TabPage14.TabIndex = 0
         Me.TabPage14.Text = "Keywords"
         '
@@ -13059,7 +13044,7 @@ Partial Class FrmSettings
         Me.TabPage24.Location = New System.Drawing.Point(4, 22)
         Me.TabPage24.Name = "TabPage24"
         Me.TabPage24.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage24.Size = New System.Drawing.Size(700, 411)
+        Me.TabPage24.Size = New System.Drawing.Size(958, 599)
         Me.TabPage24.TabIndex = 3
         Me.TabPage24.Text = "Responses"
         '
@@ -13135,7 +13120,7 @@ Partial Class FrmSettings
         Me.TabPage8.Controls.Add(Me.BTNVideoModSave)
         Me.TabPage8.Location = New System.Drawing.Point(4, 22)
         Me.TabPage8.Name = "TabPage8"
-        Me.TabPage8.Size = New System.Drawing.Size(700, 411)
+        Me.TabPage8.Size = New System.Drawing.Size(958, 599)
         Me.TabPage8.TabIndex = 2
         Me.TabPage8.Text = "Video"
         '
@@ -13263,7 +13248,7 @@ Partial Class FrmSettings
         Me.TabPage15.Location = New System.Drawing.Point(4, 22)
         Me.TabPage15.Name = "TabPage15"
         Me.TabPage15.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage15.Size = New System.Drawing.Size(700, 411)
+        Me.TabPage15.Size = New System.Drawing.Size(958, 599)
         Me.TabPage15.TabIndex = 1
         Me.TabPage15.Text = "Glitter"
         '
@@ -13448,7 +13433,7 @@ Partial Class FrmSettings
         Me.TabPage25.Location = New System.Drawing.Point(4, 22)
         Me.TabPage25.Name = "TabPage25"
         Me.TabPage25.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage25.Size = New System.Drawing.Size(720, 448)
+        Me.TabPage25.Size = New System.Drawing.Size(972, 631)
         Me.TabPage25.TabIndex = 18
         Me.TabPage25.Text = "Misc"
         '
@@ -13464,9 +13449,10 @@ Partial Class FrmSettings
         Me.Panel11.Controls.Add(Me.GroupBox15)
         Me.Panel11.Controls.Add(Me.PictureBox9)
         Me.Panel11.Controls.Add(Me.Label148)
-        Me.Panel11.Location = New System.Drawing.Point(6, 6)
+        Me.Panel11.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Panel11.Location = New System.Drawing.Point(3, 3)
         Me.Panel11.Name = "Panel11"
-        Me.Panel11.Size = New System.Drawing.Size(708, 437)
+        Me.Panel11.Size = New System.Drawing.Size(966, 625)
         Me.Panel11.TabIndex = 92
         '
         'GroupBox62
@@ -13840,7 +13826,7 @@ Partial Class FrmSettings
         Me.TabPage28.Location = New System.Drawing.Point(4, 22)
         Me.TabPage28.Name = "TabPage28"
         Me.TabPage28.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage28.Size = New System.Drawing.Size(720, 448)
+        Me.TabPage28.Size = New System.Drawing.Size(972, 631)
         Me.TabPage28.TabIndex = 20
         Me.TabPage28.Text = "Debug"
         '
@@ -13848,10 +13834,11 @@ Partial Class FrmSettings
         '
         Me.TabControl3.Controls.Add(Me.TabPage29)
         Me.TabControl3.Controls.Add(Me.TabPage30)
-        Me.TabControl3.Location = New System.Drawing.Point(6, 6)
+        Me.TabControl3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TabControl3.Location = New System.Drawing.Point(3, 3)
         Me.TabControl3.Name = "TabControl3"
         Me.TabControl3.SelectedIndex = 0
-        Me.TabControl3.Size = New System.Drawing.Size(708, 437)
+        Me.TabControl3.Size = New System.Drawing.Size(966, 625)
         Me.TabControl3.TabIndex = 0
         '
         'TabPage29
@@ -13860,6 +13847,7 @@ Partial Class FrmSettings
         Me.TabPage29.Controls.Add(Me.Label143)
         Me.TabPage29.Controls.Add(Me.LBLDebugScriptTime)
         Me.TabPage29.Controls.Add(Me.BTNDebugHoldEdgeTimer)
+        Me.TabPage29.Controls.Add(Me.GroupBox6)
         Me.TabPage29.Controls.Add(Me.GroupBox26)
         Me.TabPage29.Controls.Add(Me.BTNDebugStrokeTauntTimer)
         Me.TabPage29.Controls.Add(Me.LBLDebugHoldEdgeTime)
@@ -13878,7 +13866,7 @@ Partial Class FrmSettings
         Me.TabPage29.Location = New System.Drawing.Point(4, 22)
         Me.TabPage29.Name = "TabPage29"
         Me.TabPage29.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage29.Size = New System.Drawing.Size(700, 411)
+        Me.TabPage29.Size = New System.Drawing.Size(958, 599)
         Me.TabPage29.TabIndex = 0
         Me.TabPage29.Text = "TabPage29"
         '
@@ -14176,7 +14164,7 @@ Partial Class FrmSettings
         Me.TabPage30.Location = New System.Drawing.Point(4, 22)
         Me.TabPage30.Name = "TabPage30"
         Me.TabPage30.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage30.Size = New System.Drawing.Size(700, 411)
+        Me.TabPage30.Size = New System.Drawing.Size(958, 599)
         Me.TabPage30.TabIndex = 1
         Me.TabPage30.Text = "TabPage30"
         '
@@ -14204,7 +14192,7 @@ Partial Class FrmSettings
         Me.TabPage5.Controls.Add(Me.Panel5)
         Me.TabPage5.Location = New System.Drawing.Point(4, 22)
         Me.TabPage5.Name = "TabPage5"
-        Me.TabPage5.Size = New System.Drawing.Size(720, 448)
+        Me.TabPage5.Size = New System.Drawing.Size(972, 631)
         Me.TabPage5.TabIndex = 17
         Me.TabPage5.Text = "About"
         '
@@ -14223,15 +14211,16 @@ Partial Class FrmSettings
         Me.Panel5.Controls.Add(Me.Label3)
         Me.Panel5.Controls.Add(Me.PictureBox3)
         Me.Panel5.Controls.Add(Me.Label41)
-        Me.Panel5.Location = New System.Drawing.Point(6, 6)
+        Me.Panel5.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Panel5.Location = New System.Drawing.Point(0, 0)
         Me.Panel5.Name = "Panel5"
-        Me.Panel5.Size = New System.Drawing.Size(708, 437)
+        Me.Panel5.Size = New System.Drawing.Size(972, 631)
         Me.Panel5.TabIndex = 92
         '
         'Label130
         '
         Me.Label130.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label130.Location = New System.Drawing.Point(361, 314)
+        Me.Label130.Location = New System.Drawing.Point(481, 372)
         Me.Label130.Name = "Label130"
         Me.Label130.Size = New System.Drawing.Size(254, 54)
         Me.Label130.TabIndex = 176
@@ -14241,7 +14230,7 @@ Partial Class FrmSettings
         'Label123
         '
         Me.Label123.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label123.Location = New System.Drawing.Point(81, 314)
+        Me.Label123.Location = New System.Drawing.Point(201, 372)
         Me.Label123.Name = "Label123"
         Me.Label123.Size = New System.Drawing.Size(254, 54)
         Me.Label123.TabIndex = 175
@@ -14251,7 +14240,7 @@ Partial Class FrmSettings
         'Label69
         '
         Me.Label69.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label69.Location = New System.Drawing.Point(35, 295)
+        Me.Label69.Location = New System.Drawing.Point(155, 353)
         Me.Label69.Name = "Label69"
         Me.Label69.Size = New System.Drawing.Size(638, 22)
         Me.Label69.TabIndex = 174
@@ -14261,7 +14250,7 @@ Partial Class FrmSettings
         'Label113
         '
         Me.Label113.AutoSize = True
-        Me.Label113.Location = New System.Drawing.Point(4, 417)
+        Me.Label113.Location = New System.Drawing.Point(124, 475)
         Me.Label113.Name = "Label113"
         Me.Label113.Size = New System.Drawing.Size(452, 13)
         Me.Label113.TabIndex = 173
@@ -14271,7 +14260,7 @@ Partial Class FrmSettings
         'Label40
         '
         Me.Label40.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label40.Location = New System.Drawing.Point(35, 273)
+        Me.Label40.Location = New System.Drawing.Point(155, 331)
         Me.Label40.Name = "Label40"
         Me.Label40.Size = New System.Drawing.Size(638, 24)
         Me.Label40.TabIndex = 171
@@ -14281,7 +14270,7 @@ Partial Class FrmSettings
         'Label35
         '
         Me.Label35.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label35.Location = New System.Drawing.Point(32, 107)
+        Me.Label35.Location = New System.Drawing.Point(152, 165)
         Me.Label35.Name = "Label35"
         Me.Label35.Size = New System.Drawing.Size(641, 77)
         Me.Label35.TabIndex = 170
@@ -14293,7 +14282,7 @@ Partial Class FrmSettings
         'Label33
         '
         Me.Label33.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label33.Location = New System.Drawing.Point(32, 191)
+        Me.Label33.Location = New System.Drawing.Point(152, 249)
         Me.Label33.Name = "Label33"
         Me.Label33.Size = New System.Drawing.Size(641, 77)
         Me.Label33.TabIndex = 169
@@ -14303,7 +14292,7 @@ Partial Class FrmSettings
         'Label17
         '
         Me.Label17.AutoSize = True
-        Me.Label17.Location = New System.Drawing.Point(522, 78)
+        Me.Label17.Location = New System.Drawing.Point(642, 136)
         Me.Label17.Name = "Label17"
         Me.Label17.Size = New System.Drawing.Size(93, 13)
         Me.Label17.TabIndex = 168
@@ -14312,7 +14301,7 @@ Partial Class FrmSettings
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(489, 417)
+        Me.Label3.Location = New System.Drawing.Point(609, 475)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(215, 13)
         Me.Label3.TabIndex = 167
@@ -14322,7 +14311,7 @@ Partial Class FrmSettings
         '
         Me.PictureBox3.BackColor = System.Drawing.Color.LightGray
         Me.PictureBox3.Image = Global.Tease_AI.My.Resources.Resources.TAI_Banner_big
-        Me.PictureBox3.Location = New System.Drawing.Point(84, 17)
+        Me.PictureBox3.Location = New System.Drawing.Point(204, 75)
         Me.PictureBox3.Name = "PictureBox3"
         Me.PictureBox3.Size = New System.Drawing.Size(531, 58)
         Me.PictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
@@ -14332,7 +14321,7 @@ Partial Class FrmSettings
         'Label41
         '
         Me.Label41.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label41.Location = New System.Drawing.Point(35, 372)
+        Me.Label41.Location = New System.Drawing.Point(155, 430)
         Me.Label41.Name = "Label41"
         Me.Label41.Size = New System.Drawing.Size(638, 39)
         Me.Label41.TabIndex = 172
@@ -14340,74 +14329,6 @@ Partial Class FrmSettings
     "nity who's been supportive of my work over the years. Tease AI exists because of" &
     " you." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
         Me.Label41.TextAlign = System.Drawing.ContentAlignment.TopCenter
-        '
-        'GroupBox47
-        '
-        Me.GroupBox47.BackColor = System.Drawing.Color.LightGray
-        Me.GroupBox47.Controls.Add(Me.GroupBox41)
-        Me.GroupBox47.Controls.Add(Me.GroupBox40)
-        Me.GroupBox47.ForeColor = System.Drawing.Color.Black
-        Me.GroupBox47.Location = New System.Drawing.Point(806, 255)
-        Me.GroupBox47.Name = "GroupBox47"
-        Me.GroupBox47.Size = New System.Drawing.Size(310, 190)
-        Me.GroupBox47.TabIndex = 63
-        Me.GroupBox47.TabStop = False
-        Me.GroupBox47.Text = "Boobs and Butts Paths"
-        '
-        'GroupBox41
-        '
-        Me.GroupBox41.Controls.Add(Me.Button34)
-        Me.GroupBox41.Location = New System.Drawing.Point(6, 110)
-        Me.GroupBox41.Name = "GroupBox41"
-        Me.GroupBox41.Size = New System.Drawing.Size(298, 74)
-        Me.GroupBox41.TabIndex = 153
-        Me.GroupBox41.TabStop = False
-        Me.GroupBox41.Text = "Butts"
-        '
-        'Button34
-        '
-        Me.Button34.BackColor = System.Drawing.Color.LightGray
-        Me.Button34.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
-        Me.Button34.ForeColor = System.Drawing.Color.Black
-        Me.Button34.Location = New System.Drawing.Point(85, 25)
-        Me.Button34.Name = "Button34"
-        Me.Button34.Size = New System.Drawing.Size(34, 28)
-        Me.Button34.TabIndex = 131
-        Me.Button34.Text = "1"
-        Me.Button34.UseVisualStyleBackColor = False
-        '
-        'GroupBox40
-        '
-        Me.GroupBox40.Location = New System.Drawing.Point(5, 35)
-        Me.GroupBox40.Name = "GroupBox40"
-        Me.GroupBox40.Size = New System.Drawing.Size(298, 74)
-        Me.GroupBox40.TabIndex = 152
-        Me.GroupBox40.TabStop = False
-        Me.GroupBox40.Text = "Boobs"
-        '
-        'GroupBox44
-        '
-        Me.GroupBox44.BackColor = System.Drawing.Color.LightGray
-        Me.GroupBox44.Controls.Add(Me.Label100)
-        Me.GroupBox44.ForeColor = System.Drawing.Color.Black
-        Me.GroupBox44.Location = New System.Drawing.Point(1160, 181)
-        Me.GroupBox44.Name = "GroupBox44"
-        Me.GroupBox44.Size = New System.Drawing.Size(310, 92)
-        Me.GroupBox44.TabIndex = 65
-        Me.GroupBox44.TabStop = False
-        Me.GroupBox44.Text = "Description"
-        '
-        'Label100
-        '
-        Me.Label100.BackColor = System.Drawing.Color.Transparent
-        Me.Label100.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label100.ForeColor = System.Drawing.Color.Black
-        Me.Label100.Location = New System.Drawing.Point(11, 16)
-        Me.Label100.Name = "Label100"
-        Me.Label100.Size = New System.Drawing.Size(286, 73)
-        Me.Label100.TabIndex = 62
-        Me.Label100.Text = resources.GetString("Label100.Text")
-        Me.Label100.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'GroupBox6
         '
@@ -14422,7 +14343,7 @@ Partial Class FrmSettings
         Me.GroupBox6.Controls.Add(Me.Label14)
         Me.GroupBox6.Controls.Add(Me.Label13)
         Me.GroupBox6.Controls.Add(Me.Label1)
-        Me.GroupBox6.Location = New System.Drawing.Point(27, 114)
+        Me.GroupBox6.Location = New System.Drawing.Point(6, 189)
         Me.GroupBox6.Name = "GroupBox6"
         Me.GroupBox6.Size = New System.Drawing.Size(283, 102)
         Me.GroupBox6.TabIndex = 156
@@ -14547,65 +14468,39 @@ Partial Class FrmSettings
         'GroupBox21
         '
         Me.GroupBox21.BackColor = System.Drawing.Color.LightGray
-        Me.GroupBox21.Controls.Add(Me.Label153)
         Me.GroupBox21.Controls.Add(Me.LBLRangeSettingsDescription)
-        Me.GroupBox21.Controls.Add(Me.GroupBox6)
-        Me.GroupBox21.Controls.Add(Me.Label156)
         Me.GroupBox21.ForeColor = System.Drawing.Color.Black
-        Me.GroupBox21.Location = New System.Drawing.Point(797, 55)
+        Me.GroupBox21.Location = New System.Drawing.Point(7, 344)
         Me.GroupBox21.Name = "GroupBox21"
-        Me.GroupBox21.Size = New System.Drawing.Size(316, 136)
+        Me.GroupBox21.Size = New System.Drawing.Size(225, 83)
         Me.GroupBox21.TabIndex = 66
         Me.GroupBox21.TabStop = False
         Me.GroupBox21.Text = "Description"
         '
-        'Label153
-        '
-        Me.Label153.BackColor = System.Drawing.Color.Transparent
-        Me.Label153.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label153.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label153.ForeColor = System.Drawing.Color.Black
-        Me.Label153.Location = New System.Drawing.Point(78, 94)
-        Me.Label153.Name = "Label153"
-        Me.Label153.Size = New System.Drawing.Size(158, 17)
-        Me.Label153.TabIndex = 135
-        Me.Label153.Text = "No path selected"
-        Me.Label153.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
         'LBLRangeSettingsDescription
         '
+        Me.LBLRangeSettingsDescription.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.LBLRangeSettingsDescription.BackColor = System.Drawing.Color.Transparent
         Me.LBLRangeSettingsDescription.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LBLRangeSettingsDescription.ForeColor = System.Drawing.Color.Black
-        Me.LBLRangeSettingsDescription.Location = New System.Drawing.Point(6, 16)
+        Me.LBLRangeSettingsDescription.Location = New System.Drawing.Point(9, 16)
         Me.LBLRangeSettingsDescription.Name = "LBLRangeSettingsDescription"
-        Me.LBLRangeSettingsDescription.Size = New System.Drawing.Size(680, 117)
+        Me.LBLRangeSettingsDescription.Size = New System.Drawing.Size(209, 62)
         Me.LBLRangeSettingsDescription.TabIndex = 62
         Me.LBLRangeSettingsDescription.Text = "Hover over any setting in the menu for a more detailed description of its functio" &
     "n."
         Me.LBLRangeSettingsDescription.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'Label156
-        '
-        Me.Label156.BackColor = System.Drawing.Color.Transparent
-        Me.Label156.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label156.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label156.ForeColor = System.Drawing.Color.Black
-        Me.Label156.Location = New System.Drawing.Point(133, 23)
-        Me.Label156.Name = "Label156"
-        Me.Label156.Size = New System.Drawing.Size(158, 17)
-        Me.Label156.TabIndex = 135
-        Me.Label156.Text = "No path selected"
-        Me.Label156.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'GroupBox12
         '
         Me.GroupBox12.BackColor = System.Drawing.Color.LightGray
         Me.GroupBox12.Controls.Add(Me.LBLSubSettingsDescription)
         Me.GroupBox12.ForeColor = System.Drawing.Color.Black
-        Me.GroupBox12.Location = New System.Drawing.Point(1299, 163)
+        Me.GroupBox12.Location = New System.Drawing.Point(239, 201)
         Me.GroupBox12.Name = "GroupBox12"
-        Me.GroupBox12.Size = New System.Drawing.Size(171, 124)
+        Me.GroupBox12.Size = New System.Drawing.Size(195, 231)
         Me.GroupBox12.TabIndex = 65
         Me.GroupBox12.TabStop = False
         Me.GroupBox12.Text = "Description"
@@ -14617,7 +14512,7 @@ Partial Class FrmSettings
         Me.LBLSubSettingsDescription.ForeColor = System.Drawing.Color.Black
         Me.LBLSubSettingsDescription.Location = New System.Drawing.Point(10, 19)
         Me.LBLSubSettingsDescription.Name = "LBLSubSettingsDescription"
-        Me.LBLSubSettingsDescription.Size = New System.Drawing.Size(150, 89)
+        Me.LBLSubSettingsDescription.Size = New System.Drawing.Size(179, 206)
         Me.LBLSubSettingsDescription.TabIndex = 62
         Me.LBLSubSettingsDescription.Text = "Hover over any setting in the menu for a more detailed description of its functio" &
     "n."
@@ -14653,102 +14548,6 @@ Partial Class FrmSettings
         Me.SaveSettingsDialog.Filter = "TXT Files (*.txt)|*.txt"
         Me.SaveSettingsDialog.Title = "Select a location to save current Domme settings"
         '
-        'GroupBox65
-        '
-        Me.GroupBox65.BackColor = System.Drawing.Color.LightGray
-        Me.GroupBox65.Controls.Add(Me.Label136)
-        Me.GroupBox65.Controls.Add(Me.Label134)
-        Me.GroupBox65.Controls.Add(Me.Label132)
-        Me.GroupBox65.Controls.Add(Me.TrackBar1)
-        Me.GroupBox65.Controls.Add(Me.ComboBox1)
-        Me.GroupBox65.Controls.Add(Me.CheckBox1)
-        Me.GroupBox65.Controls.Add(Me.Label135)
-        Me.GroupBox65.Controls.Add(Me.TrackBar2)
-        Me.GroupBox65.ForeColor = System.Drawing.Color.Black
-        Me.GroupBox65.Location = New System.Drawing.Point(1166, 28)
-        Me.GroupBox65.Name = "GroupBox65"
-        Me.GroupBox65.Size = New System.Drawing.Size(259, 117)
-        Me.GroupBox65.TabIndex = 157
-        Me.GroupBox65.TabStop = False
-        Me.GroupBox65.Text = "Text to Speech"
-        '
-        'Label136
-        '
-        Me.Label136.AutoSize = True
-        Me.Label136.Location = New System.Drawing.Point(14, 52)
-        Me.Label136.Name = "Label136"
-        Me.Label136.Size = New System.Drawing.Size(45, 13)
-        Me.Label136.TabIndex = 32
-        Me.Label136.Text = "Volume:"
-        '
-        'Label134
-        '
-        Me.Label134.AutoSize = True
-        Me.Label134.Location = New System.Drawing.Point(141, 52)
-        Me.Label134.Name = "Label134"
-        Me.Label134.Size = New System.Drawing.Size(33, 13)
-        Me.Label134.TabIndex = 157
-        Me.Label134.Text = "Rate:"
-        '
-        'Label132
-        '
-        Me.Label132.Location = New System.Drawing.Point(202, 52)
-        Me.Label132.Name = "Label132"
-        Me.Label132.Size = New System.Drawing.Size(45, 13)
-        Me.Label132.TabIndex = 158
-        Me.Label132.Text = "100"
-        Me.Label132.TextAlign = System.Drawing.ContentAlignment.TopRight
-        '
-        'TrackBar1
-        '
-        Me.TrackBar1.Location = New System.Drawing.Point(133, 68)
-        Me.TrackBar1.Minimum = -10
-        Me.TrackBar1.Name = "TrackBar1"
-        Me.TrackBar1.Size = New System.Drawing.Size(120, 45)
-        Me.TrackBar1.TabIndex = 31
-        '
-        'ComboBox1
-        '
-        Me.ComboBox1.BackColor = System.Drawing.SystemColors.Window
-        Me.ComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.ComboBox1.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Location = New System.Drawing.Point(71, 16)
-        Me.ComboBox1.Name = "ComboBox1"
-        Me.ComboBox1.Size = New System.Drawing.Size(178, 21)
-        Me.ComboBox1.TabIndex = 29
-        Me.ComboBox1.TabStop = False
-        '
-        'CheckBox1
-        '
-        Me.CheckBox1.AutoSize = True
-        Me.CheckBox1.ForeColor = System.Drawing.Color.Black
-        Me.CheckBox1.Location = New System.Drawing.Point(10, 18)
-        Me.CheckBox1.Name = "CheckBox1"
-        Me.CheckBox1.Size = New System.Drawing.Size(59, 17)
-        Me.CheckBox1.TabIndex = 28
-        Me.CheckBox1.TabStop = False
-        Me.CheckBox1.Text = "Enable"
-        Me.CheckBox1.UseVisualStyleBackColor = True
-        '
-        'Label135
-        '
-        Me.Label135.Location = New System.Drawing.Point(75, 52)
-        Me.Label135.Name = "Label135"
-        Me.Label135.Size = New System.Drawing.Size(45, 13)
-        Me.Label135.TabIndex = 33
-        Me.Label135.Text = "100"
-        Me.Label135.TextAlign = System.Drawing.ContentAlignment.TopRight
-        '
-        'TrackBar2
-        '
-        Me.TrackBar2.Location = New System.Drawing.Point(6, 68)
-        Me.TrackBar2.Maximum = 100
-        Me.TrackBar2.Name = "TrackBar2"
-        Me.TrackBar2.Size = New System.Drawing.Size(120, 45)
-        Me.TrackBar2.TabIndex = 30
-        Me.TrackBar2.Value = 50
-        '
         'TxbImgUrlHardcore
         '
         Me.TxbImgUrlHardcore.BackColor = System.Drawing.Color.LightGray
@@ -14779,18 +14578,44 @@ Partial Class FrmSettings
         Me.BWURLFiles.WorkerReportsProgress = True
         Me.BWURLFiles.WorkerSupportsCancellation = True
         '
+        'FileTagCombo
+        '
+        Me.FileTagCombo.FormattingEnabled = True
+        Me.FileTagCombo.Location = New System.Drawing.Point(6, 16)
+        Me.FileTagCombo.Name = "FileTagCombo"
+        Me.FileTagCombo.Size = New System.Drawing.Size(343, 21)
+        Me.FileTagCombo.TabIndex = 244
+        '
+        'LocalTagPictureBox
+        '
+        Me.LocalTagPictureBox.BackColor = System.Drawing.Color.Black
+        Me.LocalTagPictureBox.Location = New System.Drawing.Point(450, 282)
+        Me.LocalTagPictureBox.Name = "LocalTagPictureBox"
+        Me.LocalTagPictureBox.Size = New System.Drawing.Size(502, 311)
+        Me.LocalTagPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.LocalTagPictureBox.TabIndex = 246
+        Me.LocalTagPictureBox.TabStop = False
+        '
+        'LocalTagImageNavGroup
+        '
+        Me.LocalTagImageNavGroup.Controls.Add(Me.FileTagCombo)
+        Me.LocalTagImageNavGroup.Controls.Add(Me.LBLLocalTagCount)
+        Me.LocalTagImageNavGroup.Controls.Add(Me.BTNLocalTagNext)
+        Me.LocalTagImageNavGroup.Controls.Add(Me.BTNLocalTagPrevious)
+        Me.LocalTagImageNavGroup.Location = New System.Drawing.Point(597, 194)
+        Me.LocalTagImageNavGroup.Name = "LocalTagImageNavGroup"
+        Me.LocalTagImageNavGroup.Size = New System.Drawing.Size(355, 81)
+        Me.LocalTagImageNavGroup.TabIndex = 247
+        Me.LocalTagImageNavGroup.TabStop = False
+        Me.LocalTagImageNavGroup.Text = "File Navigation"
+        '
         'FrmSettings
         '
         Me.AllowDrop = True
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(727, 465)
-        Me.Controls.Add(Me.GroupBox65)
-        Me.Controls.Add(Me.GroupBox44)
-        Me.Controls.Add(Me.GroupBox47)
-        Me.Controls.Add(Me.SettingsPanel)
-        Me.Controls.Add(Me.GroupBox12)
-        Me.Controls.Add(Me.GroupBox21)
+        Me.ClientSize = New System.Drawing.Size(980, 657)
+        Me.Controls.Add(Me.SettingsTabs)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
         Me.MaximizeBox = False
         Me.MinimizeBox = False
@@ -14798,7 +14623,6 @@ Partial Class FrmSettings
         Me.ShowIcon = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Tease AI Settings"
-        Me.SettingsPanel.ResumeLayout(False)
         Me.SettingsTabs.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         Me.PNLGeneralSettings.ResumeLayout(False)
@@ -14919,8 +14743,8 @@ Partial Class FrmSettings
         Me.TabPage34.ResumeLayout(False)
         Me.TabPage34.PerformLayout
         CType(Me.ImageTagPictureBox, System.ComponentModel.ISupportInitialize).EndInit
-        Me.TabPage35.ResumeLayout(False)
-        Me.TabPage35.PerformLayout
+        Me.FileDropDownLabel.ResumeLayout(False)
+        Me.FileDropDownLabel.PerformLayout
         Me.GroupBox55.ResumeLayout(False)
         Me.GroupBox55.PerformLayout
         Me.GroupBox53.ResumeLayout(False)
@@ -14931,8 +14755,8 @@ Partial Class FrmSettings
         Me.GroupBox46.PerformLayout
         Me.GroupBox54.ResumeLayout(False)
         Me.GroupBox54.PerformLayout
-        Me.GroupBox51.ResumeLayout(False)
-        Me.GroupBox51.PerformLayout
+        Me.BdsmTagGroup.ResumeLayout(False)
+        Me.BdsmTagGroup.PerformLayout
         Me.GroupBox50.ResumeLayout(False)
         Me.GroupBox50.PerformLayout
         Me.GroupBox48.ResumeLayout(False)
@@ -15116,21 +14940,15 @@ Partial Class FrmSettings
         Me.Panel5.ResumeLayout(False)
         Me.Panel5.PerformLayout
         CType(Me.PictureBox3, System.ComponentModel.ISupportInitialize).EndInit
-        Me.GroupBox47.ResumeLayout(False)
-        Me.GroupBox41.ResumeLayout(False)
-        Me.GroupBox44.ResumeLayout(False)
         Me.GroupBox6.ResumeLayout(False)
         Me.GroupBox6.PerformLayout
         Me.GroupBox21.ResumeLayout(False)
         Me.GroupBox12.ResumeLayout(False)
-        Me.GroupBox65.ResumeLayout(False)
-        Me.GroupBox65.PerformLayout
-        CType(Me.TrackBar1, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TrackBar2, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.LocalTagPictureBox, System.ComponentModel.ISupportInitialize).EndInit
+        Me.LocalTagImageNavGroup.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
-    Friend WithEvents SettingsPanel As System.Windows.Forms.Panel
     Friend WithEvents SettingsTabs As System.Windows.Forms.TabControl
     Friend WithEvents TabPage1 As System.Windows.Forms.TabPage
     Friend WithEvents PNLGeneralSettings As System.Windows.Forms.Panel
@@ -15266,15 +15084,10 @@ Partial Class FrmSettings
     Friend WithEvents LBLSubAge As System.Windows.Forms.Label
     Friend WithEvents Label70 As System.Windows.Forms.Label
     Friend WithEvents TabPage7 As System.Windows.Forms.TabPage
-    Friend WithEvents GroupBox44 As System.Windows.Forms.GroupBox
-    Friend WithEvents Label100 As System.Windows.Forms.Label
-    Friend WithEvents GroupBox47 As System.Windows.Forms.GroupBox
-    Friend WithEvents GroupBox41 As System.Windows.Forms.GroupBox
     Friend WithEvents CBButtSubDir As System.Windows.Forms.CheckBox
     Friend WithEvents TbxIButts As System.Windows.Forms.TextBox
     Friend WithEvents BTNButtPath As System.Windows.Forms.Button
     Friend WithEvents BtnImageUrlButt As System.Windows.Forms.Button
-    Friend WithEvents GroupBox40 As System.Windows.Forms.GroupBox
     Friend WithEvents CBBoobSubDir As System.Windows.Forms.CheckBox
     Friend WithEvents TbxIBoobs As System.Windows.Forms.TextBox
     Friend WithEvents BTNBoobPath As System.Windows.Forms.Button
@@ -15580,402 +15393,390 @@ Partial Class FrmSettings
     Friend WithEvents ScriptsStartTab As System.Windows.Forms.TabPage
     Friend WithEvents StartScripts As System.Windows.Forms.CheckedListBox
     Friend WithEvents ScriptsModuleTab As System.Windows.Forms.TabPage
-	Friend WithEvents ScriptsLinkTab As System.Windows.Forms.TabPage
-	Friend WithEvents ScriptsEndTab As System.Windows.Forms.TabPage
-	Friend WithEvents GroupBox42 As System.Windows.Forms.GroupBox
-	Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
-	Friend WithEvents GroupBox43 As System.Windows.Forms.GroupBox
-	Friend WithEvents Label98 As System.Windows.Forms.Label
-	Friend WithEvents Label104 As System.Windows.Forms.Label
-	Friend WithEvents GroupBox31 As System.Windows.Forms.GroupBox
-	Friend WithEvents RTBScriptReq As System.Windows.Forms.RichTextBox
-	Friend WithEvents ScriptInfoTextArea As System.Windows.Forms.RichTextBox
-	Friend WithEvents LBLScriptReq As System.Windows.Forms.Label
-	Friend WithEvents ModuleScripts As System.Windows.Forms.CheckedListBox
-	Friend WithEvents LinkScripts As System.Windows.Forms.CheckedListBox
-	Friend WithEvents EndScripts As System.Windows.Forms.CheckedListBox
-	Friend WithEvents BTNScriptOpen As System.Windows.Forms.Button
-	Friend WithEvents SelectAvailableScriptsButton As System.Windows.Forms.Button
-	Friend WithEvents SelectNoScriptsButton As System.Windows.Forms.Button
-	Friend WithEvents SelectAllScriptsButton As System.Windows.Forms.Button
-	Friend WithEvents GroupBox45 As System.Windows.Forms.GroupBox
-	Friend WithEvents BallTortureEnabledCB As System.Windows.Forms.CheckBox
-	Friend WithEvents CockTortureEnabledCB As System.Windows.Forms.CheckBox
-	Friend WithEvents TabPage8 As System.Windows.Forms.TabPage
-	Friend WithEvents OpenSettingsDialog As System.Windows.Forms.OpenFileDialog
-	Friend WithEvents SaveSettingsDialog As System.Windows.Forms.SaveFileDialog
-	Friend WithEvents ChastityDeviceContainsSpikesCB As System.Windows.Forms.CheckBox
-	Friend WithEvents DoesChastityDeviceRequirePiercingCB As System.Windows.Forms.CheckBox
-	Friend WithEvents AllowLongEdgeInterruptCB As System.Windows.Forms.CheckBox
-	Friend WithEvents Label55 As System.Windows.Forms.Label
-	Friend WithEvents AllowLongEdgeTauntCB As System.Windows.Forms.CheckBox
-	Friend WithEvents CockAndBallTortureLevelLbl As System.Windows.Forms.Label
-	Friend WithEvents CockAndBallTortureLevelSlider As System.Windows.Forms.TrackBar
-	Friend WithEvents TBDomEyeColor As System.Windows.Forms.TextBox
-	Friend WithEvents TBDomHairColor As System.Windows.Forms.TextBox
-	Friend WithEvents TBSubEyeColor As System.Windows.Forms.TextBox
-	Friend WithEvents TBSubHairColor As System.Windows.Forms.TextBox
-	Friend WithEvents CBSubCircumcised As System.Windows.Forms.CheckBox
-	Friend WithEvents CBSubPierced As System.Windows.Forms.CheckBox
-	Friend WithEvents LBLEmpathy As System.Windows.Forms.Label
-	Friend WithEvents NBEmpathy As System.Windows.Forms.NumericUpDown
-	Friend WithEvents Label83 As System.Windows.Forms.Label
-	Friend WithEvents BTNSaveDomSet As System.Windows.Forms.Button
-	Friend WithEvents BTNLoadDomSet As System.Windows.Forms.Button
-	Friend WithEvents CBAuditStartup As System.Windows.Forms.CheckBox
-	Friend WithEvents GBRangeOrgasmChance As System.Windows.Forms.GroupBox
-	Friend WithEvents Label89 As System.Windows.Forms.Label
-	Friend WithEvents NBAllowSometimes As System.Windows.Forms.NumericUpDown
-	Friend WithEvents Label86 As System.Windows.Forms.Label
-	Friend WithEvents Label82 As System.Windows.Forms.Label
-	Friend WithEvents NBAllowRarely As System.Windows.Forms.NumericUpDown
-	Friend WithEvents AllowOrgasmOftenNB As System.Windows.Forms.NumericUpDown
-	Friend WithEvents DommeDecideOrgasmCB As System.Windows.Forms.CheckBox
-	Friend WithEvents GBRangeRuinChance As System.Windows.Forms.GroupBox
-	Friend WithEvents Label90 As System.Windows.Forms.Label
-	Friend WithEvents NBRuinSometimes As System.Windows.Forms.NumericUpDown
-	Friend WithEvents Label91 As System.Windows.Forms.Label
-	Friend WithEvents Label92 As System.Windows.Forms.Label
-	Friend WithEvents NBRuinRarely As System.Windows.Forms.NumericUpDown
-	Friend WithEvents NBRuinOften As System.Windows.Forms.NumericUpDown
-	Friend WithEvents DommeDecideRuinCB As System.Windows.Forms.CheckBox
-	Friend WithEvents GroupBox57 As System.Windows.Forms.GroupBox
-	Friend WithEvents LBLSafeword As System.Windows.Forms.Label
-	Friend WithEvents TBSafeword As System.Windows.Forms.TextBox
-	Friend WithEvents TabPage20 As System.Windows.Forms.TabPage
-	Friend WithEvents TabControl1 As System.Windows.Forms.TabControl
-	Friend WithEvents TabPage22 As System.Windows.Forms.TabPage
-	Friend WithEvents TpGames As System.Windows.Forms.TabPage
-	Friend WithEvents GbxCardsGold As System.Windows.Forms.GroupBox
-	Friend WithEvents GN6 As System.Windows.Forms.TextBox
-	Friend WithEvents GP6 As System.Windows.Forms.PictureBox
-	Friend WithEvents GN5 As System.Windows.Forms.TextBox
-	Friend WithEvents GP5 As System.Windows.Forms.PictureBox
-	Friend WithEvents GN4 As System.Windows.Forms.TextBox
-	Friend WithEvents GP4 As System.Windows.Forms.PictureBox
-	Friend WithEvents GN3 As System.Windows.Forms.TextBox
-	Friend WithEvents GP3 As System.Windows.Forms.PictureBox
-	Friend WithEvents GN2 As System.Windows.Forms.TextBox
-	Friend WithEvents GP2 As System.Windows.Forms.PictureBox
-	Friend WithEvents GN1 As System.Windows.Forms.TextBox
-	Friend WithEvents GP1 As System.Windows.Forms.PictureBox
-	Friend WithEvents GbxCardsSilver As System.Windows.Forms.GroupBox
-	Friend WithEvents SN6 As System.Windows.Forms.TextBox
-	Friend WithEvents SP6 As System.Windows.Forms.PictureBox
-	Friend WithEvents SN5 As System.Windows.Forms.TextBox
-	Friend WithEvents SP5 As System.Windows.Forms.PictureBox
-	Friend WithEvents SN4 As System.Windows.Forms.TextBox
-	Friend WithEvents SP4 As System.Windows.Forms.PictureBox
-	Friend WithEvents SN3 As System.Windows.Forms.TextBox
-	Friend WithEvents SP3 As System.Windows.Forms.PictureBox
-	Friend WithEvents SN2 As System.Windows.Forms.TextBox
-	Friend WithEvents SP2 As System.Windows.Forms.PictureBox
-	Friend WithEvents SN1 As System.Windows.Forms.TextBox
-	Friend WithEvents SP1 As System.Windows.Forms.PictureBox
-	Friend WithEvents GbxCardsBackground As System.Windows.Forms.GroupBox
-	Friend WithEvents GbxCardsBronze As System.Windows.Forms.GroupBox
-	Friend WithEvents BN6 As System.Windows.Forms.TextBox
-	Friend WithEvents BP6 As System.Windows.Forms.PictureBox
-	Friend WithEvents BN5 As System.Windows.Forms.TextBox
-	Friend WithEvents BP5 As System.Windows.Forms.PictureBox
-	Friend WithEvents BN4 As System.Windows.Forms.TextBox
-	Friend WithEvents BP4 As System.Windows.Forms.PictureBox
-	Friend WithEvents BN3 As System.Windows.Forms.TextBox
-	Friend WithEvents BP3 As System.Windows.Forms.PictureBox
-	Friend WithEvents BN2 As System.Windows.Forms.TextBox
-	Friend WithEvents BP2 As System.Windows.Forms.PictureBox
-	Friend WithEvents BN1 As System.Windows.Forms.TextBox
-	Friend WithEvents BP1 As System.Windows.Forms.PictureBox
-	Friend WithEvents CardBack As System.Windows.Forms.PictureBox
-	Friend WithEvents CBGameSounds As System.Windows.Forms.CheckBox
-	Friend WithEvents LblCardsSetupNote As System.Windows.Forms.Label
-	Friend WithEvents TabPage5 As System.Windows.Forms.TabPage
-	Friend WithEvents UseAverageEdgeThresholdCB As System.Windows.Forms.CheckBox
-	Friend WithEvents LBLLastRuined As System.Windows.Forms.Label
-	Friend WithEvents TabPage24 As System.Windows.Forms.TabPage
-	Friend WithEvents Button4 As System.Windows.Forms.Button
-	Friend WithEvents Button5 As System.Windows.Forms.Button
-	Friend WithEvents TBResponses As System.Windows.Forms.TextBox
-	Friend WithEvents LBResponses As System.Windows.Forms.ListBox
-	Friend WithEvents RTBResponses As System.Windows.Forms.RichTextBox
-	Friend WithEvents RTBResponsesKEY As System.Windows.Forms.RichTextBox
-	Friend WithEvents Button9 As System.Windows.Forms.Button
-	Friend WithEvents TauntSlider As System.Windows.Forms.TrackBar
-	Friend WithEvents Label97 As System.Windows.Forms.Label
-	Friend WithEvents NBTeaseLengthMax As System.Windows.Forms.NumericUpDown
-	Friend WithEvents Label99 As System.Windows.Forms.Label
-	Friend WithEvents Label96 As System.Windows.Forms.Label
-	Friend WithEvents NBTeaseLengthMin As System.Windows.Forms.NumericUpDown
-	Friend WithEvents Label95 As System.Windows.Forms.Label
-	Friend WithEvents Label103 As System.Windows.Forms.Label
-	Friend WithEvents NBTauntCycleMax As System.Windows.Forms.NumericUpDown
-	Friend WithEvents Label105 As System.Windows.Forms.Label
-	Friend WithEvents Label101 As System.Windows.Forms.Label
-	Friend WithEvents NBTauntCycleMin As System.Windows.Forms.NumericUpDown
-	Friend WithEvents Label102 As System.Windows.Forms.Label
-	Friend WithEvents CBTauntCycleDD As System.Windows.Forms.CheckBox
-	Friend WithEvents TeaseLengthDommeDetermined As System.Windows.Forms.CheckBox
-	Friend WithEvents GroupBox10 As System.Windows.Forms.GroupBox
-	Friend WithEvents Label106 As System.Windows.Forms.Label
-	Friend WithEvents LBLVtf As System.Windows.Forms.Label
-	Friend WithEvents Label6 As System.Windows.Forms.Label
-	Friend WithEvents Label108 As System.Windows.Forms.Label
-	Friend WithEvents Label109 As System.Windows.Forms.Label
-	Friend WithEvents Label110 As System.Windows.Forms.Label
-	Friend WithEvents Label111 As System.Windows.Forms.Label
-	Friend WithEvents Label112 As System.Windows.Forms.Label
-	Friend WithEvents NBNextImageChance As System.Windows.Forms.NumericUpDown
-	Friend WithEvents LBVidScript As System.Windows.Forms.ListBox
-	Friend WithEvents TabPage6 As System.Windows.Forms.TabPage
-	Friend WithEvents BTNWishlistCreate As System.Windows.Forms.Button
-	Friend WithEvents radioGold As System.Windows.Forms.RadioButton
-	Friend WithEvents radioSilver As System.Windows.Forms.RadioButton
-	Friend WithEvents NBWishlistCost As System.Windows.Forms.NumericUpDown
-	Friend WithEvents Label73 As System.Windows.Forms.Label
-	Friend WithEvents TBWishlistComment As System.Windows.Forms.TextBox
-	Friend WithEvents Label48 As System.Windows.Forms.Label
-	Friend WithEvents TBWishlistURL As System.Windows.Forms.TextBox
-	Friend WithEvents Label42 As System.Windows.Forms.Label
-	Friend WithEvents TBWishlistItem As System.Windows.Forms.TextBox
-	Friend WithEvents Label32 As System.Windows.Forms.Label
-	Friend WithEvents Label18 As System.Windows.Forms.Label
-	Friend WithEvents PNLWishList As System.Windows.Forms.Panel
-	Friend WithEvents WishlistCostSilver As System.Windows.Forms.PictureBox
-	Friend WithEvents LBLWishListText As System.Windows.Forms.Label
-	Friend WithEvents LBLWishlistCost As System.Windows.Forms.Label
-	Friend WithEvents WishlistCostGold As System.Windows.Forms.PictureBox
-	Friend WithEvents LBLWishListName As System.Windows.Forms.Label
-	Friend WithEvents WishlistPreview As System.Windows.Forms.PictureBox
-	Friend WithEvents Label107 As System.Windows.Forms.Label
-	Friend WithEvents Panel10 As System.Windows.Forms.Panel
-	Friend WithEvents CBOwnChastity As System.Windows.Forms.CheckBox
-	Friend WithEvents CBIncludeGifs As System.Windows.Forms.CheckBox
-	Friend WithEvents CBHimHer As System.Windows.Forms.CheckBox
-	Friend WithEvents CBDomDel As System.Windows.Forms.CheckBox
-	Friend WithEvents TabPage25 As System.Windows.Forms.TabPage
-	Friend WithEvents Panel11 As System.Windows.Forms.Panel
-	Friend WithEvents Label115 As System.Windows.Forms.Label
-	Friend WithEvents TBWebStop As System.Windows.Forms.TextBox
-	Friend WithEvents Label114 As System.Windows.Forms.Label
-	Friend WithEvents TBWebStart As System.Windows.Forms.TextBox
-	Friend WithEvents PictureBox9 As System.Windows.Forms.PictureBox
-	Friend WithEvents Label148 As System.Windows.Forms.Label
-	Friend WithEvents GroupBox15 As System.Windows.Forms.GroupBox
-	Friend WithEvents WebToy As System.Windows.Forms.WebBrowser
-	Friend WithEvents GroupBox20 As System.Windows.Forms.GroupBox
-	Friend WithEvents PBMaintenance As System.Windows.Forms.ProgressBar
-	Friend WithEvents LBLMaintenance As System.Windows.Forms.Label
-	Friend WithEvents BTNMaintenanceRebuild As System.Windows.Forms.Button
-	Friend WithEvents BTNMaintenanceCancel As System.Windows.Forms.Button
-	Friend WithEvents Label116 As System.Windows.Forms.Label
-	Friend WithEvents PBCurrent As System.Windows.Forms.ProgressBar
-	Friend WithEvents Label117 As System.Windows.Forms.Label
-	Friend WithEvents BTNMaintenanceRefresh As System.Windows.Forms.Button
-	Friend WithEvents TabPage27 As System.Windows.Forms.TabPage
-	Friend WithEvents BTNMaintenanceScripts As System.Windows.Forms.Button
-	Friend WithEvents Button3 As System.Windows.Forms.Button
-	Friend WithEvents GroupBox27 As System.Windows.Forms.GroupBox
-	Friend WithEvents Button6 As System.Windows.Forms.Button
-	Friend WithEvents LBLSesSpace As System.Windows.Forms.Label
-	Friend WithEvents LBLSesFiles As System.Windows.Forms.Label
-	Friend WithEvents Label125 As System.Windows.Forms.Label
-	Friend WithEvents Label124 As System.Windows.Forms.Label
-	Friend WithEvents CBBallsToPussy As System.Windows.Forms.CheckBox
-	Friend WithEvents CBCockToClit As System.Windows.Forms.CheckBox
-	Friend WithEvents LBLLastOrgasm As System.Windows.Forms.Label
-	Friend WithEvents Label65 As System.Windows.Forms.Label
-	Friend WithEvents Label94 As System.Windows.Forms.Label
-	Friend WithEvents GroupBox6 As System.Windows.Forms.GroupBox
-	Friend WithEvents Button1 As System.Windows.Forms.Button
-	Friend WithEvents Label127 As System.Windows.Forms.Label
-	Friend WithEvents Label126 As System.Windows.Forms.Label
-	Friend WithEvents Label128 As System.Windows.Forms.Label
-	Friend WithEvents LBLSubBdayFormat As System.Windows.Forms.Label
-	Friend WithEvents WBPlaylist As System.Windows.Forms.WebBrowser
-	Friend WithEvents Label80 As System.Windows.Forms.Label
-	Friend WithEvents LBLPlaylIstLink As System.Windows.Forms.Label
-	Friend WithEvents LBLPlaylistModule As System.Windows.Forms.Label
-	Friend WithEvents LBLPLaylistStart As System.Windows.Forms.Label
-	Friend WithEvents LBPlaylist As System.Windows.Forms.ListBox
-	Friend WithEvents BTNPlaylistEnd As System.Windows.Forms.Button
-	Friend WithEvents BTNPlaylistClearAll As System.Windows.Forms.Button
-	Friend WithEvents BTNPlaylistSave As System.Windows.Forms.Button
-	Friend WithEvents Button7 As System.Windows.Forms.Button
-	Friend WithEvents TBPlaylistSave As System.Windows.Forms.TextBox
-	Friend WithEvents BTNPlaylistCtrlZ As System.Windows.Forms.Button
-	Friend WithEvents RadioPlaylistRegScripts As System.Windows.Forms.RadioButton
-	Friend WithEvents RadioPlaylistScripts As System.Windows.Forms.RadioButton
-	Friend WithEvents BtnContact1ImageDir As System.Windows.Forms.Button
-	Friend WithEvents TbxContact1ImageDir As System.Windows.Forms.TextBox
-	Friend WithEvents BtnContact3ImageDir As System.Windows.Forms.Button
-	Friend WithEvents TbxContact3ImageDir As System.Windows.Forms.TextBox
-	Friend WithEvents BtnContact2ImageDir As System.Windows.Forms.Button
-	Friend WithEvents TbxContact2ImageDir As System.Windows.Forms.TextBox
-	Friend WithEvents CBGlitterFeedOff As System.Windows.Forms.RadioButton
-	Friend WithEvents CBGlitterFeedScripts As System.Windows.Forms.RadioButton
-	Friend WithEvents CBGlitterFeed As System.Windows.Forms.RadioButton
-	Friend WithEvents GroupBox33 As System.Windows.Forms.GroupBox
-	Friend WithEvents Button11 As System.Windows.Forms.Button
-	Friend WithEvents InChastityLabel As System.Windows.Forms.Label
-	Friend WithEvents Label120 As System.Windows.Forms.Label
-	Friend WithEvents TTDir As System.Windows.Forms.ToolTip
-	Friend WithEvents BtnContact3ImageDirClear As System.Windows.Forms.Button
-	Friend WithEvents BtnContact1ImageDirClear As System.Windows.Forms.Button
-	Friend WithEvents BtnContact2ImageDirClear As System.Windows.Forms.Button
-	Friend WithEvents Button15 As System.Windows.Forms.Button
-	Friend WithEvents Button16 As System.Windows.Forms.Button
-	Friend WithEvents Label121 As System.Windows.Forms.Label
-	Friend WithEvents Label122 As System.Windows.Forms.Label
-	Friend WithEvents GroupBox62 As System.Windows.Forms.GroupBox
-	Friend WithEvents RBGerman As System.Windows.Forms.RadioButton
-	Friend WithEvents RBEnglish As System.Windows.Forms.RadioButton
-	Friend WithEvents TabPage26 As System.Windows.Forms.TabPage
-	Friend WithEvents Panel12 As System.Windows.Forms.Panel
-	Friend WithEvents PictureBox10 As System.Windows.Forms.PictureBox
-	Friend WithEvents GroupBox11 As System.Windows.Forms.GroupBox
-	Friend WithEvents Label144 As System.Windows.Forms.Label
-	Friend WithEvents Label164 As System.Windows.Forms.Label
-	Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
-	Friend WithEvents PBBackgroundPreview As System.Windows.Forms.PictureBox
-	Friend WithEvents Button17 As System.Windows.Forms.Button
-	Friend WithEvents CBStretchBack As System.Windows.Forms.CheckBox
-	Friend WithEvents Button18 As System.Windows.Forms.Button
-	Friend WithEvents GroupBox5 As System.Windows.Forms.GroupBox
-	Friend WithEvents LBLTextColor As System.Windows.Forms.Label
-	Friend WithEvents LBLChatWindowColor2 As System.Windows.Forms.Label
-	Friend WithEvents LBLTextColor2 As System.Windows.Forms.Label
-	Friend WithEvents LBLChatTextColor As System.Windows.Forms.Label
-	Friend WithEvents LBLBackColor2 As System.Windows.Forms.Label
-	Friend WithEvents LBLButtonColor As System.Windows.Forms.Label
-	Friend WithEvents LBLChatWindowColor As System.Windows.Forms.Label
-	Friend WithEvents LBLBackColor As System.Windows.Forms.Label
-	Friend WithEvents LBLChatTextColor2 As System.Windows.Forms.Label
-	Friend WithEvents LBLButtonColor2 As System.Windows.Forms.Label
-	Friend WithEvents GroupBox9 As System.Windows.Forms.GroupBox
-	Friend WithEvents LBLDateTimeColor2 As System.Windows.Forms.Label
-	Friend WithEvents Label137 As System.Windows.Forms.Label
-	Friend WithEvents Label138 As System.Windows.Forms.Label
-	Friend WithEvents LBLDateBackColor2 As System.Windows.Forms.Label
-	Friend WithEvents CBTransparentTime As System.Windows.Forms.CheckBox
-	Friend WithEvents Button31 As System.Windows.Forms.Button
-	Friend WithEvents CBFlipBack As System.Windows.Forms.CheckBox
-	Friend WithEvents Button32 As System.Windows.Forms.Button
-	Friend WithEvents condescendingCheckBox As System.Windows.Forms.CheckBox
-	Friend WithEvents degradingCheckBox As System.Windows.Forms.CheckBox
-	Friend WithEvents sadisticCheckBox As System.Windows.Forms.CheckBox
-	Friend WithEvents GroupBox13 As System.Windows.Forms.GroupBox
-	Friend WithEvents TimeBoxWakeUp As System.Windows.Forms.DateTimePicker
-	Friend WithEvents Label5 As System.Windows.Forms.Label
-	Friend WithEvents HoldEdgeMinimumUnits As System.Windows.Forms.Label
-	Friend WithEvents HoldEdgeMinimum As System.Windows.Forms.NumericUpDown
-	Friend WithEvents LBLMaxHold As System.Windows.Forms.Label
-	Friend WithEvents Label79 As System.Windows.Forms.Label
-	Friend WithEvents GroupBox22 As System.Windows.Forms.GroupBox
-	Friend WithEvents Label34 As System.Windows.Forms.Label
-	Friend WithEvents Label66 As System.Windows.Forms.Label
-	Friend WithEvents GroupBox63 As System.Windows.Forms.GroupBox
-	Friend WithEvents Label64 As System.Windows.Forms.Label
-	Friend WithEvents Label67 As System.Windows.Forms.Label
-	Friend WithEvents NBTypoChance As System.Windows.Forms.NumericUpDown
-	Friend WithEvents TBEmote As System.Windows.Forms.TextBox
-	Friend WithEvents TBEmoteEnd As System.Windows.Forms.TextBox
-	Friend WithEvents SliderVRate As System.Windows.Forms.TrackBar
-	Friend WithEvents SliderVVolume As System.Windows.Forms.TrackBar
-	Friend WithEvents LBLVRate As System.Windows.Forms.Label
-	Friend WithEvents Label93 As System.Windows.Forms.Label
-	Friend WithEvents LBLVVolume As System.Windows.Forms.Label
-	Friend WithEvents Label68 As System.Windows.Forms.Label
-	Friend WithEvents LBLMaxExtremeHold As System.Windows.Forms.Label
-	Friend WithEvents LBLMinExtremeHold As System.Windows.Forms.Label
-	Friend WithEvents ExtremeEdgeHoldMinimum As System.Windows.Forms.NumericUpDown
-	Friend WithEvents Label133 As System.Windows.Forms.Label
-	Friend WithEvents ExtremeEdgeHoldMaximum As System.Windows.Forms.NumericUpDown
-	Friend WithEvents LBLMaxLongHold As System.Windows.Forms.Label
-	Friend WithEvents Label78 As System.Windows.Forms.Label
-	Friend WithEvents LBLMinLongHold As System.Windows.Forms.Label
-	Friend WithEvents LongEdgeHoldMinimum As System.Windows.Forms.NumericUpDown
-	Friend WithEvents Label129 As System.Windows.Forms.Label
-	Friend WithEvents LongEdgeHoldMaximum As System.Windows.Forms.NumericUpDown
-	Friend WithEvents Label131 As System.Windows.Forms.Label
-	Friend WithEvents WebTeaseMode As System.Windows.Forms.CheckBox
-	Friend WithEvents TabPage28 As System.Windows.Forms.TabPage
-	Friend WithEvents TabControl3 As System.Windows.Forms.TabControl
-	Friend WithEvents TabPage29 As System.Windows.Forms.TabPage
-	Friend WithEvents GroupBox26 As System.Windows.Forms.GroupBox
-	Friend WithEvents RBDebugTaunts3 As System.Windows.Forms.RadioButton
-	Friend WithEvents RBDebugTaunts2 As System.Windows.Forms.RadioButton
-	Friend WithEvents RBDebugTaunts1 As System.Windows.Forms.RadioButton
-	Friend WithEvents CBDebugTauntsEndless As System.Windows.Forms.CheckBox
-	Friend WithEvents CBDebugTaunts As System.Windows.Forms.CheckBox
-	Friend WithEvents TabPage30 As System.Windows.Forms.TabPage
-	Friend WithEvents TBDebugTaunts3 As System.Windows.Forms.TextBox
-	Friend WithEvents TBDebugTaunts2 As System.Windows.Forms.TextBox
-	Friend WithEvents TBDebugTaunts1 As System.Windows.Forms.TextBox
-	Friend WithEvents BTNDebugTauntsClear As System.Windows.Forms.Button
-	Friend WithEvents LBLCycleDebugCountdown As System.Windows.Forms.Label
-	Friend WithEvents Button19 As System.Windows.Forms.Button
-	Friend WithEvents Panel5 As System.Windows.Forms.Panel
-	Friend WithEvents Label130 As System.Windows.Forms.Label
-	Friend WithEvents Label123 As System.Windows.Forms.Label
-	Friend WithEvents Label69 As System.Windows.Forms.Label
-	Friend WithEvents Label113 As System.Windows.Forms.Label
-	Friend WithEvents Label40 As System.Windows.Forms.Label
-	Friend WithEvents Label35 As System.Windows.Forms.Label
-	Friend WithEvents Label33 As System.Windows.Forms.Label
-	Friend WithEvents Label17 As System.Windows.Forms.Label
-	Friend WithEvents Label3 As System.Windows.Forms.Label
-	Friend WithEvents PictureBox3 As System.Windows.Forms.PictureBox
-	Friend WithEvents Label41 As System.Windows.Forms.Label
-	Friend WithEvents GroupBox64 As System.Windows.Forms.GroupBox
-	Friend WithEvents CBMuteMedia As System.Windows.Forms.CheckBox
-	Friend WithEvents GroupBox65 As System.Windows.Forms.GroupBox
-	Friend WithEvents Label136 As System.Windows.Forms.Label
-	Friend WithEvents Label134 As System.Windows.Forms.Label
-	Friend WithEvents Label132 As System.Windows.Forms.Label
-	Friend WithEvents TrackBar1 As System.Windows.Forms.TrackBar
-	Friend WithEvents ComboBox1 As System.Windows.Forms.ComboBox
-	Friend WithEvents CheckBox1 As System.Windows.Forms.CheckBox
-	Friend WithEvents Label135 As System.Windows.Forms.Label
-	Friend WithEvents TrackBar2 As System.Windows.Forms.TrackBar
-	Friend WithEvents BTNOfflineMode As System.Windows.Forms.Button
-	Friend WithEvents LBLOfflineMode As System.Windows.Forms.Label
-	Friend WithEvents Label140 As System.Windows.Forms.Label
-	Friend WithEvents CBNewSlideshow As System.Windows.Forms.CheckBox
-	Friend WithEvents Label139 As System.Windows.Forms.Label
-	Friend WithEvents NBTauntEdging As System.Windows.Forms.NumericUpDown
-	Friend WithEvents Label141 As System.Windows.Forms.Label
-	Friend WithEvents BTNDebugHoldEdgeTimer As System.Windows.Forms.Button
-	Friend WithEvents BTNDebugStrokeTauntTimer As System.Windows.Forms.Button
-	Friend WithEvents LBLDebugHoldEdgeTime As System.Windows.Forms.Label
-	Friend WithEvents Label145 As System.Windows.Forms.Label
-	Friend WithEvents BTNDebugStrokeTime As System.Windows.Forms.Button
-	Friend WithEvents BTNDebugEdgeTauntTimer As System.Windows.Forms.Button
-	Friend WithEvents LBLDebugTeaseTime As System.Windows.Forms.Label
-	Friend WithEvents LBLDebugStrokeTime As System.Windows.Forms.Label
-	Friend WithEvents LBLDebugEdgeTauntTime As System.Windows.Forms.Label
-	Friend WithEvents BTNDebugTeaseTimer As System.Windows.Forms.Button
-	Friend WithEvents Label142 As System.Windows.Forms.Label
-	Friend WithEvents Label150 As System.Windows.Forms.Label
-	Friend WithEvents Label152 As System.Windows.Forms.Label
-	Friend WithEvents LBLDebugStrokeTauntTime As System.Windows.Forms.Label
-	Friend WithEvents Label147 As System.Windows.Forms.Label
-	Friend WithEvents Label143 As System.Windows.Forms.Label
-	Friend WithEvents LBLDebugScriptTime As System.Windows.Forms.Label
-	Friend WithEvents TabControl4 As System.Windows.Forms.TabControl
-	Friend WithEvents TpImagesUrlFiles As System.Windows.Forms.TabPage
-	Friend WithEvents TpImagesGenre As System.Windows.Forms.TabPage
-	Friend WithEvents BTNURLFilesNone As System.Windows.Forms.Button
-	Friend WithEvents BTNURLFilesAll As System.Windows.Forms.Button
-	Friend WithEvents GbxImagesGenre As System.Windows.Forms.GroupBox
-	Friend WithEvents GrbImageUrlFiles As System.Windows.Forms.GroupBox
-	Friend WithEvents ChbImageUrlButts As System.Windows.Forms.CheckBox
-	Friend WithEvents ChbImageUrlBoobs As System.Windows.Forms.CheckBox
-	Friend WithEvents Label153 As System.Windows.Forms.Label
-	Friend WithEvents Label156 As System.Windows.Forms.Label
-	Friend WithEvents BtnImageUrlGeneral As System.Windows.Forms.Button
-	Friend WithEvents Button34 As System.Windows.Forms.Button
-	Friend WithEvents ChbImageUrlLesbian As System.Windows.Forms.CheckBox
-	Friend WithEvents BtnImageUrlCaptions As System.Windows.Forms.Button
+    Friend WithEvents ScriptsLinkTab As System.Windows.Forms.TabPage
+    Friend WithEvents ScriptsEndTab As System.Windows.Forms.TabPage
+    Friend WithEvents GroupBox42 As System.Windows.Forms.GroupBox
+    Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
+    Friend WithEvents GroupBox43 As System.Windows.Forms.GroupBox
+    Friend WithEvents Label98 As System.Windows.Forms.Label
+    Friend WithEvents Label104 As System.Windows.Forms.Label
+    Friend WithEvents GroupBox31 As System.Windows.Forms.GroupBox
+    Friend WithEvents RTBScriptReq As System.Windows.Forms.RichTextBox
+    Friend WithEvents ScriptInfoTextArea As System.Windows.Forms.RichTextBox
+    Friend WithEvents LBLScriptReq As System.Windows.Forms.Label
+    Friend WithEvents ModuleScripts As System.Windows.Forms.CheckedListBox
+    Friend WithEvents LinkScripts As System.Windows.Forms.CheckedListBox
+    Friend WithEvents EndScripts As System.Windows.Forms.CheckedListBox
+    Friend WithEvents BTNScriptOpen As System.Windows.Forms.Button
+    Friend WithEvents SelectAvailableScriptsButton As System.Windows.Forms.Button
+    Friend WithEvents SelectNoScriptsButton As System.Windows.Forms.Button
+    Friend WithEvents SelectAllScriptsButton As System.Windows.Forms.Button
+    Friend WithEvents GroupBox45 As System.Windows.Forms.GroupBox
+    Friend WithEvents BallTortureEnabledCB As System.Windows.Forms.CheckBox
+    Friend WithEvents CockTortureEnabledCB As System.Windows.Forms.CheckBox
+    Friend WithEvents TabPage8 As System.Windows.Forms.TabPage
+    Friend WithEvents OpenSettingsDialog As System.Windows.Forms.OpenFileDialog
+    Friend WithEvents SaveSettingsDialog As System.Windows.Forms.SaveFileDialog
+    Friend WithEvents ChastityDeviceContainsSpikesCB As System.Windows.Forms.CheckBox
+    Friend WithEvents DoesChastityDeviceRequirePiercingCB As System.Windows.Forms.CheckBox
+    Friend WithEvents AllowLongEdgeInterruptCB As System.Windows.Forms.CheckBox
+    Friend WithEvents Label55 As System.Windows.Forms.Label
+    Friend WithEvents AllowLongEdgeTauntCB As System.Windows.Forms.CheckBox
+    Friend WithEvents CockAndBallTortureLevelLbl As System.Windows.Forms.Label
+    Friend WithEvents CockAndBallTortureLevelSlider As System.Windows.Forms.TrackBar
+    Friend WithEvents TBDomEyeColor As System.Windows.Forms.TextBox
+    Friend WithEvents TBDomHairColor As System.Windows.Forms.TextBox
+    Friend WithEvents TBSubEyeColor As System.Windows.Forms.TextBox
+    Friend WithEvents TBSubHairColor As System.Windows.Forms.TextBox
+    Friend WithEvents CBSubCircumcised As System.Windows.Forms.CheckBox
+    Friend WithEvents CBSubPierced As System.Windows.Forms.CheckBox
+    Friend WithEvents LBLEmpathy As System.Windows.Forms.Label
+    Friend WithEvents NBEmpathy As System.Windows.Forms.NumericUpDown
+    Friend WithEvents Label83 As System.Windows.Forms.Label
+    Friend WithEvents BTNSaveDomSet As System.Windows.Forms.Button
+    Friend WithEvents BTNLoadDomSet As System.Windows.Forms.Button
+    Friend WithEvents CBAuditStartup As System.Windows.Forms.CheckBox
+    Friend WithEvents GBRangeOrgasmChance As System.Windows.Forms.GroupBox
+    Friend WithEvents Label89 As System.Windows.Forms.Label
+    Friend WithEvents NBAllowSometimes As System.Windows.Forms.NumericUpDown
+    Friend WithEvents Label86 As System.Windows.Forms.Label
+    Friend WithEvents Label82 As System.Windows.Forms.Label
+    Friend WithEvents NBAllowRarely As System.Windows.Forms.NumericUpDown
+    Friend WithEvents AllowOrgasmOftenNB As System.Windows.Forms.NumericUpDown
+    Friend WithEvents DommeDecideOrgasmCB As System.Windows.Forms.CheckBox
+    Friend WithEvents GBRangeRuinChance As System.Windows.Forms.GroupBox
+    Friend WithEvents Label90 As System.Windows.Forms.Label
+    Friend WithEvents NBRuinSometimes As System.Windows.Forms.NumericUpDown
+    Friend WithEvents Label91 As System.Windows.Forms.Label
+    Friend WithEvents Label92 As System.Windows.Forms.Label
+    Friend WithEvents NBRuinRarely As System.Windows.Forms.NumericUpDown
+    Friend WithEvents NBRuinOften As System.Windows.Forms.NumericUpDown
+    Friend WithEvents DommeDecideRuinCB As System.Windows.Forms.CheckBox
+    Friend WithEvents GroupBox57 As System.Windows.Forms.GroupBox
+    Friend WithEvents LBLSafeword As System.Windows.Forms.Label
+    Friend WithEvents TBSafeword As System.Windows.Forms.TextBox
+    Friend WithEvents TabPage20 As System.Windows.Forms.TabPage
+    Friend WithEvents TabControl1 As System.Windows.Forms.TabControl
+    Friend WithEvents TabPage22 As System.Windows.Forms.TabPage
+    Friend WithEvents TpGames As System.Windows.Forms.TabPage
+    Friend WithEvents GbxCardsGold As System.Windows.Forms.GroupBox
+    Friend WithEvents GN6 As System.Windows.Forms.TextBox
+    Friend WithEvents GP6 As System.Windows.Forms.PictureBox
+    Friend WithEvents GN5 As System.Windows.Forms.TextBox
+    Friend WithEvents GP5 As System.Windows.Forms.PictureBox
+    Friend WithEvents GN4 As System.Windows.Forms.TextBox
+    Friend WithEvents GP4 As System.Windows.Forms.PictureBox
+    Friend WithEvents GN3 As System.Windows.Forms.TextBox
+    Friend WithEvents GP3 As System.Windows.Forms.PictureBox
+    Friend WithEvents GN2 As System.Windows.Forms.TextBox
+    Friend WithEvents GP2 As System.Windows.Forms.PictureBox
+    Friend WithEvents GN1 As System.Windows.Forms.TextBox
+    Friend WithEvents GP1 As System.Windows.Forms.PictureBox
+    Friend WithEvents GbxCardsSilver As System.Windows.Forms.GroupBox
+    Friend WithEvents SN6 As System.Windows.Forms.TextBox
+    Friend WithEvents SP6 As System.Windows.Forms.PictureBox
+    Friend WithEvents SN5 As System.Windows.Forms.TextBox
+    Friend WithEvents SP5 As System.Windows.Forms.PictureBox
+    Friend WithEvents SN4 As System.Windows.Forms.TextBox
+    Friend WithEvents SP4 As System.Windows.Forms.PictureBox
+    Friend WithEvents SN3 As System.Windows.Forms.TextBox
+    Friend WithEvents SP3 As System.Windows.Forms.PictureBox
+    Friend WithEvents SN2 As System.Windows.Forms.TextBox
+    Friend WithEvents SP2 As System.Windows.Forms.PictureBox
+    Friend WithEvents SN1 As System.Windows.Forms.TextBox
+    Friend WithEvents SP1 As System.Windows.Forms.PictureBox
+    Friend WithEvents GbxCardsBackground As System.Windows.Forms.GroupBox
+    Friend WithEvents GbxCardsBronze As System.Windows.Forms.GroupBox
+    Friend WithEvents BN6 As System.Windows.Forms.TextBox
+    Friend WithEvents BP6 As System.Windows.Forms.PictureBox
+    Friend WithEvents BN5 As System.Windows.Forms.TextBox
+    Friend WithEvents BP5 As System.Windows.Forms.PictureBox
+    Friend WithEvents BN4 As System.Windows.Forms.TextBox
+    Friend WithEvents BP4 As System.Windows.Forms.PictureBox
+    Friend WithEvents BN3 As System.Windows.Forms.TextBox
+    Friend WithEvents BP3 As System.Windows.Forms.PictureBox
+    Friend WithEvents BN2 As System.Windows.Forms.TextBox
+    Friend WithEvents BP2 As System.Windows.Forms.PictureBox
+    Friend WithEvents BN1 As System.Windows.Forms.TextBox
+    Friend WithEvents BP1 As System.Windows.Forms.PictureBox
+    Friend WithEvents CardBack As System.Windows.Forms.PictureBox
+    Friend WithEvents CBGameSounds As System.Windows.Forms.CheckBox
+    Friend WithEvents LblCardsSetupNote As System.Windows.Forms.Label
+    Friend WithEvents TabPage5 As System.Windows.Forms.TabPage
+    Friend WithEvents UseAverageEdgeThresholdCB As System.Windows.Forms.CheckBox
+    Friend WithEvents LBLLastRuined As System.Windows.Forms.Label
+    Friend WithEvents TabPage24 As System.Windows.Forms.TabPage
+    Friend WithEvents Button4 As System.Windows.Forms.Button
+    Friend WithEvents Button5 As System.Windows.Forms.Button
+    Friend WithEvents TBResponses As System.Windows.Forms.TextBox
+    Friend WithEvents LBResponses As System.Windows.Forms.ListBox
+    Friend WithEvents RTBResponses As System.Windows.Forms.RichTextBox
+    Friend WithEvents RTBResponsesKEY As System.Windows.Forms.RichTextBox
+    Friend WithEvents Button9 As System.Windows.Forms.Button
+    Friend WithEvents TauntSlider As System.Windows.Forms.TrackBar
+    Friend WithEvents Label97 As System.Windows.Forms.Label
+    Friend WithEvents NBTeaseLengthMax As System.Windows.Forms.NumericUpDown
+    Friend WithEvents Label99 As System.Windows.Forms.Label
+    Friend WithEvents Label96 As System.Windows.Forms.Label
+    Friend WithEvents NBTeaseLengthMin As System.Windows.Forms.NumericUpDown
+    Friend WithEvents Label95 As System.Windows.Forms.Label
+    Friend WithEvents Label103 As System.Windows.Forms.Label
+    Friend WithEvents NBTauntCycleMax As System.Windows.Forms.NumericUpDown
+    Friend WithEvents Label105 As System.Windows.Forms.Label
+    Friend WithEvents Label101 As System.Windows.Forms.Label
+    Friend WithEvents NBTauntCycleMin As System.Windows.Forms.NumericUpDown
+    Friend WithEvents Label102 As System.Windows.Forms.Label
+    Friend WithEvents CBTauntCycleDD As System.Windows.Forms.CheckBox
+    Friend WithEvents TeaseLengthDommeDetermined As System.Windows.Forms.CheckBox
+    Friend WithEvents GroupBox10 As System.Windows.Forms.GroupBox
+    Friend WithEvents Label106 As System.Windows.Forms.Label
+    Friend WithEvents LBLVtf As System.Windows.Forms.Label
+    Friend WithEvents Label6 As System.Windows.Forms.Label
+    Friend WithEvents Label108 As System.Windows.Forms.Label
+    Friend WithEvents Label109 As System.Windows.Forms.Label
+    Friend WithEvents Label110 As System.Windows.Forms.Label
+    Friend WithEvents Label111 As System.Windows.Forms.Label
+    Friend WithEvents Label112 As System.Windows.Forms.Label
+    Friend WithEvents NBNextImageChance As System.Windows.Forms.NumericUpDown
+    Friend WithEvents LBVidScript As System.Windows.Forms.ListBox
+    Friend WithEvents TabPage6 As System.Windows.Forms.TabPage
+    Friend WithEvents BTNWishlistCreate As System.Windows.Forms.Button
+    Friend WithEvents radioGold As System.Windows.Forms.RadioButton
+    Friend WithEvents radioSilver As System.Windows.Forms.RadioButton
+    Friend WithEvents NBWishlistCost As System.Windows.Forms.NumericUpDown
+    Friend WithEvents Label73 As System.Windows.Forms.Label
+    Friend WithEvents TBWishlistComment As System.Windows.Forms.TextBox
+    Friend WithEvents Label48 As System.Windows.Forms.Label
+    Friend WithEvents TBWishlistURL As System.Windows.Forms.TextBox
+    Friend WithEvents Label42 As System.Windows.Forms.Label
+    Friend WithEvents TBWishlistItem As System.Windows.Forms.TextBox
+    Friend WithEvents Label32 As System.Windows.Forms.Label
+    Friend WithEvents Label18 As System.Windows.Forms.Label
+    Friend WithEvents PNLWishList As System.Windows.Forms.Panel
+    Friend WithEvents WishlistCostSilver As System.Windows.Forms.PictureBox
+    Friend WithEvents LBLWishListText As System.Windows.Forms.Label
+    Friend WithEvents LBLWishlistCost As System.Windows.Forms.Label
+    Friend WithEvents WishlistCostGold As System.Windows.Forms.PictureBox
+    Friend WithEvents LBLWishListName As System.Windows.Forms.Label
+    Friend WithEvents WishlistPreview As System.Windows.Forms.PictureBox
+    Friend WithEvents Label107 As System.Windows.Forms.Label
+    Friend WithEvents Panel10 As System.Windows.Forms.Panel
+    Friend WithEvents CBOwnChastity As System.Windows.Forms.CheckBox
+    Friend WithEvents CBIncludeGifs As System.Windows.Forms.CheckBox
+    Friend WithEvents CBHimHer As System.Windows.Forms.CheckBox
+    Friend WithEvents CBDomDel As System.Windows.Forms.CheckBox
+    Friend WithEvents TabPage25 As System.Windows.Forms.TabPage
+    Friend WithEvents Panel11 As System.Windows.Forms.Panel
+    Friend WithEvents Label115 As System.Windows.Forms.Label
+    Friend WithEvents TBWebStop As System.Windows.Forms.TextBox
+    Friend WithEvents Label114 As System.Windows.Forms.Label
+    Friend WithEvents TBWebStart As System.Windows.Forms.TextBox
+    Friend WithEvents PictureBox9 As System.Windows.Forms.PictureBox
+    Friend WithEvents Label148 As System.Windows.Forms.Label
+    Friend WithEvents GroupBox15 As System.Windows.Forms.GroupBox
+    Friend WithEvents WebToy As System.Windows.Forms.WebBrowser
+    Friend WithEvents GroupBox20 As System.Windows.Forms.GroupBox
+    Friend WithEvents PBMaintenance As System.Windows.Forms.ProgressBar
+    Friend WithEvents LBLMaintenance As System.Windows.Forms.Label
+    Friend WithEvents BTNMaintenanceRebuild As System.Windows.Forms.Button
+    Friend WithEvents BTNMaintenanceCancel As System.Windows.Forms.Button
+    Friend WithEvents Label116 As System.Windows.Forms.Label
+    Friend WithEvents PBCurrent As System.Windows.Forms.ProgressBar
+    Friend WithEvents Label117 As System.Windows.Forms.Label
+    Friend WithEvents BTNMaintenanceRefresh As System.Windows.Forms.Button
+    Friend WithEvents TabPage27 As System.Windows.Forms.TabPage
+    Friend WithEvents BTNMaintenanceScripts As System.Windows.Forms.Button
+    Friend WithEvents Button3 As System.Windows.Forms.Button
+    Friend WithEvents GroupBox27 As System.Windows.Forms.GroupBox
+    Friend WithEvents Button6 As System.Windows.Forms.Button
+    Friend WithEvents LBLSesSpace As System.Windows.Forms.Label
+    Friend WithEvents LBLSesFiles As System.Windows.Forms.Label
+    Friend WithEvents Label125 As System.Windows.Forms.Label
+    Friend WithEvents Label124 As System.Windows.Forms.Label
+    Friend WithEvents CBBallsToPussy As System.Windows.Forms.CheckBox
+    Friend WithEvents CBCockToClit As System.Windows.Forms.CheckBox
+    Friend WithEvents LBLLastOrgasm As System.Windows.Forms.Label
+    Friend WithEvents Label65 As System.Windows.Forms.Label
+    Friend WithEvents Label94 As System.Windows.Forms.Label
+    Friend WithEvents GroupBox6 As System.Windows.Forms.GroupBox
+    Friend WithEvents Button1 As System.Windows.Forms.Button
+    Friend WithEvents Label127 As System.Windows.Forms.Label
+    Friend WithEvents Label126 As System.Windows.Forms.Label
+    Friend WithEvents Label128 As System.Windows.Forms.Label
+    Friend WithEvents LBLSubBdayFormat As System.Windows.Forms.Label
+    Friend WithEvents WBPlaylist As System.Windows.Forms.WebBrowser
+    Friend WithEvents Label80 As System.Windows.Forms.Label
+    Friend WithEvents LBLPlaylIstLink As System.Windows.Forms.Label
+    Friend WithEvents LBLPlaylistModule As System.Windows.Forms.Label
+    Friend WithEvents LBLPLaylistStart As System.Windows.Forms.Label
+    Friend WithEvents LBPlaylist As System.Windows.Forms.ListBox
+    Friend WithEvents BTNPlaylistEnd As System.Windows.Forms.Button
+    Friend WithEvents BTNPlaylistClearAll As System.Windows.Forms.Button
+    Friend WithEvents BTNPlaylistSave As System.Windows.Forms.Button
+    Friend WithEvents Button7 As System.Windows.Forms.Button
+    Friend WithEvents TBPlaylistSave As System.Windows.Forms.TextBox
+    Friend WithEvents BTNPlaylistCtrlZ As System.Windows.Forms.Button
+    Friend WithEvents RadioPlaylistRegScripts As System.Windows.Forms.RadioButton
+    Friend WithEvents RadioPlaylistScripts As System.Windows.Forms.RadioButton
+    Friend WithEvents BtnContact1ImageDir As System.Windows.Forms.Button
+    Friend WithEvents TbxContact1ImageDir As System.Windows.Forms.TextBox
+    Friend WithEvents BtnContact3ImageDir As System.Windows.Forms.Button
+    Friend WithEvents TbxContact3ImageDir As System.Windows.Forms.TextBox
+    Friend WithEvents BtnContact2ImageDir As System.Windows.Forms.Button
+    Friend WithEvents TbxContact2ImageDir As System.Windows.Forms.TextBox
+    Friend WithEvents CBGlitterFeedOff As System.Windows.Forms.RadioButton
+    Friend WithEvents CBGlitterFeedScripts As System.Windows.Forms.RadioButton
+    Friend WithEvents CBGlitterFeed As System.Windows.Forms.RadioButton
+    Friend WithEvents GroupBox33 As System.Windows.Forms.GroupBox
+    Friend WithEvents Button11 As System.Windows.Forms.Button
+    Friend WithEvents InChastityLabel As System.Windows.Forms.Label
+    Friend WithEvents Label120 As System.Windows.Forms.Label
+    Friend WithEvents TTDir As System.Windows.Forms.ToolTip
+    Friend WithEvents BtnContact3ImageDirClear As System.Windows.Forms.Button
+    Friend WithEvents BtnContact1ImageDirClear As System.Windows.Forms.Button
+    Friend WithEvents BtnContact2ImageDirClear As System.Windows.Forms.Button
+    Friend WithEvents Button15 As System.Windows.Forms.Button
+    Friend WithEvents Button16 As System.Windows.Forms.Button
+    Friend WithEvents Label121 As System.Windows.Forms.Label
+    Friend WithEvents Label122 As System.Windows.Forms.Label
+    Friend WithEvents GroupBox62 As System.Windows.Forms.GroupBox
+    Friend WithEvents RBGerman As System.Windows.Forms.RadioButton
+    Friend WithEvents RBEnglish As System.Windows.Forms.RadioButton
+    Friend WithEvents TabPage26 As System.Windows.Forms.TabPage
+    Friend WithEvents Panel12 As System.Windows.Forms.Panel
+    Friend WithEvents PictureBox10 As System.Windows.Forms.PictureBox
+    Friend WithEvents GroupBox11 As System.Windows.Forms.GroupBox
+    Friend WithEvents Label144 As System.Windows.Forms.Label
+    Friend WithEvents Label164 As System.Windows.Forms.Label
+    Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
+    Friend WithEvents PBBackgroundPreview As System.Windows.Forms.PictureBox
+    Friend WithEvents Button17 As System.Windows.Forms.Button
+    Friend WithEvents CBStretchBack As System.Windows.Forms.CheckBox
+    Friend WithEvents Button18 As System.Windows.Forms.Button
+    Friend WithEvents GroupBox5 As System.Windows.Forms.GroupBox
+    Friend WithEvents LBLTextColor As System.Windows.Forms.Label
+    Friend WithEvents LBLChatWindowColor2 As System.Windows.Forms.Label
+    Friend WithEvents LBLTextColor2 As System.Windows.Forms.Label
+    Friend WithEvents LBLChatTextColor As System.Windows.Forms.Label
+    Friend WithEvents LBLBackColor2 As System.Windows.Forms.Label
+    Friend WithEvents LBLButtonColor As System.Windows.Forms.Label
+    Friend WithEvents LBLChatWindowColor As System.Windows.Forms.Label
+    Friend WithEvents LBLBackColor As System.Windows.Forms.Label
+    Friend WithEvents LBLChatTextColor2 As System.Windows.Forms.Label
+    Friend WithEvents LBLButtonColor2 As System.Windows.Forms.Label
+    Friend WithEvents GroupBox9 As System.Windows.Forms.GroupBox
+    Friend WithEvents LBLDateTimeColor2 As System.Windows.Forms.Label
+    Friend WithEvents Label137 As System.Windows.Forms.Label
+    Friend WithEvents Label138 As System.Windows.Forms.Label
+    Friend WithEvents LBLDateBackColor2 As System.Windows.Forms.Label
+    Friend WithEvents CBTransparentTime As System.Windows.Forms.CheckBox
+    Friend WithEvents Button31 As System.Windows.Forms.Button
+    Friend WithEvents CBFlipBack As System.Windows.Forms.CheckBox
+    Friend WithEvents Button32 As System.Windows.Forms.Button
+    Friend WithEvents condescendingCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents degradingCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents sadisticCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents GroupBox13 As System.Windows.Forms.GroupBox
+    Friend WithEvents TimeBoxWakeUp As System.Windows.Forms.DateTimePicker
+    Friend WithEvents Label5 As System.Windows.Forms.Label
+    Friend WithEvents HoldEdgeMinimumUnits As System.Windows.Forms.Label
+    Friend WithEvents HoldEdgeMinimum As System.Windows.Forms.NumericUpDown
+    Friend WithEvents LBLMaxHold As System.Windows.Forms.Label
+    Friend WithEvents Label79 As System.Windows.Forms.Label
+    Friend WithEvents GroupBox22 As System.Windows.Forms.GroupBox
+    Friend WithEvents Label34 As System.Windows.Forms.Label
+    Friend WithEvents Label66 As System.Windows.Forms.Label
+    Friend WithEvents GroupBox63 As System.Windows.Forms.GroupBox
+    Friend WithEvents Label64 As System.Windows.Forms.Label
+    Friend WithEvents Label67 As System.Windows.Forms.Label
+    Friend WithEvents NBTypoChance As System.Windows.Forms.NumericUpDown
+    Friend WithEvents TBEmote As System.Windows.Forms.TextBox
+    Friend WithEvents TBEmoteEnd As System.Windows.Forms.TextBox
+    Friend WithEvents SliderVRate As System.Windows.Forms.TrackBar
+    Friend WithEvents SliderVVolume As System.Windows.Forms.TrackBar
+    Friend WithEvents LBLVRate As System.Windows.Forms.Label
+    Friend WithEvents Label93 As System.Windows.Forms.Label
+    Friend WithEvents LBLVVolume As System.Windows.Forms.Label
+    Friend WithEvents Label68 As System.Windows.Forms.Label
+    Friend WithEvents LBLMaxExtremeHold As System.Windows.Forms.Label
+    Friend WithEvents LBLMinExtremeHold As System.Windows.Forms.Label
+    Friend WithEvents ExtremeEdgeHoldMinimum As System.Windows.Forms.NumericUpDown
+    Friend WithEvents Label133 As System.Windows.Forms.Label
+    Friend WithEvents ExtremeEdgeHoldMaximum As System.Windows.Forms.NumericUpDown
+    Friend WithEvents LBLMaxLongHold As System.Windows.Forms.Label
+    Friend WithEvents Label78 As System.Windows.Forms.Label
+    Friend WithEvents LBLMinLongHold As System.Windows.Forms.Label
+    Friend WithEvents LongEdgeHoldMinimum As System.Windows.Forms.NumericUpDown
+    Friend WithEvents Label129 As System.Windows.Forms.Label
+    Friend WithEvents LongEdgeHoldMaximum As System.Windows.Forms.NumericUpDown
+    Friend WithEvents Label131 As System.Windows.Forms.Label
+    Friend WithEvents WebTeaseMode As System.Windows.Forms.CheckBox
+    Friend WithEvents TabPage28 As System.Windows.Forms.TabPage
+    Friend WithEvents TabControl3 As System.Windows.Forms.TabControl
+    Friend WithEvents TabPage29 As System.Windows.Forms.TabPage
+    Friend WithEvents GroupBox26 As System.Windows.Forms.GroupBox
+    Friend WithEvents RBDebugTaunts3 As System.Windows.Forms.RadioButton
+    Friend WithEvents RBDebugTaunts2 As System.Windows.Forms.RadioButton
+    Friend WithEvents RBDebugTaunts1 As System.Windows.Forms.RadioButton
+    Friend WithEvents CBDebugTauntsEndless As System.Windows.Forms.CheckBox
+    Friend WithEvents CBDebugTaunts As System.Windows.Forms.CheckBox
+    Friend WithEvents TabPage30 As System.Windows.Forms.TabPage
+    Friend WithEvents TBDebugTaunts3 As System.Windows.Forms.TextBox
+    Friend WithEvents TBDebugTaunts2 As System.Windows.Forms.TextBox
+    Friend WithEvents TBDebugTaunts1 As System.Windows.Forms.TextBox
+    Friend WithEvents BTNDebugTauntsClear As System.Windows.Forms.Button
+    Friend WithEvents LBLCycleDebugCountdown As System.Windows.Forms.Label
+    Friend WithEvents Button19 As System.Windows.Forms.Button
+    Friend WithEvents Panel5 As System.Windows.Forms.Panel
+    Friend WithEvents Label130 As System.Windows.Forms.Label
+    Friend WithEvents Label123 As System.Windows.Forms.Label
+    Friend WithEvents Label69 As System.Windows.Forms.Label
+    Friend WithEvents Label113 As System.Windows.Forms.Label
+    Friend WithEvents Label40 As System.Windows.Forms.Label
+    Friend WithEvents Label35 As System.Windows.Forms.Label
+    Friend WithEvents Label33 As System.Windows.Forms.Label
+    Friend WithEvents Label17 As System.Windows.Forms.Label
+    Friend WithEvents Label3 As System.Windows.Forms.Label
+    Friend WithEvents PictureBox3 As System.Windows.Forms.PictureBox
+    Friend WithEvents Label41 As System.Windows.Forms.Label
+    Friend WithEvents GroupBox64 As System.Windows.Forms.GroupBox
+    Friend WithEvents CBMuteMedia As System.Windows.Forms.CheckBox
+    Friend WithEvents BTNOfflineMode As System.Windows.Forms.Button
+    Friend WithEvents LBLOfflineMode As System.Windows.Forms.Label
+    Friend WithEvents Label140 As System.Windows.Forms.Label
+    Friend WithEvents CBNewSlideshow As System.Windows.Forms.CheckBox
+    Friend WithEvents Label139 As System.Windows.Forms.Label
+    Friend WithEvents NBTauntEdging As System.Windows.Forms.NumericUpDown
+    Friend WithEvents Label141 As System.Windows.Forms.Label
+    Friend WithEvents BTNDebugHoldEdgeTimer As System.Windows.Forms.Button
+    Friend WithEvents BTNDebugStrokeTauntTimer As System.Windows.Forms.Button
+    Friend WithEvents LBLDebugHoldEdgeTime As System.Windows.Forms.Label
+    Friend WithEvents Label145 As System.Windows.Forms.Label
+    Friend WithEvents BTNDebugStrokeTime As System.Windows.Forms.Button
+    Friend WithEvents BTNDebugEdgeTauntTimer As System.Windows.Forms.Button
+    Friend WithEvents LBLDebugTeaseTime As System.Windows.Forms.Label
+    Friend WithEvents LBLDebugStrokeTime As System.Windows.Forms.Label
+    Friend WithEvents LBLDebugEdgeTauntTime As System.Windows.Forms.Label
+    Friend WithEvents BTNDebugTeaseTimer As System.Windows.Forms.Button
+    Friend WithEvents Label142 As System.Windows.Forms.Label
+    Friend WithEvents Label150 As System.Windows.Forms.Label
+    Friend WithEvents Label152 As System.Windows.Forms.Label
+    Friend WithEvents LBLDebugStrokeTauntTime As System.Windows.Forms.Label
+    Friend WithEvents Label147 As System.Windows.Forms.Label
+    Friend WithEvents Label143 As System.Windows.Forms.Label
+    Friend WithEvents LBLDebugScriptTime As System.Windows.Forms.Label
+    Friend WithEvents TabControl4 As System.Windows.Forms.TabControl
+    Friend WithEvents TpImagesUrlFiles As System.Windows.Forms.TabPage
+    Friend WithEvents TpImagesGenre As System.Windows.Forms.TabPage
+    Friend WithEvents BTNURLFilesNone As System.Windows.Forms.Button
+    Friend WithEvents BTNURLFilesAll As System.Windows.Forms.Button
+    Friend WithEvents GbxImagesGenre As System.Windows.Forms.GroupBox
+    Friend WithEvents GrbImageUrlFiles As System.Windows.Forms.GroupBox
+    Friend WithEvents ChbImageUrlButts As System.Windows.Forms.CheckBox
+    Friend WithEvents ChbImageUrlBoobs As System.Windows.Forms.CheckBox
+    Friend WithEvents BtnImageUrlGeneral As System.Windows.Forms.Button
+    Friend WithEvents ChbImageUrlLesbian As System.Windows.Forms.CheckBox
+    Friend WithEvents BtnImageUrlCaptions As System.Windows.Forms.Button
 	Friend WithEvents ChbImageUrlBlowjob As System.Windows.Forms.CheckBox
 	Friend WithEvents BtnImageUrlMaledom As System.Windows.Forms.Button
 	Friend WithEvents ChbImageUrlGay As System.Windows.Forms.CheckBox
@@ -16058,7 +15859,7 @@ Partial Class FrmSettings
 	Friend WithEvents TabPage33 As TabPage
 	Friend WithEvents LocalTagsTab As TabControl
 	Friend WithEvents TabPage34 As TabPage
-	Friend WithEvents TabPage35 As TabPage
+	Friend WithEvents FileDropDownLabel As TabPage
 	Friend WithEvents CBTagSeeThrough As RadioButton
 	Friend WithEvents CBTagAllFours As CheckBox
 	Friend WithEvents CBTagGlaring As CheckBox
@@ -16156,7 +15957,7 @@ Partial Class FrmSettings
 	Friend WithEvents CBTagVibrator As CheckBox
 	Friend WithEvents CBTagDildo As CheckBox
 	Friend WithEvents CBTagKissing As CheckBox
-	Friend WithEvents GroupBox51 As GroupBox
+	Friend WithEvents BdsmTagGroup As GroupBox
 	Friend WithEvents CBTagBallTorture As CheckBox
 	Friend WithEvents CBTagGag As CheckBox
 	Friend WithEvents CBTagBlindfold As CheckBox
@@ -16207,10 +16008,13 @@ Partial Class FrmSettings
     Friend WithEvents BTNLocalTagPrevious As Button
     Friend WithEvents BTNLocalTagNext As Button
     Friend WithEvents LBLLocalTagCount As Label
-    Friend WithEvents BTNLocalTagSave As Button
+    Friend WithEvents SaveTagButton As Button
     Friend WithEvents CBLockOrgasmChances As CheckBox
     Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
     Friend WithEvents GrbGlitterfeed As GroupBox
     Friend WithEvents GenreDropDownLabel As Label
     Friend WithEvents GenreCombo As ComboBox
+    Friend WithEvents FileTagCombo As ComboBox
+    Friend WithEvents LocalTagImageNavGroup As GroupBox
+    Friend WithEvents LocalTagPictureBox As PictureBox
 End Class

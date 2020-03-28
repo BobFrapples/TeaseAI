@@ -298,13 +298,6 @@ Once you are finished with your changes, click "Save Glitter File".</value>
 However, since this project has been designed with the T&amp;&amp;D community in mind, I feel it's important
 to give people a chance to try it out and suggest new features before finalizing the release. This version will be subject to bugs in its current state and as features and content get added.</value>
   </data>
-  <data name="Label100.Text" xml:space="preserve">
-    <value>Boobs and Butts - Set Local and/or URL file locations for pictures of boobs and butts.
-
-URL Files - Select which created URL Files you would like the program to use.
-
-Local Images - Select which genres and paths you would like to use for local images. Checkboxes = Include subfolders.</value>
-  </data>
   <metadata name="OpenFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>133, 17</value>
   </metadata>

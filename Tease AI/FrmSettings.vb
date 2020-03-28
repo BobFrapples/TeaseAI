@@ -5185,11 +5185,11 @@ checkFolder:
         SetLocalTagCheckboxes(taggedItem.ItemTags)
     End Sub
 
-    Private Sub BTNLocalTagSave_Click(sender As Object, e As EventArgs) Handles BTNLocalTagSave.Click
+    Private Sub BTNLocalTagSave_Click(sender As Object, e As EventArgs) Handles SaveTagButton.Click
 
         SaveLocalImageTags(CurrentLocalImageTagImage)
 
-        BTNLocalTagSave.Enabled = False
+        SaveTagButton.Enabled = False
         BTNLocalTagNext.Enabled = False
         BTNLocalTagPrevious.Enabled = False
 
