@@ -206,6 +206,8 @@ Partial Class FrmSettings
         Me.GroupBox13 = New System.Windows.Forms.GroupBox()
         Me.Label34 = New System.Windows.Forms.Label()
         Me.TimeBoxWakeUp = New System.Windows.Forms.DateTimePicker()
+        Me.GroupBox12 = New System.Windows.Forms.GroupBox()
+        Me.LBLSubSettingsDescription = New System.Windows.Forms.Label()
         Me.GroupBox7 = New System.Windows.Forms.GroupBox()
         Me.LBLMaxExtremeHold = New System.Windows.Forms.Label()
         Me.LBLMinExtremeHold = New System.Windows.Forms.Label()
@@ -427,6 +429,12 @@ Partial Class FrmSettings
         Me.ImageTagPictureBox = New System.Windows.Forms.PictureBox()
         Me.CBTagFace = New System.Windows.Forms.CheckBox()
         Me.FileDropDownLabel = New System.Windows.Forms.TabPage()
+        Me.LocalTagImageNavGroup = New System.Windows.Forms.GroupBox()
+        Me.FileTagCombo = New System.Windows.Forms.ComboBox()
+        Me.LBLLocalTagCount = New System.Windows.Forms.Label()
+        Me.FileTagNextButton = New System.Windows.Forms.Button()
+        Me.FileTagPreviousButton = New System.Windows.Forms.Button()
+        Me.LocalTagPictureBox = New System.Windows.Forms.PictureBox()
         Me.GenreDropDownLabel = New System.Windows.Forms.Label()
         Me.GenreCombo = New System.Windows.Forms.ComboBox()
         Me.GroupBox55 = New System.Windows.Forms.GroupBox()
@@ -536,9 +544,6 @@ Partial Class FrmSettings
         Me.CBTagSoloF = New System.Windows.Forms.CheckBox()
         Me.CBTagChastity = New System.Windows.Forms.CheckBox()
         Me.CBTagShower = New System.Windows.Forms.CheckBox()
-        Me.BTNLocalTagPrevious = New System.Windows.Forms.Button()
-        Me.BTNLocalTagNext = New System.Windows.Forms.Button()
-        Me.LBLLocalTagCount = New System.Windows.Forms.Label()
         Me.SaveTagButton = New System.Windows.Forms.Button()
         Me.TabPage11 = New System.Windows.Forms.TabPage()
         Me.Panel7 = New System.Windows.Forms.Panel()
@@ -899,6 +904,8 @@ Partial Class FrmSettings
         Me.Label19 = New System.Windows.Forms.Label()
         Me.Label24 = New System.Windows.Forms.Label()
         Me.NBCensorShowMax = New System.Windows.Forms.NumericUpDown()
+        Me.GroupBox21 = New System.Windows.Forms.GroupBox()
+        Me.LBLRangeSettingsDescription = New System.Windows.Forms.Label()
         Me.GBRangeOrgasmChance = New System.Windows.Forms.GroupBox()
         Me.Label89 = New System.Windows.Forms.Label()
         Me.NBAllowSometimes = New System.Windows.Forms.NumericUpDown()
@@ -1019,6 +1026,18 @@ Partial Class FrmSettings
         Me.Label143 = New System.Windows.Forms.Label()
         Me.LBLDebugScriptTime = New System.Windows.Forms.Label()
         Me.BTNDebugHoldEdgeTimer = New System.Windows.Forms.Button()
+        Me.GroupBox6 = New System.Windows.Forms.GroupBox()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.LBLAvgEdgeStroking = New System.Windows.Forms.Label()
+        Me.LBLStrokeTimeTotal = New System.Windows.Forms.Label()
+        Me.Label94 = New System.Windows.Forms.Label()
+        Me.LBLLastRuined = New System.Windows.Forms.Label()
+        Me.Label65 = New System.Windows.Forms.Label()
+        Me.LBLAvgEdgeNoTouch = New System.Windows.Forms.Label()
+        Me.LBLLastOrgasm = New System.Windows.Forms.Label()
+        Me.Label14 = New System.Windows.Forms.Label()
+        Me.Label13 = New System.Windows.Forms.Label()
+        Me.Label1 = New System.Windows.Forms.Label()
         Me.GroupBox26 = New System.Windows.Forms.GroupBox()
         Me.LBLCycleDebugCountdown = New System.Windows.Forms.Label()
         Me.Button19 = New System.Windows.Forms.Button()
@@ -1061,22 +1080,6 @@ Partial Class FrmSettings
         Me.Label3 = New System.Windows.Forms.Label()
         Me.PictureBox3 = New System.Windows.Forms.PictureBox()
         Me.Label41 = New System.Windows.Forms.Label()
-        Me.GroupBox6 = New System.Windows.Forms.GroupBox()
-        Me.Label4 = New System.Windows.Forms.Label()
-        Me.LBLAvgEdgeStroking = New System.Windows.Forms.Label()
-        Me.LBLStrokeTimeTotal = New System.Windows.Forms.Label()
-        Me.Label94 = New System.Windows.Forms.Label()
-        Me.LBLLastRuined = New System.Windows.Forms.Label()
-        Me.Label65 = New System.Windows.Forms.Label()
-        Me.LBLAvgEdgeNoTouch = New System.Windows.Forms.Label()
-        Me.LBLLastOrgasm = New System.Windows.Forms.Label()
-        Me.Label14 = New System.Windows.Forms.Label()
-        Me.Label13 = New System.Windows.Forms.Label()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.GroupBox21 = New System.Windows.Forms.GroupBox()
-        Me.LBLRangeSettingsDescription = New System.Windows.Forms.Label()
-        Me.GroupBox12 = New System.Windows.Forms.GroupBox()
-        Me.LBLSubSettingsDescription = New System.Windows.Forms.Label()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.GetColor = New System.Windows.Forms.ColorDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
@@ -1089,9 +1092,6 @@ Partial Class FrmSettings
         Me.TxbImgUrlHardcore = New System.Windows.Forms.TextBox()
         Me.TextBox2 = New System.Windows.Forms.TextBox()
         Me.BWURLFiles = New Tease_AI.URL_Files.URL_File_BGW()
-        Me.FileTagCombo = New System.Windows.Forms.ComboBox()
-        Me.LocalTagPictureBox = New System.Windows.Forms.PictureBox()
-        Me.LocalTagImageNavGroup = New System.Windows.Forms.GroupBox()
         Me.SettingsTabs.SuspendLayout
         Me.TabPage1.SuspendLayout
         Me.PNLGeneralSettings.SuspendLayout
@@ -1148,6 +1148,7 @@ Partial Class FrmSettings
         Me.GroupBox37.SuspendLayout
         Me.GroupBox36.SuspendLayout
         Me.GroupBox13.SuspendLayout
+        Me.GroupBox12.SuspendLayout
         Me.GroupBox7.SuspendLayout
         CType(Me.ExtremeEdgeHoldMinimum, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.ExtremeEdgeHoldMaximum, System.ComponentModel.ISupportInitialize).BeginInit
@@ -1188,6 +1189,8 @@ Partial Class FrmSettings
         Me.TabPage34.SuspendLayout
         CType(Me.ImageTagPictureBox, System.ComponentModel.ISupportInitialize).BeginInit
         Me.FileDropDownLabel.SuspendLayout
+        Me.LocalTagImageNavGroup.SuspendLayout
+        CType(Me.LocalTagPictureBox, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GroupBox55.SuspendLayout
         Me.GroupBox53.SuspendLayout
         Me.GroupBox49.SuspendLayout
@@ -1309,6 +1312,7 @@ Partial Class FrmSettings
         CType(Me.NBCensorHideMax, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NBCensorHideMin, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NBCensorShowMax, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GroupBox21.SuspendLayout
         Me.GBRangeOrgasmChance.SuspendLayout
         CType(Me.NBAllowSometimes, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NBAllowRarely, System.ComponentModel.ISupportInitialize).BeginInit
@@ -1336,16 +1340,12 @@ Partial Class FrmSettings
         Me.TabPage28.SuspendLayout
         Me.TabControl3.SuspendLayout
         Me.TabPage29.SuspendLayout
+        Me.GroupBox6.SuspendLayout
         Me.GroupBox26.SuspendLayout
         Me.TabPage30.SuspendLayout
         Me.TabPage5.SuspendLayout
         Me.Panel5.SuspendLayout
         CType(Me.PictureBox3, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.GroupBox6.SuspendLayout
-        Me.GroupBox21.SuspendLayout
-        Me.GroupBox12.SuspendLayout
-        CType(Me.LocalTagPictureBox, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.LocalTagImageNavGroup.SuspendLayout
         Me.SuspendLayout
         '
         'SettingsTabs
@@ -3645,6 +3645,30 @@ Partial Class FrmSettings
         Me.TimeBoxWakeUp.Size = New System.Drawing.Size(110, 20)
         Me.TimeBoxWakeUp.TabIndex = 0
         '
+        'GroupBox12
+        '
+        Me.GroupBox12.BackColor = System.Drawing.Color.LightGray
+        Me.GroupBox12.Controls.Add(Me.LBLSubSettingsDescription)
+        Me.GroupBox12.ForeColor = System.Drawing.Color.Black
+        Me.GroupBox12.Location = New System.Drawing.Point(239, 201)
+        Me.GroupBox12.Name = "GroupBox12"
+        Me.GroupBox12.Size = New System.Drawing.Size(195, 231)
+        Me.GroupBox12.TabIndex = 65
+        Me.GroupBox12.TabStop = False
+        Me.GroupBox12.Text = "Description"
+        '
+        'LBLSubSettingsDescription
+        '
+        Me.LBLSubSettingsDescription.BackColor = System.Drawing.Color.Transparent
+        Me.LBLSubSettingsDescription.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LBLSubSettingsDescription.ForeColor = System.Drawing.Color.Black
+        Me.LBLSubSettingsDescription.Location = New System.Drawing.Point(10, 19)
+        Me.LBLSubSettingsDescription.Name = "LBLSubSettingsDescription"
+        Me.LBLSubSettingsDescription.Size = New System.Drawing.Size(179, 206)
+        Me.LBLSubSettingsDescription.TabIndex = 62
+        Me.LBLSubSettingsDescription.Text = "Hover over any setting in the menu for a more detailed description of its functio" &
+    "n."
+        '
         'GroupBox7
         '
         Me.GroupBox7.Controls.Add(Me.LBLMaxExtremeHold)
@@ -4609,7 +4633,7 @@ Partial Class FrmSettings
         Me.TpImagesGenre.Location = New System.Drawing.Point(4, 22)
         Me.TpImagesGenre.Name = "TpImagesGenre"
         Me.TpImagesGenre.Padding = New System.Windows.Forms.Padding(3)
-        Me.TpImagesGenre.Size = New System.Drawing.Size(700, 411)
+        Me.TpImagesGenre.Size = New System.Drawing.Size(958, 599)
         Me.TpImagesGenre.TabIndex = 1
         Me.TpImagesGenre.Text = "Genre Images"
         '
@@ -6614,6 +6638,78 @@ Partial Class FrmSettings
         Me.FileDropDownLabel.TabIndex = 1
         Me.FileDropDownLabel.Text = "Local Tags"
         '
+        'LocalTagImageNavGroup
+        '
+        Me.LocalTagImageNavGroup.Controls.Add(Me.FileTagCombo)
+        Me.LocalTagImageNavGroup.Controls.Add(Me.LBLLocalTagCount)
+        Me.LocalTagImageNavGroup.Controls.Add(Me.FileTagNextButton)
+        Me.LocalTagImageNavGroup.Controls.Add(Me.FileTagPreviousButton)
+        Me.LocalTagImageNavGroup.Location = New System.Drawing.Point(6, 38)
+        Me.LocalTagImageNavGroup.Name = "LocalTagImageNavGroup"
+        Me.LocalTagImageNavGroup.Size = New System.Drawing.Size(436, 71)
+        Me.LocalTagImageNavGroup.TabIndex = 247
+        Me.LocalTagImageNavGroup.TabStop = False
+        Me.LocalTagImageNavGroup.Text = "File Navigation"
+        '
+        'FileTagCombo
+        '
+        Me.FileTagCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.FileTagCombo.FormattingEnabled = True
+        Me.FileTagCombo.Location = New System.Drawing.Point(61, 13)
+        Me.FileTagCombo.Name = "FileTagCombo"
+        Me.FileTagCombo.Size = New System.Drawing.Size(343, 21)
+        Me.FileTagCombo.TabIndex = 2
+        '
+        'LBLLocalTagCount
+        '
+        Me.LBLLocalTagCount.BackColor = System.Drawing.Color.Transparent
+        Me.LBLLocalTagCount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.LBLLocalTagCount.Enabled = False
+        Me.LBLLocalTagCount.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LBLLocalTagCount.ForeColor = System.Drawing.Color.Black
+        Me.LBLLocalTagCount.Location = New System.Drawing.Point(177, 37)
+        Me.LBLLocalTagCount.Name = "LBLLocalTagCount"
+        Me.LBLLocalTagCount.Size = New System.Drawing.Size(110, 20)
+        Me.LBLLocalTagCount.TabIndex = 230
+        Me.LBLLocalTagCount.Text = "0/0"
+        Me.LBLLocalTagCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'FileTagNextButton
+        '
+        Me.FileTagNextButton.BackColor = System.Drawing.Color.LightGray
+        Me.FileTagNextButton.Enabled = False
+        Me.FileTagNextButton.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.FileTagNextButton.ForeColor = System.Drawing.Color.Black
+        Me.FileTagNextButton.Location = New System.Drawing.Point(293, 35)
+        Me.FileTagNextButton.Name = "FileTagNextButton"
+        Me.FileTagNextButton.Size = New System.Drawing.Size(47, 24)
+        Me.FileTagNextButton.TabIndex = 4
+        Me.FileTagNextButton.Text = ">>"
+        Me.FileTagNextButton.UseVisualStyleBackColor = False
+        '
+        'FileTagPreviousButton
+        '
+        Me.FileTagPreviousButton.BackColor = System.Drawing.Color.LightGray
+        Me.FileTagPreviousButton.Enabled = False
+        Me.FileTagPreviousButton.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.FileTagPreviousButton.ForeColor = System.Drawing.Color.Black
+        Me.FileTagPreviousButton.Location = New System.Drawing.Point(124, 35)
+        Me.FileTagPreviousButton.Name = "FileTagPreviousButton"
+        Me.FileTagPreviousButton.Size = New System.Drawing.Size(47, 24)
+        Me.FileTagPreviousButton.TabIndex = 3
+        Me.FileTagPreviousButton.Text = "<<"
+        Me.FileTagPreviousButton.UseVisualStyleBackColor = False
+        '
+        'LocalTagPictureBox
+        '
+        Me.LocalTagPictureBox.BackColor = System.Drawing.Color.Black
+        Me.LocalTagPictureBox.Location = New System.Drawing.Point(450, 282)
+        Me.LocalTagPictureBox.Name = "LocalTagPictureBox"
+        Me.LocalTagPictureBox.Size = New System.Drawing.Size(502, 311)
+        Me.LocalTagPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.LocalTagPictureBox.TabIndex = 246
+        Me.LocalTagPictureBox.TabStop = False
+        '
         'GenreDropDownLabel
         '
         Me.GenreDropDownLabel.AutoSize = True
@@ -6625,11 +6721,12 @@ Partial Class FrmSettings
         '
         'GenreCombo
         '
+        Me.GenreCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.GenreCombo.FormattingEnabled = True
         Me.GenreCombo.Location = New System.Drawing.Point(119, 10)
         Me.GenreCombo.Name = "GenreCombo"
         Me.GenreCombo.Size = New System.Drawing.Size(266, 21)
-        Me.GenreCombo.TabIndex = 242
+        Me.GenreCombo.TabIndex = 1
         '
         'GroupBox55
         '
@@ -6638,7 +6735,7 @@ Partial Class FrmSettings
         Me.GroupBox55.Controls.Add(Me.CBTagMaid)
         Me.GroupBox55.Controls.Add(Me.CBTagTeacher)
         Me.GroupBox55.Controls.Add(Me.CBTagSuperhero)
-        Me.GroupBox55.Location = New System.Drawing.Point(8, 401)
+        Me.GroupBox55.Location = New System.Drawing.Point(8, 479)
         Me.GroupBox55.Name = "GroupBox55"
         Me.GroupBox55.Size = New System.Drawing.Size(105, 118)
         Me.GroupBox55.TabIndex = 241
@@ -6717,7 +6814,7 @@ Partial Class FrmSettings
         Me.GroupBox53.Controls.Add(Me.CBTagBakunyuu)
         Me.GroupBox53.Controls.Add(Me.CBTagAhegao)
         Me.GroupBox53.Controls.Add(Me.CBTagShibari)
-        Me.GroupBox53.Location = New System.Drawing.Point(119, 401)
+        Me.GroupBox53.Location = New System.Drawing.Point(119, 479)
         Me.GroupBox53.Name = "GroupBox53"
         Me.GroupBox53.Size = New System.Drawing.Size(216, 118)
         Me.GroupBox53.TabIndex = 240
@@ -6857,7 +6954,7 @@ Partial Class FrmSettings
         Me.GroupBox49.Controls.Add(Me.CBTagBodyPussy)
         Me.GroupBox49.Controls.Add(Me.CBTagBodyTits)
         Me.GroupBox49.Controls.Add(Me.CBTagBodyFingers)
-        Me.GroupBox49.Location = New System.Drawing.Point(341, 37)
+        Me.GroupBox49.Location = New System.Drawing.Point(341, 115)
         Me.GroupBox49.Name = "GroupBox49"
         Me.GroupBox49.Size = New System.Drawing.Size(103, 238)
         Me.GroupBox49.TabIndex = 236
@@ -7015,7 +7112,7 @@ Partial Class FrmSettings
         Me.GroupBox46.Controls.Add(Me.CBTag1M)
         Me.GroupBox46.Controls.Add(Me.CBTag1F)
         Me.GroupBox46.Controls.Add(Me.CBTag3F)
-        Me.GroupBox46.Location = New System.Drawing.Point(230, 37)
+        Me.GroupBox46.Location = New System.Drawing.Point(230, 115)
         Me.GroupBox46.Name = "GroupBox46"
         Me.GroupBox46.Size = New System.Drawing.Size(105, 358)
         Me.GroupBox46.TabIndex = 234
@@ -7391,7 +7488,7 @@ Partial Class FrmSettings
         Me.BdsmTagGroup.Controls.Add(Me.CBTagStrapon)
         Me.BdsmTagGroup.Controls.Add(Me.CBTagSpanking)
         Me.BdsmTagGroup.Controls.Add(Me.CBTagNeedles)
-        Me.BdsmTagGroup.Location = New System.Drawing.Point(341, 281)
+        Me.BdsmTagGroup.Location = New System.Drawing.Point(341, 359)
         Me.BdsmTagGroup.Name = "BdsmTagGroup"
         Me.BdsmTagGroup.Size = New System.Drawing.Size(103, 238)
         Me.BdsmTagGroup.TabIndex = 238
@@ -7549,7 +7646,7 @@ Partial Class FrmSettings
         Me.GroupBox50.Controls.Add(Me.CBTagTitjob)
         Me.GroupBox50.Controls.Add(Me.CBTagCunnilingus)
         Me.GroupBox50.Controls.Add(Me.CBTagAnalSex)
-        Me.GroupBox50.Location = New System.Drawing.Point(119, 37)
+        Me.GroupBox50.Location = New System.Drawing.Point(119, 115)
         Me.GroupBox50.Name = "GroupBox50"
         Me.GroupBox50.Size = New System.Drawing.Size(105, 358)
         Me.GroupBox50.TabIndex = 237
@@ -7779,7 +7876,7 @@ Partial Class FrmSettings
         Me.GroupBox48.Controls.Add(Me.CBTagSoloF)
         Me.GroupBox48.Controls.Add(Me.CBTagChastity)
         Me.GroupBox48.Controls.Add(Me.CBTagShower)
-        Me.GroupBox48.Location = New System.Drawing.Point(8, 37)
+        Me.GroupBox48.Location = New System.Drawing.Point(8, 115)
         Me.GroupBox48.Name = "GroupBox48"
         Me.GroupBox48.Size = New System.Drawing.Size(105, 358)
         Me.GroupBox48.TabIndex = 235
@@ -7830,7 +7927,7 @@ Partial Class FrmSettings
         Me.CBTagHardcore.Location = New System.Drawing.Point(15, 17)
         Me.CBTagHardcore.Name = "CBTagHardcore"
         Me.CBTagHardcore.Size = New System.Drawing.Size(70, 17)
-        Me.CBTagHardcore.TabIndex = 203
+        Me.CBTagHardcore.TabIndex = 5
         Me.CBTagHardcore.Text = "Hardcore"
         Me.CBTagHardcore.UseVisualStyleBackColor = True
         '
@@ -7854,7 +7951,7 @@ Partial Class FrmSettings
         Me.CBTagGay.Location = New System.Drawing.Point(15, 57)
         Me.CBTagGay.Name = "CBTagGay"
         Me.CBTagGay.Size = New System.Drawing.Size(45, 17)
-        Me.CBTagGay.TabIndex = 204
+        Me.CBTagGay.TabIndex = 7
         Me.CBTagGay.Text = "Gay"
         Me.CBTagGay.UseVisualStyleBackColor = True
         '
@@ -7878,7 +7975,7 @@ Partial Class FrmSettings
         Me.CBTagBisexual.Location = New System.Drawing.Point(15, 77)
         Me.CBTagBisexual.Name = "CBTagBisexual"
         Me.CBTagBisexual.Size = New System.Drawing.Size(65, 17)
-        Me.CBTagBisexual.TabIndex = 205
+        Me.CBTagBisexual.TabIndex = 7
         Me.CBTagBisexual.Text = "Bisexual"
         Me.CBTagBisexual.UseVisualStyleBackColor = True
         '
@@ -7902,7 +7999,7 @@ Partial Class FrmSettings
         Me.CBTagLesbian.Location = New System.Drawing.Point(15, 37)
         Me.CBTagLesbian.Name = "CBTagLesbian"
         Me.CBTagLesbian.Size = New System.Drawing.Size(63, 17)
-        Me.CBTagLesbian.TabIndex = 206
+        Me.CBTagLesbian.TabIndex = 6
         Me.CBTagLesbian.Text = "Lesbian"
         Me.CBTagLesbian.UseVisualStyleBackColor = True
         '
@@ -7989,46 +8086,6 @@ Partial Class FrmSettings
         Me.CBTagShower.TabIndex = 211
         Me.CBTagShower.Text = "Shower"
         Me.CBTagShower.UseVisualStyleBackColor = True
-        '
-        'BTNLocalTagPrevious
-        '
-        Me.BTNLocalTagPrevious.BackColor = System.Drawing.Color.LightGray
-        Me.BTNLocalTagPrevious.Enabled = False
-        Me.BTNLocalTagPrevious.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BTNLocalTagPrevious.ForeColor = System.Drawing.Color.Black
-        Me.BTNLocalTagPrevious.Location = New System.Drawing.Point(66, 39)
-        Me.BTNLocalTagPrevious.Name = "BTNLocalTagPrevious"
-        Me.BTNLocalTagPrevious.Size = New System.Drawing.Size(47, 24)
-        Me.BTNLocalTagPrevious.TabIndex = 232
-        Me.BTNLocalTagPrevious.Text = "<<"
-        Me.BTNLocalTagPrevious.UseVisualStyleBackColor = False
-        '
-        'BTNLocalTagNext
-        '
-        Me.BTNLocalTagNext.BackColor = System.Drawing.Color.LightGray
-        Me.BTNLocalTagNext.Enabled = False
-        Me.BTNLocalTagNext.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BTNLocalTagNext.ForeColor = System.Drawing.Color.Black
-        Me.BTNLocalTagNext.Location = New System.Drawing.Point(235, 39)
-        Me.BTNLocalTagNext.Name = "BTNLocalTagNext"
-        Me.BTNLocalTagNext.Size = New System.Drawing.Size(47, 24)
-        Me.BTNLocalTagNext.TabIndex = 231
-        Me.BTNLocalTagNext.Text = ">>"
-        Me.BTNLocalTagNext.UseVisualStyleBackColor = False
-        '
-        'LBLLocalTagCount
-        '
-        Me.LBLLocalTagCount.BackColor = System.Drawing.Color.Transparent
-        Me.LBLLocalTagCount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.LBLLocalTagCount.Enabled = False
-        Me.LBLLocalTagCount.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LBLLocalTagCount.ForeColor = System.Drawing.Color.Black
-        Me.LBLLocalTagCount.Location = New System.Drawing.Point(119, 41)
-        Me.LBLLocalTagCount.Name = "LBLLocalTagCount"
-        Me.LBLLocalTagCount.Size = New System.Drawing.Size(110, 20)
-        Me.LBLLocalTagCount.TabIndex = 230
-        Me.LBLLocalTagCount.Text = "0/0"
-        Me.LBLLocalTagCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'SaveTagButton
         '
@@ -12617,6 +12674,34 @@ Partial Class FrmSettings
         Me.NBCensorShowMax.TabIndex = 152
         Me.NBCensorShowMax.Value = Global.Tease_AI.My.MySettings.Default.NBCensorShowMax
         '
+        'GroupBox21
+        '
+        Me.GroupBox21.BackColor = System.Drawing.Color.LightGray
+        Me.GroupBox21.Controls.Add(Me.LBLRangeSettingsDescription)
+        Me.GroupBox21.ForeColor = System.Drawing.Color.Black
+        Me.GroupBox21.Location = New System.Drawing.Point(7, 344)
+        Me.GroupBox21.Name = "GroupBox21"
+        Me.GroupBox21.Size = New System.Drawing.Size(225, 83)
+        Me.GroupBox21.TabIndex = 66
+        Me.GroupBox21.TabStop = False
+        Me.GroupBox21.Text = "Description"
+        '
+        'LBLRangeSettingsDescription
+        '
+        Me.LBLRangeSettingsDescription.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.LBLRangeSettingsDescription.BackColor = System.Drawing.Color.Transparent
+        Me.LBLRangeSettingsDescription.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LBLRangeSettingsDescription.ForeColor = System.Drawing.Color.Black
+        Me.LBLRangeSettingsDescription.Location = New System.Drawing.Point(9, 16)
+        Me.LBLRangeSettingsDescription.Name = "LBLRangeSettingsDescription"
+        Me.LBLRangeSettingsDescription.Size = New System.Drawing.Size(209, 62)
+        Me.LBLRangeSettingsDescription.TabIndex = 62
+        Me.LBLRangeSettingsDescription.Text = "Hover over any setting in the menu for a more detailed description of its functio" &
+    "n."
+        Me.LBLRangeSettingsDescription.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
         'GBRangeOrgasmChance
         '
         Me.GBRangeOrgasmChance.Controls.Add(Me.Label89)
@@ -13899,6 +13984,141 @@ Partial Class FrmSettings
         Me.BTNDebugHoldEdgeTimer.Text = "Set to 5"
         Me.BTNDebugHoldEdgeTimer.UseVisualStyleBackColor = True
         '
+        'GroupBox6
+        '
+        Me.GroupBox6.Controls.Add(Me.Label4)
+        Me.GroupBox6.Controls.Add(Me.LBLAvgEdgeStroking)
+        Me.GroupBox6.Controls.Add(Me.LBLStrokeTimeTotal)
+        Me.GroupBox6.Controls.Add(Me.Label94)
+        Me.GroupBox6.Controls.Add(Me.LBLLastRuined)
+        Me.GroupBox6.Controls.Add(Me.Label65)
+        Me.GroupBox6.Controls.Add(Me.LBLAvgEdgeNoTouch)
+        Me.GroupBox6.Controls.Add(Me.LBLLastOrgasm)
+        Me.GroupBox6.Controls.Add(Me.Label14)
+        Me.GroupBox6.Controls.Add(Me.Label13)
+        Me.GroupBox6.Controls.Add(Me.Label1)
+        Me.GroupBox6.Location = New System.Drawing.Point(6, 189)
+        Me.GroupBox6.Name = "GroupBox6"
+        Me.GroupBox6.Size = New System.Drawing.Size(283, 102)
+        Me.GroupBox6.TabIndex = 156
+        Me.GroupBox6.TabStop = False
+        Me.GroupBox6.Text = "Performance"
+        '
+        'Label4
+        '
+        Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label4.Location = New System.Drawing.Point(26, 16)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(77, 17)
+        Me.Label4.TabIndex = 147
+        Me.Label4.Text = "Stroking Time"
+        Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'LBLAvgEdgeStroking
+        '
+        Me.LBLAvgEdgeStroking.AutoSize = True
+        Me.LBLAvgEdgeStroking.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.LBLAvgEdgeStroking.Location = New System.Drawing.Point(113, 68)
+        Me.LBLAvgEdgeStroking.Name = "LBLAvgEdgeStroking"
+        Me.LBLAvgEdgeStroking.Size = New System.Drawing.Size(36, 15)
+        Me.LBLAvgEdgeStroking.TabIndex = 144
+        Me.LBLAvgEdgeStroking.Text = "00:00"
+        Me.LBLAvgEdgeStroking.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'LBLStrokeTimeTotal
+        '
+        Me.LBLStrokeTimeTotal.Location = New System.Drawing.Point(26, 33)
+        Me.LBLStrokeTimeTotal.Name = "LBLStrokeTimeTotal"
+        Me.LBLStrokeTimeTotal.Size = New System.Drawing.Size(77, 17)
+        Me.LBLStrokeTimeTotal.TabIndex = 148
+        Me.LBLStrokeTimeTotal.Text = "0000:00:00:00"
+        Me.LBLStrokeTimeTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'Label94
+        '
+        Me.Label94.BackColor = System.Drawing.Color.Transparent
+        Me.Label94.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label94.ForeColor = System.Drawing.Color.Black
+        Me.Label94.Location = New System.Drawing.Point(189, 16)
+        Me.Label94.Name = "Label94"
+        Me.Label94.Size = New System.Drawing.Size(65, 17)
+        Me.Label94.TabIndex = 150
+        Me.Label94.Text = "Last Ruined"
+        Me.Label94.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'LBLLastRuined
+        '
+        Me.LBLLastRuined.Location = New System.Drawing.Point(184, 31)
+        Me.LBLLastRuined.Name = "LBLLastRuined"
+        Me.LBLLastRuined.Size = New System.Drawing.Size(75, 17)
+        Me.LBLLastRuined.TabIndex = 152
+        Me.LBLLastRuined.Text = "04/28/2015"
+        Me.LBLLastRuined.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'Label65
+        '
+        Me.Label65.BackColor = System.Drawing.Color.Transparent
+        Me.Label65.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label65.ForeColor = System.Drawing.Color.Black
+        Me.Label65.Location = New System.Drawing.Point(103, 16)
+        Me.Label65.Name = "Label65"
+        Me.Label65.Size = New System.Drawing.Size(85, 17)
+        Me.Label65.TabIndex = 149
+        Me.Label65.Text = "Last Orgasm"
+        Me.Label65.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'LBLAvgEdgeNoTouch
+        '
+        Me.LBLAvgEdgeNoTouch.AutoSize = True
+        Me.LBLAvgEdgeNoTouch.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.LBLAvgEdgeNoTouch.Location = New System.Drawing.Point(215, 68)
+        Me.LBLAvgEdgeNoTouch.Name = "LBLAvgEdgeNoTouch"
+        Me.LBLAvgEdgeNoTouch.Size = New System.Drawing.Size(36, 15)
+        Me.LBLAvgEdgeNoTouch.TabIndex = 146
+        Me.LBLAvgEdgeNoTouch.Text = "00:00"
+        Me.LBLAvgEdgeNoTouch.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'LBLLastOrgasm
+        '
+        Me.LBLLastOrgasm.Location = New System.Drawing.Point(107, 31)
+        Me.LBLLastOrgasm.Name = "LBLLastOrgasm"
+        Me.LBLLastOrgasm.Size = New System.Drawing.Size(75, 17)
+        Me.LBLLastOrgasm.TabIndex = 151
+        Me.LBLLastOrgasm.Text = "04/28/2015"
+        Me.LBLLastOrgasm.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'Label14
+        '
+        Me.Label14.BackColor = System.Drawing.Color.Transparent
+        Me.Label14.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label14.ForeColor = System.Drawing.Color.Black
+        Me.Label14.Location = New System.Drawing.Point(25, 48)
+        Me.Label14.Name = "Label14"
+        Me.Label14.Size = New System.Drawing.Size(238, 17)
+        Me.Label14.TabIndex = 138
+        Me.Label14.Text = "Average Time to Edge"
+        Me.Label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'Label13
+        '
+        Me.Label13.AutoSize = True
+        Me.Label13.Location = New System.Drawing.Point(177, 68)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(32, 13)
+        Me.Label13.TabIndex = 145
+        Me.Label13.Text = "Rest:"
+        Me.Label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(28, 68)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(79, 13)
+        Me.Label1.TabIndex = 143
+        Me.Label1.Text = "While Stroking:"
+        Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
         'GroupBox26
         '
         Me.GroupBox26.Controls.Add(Me.LBLCycleDebugCountdown)
@@ -14330,193 +14550,6 @@ Partial Class FrmSettings
     " you." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
         Me.Label41.TextAlign = System.Drawing.ContentAlignment.TopCenter
         '
-        'GroupBox6
-        '
-        Me.GroupBox6.Controls.Add(Me.Label4)
-        Me.GroupBox6.Controls.Add(Me.LBLAvgEdgeStroking)
-        Me.GroupBox6.Controls.Add(Me.LBLStrokeTimeTotal)
-        Me.GroupBox6.Controls.Add(Me.Label94)
-        Me.GroupBox6.Controls.Add(Me.LBLLastRuined)
-        Me.GroupBox6.Controls.Add(Me.Label65)
-        Me.GroupBox6.Controls.Add(Me.LBLAvgEdgeNoTouch)
-        Me.GroupBox6.Controls.Add(Me.LBLLastOrgasm)
-        Me.GroupBox6.Controls.Add(Me.Label14)
-        Me.GroupBox6.Controls.Add(Me.Label13)
-        Me.GroupBox6.Controls.Add(Me.Label1)
-        Me.GroupBox6.Location = New System.Drawing.Point(6, 189)
-        Me.GroupBox6.Name = "GroupBox6"
-        Me.GroupBox6.Size = New System.Drawing.Size(283, 102)
-        Me.GroupBox6.TabIndex = 156
-        Me.GroupBox6.TabStop = False
-        Me.GroupBox6.Text = "Performance"
-        '
-        'Label4
-        '
-        Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.Location = New System.Drawing.Point(26, 16)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(77, 17)
-        Me.Label4.TabIndex = 147
-        Me.Label4.Text = "Stroking Time"
-        Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'LBLAvgEdgeStroking
-        '
-        Me.LBLAvgEdgeStroking.AutoSize = True
-        Me.LBLAvgEdgeStroking.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.LBLAvgEdgeStroking.Location = New System.Drawing.Point(113, 68)
-        Me.LBLAvgEdgeStroking.Name = "LBLAvgEdgeStroking"
-        Me.LBLAvgEdgeStroking.Size = New System.Drawing.Size(36, 15)
-        Me.LBLAvgEdgeStroking.TabIndex = 144
-        Me.LBLAvgEdgeStroking.Text = "00:00"
-        Me.LBLAvgEdgeStroking.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'LBLStrokeTimeTotal
-        '
-        Me.LBLStrokeTimeTotal.Location = New System.Drawing.Point(26, 33)
-        Me.LBLStrokeTimeTotal.Name = "LBLStrokeTimeTotal"
-        Me.LBLStrokeTimeTotal.Size = New System.Drawing.Size(77, 17)
-        Me.LBLStrokeTimeTotal.TabIndex = 148
-        Me.LBLStrokeTimeTotal.Text = "0000:00:00:00"
-        Me.LBLStrokeTimeTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'Label94
-        '
-        Me.Label94.BackColor = System.Drawing.Color.Transparent
-        Me.Label94.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label94.ForeColor = System.Drawing.Color.Black
-        Me.Label94.Location = New System.Drawing.Point(189, 16)
-        Me.Label94.Name = "Label94"
-        Me.Label94.Size = New System.Drawing.Size(65, 17)
-        Me.Label94.TabIndex = 150
-        Me.Label94.Text = "Last Ruined"
-        Me.Label94.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'LBLLastRuined
-        '
-        Me.LBLLastRuined.Location = New System.Drawing.Point(184, 31)
-        Me.LBLLastRuined.Name = "LBLLastRuined"
-        Me.LBLLastRuined.Size = New System.Drawing.Size(75, 17)
-        Me.LBLLastRuined.TabIndex = 152
-        Me.LBLLastRuined.Text = "04/28/2015"
-        Me.LBLLastRuined.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'Label65
-        '
-        Me.Label65.BackColor = System.Drawing.Color.Transparent
-        Me.Label65.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label65.ForeColor = System.Drawing.Color.Black
-        Me.Label65.Location = New System.Drawing.Point(103, 16)
-        Me.Label65.Name = "Label65"
-        Me.Label65.Size = New System.Drawing.Size(85, 17)
-        Me.Label65.TabIndex = 149
-        Me.Label65.Text = "Last Orgasm"
-        Me.Label65.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'LBLAvgEdgeNoTouch
-        '
-        Me.LBLAvgEdgeNoTouch.AutoSize = True
-        Me.LBLAvgEdgeNoTouch.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.LBLAvgEdgeNoTouch.Location = New System.Drawing.Point(215, 68)
-        Me.LBLAvgEdgeNoTouch.Name = "LBLAvgEdgeNoTouch"
-        Me.LBLAvgEdgeNoTouch.Size = New System.Drawing.Size(36, 15)
-        Me.LBLAvgEdgeNoTouch.TabIndex = 146
-        Me.LBLAvgEdgeNoTouch.Text = "00:00"
-        Me.LBLAvgEdgeNoTouch.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'LBLLastOrgasm
-        '
-        Me.LBLLastOrgasm.Location = New System.Drawing.Point(107, 31)
-        Me.LBLLastOrgasm.Name = "LBLLastOrgasm"
-        Me.LBLLastOrgasm.Size = New System.Drawing.Size(75, 17)
-        Me.LBLLastOrgasm.TabIndex = 151
-        Me.LBLLastOrgasm.Text = "04/28/2015"
-        Me.LBLLastOrgasm.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'Label14
-        '
-        Me.Label14.BackColor = System.Drawing.Color.Transparent
-        Me.Label14.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label14.ForeColor = System.Drawing.Color.Black
-        Me.Label14.Location = New System.Drawing.Point(25, 48)
-        Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(238, 17)
-        Me.Label14.TabIndex = 138
-        Me.Label14.Text = "Average Time to Edge"
-        Me.Label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'Label13
-        '
-        Me.Label13.AutoSize = True
-        Me.Label13.Location = New System.Drawing.Point(177, 68)
-        Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(32, 13)
-        Me.Label13.TabIndex = 145
-        Me.Label13.Text = "Rest:"
-        Me.Label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(28, 68)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(79, 13)
-        Me.Label1.TabIndex = 143
-        Me.Label1.Text = "While Stroking:"
-        Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'GroupBox21
-        '
-        Me.GroupBox21.BackColor = System.Drawing.Color.LightGray
-        Me.GroupBox21.Controls.Add(Me.LBLRangeSettingsDescription)
-        Me.GroupBox21.ForeColor = System.Drawing.Color.Black
-        Me.GroupBox21.Location = New System.Drawing.Point(7, 344)
-        Me.GroupBox21.Name = "GroupBox21"
-        Me.GroupBox21.Size = New System.Drawing.Size(225, 83)
-        Me.GroupBox21.TabIndex = 66
-        Me.GroupBox21.TabStop = False
-        Me.GroupBox21.Text = "Description"
-        '
-        'LBLRangeSettingsDescription
-        '
-        Me.LBLRangeSettingsDescription.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.LBLRangeSettingsDescription.BackColor = System.Drawing.Color.Transparent
-        Me.LBLRangeSettingsDescription.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LBLRangeSettingsDescription.ForeColor = System.Drawing.Color.Black
-        Me.LBLRangeSettingsDescription.Location = New System.Drawing.Point(9, 16)
-        Me.LBLRangeSettingsDescription.Name = "LBLRangeSettingsDescription"
-        Me.LBLRangeSettingsDescription.Size = New System.Drawing.Size(209, 62)
-        Me.LBLRangeSettingsDescription.TabIndex = 62
-        Me.LBLRangeSettingsDescription.Text = "Hover over any setting in the menu for a more detailed description of its functio" &
-    "n."
-        Me.LBLRangeSettingsDescription.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'GroupBox12
-        '
-        Me.GroupBox12.BackColor = System.Drawing.Color.LightGray
-        Me.GroupBox12.Controls.Add(Me.LBLSubSettingsDescription)
-        Me.GroupBox12.ForeColor = System.Drawing.Color.Black
-        Me.GroupBox12.Location = New System.Drawing.Point(239, 201)
-        Me.GroupBox12.Name = "GroupBox12"
-        Me.GroupBox12.Size = New System.Drawing.Size(195, 231)
-        Me.GroupBox12.TabIndex = 65
-        Me.GroupBox12.TabStop = False
-        Me.GroupBox12.Text = "Description"
-        '
-        'LBLSubSettingsDescription
-        '
-        Me.LBLSubSettingsDescription.BackColor = System.Drawing.Color.Transparent
-        Me.LBLSubSettingsDescription.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LBLSubSettingsDescription.ForeColor = System.Drawing.Color.Black
-        Me.LBLSubSettingsDescription.Location = New System.Drawing.Point(10, 19)
-        Me.LBLSubSettingsDescription.Name = "LBLSubSettingsDescription"
-        Me.LBLSubSettingsDescription.Size = New System.Drawing.Size(179, 206)
-        Me.LBLSubSettingsDescription.TabIndex = 62
-        Me.LBLSubSettingsDescription.Text = "Hover over any setting in the menu for a more detailed description of its functio" &
-    "n."
-        '
         'OpenFileDialog1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
@@ -14577,37 +14610,6 @@ Partial Class FrmSettings
         Me.BWURLFiles.LikeListPath = "Images\System\LikedImageURLs.txt"
         Me.BWURLFiles.WorkerReportsProgress = True
         Me.BWURLFiles.WorkerSupportsCancellation = True
-        '
-        'FileTagCombo
-        '
-        Me.FileTagCombo.FormattingEnabled = True
-        Me.FileTagCombo.Location = New System.Drawing.Point(6, 16)
-        Me.FileTagCombo.Name = "FileTagCombo"
-        Me.FileTagCombo.Size = New System.Drawing.Size(343, 21)
-        Me.FileTagCombo.TabIndex = 244
-        '
-        'LocalTagPictureBox
-        '
-        Me.LocalTagPictureBox.BackColor = System.Drawing.Color.Black
-        Me.LocalTagPictureBox.Location = New System.Drawing.Point(450, 282)
-        Me.LocalTagPictureBox.Name = "LocalTagPictureBox"
-        Me.LocalTagPictureBox.Size = New System.Drawing.Size(502, 311)
-        Me.LocalTagPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.LocalTagPictureBox.TabIndex = 246
-        Me.LocalTagPictureBox.TabStop = False
-        '
-        'LocalTagImageNavGroup
-        '
-        Me.LocalTagImageNavGroup.Controls.Add(Me.FileTagCombo)
-        Me.LocalTagImageNavGroup.Controls.Add(Me.LBLLocalTagCount)
-        Me.LocalTagImageNavGroup.Controls.Add(Me.BTNLocalTagNext)
-        Me.LocalTagImageNavGroup.Controls.Add(Me.BTNLocalTagPrevious)
-        Me.LocalTagImageNavGroup.Location = New System.Drawing.Point(597, 194)
-        Me.LocalTagImageNavGroup.Name = "LocalTagImageNavGroup"
-        Me.LocalTagImageNavGroup.Size = New System.Drawing.Size(355, 81)
-        Me.LocalTagImageNavGroup.TabIndex = 247
-        Me.LocalTagImageNavGroup.TabStop = False
-        Me.LocalTagImageNavGroup.Text = "File Navigation"
         '
         'FrmSettings
         '
@@ -14698,6 +14700,7 @@ Partial Class FrmSettings
         Me.GroupBox36.ResumeLayout(False)
         Me.GroupBox36.PerformLayout
         Me.GroupBox13.ResumeLayout(False)
+        Me.GroupBox12.ResumeLayout(False)
         Me.GroupBox7.ResumeLayout(False)
         Me.GroupBox7.PerformLayout
         CType(Me.ExtremeEdgeHoldMinimum, System.ComponentModel.ISupportInitialize).EndInit
@@ -14745,6 +14748,8 @@ Partial Class FrmSettings
         CType(Me.ImageTagPictureBox, System.ComponentModel.ISupportInitialize).EndInit
         Me.FileDropDownLabel.ResumeLayout(False)
         Me.FileDropDownLabel.PerformLayout
+        Me.LocalTagImageNavGroup.ResumeLayout(False)
+        CType(Me.LocalTagPictureBox, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox55.ResumeLayout(False)
         Me.GroupBox55.PerformLayout
         Me.GroupBox53.ResumeLayout(False)
@@ -14897,6 +14902,7 @@ Partial Class FrmSettings
         CType(Me.NBCensorHideMax, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NBCensorHideMin, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NBCensorShowMax, System.ComponentModel.ISupportInitialize).EndInit
+        Me.GroupBox21.ResumeLayout(False)
         Me.GBRangeOrgasmChance.ResumeLayout(False)
         Me.GBRangeOrgasmChance.PerformLayout
         CType(Me.NBAllowSometimes, System.ComponentModel.ISupportInitialize).EndInit
@@ -14933,6 +14939,8 @@ Partial Class FrmSettings
         Me.TabPage28.ResumeLayout(False)
         Me.TabControl3.ResumeLayout(False)
         Me.TabPage29.ResumeLayout(False)
+        Me.GroupBox6.ResumeLayout(False)
+        Me.GroupBox6.PerformLayout
         Me.GroupBox26.ResumeLayout(False)
         Me.GroupBox26.PerformLayout
         Me.TabPage30.ResumeLayout(False)
@@ -14940,12 +14948,6 @@ Partial Class FrmSettings
         Me.Panel5.ResumeLayout(False)
         Me.Panel5.PerformLayout
         CType(Me.PictureBox3, System.ComponentModel.ISupportInitialize).EndInit
-        Me.GroupBox6.ResumeLayout(False)
-        Me.GroupBox6.PerformLayout
-        Me.GroupBox21.ResumeLayout(False)
-        Me.GroupBox12.ResumeLayout(False)
-        CType(Me.LocalTagPictureBox, System.ComponentModel.ISupportInitialize).EndInit
-        Me.LocalTagImageNavGroup.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -16005,8 +16007,8 @@ Partial Class FrmSettings
 	Friend WithEvents CBTagSoloF As CheckBox
 	Friend WithEvents CBTagChastity As CheckBox
 	Friend WithEvents CBTagShower As CheckBox
-    Friend WithEvents BTNLocalTagPrevious As Button
-    Friend WithEvents BTNLocalTagNext As Button
+    Friend WithEvents FileTagPreviousButton As Button
+    Friend WithEvents FileTagNextButton As Button
     Friend WithEvents LBLLocalTagCount As Label
     Friend WithEvents SaveTagButton As Button
     Friend WithEvents CBLockOrgasmChances As CheckBox

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
 using TeaseAI.Common;
+using TeaseAI.Common.Constants;
 using TeaseAI.Common.Data;
 using TeaseAI.Common.Interfaces.Accessors;
 using TeaseAI.Data.Interfaces;
@@ -20,12 +21,40 @@ namespace TeaseAI.Data.Repositories
 
         public Result<ImageTagMap> Create(ImageTagMap item)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var sqliteConnection = new SQLiteConnection(_configurationAccessor.GetDatabaseConnectionString());
+                using (var model = new EntityFramework.Model(sqliteConnection))
+                {
+                    var newItem = model.ImageTagMaps.Add(item);
+                    model.SaveChanges();
+                    return Result.Ok(newItem);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Result.Fail<ImageTagMap>(ex.InnerException?.Message ?? ex.Message);
+            }
         }
 
         public Result Delete(ImageTagMap item)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var sqliteConnection = new SQLiteConnection(_configurationAccessor.GetDatabaseConnectionString());
+                using (var model = new EntityFramework.Model(sqliteConnection))
+                {
+
+                    model.ImageTagMaps.Attach(item);
+                    model.ImageTagMaps.Remove(item);
+                    model.SaveChanges();
+                    return Result.Ok();
+                }
+            }
+            catch (Exception ex)
+            {
+                return Result.Fail(ex.InnerException?.Message ?? ex.Message);
+            }
         }
 
         public Result SetTagsForImage(int imageId, IEnumerable<int> tags)
@@ -41,7 +70,7 @@ namespace TeaseAI.Data.Repositories
                     var newTagMaps = tags.Select(tid => new ImageTagMap
                     {
                         ImageId = imageId,
-                        ItemTagId = tid,
+                        ItemTagId = (ItemTagId)tid,
                     });
 
                     model.ImageTagMaps.AddRange(newTagMaps);

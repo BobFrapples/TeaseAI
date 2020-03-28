@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeaseAI.Common;
+using TeaseAI.Common.Constants;
 using TeaseAI.Common.Data;
 using TeaseAI.Common.Interfaces.Accessors;
 using TeaseAI.Data.Interfaces;
@@ -77,7 +78,7 @@ namespace TeaseAI.Data.Repositories
                     .ToList();
 
                 return model.ItemTags
-                    .Where(it => tags.Contains(it.Id))
+                    .Where(it => tags.Contains((ItemTagId)it.Id))
                     .ToList();
             }
         }

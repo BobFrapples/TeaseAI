@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using TeaseAI.Common.Constants;
 
 namespace TeaseAI.Common.Data
 {
@@ -7,6 +8,6 @@ namespace TeaseAI.Common.Data
     {
         public int Id { get; set; }
         public int ImageId { get; set; }
-        public int ItemTagId { get; set; }
+        public ItemTagId ItemTagId { get; set; }
     }
 }
