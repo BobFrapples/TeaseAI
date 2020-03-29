@@ -65,6 +65,7 @@ Public Class FrmSettings
         myImageMetaDataService = ApplicationFactory.CreateImageMetaDataService()
         myImageTagMapService = ApplicationFactory.CreateImageTagMapService()
         myGetCommandProcessorsService = ApplicationFactory.CreateGetCommandProcessorsService()
+        myNotifyUserService = ApplicationFactory.CreateNotifyUserService()
 
         InitializeComponent()
     End Sub
@@ -216,19 +217,17 @@ Public Class FrmSettings
         FrmSplash.UpdateText("Checking Local Image settings...")
 
         ' Check image Folders
-        CheckImageFolder(ImageGenre.Blowjob)
-        CheckImageFolder(ImageGenre.Boobs)
-        CheckImageFolder(ImageGenre.Butt)
-        CheckImageFolder(ImageGenre.Captions)
-        CheckImageFolder(ImageGenre.Femdom)
-        CheckImageFolder(ImageGenre.Gay)
-        CheckImageFolder(ImageGenre.General)
-        CheckImageFolder(ImageGenre.Hardcore)
-        CheckImageFolder(ImageGenre.Hentai)
-        CheckImageFolder(ImageGenre.Softcore)
-        CheckImageFolder(ImageGenre.Lesbian)
-        CheckImageFolder(ImageGenre.Lezdom)
-        CheckImageFolder(ImageGenre.Maledom)
+        Dim mediacontainers As List(Of MediaContainer) = myMediaContainerService.Get() _
+            .Where(Function(mc) mc.MediaTypeId = 1 AndAlso mc.SourceId = ImageSource.Local AndAlso mc.IsEnabled) _
+            .ToList()
+
+        For Each mediaContainer In mediacontainers
+            If Not Directory.Exists(mediaContainer.Path) Then
+                myNotifyUserService.ModalMessage(mediaContainer.Path + ", the folder for " + mediaContainer.GenreId.ToString() _
+                                                 + Environment.NewLine + "  does not exist, please update your settings")
+            End If
+
+        Next
 
         FrmSplash.UpdateText("Checking installed fonts...")
 
@@ -236,20 +235,20 @@ Public Class FrmSettings
 
         DommeMessageFontCB.Items.AddRange(New Text.InstalledFontCollection().Families)
 
-        FrmSplash.UpdateText("Checking available scripts...")
+        'FrmSplash.UpdateText("Checking available scripts...")
 
-        Dim scriptType As String = "Stroke"
-        Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality, scriptType, SessionPhase.Start, True)
-        myScriptAccessor.Save(scripts, mySettingsAccessor.DommePersonality, scriptType, SessionPhase.Start)
+        'Dim scriptType As String = "Stroke"
+        'Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality, scriptType, SessionPhase.Start, True)
+        'myScriptAccessor.Save(scripts, mySettingsAccessor.DommePersonality, scriptType, SessionPhase.Start)
 
-        scripts = myScriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality, "Modules", SessionPhase.Modules, True)
-        myScriptAccessor.Save(scripts, mySettingsAccessor.DommePersonality, "Modules", SessionPhase.Modules)
+        'scripts = myScriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality, "Modules", SessionPhase.Modules, True)
+        'myScriptAccessor.Save(scripts, mySettingsAccessor.DommePersonality, "Modules", SessionPhase.Modules)
 
-        scripts = myScriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality, scriptType, SessionPhase.Link, True)
-        myScriptAccessor.Save(scripts, mySettingsAccessor.DommePersonality, scriptType, SessionPhase.Link)
+        'scripts = myScriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality, scriptType, SessionPhase.Link, True)
+        'myScriptAccessor.Save(scripts, mySettingsAccessor.DommePersonality, scriptType, SessionPhase.Link)
 
-        scripts = myScriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality, scriptType, SessionPhase.End, True)
-        myScriptAccessor.Save(scripts, mySettingsAccessor.DommePersonality, scriptType, SessionPhase.End)
+        'scripts = myScriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality, scriptType, SessionPhase.End, True)
+        'myScriptAccessor.Save(scripts, mySettingsAccessor.DommePersonality, scriptType, SessionPhase.End)
 
         FrmSplash.UpdateText("Populating available voices...")
         Dim voicecheck As Integer
@@ -298,17 +297,17 @@ Public Class FrmSettings
 
         WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & mySettingsAccessor.DommePersonality & "\Playlist\Start\")
 
-        For Each tmptbx As TextBox In New List(Of TextBox) From {TbxContact1ImageDir, TbxContact2ImageDir, TbxContact3ImageDir, TbxDomImageDir}
-            If tmptbx.DataBindings("Text") Is Nothing Then
-                Throw New Exception("There is no databinding set on """ & tmptbx.Name & """'s text-property. Set the databinding and recompile!")
-            End If
-        Next
+        'For Each tmptbx As TextBox In New List(Of TextBox) From {TbxContact1ImageDir, TbxContact2ImageDir, TbxContact3ImageDir, TbxDomImageDir}
+        '    If tmptbx.DataBindings("Text") Is Nothing Then
+        '        Throw New Exception("There is no databinding set on """ & tmptbx.Name & """'s text-property. Set the databinding and recompile!")
+        '    End If
+        'Next
 
-        For Each tmptbx As CheckBox In New List(Of CheckBox) From {CBGlitter1, CBGlitter2, CBGlitter3}
-            If tmptbx.DataBindings("Checked") Is Nothing Then
-                Throw New Exception("There is no databinding set on """ & tmptbx.Name & """'s checked-property. Set the databinding and recompile!")
-            End If
-        Next
+        'For Each tmptbx As CheckBox In New List(Of CheckBox) From {CBGlitter1, CBGlitter2, CBGlitter3}
+        '    If tmptbx.DataBindings("Checked") Is Nothing Then
+        '        Throw New Exception("There is no databinding set on """ & tmptbx.Name & """'s checked-property. Set the databinding and recompile!")
+        '    End If
+        'Next
 
         If My.Settings.TeaseAILanguage = "English" Then EnglishMenu()
         If My.Settings.TeaseAILanguage = "German" Then GermanMenu()
@@ -325,7 +324,6 @@ Public Class FrmSettings
 
         LBLVVolume.Text = SliderVVolume.Value
         LBLVRate.Text = SliderVRate.Value
-
 
         CBNewSlideshow.Checked = My.Settings.CBNewSlideshow
 
@@ -2454,14 +2452,9 @@ Public Class FrmSettings
         {BP1, BP2, BP3, BP4, BP5, BP6, SP1, SP2, SP3, SP4, SP5, SP6,
         GP1, GP2, GP3, GP4, GP5, GP6, CardBack}
 
-            If tmpPicBox.DataBindings.Item("ImageLocation") Is Nothing Then
-                Throw New Exception("There is no databinding set on """ & tmpPicBox.Name &
-                                    """'s image location. Set the databinding and recompile!")
-            End If
-
             tmpPicBox.AllowDrop = True
 
-            If tmpPicBox.ImageLocation = My.Settings.GetDefault(tmpPicBox, "ImageLocation") Then
+            If String.IsNullOrWhiteSpace(tmpPicBox.ImageLocation) Then
                 rtnVal = False
             ElseIf File.Exists(tmpPicBox.ImageLocation) Then
                 tmpPicBox.Image = Image.FromFile(tmpPicBox.ImageLocation)
@@ -2476,12 +2469,7 @@ Public Class FrmSettings
                 SN1, SN2, SN3, SN4, SN5, SN6,
                 GN1, GN2, GN3, GN4, GN5, GN6}
 
-            If tmpTbx.DataBindings.Item("Text") Is Nothing Then
-                Throw New Exception("There is no databinding set on """ & tmpTbx.Name &
-                                    """'s text property. Set the databinding and recompile!")
-            End If
-
-            If tmpTbx.Text.Length < 1 Then My.Settings.ResetField(tmpTbx, "Text")
+            'If tmpTbx.Text.Length < 1 Then My.Settings.ResetField(tmpTbx, "Text")
         Next
         Return rtnVal
     End Function
@@ -3123,7 +3111,7 @@ trypreviousimage:
 
 #End Region ' Url Files
 
-#Region "--------------------------------------- Images -------------------------------------------------"
+#Region "Media Containers"
 
     Friend Shared Function Image_FolderCheck(ByVal directoryDescription As String,
                                              ByVal directoryPath As String,
@@ -3209,82 +3197,68 @@ checkFolder:
         '▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
     End Function
 
-    Private Function CheckFolderSettings(directoryDescription As String, directoryPath As String, defaultPath As String, includeSubDirectories As Boolean) As Tuple(Of Boolean, String)
-        Dim rtnPath As String
-
-        If directoryPath = defaultPath Then
-            Return Tuple.Create(False, defaultPath)
-        End If
-
-        If Directory.Exists(directoryPath) Then
-            rtnPath = directoryPath
-        ElseIf MessageBox.Show(ActiveForm,
-                           "The directory """ & directoryPath & """ was not found." & vbCrLf & "Do you want to search for it?",
-                           directoryDescription & " image directory not found.",
-                           MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) <> DialogResult.Yes Then
-            Return Tuple.Create(includeSubDirectories, defaultPath)
-        Else
-setNewFolder:
-            Dim parentDirectory As String = directoryPath
-            Do Until Directory.Exists(parentDirectory) OrElse parentDirectory Is Nothing
-                parentDirectory = Path.GetDirectoryName(parentDirectory)
-            Loop
-
-            Dim folderBrowser As New FolderBrowserDialog With {.SelectedPath = parentDirectory, .Description = "Select " & directoryDescription & " image folder."}
-            If folderBrowser.ShowDialog(ActiveForm) = DialogResult.OK Then
-                rtnPath = folderBrowser.SelectedPath
-            Else
-                Return Tuple.Create(False, defaultPath)
-            End If
-        End If
-
-checkFolder:
-        Dim count_top As Integer = myDirectory.GetFilesImages(rtnPath, SearchOption.TopDirectoryOnly).Count
-        Dim count_all As Integer = myDirectory.GetFilesImages(rtnPath, SearchOption.AllDirectories).Count
-
-        If count_top > 0 AndAlso count_all > 0 Then
-            Return Tuple.Create(includeSubDirectories, rtnPath)
-        End If
-        If count_top = 0 AndAlso count_all = 0 Then
-            If MessageBox.Show(ActiveForm,
-                   "The directory """ & directoryPath & """ doesn't contain images." & Environment.NewLine & "Do you want to set a new folder?",
-                   directoryDescription & " image folder empty",
-                   MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
-                GoTo setNewFolder
-            End If
-        ElseIf count_top = 0 AndAlso count_all > count_top AndAlso Not includeSubDirectories Then
-            If MessageBox.Show(ActiveForm,
-                   "The directory """ & directoryPath & """ doesn't contain images, but it's " &
-                   "subdirectories. Do you want to include subdirectories? If you click no the " &
-                   "default value will be set.",
-                   directoryDescription & " image folder empty",
-                   MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
-                Return Tuple.Create(True, rtnPath)
-            End If
-        End If
-
-        Return Tuple.Create(includeSubDirectories, defaultPath)
-    End Function
-
-    Private Function CheckImageFolder(imageGenre As ImageGenre) As Boolean
-        Dim isSubdir As Boolean = mySettingsAccessor.ImageGenreIncludeSubDirectory(imageGenre)
-        Dim imageFolder As String = mySettingsAccessor.ImageGenreFolder(imageGenre)
-
-        Dim def As String = String.Empty
-
-        If Not mySettingsAccessor.IsImageGenreEnabled(imageGenre) Then
-            Return False
-        End If
-        Dim folderCheck As Tuple(Of Boolean, String) = CheckFolderSettings(imageGenre.ToString(), imageFolder, def, isSubdir)
-
-        mySettingsAccessor.ImageGenreFolder(imageGenre) = folderCheck.Item2
-        mySettingsAccessor.IsImageGenreEnabled(imageGenre) = Not (folderCheck.Item2 = def)
-        mySettingsAccessor.ImageGenreIncludeSubDirectory(imageGenre) = folderCheck.Item1
-
-        Return mySettingsAccessor.IsImageGenreEnabled(imageGenre)
-    End Function
-
 #Region "Genre Image Tab"
+
+    Private Sub GernreImagesTab_Selected(sender As Object, e As TabControlEventArgs) Handles GernreImagesTab.Selected
+        Dim mediaContainers As List(Of MediaContainer) = myMediaContainerService.Get()
+        myIsMediaContainerLoading = True
+        For Each mediaContainer As MediaContainer In mediaContainers
+            UpdateUI(mediaContainer)
+        Next
+        myIsMediaContainerLoading = False
+    End Sub
+
+    Private Sub CBIHardcore_CheckedChanged(sender As Object, e As EventArgs) Handles CBIHardcore.CheckedChanged
+        SetMediaContainerEnabled(ImageGenre.Hardcore, ImageSource.Local, CBIHardcore.Checked)
+    End Sub
+
+    Private Sub CBISoftcore_CheckedChanged(sender As Object, e As EventArgs) Handles CBISoftcore.CheckedChanged
+        SetMediaContainerEnabled(ImageGenre.Softcore, ImageSource.Local, CBISoftcore.Checked)
+    End Sub
+
+    Private Sub CBILesbian_CheckedChanged(sender As Object, e As EventArgs) Handles CBILesbian.CheckedChanged
+        SetMediaContainerEnabled(ImageGenre.Lesbian, ImageSource.Local, CBILesbian.Checked)
+    End Sub
+
+    Private Sub CBIBlowjob_CheckedChanged(sender As Object, e As EventArgs) Handles CBIBlowjob.CheckedChanged
+        SetMediaContainerEnabled(ImageGenre.Blowjob, ImageSource.Local, CBIBlowjob.Checked)
+    End Sub
+
+    Private Sub CBIFemdom_CheckedChanged(sender As Object, e As EventArgs) Handles CBIFemdom.CheckedChanged
+        SetMediaContainerEnabled(ImageGenre.Femdom, ImageSource.Local, CBIFemdom.Checked)
+    End Sub
+
+    Private Sub CBILezdom_CheckedChanged(sender As Object, e As EventArgs) Handles CBILezdom.CheckedChanged
+        SetMediaContainerEnabled(ImageGenre.Lezdom, ImageSource.Local, CBILezdom.Checked)
+    End Sub
+
+    Private Sub CBIHentai_CheckedChanged(sender As Object, e As EventArgs) Handles CBIHentai.CheckedChanged
+        SetMediaContainerEnabled(ImageGenre.Hentai, ImageSource.Local, CBIHentai.Checked)
+    End Sub
+
+    Private Sub CBIGay_CheckedChanged(sender As Object, e As EventArgs) Handles CBIGay.CheckedChanged
+        SetMediaContainerEnabled(ImageGenre.Gay, ImageSource.Local, CBIGay.Checked)
+    End Sub
+
+    Private Sub CBIMaledom_CheckedChanged(sender As Object, e As EventArgs) Handles CBIMaledom.CheckedChanged
+        SetMediaContainerEnabled(ImageGenre.Maledom, ImageSource.Local, CBIMaledom.Checked)
+    End Sub
+
+    Private Sub CBICaptions_CheckedChanged(sender As Object, e As EventArgs) Handles CBICaptions.CheckedChanged
+        SetMediaContainerEnabled(ImageGenre.Captions, ImageSource.Local, CBICaptions.Checked)
+    End Sub
+
+    Private Sub CBIGeneral_CheckedChanged(sender As Object, e As EventArgs) Handles CBIGeneral.CheckedChanged
+        SetMediaContainerEnabled(ImageGenre.General, ImageSource.Local, CBIGeneral.Checked)
+    End Sub
+
+    Private Sub CBIBoobs_CheckedChanged(sender As Object, e As EventArgs) Handles CBIBoobs.CheckedChanged
+        SetMediaContainerEnabled(ImageGenre.Boobs, ImageSource.Local, CBIBoobs.Checked)
+    End Sub
+
+    Private Sub CBIButt_CheckedChanged(sender As Object, e As EventArgs) Handles CBIButts.CheckedChanged
+        SetMediaContainerEnabled(ImageGenre.Butt, ImageSource.Local, CBIButts.Checked)
+    End Sub
 
     Private Sub BTNIHardcore_Click(sender As Object, e As EventArgs) Handles BTNIHardcore.Click
         SetFolderFromDialog(ImageGenre.Hardcore)
@@ -3338,7 +3312,192 @@ checkFolder:
         SetFolderFromDialog(ImageGenre.Butt)
     End Sub
 
-#End Region ' Butt
+    Private Sub IncludeHardcoreSubDirectories_CheckedChanged(sender As Object, e As EventArgs) Handles IncludeHardcoreSubDirectories.CheckedChanged
+        SetMediaContainerUseSubDirectories(ImageGenre.Hardcore, ImageSource.Local, IncludeHardcoreSubDirectories.Checked)
+    End Sub
+
+    Private Sub IncludeSoftcoreSubDirectories_CheckedChanged(sender As Object, e As EventArgs) Handles IncludedSoftcoreSubDirectories.CheckedChanged
+        SetMediaContainerUseSubDirectories(ImageGenre.Softcore, ImageSource.Local, IncludedSoftcoreSubDirectories.Checked)
+    End Sub
+
+    Private Sub CBILesbianSD_CheckedChanged(sender As Object, e As EventArgs) Handles CBILesbianSD.CheckedChanged
+        SetMediaContainerUseSubDirectories(ImageGenre.Lesbian, ImageSource.Local, CBILesbianSD.Checked)
+    End Sub
+
+    Private Sub CBIBlowjobSD_CheckedChanged(sender As Object, e As EventArgs) Handles CBIBlowjobSD.CheckedChanged
+        SetMediaContainerUseSubDirectories(ImageGenre.Blowjob, ImageSource.Local, CBIBlowjobSD.Checked)
+    End Sub
+
+    Private Sub CBIFemdomSD_CheckedChanged(sender As Object, e As EventArgs) Handles CBIFemdomSD.CheckedChanged
+        SetMediaContainerUseSubDirectories(ImageGenre.Femdom, ImageSource.Local, CBIFemdomSD.Checked)
+    End Sub
+
+    Private Sub CBILezdomSD_CheckedChanged(sender As Object, e As EventArgs) Handles CBILezdomSD.CheckedChanged
+        SetMediaContainerUseSubDirectories(ImageGenre.Lezdom, ImageSource.Local, CBILezdomSD.Checked)
+    End Sub
+
+    Private Sub CBIHentaiSD_CheckedChanged(sender As Object, e As EventArgs) Handles CBIHentaiSD.CheckedChanged
+        SetMediaContainerUseSubDirectories(ImageGenre.Hentai, ImageSource.Local, CBIHentaiSD.Checked)
+    End Sub
+
+    Private Sub CBIGaySD_CheckedChanged(sender As Object, e As EventArgs) Handles CBIGaySD.CheckedChanged
+        SetMediaContainerUseSubDirectories(ImageGenre.Gay, ImageSource.Local, CBIGaySD.Checked)
+    End Sub
+
+    Private Sub CBIMaledomSD_CheckedChanged(sender As Object, e As EventArgs) Handles CBIMaledomSD.CheckedChanged
+        SetMediaContainerUseSubDirectories(ImageGenre.Maledom, ImageSource.Local, CBIMaledomSD.Checked)
+    End Sub
+
+    Private Sub CBICaptionsSD_CheckedChanged(sender As Object, e As EventArgs) Handles CBICaptionsSD.CheckedChanged
+        SetMediaContainerUseSubDirectories(ImageGenre.Captions, ImageSource.Local, CBICaptionsSD.Checked)
+    End Sub
+
+    Private Sub CBIGeneralSD_CheckedChanged(sender As Object, e As EventArgs) Handles CBIGeneralSD.CheckedChanged
+        SetMediaContainerUseSubDirectories(ImageGenre.General, ImageSource.Local, CBIGeneralSD.Checked)
+    End Sub
+
+    Private Sub CBIBoobsSD_CheckedChanged(sender As Object, e As EventArgs) Handles CBBoobSubDir.CheckedChanged
+        SetMediaContainerUseSubDirectories(ImageGenre.Boobs, ImageSource.Local, CBBoobSubDir.Checked)
+    End Sub
+
+    Private Sub CBIButtsSD_CheckedChanged(sender As Object, e As EventArgs) Handles CBButtSubDir.CheckedChanged
+        SetMediaContainerUseSubDirectories(ImageGenre.Butt, ImageSource.Local, CBButtSubDir.Checked)
+    End Sub
+
+    Private Sub UpdateUI(mediaContainer As MediaContainer)
+        If mediaContainer.SourceId = ImageSource.Local Then
+            If mediaContainer.GenreId = ImageGenre.Hardcore Then
+                CBIHardcore.Checked = mediaContainer.IsEnabled
+                TbxIHardcore.Text = mediaContainer.Path
+                IncludeHardcoreSubDirectories.Checked = mediaContainer.UseSubFolders
+            ElseIf mediaContainer.GenreId = ImageGenre.Softcore Then
+                CBISoftcore.Checked = mediaContainer.IsEnabled
+                TbxISoftcore.Text = mediaContainer.Path
+                IncludedSoftcoreSubDirectories.Checked = mediaContainer.UseSubFolders
+            ElseIf mediaContainer.GenreId = ImageGenre.Lesbian Then
+                CBILesbian.Checked = mediaContainer.IsEnabled
+                TbxILesbian.Text = mediaContainer.Path
+                CBILesbianSD.Checked = mediaContainer.UseSubFolders
+            ElseIf mediaContainer.GenreId = ImageGenre.Blowjob Then
+                CBIBlowjob.Checked = mediaContainer.IsEnabled
+                TbxIBlowjob.Text = mediaContainer.Path
+                CBIBlowjobSD.Checked = mediaContainer.UseSubFolders
+            ElseIf mediaContainer.GenreId = ImageGenre.Femdom Then
+                CBIFemdom.Checked = mediaContainer.IsEnabled
+                TbxIFemdom.Text = mediaContainer.Path
+                CBIFemdomSD.Checked = mediaContainer.UseSubFolders
+            ElseIf mediaContainer.GenreId = ImageGenre.Lezdom Then
+                CBILezdom.Checked = mediaContainer.IsEnabled
+                TbxILezdom.Text = mediaContainer.Path
+                CBILezdom.Checked = mediaContainer.UseSubFolders
+            ElseIf mediaContainer.GenreId = ImageGenre.Hentai Then
+                CBIHentai.Checked = mediaContainer.IsEnabled
+                TbxIHentai.Text = mediaContainer.Path
+                CBIHentaiSD.Checked = mediaContainer.UseSubFolders
+            ElseIf mediaContainer.GenreId = ImageGenre.Gay Then
+                CBIGay.Checked = mediaContainer.IsEnabled
+                TbxIGay.Text = mediaContainer.Path
+                CBIGaySD.Checked = mediaContainer.UseSubFolders
+            ElseIf mediaContainer.GenreId = ImageGenre.Maledom Then
+                CBIMaledom.Checked = mediaContainer.IsEnabled
+                TbxIMaledom.Text = mediaContainer.Path
+                CBIMaledomSD.Checked = mediaContainer.UseSubFolders
+            ElseIf mediaContainer.GenreId = ImageGenre.Captions Then
+                CBICaptions.Checked = mediaContainer.IsEnabled
+                TbxICaptions.Text = mediaContainer.Path
+                CBICaptionsSD.Checked = mediaContainer.UseSubFolders
+            ElseIf mediaContainer.GenreId = ImageGenre.General Then
+                CBIGeneral.Checked = mediaContainer.IsEnabled
+                TbxIGeneral.Text = mediaContainer.Path
+                CBIGeneralSD.Checked = mediaContainer.UseSubFolders
+            ElseIf mediaContainer.GenreId = ImageGenre.Boobs Then
+                CBIBoobs.Checked = mediaContainer.IsEnabled
+                TbxIBoobs.Text = mediaContainer.Path
+                CBBoobSubDir.Checked = mediaContainer.UseSubFolders
+            ElseIf mediaContainer.GenreId = ImageGenre.Butt Then
+                CBIButts.Checked = mediaContainer.IsEnabled
+                TbxIButts.Text = mediaContainer.Path
+                CBButtSubDir.Checked = mediaContainer.UseSubFolders
+            End If
+        ElseIf mediaContainer.SourceId = ImageSource.Remote Then
+            If mediaContainer.GenreId = ImageGenre.Hardcore Then
+                ChbImageUrlHardcore.Checked = mediaContainer.IsEnabled
+                TxbImageUrlHardcore.Text = mediaContainer.Path
+            ElseIf mediaContainer.GenreId = ImageGenre.Softcore Then
+                ChbImageUrlSoftcore.Checked = mediaContainer.IsEnabled
+                TxbImageUrlSoftcore.Text = mediaContainer.Path
+            ElseIf mediaContainer.GenreId = ImageGenre.Lesbian Then
+                ChbImageUrlLesbian.Checked = mediaContainer.IsEnabled
+                TxbImageUrlLesbian.Text = mediaContainer.Path
+            ElseIf mediaContainer.GenreId = ImageGenre.Blowjob Then
+                ChbImageUrlBlowjob.Checked = mediaContainer.IsEnabled
+                TxbImageUrlBlowjob.Text = mediaContainer.Path
+            ElseIf mediaContainer.GenreId = ImageGenre.Femdom Then
+                ChbImageUrlFemdom.Checked = mediaContainer.IsEnabled
+                TxbImageUrlFemdom.Text = mediaContainer.Path
+            ElseIf mediaContainer.GenreId = ImageGenre.Lezdom Then
+                ChbImageUrlLezdom.Checked = mediaContainer.IsEnabled
+                TxbImageUrlLezdom.Text = mediaContainer.Path
+            ElseIf mediaContainer.GenreId = ImageGenre.Hentai Then
+                ChbImageUrlHentai.Checked = mediaContainer.IsEnabled
+                TxbImageUrlHentai.Text = mediaContainer.Path
+            ElseIf mediaContainer.GenreId = ImageGenre.Gay Then
+                ChbImageUrlGay.Checked = mediaContainer.IsEnabled
+                TxbImageUrlGay.Text = mediaContainer.Path
+            ElseIf mediaContainer.GenreId = ImageGenre.Maledom Then
+                ChbImageUrlMaledom.Checked = mediaContainer.IsEnabled
+                TxbImageUrlMaledom.Text = mediaContainer.Path
+            ElseIf mediaContainer.GenreId = ImageGenre.Captions Then
+                ChbImageUrlCaptions.Checked = mediaContainer.IsEnabled
+                TxbImageUrlCaptions.Text = mediaContainer.Path
+            ElseIf mediaContainer.GenreId = ImageGenre.General Then
+                ChbImageUrlGeneral.Checked = mediaContainer.IsEnabled
+                TxbImageUrlGeneral.Text = mediaContainer.Path
+            ElseIf mediaContainer.GenreId = ImageGenre.Boobs Then
+                ChbImageUrlBoobs.Checked = mediaContainer.IsEnabled
+                TxbImageUrlBoobs.Text = mediaContainer.Path
+            ElseIf mediaContainer.GenreId = ImageGenre.Butt Then
+                ChbImageUrlButts.Checked = mediaContainer.IsEnabled
+                TxbImageUrlButts.Text = mediaContainer.Path
+            End If
+        End If
+    End Sub
+
+    Private Sub SetFolderFromDialog(genre As ImageGenre)
+        If myIsMediaContainerLoading Then
+            Return
+        End If
+        Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
+        If (folderBrowserDialog.ShowDialog() <> DialogResult.OK) Then
+            Return
+        End If
+
+        Dim mediaContainer As MediaContainer = myMediaContainerService.Get() _
+            .First(Function(mc) mc.MediaTypeId = 1 AndAlso mc.GenreId = genre AndAlso mc.SourceId = ImageSource.Local)
+        mediaContainer.Path = folderBrowserDialog.SelectedPath
+        myMediaContainerService.Update(New List(Of MediaContainer) From {mediaContainer})
+    End Sub
+
+    Private Sub SetMediaContainerEnabled(genre As ImageGenre, source As ImageSource, isEnabled As Boolean)
+        If myIsMediaContainerLoading Then
+            Return
+        End If
+        Dim mediaContainer As MediaContainer = myMediaContainerService.Get() _
+            .First(Function(mc) mc.MediaTypeId = 1 AndAlso mc.GenreId = genre AndAlso mc.SourceId = source)
+        mediaContainer.IsEnabled = isEnabled
+        myMediaContainerService.Update(New List(Of MediaContainer) From {mediaContainer})
+    End Sub
+
+    Private Sub SetMediaContainerUseSubDirectories(genre As ImageGenre, source As ImageSource, useSubdirectories As Boolean)
+        If myIsMediaContainerLoading Then
+            Return
+        End If
+        Dim mediaContainer As MediaContainer = myMediaContainerService.Get() _
+            .First(Function(mc) mc.MediaTypeId = 1 AndAlso mc.GenreId = genre AndAlso mc.SourceId = source)
+        mediaContainer.UseSubFolders = useSubdirectories
+        myMediaContainerService.Update(New List(Of MediaContainer) From {mediaContainer})
+    End Sub
+#End Region ' Genre Image Tab
 
     Private Sub ImagePathTextBox_DoubleClick(sender As Object, e As EventArgs) Handles TbxIHardcore.DoubleClick, TbxISoftcore.DoubleClick
         CType(sender, TextBox).Text = "No path selected"
@@ -6360,7 +6519,6 @@ checkFolder:
         LBLRangeSettingsDescription.Text = "When ""Domme Decide"" is not checked, this allows you to set what chance the domme will ruin an orgasm when she is set to ""Rarely Ruins""."
     End Sub
 
-
     Private Sub NBNextImageChance_MouseHover(sender As Object, e As EventArgs) Handles NBNextImageChance.MouseEnter
         LBLRangeSettingsDescription.Text = "When running a slideshow with the ""Tease"" option selected, this value determines what chance the slideshow will move forward instead of backward."
     End Sub
@@ -7517,6 +7675,7 @@ checkFolder:
     Private Sub NBTaskStrokesMin_ValueChanged(sender As Object, e As EventArgs) Handles NBTaskStrokesMin.ValueChanged
         If NBTaskStrokesMin.Value > NBTaskStrokesMax.Value Then NBTaskStrokesMin.Value = NBTaskStrokesMax.Value
     End Sub
+
     Private Sub NBTaskStrokesMax_ValueChanged(sender As Object, e As EventArgs) Handles NBTaskStrokesMax.ValueChanged
         If NBTaskStrokesMax.Value < NBTaskStrokesMin.Value Then NBTaskStrokesMax.Value = NBTaskStrokesMin.Value
     End Sub
@@ -7524,6 +7683,7 @@ checkFolder:
     Private Sub NBTaskStrokingTimeMin_ValueChanged(sender As Object, e As EventArgs) Handles NBTaskStrokingTimeMin.ValueChanged
         If NBTaskStrokingTimeMin.Value > NBTaskStrokingTimeMax.Value Then NBTaskStrokingTimeMin.Value = NBTaskStrokingTimeMax.Value
     End Sub
+
     Private Sub NBTaskStrokingTimeMax_ValueChanged(sender As Object, e As EventArgs) Handles NBTaskStrokingTimeMax.ValueChanged
         If NBTaskStrokingTimeMax.Value < NBTaskStrokingTimeMin.Value Then NBTaskStrokingTimeMax.Value = NBTaskStrokingTimeMin.Value
     End Sub
@@ -7531,6 +7691,7 @@ checkFolder:
     Private Sub NBTaskEdgesMin_ValueChanged(sender As Object, e As EventArgs) Handles NBTaskEdgesMin.ValueChanged
         If NBTaskEdgesMin.Value > NBTaskEdgesMax.Value Then NBTaskEdgesMin.Value = NBTaskEdgesMax.Value
     End Sub
+
     Private Sub NBTaskEdgesMax_ValueChanged(sender As Object, e As EventArgs) Handles NBTaskEdgesMax.ValueChanged
         If NBTaskEdgesMax.Value < NBTaskEdgesMin.Value Then NBTaskEdgesMax.Value = NBTaskEdgesMin.Value
     End Sub
@@ -7538,6 +7699,7 @@ checkFolder:
     Private Sub NBTaskEdgeHoldTimeMin_ValueChanged(sender As Object, e As EventArgs) Handles NBTaskEdgeHoldTimeMin.ValueChanged
         If NBTaskEdgeHoldTimeMin.Value > NBTaskEdgeHoldTimeMax.Value Then NBTaskEdgeHoldTimeMin.Value = NBTaskEdgeHoldTimeMax.Value
     End Sub
+
     Private Sub NBTaskEdgeHoldTimeMax_ValueChanged(sender As Object, e As EventArgs) Handles NBTaskEdgeHoldTimeMax.ValueChanged
         If NBTaskEdgeHoldTimeMax.Value < NBTaskEdgeHoldTimeMin.Value Then NBTaskEdgeHoldTimeMax.Value = NBTaskEdgeHoldTimeMin.Value
     End Sub
@@ -7545,6 +7707,7 @@ checkFolder:
     Private Sub NBTaskCBTTimeMin_ValueChanged(sender As Object, e As EventArgs) Handles NBTaskCBTTimeMin.ValueChanged
         If NBTaskCBTTimeMin.Value > NBTaskCBTTimeMax.Value Then NBTaskCBTTimeMin.Value = NBTaskCBTTimeMax.Value
     End Sub
+
     Private Sub NBTaskCBTTimeMax_ValueChanged(sender As Object, e As EventArgs) Handles NBTaskCBTTimeMax.ValueChanged
         If NBTaskCBTTimeMax.Value < NBTaskCBTTimeMin.Value Then NBTaskCBTTimeMax.Value = NBTaskCBTTimeMin.Value
     End Sub
@@ -7602,7 +7765,6 @@ checkFolder:
         Return scriptList
     End Function
 
-
     Private Function GetScriptsCheckedListBox(sessionPhase As SessionPhase) As CheckedListBox
         If sessionPhase = SessionPhase.Start Then
             Return StartScripts
@@ -7645,14 +7807,6 @@ checkFolder:
         Dim getColor As ColorDialog = New ColorDialog
         If getColor.ShowDialog() = DialogResult.OK Then
             label.ForeColor = getColor.Color
-        End If
-    End Sub
-
-    Private Sub SetFolderFromDialog(imageGenre As ImageGenre)
-        Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
-        If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
-            mySettingsAccessor.ImageGenreFolder(imageGenre) = FolderBrowserDialog1.SelectedPath
-            CheckImageFolder(imageGenre)
         End If
     End Sub
 
@@ -7748,7 +7902,8 @@ checkFolder:
     Private ReadOnly myImageMetaDataService As IImageAccessor
     Private ReadOnly myImageTagMapService As IImageTagMapService
     Private ReadOnly myGetCommandProcessorsService As IGetCommandProcessorsService
+    Private ReadOnly myNotifyUserService As INotifyUser
 
     Private myIsFormSettingTags As Boolean
-
+    Private myIsMediaContainerLoading As Boolean
 End Class

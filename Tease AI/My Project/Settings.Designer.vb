@@ -2717,19 +2717,19 @@ Namespace My
                 Me("CBTCock") = value
             End Set
         End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("True")>
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
         Public Property CBTBalls() As Boolean
             Get
-                Return CType(Me("CBTBalls"), Boolean)
+                Return CType(Me("CBTBalls"),Boolean)
             End Get
             Set
-                Me("CBTBalls") = Value
+                Me("CBTBalls") = value
             End Set
         End Property
-
+        
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
@@ -5062,20 +5062,19 @@ Namespace My
                 Me("LongHoldMin") = value
             End Set
         End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("5")>
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("5")>  _
         Public Property LongHoldMax() As String
-
             Get
-                Return CType(Me("LongHoldMax"), String)
+                Return CType(Me("LongHoldMax"),String)
             End Get
             Set
-                Me("LongHoldMax") = Value
+                Me("LongHoldMax") = value
             End Set
         End Property
-
+        
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("5")>  _
