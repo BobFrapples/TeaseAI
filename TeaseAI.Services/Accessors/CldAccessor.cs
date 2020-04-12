@@ -62,6 +62,10 @@ namespace TeaseAI.Services.Accessors
                             cldData.Name = name;
                             cldData.IsEnabled = cldData.IsEnabled && binRead.ReadBoolean() && File.Exists(key);
                             cldData.Info = string.Empty;
+                            cldData.IsChastity = name.ToLower().Contains("_chastity");
+                            cldData.IsBeg = name.ToLower().Contains("_beg");
+                            cldData.IsEdge = name.ToLower().Contains("_edge");
+                            cldData.IsRestricted = name.ToLower().Contains("_restricted");
                             //returnValue.Add(cldData);
                         }
                         return Result.Ok(returnValue);

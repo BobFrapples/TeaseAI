@@ -77,6 +77,7 @@ namespace TeaseAI.Data.Repositories
             var sqliteConnection = new SQLiteConnection(_configurationAccessor.GetDatabaseConnectionString());
             using (var model = new EntityFramework.Model(sqliteConnection))
             {
+                var allImages = model.ImageMetaDatas.ToList();
                 return model.ImageMetaDatas
                     .Where(imd => (!source.HasValue || imd.SourceId == source.Value) && (!genre.HasValue || imd.GenreId == genre.Value))
                     .ToList();

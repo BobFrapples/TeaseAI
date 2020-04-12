@@ -602,6 +602,8 @@ namespace TeaseAI.Services
                     })
                     .OnSuccess(sesh => Session = sesh);
 
+                if (doWork.IsFailure)
+                    OnDommeSaid(Session.Domme, doWork.Error.Message);
                 // We are all done, so go ahead and schedule a new timer.
                 _scriptTimer.Enabled = true;
             }

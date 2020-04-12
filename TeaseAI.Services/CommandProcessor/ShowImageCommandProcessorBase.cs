@@ -33,6 +33,7 @@ namespace TeaseAI.Services.CommandProcessor
             _lineService = lineService;
             _imageAccessor = imageAccessor;
             _randomNumberService = randomNumberService;
+            Genre = imageGenre;
         }
 
         public override Result<Session> PerformCommand(Session session, string line)

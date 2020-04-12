@@ -547,7 +547,7 @@ Partial Class FrmSettings
         Me.CBTagShower = New System.Windows.Forms.CheckBox()
         Me.SaveTagButton = New System.Windows.Forms.Button()
         Me.TabPage11 = New System.Windows.Forms.TabPage()
-        Me.Panel7 = New System.Windows.Forms.Panel()
+        Me.UrlFilesPanel = New System.Windows.Forms.Panel()
         Me.BTNWIContinue = New System.Windows.Forms.Button()
         Me.BTNWIAddandContinue = New System.Windows.Forms.Button()
         Me.BTNWICancel = New System.Windows.Forms.Button()
@@ -1202,7 +1202,7 @@ Partial Class FrmSettings
         Me.GroupBox50.SuspendLayout
         Me.GroupBox48.SuspendLayout
         Me.TabPage11.SuspendLayout
-        Me.Panel7.SuspendLayout
+        Me.UrlFilesPanel.SuspendLayout
         CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.WebPictureBox, System.ComponentModel.ISupportInitialize).BeginInit
         Me.TpVideoSettings.SuspendLayout
@@ -7982,7 +7982,7 @@ Partial Class FrmSettings
         'TabPage11
         '
         Me.TabPage11.BackColor = System.Drawing.Color.Silver
-        Me.TabPage11.Controls.Add(Me.Panel7)
+        Me.TabPage11.Controls.Add(Me.UrlFilesPanel)
         Me.TabPage11.Location = New System.Drawing.Point(4, 22)
         Me.TabPage11.Name = "TabPage11"
         Me.TabPage11.Padding = New System.Windows.Forms.Padding(3)
@@ -7990,35 +7990,35 @@ Partial Class FrmSettings
         Me.TabPage11.TabIndex = 10
         Me.TabPage11.Text = "URL Files"
         '
-        'Panel7
+        'UrlFilesPanel
         '
-        Me.Panel7.BackColor = System.Drawing.Color.LightGray
-        Me.Panel7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Panel7.Controls.Add(Me.BTNWIContinue)
-        Me.Panel7.Controls.Add(Me.BTNWIAddandContinue)
-        Me.Panel7.Controls.Add(Me.BTNWICancel)
-        Me.Panel7.Controls.Add(Me.CBWIReview)
-        Me.Panel7.Controls.Add(Me.BTNWIBrowse)
-        Me.Panel7.Controls.Add(Me.TBWIDirectory)
-        Me.Panel7.Controls.Add(Me.BTNWIDisliked)
-        Me.Panel7.Controls.Add(Me.BTNWILiked)
-        Me.Panel7.Controls.Add(Me.BTNWIRemove)
-        Me.Panel7.Controls.Add(Me.CBWISaveToDisk)
-        Me.Panel7.Controls.Add(Me.PictureBox5)
-        Me.Panel7.Controls.Add(Me.WebImageProgressBar)
-        Me.Panel7.Controls.Add(Me.BTNWICreateURL)
-        Me.Panel7.Controls.Add(Me.LBLWebImageCount)
-        Me.Panel7.Controls.Add(Me.BTNWISave)
-        Me.Panel7.Controls.Add(Me.BTNWIOpenURL)
-        Me.Panel7.Controls.Add(Me.BTNWIPrevious)
-        Me.Panel7.Controls.Add(Me.BTNWINext)
-        Me.Panel7.Controls.Add(Me.WebPictureBox)
-        Me.Panel7.Controls.Add(Me.Label71)
-        Me.Panel7.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Panel7.Location = New System.Drawing.Point(3, 3)
-        Me.Panel7.Name = "Panel7"
-        Me.Panel7.Size = New System.Drawing.Size(966, 625)
-        Me.Panel7.TabIndex = 91
+        Me.UrlFilesPanel.BackColor = System.Drawing.Color.LightGray
+        Me.UrlFilesPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.UrlFilesPanel.Controls.Add(Me.BTNWIContinue)
+        Me.UrlFilesPanel.Controls.Add(Me.BTNWIAddandContinue)
+        Me.UrlFilesPanel.Controls.Add(Me.BTNWICancel)
+        Me.UrlFilesPanel.Controls.Add(Me.CBWIReview)
+        Me.UrlFilesPanel.Controls.Add(Me.BTNWIBrowse)
+        Me.UrlFilesPanel.Controls.Add(Me.TBWIDirectory)
+        Me.UrlFilesPanel.Controls.Add(Me.BTNWIDisliked)
+        Me.UrlFilesPanel.Controls.Add(Me.BTNWILiked)
+        Me.UrlFilesPanel.Controls.Add(Me.BTNWIRemove)
+        Me.UrlFilesPanel.Controls.Add(Me.CBWISaveToDisk)
+        Me.UrlFilesPanel.Controls.Add(Me.PictureBox5)
+        Me.UrlFilesPanel.Controls.Add(Me.WebImageProgressBar)
+        Me.UrlFilesPanel.Controls.Add(Me.BTNWICreateURL)
+        Me.UrlFilesPanel.Controls.Add(Me.LBLWebImageCount)
+        Me.UrlFilesPanel.Controls.Add(Me.BTNWISave)
+        Me.UrlFilesPanel.Controls.Add(Me.BTNWIOpenURL)
+        Me.UrlFilesPanel.Controls.Add(Me.BTNWIPrevious)
+        Me.UrlFilesPanel.Controls.Add(Me.BTNWINext)
+        Me.UrlFilesPanel.Controls.Add(Me.WebPictureBox)
+        Me.UrlFilesPanel.Controls.Add(Me.Label71)
+        Me.UrlFilesPanel.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UrlFilesPanel.Location = New System.Drawing.Point(3, 3)
+        Me.UrlFilesPanel.Name = "UrlFilesPanel"
+        Me.UrlFilesPanel.Size = New System.Drawing.Size(966, 625)
+        Me.UrlFilesPanel.TabIndex = 91
         '
         'BTNWIContinue
         '
@@ -8026,7 +8026,7 @@ Partial Class FrmSettings
         Me.BTNWIContinue.Enabled = False
         Me.BTNWIContinue.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BTNWIContinue.ForeColor = System.Drawing.Color.Black
-        Me.BTNWIContinue.Location = New System.Drawing.Point(566, 158)
+        Me.BTNWIContinue.Location = New System.Drawing.Point(827, 157)
         Me.BTNWIContinue.Name = "BTNWIContinue"
         Me.BTNWIContinue.Size = New System.Drawing.Size(131, 24)
         Me.BTNWIContinue.TabIndex = 168
@@ -8039,7 +8039,7 @@ Partial Class FrmSettings
         Me.BTNWIAddandContinue.Enabled = False
         Me.BTNWIAddandContinue.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BTNWIAddandContinue.ForeColor = System.Drawing.Color.Black
-        Me.BTNWIAddandContinue.Location = New System.Drawing.Point(566, 128)
+        Me.BTNWIAddandContinue.Location = New System.Drawing.Point(827, 127)
         Me.BTNWIAddandContinue.Name = "BTNWIAddandContinue"
         Me.BTNWIAddandContinue.Size = New System.Drawing.Size(131, 24)
         Me.BTNWIAddandContinue.TabIndex = 167
@@ -8052,7 +8052,7 @@ Partial Class FrmSettings
         Me.BTNWICancel.Enabled = False
         Me.BTNWICancel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BTNWICancel.ForeColor = System.Drawing.Color.Black
-        Me.BTNWICancel.Location = New System.Drawing.Point(566, 188)
+        Me.BTNWICancel.Location = New System.Drawing.Point(827, 187)
         Me.BTNWICancel.Name = "BTNWICancel"
         Me.BTNWICancel.Size = New System.Drawing.Size(131, 24)
         Me.BTNWICancel.TabIndex = 166
@@ -8061,7 +8061,7 @@ Partial Class FrmSettings
         '
         'CBWIReview
         '
-        Me.CBWIReview.Location = New System.Drawing.Point(567, 69)
+        Me.CBWIReview.Location = New System.Drawing.Point(828, 68)
         Me.CBWIReview.Name = "CBWIReview"
         Me.CBWIReview.Size = New System.Drawing.Size(124, 30)
         Me.CBWIReview.TabIndex = 165
@@ -8073,7 +8073,7 @@ Partial Class FrmSettings
         Me.BTNWIBrowse.BackColor = System.Drawing.Color.LightGray
         Me.BTNWIBrowse.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BTNWIBrowse.ForeColor = System.Drawing.Color.Black
-        Me.BTNWIBrowse.Location = New System.Drawing.Point(105, 402)
+        Me.BTNWIBrowse.Location = New System.Drawing.Point(105, 597)
         Me.BTNWIBrowse.Name = "BTNWIBrowse"
         Me.BTNWIBrowse.Size = New System.Drawing.Size(50, 24)
         Me.BTNWIBrowse.TabIndex = 163
@@ -8085,7 +8085,7 @@ Partial Class FrmSettings
         Me.TBWIDirectory.BackColor = System.Drawing.Color.White
         Me.TBWIDirectory.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TBWIDirectory.ForeColor = System.Drawing.Color.Black
-        Me.TBWIDirectory.Location = New System.Drawing.Point(161, 404)
+        Me.TBWIDirectory.Location = New System.Drawing.Point(161, 599)
         Me.TBWIDirectory.Name = "TBWIDirectory"
         Me.TBWIDirectory.Size = New System.Drawing.Size(400, 20)
         Me.TBWIDirectory.TabIndex = 164
@@ -8097,7 +8097,7 @@ Partial Class FrmSettings
         Me.BTNWIDisliked.Enabled = False
         Me.BTNWIDisliked.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BTNWIDisliked.ForeColor = System.Drawing.Color.Black
-        Me.BTNWIDisliked.Location = New System.Drawing.Point(567, 372)
+        Me.BTNWIDisliked.Location = New System.Drawing.Point(828, 371)
         Me.BTNWIDisliked.Name = "BTNWIDisliked"
         Me.BTNWIDisliked.Size = New System.Drawing.Size(131, 24)
         Me.BTNWIDisliked.TabIndex = 162
@@ -8110,7 +8110,7 @@ Partial Class FrmSettings
         Me.BTNWILiked.Enabled = False
         Me.BTNWILiked.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BTNWILiked.ForeColor = System.Drawing.Color.Black
-        Me.BTNWILiked.Location = New System.Drawing.Point(567, 342)
+        Me.BTNWILiked.Location = New System.Drawing.Point(828, 341)
         Me.BTNWILiked.Name = "BTNWILiked"
         Me.BTNWILiked.Size = New System.Drawing.Size(131, 24)
         Me.BTNWILiked.TabIndex = 161
@@ -8123,7 +8123,7 @@ Partial Class FrmSettings
         Me.BTNWIRemove.Enabled = False
         Me.BTNWIRemove.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BTNWIRemove.ForeColor = System.Drawing.Color.Black
-        Me.BTNWIRemove.Location = New System.Drawing.Point(567, 312)
+        Me.BTNWIRemove.Location = New System.Drawing.Point(828, 311)
         Me.BTNWIRemove.Name = "BTNWIRemove"
         Me.BTNWIRemove.Size = New System.Drawing.Size(131, 24)
         Me.BTNWIRemove.TabIndex = 160
@@ -8132,7 +8132,7 @@ Partial Class FrmSettings
         '
         'CBWISaveToDisk
         '
-        Me.CBWISaveToDisk.Location = New System.Drawing.Point(567, 95)
+        Me.CBWISaveToDisk.Location = New System.Drawing.Point(828, 94)
         Me.CBWISaveToDisk.Name = "CBWISaveToDisk"
         Me.CBWISaveToDisk.Size = New System.Drawing.Size(124, 30)
         Me.CBWISaveToDisk.TabIndex = 157
@@ -8152,7 +8152,7 @@ Partial Class FrmSettings
         '
         'WebImageProgressBar
         '
-        Me.WebImageProgressBar.Location = New System.Drawing.Point(567, 218)
+        Me.WebImageProgressBar.Location = New System.Drawing.Point(828, 217)
         Me.WebImageProgressBar.Maximum = 2500
         Me.WebImageProgressBar.Name = "WebImageProgressBar"
         Me.WebImageProgressBar.Size = New System.Drawing.Size(131, 23)
@@ -8163,7 +8163,7 @@ Partial Class FrmSettings
         Me.BTNWICreateURL.BackColor = System.Drawing.Color.LightGray
         Me.BTNWICreateURL.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BTNWICreateURL.ForeColor = System.Drawing.Color.Black
-        Me.BTNWICreateURL.Location = New System.Drawing.Point(567, 39)
+        Me.BTNWICreateURL.Location = New System.Drawing.Point(828, 38)
         Me.BTNWICreateURL.Name = "BTNWICreateURL"
         Me.BTNWICreateURL.Size = New System.Drawing.Size(132, 24)
         Me.BTNWICreateURL.TabIndex = 154
@@ -8176,7 +8176,7 @@ Partial Class FrmSettings
         Me.LBLWebImageCount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.LBLWebImageCount.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LBLWebImageCount.ForeColor = System.Drawing.Color.Black
-        Me.LBLWebImageCount.Location = New System.Drawing.Point(6, 404)
+        Me.LBLWebImageCount.Location = New System.Drawing.Point(6, 599)
         Me.LBLWebImageCount.Name = "LBLWebImageCount"
         Me.LBLWebImageCount.Size = New System.Drawing.Size(93, 21)
         Me.LBLWebImageCount.TabIndex = 153
@@ -8189,7 +8189,7 @@ Partial Class FrmSettings
         Me.BTNWISave.Enabled = False
         Me.BTNWISave.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BTNWISave.ForeColor = System.Drawing.Color.Black
-        Me.BTNWISave.Location = New System.Drawing.Point(567, 401)
+        Me.BTNWISave.Location = New System.Drawing.Point(828, 400)
         Me.BTNWISave.Name = "BTNWISave"
         Me.BTNWISave.Size = New System.Drawing.Size(131, 24)
         Me.BTNWISave.TabIndex = 152
@@ -8201,7 +8201,7 @@ Partial Class FrmSettings
         Me.BTNWIOpenURL.BackColor = System.Drawing.Color.LightGray
         Me.BTNWIOpenURL.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BTNWIOpenURL.ForeColor = System.Drawing.Color.Black
-        Me.BTNWIOpenURL.Location = New System.Drawing.Point(566, 252)
+        Me.BTNWIOpenURL.Location = New System.Drawing.Point(827, 251)
         Me.BTNWIOpenURL.Name = "BTNWIOpenURL"
         Me.BTNWIOpenURL.Size = New System.Drawing.Size(132, 24)
         Me.BTNWIOpenURL.TabIndex = 151
@@ -8214,7 +8214,7 @@ Partial Class FrmSettings
         Me.BTNWIPrevious.Enabled = False
         Me.BTNWIPrevious.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BTNWIPrevious.ForeColor = System.Drawing.Color.Black
-        Me.BTNWIPrevious.Location = New System.Drawing.Point(567, 282)
+        Me.BTNWIPrevious.Location = New System.Drawing.Point(828, 281)
         Me.BTNWIPrevious.Name = "BTNWIPrevious"
         Me.BTNWIPrevious.Size = New System.Drawing.Size(47, 24)
         Me.BTNWIPrevious.TabIndex = 149
@@ -8227,7 +8227,7 @@ Partial Class FrmSettings
         Me.BTNWINext.Enabled = False
         Me.BTNWINext.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BTNWINext.ForeColor = System.Drawing.Color.Black
-        Me.BTNWINext.Location = New System.Drawing.Point(651, 282)
+        Me.BTNWINext.Location = New System.Drawing.Point(912, 281)
         Me.BTNWINext.Name = "BTNWINext"
         Me.BTNWINext.Size = New System.Drawing.Size(47, 24)
         Me.BTNWINext.TabIndex = 150
@@ -8239,7 +8239,7 @@ Partial Class FrmSettings
         Me.WebPictureBox.BackColor = System.Drawing.Color.Black
         Me.WebPictureBox.Location = New System.Drawing.Point(6, 38)
         Me.WebPictureBox.Name = "WebPictureBox"
-        Me.WebPictureBox.Size = New System.Drawing.Size(555, 358)
+        Me.WebPictureBox.Size = New System.Drawing.Size(815, 553)
         Me.WebPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
         Me.WebPictureBox.TabIndex = 148
         Me.WebPictureBox.TabStop = False
@@ -14419,8 +14419,8 @@ Partial Class FrmSettings
         Me.GroupBox48.ResumeLayout(False)
         Me.GroupBox48.PerformLayout
         Me.TabPage11.ResumeLayout(False)
-        Me.Panel7.ResumeLayout(False)
-        Me.Panel7.PerformLayout
+        Me.UrlFilesPanel.ResumeLayout(False)
+        Me.UrlFilesPanel.PerformLayout
         CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.WebPictureBox, System.ComponentModel.ISupportInitialize).EndInit
         Me.TpVideoSettings.ResumeLayout(False)
@@ -14747,7 +14747,7 @@ Partial Class FrmSettings
     Friend WithEvents BTNBoobPath As System.Windows.Forms.Button
     Friend WithEvents BtnImageUrlBoobs As System.Windows.Forms.Button
     Friend WithEvents TabPage11 As System.Windows.Forms.TabPage
-    Friend WithEvents Panel7 As System.Windows.Forms.Panel
+    Friend WithEvents UrlFilesPanel As System.Windows.Forms.Panel
     Friend WithEvents BTNWIContinue As System.Windows.Forms.Button
     Friend WithEvents BTNWIAddandContinue As System.Windows.Forms.Button
     Friend WithEvents BTNWICancel As System.Windows.Forms.Button

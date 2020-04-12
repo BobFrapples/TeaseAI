@@ -775,6 +775,26 @@
             Is this script enabled or not
             </summary>
         </member>
+        <member name="P:TeaseAI.Common.Data.ScriptMetaData.IsChastity">
+            <summary>
+            This script is meant for subs in chastity
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Data.ScriptMetaData.IsRestricted">
+            <summary>
+            This script is meant for subs that have restricted orgasms
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Data.ScriptMetaData.IsBeg">
+            <summary>
+            Unsure
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Data.ScriptMetaData.IsEdge">
+            <summary>
+            Unsure
+            </summary>
+        </member>
         <member name="P:TeaseAI.Common.Data.VideoMetaData.FeaturesDomme">
             <summary>
             Does this video have the domme in it.

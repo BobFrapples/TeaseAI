@@ -27,6 +27,7 @@ namespace TeaseAI.Services.Accessors
 
         public List<ImageMetaData> Get(ImageSource? source, ImageGenre? genre)
         {
+            var mediaContainer = _mediaContainerService.Get().Where(mc => mc.GenreId == ImageGenre.Blog);
             return _imageMetaDataRepository.Get(source, genre);
         }
 

@@ -61,9 +61,15 @@ namespace TeaseAI.Services.Accessors
             return Result.Ok(checkList);
         }
 
-        public Result<List<ScriptMetaData>> GetAvailableScripts(DommePersonality domme, SubPersonality submissive, string type, SessionPhase stage)
+        public Result<List<ScriptMetaData>> GetAvailableScripts(DommePersonality domme, SubPersonality submissive, string type, SessionPhase sessionPhase)
         {
-            throw new NotImplementedException();
+            var scripts = GetAllScripts(domme.PersonalityName)
+                .OnSuccess(smds => smds.Where(smd => smd.SessionPhase == sessionPhase 
+                    && smd.IsChastity == submissive.InChastity 
+                    && smd.IsRestricted == submissive.IsOrgasmRestricted
+                    && smd.IsEdge == submissive.IsEdging
+                    ).ToList());
+            return scripts;
         }
 
         public Result<ScriptMetaData> GetFallbackMetaData(Session session, SessionPhase stage)
