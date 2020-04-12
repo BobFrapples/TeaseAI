@@ -38,7 +38,7 @@ Public Class MainWindow
     Dim loadFileData As ILoadFileData = ApplicationFactory.CreateLoadFileData()
     Dim myChatLogToHtmlService As IChatLogToHtmlService = New ChatLogToHtmlService()
     Dim myStringService As StringService = New StringService()
-    Dim myGetScripts As IScriptAccessor = New ScriptAccessor(New CldAccessor())
+    Dim myGetScripts As IScriptAccessor = ApplicationFactory.CreateScriptAccessor()
     Dim myImageTagReplaceHash As ImageTagReplaceHash = New ImageTagReplaceHash()
     Dim myFlagService As FlagService = New FlagService(New FlagAccessor())
     Dim myFlagAccessor As FlagAccessor = New FlagAccessor()
@@ -283,9 +283,9 @@ ByVal lpstrReturnString As String, ByVal uReturnLength As Integer, ByVal hwndCal
         MyBase.OnClosing(e)
     End Sub
 
-
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles Me.Load
-        ConvertToSqLite()
+        ConvertImageMeetaData()
+        ConvertScriptMetaData()
 
         Dim imageAccessor = ApplicationFactory.CreateImageMetaDataService()
         Dim images = imageAccessor.Get(Nothing, Nothing)
@@ -11886,7 +11886,6 @@ RestartFunction:
 
     Public Sub LoadExercise()
         CLBExercise.Items.Clear()
-        Dim myCldAccessor As ICldAccessor = New CldAccessor()
         Dim fileStream As New FileStream(Application.StartupPath & "\System\VitalSub\ExerciseList.cld", FileMode.Open)
         Dim binaryReader As New BinaryReader(fileStream)
         CLBExercise.BeginUpdate()
@@ -14979,7 +14978,7 @@ playLoop:
 #End Region
 
 #Region "conversion methods"
-    Private Sub ConvertToSqLite()
+    Private Sub ConvertImageMeetaData()
         ' Force the personality home to be the current directory for now.
         Dim mediaContainerService As IMediaContainerService = ApplicationFactory.CreateMediaContainerService()
         Dim imageMetaDataService As IImageAccessor = ApplicationFactory.CreateImageMetaDataService()
@@ -15253,6 +15252,11 @@ playLoop:
         Return returnValue
     End Function
 
+    Private Sub ConvertScriptMetaData()
+        Dim scriptAccessor As ScriptAccessor = New ScriptAccessor(ApplicationFactory.CreateCldAccessor())
+        Dim scripts As List(Of ScriptMetaData) = scriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality)
+
+    End Sub
 #End Region
 
 #Region "Session Engine Events"

@@ -1791,7 +1791,7 @@ Public Class FrmSettings
             Throw New NotImplementedException("The starting control is not implemented in this method.")
         End If
 
-        Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality, If(sessionPhase = SessionPhase.Modules, "Modules", "Stroke"), sessionPhase, True)
+        Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality, sessionPhase)
         Dim script = scripts.First(Function(smd) smd.Name = target.SelectedItem.ToString())
         ScriptInfoTextArea.Text = script.Info
         GetScriptStatus(script)
@@ -1817,7 +1817,7 @@ Public Class FrmSettings
     Private Sub BtnScriptsOpen_Click(sender As Object, e As EventArgs) Handles BTNScriptOpen.Click
         Dim sessionPhase As SessionPhase = GetSessionPhase(TCScripts.SelectedTab)
         Dim checkedListBox As CheckedListBox = GetScriptsCheckedListBox(sessionPhase)
-        Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality, IIf(sessionPhase = SessionPhase.Modules, "Modules", "Stroke"), sessionPhase, True)
+        Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality, sessionPhase)
 
         Dim clickedScript = scripts.First(Function(smd) smd.Name = checkedListBox.SelectedItem.ToString())
         MainWindow.ShellExecute(clickedScript.Key)
@@ -1857,7 +1857,7 @@ Public Class FrmSettings
                 End If
 
                 Dim scriptType As String = "Stroke"
-                Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality, IIf(sessionPhase = SessionPhase.Modules, "Modules", "Stroke"), sessionPhase, True)
+                Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality, sessionPhase)
 
                 For i As Integer = 0 To target.Items.Count - 1
                     Dim item = target.Items(i)
@@ -1887,7 +1887,7 @@ Public Class FrmSettings
     ''' <param name="stage"></param>
     ''' <param name="isEnabledByDefault"></param>
     Private Sub LoadScriptMetaData(target As CheckedListBox, dommePersonalityName As String, type As String, stage As SessionPhase, isEnabledByDefault As Boolean)
-        Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(dommePersonalityName, type, stage, isEnabledByDefault)
+        Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(dommePersonalityName, stage)
 
         Dim lastIndex As Integer = target.SelectedIndex
         Dim lastItem As String = target.SelectedItem

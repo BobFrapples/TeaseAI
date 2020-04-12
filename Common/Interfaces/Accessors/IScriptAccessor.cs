@@ -19,11 +19,10 @@ namespace TeaseAI.Common.Interfaces
         /// <summary>
         /// Get all scripts for <paramref name="domme"/>
         /// </summary>
-        /// <param name="domme"></param>
-        /// <param name="type"></param>
+        /// <param name="dommePersonalityName"></param>
         /// <param name="stage"></param>
         /// <returns></returns>
-        List<ScriptMetaData> GetAllScripts(string dommePersonalityName, string type, SessionPhase stage, bool isEnabledDefault);
+        List<ScriptMetaData> GetAllScripts(string dommePersonalityName,  SessionPhase stage);
 
         /// <summary>
         /// Get all scripts for a domme

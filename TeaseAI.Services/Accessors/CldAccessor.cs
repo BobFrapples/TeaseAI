@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using TeaseAI.Common;
 using TeaseAI.Common.Data;
@@ -46,18 +47,22 @@ namespace TeaseAI.Services.Accessors
                     using (var fs = new FileStream(fileName, FileMode.Open))
                     using (var binRead = new BinaryReader(fs))
                     {
-                        var returnValue = new List<ScriptMetaData>();
-                        while (fs.Position < fs.Length)
+                        var returnValue = ReadDirectory(scriptHomeDir);
+                        while (fs.Position + 1 < fs.Length)
                         {
                             var name = binRead.ReadString();
-                            var cldData = new ScriptMetaData
+                            var key = scriptHomeDir + name + ".txt";
+                            var cldData = returnValue.FirstOrDefault(smd => smd.Key == key);
+                            if (cldData == null)
                             {
-                                Key = scriptHomeDir + Path.DirectorySeparatorChar + name + ".txt",
-                                Name = name,
-                                IsEnabled = binRead.ReadBoolean(),
-                                Info = String.Empty
-                            };
-                            returnValue.Add(cldData);
+                                cldData = new ScriptMetaData { Key = key };
+                                returnValue.Add(cldData);
+                            }
+                            cldData.Key = key;
+                            cldData.Name = name;
+                            cldData.IsEnabled = cldData.IsEnabled && binRead.ReadBoolean() && File.Exists(key);
+                            cldData.Info = string.Empty;
+                            //returnValue.Add(cldData);
                         }
                         return Result.Ok(returnValue);
                     }
@@ -77,6 +82,18 @@ namespace TeaseAI.Services.Accessors
                     binWrite.Write(cld.IsEnabled);
                 }
             }
+        }
+
+        private List<ScriptMetaData> ReadDirectory(string scriptHomeDir)
+        {
+            var files = Directory.GetFiles(scriptHomeDir);
+            return files.Select(f => new ScriptMetaData
+            {
+                Key = f,
+                Name = Path.GetFileNameWithoutExtension(f),
+                IsEnabled = true,
+                Info = string.Empty,
+            }).ToList();
         }
     }
 }

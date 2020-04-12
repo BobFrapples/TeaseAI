@@ -1098,12 +1098,11 @@
             <param name="stage"></param>
             <returns></returns>
         </member>
-        <member name="M:TeaseAI.Common.Interfaces.IScriptAccessor.GetAllScripts(System.String,System.String,TeaseAI.Common.Constants.SessionPhase,System.Boolean)">
+        <member name="M:TeaseAI.Common.Interfaces.IScriptAccessor.GetAllScripts(System.String,TeaseAI.Common.Constants.SessionPhase)">
             <summary>
             Get all scripts for <paramref name="domme"/>
             </summary>
-            <param name="domme"></param>
-            <param name="type"></param>
+            <param name="dommePersonalityName"></param>
             <param name="stage"></param>
             <returns></returns>
         </member>

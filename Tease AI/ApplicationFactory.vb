@@ -29,11 +29,11 @@ Public Class ApplicationFactory
     End Function
 
     Friend Shared Function CreateScriptAccessor() As IScriptAccessor
-        Return New ScriptAccessor(CreateCldAccessor())
+        Return New Accessors.ScriptAccessor(CreatePathsAccessor(), CreateCldAccessor())
     End Function
 
-    Public Shared Function CreateCldAccessor() As CldAccessor
-        Return New CldAccessor()
+    Public Shared Function CreateCldAccessor() As ICldAccessor
+        Return New Accessors.CldAccessor()
     End Function
 
     Public Shared Function CreateGetCommandProcessorsService() As IGetCommandProcessorsService

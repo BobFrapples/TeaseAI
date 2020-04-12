@@ -22,9 +22,11 @@ namespace TeaseAI.Services.Accessors
             _cldAccessor = cldAccessor;
         }
 
-        public List<ScriptMetaData> GetAllScripts(string dommePersonalityName, string type, SessionPhase stage, bool isEnabledDefault)
+        public List<ScriptMetaData> GetAllScripts(string dommePersonalityName,  SessionPhase stage)
         {
-            throw new NotImplementedException();
+            return GetAllScripts(dommePersonalityName)
+                .OnSuccess(sl => sl.Where(s => s.SessionPhase == stage).ToList())
+                .GetResultOrDefault();
         }
 
         public Result<List<ScriptMetaData>> GetAllScripts(string dommePersonalityName)
