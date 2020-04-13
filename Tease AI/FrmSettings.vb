@@ -40,8 +40,12 @@ Public Class FrmSettings
     Dim ImageTagCount As Integer
     Dim CurrentImageTagImage As String
     Dim CurrentLocalImageTagImage As String
+
+    ' Index of current working image for tagging
     Dim TagCount As Integer
 
+    ' Index of current working image for image blogs
+    Dim myUrlFileIndex As Integer
     Public WebImage As String
     Public WebImageFile As StreamReader
     Public WebImageLines As New List(Of String)
@@ -66,6 +70,7 @@ Public Class FrmSettings
         myImageTagMapService = ApplicationFactory.CreateImageTagMapService()
         myGetCommandProcessorsService = ApplicationFactory.CreateGetCommandProcessorsService()
         myNotifyUserService = ApplicationFactory.CreateNotifyUserService()
+        myImageBlogDownloadService = ApplicationFactory.CreateImageBlogDownloadService()
 
         InitializeComponent()
     End Sub
@@ -1312,8 +1317,8 @@ Public Class FrmSettings
         LBLSubSettingsDescription.Text = "Sets how long (in seconds) it will take after being told to edge for the domme to believe you have been trying to reach the edge for too long."
     End Sub
 
-    Private Sub BTNWICreateURL_MouseHover(sender As Object, e As EventArgs) Handles BTNWICreateURL.MouseHover
-        TTDir.SetToolTip(BTNWICreateURL, "Click here to create a new URL File." & Environment.NewLine & Environment.NewLine &
+    Private Sub BTNWICreateURL_MouseHover(sender As Object, e As EventArgs) Handles CreateBlogContainerButton.MouseHover
+        TTDir.SetToolTip(CreateBlogContainerButton, "Click here to create a new URL File." & Environment.NewLine & Environment.NewLine &
                                          "URL Files create a txt file containing the URL address" & Environment.NewLine &
                                          "of every image posted at the image blog you specify.")
     End Sub
@@ -1328,13 +1333,13 @@ Public Class FrmSettings
                                          "to the specified HDD directory as they are added.")
     End Sub
 
-    Private Sub BTNWIAddandContinue_MouseHover(sender As Object, e As EventArgs) Handles BTNWIAddandContinue.MouseHover
-        TTDir.SetToolTip(BTNWIAddandContinue, "When reviewing images, click this button to add the" & Environment.NewLine &
+    Private Sub BTNWIAddandContinue_MouseHover(sender As Object, e As EventArgs) Handles UrlImageAddAndContinue.MouseHover
+        TTDir.SetToolTip(UrlImageAddAndContinue, "When reviewing images, click this button to add the" & Environment.NewLine &
                                               "current image to the URL File and continue to the next.")
     End Sub
 
-    Private Sub BTNWIContinue_MouseHover(sender As Object, e As EventArgs) Handles BTNWIContinue.MouseHover
-        TTDir.SetToolTip(BTNWIContinue, "When reviewing images, click this button to skip the" & Environment.NewLine &
+    Private Sub BTNWIContinue_MouseHover(sender As Object, e As EventArgs) Handles UrlImageContinueButton.MouseHover
+        TTDir.SetToolTip(UrlImageContinueButton, "When reviewing images, click this button to skip the" & Environment.NewLine &
                                         "current image without adding it to the URL File.")
     End Sub
 
@@ -1342,20 +1347,20 @@ Public Class FrmSettings
         TTDir.SetToolTip(BTNWICancel, "Use this button to cancel URL File creation.")
     End Sub
 
-    Private Sub BTNWIOpenURL_MouseHover(sender As Object, e As EventArgs) Handles BTNWIOpenURL.MouseHover
-        TTDir.SetToolTip(BTNWIOpenURL, "Use this button to view a URL File you have previously created.")
+    Private Sub SelectBlogDropDown_MouseHover(sender As Object, e As EventArgs) Handles SelectBlogDropDown.MouseHover
+        TTDir.SetToolTip(SelectBlogDropDown, "Use this button to view a URL File you have previously created.")
     End Sub
 
-    Private Sub BTNWIPrevious_MouseHover(sender As Object, e As EventArgs) Handles BTNWIPrevious.MouseHover
-        TTDir.SetToolTip(BTNWIPrevious, "Use this button to view the previous image of a URL File.")
+    Private Sub BTNWIPrevious_MouseHover(sender As Object, e As EventArgs) Handles UrlFilesPreviousImageButton.MouseHover
+        TTDir.SetToolTip(UrlFilesPreviousImageButton, "Use this button to view the previous image of a URL File.")
     End Sub
 
-    Private Sub BTNWINext_MouseHover(sender As Object, e As EventArgs) Handles BTNWINext.MouseHover
-        TTDir.SetToolTip(BTNWINext, "Use this button to view the next image of a URL File.")
+    Private Sub BTNWINext_MouseHover(sender As Object, e As EventArgs) Handles UrlFilesNextImageButton.MouseHover
+        TTDir.SetToolTip(UrlFilesNextImageButton, "Use this button to view the next image of a URL File.")
     End Sub
 
-    Private Sub BTNWIRemove_MouseHover(sender As Object, e As EventArgs) Handles BTNWIRemove.MouseHover
-        TTDir.SetToolTip(BTNWIRemove, "Use this button to remove an image from a URL File.")
+    Private Sub BTNWIRemove_MouseHover(sender As Object, e As EventArgs) Handles UrlImageRemoveButton.MouseHover
+        TTDir.SetToolTip(UrlImageRemoveButton, "Use this button to remove an image from a URL File.")
     End Sub
 
     Private Sub BTNWILiked_MouseHover(sender As Object, e As EventArgs) Handles BTNWILiked.MouseHover
@@ -2585,1039 +2590,7 @@ Public Class FrmSettings
 
 #End Region ' Apps
 
-#Region "-------------------------------------- URL Files -----------------------------------------------"
-
-    Private Sub Button57_Click(sender As Object, e As EventArgs) Handles BTNWIBrowse.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-            TBWIDirectory.Text = FolderBrowserDialog1.SelectedPath
-        End If
-    End Sub
-
-    Private Sub CBWISaveToDisk_CheckedChanged(sender As Object, e As EventArgs) Handles CBWISaveToDisk.CheckedChanged
-
-        If CBWISaveToDisk.Checked Then
-            If Not Directory.Exists(TBWIDirectory.Text) Then
-                MessageBox.Show(Me, "Please enter or browse for a valid Saved Image Directory first!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
-                CBWISaveToDisk.Checked = False
-            End If
-        End If
-    End Sub
-
-    Private Sub BTNWIAddandContinue_Click(sender As Object, e As EventArgs) Handles BTNWIAddandContinue.Click
-        ApproveImage = 1
-    End Sub
-
-    Private Sub BTNWIContinue_Click(sender As Object, e As EventArgs) Handles BTNWIContinue.Click
-        ApproveImage = 2
-    End Sub
-
-    Private Sub BTNCancel_Click(sender As Object, e As EventArgs) Handles BTNWICancel.Click
-        If BWURLFiles.IsBusy Then BWURLFiles.CancelAsync()
-    End Sub
-
-    Private Sub BTNWIRemove_Click(sender As Object, e As EventArgs) Handles BTNWIRemove.Click
-
-
-        WebImageLines.Remove(WebImageLines(WebImageLine))
-
-
-        If WebImageLine = WebImageLines.Count Then WebImageLine = 0
-        '
-        'Else
-        'WebImageLine += 1
-        'End If
-
-        Try
-            WebPictureBox.Image.Dispose()
-        Catch
-        End Try
-
-        WebPictureBox.Image = Nothing
-        GC.Collect()
-
-        WebPictureBox.Image = New System.Drawing.Bitmap(New IO.MemoryStream(New System.Net.WebClient().DownloadData(WebImageLines(WebImageLine))))
-
-        Debug.Print(WebImageLines(WebImageLine))
-
-        My.Computer.FileSystem.DeleteFile(WebImagePath)
-
-        If File.Exists(WebImagePath) Then
-            Debug.Print("File Exists")
-        Else
-            Debug.Print("Nope")
-        End If
-
-        My.Computer.FileSystem.WriteAllText(WebImagePath, String.Join(Environment.NewLine, WebImageLines), False)
-
-    End Sub
-
-    Private Sub BTNWILiked_Click(sender As Object, e As EventArgs) Handles BTNWILiked.Click
-
-
-        If File.Exists(Application.StartupPath & "\Images\System\LikedImageURLs.txt") Then
-            My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Images\System\LikedImageURLs.txt", Environment.NewLine & WebImageLines(WebImageLine), True)
-        Else
-            My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Images\System\LikedImageURLs.txt", WebImageLines(WebImageLine), True)
-        End If
-
-
-    End Sub
-
-    Private Sub BTNWIDisliked_Click(sender As Object, e As EventArgs) Handles BTNWIDisliked.Click
-
-        If File.Exists(Application.StartupPath & "\Images\System\DislikedImageURLs.txt") Then
-            My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Images\System\DislikedImageURLs.txt", Environment.NewLine & WebImageLines(WebImageLine), True)
-        Else
-            My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Images\System\DislikedImageURLs.txt", WebImageLines(WebImageLine), True)
-        End If
-
-    End Sub
-
-    Private Sub WebPictureBox_MouseWheel(sender As Object, e As Windows.Forms.MouseEventArgs) Handles WebPictureBox.MouseWheel
-
-        Select Case e.Delta
-            Case -120 'Scrolling down
-                WebImageLine += 1
-
-                If WebImageLine > WebImageLineTotal - 1 Then
-                    WebImageLine = WebImageLineTotal
-                    MsgBox("No more images to display!", , "Warning!")
-                    Return
-                End If
-
-                Try
-                    WebPictureBox.Image.Dispose()
-                Catch
-                End Try
-                WebPictureBox.Image = Nothing
-                GC.Collect()
-
-                WebPictureBox.Image = New System.Drawing.Bitmap(New IO.MemoryStream(New System.Net.WebClient().DownloadData(WebImageLines(WebImageLine))))
-                LBLWebImageCount.Text = WebImageLine + 1 & "/" & WebImageLineTotal
-            Case 120 'Scrolling up
-                WebImageLine -= 1
-
-                If WebImageLine < 0 Then
-                    WebImageLine = 0
-                    MsgBox("No more images to display!", , "Warning!")
-                    Return
-                End If
-
-                Try
-                    WebPictureBox.Image.Dispose()
-                Catch
-                End Try
-                WebPictureBox.Image = Nothing
-                GC.Collect()
-                WebPictureBox.Image = New System.Drawing.Bitmap(New IO.MemoryStream(New System.Net.WebClient().DownloadData(WebImageLines(WebImageLine))))
-                LBLWebImageCount.Text = WebImageLine + 1 & "/" & WebImageLineTotal
-        End Select
-
-
-    End Sub
-
-    Private Sub PictureBox1_MouseEnter(ByVal sender As Object, ByVal e As EventArgs) Handles WebPictureBox.MouseEnter
-        WebPictureBox.Focus()
-    End Sub
-
-
-    Private Sub Button36_Click(sender As Object, e As EventArgs) Handles BTNWIOpenURL.Click
-
-        WebImageFileDialog.InitialDirectory = Application.StartupPath & "\Images\System\URL Files"
-
-        If (WebImageFileDialog.ShowDialog = Windows.Forms.DialogResult.OK) Then
-
-            WebImageFile = New IO.StreamReader(WebImageFileDialog.FileName)
-            WebImagePath = WebImageFileDialog.FileName
-
-            WebImageLines.Clear()
-
-            WebImageLine = 0
-            WebImageLineTotal = 0
-
-            While WebImageFile.Peek <> -1
-                WebImageLineTotal += 1
-                WebImageLines.Add(WebImageFile.ReadLine())
-            End While
-
-            Try
-                WebPictureBox.Image.Dispose()
-            Catch
-            End Try
-            WebPictureBox.Image = Nothing
-            GC.Collect()
-
-            Try
-                WebPictureBox.Image = New System.Drawing.Bitmap(New IO.MemoryStream(New System.Net.WebClient().DownloadData(WebImageLines(0))))
-            Catch
-                MessageBox.Show(Me, "Failed to load URL File image!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            End Try
-
-            WebImageFile.Close()
-            WebImageFile.Dispose()
-
-            LBLWebImageCount.Text = WebImageLine + 1 & "/" & WebImageLineTotal
-
-
-            BTNWINext.Enabled = True
-            BTNWIPrevious.Enabled = True
-            BTNWIRemove.Enabled = True
-            BTNWILiked.Enabled = True
-            BTNWIDisliked.Enabled = True
-            BTNWISave.Enabled = True
-
-
-        End If
-
-
-
-
-    End Sub
-
-
-    Private Sub Button35_Click_2(sender As Object, e As EventArgs) Handles BTNWINext.Click
-
-TryNextImage:
-
-        WebImageLine += 1
-
-        If WebImageLine > WebImageLineTotal - 1 Then
-            WebImageLine = WebImageLineTotal
-            MsgBox("No more images to display!", , "Warning!")
-            Return
-        End If
-
-        Try
-            WebPictureBox.Image.Dispose()
-        Catch
-        End Try
-
-        WebPictureBox.Image = Nothing
-        GC.Collect()
-        Try
-            WebPictureBox.Image = New System.Drawing.Bitmap(New IO.MemoryStream(New System.Net.WebClient().DownloadData(WebImageLines(WebImageLine))))
-            LBLWebImageCount.Text = WebImageLine + 1 & "/" & WebImageLineTotal
-        Catch ex As Exception
-            GoTo TryNextImage
-        End Try
-
-
-
-    End Sub
-
-    Private Sub Button18_Click_2(sender As Object, e As EventArgs) Handles BTNWIPrevious.Click
-
-trypreviousimage:
-
-        WebImageLine -= 1
-
-        If WebImageLine < 0 Then
-            WebImageLine = 0
-            MsgBox("No more images to display!", , "Warning!")
-            Return
-        End If
-
-        Try
-            WebPictureBox.Image.Dispose()
-        Catch
-        End Try
-
-        WebPictureBox.Image = Nothing
-        GC.Collect()
-        Try
-            WebPictureBox.Image = New System.Drawing.Bitmap(New IO.MemoryStream(New System.Net.WebClient().DownloadData(WebImageLines(WebImageLine))))
-            LBLWebImageCount.Text = WebImageLine + 1 & "/" & WebImageLineTotal
-        Catch ex As Exception
-            GoTo trypreviousimage
-        End Try
-
-    End Sub
-
-    Private Sub Button37_Click(sender As Object, e As EventArgs) Handles BTNWISave.Click
-
-        If WebPictureBox.Image Is Nothing Then
-            MsgBox("Nothing to save!", , "Error!")
-            Return
-        End If
-
-
-        SaveFileDialog1.Filter = "jpegs|*.jpg|gifs|*.gif|pngs|*.png|Bitmaps|*.bmp"
-        SaveFileDialog1.FilterIndex = 1
-        SaveFileDialog1.RestoreDirectory = True
-
-
-        Try
-
-            WebImage = WebImageLines(WebImageLine)
-
-            Dim DirSplit As String() = WebImage.Split("/")
-            WebImage = DirSplit(DirSplit.Length - 1)
-
-            ' ### Clean Code
-            'Do Until Not Form1.WebImage.Contains("/")
-            'Form1.WebImage = Form1.WebImage.Remove(0, 1)
-            'Loop
-
-            SaveFileDialog1.FileName = WebImage
-
-        Catch ex As Exception
-
-            SaveFileDialog1.FileName = "image.jpg"
-
-        End Try
-
-
-
-
-
-        If SaveFileDialog1.ShowDialog() = DialogResult.OK Then
-
-            WebPictureBox.Image.Save(SaveFileDialog1.FileName)
-
-        End If
-
-    End Sub
-
-    Private Sub Button38_Click(sender As Object, e As EventArgs) Handles BTNWICreateURL.Click,
-                                                                                       BTNMaintenanceRefresh.Click,
-                                                                                       BTNMaintenanceRebuild.Click
-        ' Group Buttons by inital-State.
-        Dim __PreEnabled As New List(Of Control) From
-            {BTNWIOpenURL, BTNWICreateURL, BTNMaintenanceRefresh,
-            BTNMaintenanceRebuild, BTNMaintenanceScripts}
-        Dim __PreDisabled As New List(Of Control) From
-            {BTNWICancel, BTNMaintenanceCancel}
-
-        Try
-            ' Set their new State, so the User can't disturb.
-            __PreEnabled.ForEach(Sub(x) x.Enabled = False)
-            __PreDisabled.ForEach(Sub(x) x.Enabled = True)
-
-            Select Case sender.name
-                Case BTNWICreateURL.Name
-                    '**************************************************************************************************************
-                    '                                                Create URL-File
-                    '**************************************************************************************************************
-                    Dim __BtnLocalURL As New List(Of Control) From {
-                        BTNWINext, BTNWIPrevious, BTNWIRemove, BTNWILiked, BTNWIDisliked, BTNWISave}
-                    Try
-                        ' Disable Buttons for Opening-URL-Files
-                        __BtnLocalURL.ForEach(Sub(x) x.Enabled = False)
-
-                        ' Run Backgroundworker
-                        Dim __tmpResult As URL_File_BGW.CreateUrlFileResult = BWURLFiles.CreateURLFileAsync()
-
-                        ' Activate the created URL-File
-                        URL_File_Set(__tmpResult.Filename)
-
-                        ' UserInfo
-                        If __tmpResult._Error Is Nothing Then
-                            MsgBox("URL File has been saved to:" &
-                               vbCrLf & vbCrLf & Application.StartupPath & "\Images\System\URL Files\" & __tmpResult.Filename & ".txt" &
-                               vbCrLf & vbCrLf & "Use the ""Open URL File"" button to load and view your collections.",  , "Success!")
-                        Else
-                            MsgBox("It is encountered an error during URL-File-Creation." & vbCrLf &
-                                   __tmpResult._Error.Message & vbCrLf &
-                                       "URL File has been saved to:" &
-                                    vbCrLf & vbCrLf & Application.StartupPath & "\Images\System\URL Files\" & __tmpResult.Filename & ".txt" &
-                                    vbCrLf & vbCrLf & "Use the ""Open URL File"" button to load and view your collections.",  , "Successful despite errors!")
-                        End If
-                    Catch
-                        '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-                        '                                            All Errors
-                        '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-                        Throw
-                    Finally
-                        '⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑ Finally ⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑
-                        __BtnLocalURL.ForEach(Sub(x) x.Enabled = True)
-                    End Try
-                Case BTNMaintenanceRefresh.Name
-                    '**************************************************************************************************************
-                    '                                             Refresh URL-Files
-                    '**************************************************************************************************************
-                    Try
-
-                        ' Run Backgroundworker
-                        Dim __tmpResult As URL_File_BGW.MaintainUrlResult = BWURLFiles.RefreshURLFilesAsync()
-
-                        ' Activate the URL-Files
-                        __tmpResult.MaintainedUrlFiles.ForEach(AddressOf URL_File_Set)
-
-                        If __tmpResult.Cancelled Then
-                            MessageBox.Show(Me, "Refreshing URL-File has been aborted after " & __tmpResult.MaintainedUrlFiles.Count & " URL-Files." &
-                                            vbCrLf & __tmpResult.ModifiedLinkCount & " new URLs have been added.",
-                                            "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        ElseIf __tmpResult.ErrorText.Capacity > 0 Then
-                            MessageBox.Show(Me, "URL Files have been refreshed with errors!" &
-                                            vbCrLf & vbCrLf & __tmpResult.ModifiedLinkCount & " new URLs have been added." &
-                                            vbCrLf & vbCrLf & String.Join(vbCrLf, __tmpResult.ErrorText),
-                                            "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        Else
-                            MessageBox.Show(Me, "All URL Files have been refreshed!" &
-                                            vbCrLf & vbCrLf & __tmpResult.ModifiedLinkCount & " new URLs have been added.",
-                                            "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        End If
-                    Catch
-                        '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-                        '                                            All Errors
-                        '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-                        Throw
-                    Finally
-                        '⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑ Finally ⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑
-                        LBLMaintenance.Text = String.Empty
-                        PBCurrent.Value = 0
-                        PBMaintenance.Value = 0
-                    End Try
-                Case BTNMaintenanceRebuild.Name
-                    '**************************************************************************************************************
-                    '                                             Rebuild URL-Files
-                    '**************************************************************************************************************
-                    Try
-                        ' Run Backgroundworker
-                        Dim __tmpResult As URL_File_BGW.MaintainUrlResult = BWURLFiles.RebuildURLFilesAsync()
-
-                        ' Activate the URL-Files
-                        __tmpResult.MaintainedUrlFiles.ForEach(AddressOf URL_File_Set)
-
-                        If __tmpResult.Cancelled Then
-                            MessageBox.Show(Me, "Rebuilding URL-File has been aborted after " & __tmpResult.MaintainedUrlFiles.Count & " URL-Files." &
-                                            vbCrLf & __tmpResult.ModifiedLinkCount & " dead URLs have been removed.",
-                                            "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        ElseIf __tmpResult.ErrorText.Capacity > 0 Then
-                            MessageBox.Show(Me, "URL Files have been rebuilded with errors!" &
-                                            vbCrLf & vbCrLf & __tmpResult.ModifiedLinkCount & " dead URLs have been removed." &
-                                            vbCrLf & vbCrLf & __tmpResult.LinkCountTotal & " URLs in total." &
-                                            vbCrLf & vbCrLf & String.Join(vbCrLf, __tmpResult.ErrorText),
-                                            "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        Else
-                            MessageBox.Show(Me, "All URL Files have been rebuilded!" &
-                                            vbCrLf & vbCrLf & __tmpResult.ModifiedLinkCount & " dead URLs have been removed." &
-                                            vbCrLf & vbCrLf & __tmpResult.LinkCountTotal & " URLs in total.",
-                                            "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        End If
-                    Catch
-                        '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-                        '                                            All Errors
-                        '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-                        Throw
-                    Finally
-                        '⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑ Finally ⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑
-                        LBLMaintenance.Text = String.Empty
-                        PBCurrent.Value = 0
-                        PBMaintenance.Value = 0
-                    End Try
-            End Select
-        Catch ex As Exception
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-            '                                            All Errors
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-            If ex.InnerException IsNot Nothing Then
-                ' If an Error ocurred in the other Thread, initial Exception is innner one.
-                MsgBox(ex.InnerException.Message, MsgBoxStyle.Critical, "Error Creating URL-File")
-            Else
-                ' Otherwise show it normal.
-                MsgBox(ex.Message, MsgBoxStyle.Critical, "Error Creating URL-File")
-            End If
-        Finally
-            '⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑ Finally ⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑
-            ' Restore the initial State of the Buttons
-            __PreEnabled.ForEach(Sub(x) x.Enabled = True)
-            __PreDisabled.ForEach(Sub(x) x.Enabled = False)
-        End Try
-    End Sub
-
-#Region "-------------------------------------- Backgroundworker URL Files --------------------------------------"
-
-    ''' =========================================================================================================
-    ''' <summary>
-    ''' This Event is used, to gather Variables, for the BackgroundThread, the User can change during runtime.
-    ''' </summary>
-    ''' <param name="sender"></param>
-    ''' <param name="e"></param>
-    Private Sub BWURLFiles_URLCreate_User_Interactions(ByVal sender As URL_File_BGW, ByRef e As URL_File_BGW.UserActions) Handles BWURLFiles.URL_FileCreate_UserInteractions
-        If Me.InvokeRequired Then
-            Dim Callbak As New URL_File_BGW.URL_FileCreate_UserInteractions_Delegate(AddressOf BWURLFiles_URLCreate_User_Interactions)
-            Me.Invoke(Callbak, sender, e)
-        Else
-            e.ReviewImages = CBWIReview.Checked
-            e.ApproveImage = ApproveImage
-            e.SaveImages = CBWISaveToDisk.Checked
-            e.ImgSaveDir = TBWIDirectory.Text
-        End If
-    End Sub
-
-    ''' =========================================================================================================
-    ''' <summary>
-    ''' This Event will be triggered, when the Working Stage of the BGW changes
-    ''' </summary>
-    ''' <param name="Sender"></param>
-    ''' <param name="e"></param>
-    Private Sub BWURLFiles_ProgressChanged(ByVal Sender As Object, ByRef e As URL_File_BGW.URL_File_ProgressChangedEventArgs) Handles BWURLFiles.URL_File_ProgressChanged
-        If Me.InvokeRequired Then
-            ' Beware: Event is fired in Worker Thread, so you need to do a Function Callback.
-            Dim CallBack As New URL_File_BGW.URL_File_ProgressChanged_Delegate(AddressOf BWURLFiles_ProgressChanged)
-            Me.Invoke(CallBack, Sender, e)
-        Else
-            ' Reset remanent Marker for Image Approval
-            If ApproveImage <> 0 Then ApproveImage = 0
-            Select Case e.CurrentTask
-                Case URL_File_Tasks.CreateURLFile
-                    '===============================================================================
-                    '                           Create URL-File
-                    '===============================================================================
-                    Select Case e.ActStage
-                        ' ------------------------ Image Approval -------------------------------
-                        Case WorkingStages.ImageApproval
-                            If e.ImageToReview IsNot Nothing Then
-                                ' Dispose old Image & Set new Image
-                                Try : WebPictureBox.Image.Dispose() : Catch : End Try
-                                WebPictureBox.Image = e.ImageToReview
-                                ' Enabled UI Elements
-                                BTNWIContinue.Enabled = True
-                                BTNWIAddandContinue.Enabled = True
-                            End If
-                        Case WorkingStages.Writing_File
-                            ' ---------------------- Write to File -------------------------------
-                            'State info to User
-                            LBLWebImageCount.Text = "Writing"
-                            ' At this state no cnancel possible
-                            BTNWICancel.Enabled = False
-                            WebPictureBox.Image = Nothing
-                        Case Else
-                            ' ---------------------- Everthing else ------------------------------
-                            ' Refresh Progressbars
-                            WebImageProgressBar.Maximum = e.BlogPageTotal + 1
-                            WebImageProgressBar.Value = e.BlogPage
-                            ' Disable Image Approval-UI
-                            BTNWIContinue.Enabled = False
-                            BTNWIAddandContinue.Enabled = False
-                            ' Inform User about BGW-State
-                            LBLWebImageCount.Text = String.Format("{0}/{1} ({2})", e.BlogPage, e.BlogPageTotal, e.ImageCount)
-                    End Select
-                Case Else
-                    '===============================================================================
-                    '                           Refresh URL-File
-                    '===============================================================================
-                    LBLMaintenance.Text = e.InfoText
-                    PBCurrent.Maximum = e.BlogPageTotal
-                    PBCurrent.Value = e.BlogPage
-                    PBMaintenance.Maximum = e.OverallProgressTotal
-                    PBMaintenance.Value = e.OverallProgress
-            End Select
-        End If
-    End Sub
-
-#End Region
-
-#End Region ' Url Files
-
-#Region "Media Containers"
-
-    Friend Shared Function Image_FolderCheck(ByVal directoryDescription As String,
-                                             ByVal directoryPath As String,
-                                             ByVal defaultPath As String,
-                                             ByRef subDirectories As Boolean) As String
-        Dim rtnPath As String
-
-        ' Exit if default value.
-        If directoryPath = defaultPath Then subDirectories = False : Return defaultPath
-
-        ' check it if the directory exists.
-        If Directory.Exists(directoryPath) Then rtnPath = directoryPath : GoTo checkFolder
-
-        ' Tell User, the dir. wasn't found. Ask to search manually for the folder.
-        If MessageBox.Show(ActiveForm,
-                           "The directory """ & directoryPath & """ was not found." & vbCrLf & "Do you want to search for it?",
-                           directoryDescription & " image directory not found.",
-                           MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) <> DialogResult.Yes Then
-set_default:
-            Return defaultPath
-        Else
-            '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
-            '								Set new Folder
-            '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
-set_newFolder:
-            ' Find the first available parent-directory. 
-            ' This way the user hasn't to browse through his hole IO-System.
-            Dim __tmp_dir As String = directoryPath
-            Do Until Directory.Exists(__tmp_dir) Or __tmp_dir Is Nothing
-                __tmp_dir = Path.GetDirectoryName(__tmp_dir)
-            Loop
-
-            ' Initialize new Dialog-Form
-            Dim FolSel As New FolderBrowserDialog With {.SelectedPath = __tmp_dir,
-                                                            .Description = "Select " & directoryDescription & " image folder."}
-            ' Display the Dialog -> Now the user has to set the new dir.
-            If FolSel.ShowDialog(ActiveForm) = DialogResult.OK Then
-                rtnPath = FolSel.SelectedPath
-            Else
-                GoTo set_default
-            End If
-            '▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
-            ' Set new Folder - End
-            '▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
-        End If ' END IF - Messagebox.
-
-        '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
-        '							   Check folder content
-        '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
-checkFolder:
-        Dim count_top As Integer = myDirectory.GetFilesImages(rtnPath, SearchOption.TopDirectoryOnly).Count
-        Dim count_all As Integer = myDirectory.GetFilesImages(rtnPath, SearchOption.AllDirectories).Count
-
-        If count_top = 0 And count_all = 0 Then
-            ' ================================= No images in folder ===============================
-            If MessageBox.Show(ActiveForm,
-               "The directory """ & directoryPath & """ doesn't contain images." & vbCrLf & "Do you want to set a new folder?",
-               directoryDescription & " image folder empty",
-               MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
-                GoTo set_newFolder
-            Else
-                GoTo set_default
-            End If
-        ElseIf count_top = 0 And count_all > count_top And subDirectories = False Then
-            ' ======================== none in top, but in sub ->enable sub? ======================
-            If MessageBox.Show(ActiveForm,
-               "The directory """ & directoryPath & """ doesn't contain images, but it's " &
-               "subdirectories. Do you want to include subdirectories? If you click no the " &
-               "default value will be set.",
-               directoryDescription & " image folder empty",
-               MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
-                subDirectories = True
-                Return rtnPath
-            Else
-                GoTo set_default
-            End If
-        Else
-            '================================= everything fine ====================================
-            Return rtnPath
-        End If
-        '▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
-        ' Check folder content - End
-        '▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
-    End Function
-
-#Region "Genre Image Tab"
-
-    Private Sub GernreImagesTab_Selected(sender As Object, e As TabControlEventArgs) Handles GernreImagesTab.Selected
-        Dim mediaContainers As List(Of MediaContainer) = myMediaContainerService.Get()
-        myIsMediaContainerLoading = True
-        For Each mediaContainer As MediaContainer In mediaContainers
-            UpdateUI(mediaContainer)
-        Next
-        myIsMediaContainerLoading = False
-    End Sub
-
-    Private Sub CBIHardcore_CheckedChanged(sender As Object, e As EventArgs) Handles CBIHardcore.CheckedChanged
-        SetMediaContainerEnabled(ImageGenre.Hardcore, ImageSource.Local, CBIHardcore.Checked)
-    End Sub
-
-    Private Sub CBISoftcore_CheckedChanged(sender As Object, e As EventArgs) Handles CBISoftcore.CheckedChanged
-        SetMediaContainerEnabled(ImageGenre.Softcore, ImageSource.Local, CBISoftcore.Checked)
-    End Sub
-
-    Private Sub CBILesbian_CheckedChanged(sender As Object, e As EventArgs) Handles CBILesbian.CheckedChanged
-        SetMediaContainerEnabled(ImageGenre.Lesbian, ImageSource.Local, CBILesbian.Checked)
-    End Sub
-
-    Private Sub CBIBlowjob_CheckedChanged(sender As Object, e As EventArgs) Handles CBIBlowjob.CheckedChanged
-        SetMediaContainerEnabled(ImageGenre.Blowjob, ImageSource.Local, CBIBlowjob.Checked)
-    End Sub
-
-    Private Sub CBIFemdom_CheckedChanged(sender As Object, e As EventArgs) Handles CBIFemdom.CheckedChanged
-        SetMediaContainerEnabled(ImageGenre.Femdom, ImageSource.Local, CBIFemdom.Checked)
-    End Sub
-
-    Private Sub CBILezdom_CheckedChanged(sender As Object, e As EventArgs) Handles CBILezdom.CheckedChanged
-        SetMediaContainerEnabled(ImageGenre.Lezdom, ImageSource.Local, CBILezdom.Checked)
-    End Sub
-
-    Private Sub CBIHentai_CheckedChanged(sender As Object, e As EventArgs) Handles CBIHentai.CheckedChanged
-        SetMediaContainerEnabled(ImageGenre.Hentai, ImageSource.Local, CBIHentai.Checked)
-    End Sub
-
-    Private Sub CBIGay_CheckedChanged(sender As Object, e As EventArgs) Handles CBIGay.CheckedChanged
-        SetMediaContainerEnabled(ImageGenre.Gay, ImageSource.Local, CBIGay.Checked)
-    End Sub
-
-    Private Sub CBIMaledom_CheckedChanged(sender As Object, e As EventArgs) Handles CBIMaledom.CheckedChanged
-        SetMediaContainerEnabled(ImageGenre.Maledom, ImageSource.Local, CBIMaledom.Checked)
-    End Sub
-
-    Private Sub CBICaptions_CheckedChanged(sender As Object, e As EventArgs) Handles CBICaptions.CheckedChanged
-        SetMediaContainerEnabled(ImageGenre.Captions, ImageSource.Local, CBICaptions.Checked)
-    End Sub
-
-    Private Sub CBIGeneral_CheckedChanged(sender As Object, e As EventArgs) Handles CBIGeneral.CheckedChanged
-        SetMediaContainerEnabled(ImageGenre.General, ImageSource.Local, CBIGeneral.Checked)
-    End Sub
-
-    Private Sub CBIBoobs_CheckedChanged(sender As Object, e As EventArgs) Handles CBIBoobs.CheckedChanged
-        SetMediaContainerEnabled(ImageGenre.Boobs, ImageSource.Local, CBIBoobs.Checked)
-    End Sub
-
-    Private Sub CBIButt_CheckedChanged(sender As Object, e As EventArgs) Handles CBIButts.CheckedChanged
-        SetMediaContainerEnabled(ImageGenre.Butt, ImageSource.Local, CBIButts.Checked)
-    End Sub
-
-    Private Sub BTNIHardcore_Click(sender As Object, e As EventArgs) Handles BTNIHardcore.Click
-        SetFolderFromDialog(ImageGenre.Hardcore)
-    End Sub
-
-    Private Sub BTNISoftcore_Click(sender As Object, e As EventArgs) Handles BTNISoftcore.Click
-        SetFolderFromDialog(ImageGenre.Softcore)
-    End Sub
-
-    Private Sub BTNILesbian_Click(sender As Object, e As EventArgs) Handles BTNILesbian.Click
-        SetFolderFromDialog(ImageGenre.Lesbian)
-    End Sub
-
-    Private Sub BTNIBlowjob_Click(sender As Object, e As EventArgs) Handles BTNIBlowjob.Click
-        SetFolderFromDialog(ImageGenre.Blowjob)
-    End Sub
-
-    Private Sub BTNIFemdom_Click(sender As Object, e As EventArgs) Handles BTNIFemdom.Click
-        SetFolderFromDialog(ImageGenre.Femdom)
-    End Sub
-
-    Private Sub BTNILezdom_Click(sender As Object, e As EventArgs) Handles BTNILezdom.Click
-        SetFolderFromDialog(ImageGenre.Lezdom)
-    End Sub
-
-    Private Sub BTNIHentai_Click(sender As Object, e As EventArgs) Handles BTNIHentai.Click
-        SetFolderFromDialog(ImageGenre.Hentai)
-    End Sub
-
-    Private Sub BTNIGay_Click(sender As Object, e As EventArgs) Handles BTNIGay.Click
-        SetFolderFromDialog(ImageGenre.Gay)
-    End Sub
-
-    Private Sub BTNIMaledom_Click(sender As Object, e As EventArgs) Handles BTNIMaledom.Click
-        SetFolderFromDialog(ImageGenre.Maledom)
-    End Sub
-
-    Private Sub BTNIGeneral_Click(sender As Object, e As EventArgs) Handles BTNIGeneral.Click
-        SetFolderFromDialog(ImageGenre.General)
-    End Sub
-
-    Private Sub BTNICaptions_Click(sender As Object, e As EventArgs) Handles BTNICaptions.Click
-        SetFolderFromDialog(ImageGenre.Captions)
-    End Sub
-
-    Private Sub BTNBoobPath_Click(sender As Object, e As EventArgs) Handles BTNBoobPath.Click
-        SetFolderFromDialog(ImageGenre.Boobs)
-    End Sub
-
-    Private Sub BTNButtPath_Click(sender As Object, e As EventArgs) Handles BTNButtPath.Click
-        SetFolderFromDialog(ImageGenre.Butt)
-    End Sub
-
-    Private Sub IncludeHardcoreSubDirectories_CheckedChanged(sender As Object, e As EventArgs) Handles IncludeHardcoreSubDirectories.CheckedChanged
-        SetMediaContainerUseSubDirectories(ImageGenre.Hardcore, ImageSource.Local, IncludeHardcoreSubDirectories.Checked)
-    End Sub
-
-    Private Sub IncludeSoftcoreSubDirectories_CheckedChanged(sender As Object, e As EventArgs) Handles IncludedSoftcoreSubDirectories.CheckedChanged
-        SetMediaContainerUseSubDirectories(ImageGenre.Softcore, ImageSource.Local, IncludedSoftcoreSubDirectories.Checked)
-    End Sub
-
-    Private Sub CBILesbianSD_CheckedChanged(sender As Object, e As EventArgs) Handles CBILesbianSD.CheckedChanged
-        SetMediaContainerUseSubDirectories(ImageGenre.Lesbian, ImageSource.Local, CBILesbianSD.Checked)
-    End Sub
-
-    Private Sub CBIBlowjobSD_CheckedChanged(sender As Object, e As EventArgs) Handles CBIBlowjobSD.CheckedChanged
-        SetMediaContainerUseSubDirectories(ImageGenre.Blowjob, ImageSource.Local, CBIBlowjobSD.Checked)
-    End Sub
-
-    Private Sub CBIFemdomSD_CheckedChanged(sender As Object, e As EventArgs) Handles CBIFemdomSD.CheckedChanged
-        SetMediaContainerUseSubDirectories(ImageGenre.Femdom, ImageSource.Local, CBIFemdomSD.Checked)
-    End Sub
-
-    Private Sub CBILezdomSD_CheckedChanged(sender As Object, e As EventArgs) Handles CBILezdomSD.CheckedChanged
-        SetMediaContainerUseSubDirectories(ImageGenre.Lezdom, ImageSource.Local, CBILezdomSD.Checked)
-    End Sub
-
-    Private Sub CBIHentaiSD_CheckedChanged(sender As Object, e As EventArgs) Handles CBIHentaiSD.CheckedChanged
-        SetMediaContainerUseSubDirectories(ImageGenre.Hentai, ImageSource.Local, CBIHentaiSD.Checked)
-    End Sub
-
-    Private Sub CBIGaySD_CheckedChanged(sender As Object, e As EventArgs) Handles CBIGaySD.CheckedChanged
-        SetMediaContainerUseSubDirectories(ImageGenre.Gay, ImageSource.Local, CBIGaySD.Checked)
-    End Sub
-
-    Private Sub CBIMaledomSD_CheckedChanged(sender As Object, e As EventArgs) Handles CBIMaledomSD.CheckedChanged
-        SetMediaContainerUseSubDirectories(ImageGenre.Maledom, ImageSource.Local, CBIMaledomSD.Checked)
-    End Sub
-
-    Private Sub CBICaptionsSD_CheckedChanged(sender As Object, e As EventArgs) Handles CBICaptionsSD.CheckedChanged
-        SetMediaContainerUseSubDirectories(ImageGenre.Captions, ImageSource.Local, CBICaptionsSD.Checked)
-    End Sub
-
-    Private Sub CBIGeneralSD_CheckedChanged(sender As Object, e As EventArgs) Handles CBIGeneralSD.CheckedChanged
-        SetMediaContainerUseSubDirectories(ImageGenre.General, ImageSource.Local, CBIGeneralSD.Checked)
-    End Sub
-
-    Private Sub CBIBoobsSD_CheckedChanged(sender As Object, e As EventArgs) Handles CBBoobSubDir.CheckedChanged
-        SetMediaContainerUseSubDirectories(ImageGenre.Boobs, ImageSource.Local, CBBoobSubDir.Checked)
-    End Sub
-
-    Private Sub CBIButtsSD_CheckedChanged(sender As Object, e As EventArgs) Handles CBButtSubDir.CheckedChanged
-        SetMediaContainerUseSubDirectories(ImageGenre.Butt, ImageSource.Local, CBButtSubDir.Checked)
-    End Sub
-
-    Private Sub UpdateUI(mediaContainer As MediaContainer)
-        If mediaContainer.SourceId = ImageSource.Local Then
-            If mediaContainer.GenreId = ImageGenre.Hardcore Then
-                CBIHardcore.Checked = mediaContainer.IsEnabled
-                TbxIHardcore.Text = mediaContainer.Path
-                IncludeHardcoreSubDirectories.Checked = mediaContainer.UseSubFolders
-            ElseIf mediaContainer.GenreId = ImageGenre.Softcore Then
-                CBISoftcore.Checked = mediaContainer.IsEnabled
-                TbxISoftcore.Text = mediaContainer.Path
-                IncludedSoftcoreSubDirectories.Checked = mediaContainer.UseSubFolders
-            ElseIf mediaContainer.GenreId = ImageGenre.Lesbian Then
-                CBILesbian.Checked = mediaContainer.IsEnabled
-                TbxILesbian.Text = mediaContainer.Path
-                CBILesbianSD.Checked = mediaContainer.UseSubFolders
-            ElseIf mediaContainer.GenreId = ImageGenre.Blowjob Then
-                CBIBlowjob.Checked = mediaContainer.IsEnabled
-                TbxIBlowjob.Text = mediaContainer.Path
-                CBIBlowjobSD.Checked = mediaContainer.UseSubFolders
-            ElseIf mediaContainer.GenreId = ImageGenre.Femdom Then
-                CBIFemdom.Checked = mediaContainer.IsEnabled
-                TbxIFemdom.Text = mediaContainer.Path
-                CBIFemdomSD.Checked = mediaContainer.UseSubFolders
-            ElseIf mediaContainer.GenreId = ImageGenre.Lezdom Then
-                CBILezdom.Checked = mediaContainer.IsEnabled
-                TbxILezdom.Text = mediaContainer.Path
-                CBILezdom.Checked = mediaContainer.UseSubFolders
-            ElseIf mediaContainer.GenreId = ImageGenre.Hentai Then
-                CBIHentai.Checked = mediaContainer.IsEnabled
-                TbxIHentai.Text = mediaContainer.Path
-                CBIHentaiSD.Checked = mediaContainer.UseSubFolders
-            ElseIf mediaContainer.GenreId = ImageGenre.Gay Then
-                CBIGay.Checked = mediaContainer.IsEnabled
-                TbxIGay.Text = mediaContainer.Path
-                CBIGaySD.Checked = mediaContainer.UseSubFolders
-            ElseIf mediaContainer.GenreId = ImageGenre.Maledom Then
-                CBIMaledom.Checked = mediaContainer.IsEnabled
-                TbxIMaledom.Text = mediaContainer.Path
-                CBIMaledomSD.Checked = mediaContainer.UseSubFolders
-            ElseIf mediaContainer.GenreId = ImageGenre.Captions Then
-                CBICaptions.Checked = mediaContainer.IsEnabled
-                TbxICaptions.Text = mediaContainer.Path
-                CBICaptionsSD.Checked = mediaContainer.UseSubFolders
-            ElseIf mediaContainer.GenreId = ImageGenre.General Then
-                CBIGeneral.Checked = mediaContainer.IsEnabled
-                TbxIGeneral.Text = mediaContainer.Path
-                CBIGeneralSD.Checked = mediaContainer.UseSubFolders
-            ElseIf mediaContainer.GenreId = ImageGenre.Boobs Then
-                CBIBoobs.Checked = mediaContainer.IsEnabled
-                TbxIBoobs.Text = mediaContainer.Path
-                CBBoobSubDir.Checked = mediaContainer.UseSubFolders
-            ElseIf mediaContainer.GenreId = ImageGenre.Butt Then
-                CBIButts.Checked = mediaContainer.IsEnabled
-                TbxIButts.Text = mediaContainer.Path
-                CBButtSubDir.Checked = mediaContainer.UseSubFolders
-            End If
-        ElseIf mediaContainer.SourceId = ImageSource.Remote Then
-            If mediaContainer.GenreId = ImageGenre.Hardcore Then
-                ChbImageUrlHardcore.Checked = mediaContainer.IsEnabled
-                TxbImageUrlHardcore.Text = mediaContainer.Path
-            ElseIf mediaContainer.GenreId = ImageGenre.Softcore Then
-                ChbImageUrlSoftcore.Checked = mediaContainer.IsEnabled
-                TxbImageUrlSoftcore.Text = mediaContainer.Path
-            ElseIf mediaContainer.GenreId = ImageGenre.Lesbian Then
-                ChbImageUrlLesbian.Checked = mediaContainer.IsEnabled
-                TxbImageUrlLesbian.Text = mediaContainer.Path
-            ElseIf mediaContainer.GenreId = ImageGenre.Blowjob Then
-                ChbImageUrlBlowjob.Checked = mediaContainer.IsEnabled
-                TxbImageUrlBlowjob.Text = mediaContainer.Path
-            ElseIf mediaContainer.GenreId = ImageGenre.Femdom Then
-                ChbImageUrlFemdom.Checked = mediaContainer.IsEnabled
-                TxbImageUrlFemdom.Text = mediaContainer.Path
-            ElseIf mediaContainer.GenreId = ImageGenre.Lezdom Then
-                ChbImageUrlLezdom.Checked = mediaContainer.IsEnabled
-                TxbImageUrlLezdom.Text = mediaContainer.Path
-            ElseIf mediaContainer.GenreId = ImageGenre.Hentai Then
-                ChbImageUrlHentai.Checked = mediaContainer.IsEnabled
-                TxbImageUrlHentai.Text = mediaContainer.Path
-            ElseIf mediaContainer.GenreId = ImageGenre.Gay Then
-                ChbImageUrlGay.Checked = mediaContainer.IsEnabled
-                TxbImageUrlGay.Text = mediaContainer.Path
-            ElseIf mediaContainer.GenreId = ImageGenre.Maledom Then
-                ChbImageUrlMaledom.Checked = mediaContainer.IsEnabled
-                TxbImageUrlMaledom.Text = mediaContainer.Path
-            ElseIf mediaContainer.GenreId = ImageGenre.Captions Then
-                ChbImageUrlCaptions.Checked = mediaContainer.IsEnabled
-                TxbImageUrlCaptions.Text = mediaContainer.Path
-            ElseIf mediaContainer.GenreId = ImageGenre.General Then
-                ChbImageUrlGeneral.Checked = mediaContainer.IsEnabled
-                TxbImageUrlGeneral.Text = mediaContainer.Path
-            ElseIf mediaContainer.GenreId = ImageGenre.Boobs Then
-                ChbImageUrlBoobs.Checked = mediaContainer.IsEnabled
-                TxbImageUrlBoobs.Text = mediaContainer.Path
-            ElseIf mediaContainer.GenreId = ImageGenre.Butt Then
-                ChbImageUrlButts.Checked = mediaContainer.IsEnabled
-                TxbImageUrlButts.Text = mediaContainer.Path
-            End If
-        End If
-    End Sub
-
-    Private Sub SetFolderFromDialog(genre As ImageGenre)
-        If myIsMediaContainerLoading Then
-            Return
-        End If
-        Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
-        If (folderBrowserDialog.ShowDialog() <> DialogResult.OK) Then
-            Return
-        End If
-
-        Dim mediaContainer As MediaContainer = myMediaContainerService.Get() _
-            .First(Function(mc) mc.MediaTypeId = 1 AndAlso mc.GenreId = genre AndAlso mc.SourceId = ImageSource.Local)
-        mediaContainer.Path = folderBrowserDialog.SelectedPath
-        myMediaContainerService.Update(New List(Of MediaContainer) From {mediaContainer})
-    End Sub
-
-    Private Sub SetMediaContainerEnabled(genre As ImageGenre, source As ImageSource, isEnabled As Boolean)
-        If myIsMediaContainerLoading Then
-            Return
-        End If
-        Dim mediaContainer As MediaContainer = myMediaContainerService.Get() _
-            .First(Function(mc) mc.MediaTypeId = 1 AndAlso mc.GenreId = genre AndAlso mc.SourceId = source)
-        mediaContainer.IsEnabled = isEnabled
-        myMediaContainerService.Update(New List(Of MediaContainer) From {mediaContainer})
-    End Sub
-
-    Private Sub SetMediaContainerUseSubDirectories(genre As ImageGenre, source As ImageSource, useSubdirectories As Boolean)
-        If myIsMediaContainerLoading Then
-            Return
-        End If
-        Dim mediaContainer As MediaContainer = myMediaContainerService.Get() _
-            .First(Function(mc) mc.MediaTypeId = 1 AndAlso mc.GenreId = genre AndAlso mc.SourceId = source)
-        mediaContainer.UseSubFolders = useSubdirectories
-        myMediaContainerService.Update(New List(Of MediaContainer) From {mediaContainer})
-    End Sub
-#End Region ' Genre Image Tab
-
-    Private Sub ImagePathTextBox_DoubleClick(sender As Object, e As EventArgs) Handles TbxIHardcore.DoubleClick, TbxISoftcore.DoubleClick
-        CType(sender, TextBox).Text = "No path selected"
-    End Sub
-
-    Private Sub LBLILesbian_Click(sender As Object, e As EventArgs) Handles TbxILesbian.DoubleClick
-        TbxILesbian.Text = "No path selected"
-    End Sub
-
-    Private Sub LBLIBlowjob_Click(sender As Object, e As EventArgs) Handles TbxIBlowjob.DoubleClick
-        TbxIBlowjob.Text = "No path selected"
-    End Sub
-
-    Private Sub LBLIFemdom_Click(sender As Object, e As EventArgs) Handles TbxIFemdom.DoubleClick
-        TbxIFemdom.Text = "No path selected"
-    End Sub
-
-    Private Sub LBLILezdom_Click(sender As Object, e As EventArgs) Handles TbxILezdom.DoubleClick
-        TbxILezdom.Text = "No path selected"
-    End Sub
-
-    Private Sub LBLIHentai_Click(sender As Object, e As EventArgs) Handles TbxIHentai.DoubleClick
-        TbxIHentai.Text = "No path selected"
-    End Sub
-
-    Private Sub LBLIGay_Click(sender As Object, e As EventArgs) Handles TbxIGay.DoubleClick
-        TbxIGay.Text = "No path selected"
-    End Sub
-
-    Private Sub LBLIMaledom_Click(sender As Object, e As EventArgs) Handles TbxIMaledom.DoubleClick
-        TbxIMaledom.Text = "No path selected"
-    End Sub
-
-    Private Sub LBLICaptions_Click(sender As Object, e As EventArgs) Handles TbxICaptions.DoubleClick
-        TbxICaptions.Text = "No path selected"
-    End Sub
-
-    Private Sub LBLIGeneral_Click(sender As Object, e As EventArgs) Handles TbxIGeneral.DoubleClick
-        TbxIGeneral.Text = "No path selected"
-    End Sub
-
-#Region "----------------------------------- GenreImages-Url-Files --------------------------------------"
-
-    Private Sub BtnImageUrlSetFile_Click(sender As Object, e As EventArgs) Handles BtnImageUrlHardcore.Click,
-                    BtnImageUrlSoftcore.Click, BtnImageUrlMaledom.Click, BtnImageUrlLezdom.Click, BtnImageUrlLesbian.Click,
-                    BtnImageUrlHentai.Click, BtnImageUrlGeneral.Click, BtnImageUrlGay.Click, BtnImageUrlFemdom.Click,
-                    BtnImageUrlCaptions.Click, BtnImageUrlButt.Click, BtnImageUrlBoobs.Click, BtnImageUrlBlowjob.Click
-        Try
-            ' Read the Row of the current Button
-            Dim tmpTlpRow As Integer = TlpImageUrls.GetRow(sender)
-
-            ' Check if the Button is in the TableLayoutPanel.
-            If tmpTlpRow = -1 Then Throw New Exception("Can't find control in TableLayoutPanel. " &
-                                                       "This is a major Design issue has to be fixed in code.")
-
-            ' Get the Checkbox for the current button
-            Dim tmpCheckbox As CheckBox = TlpImageUrls.GetControlFromPosition(0, tmpTlpRow)
-
-            ' Check if the Text-Property has an active Databinding.
-            If tmpCheckbox.DataBindings.Item("Checked") Is Nothing Then _
-                Throw New InvalidDataException("Databinding """" Checked """" was not found in Checkbox." &
-                                                "This is a major design issue and has to be fixed in code.")
-
-            ' Get the TExtBox for the Current Button
-            Dim tmpTextbox As TextBox = TlpImageUrls.GetControlFromPosition(2, tmpTlpRow)
-
-            ' Check if the Text-Property has an active Databinding.
-            If tmpTextbox.DataBindings.Item("Text") Is Nothing Then _
-                Throw New InvalidDataException("This function is only availabe with a Databound Textbox. " &
-                                                "This is a major design issue and has to be fixed in code.")
-
-            'Declare a new instance of An OpenFileDialog. Use the URL-FilePat as initial
-            Dim tmpFS As New OpenFileDialog With {
-                .Filter = "Textfiles|*.txt",
-                .Multiselect = False,
-                .CheckFileExists = True,
-                .Title = "Select an " & tmpCheckbox.Text & " URL-File",
-                .InitialDirectory = myPathsAccessor.UrlsDirectory}
-
-            ' Check if the URL-FilePath exits -> Otherwise create it.
-            If Not Directory.Exists(tmpFS.InitialDirectory) Then _
-            Directory.CreateDirectory(tmpFS.InitialDirectory)
-
-            Dim tmpPath As String = tmpTextbox.Text
-            If tmpPath.ToLower.EndsWith(".txt") Then
-                If Path.IsPathRooted(tmpPath) AndAlso Directory.Exists(Path.GetDirectoryName(tmpPath)) Then
-                    ' Set an alternate Initial directory if filepath is absolute 
-                    tmpFS.InitialDirectory = Path.GetDirectoryName(tmpPath)
-                    tmpFS.FileName = Path.GetFileName(tmpPath)
-                Else
-                    ' Set the given Filename
-                    tmpFS.FileName = tmpPath
-                End If
-            End If
-
-            If tmpFS.ShowDialog() = DialogResult.OK Then
-                If Path.GetDirectoryName(tmpFS.FileName).ToLower = Path.GetDirectoryName(myPathsAccessor.UrlsDirectory).ToLower Then
-                    ' If the file is located standarddirectory st only the filename
-                    tmpTextbox.Text = tmpFS.SafeFileName
-                Else
-                    ' Otherwise set the absoulte filepath
-                    tmpTextbox.Text = tmpFS.FileName
-                End If
-
-                ' This will force the Settings to save.
-                tmpCheckbox.Checked = True
-            End If
-        Catch ex As Exception
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-            '						       All Errors
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-            MsgBox(ex.Message & vbCrLf & "Please report this error at the Milovana Forum.",
-                   MsgBoxStyle.Critical, "Cant Set URl-File")
-            Log.WriteError(ex.Message, ex, "Error Set Url-File")
-        End Try
-    End Sub
-
-#End Region 'GenreImages-Url-Files
-
-#End Region ' Images
+    ' Images
 
 #Region "--------------------------------------- Videos -------------------------------------------------"
 
@@ -4983,6 +3956,339 @@ checkFolder:
                     .OnSuccess(Function(data) myParseTagDataService.ParseTagData(data)).GetResultOrDefault(New List(Of TeaseAI.Common.TaggedItem))
     End Function
 
+#End Region
+
+#Region "URL Files"
+    Private Sub UrlFilesTab_VisibleChanged(sender As Object, e As EventArgs) Handles UrlFilesTab.VisibleChanged
+        Dim mediaContainers As List(Of MediaContainer) = myMediaContainerService.Get() _
+            .Where(Function(mc) mc.MediaTypeId = 1 AndAlso mc.SourceId = ImageSource.Remote) _
+            .OrderBy(Function(mc) mc.Name) _
+            .ToList()
+
+        SelectBlogDropDown.DisplayMember = NameOf(MediaContainer.Name)
+        SelectBlogDropDown.ValueMember = NameOf(MediaContainer.Id)
+        SelectBlogDropDown.DataSource = mediaContainers
+    End Sub
+
+    Private Async Sub CreateBlogContainerButton_Click(sender As Object, e As EventArgs) Handles CreateBlogContainerButton.Click
+        Dim imageBlogUrl = InputBox("Enter an image blog", "URL File Generator", "https://(Blog Name).tumblr.com/")
+        Dim mediaContainer As MediaContainer = myMediaContainerService.Get().FirstOrDefault(Function(mc) mc.Path = imageBlogUrl)
+        If mediaContainer Is Nothing Then
+            mediaContainer = New MediaContainer With {
+                .Path = imageBlogUrl,
+                .IsEnabled = True,
+                .Name = imageBlogUrl.Replace("https://", String.Empty).Replace(".tumblr.com/", String.Empty).Replace("--", "-").Replace("-", " "),
+                .MediaTypeId = 1, ' image
+                .SourceId = ImageSource.Remote,
+                .GenreId = ImageGenre.Blog
+            }
+            mediaContainer = myMediaContainerService.Create(mediaContainer).GetResultOrDefault(mediaContainer)
+        End If
+
+        Dim imageMetaDatas As List(Of ImageMetaData) = (Await myImageBlogDownloadService.GetBlogImagesAsync(New Uri(imageBlogUrl), 0, 100)) _
+            .GetResultOrDefault(New List(Of ImageMetaData))
+
+        imageMetaDatas.ForEach(Sub(imd) imd.MediaContainerId = mediaContainer.Id)
+
+        Dim containerImages As List(Of ImageMetaData) = myImageMetaDataService.GetImagesInContainer(mediaContainer.Id).GetResultOrDefault(New List(Of ImageMetaData))
+        Dim i As Integer = 0
+        While i < imageMetaDatas.Count
+            If containerImages.Any(Function(imd) imd.FullFileName = imageMetaDatas(i).FullFileName) Then
+                imageMetaDatas.RemoveAt(i)
+                i = i - 1
+            End If
+            i = i + 1
+        End While
+
+        Dim mediaContainers As List(Of MediaContainer) = CType(SelectBlogDropDown.DataSource, List(Of MediaContainer))
+        mediaContainers.Add(mediaContainer)
+        mediaContainers = mediaContainers.OrderBy(Function(mc) mc.Name).ToList()
+        SelectBlogDropDown.DataSource = mediaContainers
+
+        myUrlFileIndex = 0
+        SelectBlogDropDown.ValueMember = mediaContainer.Id
+
+        myWorkingUrlImageMetaDatas = imageMetaDatas
+
+        LoadUrlImage(CType(SelectBlogDropDown.SelectedValue, Integer), myUrlFileIndex)
+    End Sub
+
+    Private Sub WebPictureBox_MouseWheel(sender As Object, e As Windows.Forms.MouseEventArgs) Handles WebPictureBox.MouseWheel
+        Select Case e.Delta
+            Case -120 'Scrolling down
+                If myUrlFileIndex = myWorkingUrlImageMetaDatas.Count - 1 Then
+                    Return
+                End If
+                myUrlFileIndex += 1
+                LoadUrlImage(CType(SelectBlogDropDown.SelectedValue, Integer), myUrlFileIndex)
+
+            Case 120 'Scrolling up
+                If myUrlFileIndex = 0 Then
+                    Return
+                End If
+                myUrlFileIndex -= 1
+                LoadUrlImage(CType(SelectBlogDropDown.SelectedValue, Integer), myUrlFileIndex)
+        End Select
+    End Sub
+
+    Private Sub WebPictureBox_MouseEnter(ByVal sender As Object, ByVal e As EventArgs) Handles WebPictureBox.MouseEnter
+        WebPictureBox.Focus()
+    End Sub
+
+    Private Sub Button57_Click(sender As Object, e As EventArgs) Handles BTNWIBrowse.Click
+        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
+            TBWIDirectory.Text = FolderBrowserDialog1.SelectedPath
+        End If
+    End Sub
+
+    Private Sub CBWISaveToDisk_CheckedChanged(sender As Object, e As EventArgs) Handles CBWISaveToDisk.CheckedChanged
+
+        If CBWISaveToDisk.Checked Then
+            If Not Directory.Exists(TBWIDirectory.Text) Then
+                MessageBox.Show(Me, "Please enter or browse for a valid Saved Image Directory first!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
+                CBWISaveToDisk.Checked = False
+            End If
+        End If
+    End Sub
+
+    Private Async Sub UrlImageAddAndContinue_Click(sender As Object, e As EventArgs) Handles UrlImageAddAndContinue.Click
+        Dim containerImages = myImageMetaDataService.GetImagesInContainer(CType(SelectBlogDropDown.SelectedValue, Integer)) _
+            .OnSuccess(Function(imds)
+                           Dim currentImageMetaData = myWorkingUrlImageMetaDatas(myUrlFileIndex)
+                           ' it isn't an error if this is saved, we just do nothing
+                           If imds.Any(Function(imd) imd.FullFileName = currentImageMetaData.FullFileName) Then
+                               Return Result.Ok()
+                           End If
+                           myImageMetaDataService.Create(New List(Of ImageMetaData)(currentImageMetaData))
+                       End Function)
+
+        myUrlFileIndex += 1
+        LoadUrlImage(CType(SelectBlogDropDown.SelectedValue, Integer), myUrlFileIndex)
+
+        If containerImages.IsFailure Then
+            Await myNotifyUserService.ModalMessageAsync(containerImages.Error.Message)
+        End If
+    End Sub
+
+    Private Sub UrlImageContinueButton_Click(sender As Object, e As EventArgs) Handles UrlImageContinueButton.Click
+        myUrlFileIndex += 1
+        LoadUrlImage(CType(SelectBlogDropDown.SelectedValue, Integer), myUrlFileIndex)
+    End Sub
+
+    Private Sub BTNCancel_Click(sender As Object, e As EventArgs) Handles BTNWICancel.Click
+        If BWURLFiles.IsBusy Then BWURLFiles.CancelAsync()
+    End Sub
+
+    Private Async Sub BTNWIRemove_Click(sender As Object, e As EventArgs) Handles UrlImageRemoveButton.Click
+        Dim containerImages = myImageMetaDataService.GetImagesInContainer(CType(SelectBlogDropDown.SelectedValue, Integer)) _
+            .OnSuccess(Function(imds)
+                           Dim currentImage = myWorkingUrlImageMetaDatas(myUrlFileIndex)
+                           Dim containerImage = imds.FirstOrDefault(Function(imd) imd.FullFileName = currentImage.FullFileName)
+                           If containerImage IsNot Nothing Then
+                               Return myImageMetaDataService.Delete(containerImage)
+                           End If
+                           Return Result.Ok()
+                       End Function)
+
+        If containerImages.IsFailure Then
+            Await myNotifyUserService.ModalMessageAsync(containerImages.Error.Message)
+        End If
+    End Sub
+
+    Private Async Sub BTNWILiked_Click(sender As Object, e As EventArgs) Handles BTNWILiked.Click
+        Dim mediaContainer = myMediaContainerService.Get().First(Function(mc) mc.MediaTypeId = 1 AndAlso mc.SourceId = ImageSource.Remote AndAlso mc.GenreId = ImageGenre.Liked)
+        Dim containerImages = myImageMetaDataService.GetImagesInContainer(mediaContainer.Id) _
+            .OnSuccess(Function(imds)
+                           Dim currentImage = myWorkingUrlImageMetaDatas(myUrlFileIndex)
+                           Dim containerImage = imds.FirstOrDefault(Function(imd) imd.FullFileName = currentImage.FullFileName)
+                           If containerImage Is Nothing Then
+                               myImageMetaDataService.Create(New List(Of ImageMetaData)(containerImage))
+                           End If
+                           Return Result.Ok()
+                       End Function)
+
+        If containerImages.IsFailure Then
+            Await myNotifyUserService.ModalMessageAsync(containerImages.Error.Message)
+        End If
+    End Sub
+
+    Private Sub BTNWIDisliked_Click(sender As Object, e As EventArgs) Handles BTNWIDisliked.Click
+
+        If File.Exists(Application.StartupPath & "\Images\System\DislikedImageURLs.txt") Then
+            My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Images\System\DislikedImageURLs.txt", Environment.NewLine & WebImageLines(WebImageLine), True)
+        Else
+            My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Images\System\DislikedImageURLs.txt", WebImageLines(WebImageLine), True)
+        End If
+
+    End Sub
+
+    Private Sub SelectBlogDropDown_SelectedIndexChanged(sender As Object, e As EventArgs) Handles SelectBlogDropDown.SelectedIndexChanged
+        myUrlFileIndex = 0
+        LoadUrlImage(CType(SelectBlogDropDown.SelectedValue, Integer), myUrlFileIndex)
+    End Sub
+
+    Private Sub UrlFilesNextImageButton_Click(sender As Object, e As EventArgs) Handles UrlFilesNextImageButton.Click
+        myUrlFileIndex = myUrlFileIndex + 1
+        LoadUrlImage(CType(SelectBlogDropDown.SelectedValue, Integer), myUrlFileIndex)
+    End Sub
+
+    Private Sub UrlFilesPreviousImageButton_Click(sender As Object, e As EventArgs) Handles UrlFilesPreviousImageButton.Click
+        myUrlFileIndex = myUrlFileIndex - 1
+        LoadUrlImage(CType(SelectBlogDropDown.SelectedValue, Integer), myUrlFileIndex)
+    End Sub
+
+    Private Sub Button37_Click(sender As Object, e As EventArgs) Handles BTNWISave.Click
+
+        If WebPictureBox.Image Is Nothing Then
+            MsgBox("Nothing to save!", , "Error!")
+            Return
+        End If
+
+
+        SaveFileDialog1.Filter = "jpegs|*.jpg|gifs|*.gif|pngs|*.png|Bitmaps|*.bmp"
+        SaveFileDialog1.FilterIndex = 1
+        SaveFileDialog1.RestoreDirectory = True
+
+
+        Try
+
+            WebImage = WebImageLines(WebImageLine)
+
+            Dim DirSplit As String() = WebImage.Split("/")
+            WebImage = DirSplit(DirSplit.Length - 1)
+
+            ' ### Clean Code
+            'Do Until Not Form1.WebImage.Contains("/")
+            'Form1.WebImage = Form1.WebImage.Remove(0, 1)
+            'Loop
+
+            SaveFileDialog1.FileName = WebImage
+
+        Catch ex As Exception
+
+            SaveFileDialog1.FileName = "image.jpg"
+
+        End Try
+
+        If SaveFileDialog1.ShowDialog() = DialogResult.OK Then
+
+            WebPictureBox.Image.Save(SaveFileDialog1.FileName)
+
+        End If
+
+    End Sub
+
+    Private Sub Button38_Click(sender As Object, e As EventArgs) Handles BTNMaintenanceRefresh.Click,
+                                                                                       BTNMaintenanceRebuild.Click
+        Dim __PreEnabled As New List(Of Control) From
+            {SelectBlogDropDown, CreateBlogContainerButton, BTNMaintenanceRefresh,
+            BTNMaintenanceRebuild, BTNMaintenanceScripts}
+        Dim __PreDisabled As New List(Of Control) From
+            {BTNWICancel, BTNMaintenanceCancel}
+
+        Try
+            ' Set their new State, so the User can't disturb.
+            __PreEnabled.ForEach(Sub(x) x.Enabled = False)
+            __PreDisabled.ForEach(Sub(x) x.Enabled = True)
+
+            Select Case sender.name
+                Case BTNMaintenanceRefresh.Name
+                    'on the misc page
+                    Try
+
+                        ' Run Backgroundworker
+                        Dim __tmpResult As URL_File_BGW.MaintainUrlResult = BWURLFiles.RefreshURLFilesAsync()
+
+                        ' Activate the URL-Files
+                        __tmpResult.MaintainedUrlFiles.ForEach(AddressOf URL_File_Set)
+
+                        If __tmpResult.Cancelled Then
+                            MessageBox.Show(Me, "Refreshing URL-File has been aborted after " & __tmpResult.MaintainedUrlFiles.Count & " URL-Files." &
+                                            vbCrLf & __tmpResult.ModifiedLinkCount & " new URLs have been added.",
+                                            "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        ElseIf __tmpResult.ErrorText.Capacity > 0 Then
+                            MessageBox.Show(Me, "URL Files have been refreshed with errors!" &
+                                            vbCrLf & vbCrLf & __tmpResult.ModifiedLinkCount & " new URLs have been added." &
+                                            vbCrLf & vbCrLf & String.Join(vbCrLf, __tmpResult.ErrorText),
+                                            "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Else
+                            MessageBox.Show(Me, "All URL Files have been refreshed!" &
+                                            vbCrLf & vbCrLf & __tmpResult.ModifiedLinkCount & " new URLs have been added.",
+                                            "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        End If
+                    Finally
+                        LBLMaintenance.Text = String.Empty
+                        PBCurrent.Value = 0
+                        PBMaintenance.Value = 0
+                    End Try
+                Case BTNMaintenanceRebuild.Name
+                    'on the misc page
+                    Try
+                        ' Run Backgroundworker
+                        Dim __tmpResult As URL_File_BGW.MaintainUrlResult = BWURLFiles.RebuildURLFilesAsync()
+
+                        ' Activate the URL-Files
+                        __tmpResult.MaintainedUrlFiles.ForEach(AddressOf URL_File_Set)
+
+                        If __tmpResult.Cancelled Then
+                            MessageBox.Show(Me, "Rebuilding URL-File has been aborted after " & __tmpResult.MaintainedUrlFiles.Count & " URL-Files." &
+                                            vbCrLf & __tmpResult.ModifiedLinkCount & " dead URLs have been removed.",
+                                            "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        ElseIf __tmpResult.ErrorText.Capacity > 0 Then
+                            MessageBox.Show(Me, "URL Files have been rebuilded with errors!" &
+                                            vbCrLf & vbCrLf & __tmpResult.ModifiedLinkCount & " dead URLs have been removed." &
+                                            vbCrLf & vbCrLf & __tmpResult.LinkCountTotal & " URLs in total." &
+                                            vbCrLf & vbCrLf & String.Join(vbCrLf, __tmpResult.ErrorText),
+                                            "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Else
+                            MessageBox.Show(Me, "All URL Files have been rebuilded!" &
+                                            vbCrLf & vbCrLf & __tmpResult.ModifiedLinkCount & " dead URLs have been removed." &
+                                            vbCrLf & vbCrLf & __tmpResult.LinkCountTotal & " URLs in total.",
+                                            "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        End If
+                    Catch
+                        '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
+                        '                                            All Errors
+                        '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
+                        Throw
+                    Finally
+                        '⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑ Finally ⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑
+                        LBLMaintenance.Text = String.Empty
+                        PBCurrent.Value = 0
+                        PBMaintenance.Value = 0
+                    End Try
+            End Select
+        Catch ex As Exception
+            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
+            '                                            All Errors
+            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
+            If ex.InnerException IsNot Nothing Then
+                ' If an Error ocurred in the other Thread, initial Exception is innner one.
+                MsgBox(ex.InnerException.Message, MsgBoxStyle.Critical, "Error Creating URL-File")
+            Else
+                ' Otherwise show it normal.
+                MsgBox(ex.Message, MsgBoxStyle.Critical, "Error Creating URL-File")
+            End If
+        Finally
+            '⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑ Finally ⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑
+            ' Restore the initial State of the Buttons
+            __PreEnabled.ForEach(Sub(x) x.Enabled = True)
+            __PreDisabled.ForEach(Sub(x) x.Enabled = False)
+        End Try
+    End Sub
+
+    ''' <summary>
+    ''' Load the image and set nav buttons to enabled status as appropriate
+    ''' </summary>
+    ''' <param name="mediaContainerId"></param>
+    ''' <param name="urlFileIndex"></param>
+    Private Sub LoadUrlImage(mediaContainerId As Integer, urlFileIndex As Integer)
+        LBLWebImageCount.Text = BuildIndexString(urlFileIndex, myWorkingUrlImageMetaDatas.Count)
+        WebPictureBox.Image = LoadBlogImage(myWorkingUrlImageMetaDatas(urlFileIndex))
+
+        UrlFilesNextImageButton.Enabled = urlFileIndex < myWorkingUrlImageMetaDatas.Count
+        UrlFilesPreviousImageButton.Enabled = urlFileIndex > 0
+    End Sub
 #End Region
 
     Private Sub ComboBox1_DrawItem(ByVal sender As Object, ByVal e As Windows.Forms.DrawItemEventArgs) Handles SubMessageFontCB.DrawItem
@@ -7890,6 +7196,17 @@ checkFolder:
         Throw New Exception("Unkonown DomLevel")
     End Function
 
+    Private Function BuildIndexString(index As Integer, count As Integer) As String
+        If count = 0 Then
+            Return "0 / 0"
+        End If
+        Return String.Format("{0} / {1}", (index + 1).ToString(), count.ToString())
+    End Function
+
+    Private Function LoadBlogImage(imageMetaData As ImageMetaData) As Image
+        Return New Bitmap(New MemoryStream(New Net.WebClient().DownloadData(imageMetaData.FullFileName)))
+    End Function
+
     Private ReadOnly mySettingsAccessor As ISettingsAccessor
     Private ReadOnly myConfigurationAccessor As IConfigurationAccessor
     Private ReadOnly myBlogAccessor As BlogImageAccessor
@@ -7903,7 +7220,9 @@ checkFolder:
     Private ReadOnly myImageTagMapService As IImageTagMapService
     Private ReadOnly myGetCommandProcessorsService As IGetCommandProcessorsService
     Private ReadOnly myNotifyUserService As INotifyUser
+    Private ReadOnly myImageBlogDownloadService As IImageBlogDownloadService
 
     Private myIsFormSettingTags As Boolean
     Private myIsMediaContainerLoading As Boolean
+    Private myWorkingUrlImageMetaDatas As List(Of ImageMetaData)
 End Class

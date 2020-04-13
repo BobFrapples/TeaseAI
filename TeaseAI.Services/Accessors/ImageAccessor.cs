@@ -64,6 +64,47 @@ namespace TeaseAI.Services.Accessors
             }
         }
 
+        public void Create(List<ImageMetaData> images)
+        {
+            _imageMetaDataRepository.Create(images);
+        }
+
+        public Result Delete(ImageMetaData imageMetaData)=> _imageMetaDataRepository.Delete(imageMetaData);
+
+        public Result<List<ImageMetaData>> GetImagesInContainer(int containerId)
+        {
+            return _mediaContainerService.Get(containerId)
+                .OnSuccess(mc =>
+                {
+                    var dbImages = _imageMetaDataRepository.Get(mc.SourceId, mc.GenreId);
+                    var fileImages = GetFiles(mc);
+                    foreach (var file in fileImages)
+                    {
+                        if (dbImages.All(imd => imd.FullFileName != file))
+                        {
+                            var newImage = new ImageMetaData
+                            {
+                                FullFileName = file,
+                                ItemName = Path.GetFileNameWithoutExtension(file),
+                                MediaContainerId = mc.Id,
+                                GenreId = mc.GenreId,
+                                SourceId = mc.SourceId,
+                            };
+                            _imageMetaDataRepository.Create(newImage)
+                                .OnSuccess(imd =>
+                                {
+                                    dbImages.Add(imd);
+                                });
+                        }
+                    }
+
+                    return Result.Ok(dbImages.OrderBy(imd => imd.ItemName ).ToList());
+                });
+
+        }
+
+        public List<ImageMetaData> GetImagesWithTag(ItemTagId itemTagId) => _imageMetaDataRepository.GetImagesWithTag(itemTagId);
+
         private IEnumerable<string> GetAvailableBlogFiles()
         {
             var checkListFile = _pathsAccessor.GetSystemImages()
@@ -111,43 +152,6 @@ namespace TeaseAI.Services.Accessors
             return File.ReadAllLines(urlFileDir).ToList();
         }
 
-        public void Create(List<ImageMetaData> images)
-        {
-            _imageMetaDataRepository.Create(images);
-        }
-
-        public Result<List<ImageMetaData>> GetImagesInContainer(int containerId)
-        {
-            return _mediaContainerService.Get(containerId)
-                .OnSuccess(mc =>
-                {
-                    var dbImages = _imageMetaDataRepository.Get(mc.SourceId, mc.GenreId);
-                    var fileImages = GetFiles(mc);
-                    foreach (var file in fileImages)
-                    {
-                        if (dbImages.All(imd => imd.FullFileName != file))
-                        {
-                            var newImage = new ImageMetaData
-                            {
-                                FullFileName = file,
-                                ItemName = Path.GetFileNameWithoutExtension(file),
-                                MediaContainerId = mc.Id,
-                                GenreId = mc.GenreId,
-                                SourceId = mc.SourceId,
-                            };
-                            _imageMetaDataRepository.Create(newImage)
-                                .OnSuccess(imd =>
-                                {
-                                    dbImages.Add(imd);
-                                });
-                        }
-                    }
-
-                    return Result.Ok(dbImages.OrderBy(imd => imd.ItemName ).ToList());
-                });
-
-        }
-
         private List<string> GetFiles(MediaContainer mediaContainer)
         {
             if (!Directory.Exists(mediaContainer.Path))
@@ -157,8 +161,6 @@ namespace TeaseAI.Services.Accessors
             var temp = Directory.GetFiles(mediaContainer.Path, "*.jpg", searchOption);
             return temp.ToList();
         }
-
-        public List<ImageMetaData> GetImagesWithTag(ItemTagId itemTagId) => _imageMetaDataRepository.GetImagesWithTag(itemTagId);
 
         private readonly IConfigurationAccessor _configurationAccessor;
         private readonly IPathsAccessor _pathsAccessor;

@@ -67,6 +67,10 @@ Public Class ApplicationFactory
         Return New SessionEngine(CreateSettingsAccessor(), New StringService(), CreateScriptAccessor(), New TimerFactory(), New FlagAccessor(), CreateImageMetaDataService(), New VideoAccessor(), New VariableAccessor(), New TauntAccessor(), New SystemVocabularyAccessor(), New VocabularyAccessor(), New LineCollectionFilter(), New RandomNumberService(), CreateConfigurationAccessor(), New NotifyUser(), CreatePathsAccessor(), CreateGetCommandProcessorsService())
     End Function
 
+    Friend Shared Function CreateImageBlogDownloadService() As IImageBlogDownloadService
+        Return New TumblrImageBlogRepository()
+    End Function
+
     Friend Shared Function CreateNotifyUserService() As INotifyUser
         Return New NotifyUser()
     End Function

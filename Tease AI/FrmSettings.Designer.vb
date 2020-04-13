@@ -546,28 +546,28 @@ Partial Class FrmSettings
         Me.CBTagChastity = New System.Windows.Forms.CheckBox()
         Me.CBTagShower = New System.Windows.Forms.CheckBox()
         Me.SaveTagButton = New System.Windows.Forms.Button()
-        Me.TabPage11 = New System.Windows.Forms.TabPage()
+        Me.UrlFilesTab = New System.Windows.Forms.TabPage()
         Me.UrlFilesPanel = New System.Windows.Forms.Panel()
-        Me.BTNWIContinue = New System.Windows.Forms.Button()
-        Me.BTNWIAddandContinue = New System.Windows.Forms.Button()
+        Me.SelectBlogDropDown = New System.Windows.Forms.ComboBox()
+        Me.UrlImageContinueButton = New System.Windows.Forms.Button()
+        Me.UrlImageAddAndContinue = New System.Windows.Forms.Button()
         Me.BTNWICancel = New System.Windows.Forms.Button()
         Me.CBWIReview = New System.Windows.Forms.CheckBox()
         Me.BTNWIBrowse = New System.Windows.Forms.Button()
         Me.TBWIDirectory = New System.Windows.Forms.TextBox()
         Me.BTNWIDisliked = New System.Windows.Forms.Button()
         Me.BTNWILiked = New System.Windows.Forms.Button()
-        Me.BTNWIRemove = New System.Windows.Forms.Button()
+        Me.UrlImageRemoveButton = New System.Windows.Forms.Button()
         Me.CBWISaveToDisk = New System.Windows.Forms.CheckBox()
         Me.PictureBox5 = New System.Windows.Forms.PictureBox()
         Me.WebImageProgressBar = New System.Windows.Forms.ProgressBar()
-        Me.BTNWICreateURL = New System.Windows.Forms.Button()
+        Me.CreateBlogContainerButton = New System.Windows.Forms.Button()
         Me.LBLWebImageCount = New System.Windows.Forms.Label()
         Me.BTNWISave = New System.Windows.Forms.Button()
-        Me.BTNWIOpenURL = New System.Windows.Forms.Button()
-        Me.BTNWIPrevious = New System.Windows.Forms.Button()
-        Me.BTNWINext = New System.Windows.Forms.Button()
+        Me.UrlFilesPreviousImageButton = New System.Windows.Forms.Button()
+        Me.UrlFilesNextImageButton = New System.Windows.Forms.Button()
         Me.WebPictureBox = New System.Windows.Forms.PictureBox()
-        Me.Label71 = New System.Windows.Forms.Label()
+        Me.ImageBlogs = New System.Windows.Forms.Label()
         Me.TpVideoSettings = New System.Windows.Forms.TabPage()
         Me.PnlVideoSettings = New System.Windows.Forms.Panel()
         Me.PbBannerVideoSettings = New System.Windows.Forms.PictureBox()
@@ -1201,7 +1201,7 @@ Partial Class FrmSettings
         Me.BdsmTagGroup.SuspendLayout
         Me.GroupBox50.SuspendLayout
         Me.GroupBox48.SuspendLayout
-        Me.TabPage11.SuspendLayout
+        Me.UrlFilesTab.SuspendLayout
         Me.UrlFilesPanel.SuspendLayout
         CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.WebPictureBox, System.ComponentModel.ISupportInitialize).BeginInit
@@ -1358,7 +1358,7 @@ Partial Class FrmSettings
         Me.SettingsTabs.Controls.Add(Me.TabPage16)
         Me.SettingsTabs.Controls.Add(Me.TabPage7)
         Me.SettingsTabs.Controls.Add(Me.TabPage33)
-        Me.SettingsTabs.Controls.Add(Me.TabPage11)
+        Me.SettingsTabs.Controls.Add(Me.UrlFilesTab)
         Me.SettingsTabs.Controls.Add(Me.TpVideoSettings)
         Me.SettingsTabs.Controls.Add(Me.TabPage20)
         Me.SettingsTabs.Controls.Add(Me.TabPage26)
@@ -7979,72 +7979,80 @@ Partial Class FrmSettings
         Me.SaveTagButton.Text = "Save Tags"
         Me.SaveTagButton.UseVisualStyleBackColor = True
         '
-        'TabPage11
+        'UrlFilesTab
         '
-        Me.TabPage11.BackColor = System.Drawing.Color.Silver
-        Me.TabPage11.Controls.Add(Me.UrlFilesPanel)
-        Me.TabPage11.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage11.Name = "TabPage11"
-        Me.TabPage11.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage11.Size = New System.Drawing.Size(972, 631)
-        Me.TabPage11.TabIndex = 10
-        Me.TabPage11.Text = "URL Files"
+        Me.UrlFilesTab.BackColor = System.Drawing.Color.Silver
+        Me.UrlFilesTab.Controls.Add(Me.UrlFilesPanel)
+        Me.UrlFilesTab.Location = New System.Drawing.Point(4, 22)
+        Me.UrlFilesTab.Name = "UrlFilesTab"
+        Me.UrlFilesTab.Padding = New System.Windows.Forms.Padding(3)
+        Me.UrlFilesTab.Size = New System.Drawing.Size(972, 631)
+        Me.UrlFilesTab.TabIndex = 10
+        Me.UrlFilesTab.Text = "URL Files"
         '
         'UrlFilesPanel
         '
         Me.UrlFilesPanel.BackColor = System.Drawing.Color.LightGray
         Me.UrlFilesPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.UrlFilesPanel.Controls.Add(Me.BTNWIContinue)
-        Me.UrlFilesPanel.Controls.Add(Me.BTNWIAddandContinue)
+        Me.UrlFilesPanel.Controls.Add(Me.SelectBlogDropDown)
+        Me.UrlFilesPanel.Controls.Add(Me.UrlImageContinueButton)
+        Me.UrlFilesPanel.Controls.Add(Me.UrlImageAddAndContinue)
         Me.UrlFilesPanel.Controls.Add(Me.BTNWICancel)
         Me.UrlFilesPanel.Controls.Add(Me.CBWIReview)
         Me.UrlFilesPanel.Controls.Add(Me.BTNWIBrowse)
         Me.UrlFilesPanel.Controls.Add(Me.TBWIDirectory)
         Me.UrlFilesPanel.Controls.Add(Me.BTNWIDisliked)
         Me.UrlFilesPanel.Controls.Add(Me.BTNWILiked)
-        Me.UrlFilesPanel.Controls.Add(Me.BTNWIRemove)
+        Me.UrlFilesPanel.Controls.Add(Me.UrlImageRemoveButton)
         Me.UrlFilesPanel.Controls.Add(Me.CBWISaveToDisk)
         Me.UrlFilesPanel.Controls.Add(Me.PictureBox5)
         Me.UrlFilesPanel.Controls.Add(Me.WebImageProgressBar)
-        Me.UrlFilesPanel.Controls.Add(Me.BTNWICreateURL)
+        Me.UrlFilesPanel.Controls.Add(Me.CreateBlogContainerButton)
         Me.UrlFilesPanel.Controls.Add(Me.LBLWebImageCount)
         Me.UrlFilesPanel.Controls.Add(Me.BTNWISave)
-        Me.UrlFilesPanel.Controls.Add(Me.BTNWIOpenURL)
-        Me.UrlFilesPanel.Controls.Add(Me.BTNWIPrevious)
-        Me.UrlFilesPanel.Controls.Add(Me.BTNWINext)
+        Me.UrlFilesPanel.Controls.Add(Me.UrlFilesPreviousImageButton)
+        Me.UrlFilesPanel.Controls.Add(Me.UrlFilesNextImageButton)
         Me.UrlFilesPanel.Controls.Add(Me.WebPictureBox)
-        Me.UrlFilesPanel.Controls.Add(Me.Label71)
+        Me.UrlFilesPanel.Controls.Add(Me.ImageBlogs)
         Me.UrlFilesPanel.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UrlFilesPanel.Location = New System.Drawing.Point(3, 3)
         Me.UrlFilesPanel.Name = "UrlFilesPanel"
         Me.UrlFilesPanel.Size = New System.Drawing.Size(966, 625)
         Me.UrlFilesPanel.TabIndex = 91
         '
-        'BTNWIContinue
+        'SelectBlogDropDown
         '
-        Me.BTNWIContinue.BackColor = System.Drawing.Color.LightGray
-        Me.BTNWIContinue.Enabled = False
-        Me.BTNWIContinue.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BTNWIContinue.ForeColor = System.Drawing.Color.Black
-        Me.BTNWIContinue.Location = New System.Drawing.Point(827, 157)
-        Me.BTNWIContinue.Name = "BTNWIContinue"
-        Me.BTNWIContinue.Size = New System.Drawing.Size(131, 24)
-        Me.BTNWIContinue.TabIndex = 168
-        Me.BTNWIContinue.Text = "Continue"
-        Me.BTNWIContinue.UseVisualStyleBackColor = False
+        Me.SelectBlogDropDown.FormattingEnabled = True
+        Me.SelectBlogDropDown.Location = New System.Drawing.Point(828, 247)
+        Me.SelectBlogDropDown.Name = "SelectBlogDropDown"
+        Me.SelectBlogDropDown.Size = New System.Drawing.Size(130, 21)
+        Me.SelectBlogDropDown.TabIndex = 169
         '
-        'BTNWIAddandContinue
+        'UrlImageContinueButton
         '
-        Me.BTNWIAddandContinue.BackColor = System.Drawing.Color.LightGray
-        Me.BTNWIAddandContinue.Enabled = False
-        Me.BTNWIAddandContinue.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BTNWIAddandContinue.ForeColor = System.Drawing.Color.Black
-        Me.BTNWIAddandContinue.Location = New System.Drawing.Point(827, 127)
-        Me.BTNWIAddandContinue.Name = "BTNWIAddandContinue"
-        Me.BTNWIAddandContinue.Size = New System.Drawing.Size(131, 24)
-        Me.BTNWIAddandContinue.TabIndex = 167
-        Me.BTNWIAddandContinue.Text = "Add and Continue"
-        Me.BTNWIAddandContinue.UseVisualStyleBackColor = False
+        Me.UrlImageContinueButton.BackColor = System.Drawing.Color.LightGray
+        Me.UrlImageContinueButton.Enabled = False
+        Me.UrlImageContinueButton.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.UrlImageContinueButton.ForeColor = System.Drawing.Color.Black
+        Me.UrlImageContinueButton.Location = New System.Drawing.Point(827, 157)
+        Me.UrlImageContinueButton.Name = "UrlImageContinueButton"
+        Me.UrlImageContinueButton.Size = New System.Drawing.Size(131, 24)
+        Me.UrlImageContinueButton.TabIndex = 168
+        Me.UrlImageContinueButton.Text = "Continue"
+        Me.UrlImageContinueButton.UseVisualStyleBackColor = False
+        '
+        'UrlImageAddAndContinue
+        '
+        Me.UrlImageAddAndContinue.BackColor = System.Drawing.Color.LightGray
+        Me.UrlImageAddAndContinue.Enabled = False
+        Me.UrlImageAddAndContinue.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.UrlImageAddAndContinue.ForeColor = System.Drawing.Color.Black
+        Me.UrlImageAddAndContinue.Location = New System.Drawing.Point(827, 127)
+        Me.UrlImageAddAndContinue.Name = "UrlImageAddAndContinue"
+        Me.UrlImageAddAndContinue.Size = New System.Drawing.Size(131, 24)
+        Me.UrlImageAddAndContinue.TabIndex = 167
+        Me.UrlImageAddAndContinue.Text = "Add and Continue"
+        Me.UrlImageAddAndContinue.UseVisualStyleBackColor = False
         '
         'BTNWICancel
         '
@@ -8117,18 +8125,18 @@ Partial Class FrmSettings
         Me.BTNWILiked.Text = "Add to Liked Images"
         Me.BTNWILiked.UseVisualStyleBackColor = False
         '
-        'BTNWIRemove
+        'UrlImageRemoveButton
         '
-        Me.BTNWIRemove.BackColor = System.Drawing.Color.LightGray
-        Me.BTNWIRemove.Enabled = False
-        Me.BTNWIRemove.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BTNWIRemove.ForeColor = System.Drawing.Color.Black
-        Me.BTNWIRemove.Location = New System.Drawing.Point(828, 311)
-        Me.BTNWIRemove.Name = "BTNWIRemove"
-        Me.BTNWIRemove.Size = New System.Drawing.Size(131, 24)
-        Me.BTNWIRemove.TabIndex = 160
-        Me.BTNWIRemove.Text = "Remove From URL File"
-        Me.BTNWIRemove.UseVisualStyleBackColor = False
+        Me.UrlImageRemoveButton.BackColor = System.Drawing.Color.LightGray
+        Me.UrlImageRemoveButton.Enabled = False
+        Me.UrlImageRemoveButton.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.UrlImageRemoveButton.ForeColor = System.Drawing.Color.Black
+        Me.UrlImageRemoveButton.Location = New System.Drawing.Point(828, 311)
+        Me.UrlImageRemoveButton.Name = "UrlImageRemoveButton"
+        Me.UrlImageRemoveButton.Size = New System.Drawing.Size(131, 24)
+        Me.UrlImageRemoveButton.TabIndex = 160
+        Me.UrlImageRemoveButton.Text = "Remove From URL File"
+        Me.UrlImageRemoveButton.UseVisualStyleBackColor = False
         '
         'CBWISaveToDisk
         '
@@ -8158,17 +8166,17 @@ Partial Class FrmSettings
         Me.WebImageProgressBar.Size = New System.Drawing.Size(131, 23)
         Me.WebImageProgressBar.TabIndex = 155
         '
-        'BTNWICreateURL
+        'CreateBlogContainerButton
         '
-        Me.BTNWICreateURL.BackColor = System.Drawing.Color.LightGray
-        Me.BTNWICreateURL.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BTNWICreateURL.ForeColor = System.Drawing.Color.Black
-        Me.BTNWICreateURL.Location = New System.Drawing.Point(828, 38)
-        Me.BTNWICreateURL.Name = "BTNWICreateURL"
-        Me.BTNWICreateURL.Size = New System.Drawing.Size(132, 24)
-        Me.BTNWICreateURL.TabIndex = 154
-        Me.BTNWICreateURL.Text = "Create URL File"
-        Me.BTNWICreateURL.UseVisualStyleBackColor = False
+        Me.CreateBlogContainerButton.BackColor = System.Drawing.Color.LightGray
+        Me.CreateBlogContainerButton.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CreateBlogContainerButton.ForeColor = System.Drawing.Color.Black
+        Me.CreateBlogContainerButton.Location = New System.Drawing.Point(828, 38)
+        Me.CreateBlogContainerButton.Name = "CreateBlogContainerButton"
+        Me.CreateBlogContainerButton.Size = New System.Drawing.Size(132, 24)
+        Me.CreateBlogContainerButton.TabIndex = 154
+        Me.CreateBlogContainerButton.Text = "Add a Blog"
+        Me.CreateBlogContainerButton.UseVisualStyleBackColor = False
         '
         'LBLWebImageCount
         '
@@ -8196,43 +8204,31 @@ Partial Class FrmSettings
         Me.BTNWISave.Text = "Save Image to Disk"
         Me.BTNWISave.UseVisualStyleBackColor = False
         '
-        'BTNWIOpenURL
+        'UrlFilesPreviousImageButton
         '
-        Me.BTNWIOpenURL.BackColor = System.Drawing.Color.LightGray
-        Me.BTNWIOpenURL.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BTNWIOpenURL.ForeColor = System.Drawing.Color.Black
-        Me.BTNWIOpenURL.Location = New System.Drawing.Point(827, 251)
-        Me.BTNWIOpenURL.Name = "BTNWIOpenURL"
-        Me.BTNWIOpenURL.Size = New System.Drawing.Size(132, 24)
-        Me.BTNWIOpenURL.TabIndex = 151
-        Me.BTNWIOpenURL.Text = "Open URL File"
-        Me.BTNWIOpenURL.UseVisualStyleBackColor = False
+        Me.UrlFilesPreviousImageButton.BackColor = System.Drawing.Color.LightGray
+        Me.UrlFilesPreviousImageButton.Enabled = False
+        Me.UrlFilesPreviousImageButton.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.UrlFilesPreviousImageButton.ForeColor = System.Drawing.Color.Black
+        Me.UrlFilesPreviousImageButton.Location = New System.Drawing.Point(828, 281)
+        Me.UrlFilesPreviousImageButton.Name = "UrlFilesPreviousImageButton"
+        Me.UrlFilesPreviousImageButton.Size = New System.Drawing.Size(47, 24)
+        Me.UrlFilesPreviousImageButton.TabIndex = 149
+        Me.UrlFilesPreviousImageButton.Text = "<<"
+        Me.UrlFilesPreviousImageButton.UseVisualStyleBackColor = False
         '
-        'BTNWIPrevious
+        'UrlFilesNextImageButton
         '
-        Me.BTNWIPrevious.BackColor = System.Drawing.Color.LightGray
-        Me.BTNWIPrevious.Enabled = False
-        Me.BTNWIPrevious.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BTNWIPrevious.ForeColor = System.Drawing.Color.Black
-        Me.BTNWIPrevious.Location = New System.Drawing.Point(828, 281)
-        Me.BTNWIPrevious.Name = "BTNWIPrevious"
-        Me.BTNWIPrevious.Size = New System.Drawing.Size(47, 24)
-        Me.BTNWIPrevious.TabIndex = 149
-        Me.BTNWIPrevious.Text = "<<"
-        Me.BTNWIPrevious.UseVisualStyleBackColor = False
-        '
-        'BTNWINext
-        '
-        Me.BTNWINext.BackColor = System.Drawing.Color.LightGray
-        Me.BTNWINext.Enabled = False
-        Me.BTNWINext.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BTNWINext.ForeColor = System.Drawing.Color.Black
-        Me.BTNWINext.Location = New System.Drawing.Point(912, 281)
-        Me.BTNWINext.Name = "BTNWINext"
-        Me.BTNWINext.Size = New System.Drawing.Size(47, 24)
-        Me.BTNWINext.TabIndex = 150
-        Me.BTNWINext.Text = ">>"
-        Me.BTNWINext.UseVisualStyleBackColor = False
+        Me.UrlFilesNextImageButton.BackColor = System.Drawing.Color.LightGray
+        Me.UrlFilesNextImageButton.Enabled = False
+        Me.UrlFilesNextImageButton.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.UrlFilesNextImageButton.ForeColor = System.Drawing.Color.Black
+        Me.UrlFilesNextImageButton.Location = New System.Drawing.Point(912, 281)
+        Me.UrlFilesNextImageButton.Name = "UrlFilesNextImageButton"
+        Me.UrlFilesNextImageButton.Size = New System.Drawing.Size(47, 24)
+        Me.UrlFilesNextImageButton.TabIndex = 150
+        Me.UrlFilesNextImageButton.Text = ">>"
+        Me.UrlFilesNextImageButton.UseVisualStyleBackColor = False
         '
         'WebPictureBox
         '
@@ -8244,17 +8240,17 @@ Partial Class FrmSettings
         Me.WebPictureBox.TabIndex = 148
         Me.WebPictureBox.TabStop = False
         '
-        'Label71
+        'ImageBlogs
         '
-        Me.Label71.BackColor = System.Drawing.Color.Transparent
-        Me.Label71.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label71.ForeColor = System.Drawing.Color.Black
-        Me.Label71.Location = New System.Drawing.Point(7, 6)
-        Me.Label71.Name = "Label71"
-        Me.Label71.Size = New System.Drawing.Size(692, 21)
-        Me.Label71.TabIndex = 48
-        Me.Label71.Text = "URL Files"
-        Me.Label71.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.ImageBlogs.BackColor = System.Drawing.Color.Transparent
+        Me.ImageBlogs.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ImageBlogs.ForeColor = System.Drawing.Color.Black
+        Me.ImageBlogs.Location = New System.Drawing.Point(175, 6)
+        Me.ImageBlogs.Name = "ImageBlogs"
+        Me.ImageBlogs.Size = New System.Drawing.Size(646, 21)
+        Me.ImageBlogs.TabIndex = 48
+        Me.ImageBlogs.Text = "URL Files"
+        Me.ImageBlogs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'TpVideoSettings
         '
@@ -14418,7 +14414,7 @@ Partial Class FrmSettings
         Me.GroupBox50.PerformLayout
         Me.GroupBox48.ResumeLayout(False)
         Me.GroupBox48.PerformLayout
-        Me.TabPage11.ResumeLayout(False)
+        Me.UrlFilesTab.ResumeLayout(False)
         Me.UrlFilesPanel.ResumeLayout(False)
         Me.UrlFilesPanel.PerformLayout
         CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).EndInit
@@ -14746,28 +14742,27 @@ Partial Class FrmSettings
     Friend WithEvents TbxIBoobs As System.Windows.Forms.TextBox
     Friend WithEvents BTNBoobPath As System.Windows.Forms.Button
     Friend WithEvents BtnImageUrlBoobs As System.Windows.Forms.Button
-    Friend WithEvents TabPage11 As System.Windows.Forms.TabPage
+    Friend WithEvents UrlFilesTab As System.Windows.Forms.TabPage
     Friend WithEvents UrlFilesPanel As System.Windows.Forms.Panel
-    Friend WithEvents BTNWIContinue As System.Windows.Forms.Button
-    Friend WithEvents BTNWIAddandContinue As System.Windows.Forms.Button
+    Friend WithEvents UrlImageContinueButton As System.Windows.Forms.Button
+    Friend WithEvents UrlImageAddAndContinue As System.Windows.Forms.Button
     Friend WithEvents BTNWICancel As System.Windows.Forms.Button
     Friend WithEvents CBWIReview As System.Windows.Forms.CheckBox
     Friend WithEvents BTNWIBrowse As System.Windows.Forms.Button
     Friend WithEvents TBWIDirectory As System.Windows.Forms.TextBox
     Friend WithEvents BTNWIDisliked As System.Windows.Forms.Button
     Friend WithEvents BTNWILiked As System.Windows.Forms.Button
-    Friend WithEvents BTNWIRemove As System.Windows.Forms.Button
+    Friend WithEvents UrlImageRemoveButton As System.Windows.Forms.Button
     Friend WithEvents CBWISaveToDisk As System.Windows.Forms.CheckBox
     Friend WithEvents PictureBox5 As System.Windows.Forms.PictureBox
     Friend WithEvents WebImageProgressBar As System.Windows.Forms.ProgressBar
-    Friend WithEvents BTNWICreateURL As System.Windows.Forms.Button
+    Friend WithEvents CreateBlogContainerButton As System.Windows.Forms.Button
     Friend WithEvents LBLWebImageCount As System.Windows.Forms.Label
     Friend WithEvents BTNWISave As System.Windows.Forms.Button
-    Friend WithEvents BTNWIOpenURL As System.Windows.Forms.Button
-    Friend WithEvents BTNWIPrevious As System.Windows.Forms.Button
-    Friend WithEvents BTNWINext As System.Windows.Forms.Button
+    Friend WithEvents UrlFilesPreviousImageButton As System.Windows.Forms.Button
+    Friend WithEvents UrlFilesNextImageButton As System.Windows.Forms.Button
     Friend WithEvents WebPictureBox As System.Windows.Forms.PictureBox
-    Friend WithEvents Label71 As System.Windows.Forms.Label
+    Friend WithEvents ImageBlogs As System.Windows.Forms.Label
     Friend WithEvents TpVideoSettings As System.Windows.Forms.TabPage
     Friend WithEvents PnlVideoSettings As System.Windows.Forms.Panel
     Friend WithEvents PbBannerVideoSettings As System.Windows.Forms.PictureBox
@@ -15430,234 +15425,234 @@ Partial Class FrmSettings
     Friend WithEvents BtnImageUrlGeneral As System.Windows.Forms.Button
     Friend WithEvents ChbImageUrlLesbian As System.Windows.Forms.CheckBox
     Friend WithEvents BtnImageUrlCaptions As System.Windows.Forms.Button
-	Friend WithEvents ChbImageUrlBlowjob As System.Windows.Forms.CheckBox
-	Friend WithEvents BtnImageUrlMaledom As System.Windows.Forms.Button
-	Friend WithEvents ChbImageUrlGay As System.Windows.Forms.CheckBox
-	Friend WithEvents BtnImageUrlGay As System.Windows.Forms.Button
-	Friend WithEvents ChbImageUrlSoftcore As System.Windows.Forms.CheckBox
-	Friend WithEvents ChbImageUrlHentai As System.Windows.Forms.CheckBox
-	Friend WithEvents ChbImageUrlLezdom As System.Windows.Forms.CheckBox
-	Friend WithEvents BtnImageUrlHentai As System.Windows.Forms.Button
-	Friend WithEvents BtnImageUrlLezdom As System.Windows.Forms.Button
-	Friend WithEvents ChbImageUrlFemdom As System.Windows.Forms.CheckBox
-	Friend WithEvents BtnImageUrlFemdom As System.Windows.Forms.Button
-	Friend WithEvents BtnImageUrlBlowjob As System.Windows.Forms.Button
-	Friend WithEvents ChbImageUrlCaptions As System.Windows.Forms.CheckBox
-	Friend WithEvents BtnImageUrlLesbian As System.Windows.Forms.Button
-	Friend WithEvents BtnImageUrlSoftcore As System.Windows.Forms.Button
-	Friend WithEvents ChbImageUrlGeneral As System.Windows.Forms.CheckBox
-	Friend WithEvents BtnImageUrlHardcore As System.Windows.Forms.Button
-	Friend WithEvents ChbImageUrlHardcore As System.Windows.Forms.CheckBox
-	Friend WithEvents ChbImageUrlMaledom As System.Windows.Forms.CheckBox
-	Friend WithEvents CBIButts As System.Windows.Forms.CheckBox
-	Friend WithEvents CBIBoobs As System.Windows.Forms.CheckBox
-	Friend WithEvents GroupBox66 As System.Windows.Forms.GroupBox
-	Friend WithEvents PBURLPreview As System.Windows.Forms.PictureBox
-	Friend WithEvents CBURLPreview As System.Windows.Forms.CheckBox
-	Friend WithEvents GroupBox67 As System.Windows.Forms.GroupBox
-	Friend WithEvents Label151 As System.Windows.Forms.Label
-	Friend WithEvents NBTaskStrokingTimeMax As System.Windows.Forms.NumericUpDown
-	Friend WithEvents NBTaskStrokingTimeMin As System.Windows.Forms.NumericUpDown
-	Friend WithEvents Label154 As System.Windows.Forms.Label
-	Friend WithEvents Label155 As System.Windows.Forms.Label
-	Friend WithEvents NBTaskStrokesMax As System.Windows.Forms.NumericUpDown
-	Friend WithEvents NBTaskStrokesMin As System.Windows.Forms.NumericUpDown
-	Friend WithEvents Label146 As System.Windows.Forms.Label
-	Friend WithEvents Label149 As System.Windows.Forms.Label
-	Friend WithEvents NBTaskEdgesMax As System.Windows.Forms.NumericUpDown
-	Friend WithEvents NBTaskEdgesMin As System.Windows.Forms.NumericUpDown
-	Friend WithEvents Label119 As System.Windows.Forms.Label
-	Friend WithEvents Label157 As System.Windows.Forms.Label
-	Friend WithEvents Label161 As System.Windows.Forms.Label
-	Friend WithEvents NBTaskCBTTimeMax As System.Windows.Forms.NumericUpDown
-	Friend WithEvents NBTaskCBTTimeMin As System.Windows.Forms.NumericUpDown
-	Friend WithEvents Label162 As System.Windows.Forms.Label
-	Friend WithEvents Label163 As System.Windows.Forms.Label
-	Friend WithEvents Label158 As System.Windows.Forms.Label
-	Friend WithEvents NBTaskEdgeHoldTimeMax As System.Windows.Forms.NumericUpDown
-	Friend WithEvents NBTaskEdgeHoldTimeMin As System.Windows.Forms.NumericUpDown
-	Friend WithEvents Label159 As System.Windows.Forms.Label
-	Friend WithEvents Label160 As System.Windows.Forms.Label
-	Friend WithEvents BtnImportSettings As Button
-	Friend WithEvents LblImportSettings As Label
-	Friend WithEvents GroupBox68 As System.Windows.Forms.GroupBox
-	Friend WithEvents TaskWaitMaximum As System.Windows.Forms.NumericUpDown
-	Friend WithEvents TaskWaitMinimum As System.Windows.Forms.NumericUpDown
-	Friend WithEvents Label165 As System.Windows.Forms.Label
-	Friend WithEvents Label166 As System.Windows.Forms.Label
-	Friend WithEvents GroupBox69 As System.Windows.Forms.GroupBox
-	Friend WithEvents TypeSpeedSlider As System.Windows.Forms.TrackBar
-	Friend WithEvents TypeSpeedLabel As System.Windows.Forms.Label
-	Friend WithEvents TimedWriting As System.Windows.Forms.CheckBox
-	Friend WithEvents TypesSpeedVal As System.Windows.Forms.Label
-	Friend WithEvents TlpImageUrls As TableLayoutPanel
-	Friend WithEvents TxbImageUrlLesbian As TextBox
-	Friend WithEvents TxbImageUrlHardcore As TextBox
-	Friend WithEvents TxbImageUrlSoftcore As TextBox
-	Friend WithEvents TxbImageUrlBlowjob As TextBox
-	Friend WithEvents TxbImageUrlFemdom As TextBox
-	Friend WithEvents TxbImageUrlLezdom As TextBox
-	Friend WithEvents TxbImageUrlHentai As TextBox
-	Friend WithEvents TxbImageUrlGay As TextBox
-	Friend WithEvents TxbImageUrlMaledom As TextBox
-	Friend WithEvents TxbImageUrlCaptions As TextBox
-	Friend WithEvents TxbImageUrlGeneral As TextBox
-	Friend WithEvents TxbImageUrlBoobs As TextBox
-	Friend WithEvents TxbImageUrlButts As TextBox
-	Friend WithEvents TxbImgUrlHardcore As TextBox
-	Friend WithEvents TextBox2 As TextBox
-	Friend WithEvents BWURLFiles As URL_Files.URL_File_BGW
-	Friend WithEvents Button24 As System.Windows.Forms.Button
-	Friend WithEvents Button33 As System.Windows.Forms.Button
-	Friend WithEvents TabPage33 As TabPage
-	Friend WithEvents LocalTagsTab As TabControl
-	Friend WithEvents TabPage34 As TabPage
-	Friend WithEvents FileDropDownLabel As TabPage
-	Friend WithEvents CBTagSeeThrough As RadioButton
-	Friend WithEvents CBTagAllFours As CheckBox
-	Friend WithEvents CBTagGlaring As CheckBox
-	Friend WithEvents CBTagSmiling As CheckBox
-	Friend WithEvents DommeTagDirInput As TextBox
-	Friend WithEvents CBTagPiercing As CheckBox
-	Friend WithEvents CBTagLegs As CheckBox
-	Friend WithEvents TBTagFurniture As TextBox
-	Friend WithEvents CBTagFurniture As CheckBox
-	Friend WithEvents TBTagSexToy As TextBox
-	Friend WithEvents CBTagSexToy As CheckBox
-	Friend WithEvents TBTagTattoo As TextBox
-	Friend WithEvents CBTagTattoo As CheckBox
-	Friend WithEvents TBTagUnderwear As TextBox
-	Friend WithEvents CBTagUnderwear As CheckBox
-	Friend WithEvents TBTagGarment As TextBox
-	Friend WithEvents CBTagGarment As CheckBox
-	Friend WithEvents Label72 As Label
-	Friend WithEvents CBTagHandsCovering As RadioButton
-	Friend WithEvents CBTagGarmentCovering As RadioButton
-	Friend WithEvents CBTagCloseUp As CheckBox
-	Friend WithEvents CBTagNaked As RadioButton
-	Friend WithEvents CBTagSideView As CheckBox
-	Friend WithEvents BTNTagPrevious As Button
-	Friend WithEvents CBTagHalfDressed As RadioButton
-	Friend WithEvents BTNTagNext As Button
-	Friend WithEvents CBTagFullyDressed As RadioButton
-	Friend WithEvents LBLTagCount As Label
-	Friend WithEvents CBTagSucking As CheckBox
-	Friend WithEvents CBTagMasturbating As CheckBox
-	Friend WithEvents CBTagFeet As CheckBox
-	Friend WithEvents CBTagBoobs As CheckBox
-	Friend WithEvents CBTagAss As CheckBox
-	Friend WithEvents CBTagPussy As CheckBox
-	Friend WithEvents BTNTagSave As Button
-	Friend WithEvents DommeTagDirectoryButton As Button
-	Friend WithEvents ImageTagPictureBox As PictureBox
-	Friend WithEvents CBTagFace As CheckBox
-	Friend WithEvents GroupBox55 As GroupBox
-	Friend WithEvents CBTagNurse As CheckBox
-	Friend WithEvents CBTagSchoolgirl As CheckBox
-	Friend WithEvents CBTagMaid As CheckBox
-	Friend WithEvents CBTagTeacher As CheckBox
-	Friend WithEvents CBTagSuperhero As CheckBox
-	Friend WithEvents GroupBox53 As GroupBox
-	Friend WithEvents CBTagTrap As CheckBox
-	Friend WithEvents CBTagTentacles As CheckBox
-	Friend WithEvents CBTagMonsterGirl As CheckBox
-	Friend WithEvents CBTagBukkake As CheckBox
-	Friend WithEvents CBTagGanguro As CheckBox
-	Friend WithEvents CBTagBodyWriting As CheckBox
-	Friend WithEvents CBTagMahouShoujo As CheckBox
-	Friend WithEvents CBTagBakunyuu As CheckBox
-	Friend WithEvents CBTagAhegao As CheckBox
-	Friend WithEvents CBTagShibari As CheckBox
-	Friend WithEvents GroupBox49 As GroupBox
-	Friend WithEvents CBTagBodyMouth As CheckBox
-	Friend WithEvents CBTagBodyAss As CheckBox
-	Friend WithEvents CBTagBodyFace As CheckBox
-	Friend WithEvents CBTagBodyLegs As CheckBox
-	Friend WithEvents CBTagBodyBalls As CheckBox
-	Friend WithEvents CBTagBodyCock As CheckBox
-	Friend WithEvents CBTagBodyFeet As CheckBox
-	Friend WithEvents CBTagBodyNipples As CheckBox
-	Friend WithEvents CBTagBodyPussy As CheckBox
-	Friend WithEvents CBTagBodyTits As CheckBox
-	Friend WithEvents CBTagBodyFingers As CheckBox
-	Friend WithEvents GroupBox46 As GroupBox
-	Friend WithEvents CBTagMultiSub As CheckBox
-	Friend WithEvents CBTagMultiDom As CheckBox
-	Friend WithEvents CBTagFemdom As CheckBox
-	Friend WithEvents CBTag2M As CheckBox
-	Friend WithEvents CBTagFutadom As CheckBox
-	Friend WithEvents CBTagFemsub As CheckBox
-	Friend WithEvents CBTag2Futa As CheckBox
-	Friend WithEvents CBTagMaledom As CheckBox
-	Friend WithEvents CBTag3M As CheckBox
-	Friend WithEvents CBTagFutasub As CheckBox
-	Friend WithEvents CBTag3Futa As CheckBox
-	Friend WithEvents CBTagMalesub As CheckBox
-	Friend WithEvents CBTag2F As CheckBox
-	Friend WithEvents CBTag1Futa As CheckBox
-	Friend WithEvents CBTag1M As CheckBox
-	Friend WithEvents CBTag1F As CheckBox
-	Friend WithEvents CBTag3F As CheckBox
-	Friend WithEvents GroupBox54 As GroupBox
-	Friend WithEvents CBTagTattoos As CheckBox
-	Friend WithEvents CBTagAnalToy As CheckBox
-	Friend WithEvents CBTagDomme As CheckBox
-	Friend WithEvents CBTagPocketPussy As CheckBox
-	Friend WithEvents CBTagWatersports As CheckBox
-	Friend WithEvents CBTagStockings As CheckBox
-	Friend WithEvents CBTagCumshot As CheckBox
-	Friend WithEvents CBTagCumEating As CheckBox
-	Friend WithEvents CBTagVibrator As CheckBox
-	Friend WithEvents CBTagDildo As CheckBox
-	Friend WithEvents CBTagKissing As CheckBox
-	Friend WithEvents BdsmTagGroup As GroupBox
-	Friend WithEvents CBTagBallTorture As CheckBox
-	Friend WithEvents CBTagGag As CheckBox
-	Friend WithEvents CBTagBlindfold As CheckBox
-	Friend WithEvents CBTagWhipping As CheckBox
-	Friend WithEvents CBTagCockTorture As CheckBox
-	Friend WithEvents CBTagElectro As CheckBox
-	Friend WithEvents CBTagHotWax As CheckBox
-	Friend WithEvents CBTagClamps As CheckBox
-	Friend WithEvents CBTagStrapon As CheckBox
-	Friend WithEvents CBTagSpanking As CheckBox
-	Friend WithEvents CBTagNeedles As CheckBox
-	Friend WithEvents GroupBox50 As GroupBox
-	Friend WithEvents CBTagRimming As CheckBox
-	Friend WithEvents CBTagFacesitting As CheckBox
-	Friend WithEvents CBTagMissionary As CheckBox
-	Friend WithEvents CBTagMasturbation As CheckBox
-	Friend WithEvents CBTagRCowgirl As CheckBox
-	Friend WithEvents CBTagFingering As CheckBox
-	Friend WithEvents CBTagGangbang As CheckBox
-	Friend WithEvents CBTagBlowjob As CheckBox
-	Friend WithEvents CBTagDP As CheckBox
-	Friend WithEvents CBTagHandjob As CheckBox
-	Friend WithEvents CBTagStanding As CheckBox
-	Friend WithEvents CBTagFootjob As CheckBox
-	Friend WithEvents CBTagCowgirl As CheckBox
-	Friend WithEvents CBTagDoggyStyle As CheckBox
-	Friend WithEvents CBTagTitjob As CheckBox
-	Friend WithEvents CBTagCunnilingus As CheckBox
-	Friend WithEvents CBTagAnalSex As CheckBox
-	Friend WithEvents GroupBox48 As GroupBox
-	Friend WithEvents CBTagArtwork As CheckBox
-	Friend WithEvents CBTagOutdoors As CheckBox
-	Friend WithEvents CBTagPOV As CheckBox
-	Friend WithEvents CBTagHardcore As CheckBox
-	Friend WithEvents CBTagTD As CheckBox
-	Friend WithEvents CBTagGay As CheckBox
-	Friend WithEvents CBTagBath As CheckBox
-	Friend WithEvents CBTagBisexual As CheckBox
-	Friend WithEvents CBTagCFNM As CheckBox
-	Friend WithEvents CBTagLesbian As CheckBox
-	Friend WithEvents CBTagSoloFuta As CheckBox
-	Friend WithEvents CBTagSM As CheckBox
-	Friend WithEvents CBTagBondage As CheckBox
-	Friend WithEvents CBTagSoloM As CheckBox
-	Friend WithEvents CBTagSoloF As CheckBox
-	Friend WithEvents CBTagChastity As CheckBox
-	Friend WithEvents CBTagShower As CheckBox
+    Friend WithEvents ChbImageUrlBlowjob As System.Windows.Forms.CheckBox
+    Friend WithEvents BtnImageUrlMaledom As System.Windows.Forms.Button
+    Friend WithEvents ChbImageUrlGay As System.Windows.Forms.CheckBox
+    Friend WithEvents BtnImageUrlGay As System.Windows.Forms.Button
+    Friend WithEvents ChbImageUrlSoftcore As System.Windows.Forms.CheckBox
+    Friend WithEvents ChbImageUrlHentai As System.Windows.Forms.CheckBox
+    Friend WithEvents ChbImageUrlLezdom As System.Windows.Forms.CheckBox
+    Friend WithEvents BtnImageUrlHentai As System.Windows.Forms.Button
+    Friend WithEvents BtnImageUrlLezdom As System.Windows.Forms.Button
+    Friend WithEvents ChbImageUrlFemdom As System.Windows.Forms.CheckBox
+    Friend WithEvents BtnImageUrlFemdom As System.Windows.Forms.Button
+    Friend WithEvents BtnImageUrlBlowjob As System.Windows.Forms.Button
+    Friend WithEvents ChbImageUrlCaptions As System.Windows.Forms.CheckBox
+    Friend WithEvents BtnImageUrlLesbian As System.Windows.Forms.Button
+    Friend WithEvents BtnImageUrlSoftcore As System.Windows.Forms.Button
+    Friend WithEvents ChbImageUrlGeneral As System.Windows.Forms.CheckBox
+    Friend WithEvents BtnImageUrlHardcore As System.Windows.Forms.Button
+    Friend WithEvents ChbImageUrlHardcore As System.Windows.Forms.CheckBox
+    Friend WithEvents ChbImageUrlMaledom As System.Windows.Forms.CheckBox
+    Friend WithEvents CBIButts As System.Windows.Forms.CheckBox
+    Friend WithEvents CBIBoobs As System.Windows.Forms.CheckBox
+    Friend WithEvents GroupBox66 As System.Windows.Forms.GroupBox
+    Friend WithEvents PBURLPreview As System.Windows.Forms.PictureBox
+    Friend WithEvents CBURLPreview As System.Windows.Forms.CheckBox
+    Friend WithEvents GroupBox67 As System.Windows.Forms.GroupBox
+    Friend WithEvents Label151 As System.Windows.Forms.Label
+    Friend WithEvents NBTaskStrokingTimeMax As System.Windows.Forms.NumericUpDown
+    Friend WithEvents NBTaskStrokingTimeMin As System.Windows.Forms.NumericUpDown
+    Friend WithEvents Label154 As System.Windows.Forms.Label
+    Friend WithEvents Label155 As System.Windows.Forms.Label
+    Friend WithEvents NBTaskStrokesMax As System.Windows.Forms.NumericUpDown
+    Friend WithEvents NBTaskStrokesMin As System.Windows.Forms.NumericUpDown
+    Friend WithEvents Label146 As System.Windows.Forms.Label
+    Friend WithEvents Label149 As System.Windows.Forms.Label
+    Friend WithEvents NBTaskEdgesMax As System.Windows.Forms.NumericUpDown
+    Friend WithEvents NBTaskEdgesMin As System.Windows.Forms.NumericUpDown
+    Friend WithEvents Label119 As System.Windows.Forms.Label
+    Friend WithEvents Label157 As System.Windows.Forms.Label
+    Friend WithEvents Label161 As System.Windows.Forms.Label
+    Friend WithEvents NBTaskCBTTimeMax As System.Windows.Forms.NumericUpDown
+    Friend WithEvents NBTaskCBTTimeMin As System.Windows.Forms.NumericUpDown
+    Friend WithEvents Label162 As System.Windows.Forms.Label
+    Friend WithEvents Label163 As System.Windows.Forms.Label
+    Friend WithEvents Label158 As System.Windows.Forms.Label
+    Friend WithEvents NBTaskEdgeHoldTimeMax As System.Windows.Forms.NumericUpDown
+    Friend WithEvents NBTaskEdgeHoldTimeMin As System.Windows.Forms.NumericUpDown
+    Friend WithEvents Label159 As System.Windows.Forms.Label
+    Friend WithEvents Label160 As System.Windows.Forms.Label
+    Friend WithEvents BtnImportSettings As Button
+    Friend WithEvents LblImportSettings As Label
+    Friend WithEvents GroupBox68 As System.Windows.Forms.GroupBox
+    Friend WithEvents TaskWaitMaximum As System.Windows.Forms.NumericUpDown
+    Friend WithEvents TaskWaitMinimum As System.Windows.Forms.NumericUpDown
+    Friend WithEvents Label165 As System.Windows.Forms.Label
+    Friend WithEvents Label166 As System.Windows.Forms.Label
+    Friend WithEvents GroupBox69 As System.Windows.Forms.GroupBox
+    Friend WithEvents TypeSpeedSlider As System.Windows.Forms.TrackBar
+    Friend WithEvents TypeSpeedLabel As System.Windows.Forms.Label
+    Friend WithEvents TimedWriting As System.Windows.Forms.CheckBox
+    Friend WithEvents TypesSpeedVal As System.Windows.Forms.Label
+    Friend WithEvents TlpImageUrls As TableLayoutPanel
+    Friend WithEvents TxbImageUrlLesbian As TextBox
+    Friend WithEvents TxbImageUrlHardcore As TextBox
+    Friend WithEvents TxbImageUrlSoftcore As TextBox
+    Friend WithEvents TxbImageUrlBlowjob As TextBox
+    Friend WithEvents TxbImageUrlFemdom As TextBox
+    Friend WithEvents TxbImageUrlLezdom As TextBox
+    Friend WithEvents TxbImageUrlHentai As TextBox
+    Friend WithEvents TxbImageUrlGay As TextBox
+    Friend WithEvents TxbImageUrlMaledom As TextBox
+    Friend WithEvents TxbImageUrlCaptions As TextBox
+    Friend WithEvents TxbImageUrlGeneral As TextBox
+    Friend WithEvents TxbImageUrlBoobs As TextBox
+    Friend WithEvents TxbImageUrlButts As TextBox
+    Friend WithEvents TxbImgUrlHardcore As TextBox
+    Friend WithEvents TextBox2 As TextBox
+    Friend WithEvents BWURLFiles As URL_Files.URL_File_BGW
+    Friend WithEvents Button24 As System.Windows.Forms.Button
+    Friend WithEvents Button33 As System.Windows.Forms.Button
+    Friend WithEvents TabPage33 As TabPage
+    Friend WithEvents LocalTagsTab As TabControl
+    Friend WithEvents TabPage34 As TabPage
+    Friend WithEvents FileDropDownLabel As TabPage
+    Friend WithEvents CBTagSeeThrough As RadioButton
+    Friend WithEvents CBTagAllFours As CheckBox
+    Friend WithEvents CBTagGlaring As CheckBox
+    Friend WithEvents CBTagSmiling As CheckBox
+    Friend WithEvents DommeTagDirInput As TextBox
+    Friend WithEvents CBTagPiercing As CheckBox
+    Friend WithEvents CBTagLegs As CheckBox
+    Friend WithEvents TBTagFurniture As TextBox
+    Friend WithEvents CBTagFurniture As CheckBox
+    Friend WithEvents TBTagSexToy As TextBox
+    Friend WithEvents CBTagSexToy As CheckBox
+    Friend WithEvents TBTagTattoo As TextBox
+    Friend WithEvents CBTagTattoo As CheckBox
+    Friend WithEvents TBTagUnderwear As TextBox
+    Friend WithEvents CBTagUnderwear As CheckBox
+    Friend WithEvents TBTagGarment As TextBox
+    Friend WithEvents CBTagGarment As CheckBox
+    Friend WithEvents Label72 As Label
+    Friend WithEvents CBTagHandsCovering As RadioButton
+    Friend WithEvents CBTagGarmentCovering As RadioButton
+    Friend WithEvents CBTagCloseUp As CheckBox
+    Friend WithEvents CBTagNaked As RadioButton
+    Friend WithEvents CBTagSideView As CheckBox
+    Friend WithEvents BTNTagPrevious As Button
+    Friend WithEvents CBTagHalfDressed As RadioButton
+    Friend WithEvents BTNTagNext As Button
+    Friend WithEvents CBTagFullyDressed As RadioButton
+    Friend WithEvents LBLTagCount As Label
+    Friend WithEvents CBTagSucking As CheckBox
+    Friend WithEvents CBTagMasturbating As CheckBox
+    Friend WithEvents CBTagFeet As CheckBox
+    Friend WithEvents CBTagBoobs As CheckBox
+    Friend WithEvents CBTagAss As CheckBox
+    Friend WithEvents CBTagPussy As CheckBox
+    Friend WithEvents BTNTagSave As Button
+    Friend WithEvents DommeTagDirectoryButton As Button
+    Friend WithEvents ImageTagPictureBox As PictureBox
+    Friend WithEvents CBTagFace As CheckBox
+    Friend WithEvents GroupBox55 As GroupBox
+    Friend WithEvents CBTagNurse As CheckBox
+    Friend WithEvents CBTagSchoolgirl As CheckBox
+    Friend WithEvents CBTagMaid As CheckBox
+    Friend WithEvents CBTagTeacher As CheckBox
+    Friend WithEvents CBTagSuperhero As CheckBox
+    Friend WithEvents GroupBox53 As GroupBox
+    Friend WithEvents CBTagTrap As CheckBox
+    Friend WithEvents CBTagTentacles As CheckBox
+    Friend WithEvents CBTagMonsterGirl As CheckBox
+    Friend WithEvents CBTagBukkake As CheckBox
+    Friend WithEvents CBTagGanguro As CheckBox
+    Friend WithEvents CBTagBodyWriting As CheckBox
+    Friend WithEvents CBTagMahouShoujo As CheckBox
+    Friend WithEvents CBTagBakunyuu As CheckBox
+    Friend WithEvents CBTagAhegao As CheckBox
+    Friend WithEvents CBTagShibari As CheckBox
+    Friend WithEvents GroupBox49 As GroupBox
+    Friend WithEvents CBTagBodyMouth As CheckBox
+    Friend WithEvents CBTagBodyAss As CheckBox
+    Friend WithEvents CBTagBodyFace As CheckBox
+    Friend WithEvents CBTagBodyLegs As CheckBox
+    Friend WithEvents CBTagBodyBalls As CheckBox
+    Friend WithEvents CBTagBodyCock As CheckBox
+    Friend WithEvents CBTagBodyFeet As CheckBox
+    Friend WithEvents CBTagBodyNipples As CheckBox
+    Friend WithEvents CBTagBodyPussy As CheckBox
+    Friend WithEvents CBTagBodyTits As CheckBox
+    Friend WithEvents CBTagBodyFingers As CheckBox
+    Friend WithEvents GroupBox46 As GroupBox
+    Friend WithEvents CBTagMultiSub As CheckBox
+    Friend WithEvents CBTagMultiDom As CheckBox
+    Friend WithEvents CBTagFemdom As CheckBox
+    Friend WithEvents CBTag2M As CheckBox
+    Friend WithEvents CBTagFutadom As CheckBox
+    Friend WithEvents CBTagFemsub As CheckBox
+    Friend WithEvents CBTag2Futa As CheckBox
+    Friend WithEvents CBTagMaledom As CheckBox
+    Friend WithEvents CBTag3M As CheckBox
+    Friend WithEvents CBTagFutasub As CheckBox
+    Friend WithEvents CBTag3Futa As CheckBox
+    Friend WithEvents CBTagMalesub As CheckBox
+    Friend WithEvents CBTag2F As CheckBox
+    Friend WithEvents CBTag1Futa As CheckBox
+    Friend WithEvents CBTag1M As CheckBox
+    Friend WithEvents CBTag1F As CheckBox
+    Friend WithEvents CBTag3F As CheckBox
+    Friend WithEvents GroupBox54 As GroupBox
+    Friend WithEvents CBTagTattoos As CheckBox
+    Friend WithEvents CBTagAnalToy As CheckBox
+    Friend WithEvents CBTagDomme As CheckBox
+    Friend WithEvents CBTagPocketPussy As CheckBox
+    Friend WithEvents CBTagWatersports As CheckBox
+    Friend WithEvents CBTagStockings As CheckBox
+    Friend WithEvents CBTagCumshot As CheckBox
+    Friend WithEvents CBTagCumEating As CheckBox
+    Friend WithEvents CBTagVibrator As CheckBox
+    Friend WithEvents CBTagDildo As CheckBox
+    Friend WithEvents CBTagKissing As CheckBox
+    Friend WithEvents BdsmTagGroup As GroupBox
+    Friend WithEvents CBTagBallTorture As CheckBox
+    Friend WithEvents CBTagGag As CheckBox
+    Friend WithEvents CBTagBlindfold As CheckBox
+    Friend WithEvents CBTagWhipping As CheckBox
+    Friend WithEvents CBTagCockTorture As CheckBox
+    Friend WithEvents CBTagElectro As CheckBox
+    Friend WithEvents CBTagHotWax As CheckBox
+    Friend WithEvents CBTagClamps As CheckBox
+    Friend WithEvents CBTagStrapon As CheckBox
+    Friend WithEvents CBTagSpanking As CheckBox
+    Friend WithEvents CBTagNeedles As CheckBox
+    Friend WithEvents GroupBox50 As GroupBox
+    Friend WithEvents CBTagRimming As CheckBox
+    Friend WithEvents CBTagFacesitting As CheckBox
+    Friend WithEvents CBTagMissionary As CheckBox
+    Friend WithEvents CBTagMasturbation As CheckBox
+    Friend WithEvents CBTagRCowgirl As CheckBox
+    Friend WithEvents CBTagFingering As CheckBox
+    Friend WithEvents CBTagGangbang As CheckBox
+    Friend WithEvents CBTagBlowjob As CheckBox
+    Friend WithEvents CBTagDP As CheckBox
+    Friend WithEvents CBTagHandjob As CheckBox
+    Friend WithEvents CBTagStanding As CheckBox
+    Friend WithEvents CBTagFootjob As CheckBox
+    Friend WithEvents CBTagCowgirl As CheckBox
+    Friend WithEvents CBTagDoggyStyle As CheckBox
+    Friend WithEvents CBTagTitjob As CheckBox
+    Friend WithEvents CBTagCunnilingus As CheckBox
+    Friend WithEvents CBTagAnalSex As CheckBox
+    Friend WithEvents GroupBox48 As GroupBox
+    Friend WithEvents CBTagArtwork As CheckBox
+    Friend WithEvents CBTagOutdoors As CheckBox
+    Friend WithEvents CBTagPOV As CheckBox
+    Friend WithEvents CBTagHardcore As CheckBox
+    Friend WithEvents CBTagTD As CheckBox
+    Friend WithEvents CBTagGay As CheckBox
+    Friend WithEvents CBTagBath As CheckBox
+    Friend WithEvents CBTagBisexual As CheckBox
+    Friend WithEvents CBTagCFNM As CheckBox
+    Friend WithEvents CBTagLesbian As CheckBox
+    Friend WithEvents CBTagSoloFuta As CheckBox
+    Friend WithEvents CBTagSM As CheckBox
+    Friend WithEvents CBTagBondage As CheckBox
+    Friend WithEvents CBTagSoloM As CheckBox
+    Friend WithEvents CBTagSoloF As CheckBox
+    Friend WithEvents CBTagChastity As CheckBox
+    Friend WithEvents CBTagShower As CheckBox
     Friend WithEvents FileTagPreviousButton As Button
     Friend WithEvents FileTagNextButton As Button
     Friend WithEvents LBLLocalTagCount As Label
@@ -15672,4 +15667,5 @@ Partial Class FrmSettings
     Friend WithEvents LocalTagPictureBox As PictureBox
     Friend WithEvents ScriptInfoPanel As Panel
     Friend WithEvents ScriptNavPanel As Panel
+    Friend WithEvents SelectBlogDropDown As ComboBox
 End Class

@@ -21,6 +21,8 @@ namespace TeaseAI.Services
             _genreRepository = genreRepository;
         }
 
+        public Result<MediaContainer> Create(MediaContainer mediaContainer) => _mediaContainerRepository.Create(mediaContainer);
+
         public List<MediaContainer> Get() => _mediaContainerRepository.Get();
 
         public Result<MediaContainer> Get(int containerId) => _mediaContainerRepository.Get(containerId);
