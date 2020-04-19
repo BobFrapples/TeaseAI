@@ -45,12 +45,14 @@ namespace TeaseAI.Services
         public List<MediaContainer> Get(int mediaTypeId, ImageSource imageSource) =>
             _mediaContainerRepository.Get().Where(mc => mc.MediaTypeId == mediaTypeId && mc.SourceId == imageSource).ToList();
 
+        public Result<MediaContainer> Update(MediaContainer mediaContainer) => _mediaContainerRepository.Update(mediaContainer);
+
         public Result<List<MediaContainer>> Update(List<MediaContainer> mediaContainers)
         {
             var results = new List<MediaContainer>();
             foreach (var mediaContainer in mediaContainers)
             {
-                var updateContainer =_mediaContainerRepository.Update(mediaContainer);
+                var updateContainer = _mediaContainerRepository.Update(mediaContainer);
                 if (updateContainer.IsFailure)
                     return Result.Fail<List<MediaContainer>>(updateContainer.Error);
             }

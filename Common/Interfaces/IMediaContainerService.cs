@@ -9,6 +9,7 @@ namespace TeaseAI.Common.Interfaces
         Result<MediaContainer> Create(MediaContainer mediaContainer);
         Result<List<MediaContainer>> Create(List<MediaContainer> mediaContainer);
 
+        Result<MediaContainer> Update(MediaContainer mediaContainer);
         Result<List<MediaContainer>> Update(List<MediaContainer> mediaContainers);
 
         /// <summary>

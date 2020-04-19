@@ -1,6 +1,7 @@
 ﻿Imports System.ComponentModel
 Imports System.IO
 Imports System.Speech.Synthesis
+Imports System.Threading.Tasks
 Imports Tease_AI.URL_Files
 Imports TeaseAI.Common
 Imports TeaseAI.Common.Constants
@@ -211,8 +212,8 @@ Public Class FrmSettings
         oSpeech.Dispose()
 
         Dim mediaContainers As List(Of MediaContainer) = myMediaContainerService.Get()
-        FrmSplash.UpdateText("Checking URL Files...")
 
+        FrmSplash.UpdateText("Checking URL Files...")
         Dim remoteImageMediaContainers As List(Of MediaContainer) = mediaContainers.Where(Function(mc) mc.MediaTypeId = 1 AndAlso mc.SourceId = ImageSource.Remote).ToList()
 
         RemoteMediaContainerList.Items.Clear()
@@ -233,7 +234,6 @@ Public Class FrmSettings
                 myNotifyUserService.ModalMessage(mediaContainer.Path + ", the folder for " + mediaContainer.GenreId.ToString() _
                                                  + Environment.NewLine + "  does not exist, please update your settings")
             End If
-
         Next
 
         FrmSplash.UpdateText("Checking installed fonts...")
@@ -2594,19 +2594,107 @@ Public Class FrmSettings
 
 #Region "Images Tab"
 
-    Private Sub RemoteMediaContainerList_SelectedIndexChanged(sender As Object, e As EventArgs) Handles RemoteMediaContainerList.SelectedIndexChanged
+    Private Async Sub RemoteMediaContainerList_SelectedIndexChanged(sender As Object, e As EventArgs) Handles RemoteMediaContainerList.SelectedIndexChanged
+        If Not RemoteMediaContainerList.Visible AndAlso RemoteMediaContainerList.SelectedIndex >= 0 Then
+            Return
+        End If
         If PreviewRemoteImagesCheckBox.Checked Then
             Dim mediaContainer = myMediaContainerService.Get(1, ImageSource.Remote).First(Function(mc) mc.Name = RemoteMediaContainerList.SelectedItem.ToString())
             Dim imageMetaDatas = myImageMetaDataService.GetImagesInContainer(mediaContainer.Id) _
                 .Ensure(Function(imds) imds.Any(), "No images stored for " & mediaContainer.Name) _
-                .OnSuccess(Function(imds)
+                .OnSuccess(Async Function(imds)
                                Dim image As ImageMetaData = imds(MainWindow.ssh.randomizer.Next(0, imds.Count))
-                               PBURLPreview.Image = LoadBlogImage(image)
+                               PBURLPreview.Image = Await LoadImageAsync(image)
                            End Function)
+            If imageMetaDatas.IsFailure Then
+                Await myNotifyUserService.ErrorMessageAsync(imageMetaDatas.Error)
+            End If
+        End If
+    End Sub
+
+    Private Async Sub RemoteMediaContainerList_ItemCheck(sender As Object, e As EventArgs) Handles RemoteMediaContainerList.ItemCheck
+        If (Not RemoteMediaContainerList.Visible) OrElse RemoteMediaContainerList.SelectedIndex < 0 Then
+            Return
+        End If
+        Dim mediaContainer = myMediaContainerService.Get(1, ImageSource.Remote).First(Function(mc) mc.Name = RemoteMediaContainerList.SelectedItem.ToString())
+        mediaContainer.IsEnabled = Not mediaContainer.IsEnabled
+        Dim updateContainer As Result(Of MediaContainer) = myMediaContainerService.Update(mediaContainer)
+
+        If updateContainer.IsFailure Then
+            Await myNotifyUserService.ErrorMessageAsync(updateContainer.Error)
         End If
 
-        SaveURLFileSelection()
     End Sub
+
+    Private Sub RemoteMediaContainerList_VisibleChanged(sender As Object, e As EventArgs) Handles RemoteMediaContainerList.VisibleChanged
+        Dim remoteImageMediaContainers = myMediaContainerService.Get(1, ImageSource.Remote)
+        RemoteMediaContainerList.Items.Clear()
+        For Each mediaContainer In remoteImageMediaContainers
+            RemoteMediaContainerList.Items.Add(mediaContainer.Name, mediaContainer.IsEnabled)
+        Next
+        RemoteMediaContainerList.Refresh()
+    End Sub
+
+    Private Sub URL_File_Set(ByVal URL_FileName As String)
+        ' Set the new URL-File
+        If Not RemoteMediaContainerList.Items.Contains(URL_FileName) Then
+            RemoteMediaContainerList.Items.Add(URL_FileName)
+            For i As Integer = 0 To RemoteMediaContainerList.Items.Count - 1
+                If RemoteMediaContainerList.Items(i) = URL_FileName Then RemoteMediaContainerList.SetItemChecked(i, True)
+            Next
+        End If
+        ' Save ListState
+    End Sub
+
+    Private Sub BTNURLFilesAll_Click(sender As Object, e As EventArgs) Handles BTNURLFilesAll.Click
+        For i As Integer = 0 To RemoteMediaContainerList.Items.Count - 1
+            RemoteMediaContainerList.SetItemChecked(i, True)
+        Next
+    End Sub
+
+    Private Sub BTNURLFilesNone_Click(sender As Object, e As EventArgs) Handles BTNURLFilesNone.Click
+        For i As Integer = 0 To RemoteMediaContainerList.Items.Count - 1
+            RemoteMediaContainerList.SetItemChecked(i, False)
+        Next
+    End Sub
+
+    Private Sub TpImagesG(sender As Object, e As EventArgs) Handles TpImagesGenre.VisibleChanged
+        Dim mediaContainers = myMediaContainerService.Get().Where(Function(mc) mc.MediaTypeId = 1).ToList()
+
+        Dim source As ImageSource = ImageSource.Local
+        Dim genre As ImageGenre = ImageGenre.Hardcore
+        Dim controlName As String = source.ToString() & genre.ToString() & "EnabledCheckBox"
+        Dim checkBoxControl As CheckBox = CType(FindChildControl(GbxImagesGenre, controlName), CheckBox)
+        checkBoxControl.Checked = mediaContainers.First(Function(mc) mc.SourceId = source AndAlso mc.GenreId = genre).IsEnabled
+
+    End Sub
+
+    Private Sub CBIHardcore_CheckedChanged(sender As Object, e As EventArgs) Handles LocalHardcoreEnabledCheckBox.CheckedChanged
+        Dim source As ImageSource = ImageSource.Local
+        Dim genre As ImageGenre = ImageGenre.Hardcore
+        UpdateMediaContainerFromControl(source, genre)
+    End Sub
+
+    Private Sub UpdateMediaContainerFromControl(source As ImageSource, genre As ImageGenre)
+        Dim controlName As String = source.ToString() & genre.ToString() & "EnabledCheckBox"
+        Dim checkBoxControl As CheckBox = CType(FindChildControl(GbxImagesGenre, controlName), CheckBox)
+        If Not checkBoxControl.Visible Then
+            Return
+        End If
+
+        Dim mediaContainer As MediaContainer = GetMediaContainer(1, source, genre)
+        mediaContainer.IsEnabled = checkBoxControl.Checked
+        myMediaContainerService.Update(mediaContainer)
+    End Sub
+
+    Private Function FindChildControl(parent As Control, childName As String) As Control
+        Dim child As Control = parent.Controls.Find(childName, True).FirstOrDefault()
+
+        If child Is Nothing Then
+            Throw New ArgumentOutOfRangeException(NameOf(childName), childName & " is not a child of " & parent.Name)
+        End If
+        Return child
+    End Function
 #End Region ' Images
 
 #Region "--------------------------------------- Videos -------------------------------------------------"
@@ -4027,24 +4115,24 @@ Public Class FrmSettings
 
         myWorkingUrlImageMetaDatas = imageMetaDatas
 
-        LoadUrlImage(myWorkingUrlImageMetaDatas, myUrlFileIndex)
+        Await LoadUrlImageAsync(myWorkingUrlImageMetaDatas, myUrlFileIndex)
     End Sub
 
-    Private Sub WebPictureBox_MouseWheel(sender As Object, e As Windows.Forms.MouseEventArgs) Handles WebPictureBox.MouseWheel
+    Private Async Sub WebPictureBox_MouseWheel(sender As Object, e As Windows.Forms.MouseEventArgs) Handles WebPictureBox.MouseWheel
         Select Case e.Delta
             Case -120 'Scrolling down
                 If myUrlFileIndex = myWorkingUrlImageMetaDatas.Count - 1 Then
                     Return
                 End If
                 myUrlFileIndex += 1
-                LoadUrlImage(myWorkingUrlImageMetaDatas, myUrlFileIndex)
+                Await LoadUrlImageAsync(myWorkingUrlImageMetaDatas, myUrlFileIndex)
 
             Case 120 'Scrolling up
                 If myUrlFileIndex = 0 Then
                     Return
                 End If
                 myUrlFileIndex -= 1
-                LoadUrlImage(myWorkingUrlImageMetaDatas, myUrlFileIndex)
+                Await LoadUrlImageAsync(myWorkingUrlImageMetaDatas, myUrlFileIndex)
         End Select
     End Sub
 
@@ -4080,16 +4168,16 @@ Public Class FrmSettings
                        End Function)
 
         myUrlFileIndex += 1
-        LoadUrlImage(myWorkingUrlImageMetaDatas, myUrlFileIndex)
+        Await LoadUrlImageAsync(myWorkingUrlImageMetaDatas, myUrlFileIndex)
 
         If containerImages.IsFailure Then
             Await myNotifyUserService.ModalMessageAsync(containerImages.Error.Message)
         End If
     End Sub
 
-    Private Sub UrlImageContinueButton_Click(sender As Object, e As EventArgs) Handles UrlImageContinueButton.Click
+    Private Async Sub UrlImageContinueButton_Click(sender As Object, e As EventArgs) Handles UrlImageContinueButton.Click
         myUrlFileIndex += 1
-        LoadUrlImage(myWorkingUrlImageMetaDatas, myUrlFileIndex)
+        Await LoadUrlImageAsync(myWorkingUrlImageMetaDatas, myUrlFileIndex)
     End Sub
 
     Private Sub BTNCancel_Click(sender As Object, e As EventArgs) Handles BTNWICancel.Click
@@ -4139,24 +4227,24 @@ Public Class FrmSettings
 
     End Sub
 
-    Private Sub SelectBlogDropDown_SelectedIndexChanged(sender As Object, e As EventArgs) Handles SelectBlogDropDown.SelectedIndexChanged
+    Private Async Sub SelectBlogDropDown_SelectedIndexChanged(sender As Object, e As EventArgs) Handles SelectBlogDropDown.SelectedIndexChanged
         If Not SelectBlogDropDown.Visible Then
             Return
         End If
         Dim containerId As Integer = CType(SelectBlogDropDown.SelectedValue, Integer)
         myWorkingUrlImageMetaDatas = myImageMetaDataService.GetImagesInContainer(containerId).GetResultOrDefault(New List(Of ImageMetaData)())
         myUrlFileIndex = 0
-        LoadUrlImage(myWorkingUrlImageMetaDatas, myUrlFileIndex)
+        Await LoadUrlImageAsync(myWorkingUrlImageMetaDatas, myUrlFileIndex)
     End Sub
 
-    Private Sub UrlFilesNextImageButton_Click(sender As Object, e As EventArgs) Handles UrlFilesNextImageButton.Click
+    Private Async Sub UrlFilesNextImageButton_Click(sender As Object, e As EventArgs) Handles UrlFilesNextImageButton.Click
         myUrlFileIndex = myUrlFileIndex + 1
-        LoadUrlImage(myWorkingUrlImageMetaDatas, myUrlFileIndex)
+        Await LoadUrlImageAsync(myWorkingUrlImageMetaDatas, myUrlFileIndex)
     End Sub
 
-    Private Sub UrlFilesPreviousImageButton_Click(sender As Object, e As EventArgs) Handles UrlFilesPreviousImageButton.Click
+    Private Async Sub UrlFilesPreviousImageButton_Click(sender As Object, e As EventArgs) Handles UrlFilesPreviousImageButton.Click
         myUrlFileIndex = myUrlFileIndex - 1
-        LoadUrlImage(myWorkingUrlImageMetaDatas, myUrlFileIndex)
+        Await LoadUrlImageAsync(myWorkingUrlImageMetaDatas, myUrlFileIndex)
     End Sub
 
     Private Sub Button37_Click(sender As Object, e As EventArgs) Handles BTNWISave.Click
@@ -4304,14 +4392,15 @@ Public Class FrmSettings
     ''' </summary>
     ''' <param name="imageMetaDatas"></param>
     ''' <param name="urlFileIndex"></param>
-    Private Sub LoadUrlImage(imageMetaDatas As List(Of ImageMetaData), urlFileIndex As Integer)
+    Private Async Function LoadUrlImageAsync(imageMetaDatas As List(Of ImageMetaData), urlFileIndex As Integer) As Task
 
         LBLWebImageCount.Text = BuildIndexString(urlFileIndex, imageMetaDatas.Count)
-        WebPictureBox.Image = LoadBlogImage(imageMetaDatas(urlFileIndex))
+        WebPictureBox.Image = Await LoadImageAsync(imageMetaDatas(urlFileIndex))
 
         UrlFilesNextImageButton.Enabled = urlFileIndex < imageMetaDatas.Count
         UrlFilesPreviousImageButton.Enabled = urlFileIndex > 0
-    End Sub
+    End Function
+
 #End Region
 
     Private Sub ComboBox1_DrawItem(ByVal sender As Object, ByVal e As Windows.Forms.DrawItemEventArgs) Handles SubMessageFontCB.DrawItem
@@ -4658,23 +4747,6 @@ Public Class FrmSettings
 
     End Sub
 
-    ''' =========================================================================================================
-    ''' <summary>
-    ''' Activates the specified is activaed in Listbox and saves the Listboxstate.
-    ''' </summary>
-    ''' <param name="URL_FileName"></param>
-    Private Sub URL_File_Set(ByVal URL_FileName As String)
-        ' Set the new URL-File
-        If Not RemoteMediaContainerList.Items.Contains(URL_FileName) Then
-            RemoteMediaContainerList.Items.Add(URL_FileName)
-            For i As Integer = 0 To RemoteMediaContainerList.Items.Count - 1
-                If RemoteMediaContainerList.Items(i) = URL_FileName Then RemoteMediaContainerList.SetItemChecked(i, True)
-            Next
-        End If
-        ' Save ListState
-        SaveURLFileSelection()
-    End Sub
-
     Private Sub SliderSTF_Scroll(sender As Object, e As EventArgs) Handles SliderSTF.Scroll
         If SliderSTF.Value = 1 Then LBLStf.Text = "Preoccupied"
         If SliderSTF.Value = 2 Then LBLStf.Text = "Distracted"
@@ -4951,39 +5023,6 @@ Public Class FrmSettings
     Private Sub TBWIDirectory_MouseClick(sender As Object, e As Windows.Forms.MouseEventArgs) Handles TBWIDirectory.MouseClick
         TBWIDirectory.SelectionStart = 0
         TBWIDirectory.SelectionLength = Len(TBWIDirectory.Text)
-    End Sub
-
-    Private Sub SaveURLFileSelection()
-        ' "TODO: save blog url settings"
-        Return
-        If FrmSettingsLoading Then Return
-
-        Dim blogMetaData As List(Of BlogMetaData) = New List(Of BlogMetaData)()
-        For i = 0 To RemoteMediaContainerList.Items.Count - 1
-            blogMetaData.Add(New BlogMetaData With {
-                             .FileName = CStr(RemoteMediaContainerList.Items(i)),
-                             .IsEnabled = RemoteMediaContainerList.GetItemChecked(i)
-                             })
-        Next
-        myBlogAccessor.SaveBlogMetaData(blogMetaData)
-    End Sub
-
-    Private Sub URLFileList_LostFocus(sender As Object, e As EventArgs) Handles RemoteMediaContainerList.LostFocus
-        SaveURLFileSelection()
-    End Sub
-
-    Private Sub BTNURLFilesAll_Click(sender As Object, e As EventArgs) Handles BTNURLFilesAll.Click
-        For i As Integer = 0 To RemoteMediaContainerList.Items.Count - 1
-            RemoteMediaContainerList.SetItemChecked(i, True)
-        Next
-        SaveURLFileSelection()
-    End Sub
-
-    Private Sub BTNURLFilesNone_Click(sender As Object, e As EventArgs) Handles BTNURLFilesNone.Click
-        For i As Integer = 0 To RemoteMediaContainerList.Items.Count - 1
-            RemoteMediaContainerList.SetItemChecked(i, False)
-        Next
-        SaveURLFileSelection()
     End Sub
 
     Private Sub CBCBTCock_CheckedChanged(sender As Object, e As EventArgs) Handles CockTortureEnabledCB.LostFocus
@@ -7217,8 +7256,13 @@ Public Class FrmSettings
         Return String.Format("{0} / {1}", (index + 1).ToString(), count.ToString())
     End Function
 
-    Private Function LoadBlogImage(imageMetaData As ImageMetaData) As Image
-        Return New Bitmap(New MemoryStream(New Net.WebClient().DownloadData(imageMetaData.FullFileName)))
+    Private Async Function LoadImageAsync(imageMetaData As ImageMetaData) As Task(Of Image)
+        Dim webClient As Net.WebClient = New Net.WebClient()
+        Return New Bitmap(New MemoryStream(Await webClient.DownloadDataTaskAsync(imageMetaData.FullFileName)))
+    End Function
+
+    Private Function GetMediaContainer(mediaType As Integer, mediaSource As ImageSource, mediaGenre As ImageGenre) As MediaContainer
+        Return myMediaContainerService.Get(mediaType, mediaSource).FirstOrDefault(Function(mc) mc.GenreId = mediaGenre)
     End Function
 
     Private ReadOnly mySettingsAccessor As ISettingsAccessor

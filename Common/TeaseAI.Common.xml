@@ -1281,6 +1281,13 @@
             <param name="message"></param>
             <returns></returns>
         </member>
+        <member name="M:TeaseAI.Common.Interfaces.INotifyUser.ErrorMessageAsync(TeaseAI.Common.Error)">
+            <summary>
+            Show an error message
+            </summary>
+            <param name="error"></param>
+            <returns></returns>
+        </member>
         <member name="M:TeaseAI.Common.Interfaces.IPersonalityService.GetAllPersonalities">
             <summary>
             Get a collection of all known personalties

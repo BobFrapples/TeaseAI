@@ -339,7 +339,7 @@ Partial Class FrmSettings
         Me.BTNIHardcore = New System.Windows.Forms.Button()
         Me.TbxIHardcore = New System.Windows.Forms.TextBox()
         Me.IncludeHardcoreSubDirectories = New System.Windows.Forms.CheckBox()
-        Me.CBIHardcore = New System.Windows.Forms.CheckBox()
+        Me.LocalHardcoreEnabledCheckBox = New System.Windows.Forms.CheckBox()
         Me.CBISoftcore = New System.Windows.Forms.CheckBox()
         Me.TbxISoftcore = New System.Windows.Forms.TextBox()
         Me.CBButtSubDir = New System.Windows.Forms.CheckBox()
@@ -4575,13 +4575,13 @@ Partial Class FrmSettings
         Me.TpImagesUrlFiles.TabIndex = 0
         Me.TpImagesUrlFiles.Text = "URL Files"
         '
-        'CBURLPreview
+        'PreviewRemoteImagesCheckBox
         '
         Me.PreviewRemoteImagesCheckBox.AutoSize = True
         Me.PreviewRemoteImagesCheckBox.Checked = True
         Me.PreviewRemoteImagesCheckBox.CheckState = System.Windows.Forms.CheckState.Checked
         Me.PreviewRemoteImagesCheckBox.Location = New System.Drawing.Point(463, 500)
-        Me.PreviewRemoteImagesCheckBox.Name = "CBURLPreview"
+        Me.PreviewRemoteImagesCheckBox.Name = "PreviewRemoteImagesCheckBox"
         Me.PreviewRemoteImagesCheckBox.Size = New System.Drawing.Size(240, 17)
         Me.PreviewRemoteImagesCheckBox.TabIndex = 163
         Me.PreviewRemoteImagesCheckBox.Text = "Show Previews When A URL File is Selected"
@@ -5253,7 +5253,7 @@ Partial Class FrmSettings
         Me.TableLayoutPanel1.Controls.Add(Me.BTNIHardcore, 1, 0)
         Me.TableLayoutPanel1.Controls.Add(Me.TbxIHardcore, 2, 0)
         Me.TableLayoutPanel1.Controls.Add(Me.IncludeHardcoreSubDirectories, 3, 0)
-        Me.TableLayoutPanel1.Controls.Add(Me.CBIHardcore, 0, 0)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalHardcoreEnabledCheckBox, 0, 0)
         Me.TableLayoutPanel1.Controls.Add(Me.CBISoftcore, 0, 1)
         Me.TableLayoutPanel1.Controls.Add(Me.TbxISoftcore, 2, 1)
         Me.TableLayoutPanel1.Controls.Add(Me.CBButtSubDir, 3, 12)
@@ -5364,17 +5364,17 @@ Partial Class FrmSettings
         Me.IncludeHardcoreSubDirectories.Text = "Include Subdirectories"
         Me.IncludeHardcoreSubDirectories.UseVisualStyleBackColor = True
         '
-        'CBIHardcore
+        'LocalHardcoreEnabledCheckBox
         '
-        Me.CBIHardcore.AutoSize = True
-        Me.CBIHardcore.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.CBIHardcore.ForeColor = System.Drawing.Color.Black
-        Me.CBIHardcore.Location = New System.Drawing.Point(3, 3)
-        Me.CBIHardcore.Name = "CBIHardcore"
-        Me.CBIHardcore.Size = New System.Drawing.Size(70, 23)
-        Me.CBIHardcore.TabIndex = 0
-        Me.CBIHardcore.Text = "Hardcore"
-        Me.CBIHardcore.UseVisualStyleBackColor = True
+        Me.LocalHardcoreEnabledCheckBox.AutoSize = True
+        Me.LocalHardcoreEnabledCheckBox.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LocalHardcoreEnabledCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.LocalHardcoreEnabledCheckBox.Location = New System.Drawing.Point(3, 3)
+        Me.LocalHardcoreEnabledCheckBox.Name = "LocalHardcoreEnabledCheckBox"
+        Me.LocalHardcoreEnabledCheckBox.Size = New System.Drawing.Size(70, 23)
+        Me.LocalHardcoreEnabledCheckBox.TabIndex = 0
+        Me.LocalHardcoreEnabledCheckBox.Text = "Hardcore"
+        Me.LocalHardcoreEnabledCheckBox.UseVisualStyleBackColor = True
         '
         'CBISoftcore
         '
@@ -15010,7 +15010,7 @@ Partial Class FrmSettings
     Friend WithEvents BTNILesbian As System.Windows.Forms.Button
     Friend WithEvents BTNISoftcore As System.Windows.Forms.Button
     Friend WithEvents BTNIHardcore As System.Windows.Forms.Button
-    Friend WithEvents CBIHardcore As System.Windows.Forms.CheckBox
+    Friend WithEvents LocalHardcoreEnabledCheckBox As System.Windows.Forms.CheckBox
     Friend WithEvents CBISoftcore As System.Windows.Forms.CheckBox
     Friend WithEvents CBILesbian As System.Windows.Forms.CheckBox
     Friend WithEvents CBIBlowjob As System.Windows.Forms.CheckBox
