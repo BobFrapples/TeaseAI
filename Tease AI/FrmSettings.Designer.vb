@@ -286,12 +286,12 @@ Partial Class FrmSettings
         Me.TabPage7 = New System.Windows.Forms.TabPage()
         Me.GernreImagesTab = New System.Windows.Forms.TabControl()
         Me.TpImagesUrlFiles = New System.Windows.Forms.TabPage()
-        Me.CBURLPreview = New System.Windows.Forms.CheckBox()
+        Me.PreviewRemoteImagesCheckBox = New System.Windows.Forms.CheckBox()
         Me.GroupBox66 = New System.Windows.Forms.GroupBox()
         Me.PBURLPreview = New System.Windows.Forms.PictureBox()
         Me.BTNURLFilesAll = New System.Windows.Forms.Button()
         Me.BTNURLFilesNone = New System.Windows.Forms.Button()
-        Me.URLFileList = New System.Windows.Forms.CheckedListBox()
+        Me.RemoteMediaContainerList = New System.Windows.Forms.CheckedListBox()
         Me.TpImagesGenre = New System.Windows.Forms.TabPage()
         Me.GrbImageUrlFiles = New System.Windows.Forms.GroupBox()
         Me.TlpImageUrls = New System.Windows.Forms.TableLayoutPanel()
@@ -4563,11 +4563,11 @@ Partial Class FrmSettings
         'TpImagesUrlFiles
         '
         Me.TpImagesUrlFiles.BackColor = System.Drawing.Color.LightGray
-        Me.TpImagesUrlFiles.Controls.Add(Me.CBURLPreview)
+        Me.TpImagesUrlFiles.Controls.Add(Me.PreviewRemoteImagesCheckBox)
         Me.TpImagesUrlFiles.Controls.Add(Me.GroupBox66)
         Me.TpImagesUrlFiles.Controls.Add(Me.BTNURLFilesAll)
         Me.TpImagesUrlFiles.Controls.Add(Me.BTNURLFilesNone)
-        Me.TpImagesUrlFiles.Controls.Add(Me.URLFileList)
+        Me.TpImagesUrlFiles.Controls.Add(Me.RemoteMediaContainerList)
         Me.TpImagesUrlFiles.Location = New System.Drawing.Point(4, 22)
         Me.TpImagesUrlFiles.Name = "TpImagesUrlFiles"
         Me.TpImagesUrlFiles.Padding = New System.Windows.Forms.Padding(3)
@@ -4577,15 +4577,15 @@ Partial Class FrmSettings
         '
         'CBURLPreview
         '
-        Me.CBURLPreview.AutoSize = True
-        Me.CBURLPreview.Checked = True
-        Me.CBURLPreview.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CBURLPreview.Location = New System.Drawing.Point(463, 500)
-        Me.CBURLPreview.Name = "CBURLPreview"
-        Me.CBURLPreview.Size = New System.Drawing.Size(240, 17)
-        Me.CBURLPreview.TabIndex = 163
-        Me.CBURLPreview.Text = "Show Previews When A URL File is Selected"
-        Me.CBURLPreview.UseVisualStyleBackColor = True
+        Me.PreviewRemoteImagesCheckBox.AutoSize = True
+        Me.PreviewRemoteImagesCheckBox.Checked = True
+        Me.PreviewRemoteImagesCheckBox.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.PreviewRemoteImagesCheckBox.Location = New System.Drawing.Point(463, 500)
+        Me.PreviewRemoteImagesCheckBox.Name = "CBURLPreview"
+        Me.PreviewRemoteImagesCheckBox.Size = New System.Drawing.Size(240, 17)
+        Me.PreviewRemoteImagesCheckBox.TabIndex = 163
+        Me.PreviewRemoteImagesCheckBox.Text = "Show Previews When A URL File is Selected"
+        Me.PreviewRemoteImagesCheckBox.UseVisualStyleBackColor = True
         '
         'GroupBox66
         '
@@ -4626,15 +4626,15 @@ Partial Class FrmSettings
         Me.BTNURLFilesNone.Text = "Select None"
         Me.BTNURLFilesNone.UseVisualStyleBackColor = True
         '
-        'URLFileList
+        'RemoteMediaContainerList
         '
-        Me.URLFileList.CheckOnClick = True
-        Me.URLFileList.FormattingEnabled = True
-        Me.URLFileList.Location = New System.Drawing.Point(6, 9)
-        Me.URLFileList.Name = "URLFileList"
-        Me.URLFileList.Size = New System.Drawing.Size(448, 589)
-        Me.URLFileList.Sorted = True
-        Me.URLFileList.TabIndex = 154
+        Me.RemoteMediaContainerList.CheckOnClick = True
+        Me.RemoteMediaContainerList.FormattingEnabled = True
+        Me.RemoteMediaContainerList.Location = New System.Drawing.Point(6, 9)
+        Me.RemoteMediaContainerList.Name = "RemoteMediaContainerList"
+        Me.RemoteMediaContainerList.Size = New System.Drawing.Size(448, 589)
+        Me.RemoteMediaContainerList.Sorted = True
+        Me.RemoteMediaContainerList.TabIndex = 154
         '
         'TpImagesGenre
         '
@@ -14988,7 +14988,7 @@ Partial Class FrmSettings
     Friend WithEvents Label84 As System.Windows.Forms.Label
     Friend WithEvents CBImageInfo As System.Windows.Forms.CheckBox
     Friend WithEvents Label88 As System.Windows.Forms.Label
-    Friend WithEvents URLFileList As System.Windows.Forms.CheckedListBox
+    Friend WithEvents RemoteMediaContainerList As System.Windows.Forms.CheckedListBox
     Friend WithEvents TbxIMaledom As System.Windows.Forms.TextBox
     Friend WithEvents TbxIGay As System.Windows.Forms.TextBox
     Friend WithEvents TbxIHentai As System.Windows.Forms.TextBox
@@ -15448,7 +15448,7 @@ Partial Class FrmSettings
     Friend WithEvents CBIBoobs As System.Windows.Forms.CheckBox
     Friend WithEvents GroupBox66 As System.Windows.Forms.GroupBox
     Friend WithEvents PBURLPreview As System.Windows.Forms.PictureBox
-    Friend WithEvents CBURLPreview As System.Windows.Forms.CheckBox
+    Friend WithEvents PreviewRemoteImagesCheckBox As System.Windows.Forms.CheckBox
     Friend WithEvents GroupBox67 As System.Windows.Forms.GroupBox
     Friend WithEvents Label151 As System.Windows.Forms.Label
     Friend WithEvents NBTaskStrokingTimeMax As System.Windows.Forms.NumericUpDown

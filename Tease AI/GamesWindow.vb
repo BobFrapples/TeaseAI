@@ -219,14 +219,14 @@ Public Class GamesWindow
         MatchList.Clear()
 
 
-        For i As Integer = 0 To FrmSettings.URLFileList.Items.Count - 1
+        For i As Integer = 0 To FrmSettings.RemoteMediaContainerList.Items.Count - 1
 
 
-            If File.Exists(Application.StartupPath & "\Images\System\URL Files\" & FrmSettings.URLFileList.Items(i) & ".txt") Then
+            If File.Exists(Application.StartupPath & "\Images\System\URL Files\" & FrmSettings.RemoteMediaContainerList.Items(i) & ".txt") Then
 
-                If FrmSettings.URLFileList.GetItemCheckState(i) = CheckState.Checked Then
+                If FrmSettings.RemoteMediaContainerList.GetItemCheckState(i) = CheckState.Checked Then
 
-                    Dim URLString As String = Application.StartupPath & "\Images\System\URL Files\" & FrmSettings.URLFileList.Items(i) & ".txt"
+                    Dim URLString As String = Application.StartupPath & "\Images\System\URL Files\" & FrmSettings.RemoteMediaContainerList.Items(i) & ".txt"
                     Dim CardReader As New System.IO.StreamReader(URLString)
 
                     While CardReader.Peek <> -1
@@ -449,14 +449,14 @@ Public Class GamesWindow
         MatchList.Clear()
 
 
-        For i As Integer = 0 To FrmSettings.URLFileList.Items.Count - 1
+        For i As Integer = 0 To FrmSettings.RemoteMediaContainerList.Items.Count - 1
 
 
-            If File.Exists(Application.StartupPath & "\Images\System\URL Files\" & FrmSettings.URLFileList.Items(i) & ".txt") Then
+            If File.Exists(Application.StartupPath & "\Images\System\URL Files\" & FrmSettings.RemoteMediaContainerList.Items(i) & ".txt") Then
 
-                If FrmSettings.URLFileList.GetItemCheckState(i) = CheckState.Checked Then
+                If FrmSettings.RemoteMediaContainerList.GetItemCheckState(i) = CheckState.Checked Then
 
-                    Dim URLString As String = Application.StartupPath & "\Images\System\URL Files\" & FrmSettings.URLFileList.Items(i) & ".txt"
+                    Dim URLString As String = Application.StartupPath & "\Images\System\URL Files\" & FrmSettings.RemoteMediaContainerList.Items(i) & ".txt"
                     Dim CardReader As New System.IO.StreamReader(URLString)
 
                     While CardReader.Peek <> -1

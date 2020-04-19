@@ -153,7 +153,7 @@ Partial Class MainWindow
 
                     ' Load threadsafe all checked Items into List.
                     Dim temp As Object = FrmSettings.UIThread(Function()
-                                                                  Return FrmSettings.URLFileList.CheckedItems.Cast(Of String).ToList
+                                                                  Return FrmSettings.RemoteMediaContainerList.CheckedItems.Cast(Of String).ToList
                                                               End Function)
 
                     tmpList.AddRange(DirectCast(temp, List(Of String)))

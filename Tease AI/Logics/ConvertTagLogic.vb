@@ -206,6 +206,9 @@ Public Class ConvertTagLogic
                 Return ItemTagId.MahouShoujo
             Case "tagmonstergirl"
                 Return ItemTagId.MonsterGirl
+                ' Oddball tags found after the fact
+            Case "td"
+                Return ItemTagId.TeaseAndDenial
         End Select
         Throw New ArgumentOutOfRangeException()
     End Function

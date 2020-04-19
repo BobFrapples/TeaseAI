@@ -62,6 +62,26 @@
             How much the dom cares about the sub
             </summary>
         </member>
+        <member name="T:TeaseAI.Common.Constants.ImageSource">
+            <summary>
+            Where are this container's files stored
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.ImageSource.Local">
+            <summary>
+            Files stored locally
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.ImageSource.Remote">
+            <summary>
+            Files stored remotely (tumblr blogs, etc)
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.ImageSource.Virtual">
+            <summary>
+            This container can be either
+            </summary>
+        </member>
         <member name="T:TeaseAI.Common.Constants.ItemTagId">
             <summary>
             Database Ids for default tags
@@ -1047,6 +1067,13 @@
             <param name="images"></param>
             <returns></returns>
         </member>
+        <member name="M:TeaseAI.Common.Interfaces.Accessors.IImageAccessor.Delete(TeaseAI.Common.Data.ImageMetaData)">
+            <summary>
+            remove <paramref name="imageMetaData"/>
+            </summary>
+            <param name="imageMetaData"></param>
+            <returns></returns>
+        </member>
         <member name="M:TeaseAI.Common.Interfaces.Accessors.IPathsAccessor.GetPersonalitiesFolder">
             <summary>
             Get the folder which has all personalities in it
@@ -1205,6 +1232,27 @@
             </summary>
             <param name="session"></param>
             <param name="lines"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.IMediaContainerService.Get">
+            <summary>
+            Get all media containers
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.IMediaContainerService.Get(System.Int32)">
+            <summary>
+            Get a specific media container by <paramref name="containerId"/>
+            </summary>
+            <param name="containerId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.IMediaContainerService.Get(System.Int32,TeaseAI.Common.Constants.ImageSource)">
+            <summary>
+            Get all containers for <paramref name="mediaTypeId"/> sourced at <paramref name="imageSource"/>
+            </summary>
+            <param name="mediaTypeId"></param>
+            <param name="imageSource"></param>
             <returns></returns>
         </member>
         <member name="E:TeaseAI.Common.Interfaces.IMessageProcessor.MessageProcessed">

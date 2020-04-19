@@ -53,8 +53,8 @@ Public Class MainWindow
     <Obsolete("QND-Implementation of ContactData.GetTaggedImage. ")>
     Dim ContactToUse As ContactData
 
-    Private ReadOnly mySystemImageDIr As String = Windows.Forms.Application.StartupPath + "\Images\System\"
-    Private myPathUrlFileDir As String = mySystemImageDIr + "URL Files\"
+    Private ReadOnly mySystemImageDir As String = Windows.Forms.Application.StartupPath + "\Images\System\"
+    Private myPathUrlFileDir As String = mySystemImageDir + "URL Files\"
 
     Dim sshSyncLock As New Object
     ''' <summary>
@@ -284,7 +284,7 @@ ByVal lpstrReturnString As String, ByVal uReturnLength As Integer, ByVal hwndCal
     End Sub
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles Me.Load
-        ConvertImageMeetaData()
+        ConvertImageMetaData()
         ConvertScriptMetaData()
 
         Dim imageAccessor = ApplicationFactory.CreateImageMetaDataService()
@@ -10016,7 +10016,7 @@ SkipTextedTags:
                 .Add("@ShowMaledomImage", Not Directory.Exists(My.Settings.IMaledom) OrElse My.Settings.CBIMaledom = False OrElse ssh.CustomSlideEnabled OrElse myFlagAccessor.IsSet(CreateDommePersonality(), "SYS_NoPornAllowed") OrElse ssh.LockImage)
                 .Add("@ShowCaptionsImage", Not Directory.Exists(My.Settings.ICaptions) OrElse My.Settings.CBICaptions = False OrElse ssh.CustomSlideEnabled OrElse myFlagAccessor.IsSet(CreateDommePersonality(), "SYS_NoPornAllowed") OrElse ssh.LockImage)
                 .Add("@ShowGeneralImage", Not Directory.Exists(My.Settings.IGeneral) OrElse My.Settings.CBIGeneral = False OrElse ssh.CustomSlideEnabled OrElse myFlagAccessor.IsSet(CreateDommePersonality(), "SYS_NoPornAllowed") OrElse ssh.LockImage)
-                .Add("@ShowBlogImage", FrmSettings.URLFileList.CheckedItems.Count = 0 OrElse ssh.CustomSlideEnabled OrElse myFlagAccessor.IsSet(CreateDommePersonality(), "SYS_NoPornAllowed") OrElse ssh.LockImage)
+                .Add("@ShowBlogImage", FrmSettings.RemoteMediaContainerList.CheckedItems.Count = 0 OrElse ssh.CustomSlideEnabled OrElse myFlagAccessor.IsSet(CreateDommePersonality(), "SYS_NoPornAllowed") OrElse ssh.LockImage)
                 .Add("@NewBlogImage", __ConditionDic("@ShowBlogImage")) ' duplicate Command, lets get the Value af the other one.
                 .Add("@ShowLocalImage", myFlagAccessor.IsSet(CreateDommePersonality(), "SYS_NoPornAllowed") OrElse ssh.CustomSlideEnabled Or ssh.LockImage = True _
                       Or (My.Settings.CBIHardcore = False And My.Settings.CBISoftcore = False And My.Settings.CBILesbian = False And My.Settings.CBIBlowjob = False _
@@ -14978,7 +14978,7 @@ playLoop:
 #End Region
 
 #Region "conversion methods"
-    Private Sub ConvertImageMeetaData()
+    Private Sub ConvertImageMetaData()
         ' Force the personality home to be the current directory for now.
         Dim mediaContainerService As IMediaContainerService = ApplicationFactory.CreateMediaContainerService()
         Dim imageMetaDataService As IImageAccessor = ApplicationFactory.CreateImageMetaDataService()
@@ -14996,9 +14996,8 @@ playLoop:
 
         Dim mediaContainers As List(Of MediaContainer) = mediaContainerService.Get()
         If (Not mediaContainers.Any()) Then
-            mediaContainerService.Initialize()
-            mediaContainers = UpdateContainersFromOldConfigs(mediaContainerService.Get())
-            mediaContainerService.Update(mediaContainers)
+            mediaContainers = UpdateContainersFromOldConfigs(mediaContainers)
+            mediaContainers = mediaContainerService.Create(mediaContainers).Value
         End If
 
         If (Not imageMetaDataService.Get(Nothing, Nothing).Any()) Then
@@ -15012,53 +15011,72 @@ playLoop:
         configurationAccessor.SaveApplicationConfiguration(appConfig)
     End Sub
 
+    ''' <summary>
+    ''' This ensures the default containers match the old application configuration
+    ''' </summary>
+    ''' <param name="containers"></param>
+    ''' <returns></returns>
     Private Function UpdateContainersFromOldConfigs(containers As List(Of MediaContainer)) As List(Of MediaContainer)
+        Dim inputs As List(Of Tuple(Of Boolean, String, ImageSource, ImageGenre, String, Boolean)) = New List(Of Tuple(Of Boolean, String, ImageSource, ImageGenre, String, Boolean))()
 
-        Dim inputs As List(Of Tuple(Of Boolean, ImageSource, ImageGenre, String, Boolean)) = New List(Of Tuple(Of Boolean, ImageSource, ImageGenre, String, Boolean))()
+        inputs.Add(Tuple.Create(My.MySettings.Default.CBIBlowjob, NameOf(ImageGenre.Blowjob), ImageSource.Local, ImageGenre.Blowjob, My.MySettings.Default.IBlowjob, My.MySettings.Default.CBBlowjob))
+        inputs.Add(Tuple.Create(My.MySettings.Default.CBIBoobs, NameOf(ImageGenre.Boobs), ImageSource.Local, ImageGenre.Boobs, My.MySettings.Default.LBLBoobPath, My.MySettings.Default.CBBoobSubDir))
+        inputs.Add(Tuple.Create(My.MySettings.Default.CBIButts, NameOf(ImageGenre.Butt), ImageSource.Local, ImageGenre.Butt, My.MySettings.Default.LBLButtPath, My.MySettings.Default.CBButtSubDir))
+        inputs.Add(Tuple.Create(My.MySettings.Default.CBICaptions, NameOf(ImageGenre.Captions), ImageSource.Local, ImageGenre.Captions, My.MySettings.Default.ICaptions, My.MySettings.Default.ICaptionsSD))
+        inputs.Add(Tuple.Create(My.MySettings.Default.CBIFemdom, NameOf(ImageGenre.Femdom), ImageSource.Local, ImageGenre.Femdom, My.MySettings.Default.IFemdom, My.MySettings.Default.IFemdomSD))
+        inputs.Add(Tuple.Create(My.MySettings.Default.CBIGay, NameOf(ImageGenre.Gay), ImageSource.Local, ImageGenre.Gay, My.MySettings.Default.IGay, My.MySettings.Default.IGaySD))
+        inputs.Add(Tuple.Create(My.MySettings.Default.CBIGeneral, NameOf(ImageGenre.General), ImageSource.Local, ImageGenre.General, My.MySettings.Default.IGeneral, My.MySettings.Default.IGeneralSD))
+        inputs.Add(Tuple.Create(My.MySettings.Default.CBIHardcore, NameOf(ImageGenre.Hardcore), ImageSource.Local, ImageGenre.Hardcore, My.MySettings.Default.IHardcore, My.MySettings.Default.IHardcoreSD))
+        inputs.Add(Tuple.Create(My.MySettings.Default.CBIHentai, NameOf(ImageGenre.Hentai), ImageSource.Local, ImageGenre.Hentai, My.MySettings.Default.IHentai, My.MySettings.Default.IHentaiSD))
+        inputs.Add(Tuple.Create(My.MySettings.Default.CBILesbian, NameOf(ImageGenre.Lesbian), ImageSource.Local, ImageGenre.Lesbian, My.MySettings.Default.ILesbian, My.MySettings.Default.ILesbianSD))
+        inputs.Add(Tuple.Create(My.MySettings.Default.CBILezdom, NameOf(ImageGenre.Lezdom), ImageSource.Local, ImageGenre.Lezdom, My.MySettings.Default.ILesbian, My.MySettings.Default.ILezdomSD))
+        inputs.Add(Tuple.Create(My.MySettings.Default.CBIMaledom, NameOf(ImageGenre.Maledom), ImageSource.Local, ImageGenre.Maledom, My.MySettings.Default.IMaledom, My.MySettings.Default.IMaledomSD))
+        inputs.Add(Tuple.Create(My.MySettings.Default.CBISoftcore, NameOf(ImageGenre.Softcore), ImageSource.Local, ImageGenre.Softcore, My.MySettings.Default.ISoftcore, My.MySettings.Default.ISoftcoreSD))
+        inputs.Add(Tuple.Create(True, NameOf(ImageGenre.Liked), ImageSource.Virtual, ImageGenre.Liked, mySystemImageDir + "LikedImageURLs.txt", False))
+        inputs.Add(Tuple.Create(True, NameOf(ImageGenre.Disliked), ImageSource.Virtual, ImageGenre.Disliked, mySystemImageDir + "DislikedImageURLs.txt", False))
 
-        inputs.Add(Tuple.Create(My.MySettings.Default.CBIBlowjob, ImageSource.Local, ImageGenre.Blowjob, My.MySettings.Default.IBlowjob, My.MySettings.Default.CBBlowjob))
-        inputs.Add(Tuple.Create(My.MySettings.Default.UrlFileBlowjobEnabled, ImageSource.Remote, ImageGenre.Blowjob, My.MySettings.Default.UrlFileBlowjob, False))
+        Dim blogImageAccessor = New BlogImageAccessor()
+        Dim bmd As List(Of BlogMetaData) = blogImageAccessor.GetBlogMetaData()
+        For Each blog As BlogMetaData In bmd
+            Dim filename As String = blog.FileName & ".txt"
+            Dim url As String = "https://" & blog.FileName
+            Dim name = blog.FileName.Replace(".tumblr.com", String.Empty)
 
-        inputs.Add(Tuple.Create(My.MySettings.Default.CBIBoobs, ImageSource.Local, ImageGenre.Boobs, My.MySettings.Default.LBLBoobPath, My.MySettings.Default.CBBoobSubDir))
-        inputs.Add(Tuple.Create(My.MySettings.Default.UrlFileBoobsEnabled, ImageSource.Remote, ImageGenre.Boobs, My.MySettings.Default.UrlFileBoobs, False))
+            If filename = My.MySettings.Default.UrlFileBlowjob Then
+                inputs.Add(Tuple.Create(blog.IsEnabled, name, ImageSource.Remote, ImageGenre.Blowjob, url, False))
+            ElseIf filename = My.MySettings.Default.UrlFileBoobs Then
+                inputs.Add(Tuple.Create(blog.IsEnabled, name, ImageSource.Remote, ImageGenre.Boobs, url, False))
+            ElseIf filename = My.MySettings.Default.UrlFileButt Then
+                inputs.Add(Tuple.Create(blog.IsEnabled, name, ImageSource.Remote, ImageGenre.Butt, url, False))
+            ElseIf filename = My.MySettings.Default.UrlFileCaptions Then
+                inputs.Add(Tuple.Create(blog.IsEnabled, name, ImageSource.Remote, ImageGenre.Captions, url, False))
+            ElseIf filename = My.MySettings.Default.UrlFileFemdom Then
+                inputs.Add(Tuple.Create(blog.IsEnabled, name, ImageSource.Remote, ImageGenre.Femdom, url, False))
+            ElseIf filename = My.MySettings.Default.UrlFileGay Then
+                inputs.Add(Tuple.Create(blog.IsEnabled, name, ImageSource.Remote, ImageGenre.Gay, url, False))
+            ElseIf filename = My.MySettings.Default.UrlFileGeneral Then
+                inputs.Add(Tuple.Create(blog.IsEnabled, name, ImageSource.Remote, ImageGenre.General, url, False))
+            ElseIf filename = My.MySettings.Default.UrlFileHardcore Then
+                inputs.Add(Tuple.Create(blog.IsEnabled, name, ImageSource.Remote, ImageGenre.Hardcore, url, False))
+            ElseIf filename = My.MySettings.Default.UrlFileHentai Then
+                inputs.Add(Tuple.Create(blog.IsEnabled, name, ImageSource.Remote, ImageGenre.Hentai, url, False))
+            ElseIf filename = My.MySettings.Default.UrlFileLesbian Then
+                inputs.Add(Tuple.Create(blog.IsEnabled, name, ImageSource.Remote, ImageGenre.Lesbian, url, False))
+            ElseIf filename = My.MySettings.Default.UrlFileLezdom Then
+                inputs.Add(Tuple.Create(blog.IsEnabled, name, ImageSource.Remote, ImageGenre.Lezdom, url, False))
+            ElseIf filename = My.MySettings.Default.UrlFileMaledom Then
+                inputs.Add(Tuple.Create(blog.IsEnabled, name, ImageSource.Remote, ImageGenre.Maledom, url, False))
+            ElseIf filename = My.MySettings.Default.UrlFileSoftcore Then
+                inputs.Add(Tuple.Create(blog.IsEnabled, name, ImageSource.Remote, ImageGenre.Softcore, url, False))
+            Else
+                inputs.Add(Tuple.Create(blog.IsEnabled, name, ImageSource.Remote, ImageGenre.Blog, url, False))
+            End If
+        Next
 
-        inputs.Add(Tuple.Create(My.MySettings.Default.CBIButts, ImageSource.Local, ImageGenre.Butt, My.MySettings.Default.LBLButtPath, My.MySettings.Default.CBButtSubDir))
-        inputs.Add(Tuple.Create(My.MySettings.Default.UrlFileButtEnabled, ImageSource.Remote, ImageGenre.Butt, My.MySettings.Default.UrlFileButt, False))
-
-        inputs.Add(Tuple.Create(My.MySettings.Default.CBICaptions, ImageSource.Local, ImageGenre.Captions, My.MySettings.Default.ICaptions, My.MySettings.Default.ICaptionsSD))
-        inputs.Add(Tuple.Create(My.MySettings.Default.UrlFileCaptionsEnabled, ImageSource.Remote, ImageGenre.Captions, My.MySettings.Default.UrlFileCaptions, False))
-
-        inputs.Add(Tuple.Create(My.MySettings.Default.CBIFemdom, ImageSource.Local, ImageGenre.Femdom, My.MySettings.Default.IFemdom, My.MySettings.Default.IFemdomSD))
-        inputs.Add(Tuple.Create(My.MySettings.Default.UrlFileFemdomEnabled, ImageSource.Remote, ImageGenre.Femdom, My.MySettings.Default.UrlFileFemdom, False))
-
-        inputs.Add(Tuple.Create(My.MySettings.Default.CBIGay, ImageSource.Local, ImageGenre.Gay, My.MySettings.Default.IGay, My.MySettings.Default.IGaySD))
-        inputs.Add(Tuple.Create(My.MySettings.Default.UrlFileGayEnabled, ImageSource.Remote, ImageGenre.Gay, My.MySettings.Default.UrlFileGay, False))
-
-        inputs.Add(Tuple.Create(My.MySettings.Default.CBIGeneral, ImageSource.Local, ImageGenre.General, My.MySettings.Default.IGeneral, My.MySettings.Default.IGeneralSD))
-        inputs.Add(Tuple.Create(My.MySettings.Default.UrlFileGeneralEnabled, ImageSource.Remote, ImageGenre.General, My.MySettings.Default.UrlFileGeneral, False))
-
-        inputs.Add(Tuple.Create(My.MySettings.Default.CBIHardcore, ImageSource.Local, ImageGenre.Hardcore, My.MySettings.Default.IHardcore, My.MySettings.Default.IHardcoreSD))
-        inputs.Add(Tuple.Create(My.MySettings.Default.UrlFileHardcoreEnabled, ImageSource.Remote, ImageGenre.Hardcore, My.MySettings.Default.UrlFileHardcore, False))
-
-        inputs.Add(Tuple.Create(My.MySettings.Default.CBIHentai, ImageSource.Local, ImageGenre.Hentai, My.MySettings.Default.IHentai, My.MySettings.Default.IHentaiSD))
-        inputs.Add(Tuple.Create(My.MySettings.Default.UrlFileHentaiEnabled, ImageSource.Remote, ImageGenre.Hentai, My.MySettings.Default.UrlFileHentai, False))
-
-        inputs.Add(Tuple.Create(My.MySettings.Default.CBILesbian, ImageSource.Local, ImageGenre.Lesbian, My.MySettings.Default.ILesbian, My.MySettings.Default.ILesbianSD))
-        inputs.Add(Tuple.Create(My.MySettings.Default.UrlFileLesbianEnabled, ImageSource.Remote, ImageGenre.Lesbian, My.MySettings.Default.UrlFileLesbian, False))
-
-        inputs.Add(Tuple.Create(My.MySettings.Default.CBILezdom, ImageSource.Local, ImageGenre.Lezdom, My.MySettings.Default.ILesbian, My.MySettings.Default.ILezdomSD))
-        inputs.Add(Tuple.Create(My.MySettings.Default.UrlFileLezdomEnabled, ImageSource.Remote, ImageGenre.Lezdom, My.MySettings.Default.UrlFileLezdom, False))
-
-        inputs.Add(Tuple.Create(My.MySettings.Default.CBIMaledom, ImageSource.Local, ImageGenre.Maledom, My.MySettings.Default.IMaledom, My.MySettings.Default.IMaledomSD))
-        inputs.Add(Tuple.Create(My.MySettings.Default.UrlFileMaledomEnabled, ImageSource.Remote, ImageGenre.Maledom, My.MySettings.Default.UrlFileMaledom, False))
-
-        inputs.Add(Tuple.Create(My.MySettings.Default.CBISoftcore, ImageSource.Local, ImageGenre.Softcore, My.MySettings.Default.ISoftcore, My.MySettings.Default.ISoftcoreSD))
-        inputs.Add(Tuple.Create(My.MySettings.Default.UrlFileSoftcoreEnabled, ImageSource.Remote, ImageGenre.Softcore, My.MySettings.Default.UrlFileSoftcore, False))
-
-        For Each inputData As Tuple(Of Boolean, ImageSource, ImageGenre, String, Boolean) In inputs
+        For Each inputData As Tuple(Of Boolean, String, ImageSource, ImageGenre, String, Boolean) In inputs
             Dim container As MediaContainer = Nothing
             For Each thing As MediaContainer In containers
-                If (thing.Name = inputData.Item3.ToString() AndAlso thing.SourceId = inputData.Item2 AndAlso thing.MediaTypeId = 1) Then
+                If (thing.Name = inputData.Item2 AndAlso thing.SourceId = inputData.Item3 AndAlso thing.MediaTypeId = 1) Then
                     container = thing
                 End If
             Next
@@ -15066,44 +15084,21 @@ playLoop:
                 containers.Add(New MediaContainer With
                            {
                            .IsEnabled = inputData.Item1,
-                           .SourceId = inputData.Item2,
-                           .GenreId = inputData.Item3,
-                           .Path = inputData.Item4,
-                           .UseSubFolders = inputData.Item5,
-                           .Name = inputData.Item3.ToString(),
+                           .Name = inputData.Item2,
+                           .SourceId = inputData.Item3,
+                           .GenreId = inputData.Item4,
+                           .Path = inputData.Item5,
+                           .UseSubFolders = inputData.Item6,
                            .MediaTypeId = 1
                            })
             Else
                 container.IsEnabled = inputData.Item1
-                container.SourceId = inputData.Item2
-                container.GenreId = inputData.Item3
-                container.Path = inputData.Item4
-                container.UseSubFolders = inputData.Item5
+                container.SourceId = inputData.Item3
+                container.GenreId = inputData.Item4
+                container.Path = inputData.Item5
+                container.UseSubFolders = inputData.Item6
             End If
         Next
-
-        ' These are special "meta" containers. I hate them.
-        Dim metaContainer As MediaContainer = containers.First(Function(mc) mc.Name = NameOf(ImageGenre.Blog) AndAlso mc.MediaTypeId = 1)
-        metaContainer.IsEnabled = True
-        metaContainer.SourceId = ImageSource.Remote
-        metaContainer.GenreId = ImageGenre.Blog
-
-        metaContainer = containers.First(Function(mc) mc.Name = NameOf(ImageGenre.Liked) AndAlso mc.MediaTypeId = 1 AndAlso mc.SourceId = ImageSource.Local)
-        metaContainer.IsEnabled = True
-        metaContainer.Path = mySystemImageDIr + "LikedImageURLs.txt"
-
-        metaContainer = containers.First(Function(mc) mc.Name = NameOf(ImageGenre.Liked) AndAlso mc.MediaTypeId = 1 AndAlso mc.SourceId = ImageSource.Remote)
-        metaContainer.IsEnabled = True
-        metaContainer.Path = mySystemImageDIr + "LikedImageURLs.txt"
-
-        metaContainer = containers.First(Function(mc) mc.Name = NameOf(ImageGenre.Disliked) AndAlso mc.MediaTypeId = 1 AndAlso mc.SourceId = ImageSource.Local)
-        metaContainer.IsEnabled = True
-        metaContainer.Path = mySystemImageDIr + "DislikedImageURLs.txt"
-
-        metaContainer = containers.First(Function(mc) mc.Name = NameOf(ImageGenre.Disliked) AndAlso mc.MediaTypeId = 1 AndAlso mc.SourceId = ImageSource.Remote)
-        metaContainer.IsEnabled = True
-        metaContainer.Path = mySystemImageDIr + "DislikedImageURLs.txt"
-
         Return containers
     End Function
 
@@ -15125,7 +15120,7 @@ playLoop:
                                             .ItemName = Path.GetFileNameWithoutExtension(foundFile),
                                             .FullFileName = foundFile,
                                             .MediaContainerId = container.Id,
-                                            .SourceId = container.SourceId,
+                                            .SourceId = ImageSource.Virtual,
                                             .GenreId = container.GenreId
                                         })
                         End If
@@ -15142,7 +15137,7 @@ playLoop:
                         })
                     Next
                 End If
-            ElseIf container.SourceId = ImageSource.Remote Then
+            ElseIf container.SourceId = ImageSource.Virtual Then
                 If (container.GenreId = ImageGenre.Liked) OrElse (container.GenreId = ImageGenre.Disliked) Then
                     For Each foundFile As String In File.ReadAllLines(container.Path)
                         If (foundFile.ToLower().StartsWith("http")) Then
@@ -15169,8 +15164,9 @@ playLoop:
                     '                    })
                     '    Next
                     'Next
-                Else
-                    Dim fileName As String = myPathUrlFileDir + container.Path
+                End If
+            ElseIf container.SourceId = ImageSource.Remote Then
+                    Dim fileName As String = myPathUrlFileDir + container.Path.Replace("https://", String.Empty) & ".txt"
                     For Each foundFile As String In File.ReadAllLines(fileName)
                         returnValue.Add(New ImageMetaData() With
                                         {
@@ -15182,9 +15178,8 @@ playLoop:
                                         })
                     Next
                 End If
-            End If
         Next
-
+        Dim local = returnValue.Where(Function(imd) imd.SourceId = ImageSource.Virtual).ToList()
         Return returnValue
     End Function
 
@@ -15203,7 +15198,7 @@ playLoop:
                     oldTag.filename = line.Trim()
                 End If
                 tokens.RemoveAt(0)
-                Dim tags As List(Of String) = tokens.Where(Function(tag) Not String.IsNullOrWhiteSpace(tag) AndAlso tag.Contains("Tag")).Select(Function(tag) tag.Replace("Tag", String.Empty)).ToList()
+                Dim tags As List(Of String) = tokens.Where(Function(tag) Not String.IsNullOrWhiteSpace(tag) AndAlso tag.Contains("Tag")).ToList()
                 oldTag.TagIds = ConvertTags(tags)
                 oldTagDatas.Add(oldTag)
             Next
