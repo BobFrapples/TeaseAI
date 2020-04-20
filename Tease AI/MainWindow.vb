@@ -15278,7 +15278,7 @@ playLoop:
 
     Private Sub mySession_ShowImage(sender As Object, e As ShowImageEventArgs)
         If (InvokeRequired) Then
-            BeginInvoke(New MethodInvoker(Sub() ShowImage(e.ImageMetaData.ItemName, False)))
+            BeginInvoke(New MethodInvoker(Sub() ShowImage(e.ImageMetaData)))
         End If
     End Sub
 

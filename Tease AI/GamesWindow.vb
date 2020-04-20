@@ -261,7 +261,7 @@ Public Class GamesWindow
 
 
         If My.Settings.CBIHardcore = True And Directory.Exists(My.Settings.IHardcore) Then
-            If FrmSettings.IncludeHardcoreSubDirectories.Checked = True Then
+            If FrmSettings.LocalHardcoreSubdirectoryCheckBox.Checked = True Then
                 files = myDirectory.GetFiles(My.Settings.IHardcore, "*.*", SearchOption.AllDirectories)
             Else
                 files = myDirectory.GetFiles(My.Settings.IHardcore, "*.*")
@@ -491,7 +491,7 @@ Public Class GamesWindow
 
 
         If My.Settings.CBIHardcore = True And Directory.Exists(My.Settings.IHardcore) Then
-            If FrmSettings.IncludeHardcoreSubDirectories.Checked = True Then
+            If FrmSettings.LocalHardcoreSubdirectoryCheckBox.Checked = True Then
                 files = myDirectory.GetFiles(My.Settings.IHardcore, "*.*", SearchOption.AllDirectories)
             Else
                 files = myDirectory.GetFiles(My.Settings.IHardcore, "*.*")

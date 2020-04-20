@@ -615,13 +615,20 @@ NoNeFound:
             Return
         End If
 
-        If imageToShow.SourceId = ImageSource.Local AndAlso Not File.Exists(imageToShow.ItemName) Then
+        Dim imageData As Image = Nothing
+        If imageToShow.SourceId = ImageSource.Local AndAlso Not File.Exists(imageToShow.FullFileName) Then
             Throw New ArgumentException(NameOf(imageToShow), imageToShow.ItemName + " does not exist.")
         End If
 
+        If imageToShow.SourceId = ImageSource.Local Then
+            imageData = Image.FromFile(imageToShow.FullFileName)
+        ElseIf imageToShow.SourceId = ImageSource.Remote Then
+            Dim webClient As Net.WebClient = New Net.WebClient()
+            imageData = New Bitmap(New MemoryStream(webClient.DownloadData(imageToShow.FullFileName)))
+        End If
 
         myDisplayedImage = imageToShow
-        mainPictureBox.Image = Image.FromFile(imageToShow.ItemName)
+        mainPictureBox.Image = imageData
     End Sub
 #Region "---------------------------------------------------- BWimageSync -----------------------------------------------------"
 

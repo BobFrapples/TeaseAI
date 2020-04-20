@@ -336,58 +336,58 @@ Partial Class FrmSettings
         Me.TxbImageUrlButts = New System.Windows.Forms.TextBox()
         Me.GbxImagesGenre = New System.Windows.Forms.GroupBox()
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
-        Me.BTNIHardcore = New System.Windows.Forms.Button()
-        Me.TbxIHardcore = New System.Windows.Forms.TextBox()
-        Me.IncludeHardcoreSubDirectories = New System.Windows.Forms.CheckBox()
+        Me.LocalHardcoreDirectoryButton = New System.Windows.Forms.Button()
+        Me.LocalHardcoreDirectoryTextBox = New System.Windows.Forms.TextBox()
+        Me.LocalHardcoreSubdirectoryCheckBox = New System.Windows.Forms.CheckBox()
         Me.LocalHardcoreEnabledCheckBox = New System.Windows.Forms.CheckBox()
-        Me.CBISoftcore = New System.Windows.Forms.CheckBox()
-        Me.TbxISoftcore = New System.Windows.Forms.TextBox()
-        Me.CBButtSubDir = New System.Windows.Forms.CheckBox()
-        Me.IncludedSoftcoreSubDirectories = New System.Windows.Forms.CheckBox()
-        Me.CBBoobSubDir = New System.Windows.Forms.CheckBox()
-        Me.CBILezdomSD = New System.Windows.Forms.CheckBox()
-        Me.CBIGeneralSD = New System.Windows.Forms.CheckBox()
-        Me.CBILesbianSD = New System.Windows.Forms.CheckBox()
-        Me.CBICaptionsSD = New System.Windows.Forms.CheckBox()
-        Me.CBILesbian = New System.Windows.Forms.CheckBox()
-        Me.CBIMaledomSD = New System.Windows.Forms.CheckBox()
-        Me.CBIBlowjob = New System.Windows.Forms.CheckBox()
-        Me.CBIGaySD = New System.Windows.Forms.CheckBox()
-        Me.CBIHentaiSD = New System.Windows.Forms.CheckBox()
-        Me.CBIBlowjobSD = New System.Windows.Forms.CheckBox()
-        Me.CBIFemdomSD = New System.Windows.Forms.CheckBox()
-        Me.TbxIButts = New System.Windows.Forms.TextBox()
-        Me.CBIFemdom = New System.Windows.Forms.CheckBox()
-        Me.TbxILesbian = New System.Windows.Forms.TextBox()
-        Me.BTNISoftcore = New System.Windows.Forms.Button()
-        Me.CBILezdom = New System.Windows.Forms.CheckBox()
-        Me.TbxIBoobs = New System.Windows.Forms.TextBox()
-        Me.CBIHentai = New System.Windows.Forms.CheckBox()
-        Me.TbxIBlowjob = New System.Windows.Forms.TextBox()
-        Me.CBIGay = New System.Windows.Forms.CheckBox()
-        Me.TbxIGeneral = New System.Windows.Forms.TextBox()
-        Me.CBIMaledom = New System.Windows.Forms.CheckBox()
-        Me.TbxIFemdom = New System.Windows.Forms.TextBox()
-        Me.BTNILesbian = New System.Windows.Forms.Button()
-        Me.TbxICaptions = New System.Windows.Forms.TextBox()
-        Me.CBICaptions = New System.Windows.Forms.CheckBox()
-        Me.TbxILezdom = New System.Windows.Forms.TextBox()
-        Me.TbxIMaledom = New System.Windows.Forms.TextBox()
-        Me.BTNButtPath = New System.Windows.Forms.Button()
-        Me.TbxIHentai = New System.Windows.Forms.TextBox()
-        Me.CBIGeneral = New System.Windows.Forms.CheckBox()
-        Me.TbxIGay = New System.Windows.Forms.TextBox()
-        Me.CBIBoobs = New System.Windows.Forms.CheckBox()
-        Me.CBIButts = New System.Windows.Forms.CheckBox()
-        Me.BTNIBlowjob = New System.Windows.Forms.Button()
-        Me.BTNIFemdom = New System.Windows.Forms.Button()
-        Me.BTNBoobPath = New System.Windows.Forms.Button()
-        Me.BTNILezdom = New System.Windows.Forms.Button()
-        Me.BTNIHentai = New System.Windows.Forms.Button()
-        Me.BTNIGay = New System.Windows.Forms.Button()
-        Me.BTNIMaledom = New System.Windows.Forms.Button()
-        Me.BTNICaptions = New System.Windows.Forms.Button()
-        Me.BTNIGeneral = New System.Windows.Forms.Button()
+        Me.LocalSoftcoreEnabledCheckBox = New System.Windows.Forms.CheckBox()
+        Me.LocalSoftcoreDirectoryTextBox = New System.Windows.Forms.TextBox()
+        Me.LocalButtSubdirectoryCheckBox = New System.Windows.Forms.CheckBox()
+        Me.LocalSoftcoreSubdirectoryCheckBox = New System.Windows.Forms.CheckBox()
+        Me.LocalBoobsSubdirectoryCheckBox = New System.Windows.Forms.CheckBox()
+        Me.LocalLezdomSubdirectoryCheckBox = New System.Windows.Forms.CheckBox()
+        Me.LocalGeneralSubdirectoryCheckBox = New System.Windows.Forms.CheckBox()
+        Me.LocalLesbianSubdirectoryCheckBox = New System.Windows.Forms.CheckBox()
+        Me.LocalCaptionsSubdirectoryCheckBox = New System.Windows.Forms.CheckBox()
+        Me.LocalLesbianEnabledCheckBox = New System.Windows.Forms.CheckBox()
+        Me.LocalMaledomSubdirectoryCheckBox = New System.Windows.Forms.CheckBox()
+        Me.LocalBlowjobEnabledCheckBox = New System.Windows.Forms.CheckBox()
+        Me.LocalGaySubdirectoryCheckBox = New System.Windows.Forms.CheckBox()
+        Me.LocalHentaiSubdirectoryCheckBox = New System.Windows.Forms.CheckBox()
+        Me.LocalBlowjobSubdirectoryCheckBox = New System.Windows.Forms.CheckBox()
+        Me.LocalFemdomSubdirectoryCheckBox = New System.Windows.Forms.CheckBox()
+        Me.LocalButtDirectoryTextBox = New System.Windows.Forms.TextBox()
+        Me.LocalFemdomEnabledCheckBox = New System.Windows.Forms.CheckBox()
+        Me.LocalLesbianDirectoryTextBox = New System.Windows.Forms.TextBox()
+        Me.LocalSoftcoreDirectoryButton = New System.Windows.Forms.Button()
+        Me.LocalLezdomEnabledCheckBox = New System.Windows.Forms.CheckBox()
+        Me.LocalBoobsDirectoryTextBox = New System.Windows.Forms.TextBox()
+        Me.LocalHentaiEnabledCheckBox = New System.Windows.Forms.CheckBox()
+        Me.LocalBlowjobDirectoryTextBox = New System.Windows.Forms.TextBox()
+        Me.LocalGayEnabledCheckBox = New System.Windows.Forms.CheckBox()
+        Me.LocalGeneralDirectoryTextBox = New System.Windows.Forms.TextBox()
+        Me.LocalMaledomEnabledCheckBox = New System.Windows.Forms.CheckBox()
+        Me.LocalFemdomDirectoryTextBox = New System.Windows.Forms.TextBox()
+        Me.LocalLesbianDirectoryButton = New System.Windows.Forms.Button()
+        Me.LocalCaptionsDirectoryTextBox = New System.Windows.Forms.TextBox()
+        Me.LocalCaptionsEnabledCheckBox = New System.Windows.Forms.CheckBox()
+        Me.LocalLezdomDirectoryTextBox = New System.Windows.Forms.TextBox()
+        Me.LocalMaledomDirectoryTextBox = New System.Windows.Forms.TextBox()
+        Me.LocalButtDirectoryButton = New System.Windows.Forms.Button()
+        Me.LocalHentaiDirectoryTextBox = New System.Windows.Forms.TextBox()
+        Me.LocalGeneralEnabledCheckBox = New System.Windows.Forms.CheckBox()
+        Me.LocalGayDirectoryTextBox = New System.Windows.Forms.TextBox()
+        Me.LocalBoobsEnabledCheckBox = New System.Windows.Forms.CheckBox()
+        Me.LocalButtEnabledCheckBox = New System.Windows.Forms.CheckBox()
+        Me.LocalBlowjobDirectoryButton = New System.Windows.Forms.Button()
+        Me.LocalFemdomDirectoryButton = New System.Windows.Forms.Button()
+        Me.LocalBoobsDirectoryButton = New System.Windows.Forms.Button()
+        Me.LocalLezdomDirectoryButton = New System.Windows.Forms.Button()
+        Me.LocalHentaiDirectoryButton = New System.Windows.Forms.Button()
+        Me.LocalGayDirectoryButton = New System.Windows.Forms.Button()
+        Me.LocalMaledomDirectoryButton = New System.Windows.Forms.Button()
+        Me.LocalCaptionsDirectoryButton = New System.Windows.Forms.Button()
+        Me.LocalGeneralDirectoryButton = New System.Windows.Forms.Button()
         Me.TabPage33 = New System.Windows.Forms.TabPage()
         Me.LocalTagsTab = New System.Windows.Forms.TabControl()
         Me.TabPage34 = New System.Windows.Forms.TabPage()
@@ -5250,58 +5250,58 @@ Partial Class FrmSettings
         Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle())
         Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle())
         Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle())
-        Me.TableLayoutPanel1.Controls.Add(Me.BTNIHardcore, 1, 0)
-        Me.TableLayoutPanel1.Controls.Add(Me.TbxIHardcore, 2, 0)
-        Me.TableLayoutPanel1.Controls.Add(Me.IncludeHardcoreSubDirectories, 3, 0)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalHardcoreDirectoryButton, 1, 0)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalHardcoreDirectoryTextBox, 2, 0)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalHardcoreSubdirectoryCheckBox, 3, 0)
         Me.TableLayoutPanel1.Controls.Add(Me.LocalHardcoreEnabledCheckBox, 0, 0)
-        Me.TableLayoutPanel1.Controls.Add(Me.CBISoftcore, 0, 1)
-        Me.TableLayoutPanel1.Controls.Add(Me.TbxISoftcore, 2, 1)
-        Me.TableLayoutPanel1.Controls.Add(Me.CBButtSubDir, 3, 12)
-        Me.TableLayoutPanel1.Controls.Add(Me.IncludedSoftcoreSubDirectories, 3, 1)
-        Me.TableLayoutPanel1.Controls.Add(Me.CBBoobSubDir, 3, 11)
-        Me.TableLayoutPanel1.Controls.Add(Me.CBILezdomSD, 3, 5)
-        Me.TableLayoutPanel1.Controls.Add(Me.CBIGeneralSD, 3, 10)
-        Me.TableLayoutPanel1.Controls.Add(Me.CBILesbianSD, 3, 2)
-        Me.TableLayoutPanel1.Controls.Add(Me.CBICaptionsSD, 3, 9)
-        Me.TableLayoutPanel1.Controls.Add(Me.CBILesbian, 0, 2)
-        Me.TableLayoutPanel1.Controls.Add(Me.CBIMaledomSD, 3, 8)
-        Me.TableLayoutPanel1.Controls.Add(Me.CBIBlowjob, 0, 3)
-        Me.TableLayoutPanel1.Controls.Add(Me.CBIGaySD, 3, 7)
-        Me.TableLayoutPanel1.Controls.Add(Me.CBIHentaiSD, 3, 6)
-        Me.TableLayoutPanel1.Controls.Add(Me.CBIBlowjobSD, 3, 3)
-        Me.TableLayoutPanel1.Controls.Add(Me.CBIFemdomSD, 3, 4)
-        Me.TableLayoutPanel1.Controls.Add(Me.TbxIButts, 2, 12)
-        Me.TableLayoutPanel1.Controls.Add(Me.CBIFemdom, 0, 4)
-        Me.TableLayoutPanel1.Controls.Add(Me.TbxILesbian, 2, 2)
-        Me.TableLayoutPanel1.Controls.Add(Me.BTNISoftcore, 1, 1)
-        Me.TableLayoutPanel1.Controls.Add(Me.CBILezdom, 0, 5)
-        Me.TableLayoutPanel1.Controls.Add(Me.TbxIBoobs, 2, 11)
-        Me.TableLayoutPanel1.Controls.Add(Me.CBIHentai, 0, 6)
-        Me.TableLayoutPanel1.Controls.Add(Me.TbxIBlowjob, 2, 3)
-        Me.TableLayoutPanel1.Controls.Add(Me.CBIGay, 0, 7)
-        Me.TableLayoutPanel1.Controls.Add(Me.TbxIGeneral, 2, 10)
-        Me.TableLayoutPanel1.Controls.Add(Me.CBIMaledom, 0, 8)
-        Me.TableLayoutPanel1.Controls.Add(Me.TbxIFemdom, 2, 4)
-        Me.TableLayoutPanel1.Controls.Add(Me.BTNILesbian, 1, 2)
-        Me.TableLayoutPanel1.Controls.Add(Me.TbxICaptions, 2, 9)
-        Me.TableLayoutPanel1.Controls.Add(Me.CBICaptions, 0, 9)
-        Me.TableLayoutPanel1.Controls.Add(Me.TbxILezdom, 2, 5)
-        Me.TableLayoutPanel1.Controls.Add(Me.TbxIMaledom, 2, 8)
-        Me.TableLayoutPanel1.Controls.Add(Me.BTNButtPath, 1, 12)
-        Me.TableLayoutPanel1.Controls.Add(Me.TbxIHentai, 2, 6)
-        Me.TableLayoutPanel1.Controls.Add(Me.CBIGeneral, 0, 10)
-        Me.TableLayoutPanel1.Controls.Add(Me.TbxIGay, 2, 7)
-        Me.TableLayoutPanel1.Controls.Add(Me.CBIBoobs, 0, 11)
-        Me.TableLayoutPanel1.Controls.Add(Me.CBIButts, 0, 12)
-        Me.TableLayoutPanel1.Controls.Add(Me.BTNIBlowjob, 1, 3)
-        Me.TableLayoutPanel1.Controls.Add(Me.BTNIFemdom, 1, 4)
-        Me.TableLayoutPanel1.Controls.Add(Me.BTNBoobPath, 1, 11)
-        Me.TableLayoutPanel1.Controls.Add(Me.BTNILezdom, 1, 5)
-        Me.TableLayoutPanel1.Controls.Add(Me.BTNIHentai, 1, 6)
-        Me.TableLayoutPanel1.Controls.Add(Me.BTNIGay, 1, 7)
-        Me.TableLayoutPanel1.Controls.Add(Me.BTNIMaledom, 1, 8)
-        Me.TableLayoutPanel1.Controls.Add(Me.BTNICaptions, 1, 9)
-        Me.TableLayoutPanel1.Controls.Add(Me.BTNIGeneral, 1, 10)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalSoftcoreEnabledCheckBox, 0, 1)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalSoftcoreDirectoryTextBox, 2, 1)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalButtSubdirectoryCheckBox, 3, 12)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalSoftcoreSubdirectoryCheckBox, 3, 1)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalBoobsSubdirectoryCheckBox, 3, 11)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalLezdomSubdirectoryCheckBox, 3, 5)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalGeneralSubdirectoryCheckBox, 3, 10)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalLesbianSubdirectoryCheckBox, 3, 2)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalCaptionsSubdirectoryCheckBox, 3, 9)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalLesbianEnabledCheckBox, 0, 2)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalMaledomSubdirectoryCheckBox, 3, 8)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalBlowjobEnabledCheckBox, 0, 3)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalGaySubdirectoryCheckBox, 3, 7)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalHentaiSubdirectoryCheckBox, 3, 6)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalBlowjobSubdirectoryCheckBox, 3, 3)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalFemdomSubdirectoryCheckBox, 3, 4)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalButtDirectoryTextBox, 2, 12)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalFemdomEnabledCheckBox, 0, 4)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalLesbianDirectoryTextBox, 2, 2)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalSoftcoreDirectoryButton, 1, 1)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalLezdomEnabledCheckBox, 0, 5)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalBoobsDirectoryTextBox, 2, 11)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalHentaiEnabledCheckBox, 0, 6)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalBlowjobDirectoryTextBox, 2, 3)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalGayEnabledCheckBox, 0, 7)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalGeneralDirectoryTextBox, 2, 10)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalMaledomEnabledCheckBox, 0, 8)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalFemdomDirectoryTextBox, 2, 4)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalLesbianDirectoryButton, 1, 2)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalCaptionsDirectoryTextBox, 2, 9)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalCaptionsEnabledCheckBox, 0, 9)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalLezdomDirectoryTextBox, 2, 5)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalMaledomDirectoryTextBox, 2, 8)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalButtDirectoryButton, 1, 12)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalHentaiDirectoryTextBox, 2, 6)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalGeneralEnabledCheckBox, 0, 10)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalGayDirectoryTextBox, 2, 7)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalBoobsEnabledCheckBox, 0, 11)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalButtEnabledCheckBox, 0, 12)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalBlowjobDirectoryButton, 1, 3)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalFemdomDirectoryButton, 1, 4)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalBoobsDirectoryButton, 1, 11)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalLezdomDirectoryButton, 1, 5)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalHentaiDirectoryButton, 1, 6)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalGayDirectoryButton, 1, 7)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalMaledomDirectoryButton, 1, 8)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalCaptionsDirectoryButton, 1, 9)
+        Me.TableLayoutPanel1.Controls.Add(Me.LocalGeneralDirectoryButton, 1, 10)
         Me.TableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TableLayoutPanel1.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize
         Me.TableLayoutPanel1.Location = New System.Drawing.Point(3, 16)
@@ -5324,45 +5324,45 @@ Partial Class FrmSettings
         Me.TableLayoutPanel1.Size = New System.Drawing.Size(494, 381)
         Me.TableLayoutPanel1.TabIndex = 0
         '
-        'BTNIHardcore
+        'LocalHardcoreDirectoryButton
         '
-        Me.BTNIHardcore.BackColor = System.Drawing.Color.LightGray
-        Me.BTNIHardcore.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
-        Me.BTNIHardcore.ForeColor = System.Drawing.Color.Black
-        Me.BTNIHardcore.Location = New System.Drawing.Point(76, 0)
-        Me.BTNIHardcore.Margin = New System.Windows.Forms.Padding(0, 0, 0, 1)
-        Me.BTNIHardcore.Name = "BTNIHardcore"
-        Me.BTNIHardcore.Size = New System.Drawing.Size(34, 28)
-        Me.BTNIHardcore.TabIndex = 1
-        Me.BTNIHardcore.Text = "1"
-        Me.BTNIHardcore.UseVisualStyleBackColor = False
+        Me.LocalHardcoreDirectoryButton.BackColor = System.Drawing.Color.LightGray
+        Me.LocalHardcoreDirectoryButton.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
+        Me.LocalHardcoreDirectoryButton.ForeColor = System.Drawing.Color.Black
+        Me.LocalHardcoreDirectoryButton.Location = New System.Drawing.Point(76, 0)
+        Me.LocalHardcoreDirectoryButton.Margin = New System.Windows.Forms.Padding(0, 0, 0, 1)
+        Me.LocalHardcoreDirectoryButton.Name = "LocalHardcoreDirectoryButton"
+        Me.LocalHardcoreDirectoryButton.Size = New System.Drawing.Size(34, 28)
+        Me.LocalHardcoreDirectoryButton.TabIndex = 1
+        Me.LocalHardcoreDirectoryButton.Text = "1"
+        Me.LocalHardcoreDirectoryButton.UseVisualStyleBackColor = False
         '
-        'TbxIHardcore
+        'LocalHardcoreDirectoryTextBox
         '
-        Me.TbxIHardcore.BackColor = System.Drawing.Color.LightGray
-        Me.TbxIHardcore.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TbxIHardcore.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TbxIHardcore.ForeColor = System.Drawing.Color.Black
-        Me.TbxIHardcore.Location = New System.Drawing.Point(115, 5)
-        Me.TbxIHardcore.Margin = New System.Windows.Forms.Padding(5, 5, 8, 3)
-        Me.TbxIHardcore.MaximumSize = New System.Drawing.Size(2, 17)
-        Me.TbxIHardcore.MinimumSize = New System.Drawing.Size(217, 17)
-        Me.TbxIHardcore.Name = "TbxIHardcore"
-        Me.TbxIHardcore.ReadOnly = True
-        Me.TbxIHardcore.Size = New System.Drawing.Size(217, 17)
-        Me.TbxIHardcore.TabIndex = 2
+        Me.LocalHardcoreDirectoryTextBox.BackColor = System.Drawing.Color.LightGray
+        Me.LocalHardcoreDirectoryTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.LocalHardcoreDirectoryTextBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LocalHardcoreDirectoryTextBox.ForeColor = System.Drawing.Color.Black
+        Me.LocalHardcoreDirectoryTextBox.Location = New System.Drawing.Point(115, 5)
+        Me.LocalHardcoreDirectoryTextBox.Margin = New System.Windows.Forms.Padding(5, 5, 8, 3)
+        Me.LocalHardcoreDirectoryTextBox.MaximumSize = New System.Drawing.Size(2, 17)
+        Me.LocalHardcoreDirectoryTextBox.MinimumSize = New System.Drawing.Size(217, 17)
+        Me.LocalHardcoreDirectoryTextBox.Name = "LocalHardcoreDirectoryTextBox"
+        Me.LocalHardcoreDirectoryTextBox.ReadOnly = True
+        Me.LocalHardcoreDirectoryTextBox.Size = New System.Drawing.Size(217, 17)
+        Me.LocalHardcoreDirectoryTextBox.TabIndex = 2
         '
-        'IncludeHardcoreSubDirectories
+        'LocalHardcoreSubdirectoryCheckBox
         '
-        Me.IncludeHardcoreSubDirectories.AutoSize = True
-        Me.IncludeHardcoreSubDirectories.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.IncludeHardcoreSubDirectories.ForeColor = System.Drawing.Color.Black
-        Me.IncludeHardcoreSubDirectories.Location = New System.Drawing.Point(343, 3)
-        Me.IncludeHardcoreSubDirectories.Name = "IncludeHardcoreSubDirectories"
-        Me.IncludeHardcoreSubDirectories.Size = New System.Drawing.Size(148, 23)
-        Me.IncludeHardcoreSubDirectories.TabIndex = 3
-        Me.IncludeHardcoreSubDirectories.Text = "Include Subdirectories"
-        Me.IncludeHardcoreSubDirectories.UseVisualStyleBackColor = True
+        Me.LocalHardcoreSubdirectoryCheckBox.AutoSize = True
+        Me.LocalHardcoreSubdirectoryCheckBox.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LocalHardcoreSubdirectoryCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.LocalHardcoreSubdirectoryCheckBox.Location = New System.Drawing.Point(343, 3)
+        Me.LocalHardcoreSubdirectoryCheckBox.Name = "LocalHardcoreSubdirectoryCheckBox"
+        Me.LocalHardcoreSubdirectoryCheckBox.Size = New System.Drawing.Size(148, 23)
+        Me.LocalHardcoreSubdirectoryCheckBox.TabIndex = 3
+        Me.LocalHardcoreSubdirectoryCheckBox.Text = "Include Subdirectories"
+        Me.LocalHardcoreSubdirectoryCheckBox.UseVisualStyleBackColor = True
         '
         'LocalHardcoreEnabledCheckBox
         '
@@ -5376,629 +5376,629 @@ Partial Class FrmSettings
         Me.LocalHardcoreEnabledCheckBox.Text = "Hardcore"
         Me.LocalHardcoreEnabledCheckBox.UseVisualStyleBackColor = True
         '
-        'CBISoftcore
-        '
-        Me.CBISoftcore.AutoSize = True
-        Me.CBISoftcore.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.CBISoftcore.ForeColor = System.Drawing.Color.Black
-        Me.CBISoftcore.Location = New System.Drawing.Point(3, 32)
-        Me.CBISoftcore.Name = "CBISoftcore"
-        Me.CBISoftcore.Size = New System.Drawing.Size(70, 23)
-        Me.CBISoftcore.TabIndex = 4
-        Me.CBISoftcore.Text = "Softcore"
-        Me.CBISoftcore.UseVisualStyleBackColor = True
-        '
-        'TbxISoftcore
-        '
-        Me.TbxISoftcore.BackColor = System.Drawing.Color.LightGray
-        Me.TbxISoftcore.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TbxISoftcore.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TbxISoftcore.ForeColor = System.Drawing.Color.Black
-        Me.TbxISoftcore.Location = New System.Drawing.Point(115, 34)
-        Me.TbxISoftcore.Margin = New System.Windows.Forms.Padding(5, 5, 8, 3)
-        Me.TbxISoftcore.MaximumSize = New System.Drawing.Size(2, 17)
-        Me.TbxISoftcore.MinimumSize = New System.Drawing.Size(217, 17)
-        Me.TbxISoftcore.Name = "TbxISoftcore"
-        Me.TbxISoftcore.ReadOnly = True
-        Me.TbxISoftcore.Size = New System.Drawing.Size(217, 17)
-        Me.TbxISoftcore.TabIndex = 6
-        '
-        'CBButtSubDir
-        '
-        Me.CBButtSubDir.AutoSize = True
-        Me.CBButtSubDir.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.CBButtSubDir.ForeColor = System.Drawing.Color.Black
-        Me.CBButtSubDir.Location = New System.Drawing.Point(343, 351)
-        Me.CBButtSubDir.Name = "CBButtSubDir"
-        Me.CBButtSubDir.Size = New System.Drawing.Size(148, 27)
-        Me.CBButtSubDir.TabIndex = 51
-        Me.CBButtSubDir.Text = "Include Subdirectories"
-        Me.CBButtSubDir.UseVisualStyleBackColor = True
-        '
-        'IncludedSoftcoreSubDirectories
-        '
-        Me.IncludedSoftcoreSubDirectories.AutoSize = True
-        Me.IncludedSoftcoreSubDirectories.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.IncludedSoftcoreSubDirectories.ForeColor = System.Drawing.Color.Black
-        Me.IncludedSoftcoreSubDirectories.Location = New System.Drawing.Point(343, 32)
-        Me.IncludedSoftcoreSubDirectories.Name = "IncludedSoftcoreSubDirectories"
-        Me.IncludedSoftcoreSubDirectories.Size = New System.Drawing.Size(148, 23)
-        Me.IncludedSoftcoreSubDirectories.TabIndex = 7
-        Me.IncludedSoftcoreSubDirectories.Text = "Include Subdirectories"
-        Me.IncludedSoftcoreSubDirectories.UseVisualStyleBackColor = True
-        '
-        'CBBoobSubDir
-        '
-        Me.CBBoobSubDir.AutoSize = True
-        Me.CBBoobSubDir.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.CBBoobSubDir.ForeColor = System.Drawing.Color.Black
-        Me.CBBoobSubDir.Location = New System.Drawing.Point(343, 322)
-        Me.CBBoobSubDir.Name = "CBBoobSubDir"
-        Me.CBBoobSubDir.Size = New System.Drawing.Size(148, 23)
-        Me.CBBoobSubDir.TabIndex = 47
-        Me.CBBoobSubDir.Text = "Include Subdirectories"
-        Me.CBBoobSubDir.UseVisualStyleBackColor = True
-        '
-        'CBILezdomSD
-        '
-        Me.CBILezdomSD.AutoSize = True
-        Me.CBILezdomSD.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.CBILezdomSD.ForeColor = System.Drawing.Color.Black
-        Me.CBILezdomSD.Location = New System.Drawing.Point(343, 148)
-        Me.CBILezdomSD.Name = "CBILezdomSD"
-        Me.CBILezdomSD.Size = New System.Drawing.Size(148, 23)
-        Me.CBILezdomSD.TabIndex = 23
-        Me.CBILezdomSD.Text = "Include Subdirectories"
-        Me.CBILezdomSD.UseVisualStyleBackColor = True
-        '
-        'CBIGeneralSD
-        '
-        Me.CBIGeneralSD.AutoSize = True
-        Me.CBIGeneralSD.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.CBIGeneralSD.ForeColor = System.Drawing.Color.Black
-        Me.CBIGeneralSD.Location = New System.Drawing.Point(343, 293)
-        Me.CBIGeneralSD.Name = "CBIGeneralSD"
-        Me.CBIGeneralSD.Size = New System.Drawing.Size(148, 23)
-        Me.CBIGeneralSD.TabIndex = 43
-        Me.CBIGeneralSD.Text = "Include Subdirectories"
-        Me.CBIGeneralSD.UseVisualStyleBackColor = True
-        '
-        'CBILesbianSD
-        '
-        Me.CBILesbianSD.AutoSize = True
-        Me.CBILesbianSD.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.CBILesbianSD.ForeColor = System.Drawing.Color.Black
-        Me.CBILesbianSD.Location = New System.Drawing.Point(343, 61)
-        Me.CBILesbianSD.Name = "CBILesbianSD"
-        Me.CBILesbianSD.Size = New System.Drawing.Size(148, 23)
-        Me.CBILesbianSD.TabIndex = 11
-        Me.CBILesbianSD.Text = "Include Subdirectories"
-        Me.CBILesbianSD.UseVisualStyleBackColor = True
-        '
-        'CBICaptionsSD
-        '
-        Me.CBICaptionsSD.AutoSize = True
-        Me.CBICaptionsSD.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.CBICaptionsSD.ForeColor = System.Drawing.Color.Black
-        Me.CBICaptionsSD.Location = New System.Drawing.Point(343, 264)
-        Me.CBICaptionsSD.Name = "CBICaptionsSD"
-        Me.CBICaptionsSD.Size = New System.Drawing.Size(148, 23)
-        Me.CBICaptionsSD.TabIndex = 39
-        Me.CBICaptionsSD.Text = "Include Subdirectories"
-        Me.CBICaptionsSD.UseVisualStyleBackColor = True
-        '
-        'CBILesbian
-        '
-        Me.CBILesbian.AutoSize = True
-        Me.CBILesbian.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.CBILesbian.ForeColor = System.Drawing.Color.Black
-        Me.CBILesbian.Location = New System.Drawing.Point(3, 61)
-        Me.CBILesbian.Name = "CBILesbian"
-        Me.CBILesbian.Size = New System.Drawing.Size(70, 23)
-        Me.CBILesbian.TabIndex = 8
-        Me.CBILesbian.Text = "Lesbian"
-        Me.CBILesbian.UseVisualStyleBackColor = True
-        '
-        'CBIMaledomSD
-        '
-        Me.CBIMaledomSD.AutoSize = True
-        Me.CBIMaledomSD.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.CBIMaledomSD.ForeColor = System.Drawing.Color.Black
-        Me.CBIMaledomSD.Location = New System.Drawing.Point(343, 235)
-        Me.CBIMaledomSD.Name = "CBIMaledomSD"
-        Me.CBIMaledomSD.Size = New System.Drawing.Size(148, 23)
-        Me.CBIMaledomSD.TabIndex = 35
-        Me.CBIMaledomSD.Text = "Include Subdirectories"
-        Me.CBIMaledomSD.UseVisualStyleBackColor = True
-        '
-        'CBIBlowjob
-        '
-        Me.CBIBlowjob.AutoSize = True
-        Me.CBIBlowjob.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.CBIBlowjob.ForeColor = System.Drawing.Color.Black
-        Me.CBIBlowjob.Location = New System.Drawing.Point(3, 90)
-        Me.CBIBlowjob.Name = "CBIBlowjob"
-        Me.CBIBlowjob.Size = New System.Drawing.Size(70, 23)
-        Me.CBIBlowjob.TabIndex = 12
-        Me.CBIBlowjob.Text = "Blowjob"
-        Me.CBIBlowjob.UseVisualStyleBackColor = True
-        '
-        'CBIGaySD
-        '
-        Me.CBIGaySD.AutoSize = True
-        Me.CBIGaySD.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.CBIGaySD.ForeColor = System.Drawing.Color.Black
-        Me.CBIGaySD.Location = New System.Drawing.Point(343, 206)
-        Me.CBIGaySD.Name = "CBIGaySD"
-        Me.CBIGaySD.Size = New System.Drawing.Size(148, 23)
-        Me.CBIGaySD.TabIndex = 31
-        Me.CBIGaySD.Text = "Include Subdirectories"
-        Me.CBIGaySD.UseVisualStyleBackColor = True
-        '
-        'CBIHentaiSD
-        '
-        Me.CBIHentaiSD.AutoSize = True
-        Me.CBIHentaiSD.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.CBIHentaiSD.ForeColor = System.Drawing.Color.Black
-        Me.CBIHentaiSD.Location = New System.Drawing.Point(343, 177)
-        Me.CBIHentaiSD.Name = "CBIHentaiSD"
-        Me.CBIHentaiSD.Size = New System.Drawing.Size(148, 23)
-        Me.CBIHentaiSD.TabIndex = 27
-        Me.CBIHentaiSD.Text = "Include Subdirectories"
-        Me.CBIHentaiSD.UseVisualStyleBackColor = True
-        '
-        'CBIBlowjobSD
-        '
-        Me.CBIBlowjobSD.AutoSize = True
-        Me.CBIBlowjobSD.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.CBIBlowjobSD.ForeColor = System.Drawing.Color.Black
-        Me.CBIBlowjobSD.Location = New System.Drawing.Point(343, 90)
-        Me.CBIBlowjobSD.Name = "CBIBlowjobSD"
-        Me.CBIBlowjobSD.Size = New System.Drawing.Size(148, 23)
-        Me.CBIBlowjobSD.TabIndex = 15
-        Me.CBIBlowjobSD.Text = "Include Subdirectories"
-        Me.CBIBlowjobSD.UseVisualStyleBackColor = True
-        '
-        'CBIFemdomSD
-        '
-        Me.CBIFemdomSD.AutoSize = True
-        Me.CBIFemdomSD.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.CBIFemdomSD.ForeColor = System.Drawing.Color.Black
-        Me.CBIFemdomSD.Location = New System.Drawing.Point(343, 119)
-        Me.CBIFemdomSD.Name = "CBIFemdomSD"
-        Me.CBIFemdomSD.Size = New System.Drawing.Size(148, 23)
-        Me.CBIFemdomSD.TabIndex = 19
-        Me.CBIFemdomSD.Text = "Include Subdirectories"
-        Me.CBIFemdomSD.UseVisualStyleBackColor = True
-        '
-        'TbxIButts
-        '
-        Me.TbxIButts.BackColor = System.Drawing.Color.LightGray
-        Me.TbxIButts.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TbxIButts.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TbxIButts.ForeColor = System.Drawing.Color.Black
-        Me.TbxIButts.Location = New System.Drawing.Point(115, 353)
-        Me.TbxIButts.Margin = New System.Windows.Forms.Padding(5, 5, 8, 3)
-        Me.TbxIButts.MaximumSize = New System.Drawing.Size(2, 17)
-        Me.TbxIButts.MinimumSize = New System.Drawing.Size(217, 17)
-        Me.TbxIButts.Name = "TbxIButts"
-        Me.TbxIButts.ReadOnly = True
-        Me.TbxIButts.Size = New System.Drawing.Size(217, 17)
-        Me.TbxIButts.TabIndex = 50
-        '
-        'CBIFemdom
-        '
-        Me.CBIFemdom.AutoSize = True
-        Me.CBIFemdom.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.CBIFemdom.ForeColor = System.Drawing.Color.Black
-        Me.CBIFemdom.Location = New System.Drawing.Point(3, 119)
-        Me.CBIFemdom.Name = "CBIFemdom"
-        Me.CBIFemdom.Size = New System.Drawing.Size(70, 23)
-        Me.CBIFemdom.TabIndex = 16
-        Me.CBIFemdom.Text = "Femdom"
-        Me.CBIFemdom.UseVisualStyleBackColor = True
-        '
-        'TbxILesbian
-        '
-        Me.TbxILesbian.BackColor = System.Drawing.Color.LightGray
-        Me.TbxILesbian.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TbxILesbian.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TbxILesbian.ForeColor = System.Drawing.Color.Black
-        Me.TbxILesbian.Location = New System.Drawing.Point(115, 63)
-        Me.TbxILesbian.Margin = New System.Windows.Forms.Padding(5, 5, 8, 3)
-        Me.TbxILesbian.MaximumSize = New System.Drawing.Size(2, 17)
-        Me.TbxILesbian.MinimumSize = New System.Drawing.Size(217, 17)
-        Me.TbxILesbian.Name = "TbxILesbian"
-        Me.TbxILesbian.ReadOnly = True
-        Me.TbxILesbian.Size = New System.Drawing.Size(217, 17)
-        Me.TbxILesbian.TabIndex = 10
-        '
-        'BTNISoftcore
-        '
-        Me.BTNISoftcore.BackColor = System.Drawing.Color.LightGray
-        Me.BTNISoftcore.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
-        Me.BTNISoftcore.ForeColor = System.Drawing.Color.Black
-        Me.BTNISoftcore.Location = New System.Drawing.Point(76, 29)
-        Me.BTNISoftcore.Margin = New System.Windows.Forms.Padding(0, 0, 0, 1)
-        Me.BTNISoftcore.Name = "BTNISoftcore"
-        Me.BTNISoftcore.Size = New System.Drawing.Size(34, 28)
-        Me.BTNISoftcore.TabIndex = 5
-        Me.BTNISoftcore.Text = "1"
-        Me.BTNISoftcore.UseVisualStyleBackColor = False
-        '
-        'CBILezdom
-        '
-        Me.CBILezdom.AutoSize = True
-        Me.CBILezdom.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.CBILezdom.ForeColor = System.Drawing.Color.Black
-        Me.CBILezdom.Location = New System.Drawing.Point(3, 148)
-        Me.CBILezdom.Name = "CBILezdom"
-        Me.CBILezdom.Size = New System.Drawing.Size(70, 23)
-        Me.CBILezdom.TabIndex = 20
-        Me.CBILezdom.Text = "Lezdom"
-        Me.CBILezdom.UseVisualStyleBackColor = True
-        '
-        'TbxIBoobs
-        '
-        Me.TbxIBoobs.BackColor = System.Drawing.Color.LightGray
-        Me.TbxIBoobs.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TbxIBoobs.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TbxIBoobs.ForeColor = System.Drawing.Color.Black
-        Me.TbxIBoobs.Location = New System.Drawing.Point(115, 324)
-        Me.TbxIBoobs.Margin = New System.Windows.Forms.Padding(5, 5, 8, 3)
-        Me.TbxIBoobs.MaximumSize = New System.Drawing.Size(2, 17)
-        Me.TbxIBoobs.MinimumSize = New System.Drawing.Size(217, 17)
-        Me.TbxIBoobs.Name = "TbxIBoobs"
-        Me.TbxIBoobs.ReadOnly = True
-        Me.TbxIBoobs.Size = New System.Drawing.Size(217, 17)
-        Me.TbxIBoobs.TabIndex = 46
-        '
-        'CBIHentai
-        '
-        Me.CBIHentai.AutoSize = True
-        Me.CBIHentai.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.CBIHentai.ForeColor = System.Drawing.Color.Black
-        Me.CBIHentai.Location = New System.Drawing.Point(3, 177)
-        Me.CBIHentai.Name = "CBIHentai"
-        Me.CBIHentai.Size = New System.Drawing.Size(70, 23)
-        Me.CBIHentai.TabIndex = 24
-        Me.CBIHentai.Text = "Hentai"
-        Me.CBIHentai.UseVisualStyleBackColor = True
-        '
-        'TbxIBlowjob
-        '
-        Me.TbxIBlowjob.BackColor = System.Drawing.Color.LightGray
-        Me.TbxIBlowjob.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TbxIBlowjob.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TbxIBlowjob.ForeColor = System.Drawing.Color.Black
-        Me.TbxIBlowjob.Location = New System.Drawing.Point(115, 92)
-        Me.TbxIBlowjob.Margin = New System.Windows.Forms.Padding(5, 5, 8, 3)
-        Me.TbxIBlowjob.MaximumSize = New System.Drawing.Size(2, 17)
-        Me.TbxIBlowjob.MinimumSize = New System.Drawing.Size(217, 17)
-        Me.TbxIBlowjob.Name = "TbxIBlowjob"
-        Me.TbxIBlowjob.ReadOnly = True
-        Me.TbxIBlowjob.Size = New System.Drawing.Size(217, 17)
-        Me.TbxIBlowjob.TabIndex = 14
-        '
-        'CBIGay
-        '
-        Me.CBIGay.AutoSize = True
-        Me.CBIGay.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.CBIGay.ForeColor = System.Drawing.Color.Black
-        Me.CBIGay.Location = New System.Drawing.Point(3, 206)
-        Me.CBIGay.Name = "CBIGay"
-        Me.CBIGay.Size = New System.Drawing.Size(70, 23)
-        Me.CBIGay.TabIndex = 28
-        Me.CBIGay.Text = "Gay"
-        Me.CBIGay.UseVisualStyleBackColor = True
-        '
-        'TbxIGeneral
-        '
-        Me.TbxIGeneral.BackColor = System.Drawing.Color.LightGray
-        Me.TbxIGeneral.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TbxIGeneral.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TbxIGeneral.ForeColor = System.Drawing.Color.Black
-        Me.TbxIGeneral.Location = New System.Drawing.Point(115, 295)
-        Me.TbxIGeneral.Margin = New System.Windows.Forms.Padding(5, 5, 8, 3)
-        Me.TbxIGeneral.MaximumSize = New System.Drawing.Size(2, 17)
-        Me.TbxIGeneral.MinimumSize = New System.Drawing.Size(217, 17)
-        Me.TbxIGeneral.Name = "TbxIGeneral"
-        Me.TbxIGeneral.ReadOnly = True
-        Me.TbxIGeneral.Size = New System.Drawing.Size(217, 17)
-        Me.TbxIGeneral.TabIndex = 42
-        '
-        'CBIMaledom
-        '
-        Me.CBIMaledom.AutoSize = True
-        Me.CBIMaledom.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.CBIMaledom.ForeColor = System.Drawing.Color.Black
-        Me.CBIMaledom.Location = New System.Drawing.Point(3, 235)
-        Me.CBIMaledom.Name = "CBIMaledom"
-        Me.CBIMaledom.Size = New System.Drawing.Size(70, 23)
-        Me.CBIMaledom.TabIndex = 32
-        Me.CBIMaledom.Text = "Maledom"
-        Me.CBIMaledom.UseVisualStyleBackColor = True
-        '
-        'TbxIFemdom
-        '
-        Me.TbxIFemdom.BackColor = System.Drawing.Color.LightGray
-        Me.TbxIFemdom.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TbxIFemdom.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TbxIFemdom.ForeColor = System.Drawing.Color.Black
-        Me.TbxIFemdom.Location = New System.Drawing.Point(115, 121)
-        Me.TbxIFemdom.Margin = New System.Windows.Forms.Padding(5, 5, 8, 3)
-        Me.TbxIFemdom.MaximumSize = New System.Drawing.Size(2, 17)
-        Me.TbxIFemdom.MinimumSize = New System.Drawing.Size(217, 17)
-        Me.TbxIFemdom.Name = "TbxIFemdom"
-        Me.TbxIFemdom.ReadOnly = True
-        Me.TbxIFemdom.Size = New System.Drawing.Size(217, 17)
-        Me.TbxIFemdom.TabIndex = 18
-        '
-        'BTNILesbian
-        '
-        Me.BTNILesbian.BackColor = System.Drawing.Color.LightGray
-        Me.BTNILesbian.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
-        Me.BTNILesbian.ForeColor = System.Drawing.Color.Black
-        Me.BTNILesbian.Location = New System.Drawing.Point(76, 58)
-        Me.BTNILesbian.Margin = New System.Windows.Forms.Padding(0, 0, 0, 1)
-        Me.BTNILesbian.Name = "BTNILesbian"
-        Me.BTNILesbian.Size = New System.Drawing.Size(34, 28)
-        Me.BTNILesbian.TabIndex = 9
-        Me.BTNILesbian.Text = "1"
-        Me.BTNILesbian.UseVisualStyleBackColor = False
-        '
-        'TbxICaptions
-        '
-        Me.TbxICaptions.BackColor = System.Drawing.Color.LightGray
-        Me.TbxICaptions.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TbxICaptions.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TbxICaptions.ForeColor = System.Drawing.Color.Black
-        Me.TbxICaptions.Location = New System.Drawing.Point(115, 266)
-        Me.TbxICaptions.Margin = New System.Windows.Forms.Padding(5, 5, 8, 3)
-        Me.TbxICaptions.MaximumSize = New System.Drawing.Size(2, 17)
-        Me.TbxICaptions.MinimumSize = New System.Drawing.Size(217, 17)
-        Me.TbxICaptions.Name = "TbxICaptions"
-        Me.TbxICaptions.ReadOnly = True
-        Me.TbxICaptions.Size = New System.Drawing.Size(217, 17)
-        Me.TbxICaptions.TabIndex = 38
-        '
-        'CBICaptions
-        '
-        Me.CBICaptions.AutoSize = True
-        Me.CBICaptions.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.CBICaptions.ForeColor = System.Drawing.Color.Black
-        Me.CBICaptions.Location = New System.Drawing.Point(3, 264)
-        Me.CBICaptions.Name = "CBICaptions"
-        Me.CBICaptions.Size = New System.Drawing.Size(70, 23)
-        Me.CBICaptions.TabIndex = 36
-        Me.CBICaptions.Text = "Captions"
-        Me.CBICaptions.UseVisualStyleBackColor = True
-        '
-        'TbxILezdom
-        '
-        Me.TbxILezdom.BackColor = System.Drawing.Color.LightGray
-        Me.TbxILezdom.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TbxILezdom.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TbxILezdom.ForeColor = System.Drawing.Color.Black
-        Me.TbxILezdom.Location = New System.Drawing.Point(115, 150)
-        Me.TbxILezdom.Margin = New System.Windows.Forms.Padding(5, 5, 8, 3)
-        Me.TbxILezdom.MaximumSize = New System.Drawing.Size(2, 17)
-        Me.TbxILezdom.MinimumSize = New System.Drawing.Size(217, 17)
-        Me.TbxILezdom.Name = "TbxILezdom"
-        Me.TbxILezdom.ReadOnly = True
-        Me.TbxILezdom.Size = New System.Drawing.Size(217, 17)
-        Me.TbxILezdom.TabIndex = 22
-        '
-        'TbxIMaledom
-        '
-        Me.TbxIMaledom.BackColor = System.Drawing.Color.LightGray
-        Me.TbxIMaledom.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TbxIMaledom.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TbxIMaledom.ForeColor = System.Drawing.Color.Black
-        Me.TbxIMaledom.Location = New System.Drawing.Point(115, 237)
-        Me.TbxIMaledom.Margin = New System.Windows.Forms.Padding(5, 5, 8, 3)
-        Me.TbxIMaledom.MaximumSize = New System.Drawing.Size(2, 17)
-        Me.TbxIMaledom.MinimumSize = New System.Drawing.Size(217, 17)
-        Me.TbxIMaledom.Name = "TbxIMaledom"
-        Me.TbxIMaledom.ReadOnly = True
-        Me.TbxIMaledom.Size = New System.Drawing.Size(217, 17)
-        Me.TbxIMaledom.TabIndex = 34
-        '
-        'BTNButtPath
-        '
-        Me.BTNButtPath.BackColor = System.Drawing.Color.LightGray
-        Me.BTNButtPath.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
-        Me.BTNButtPath.ForeColor = System.Drawing.Color.Black
-        Me.BTNButtPath.Location = New System.Drawing.Point(76, 348)
-        Me.BTNButtPath.Margin = New System.Windows.Forms.Padding(0, 0, 0, 1)
-        Me.BTNButtPath.Name = "BTNButtPath"
-        Me.BTNButtPath.Size = New System.Drawing.Size(34, 28)
-        Me.BTNButtPath.TabIndex = 49
-        Me.BTNButtPath.Text = "1"
-        Me.BTNButtPath.UseVisualStyleBackColor = False
-        '
-        'TbxIHentai
-        '
-        Me.TbxIHentai.BackColor = System.Drawing.Color.LightGray
-        Me.TbxIHentai.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TbxIHentai.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TbxIHentai.ForeColor = System.Drawing.Color.Black
-        Me.TbxIHentai.Location = New System.Drawing.Point(115, 179)
-        Me.TbxIHentai.Margin = New System.Windows.Forms.Padding(5, 5, 8, 3)
-        Me.TbxIHentai.MaximumSize = New System.Drawing.Size(2, 17)
-        Me.TbxIHentai.MinimumSize = New System.Drawing.Size(217, 17)
-        Me.TbxIHentai.Name = "TbxIHentai"
-        Me.TbxIHentai.ReadOnly = True
-        Me.TbxIHentai.Size = New System.Drawing.Size(217, 17)
-        Me.TbxIHentai.TabIndex = 26
-        '
-        'CBIGeneral
-        '
-        Me.CBIGeneral.AutoSize = True
-        Me.CBIGeneral.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.CBIGeneral.ForeColor = System.Drawing.Color.Black
-        Me.CBIGeneral.Location = New System.Drawing.Point(3, 293)
-        Me.CBIGeneral.Name = "CBIGeneral"
-        Me.CBIGeneral.Size = New System.Drawing.Size(70, 23)
-        Me.CBIGeneral.TabIndex = 40
-        Me.CBIGeneral.Text = "General"
-        Me.CBIGeneral.UseVisualStyleBackColor = True
-        '
-        'TbxIGay
-        '
-        Me.TbxIGay.BackColor = System.Drawing.Color.LightGray
-        Me.TbxIGay.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TbxIGay.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TbxIGay.ForeColor = System.Drawing.Color.Black
-        Me.TbxIGay.Location = New System.Drawing.Point(115, 208)
-        Me.TbxIGay.Margin = New System.Windows.Forms.Padding(5, 5, 8, 3)
-        Me.TbxIGay.MaximumSize = New System.Drawing.Size(2, 17)
-        Me.TbxIGay.MinimumSize = New System.Drawing.Size(217, 17)
-        Me.TbxIGay.Name = "TbxIGay"
-        Me.TbxIGay.ReadOnly = True
-        Me.TbxIGay.Size = New System.Drawing.Size(217, 17)
-        Me.TbxIGay.TabIndex = 30
-        '
-        'CBIBoobs
-        '
-        Me.CBIBoobs.AutoSize = True
-        Me.CBIBoobs.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.CBIBoobs.ForeColor = System.Drawing.Color.Black
-        Me.CBIBoobs.Location = New System.Drawing.Point(3, 322)
-        Me.CBIBoobs.Name = "CBIBoobs"
-        Me.CBIBoobs.Size = New System.Drawing.Size(70, 23)
-        Me.CBIBoobs.TabIndex = 44
-        Me.CBIBoobs.Text = "Boobs"
-        Me.CBIBoobs.UseVisualStyleBackColor = True
-        '
-        'CBIButts
-        '
-        Me.CBIButts.AutoSize = True
-        Me.CBIButts.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.CBIButts.ForeColor = System.Drawing.Color.Black
-        Me.CBIButts.Location = New System.Drawing.Point(3, 351)
-        Me.CBIButts.Name = "CBIButts"
-        Me.CBIButts.Size = New System.Drawing.Size(70, 27)
-        Me.CBIButts.TabIndex = 48
-        Me.CBIButts.Text = "Butts"
-        Me.CBIButts.UseVisualStyleBackColor = True
-        '
-        'BTNIBlowjob
-        '
-        Me.BTNIBlowjob.BackColor = System.Drawing.Color.LightGray
-        Me.BTNIBlowjob.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
-        Me.BTNIBlowjob.ForeColor = System.Drawing.Color.Black
-        Me.BTNIBlowjob.Location = New System.Drawing.Point(76, 87)
-        Me.BTNIBlowjob.Margin = New System.Windows.Forms.Padding(0, 0, 0, 1)
-        Me.BTNIBlowjob.Name = "BTNIBlowjob"
-        Me.BTNIBlowjob.Size = New System.Drawing.Size(34, 28)
-        Me.BTNIBlowjob.TabIndex = 13
-        Me.BTNIBlowjob.Text = "1"
-        Me.BTNIBlowjob.UseVisualStyleBackColor = False
-        '
-        'BTNIFemdom
-        '
-        Me.BTNIFemdom.BackColor = System.Drawing.Color.LightGray
-        Me.BTNIFemdom.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
-        Me.BTNIFemdom.ForeColor = System.Drawing.Color.Black
-        Me.BTNIFemdom.Location = New System.Drawing.Point(76, 116)
-        Me.BTNIFemdom.Margin = New System.Windows.Forms.Padding(0, 0, 0, 1)
-        Me.BTNIFemdom.Name = "BTNIFemdom"
-        Me.BTNIFemdom.Size = New System.Drawing.Size(34, 28)
-        Me.BTNIFemdom.TabIndex = 17
-        Me.BTNIFemdom.Text = "1"
-        Me.BTNIFemdom.UseVisualStyleBackColor = False
-        '
-        'BTNBoobPath
-        '
-        Me.BTNBoobPath.BackColor = System.Drawing.Color.LightGray
-        Me.BTNBoobPath.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
-        Me.BTNBoobPath.ForeColor = System.Drawing.Color.Black
-        Me.BTNBoobPath.Location = New System.Drawing.Point(76, 319)
-        Me.BTNBoobPath.Margin = New System.Windows.Forms.Padding(0, 0, 0, 1)
-        Me.BTNBoobPath.Name = "BTNBoobPath"
-        Me.BTNBoobPath.Size = New System.Drawing.Size(34, 28)
-        Me.BTNBoobPath.TabIndex = 45
-        Me.BTNBoobPath.Text = "1"
-        Me.BTNBoobPath.UseVisualStyleBackColor = False
-        '
-        'BTNILezdom
-        '
-        Me.BTNILezdom.BackColor = System.Drawing.Color.LightGray
-        Me.BTNILezdom.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
-        Me.BTNILezdom.ForeColor = System.Drawing.Color.Black
-        Me.BTNILezdom.Location = New System.Drawing.Point(76, 145)
-        Me.BTNILezdom.Margin = New System.Windows.Forms.Padding(0, 0, 0, 1)
-        Me.BTNILezdom.Name = "BTNILezdom"
-        Me.BTNILezdom.Size = New System.Drawing.Size(34, 28)
-        Me.BTNILezdom.TabIndex = 21
-        Me.BTNILezdom.Text = "1"
-        Me.BTNILezdom.UseVisualStyleBackColor = False
-        '
-        'BTNIHentai
-        '
-        Me.BTNIHentai.BackColor = System.Drawing.Color.LightGray
-        Me.BTNIHentai.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
-        Me.BTNIHentai.ForeColor = System.Drawing.Color.Black
-        Me.BTNIHentai.Location = New System.Drawing.Point(76, 174)
-        Me.BTNIHentai.Margin = New System.Windows.Forms.Padding(0, 0, 0, 1)
-        Me.BTNIHentai.Name = "BTNIHentai"
-        Me.BTNIHentai.Size = New System.Drawing.Size(34, 28)
-        Me.BTNIHentai.TabIndex = 25
-        Me.BTNIHentai.Text = "1"
-        Me.BTNIHentai.UseVisualStyleBackColor = False
-        '
-        'BTNIGay
-        '
-        Me.BTNIGay.BackColor = System.Drawing.Color.LightGray
-        Me.BTNIGay.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
-        Me.BTNIGay.ForeColor = System.Drawing.Color.Black
-        Me.BTNIGay.Location = New System.Drawing.Point(76, 203)
-        Me.BTNIGay.Margin = New System.Windows.Forms.Padding(0, 0, 0, 1)
-        Me.BTNIGay.Name = "BTNIGay"
-        Me.BTNIGay.Size = New System.Drawing.Size(34, 28)
-        Me.BTNIGay.TabIndex = 29
-        Me.BTNIGay.Text = "1"
-        Me.BTNIGay.UseVisualStyleBackColor = False
-        '
-        'BTNIMaledom
-        '
-        Me.BTNIMaledom.BackColor = System.Drawing.Color.LightGray
-        Me.BTNIMaledom.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
-        Me.BTNIMaledom.ForeColor = System.Drawing.Color.Black
-        Me.BTNIMaledom.Location = New System.Drawing.Point(76, 232)
-        Me.BTNIMaledom.Margin = New System.Windows.Forms.Padding(0, 0, 0, 1)
-        Me.BTNIMaledom.Name = "BTNIMaledom"
-        Me.BTNIMaledom.Size = New System.Drawing.Size(34, 28)
-        Me.BTNIMaledom.TabIndex = 33
-        Me.BTNIMaledom.Text = "1"
-        Me.BTNIMaledom.UseVisualStyleBackColor = False
-        '
-        'BTNICaptions
-        '
-        Me.BTNICaptions.BackColor = System.Drawing.Color.LightGray
-        Me.BTNICaptions.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
-        Me.BTNICaptions.ForeColor = System.Drawing.Color.Black
-        Me.BTNICaptions.Location = New System.Drawing.Point(76, 261)
-        Me.BTNICaptions.Margin = New System.Windows.Forms.Padding(0, 0, 0, 1)
-        Me.BTNICaptions.Name = "BTNICaptions"
-        Me.BTNICaptions.Size = New System.Drawing.Size(34, 28)
-        Me.BTNICaptions.TabIndex = 37
-        Me.BTNICaptions.Text = "1"
-        Me.BTNICaptions.UseVisualStyleBackColor = False
-        '
-        'BTNIGeneral
-        '
-        Me.BTNIGeneral.BackColor = System.Drawing.Color.LightGray
-        Me.BTNIGeneral.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
-        Me.BTNIGeneral.ForeColor = System.Drawing.Color.Black
-        Me.BTNIGeneral.Location = New System.Drawing.Point(76, 290)
-        Me.BTNIGeneral.Margin = New System.Windows.Forms.Padding(0, 0, 0, 1)
-        Me.BTNIGeneral.Name = "BTNIGeneral"
-        Me.BTNIGeneral.Size = New System.Drawing.Size(34, 28)
-        Me.BTNIGeneral.TabIndex = 41
-        Me.BTNIGeneral.Text = "1"
-        Me.BTNIGeneral.UseVisualStyleBackColor = False
+        'LocalSoftcoreEnabledCheckBox
+        '
+        Me.LocalSoftcoreEnabledCheckBox.AutoSize = True
+        Me.LocalSoftcoreEnabledCheckBox.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LocalSoftcoreEnabledCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.LocalSoftcoreEnabledCheckBox.Location = New System.Drawing.Point(3, 32)
+        Me.LocalSoftcoreEnabledCheckBox.Name = "LocalSoftcoreEnabledCheckBox"
+        Me.LocalSoftcoreEnabledCheckBox.Size = New System.Drawing.Size(70, 23)
+        Me.LocalSoftcoreEnabledCheckBox.TabIndex = 4
+        Me.LocalSoftcoreEnabledCheckBox.Text = "Softcore"
+        Me.LocalSoftcoreEnabledCheckBox.UseVisualStyleBackColor = True
+        '
+        'LocalSoftcoreDirectoryTextBox
+        '
+        Me.LocalSoftcoreDirectoryTextBox.BackColor = System.Drawing.Color.LightGray
+        Me.LocalSoftcoreDirectoryTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.LocalSoftcoreDirectoryTextBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LocalSoftcoreDirectoryTextBox.ForeColor = System.Drawing.Color.Black
+        Me.LocalSoftcoreDirectoryTextBox.Location = New System.Drawing.Point(115, 34)
+        Me.LocalSoftcoreDirectoryTextBox.Margin = New System.Windows.Forms.Padding(5, 5, 8, 3)
+        Me.LocalSoftcoreDirectoryTextBox.MaximumSize = New System.Drawing.Size(2, 17)
+        Me.LocalSoftcoreDirectoryTextBox.MinimumSize = New System.Drawing.Size(217, 17)
+        Me.LocalSoftcoreDirectoryTextBox.Name = "LocalSoftcoreDirectoryTextBox"
+        Me.LocalSoftcoreDirectoryTextBox.ReadOnly = True
+        Me.LocalSoftcoreDirectoryTextBox.Size = New System.Drawing.Size(217, 17)
+        Me.LocalSoftcoreDirectoryTextBox.TabIndex = 6
+        '
+        'LocalButtSubdirectoryCheckBox
+        '
+        Me.LocalButtSubdirectoryCheckBox.AutoSize = True
+        Me.LocalButtSubdirectoryCheckBox.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LocalButtSubdirectoryCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.LocalButtSubdirectoryCheckBox.Location = New System.Drawing.Point(343, 351)
+        Me.LocalButtSubdirectoryCheckBox.Name = "LocalButtSubdirectoryCheckBox"
+        Me.LocalButtSubdirectoryCheckBox.Size = New System.Drawing.Size(148, 27)
+        Me.LocalButtSubdirectoryCheckBox.TabIndex = 51
+        Me.LocalButtSubdirectoryCheckBox.Text = "Include Subdirectories"
+        Me.LocalButtSubdirectoryCheckBox.UseVisualStyleBackColor = True
+        '
+        'LocalSoftcoreSubdirectoryCheckBox
+        '
+        Me.LocalSoftcoreSubdirectoryCheckBox.AutoSize = True
+        Me.LocalSoftcoreSubdirectoryCheckBox.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LocalSoftcoreSubdirectoryCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.LocalSoftcoreSubdirectoryCheckBox.Location = New System.Drawing.Point(343, 32)
+        Me.LocalSoftcoreSubdirectoryCheckBox.Name = "LocalSoftcoreSubdirectoryCheckBox"
+        Me.LocalSoftcoreSubdirectoryCheckBox.Size = New System.Drawing.Size(148, 23)
+        Me.LocalSoftcoreSubdirectoryCheckBox.TabIndex = 7
+        Me.LocalSoftcoreSubdirectoryCheckBox.Text = "Include Subdirectories"
+        Me.LocalSoftcoreSubdirectoryCheckBox.UseVisualStyleBackColor = True
+        '
+        'LocalBoobsSubdirectoryCheckBox
+        '
+        Me.LocalBoobsSubdirectoryCheckBox.AutoSize = True
+        Me.LocalBoobsSubdirectoryCheckBox.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LocalBoobsSubdirectoryCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.LocalBoobsSubdirectoryCheckBox.Location = New System.Drawing.Point(343, 322)
+        Me.LocalBoobsSubdirectoryCheckBox.Name = "LocalBoobsSubdirectoryCheckBox"
+        Me.LocalBoobsSubdirectoryCheckBox.Size = New System.Drawing.Size(148, 23)
+        Me.LocalBoobsSubdirectoryCheckBox.TabIndex = 47
+        Me.LocalBoobsSubdirectoryCheckBox.Text = "Include Subdirectories"
+        Me.LocalBoobsSubdirectoryCheckBox.UseVisualStyleBackColor = True
+        '
+        'LocalLezdomSubdirectoryCheckBox
+        '
+        Me.LocalLezdomSubdirectoryCheckBox.AutoSize = True
+        Me.LocalLezdomSubdirectoryCheckBox.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LocalLezdomSubdirectoryCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.LocalLezdomSubdirectoryCheckBox.Location = New System.Drawing.Point(343, 148)
+        Me.LocalLezdomSubdirectoryCheckBox.Name = "LocalLezdomSubdirectoryCheckBox"
+        Me.LocalLezdomSubdirectoryCheckBox.Size = New System.Drawing.Size(148, 23)
+        Me.LocalLezdomSubdirectoryCheckBox.TabIndex = 23
+        Me.LocalLezdomSubdirectoryCheckBox.Text = "Include Subdirectories"
+        Me.LocalLezdomSubdirectoryCheckBox.UseVisualStyleBackColor = True
+        '
+        'LocalGeneralSubdirectoryCheckBox
+        '
+        Me.LocalGeneralSubdirectoryCheckBox.AutoSize = True
+        Me.LocalGeneralSubdirectoryCheckBox.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LocalGeneralSubdirectoryCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.LocalGeneralSubdirectoryCheckBox.Location = New System.Drawing.Point(343, 293)
+        Me.LocalGeneralSubdirectoryCheckBox.Name = "LocalGeneralSubdirectoryCheckBox"
+        Me.LocalGeneralSubdirectoryCheckBox.Size = New System.Drawing.Size(148, 23)
+        Me.LocalGeneralSubdirectoryCheckBox.TabIndex = 43
+        Me.LocalGeneralSubdirectoryCheckBox.Text = "Include Subdirectories"
+        Me.LocalGeneralSubdirectoryCheckBox.UseVisualStyleBackColor = True
+        '
+        'LocalLesbianSubdirectoryCheckBox
+        '
+        Me.LocalLesbianSubdirectoryCheckBox.AutoSize = True
+        Me.LocalLesbianSubdirectoryCheckBox.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LocalLesbianSubdirectoryCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.LocalLesbianSubdirectoryCheckBox.Location = New System.Drawing.Point(343, 61)
+        Me.LocalLesbianSubdirectoryCheckBox.Name = "LocalLesbianSubdirectoryCheckBox"
+        Me.LocalLesbianSubdirectoryCheckBox.Size = New System.Drawing.Size(148, 23)
+        Me.LocalLesbianSubdirectoryCheckBox.TabIndex = 11
+        Me.LocalLesbianSubdirectoryCheckBox.Text = "Include Subdirectories"
+        Me.LocalLesbianSubdirectoryCheckBox.UseVisualStyleBackColor = True
+        '
+        'LocalCaptionsSubdirectoryCheckBox
+        '
+        Me.LocalCaptionsSubdirectoryCheckBox.AutoSize = True
+        Me.LocalCaptionsSubdirectoryCheckBox.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LocalCaptionsSubdirectoryCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.LocalCaptionsSubdirectoryCheckBox.Location = New System.Drawing.Point(343, 264)
+        Me.LocalCaptionsSubdirectoryCheckBox.Name = "LocalCaptionsSubdirectoryCheckBox"
+        Me.LocalCaptionsSubdirectoryCheckBox.Size = New System.Drawing.Size(148, 23)
+        Me.LocalCaptionsSubdirectoryCheckBox.TabIndex = 39
+        Me.LocalCaptionsSubdirectoryCheckBox.Text = "Include Subdirectories"
+        Me.LocalCaptionsSubdirectoryCheckBox.UseVisualStyleBackColor = True
+        '
+        'LocalLesbianEnabledCheckBox
+        '
+        Me.LocalLesbianEnabledCheckBox.AutoSize = True
+        Me.LocalLesbianEnabledCheckBox.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LocalLesbianEnabledCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.LocalLesbianEnabledCheckBox.Location = New System.Drawing.Point(3, 61)
+        Me.LocalLesbianEnabledCheckBox.Name = "LocalLesbianEnabledCheckBox"
+        Me.LocalLesbianEnabledCheckBox.Size = New System.Drawing.Size(70, 23)
+        Me.LocalLesbianEnabledCheckBox.TabIndex = 8
+        Me.LocalLesbianEnabledCheckBox.Text = "Lesbian"
+        Me.LocalLesbianEnabledCheckBox.UseVisualStyleBackColor = True
+        '
+        'LocalMaledomSubdirectoryCheckBox
+        '
+        Me.LocalMaledomSubdirectoryCheckBox.AutoSize = True
+        Me.LocalMaledomSubdirectoryCheckBox.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LocalMaledomSubdirectoryCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.LocalMaledomSubdirectoryCheckBox.Location = New System.Drawing.Point(343, 235)
+        Me.LocalMaledomSubdirectoryCheckBox.Name = "LocalMaledomSubdirectoryCheckBox"
+        Me.LocalMaledomSubdirectoryCheckBox.Size = New System.Drawing.Size(148, 23)
+        Me.LocalMaledomSubdirectoryCheckBox.TabIndex = 35
+        Me.LocalMaledomSubdirectoryCheckBox.Text = "Include Subdirectories"
+        Me.LocalMaledomSubdirectoryCheckBox.UseVisualStyleBackColor = True
+        '
+        'LocalBlowjobEnabledCheckBox
+        '
+        Me.LocalBlowjobEnabledCheckBox.AutoSize = True
+        Me.LocalBlowjobEnabledCheckBox.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LocalBlowjobEnabledCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.LocalBlowjobEnabledCheckBox.Location = New System.Drawing.Point(3, 90)
+        Me.LocalBlowjobEnabledCheckBox.Name = "LocalBlowjobEnabledCheckBox"
+        Me.LocalBlowjobEnabledCheckBox.Size = New System.Drawing.Size(70, 23)
+        Me.LocalBlowjobEnabledCheckBox.TabIndex = 12
+        Me.LocalBlowjobEnabledCheckBox.Text = "Blowjob"
+        Me.LocalBlowjobEnabledCheckBox.UseVisualStyleBackColor = True
+        '
+        'LocalGaySubdirectoryCheckBox
+        '
+        Me.LocalGaySubdirectoryCheckBox.AutoSize = True
+        Me.LocalGaySubdirectoryCheckBox.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LocalGaySubdirectoryCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.LocalGaySubdirectoryCheckBox.Location = New System.Drawing.Point(343, 206)
+        Me.LocalGaySubdirectoryCheckBox.Name = "LocalGaySubdirectoryCheckBox"
+        Me.LocalGaySubdirectoryCheckBox.Size = New System.Drawing.Size(148, 23)
+        Me.LocalGaySubdirectoryCheckBox.TabIndex = 31
+        Me.LocalGaySubdirectoryCheckBox.Text = "Include Subdirectories"
+        Me.LocalGaySubdirectoryCheckBox.UseVisualStyleBackColor = True
+        '
+        'LocalHentaiSubdirectoryCheckBox
+        '
+        Me.LocalHentaiSubdirectoryCheckBox.AutoSize = True
+        Me.LocalHentaiSubdirectoryCheckBox.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LocalHentaiSubdirectoryCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.LocalHentaiSubdirectoryCheckBox.Location = New System.Drawing.Point(343, 177)
+        Me.LocalHentaiSubdirectoryCheckBox.Name = "LocalHentaiSubdirectoryCheckBox"
+        Me.LocalHentaiSubdirectoryCheckBox.Size = New System.Drawing.Size(148, 23)
+        Me.LocalHentaiSubdirectoryCheckBox.TabIndex = 27
+        Me.LocalHentaiSubdirectoryCheckBox.Text = "Include Subdirectories"
+        Me.LocalHentaiSubdirectoryCheckBox.UseVisualStyleBackColor = True
+        '
+        'LocalBlowjobSubdirectoryCheckBox
+        '
+        Me.LocalBlowjobSubdirectoryCheckBox.AutoSize = True
+        Me.LocalBlowjobSubdirectoryCheckBox.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LocalBlowjobSubdirectoryCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.LocalBlowjobSubdirectoryCheckBox.Location = New System.Drawing.Point(343, 90)
+        Me.LocalBlowjobSubdirectoryCheckBox.Name = "LocalBlowjobSubdirectoryCheckBox"
+        Me.LocalBlowjobSubdirectoryCheckBox.Size = New System.Drawing.Size(148, 23)
+        Me.LocalBlowjobSubdirectoryCheckBox.TabIndex = 15
+        Me.LocalBlowjobSubdirectoryCheckBox.Text = "Include Subdirectories"
+        Me.LocalBlowjobSubdirectoryCheckBox.UseVisualStyleBackColor = True
+        '
+        'LocalFemdomSubdirectoryCheckBox
+        '
+        Me.LocalFemdomSubdirectoryCheckBox.AutoSize = True
+        Me.LocalFemdomSubdirectoryCheckBox.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LocalFemdomSubdirectoryCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.LocalFemdomSubdirectoryCheckBox.Location = New System.Drawing.Point(343, 119)
+        Me.LocalFemdomSubdirectoryCheckBox.Name = "LocalFemdomSubdirectoryCheckBox"
+        Me.LocalFemdomSubdirectoryCheckBox.Size = New System.Drawing.Size(148, 23)
+        Me.LocalFemdomSubdirectoryCheckBox.TabIndex = 19
+        Me.LocalFemdomSubdirectoryCheckBox.Text = "Include Subdirectories"
+        Me.LocalFemdomSubdirectoryCheckBox.UseVisualStyleBackColor = True
+        '
+        'LocalButtDirectoryTextBox
+        '
+        Me.LocalButtDirectoryTextBox.BackColor = System.Drawing.Color.LightGray
+        Me.LocalButtDirectoryTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.LocalButtDirectoryTextBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LocalButtDirectoryTextBox.ForeColor = System.Drawing.Color.Black
+        Me.LocalButtDirectoryTextBox.Location = New System.Drawing.Point(115, 353)
+        Me.LocalButtDirectoryTextBox.Margin = New System.Windows.Forms.Padding(5, 5, 8, 3)
+        Me.LocalButtDirectoryTextBox.MaximumSize = New System.Drawing.Size(2, 17)
+        Me.LocalButtDirectoryTextBox.MinimumSize = New System.Drawing.Size(217, 17)
+        Me.LocalButtDirectoryTextBox.Name = "LocalButtDirectoryTextBox"
+        Me.LocalButtDirectoryTextBox.ReadOnly = True
+        Me.LocalButtDirectoryTextBox.Size = New System.Drawing.Size(217, 17)
+        Me.LocalButtDirectoryTextBox.TabIndex = 50
+        '
+        'LocalFemdomEnabledCheckBox
+        '
+        Me.LocalFemdomEnabledCheckBox.AutoSize = True
+        Me.LocalFemdomEnabledCheckBox.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LocalFemdomEnabledCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.LocalFemdomEnabledCheckBox.Location = New System.Drawing.Point(3, 119)
+        Me.LocalFemdomEnabledCheckBox.Name = "LocalFemdomEnabledCheckBox"
+        Me.LocalFemdomEnabledCheckBox.Size = New System.Drawing.Size(70, 23)
+        Me.LocalFemdomEnabledCheckBox.TabIndex = 16
+        Me.LocalFemdomEnabledCheckBox.Text = "Femdom"
+        Me.LocalFemdomEnabledCheckBox.UseVisualStyleBackColor = True
+        '
+        'LocalLesbianDirectoryTextBox
+        '
+        Me.LocalLesbianDirectoryTextBox.BackColor = System.Drawing.Color.LightGray
+        Me.LocalLesbianDirectoryTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.LocalLesbianDirectoryTextBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LocalLesbianDirectoryTextBox.ForeColor = System.Drawing.Color.Black
+        Me.LocalLesbianDirectoryTextBox.Location = New System.Drawing.Point(115, 63)
+        Me.LocalLesbianDirectoryTextBox.Margin = New System.Windows.Forms.Padding(5, 5, 8, 3)
+        Me.LocalLesbianDirectoryTextBox.MaximumSize = New System.Drawing.Size(2, 17)
+        Me.LocalLesbianDirectoryTextBox.MinimumSize = New System.Drawing.Size(217, 17)
+        Me.LocalLesbianDirectoryTextBox.Name = "LocalLesbianDirectoryTextBox"
+        Me.LocalLesbianDirectoryTextBox.ReadOnly = True
+        Me.LocalLesbianDirectoryTextBox.Size = New System.Drawing.Size(217, 17)
+        Me.LocalLesbianDirectoryTextBox.TabIndex = 10
+        '
+        'LocalSoftcoreDirectoryButton
+        '
+        Me.LocalSoftcoreDirectoryButton.BackColor = System.Drawing.Color.LightGray
+        Me.LocalSoftcoreDirectoryButton.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
+        Me.LocalSoftcoreDirectoryButton.ForeColor = System.Drawing.Color.Black
+        Me.LocalSoftcoreDirectoryButton.Location = New System.Drawing.Point(76, 29)
+        Me.LocalSoftcoreDirectoryButton.Margin = New System.Windows.Forms.Padding(0, 0, 0, 1)
+        Me.LocalSoftcoreDirectoryButton.Name = "LocalSoftcoreDirectoryButton"
+        Me.LocalSoftcoreDirectoryButton.Size = New System.Drawing.Size(34, 28)
+        Me.LocalSoftcoreDirectoryButton.TabIndex = 5
+        Me.LocalSoftcoreDirectoryButton.Text = "1"
+        Me.LocalSoftcoreDirectoryButton.UseVisualStyleBackColor = False
+        '
+        'LocalLezdomEnabledCheckBox
+        '
+        Me.LocalLezdomEnabledCheckBox.AutoSize = True
+        Me.LocalLezdomEnabledCheckBox.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LocalLezdomEnabledCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.LocalLezdomEnabledCheckBox.Location = New System.Drawing.Point(3, 148)
+        Me.LocalLezdomEnabledCheckBox.Name = "LocalLezdomEnabledCheckBox"
+        Me.LocalLezdomEnabledCheckBox.Size = New System.Drawing.Size(70, 23)
+        Me.LocalLezdomEnabledCheckBox.TabIndex = 20
+        Me.LocalLezdomEnabledCheckBox.Text = "Lezdom"
+        Me.LocalLezdomEnabledCheckBox.UseVisualStyleBackColor = True
+        '
+        'LocalBoobsDirectoryTextBox
+        '
+        Me.LocalBoobsDirectoryTextBox.BackColor = System.Drawing.Color.LightGray
+        Me.LocalBoobsDirectoryTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.LocalBoobsDirectoryTextBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LocalBoobsDirectoryTextBox.ForeColor = System.Drawing.Color.Black
+        Me.LocalBoobsDirectoryTextBox.Location = New System.Drawing.Point(115, 324)
+        Me.LocalBoobsDirectoryTextBox.Margin = New System.Windows.Forms.Padding(5, 5, 8, 3)
+        Me.LocalBoobsDirectoryTextBox.MaximumSize = New System.Drawing.Size(2, 17)
+        Me.LocalBoobsDirectoryTextBox.MinimumSize = New System.Drawing.Size(217, 17)
+        Me.LocalBoobsDirectoryTextBox.Name = "LocalBoobsDirectoryTextBox"
+        Me.LocalBoobsDirectoryTextBox.ReadOnly = True
+        Me.LocalBoobsDirectoryTextBox.Size = New System.Drawing.Size(217, 17)
+        Me.LocalBoobsDirectoryTextBox.TabIndex = 46
+        '
+        'LocalHentaiEnabledCheckBox
+        '
+        Me.LocalHentaiEnabledCheckBox.AutoSize = True
+        Me.LocalHentaiEnabledCheckBox.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LocalHentaiEnabledCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.LocalHentaiEnabledCheckBox.Location = New System.Drawing.Point(3, 177)
+        Me.LocalHentaiEnabledCheckBox.Name = "LocalHentaiEnabledCheckBox"
+        Me.LocalHentaiEnabledCheckBox.Size = New System.Drawing.Size(70, 23)
+        Me.LocalHentaiEnabledCheckBox.TabIndex = 24
+        Me.LocalHentaiEnabledCheckBox.Text = "Hentai"
+        Me.LocalHentaiEnabledCheckBox.UseVisualStyleBackColor = True
+        '
+        'LocalBlowjobDirectoryTextBox
+        '
+        Me.LocalBlowjobDirectoryTextBox.BackColor = System.Drawing.Color.LightGray
+        Me.LocalBlowjobDirectoryTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.LocalBlowjobDirectoryTextBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LocalBlowjobDirectoryTextBox.ForeColor = System.Drawing.Color.Black
+        Me.LocalBlowjobDirectoryTextBox.Location = New System.Drawing.Point(115, 92)
+        Me.LocalBlowjobDirectoryTextBox.Margin = New System.Windows.Forms.Padding(5, 5, 8, 3)
+        Me.LocalBlowjobDirectoryTextBox.MaximumSize = New System.Drawing.Size(2, 17)
+        Me.LocalBlowjobDirectoryTextBox.MinimumSize = New System.Drawing.Size(217, 17)
+        Me.LocalBlowjobDirectoryTextBox.Name = "LocalBlowjobDirectoryTextBox"
+        Me.LocalBlowjobDirectoryTextBox.ReadOnly = True
+        Me.LocalBlowjobDirectoryTextBox.Size = New System.Drawing.Size(217, 17)
+        Me.LocalBlowjobDirectoryTextBox.TabIndex = 14
+        '
+        'LocalGayEnabledCheckBox
+        '
+        Me.LocalGayEnabledCheckBox.AutoSize = True
+        Me.LocalGayEnabledCheckBox.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LocalGayEnabledCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.LocalGayEnabledCheckBox.Location = New System.Drawing.Point(3, 206)
+        Me.LocalGayEnabledCheckBox.Name = "LocalGayEnabledCheckBox"
+        Me.LocalGayEnabledCheckBox.Size = New System.Drawing.Size(70, 23)
+        Me.LocalGayEnabledCheckBox.TabIndex = 28
+        Me.LocalGayEnabledCheckBox.Text = "Gay"
+        Me.LocalGayEnabledCheckBox.UseVisualStyleBackColor = True
+        '
+        'LocalGeneralDirectoryTextBox
+        '
+        Me.LocalGeneralDirectoryTextBox.BackColor = System.Drawing.Color.LightGray
+        Me.LocalGeneralDirectoryTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.LocalGeneralDirectoryTextBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LocalGeneralDirectoryTextBox.ForeColor = System.Drawing.Color.Black
+        Me.LocalGeneralDirectoryTextBox.Location = New System.Drawing.Point(115, 295)
+        Me.LocalGeneralDirectoryTextBox.Margin = New System.Windows.Forms.Padding(5, 5, 8, 3)
+        Me.LocalGeneralDirectoryTextBox.MaximumSize = New System.Drawing.Size(2, 17)
+        Me.LocalGeneralDirectoryTextBox.MinimumSize = New System.Drawing.Size(217, 17)
+        Me.LocalGeneralDirectoryTextBox.Name = "LocalGeneralDirectoryTextBox"
+        Me.LocalGeneralDirectoryTextBox.ReadOnly = True
+        Me.LocalGeneralDirectoryTextBox.Size = New System.Drawing.Size(217, 17)
+        Me.LocalGeneralDirectoryTextBox.TabIndex = 42
+        '
+        'LocalMaledomEnabledCheckBox
+        '
+        Me.LocalMaledomEnabledCheckBox.AutoSize = True
+        Me.LocalMaledomEnabledCheckBox.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LocalMaledomEnabledCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.LocalMaledomEnabledCheckBox.Location = New System.Drawing.Point(3, 235)
+        Me.LocalMaledomEnabledCheckBox.Name = "LocalMaledomEnabledCheckBox"
+        Me.LocalMaledomEnabledCheckBox.Size = New System.Drawing.Size(70, 23)
+        Me.LocalMaledomEnabledCheckBox.TabIndex = 32
+        Me.LocalMaledomEnabledCheckBox.Text = "Maledom"
+        Me.LocalMaledomEnabledCheckBox.UseVisualStyleBackColor = True
+        '
+        'LocalFemdomDirectoryTextBox
+        '
+        Me.LocalFemdomDirectoryTextBox.BackColor = System.Drawing.Color.LightGray
+        Me.LocalFemdomDirectoryTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.LocalFemdomDirectoryTextBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LocalFemdomDirectoryTextBox.ForeColor = System.Drawing.Color.Black
+        Me.LocalFemdomDirectoryTextBox.Location = New System.Drawing.Point(115, 121)
+        Me.LocalFemdomDirectoryTextBox.Margin = New System.Windows.Forms.Padding(5, 5, 8, 3)
+        Me.LocalFemdomDirectoryTextBox.MaximumSize = New System.Drawing.Size(2, 17)
+        Me.LocalFemdomDirectoryTextBox.MinimumSize = New System.Drawing.Size(217, 17)
+        Me.LocalFemdomDirectoryTextBox.Name = "LocalFemdomDirectoryTextBox"
+        Me.LocalFemdomDirectoryTextBox.ReadOnly = True
+        Me.LocalFemdomDirectoryTextBox.Size = New System.Drawing.Size(217, 17)
+        Me.LocalFemdomDirectoryTextBox.TabIndex = 18
+        '
+        'LocalLesbianDirectoryButton
+        '
+        Me.LocalLesbianDirectoryButton.BackColor = System.Drawing.Color.LightGray
+        Me.LocalLesbianDirectoryButton.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
+        Me.LocalLesbianDirectoryButton.ForeColor = System.Drawing.Color.Black
+        Me.LocalLesbianDirectoryButton.Location = New System.Drawing.Point(76, 58)
+        Me.LocalLesbianDirectoryButton.Margin = New System.Windows.Forms.Padding(0, 0, 0, 1)
+        Me.LocalLesbianDirectoryButton.Name = "LocalLesbianDirectoryButton"
+        Me.LocalLesbianDirectoryButton.Size = New System.Drawing.Size(34, 28)
+        Me.LocalLesbianDirectoryButton.TabIndex = 9
+        Me.LocalLesbianDirectoryButton.Text = "1"
+        Me.LocalLesbianDirectoryButton.UseVisualStyleBackColor = False
+        '
+        'LocalCaptionsDirectoryTextBox
+        '
+        Me.LocalCaptionsDirectoryTextBox.BackColor = System.Drawing.Color.LightGray
+        Me.LocalCaptionsDirectoryTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.LocalCaptionsDirectoryTextBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LocalCaptionsDirectoryTextBox.ForeColor = System.Drawing.Color.Black
+        Me.LocalCaptionsDirectoryTextBox.Location = New System.Drawing.Point(115, 266)
+        Me.LocalCaptionsDirectoryTextBox.Margin = New System.Windows.Forms.Padding(5, 5, 8, 3)
+        Me.LocalCaptionsDirectoryTextBox.MaximumSize = New System.Drawing.Size(2, 17)
+        Me.LocalCaptionsDirectoryTextBox.MinimumSize = New System.Drawing.Size(217, 17)
+        Me.LocalCaptionsDirectoryTextBox.Name = "LocalCaptionsDirectoryTextBox"
+        Me.LocalCaptionsDirectoryTextBox.ReadOnly = True
+        Me.LocalCaptionsDirectoryTextBox.Size = New System.Drawing.Size(217, 17)
+        Me.LocalCaptionsDirectoryTextBox.TabIndex = 38
+        '
+        'LocalCaptionsEnabledCheckBox
+        '
+        Me.LocalCaptionsEnabledCheckBox.AutoSize = True
+        Me.LocalCaptionsEnabledCheckBox.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LocalCaptionsEnabledCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.LocalCaptionsEnabledCheckBox.Location = New System.Drawing.Point(3, 264)
+        Me.LocalCaptionsEnabledCheckBox.Name = "LocalCaptionsEnabledCheckBox"
+        Me.LocalCaptionsEnabledCheckBox.Size = New System.Drawing.Size(70, 23)
+        Me.LocalCaptionsEnabledCheckBox.TabIndex = 36
+        Me.LocalCaptionsEnabledCheckBox.Text = "Captions"
+        Me.LocalCaptionsEnabledCheckBox.UseVisualStyleBackColor = True
+        '
+        'LocalLezdomDirectoryTextBox
+        '
+        Me.LocalLezdomDirectoryTextBox.BackColor = System.Drawing.Color.LightGray
+        Me.LocalLezdomDirectoryTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.LocalLezdomDirectoryTextBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LocalLezdomDirectoryTextBox.ForeColor = System.Drawing.Color.Black
+        Me.LocalLezdomDirectoryTextBox.Location = New System.Drawing.Point(115, 150)
+        Me.LocalLezdomDirectoryTextBox.Margin = New System.Windows.Forms.Padding(5, 5, 8, 3)
+        Me.LocalLezdomDirectoryTextBox.MaximumSize = New System.Drawing.Size(2, 17)
+        Me.LocalLezdomDirectoryTextBox.MinimumSize = New System.Drawing.Size(217, 17)
+        Me.LocalLezdomDirectoryTextBox.Name = "LocalLezdomDirectoryTextBox"
+        Me.LocalLezdomDirectoryTextBox.ReadOnly = True
+        Me.LocalLezdomDirectoryTextBox.Size = New System.Drawing.Size(217, 17)
+        Me.LocalLezdomDirectoryTextBox.TabIndex = 22
+        '
+        'LocalMaledomDirectoryTextBox
+        '
+        Me.LocalMaledomDirectoryTextBox.BackColor = System.Drawing.Color.LightGray
+        Me.LocalMaledomDirectoryTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.LocalMaledomDirectoryTextBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LocalMaledomDirectoryTextBox.ForeColor = System.Drawing.Color.Black
+        Me.LocalMaledomDirectoryTextBox.Location = New System.Drawing.Point(115, 237)
+        Me.LocalMaledomDirectoryTextBox.Margin = New System.Windows.Forms.Padding(5, 5, 8, 3)
+        Me.LocalMaledomDirectoryTextBox.MaximumSize = New System.Drawing.Size(2, 17)
+        Me.LocalMaledomDirectoryTextBox.MinimumSize = New System.Drawing.Size(217, 17)
+        Me.LocalMaledomDirectoryTextBox.Name = "LocalMaledomDirectoryTextBox"
+        Me.LocalMaledomDirectoryTextBox.ReadOnly = True
+        Me.LocalMaledomDirectoryTextBox.Size = New System.Drawing.Size(217, 17)
+        Me.LocalMaledomDirectoryTextBox.TabIndex = 34
+        '
+        'LocalButtDirectoryButton
+        '
+        Me.LocalButtDirectoryButton.BackColor = System.Drawing.Color.LightGray
+        Me.LocalButtDirectoryButton.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
+        Me.LocalButtDirectoryButton.ForeColor = System.Drawing.Color.Black
+        Me.LocalButtDirectoryButton.Location = New System.Drawing.Point(76, 348)
+        Me.LocalButtDirectoryButton.Margin = New System.Windows.Forms.Padding(0, 0, 0, 1)
+        Me.LocalButtDirectoryButton.Name = "LocalButtDirectoryButton"
+        Me.LocalButtDirectoryButton.Size = New System.Drawing.Size(34, 28)
+        Me.LocalButtDirectoryButton.TabIndex = 49
+        Me.LocalButtDirectoryButton.Text = "1"
+        Me.LocalButtDirectoryButton.UseVisualStyleBackColor = False
+        '
+        'LocalHentaiDirectoryTextBox
+        '
+        Me.LocalHentaiDirectoryTextBox.BackColor = System.Drawing.Color.LightGray
+        Me.LocalHentaiDirectoryTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.LocalHentaiDirectoryTextBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LocalHentaiDirectoryTextBox.ForeColor = System.Drawing.Color.Black
+        Me.LocalHentaiDirectoryTextBox.Location = New System.Drawing.Point(115, 179)
+        Me.LocalHentaiDirectoryTextBox.Margin = New System.Windows.Forms.Padding(5, 5, 8, 3)
+        Me.LocalHentaiDirectoryTextBox.MaximumSize = New System.Drawing.Size(2, 17)
+        Me.LocalHentaiDirectoryTextBox.MinimumSize = New System.Drawing.Size(217, 17)
+        Me.LocalHentaiDirectoryTextBox.Name = "LocalHentaiDirectoryTextBox"
+        Me.LocalHentaiDirectoryTextBox.ReadOnly = True
+        Me.LocalHentaiDirectoryTextBox.Size = New System.Drawing.Size(217, 17)
+        Me.LocalHentaiDirectoryTextBox.TabIndex = 26
+        '
+        'LocalGeneralEnabledCheckBox
+        '
+        Me.LocalGeneralEnabledCheckBox.AutoSize = True
+        Me.LocalGeneralEnabledCheckBox.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LocalGeneralEnabledCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.LocalGeneralEnabledCheckBox.Location = New System.Drawing.Point(3, 293)
+        Me.LocalGeneralEnabledCheckBox.Name = "LocalGeneralEnabledCheckBox"
+        Me.LocalGeneralEnabledCheckBox.Size = New System.Drawing.Size(70, 23)
+        Me.LocalGeneralEnabledCheckBox.TabIndex = 40
+        Me.LocalGeneralEnabledCheckBox.Text = "General"
+        Me.LocalGeneralEnabledCheckBox.UseVisualStyleBackColor = True
+        '
+        'LocalGayDirectoryTextBox
+        '
+        Me.LocalGayDirectoryTextBox.BackColor = System.Drawing.Color.LightGray
+        Me.LocalGayDirectoryTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.LocalGayDirectoryTextBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LocalGayDirectoryTextBox.ForeColor = System.Drawing.Color.Black
+        Me.LocalGayDirectoryTextBox.Location = New System.Drawing.Point(115, 208)
+        Me.LocalGayDirectoryTextBox.Margin = New System.Windows.Forms.Padding(5, 5, 8, 3)
+        Me.LocalGayDirectoryTextBox.MaximumSize = New System.Drawing.Size(2, 17)
+        Me.LocalGayDirectoryTextBox.MinimumSize = New System.Drawing.Size(217, 17)
+        Me.LocalGayDirectoryTextBox.Name = "LocalGayDirectoryTextBox"
+        Me.LocalGayDirectoryTextBox.ReadOnly = True
+        Me.LocalGayDirectoryTextBox.Size = New System.Drawing.Size(217, 17)
+        Me.LocalGayDirectoryTextBox.TabIndex = 30
+        '
+        'LocalBoobsEnabledCheckBox
+        '
+        Me.LocalBoobsEnabledCheckBox.AutoSize = True
+        Me.LocalBoobsEnabledCheckBox.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LocalBoobsEnabledCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.LocalBoobsEnabledCheckBox.Location = New System.Drawing.Point(3, 322)
+        Me.LocalBoobsEnabledCheckBox.Name = "LocalBoobsEnabledCheckBox"
+        Me.LocalBoobsEnabledCheckBox.Size = New System.Drawing.Size(70, 23)
+        Me.LocalBoobsEnabledCheckBox.TabIndex = 44
+        Me.LocalBoobsEnabledCheckBox.Text = "Boobs"
+        Me.LocalBoobsEnabledCheckBox.UseVisualStyleBackColor = True
+        '
+        'LocalButtEnabledCheckBox
+        '
+        Me.LocalButtEnabledCheckBox.AutoSize = True
+        Me.LocalButtEnabledCheckBox.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LocalButtEnabledCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.LocalButtEnabledCheckBox.Location = New System.Drawing.Point(3, 351)
+        Me.LocalButtEnabledCheckBox.Name = "LocalButtEnabledCheckBox"
+        Me.LocalButtEnabledCheckBox.Size = New System.Drawing.Size(70, 27)
+        Me.LocalButtEnabledCheckBox.TabIndex = 48
+        Me.LocalButtEnabledCheckBox.Text = "Butts"
+        Me.LocalButtEnabledCheckBox.UseVisualStyleBackColor = True
+        '
+        'LocalBlowjobDirectoryButton
+        '
+        Me.LocalBlowjobDirectoryButton.BackColor = System.Drawing.Color.LightGray
+        Me.LocalBlowjobDirectoryButton.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
+        Me.LocalBlowjobDirectoryButton.ForeColor = System.Drawing.Color.Black
+        Me.LocalBlowjobDirectoryButton.Location = New System.Drawing.Point(76, 87)
+        Me.LocalBlowjobDirectoryButton.Margin = New System.Windows.Forms.Padding(0, 0, 0, 1)
+        Me.LocalBlowjobDirectoryButton.Name = "LocalBlowjobDirectoryButton"
+        Me.LocalBlowjobDirectoryButton.Size = New System.Drawing.Size(34, 28)
+        Me.LocalBlowjobDirectoryButton.TabIndex = 13
+        Me.LocalBlowjobDirectoryButton.Text = "1"
+        Me.LocalBlowjobDirectoryButton.UseVisualStyleBackColor = False
+        '
+        'LocalFemdomDirectoryButton
+        '
+        Me.LocalFemdomDirectoryButton.BackColor = System.Drawing.Color.LightGray
+        Me.LocalFemdomDirectoryButton.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
+        Me.LocalFemdomDirectoryButton.ForeColor = System.Drawing.Color.Black
+        Me.LocalFemdomDirectoryButton.Location = New System.Drawing.Point(76, 116)
+        Me.LocalFemdomDirectoryButton.Margin = New System.Windows.Forms.Padding(0, 0, 0, 1)
+        Me.LocalFemdomDirectoryButton.Name = "LocalFemdomDirectoryButton"
+        Me.LocalFemdomDirectoryButton.Size = New System.Drawing.Size(34, 28)
+        Me.LocalFemdomDirectoryButton.TabIndex = 17
+        Me.LocalFemdomDirectoryButton.Text = "1"
+        Me.LocalFemdomDirectoryButton.UseVisualStyleBackColor = False
+        '
+        'LocalBoobsDirectoryButton
+        '
+        Me.LocalBoobsDirectoryButton.BackColor = System.Drawing.Color.LightGray
+        Me.LocalBoobsDirectoryButton.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
+        Me.LocalBoobsDirectoryButton.ForeColor = System.Drawing.Color.Black
+        Me.LocalBoobsDirectoryButton.Location = New System.Drawing.Point(76, 319)
+        Me.LocalBoobsDirectoryButton.Margin = New System.Windows.Forms.Padding(0, 0, 0, 1)
+        Me.LocalBoobsDirectoryButton.Name = "LocalBoobsDirectoryButton"
+        Me.LocalBoobsDirectoryButton.Size = New System.Drawing.Size(34, 28)
+        Me.LocalBoobsDirectoryButton.TabIndex = 45
+        Me.LocalBoobsDirectoryButton.Text = "1"
+        Me.LocalBoobsDirectoryButton.UseVisualStyleBackColor = False
+        '
+        'LocalLezdomDirectoryButton
+        '
+        Me.LocalLezdomDirectoryButton.BackColor = System.Drawing.Color.LightGray
+        Me.LocalLezdomDirectoryButton.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
+        Me.LocalLezdomDirectoryButton.ForeColor = System.Drawing.Color.Black
+        Me.LocalLezdomDirectoryButton.Location = New System.Drawing.Point(76, 145)
+        Me.LocalLezdomDirectoryButton.Margin = New System.Windows.Forms.Padding(0, 0, 0, 1)
+        Me.LocalLezdomDirectoryButton.Name = "LocalLezdomDirectoryButton"
+        Me.LocalLezdomDirectoryButton.Size = New System.Drawing.Size(34, 28)
+        Me.LocalLezdomDirectoryButton.TabIndex = 21
+        Me.LocalLezdomDirectoryButton.Text = "1"
+        Me.LocalLezdomDirectoryButton.UseVisualStyleBackColor = False
+        '
+        'LocalHentaiDirectoryButton
+        '
+        Me.LocalHentaiDirectoryButton.BackColor = System.Drawing.Color.LightGray
+        Me.LocalHentaiDirectoryButton.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
+        Me.LocalHentaiDirectoryButton.ForeColor = System.Drawing.Color.Black
+        Me.LocalHentaiDirectoryButton.Location = New System.Drawing.Point(76, 174)
+        Me.LocalHentaiDirectoryButton.Margin = New System.Windows.Forms.Padding(0, 0, 0, 1)
+        Me.LocalHentaiDirectoryButton.Name = "LocalHentaiDirectoryButton"
+        Me.LocalHentaiDirectoryButton.Size = New System.Drawing.Size(34, 28)
+        Me.LocalHentaiDirectoryButton.TabIndex = 25
+        Me.LocalHentaiDirectoryButton.Text = "1"
+        Me.LocalHentaiDirectoryButton.UseVisualStyleBackColor = False
+        '
+        'LocalGayDirectoryButton
+        '
+        Me.LocalGayDirectoryButton.BackColor = System.Drawing.Color.LightGray
+        Me.LocalGayDirectoryButton.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
+        Me.LocalGayDirectoryButton.ForeColor = System.Drawing.Color.Black
+        Me.LocalGayDirectoryButton.Location = New System.Drawing.Point(76, 203)
+        Me.LocalGayDirectoryButton.Margin = New System.Windows.Forms.Padding(0, 0, 0, 1)
+        Me.LocalGayDirectoryButton.Name = "LocalGayDirectoryButton"
+        Me.LocalGayDirectoryButton.Size = New System.Drawing.Size(34, 28)
+        Me.LocalGayDirectoryButton.TabIndex = 29
+        Me.LocalGayDirectoryButton.Text = "1"
+        Me.LocalGayDirectoryButton.UseVisualStyleBackColor = False
+        '
+        'LocalMaledomDirectoryButton
+        '
+        Me.LocalMaledomDirectoryButton.BackColor = System.Drawing.Color.LightGray
+        Me.LocalMaledomDirectoryButton.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
+        Me.LocalMaledomDirectoryButton.ForeColor = System.Drawing.Color.Black
+        Me.LocalMaledomDirectoryButton.Location = New System.Drawing.Point(76, 232)
+        Me.LocalMaledomDirectoryButton.Margin = New System.Windows.Forms.Padding(0, 0, 0, 1)
+        Me.LocalMaledomDirectoryButton.Name = "LocalMaledomDirectoryButton"
+        Me.LocalMaledomDirectoryButton.Size = New System.Drawing.Size(34, 28)
+        Me.LocalMaledomDirectoryButton.TabIndex = 33
+        Me.LocalMaledomDirectoryButton.Text = "1"
+        Me.LocalMaledomDirectoryButton.UseVisualStyleBackColor = False
+        '
+        'LocalCaptionsDirectoryButton
+        '
+        Me.LocalCaptionsDirectoryButton.BackColor = System.Drawing.Color.LightGray
+        Me.LocalCaptionsDirectoryButton.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
+        Me.LocalCaptionsDirectoryButton.ForeColor = System.Drawing.Color.Black
+        Me.LocalCaptionsDirectoryButton.Location = New System.Drawing.Point(76, 261)
+        Me.LocalCaptionsDirectoryButton.Margin = New System.Windows.Forms.Padding(0, 0, 0, 1)
+        Me.LocalCaptionsDirectoryButton.Name = "LocalCaptionsDirectoryButton"
+        Me.LocalCaptionsDirectoryButton.Size = New System.Drawing.Size(34, 28)
+        Me.LocalCaptionsDirectoryButton.TabIndex = 37
+        Me.LocalCaptionsDirectoryButton.Text = "1"
+        Me.LocalCaptionsDirectoryButton.UseVisualStyleBackColor = False
+        '
+        'LocalGeneralDirectoryButton
+        '
+        Me.LocalGeneralDirectoryButton.BackColor = System.Drawing.Color.LightGray
+        Me.LocalGeneralDirectoryButton.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
+        Me.LocalGeneralDirectoryButton.ForeColor = System.Drawing.Color.Black
+        Me.LocalGeneralDirectoryButton.Location = New System.Drawing.Point(76, 290)
+        Me.LocalGeneralDirectoryButton.Margin = New System.Windows.Forms.Padding(0, 0, 0, 1)
+        Me.LocalGeneralDirectoryButton.Name = "LocalGeneralDirectoryButton"
+        Me.LocalGeneralDirectoryButton.Size = New System.Drawing.Size(34, 28)
+        Me.LocalGeneralDirectoryButton.TabIndex = 41
+        Me.LocalGeneralDirectoryButton.Text = "1"
+        Me.LocalGeneralDirectoryButton.UseVisualStyleBackColor = False
         '
         'TabPage33
         '
@@ -14734,13 +14734,13 @@ Partial Class FrmSettings
     Friend WithEvents LBLSubAge As System.Windows.Forms.Label
     Friend WithEvents Label70 As System.Windows.Forms.Label
     Friend WithEvents TabPage7 As System.Windows.Forms.TabPage
-    Friend WithEvents CBButtSubDir As System.Windows.Forms.CheckBox
-    Friend WithEvents TbxIButts As System.Windows.Forms.TextBox
-    Friend WithEvents BTNButtPath As System.Windows.Forms.Button
+    Friend WithEvents LocalButtSubdirectoryCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents LocalButtDirectoryTextBox As System.Windows.Forms.TextBox
+    Friend WithEvents LocalButtDirectoryButton As System.Windows.Forms.Button
     Friend WithEvents BtnImageUrlButt As System.Windows.Forms.Button
-    Friend WithEvents CBBoobSubDir As System.Windows.Forms.CheckBox
-    Friend WithEvents TbxIBoobs As System.Windows.Forms.TextBox
-    Friend WithEvents BTNBoobPath As System.Windows.Forms.Button
+    Friend WithEvents LocalBoobsSubdirectoryCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents LocalBoobsDirectoryTextBox As System.Windows.Forms.TextBox
+    Friend WithEvents LocalBoobsDirectoryButton As System.Windows.Forms.Button
     Friend WithEvents BtnImageUrlBoobs As System.Windows.Forms.Button
     Friend WithEvents UrlFilesTab As System.Windows.Forms.TabPage
     Friend WithEvents UrlFilesPanel As System.Windows.Forms.Panel
@@ -14989,50 +14989,50 @@ Partial Class FrmSettings
     Friend WithEvents CBImageInfo As System.Windows.Forms.CheckBox
     Friend WithEvents Label88 As System.Windows.Forms.Label
     Friend WithEvents RemoteMediaContainerList As System.Windows.Forms.CheckedListBox
-    Friend WithEvents TbxIMaledom As System.Windows.Forms.TextBox
-    Friend WithEvents TbxIGay As System.Windows.Forms.TextBox
-    Friend WithEvents TbxIHentai As System.Windows.Forms.TextBox
-    Friend WithEvents BTNIMaledom As System.Windows.Forms.Button
-    Friend WithEvents BTNIGay As System.Windows.Forms.Button
-    Friend WithEvents BTNIHentai As System.Windows.Forms.Button
-    Friend WithEvents CBIHentai As System.Windows.Forms.CheckBox
-    Friend WithEvents CBIMaledom As System.Windows.Forms.CheckBox
-    Friend WithEvents CBIGay As System.Windows.Forms.CheckBox
-    Friend WithEvents TbxILezdom As System.Windows.Forms.TextBox
-    Friend WithEvents TbxIFemdom As System.Windows.Forms.TextBox
-    Friend WithEvents TbxIBlowjob As System.Windows.Forms.TextBox
-    Friend WithEvents TbxILesbian As System.Windows.Forms.TextBox
-    Friend WithEvents TbxISoftcore As System.Windows.Forms.TextBox
-    Friend WithEvents TbxIHardcore As System.Windows.Forms.TextBox
-    Friend WithEvents BTNILezdom As System.Windows.Forms.Button
-    Friend WithEvents BTNIFemdom As System.Windows.Forms.Button
-    Friend WithEvents BTNIBlowjob As System.Windows.Forms.Button
-    Friend WithEvents BTNILesbian As System.Windows.Forms.Button
-    Friend WithEvents BTNISoftcore As System.Windows.Forms.Button
-    Friend WithEvents BTNIHardcore As System.Windows.Forms.Button
+    Friend WithEvents LocalMaledomDirectoryTextBox As System.Windows.Forms.TextBox
+    Friend WithEvents LocalGayDirectoryTextBox As System.Windows.Forms.TextBox
+    Friend WithEvents LocalHentaiDirectoryTextBox As System.Windows.Forms.TextBox
+    Friend WithEvents LocalMaledomDirectoryButton As System.Windows.Forms.Button
+    Friend WithEvents LocalGayDirectoryButton As System.Windows.Forms.Button
+    Friend WithEvents LocalHentaiDirectoryButton As System.Windows.Forms.Button
+    Friend WithEvents LocalHentaiEnabledCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents LocalMaledomEnabledCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents LocalGayEnabledCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents LocalLezdomDirectoryTextBox As System.Windows.Forms.TextBox
+    Friend WithEvents LocalFemdomDirectoryTextBox As System.Windows.Forms.TextBox
+    Friend WithEvents LocalBlowjobDirectoryTextBox As System.Windows.Forms.TextBox
+    Friend WithEvents LocalLesbianDirectoryTextBox As System.Windows.Forms.TextBox
+    Friend WithEvents LocalSoftcoreDirectoryTextBox As System.Windows.Forms.TextBox
+    Friend WithEvents LocalHardcoreDirectoryTextBox As System.Windows.Forms.TextBox
+    Friend WithEvents LocalLezdomDirectoryButton As System.Windows.Forms.Button
+    Friend WithEvents LocalFemdomDirectoryButton As System.Windows.Forms.Button
+    Friend WithEvents LocalBlowjobDirectoryButton As System.Windows.Forms.Button
+    Friend WithEvents LocalLesbianDirectoryButton As System.Windows.Forms.Button
+    Friend WithEvents LocalSoftcoreDirectoryButton As System.Windows.Forms.Button
+    Friend WithEvents LocalHardcoreDirectoryButton As System.Windows.Forms.Button
     Friend WithEvents LocalHardcoreEnabledCheckBox As System.Windows.Forms.CheckBox
-    Friend WithEvents CBISoftcore As System.Windows.Forms.CheckBox
-    Friend WithEvents CBILesbian As System.Windows.Forms.CheckBox
-    Friend WithEvents CBIBlowjob As System.Windows.Forms.CheckBox
-    Friend WithEvents CBILezdom As System.Windows.Forms.CheckBox
-    Friend WithEvents CBIFemdom As System.Windows.Forms.CheckBox
-    Friend WithEvents TbxIGeneral As System.Windows.Forms.TextBox
-    Friend WithEvents BTNIGeneral As System.Windows.Forms.Button
-    Friend WithEvents CBIGeneral As System.Windows.Forms.CheckBox
-    Friend WithEvents IncludeHardcoreSubDirectories As System.Windows.Forms.CheckBox
-    Friend WithEvents CBIGeneralSD As System.Windows.Forms.CheckBox
-    Friend WithEvents CBIMaledomSD As System.Windows.Forms.CheckBox
-    Friend WithEvents CBIGaySD As System.Windows.Forms.CheckBox
-    Friend WithEvents CBIHentaiSD As System.Windows.Forms.CheckBox
-    Friend WithEvents CBILezdomSD As System.Windows.Forms.CheckBox
-    Friend WithEvents CBIFemdomSD As System.Windows.Forms.CheckBox
-    Friend WithEvents CBIBlowjobSD As System.Windows.Forms.CheckBox
-    Friend WithEvents CBILesbianSD As System.Windows.Forms.CheckBox
-    Friend WithEvents IncludedSoftcoreSubDirectories As System.Windows.Forms.CheckBox
-    Friend WithEvents CBICaptionsSD As System.Windows.Forms.CheckBox
-    Friend WithEvents TbxICaptions As System.Windows.Forms.TextBox
-    Friend WithEvents BTNICaptions As System.Windows.Forms.Button
-    Friend WithEvents CBICaptions As System.Windows.Forms.CheckBox
+    Friend WithEvents LocalSoftcoreEnabledCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents LocalLesbianEnabledCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents  LocalBlowjobEnabledCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents LocalLezdomEnabledCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents LocalFemdomEnabledCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents LocalGeneralDirectoryTextBox As System.Windows.Forms.TextBox
+    Friend WithEvents LocalGeneralDirectoryButton As System.Windows.Forms.Button
+    Friend WithEvents LocalGeneralEnabledCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents LocalHardcoreSubdirectoryCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents LocalGeneralSubdirectoryCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents LocalMaledomSubdirectoryCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents LocalGaySubdirectoryCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents LocalHentaiSubdirectoryCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents LocalLezdomSubdirectoryCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents LocalFemdomSubdirectoryCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents LocalBlowjobSubdirectoryCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents LocalLesbianSubdirectoryCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents LocalSoftcoreSubdirectoryCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents LocalCaptionsSubdirectoryCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents LocalCaptionsDirectoryTextBox As System.Windows.Forms.TextBox
+    Friend WithEvents LocalCaptionsDirectoryButton As System.Windows.Forms.Button
+    Friend WithEvents LocalCaptionsEnabledCheckBox As System.Windows.Forms.CheckBox
     Friend WithEvents GBDommeImages As System.Windows.Forms.GroupBox
     Friend WithEvents BTNDomImageDir As System.Windows.Forms.Button
     Friend WithEvents TbxDomImageDir As System.Windows.Forms.TextBox
@@ -15444,8 +15444,8 @@ Partial Class FrmSettings
     Friend WithEvents BtnImageUrlHardcore As System.Windows.Forms.Button
     Friend WithEvents ChbImageUrlHardcore As System.Windows.Forms.CheckBox
     Friend WithEvents ChbImageUrlMaledom As System.Windows.Forms.CheckBox
-    Friend WithEvents CBIButts As System.Windows.Forms.CheckBox
-    Friend WithEvents CBIBoobs As System.Windows.Forms.CheckBox
+    Friend WithEvents LocalButtEnabledCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents LocalBoobsEnabledCheckBox As System.Windows.Forms.CheckBox
     Friend WithEvents GroupBox66 As System.Windows.Forms.GroupBox
     Friend WithEvents PBURLPreview As System.Windows.Forms.PictureBox
     Friend WithEvents PreviewRemoteImagesCheckBox As System.Windows.Forms.CheckBox

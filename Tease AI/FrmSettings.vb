@@ -76,17 +76,17 @@ Public Class FrmSettings
         InitializeComponent()
     End Sub
 
-    Private Sub frmProgramma_FormClosing(ByVal sender As Object, ByVal e As Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+    Private Sub frmProgramma_FormClosing(ByVal sender As Object, ByVal e As Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
         Visible = False
         MainWindow.BtnToggleSettings.Text = "Open Settings Menu"
         e.Cancel = True
     End Sub
 
-    Private Sub FrmSettings_LostFocus(sender As Object, e As EventArgs) Handles Me.Deactivate
+    Private Sub FrmSettings_LostFocus(sender As Object, e As EventArgs) Handles MyBase.Deactivate
         My.Settings.Save()
     End Sub
 
-    Private Sub FrmSettings_Visible(sender As Object, e As EventArgs) Handles Me.VisibleChanged
+    Private Sub FrmSettings_Visible(sender As Object, e As EventArgs) Handles MyBase.VisibleChanged
         LoadSettings()
     End Sub
 
@@ -1060,7 +1060,7 @@ Public Class FrmSettings
     Private Sub GlitterAV_MouseHover(sender As Object, e As EventArgs) Handles GlitterAV.MouseHover
         TTDir.SetToolTip(GlitterAV, "Click here to set the image the domme will use as her Glitter avatar.")
     End Sub
-    Private Sub LBLGlitterNCDomme_Click(sender As Object, e As EventArgs) Handles LBLGlitterNCDomme.MouseHover, LBLGlitterNC1.MouseHover, LBLGlitterNC2.MouseHover, LBLGlitterNC3.MouseHover
+    Private Sub LBLGlitterNCDomme_Click(sender As Object, e As EventArgs) Handles LBLGlitterNCDomme.MouseHover, LBLGlitterNC3.MouseHover, LBLGlitterNC2.MouseHover, LBLGlitterNC1.MouseHover
         TTDir.SetToolTip(sender, "After clicking the ""Choose Name Color"" button above, a preview of the selected color will appear here.")
     End Sub
     Private Sub TBGlitterShortName_MouseHover(sender As Object, e As EventArgs) Handles TBGlitterShortName.MouseHover
@@ -1095,28 +1095,28 @@ Public Class FrmSettings
                                              "The further to the right the slider is, the more often she posts.")
     End Sub
 
-    Private Sub TBGlitter1_MouseHover(sender As Object, e As EventArgs) Handles TBGlitter1.MouseHover, TBGlitter2.MouseHover, TBGlitter3.MouseHover
+    Private Sub TBGlitter1_MouseHover(sender As Object, e As EventArgs) Handles TBGlitter3.MouseHover, TBGlitter2.MouseHover, TBGlitter1.MouseHover
         TTDir.SetToolTip(sender, "This will be the name of this contact as it appears in the Glitter feed.")
     End Sub
-    Private Sub GlitterSlider1_MouseHover(sender As Object, e As EventArgs) Handles GlitterSlider1.MouseHover, GlitterSlider2.MouseHover, GlitterSlider3.MouseHover, LBLGlitterSlider1.MouseHover, LBLGlitterSlider2.MouseHover, LBLGlitterSlider3.MouseHover
+    Private Sub GlitterSlider1_MouseHover(sender As Object, e As EventArgs) Handles LBLGlitterSlider3.MouseHover, LBLGlitterSlider2.MouseHover, LBLGlitterSlider1.MouseHover, GlitterSlider3.MouseHover, GlitterSlider2.MouseHover, GlitterSlider1.MouseHover
         TTDir.SetToolTip(sender, "This slider determines how often this contact responds to the domme's Glitter posts." & Environment.NewLine &
                                          "The further to the right the slider is, the more often she responds.")
     End Sub
-    Private Sub GlitterAV1_MouseHover(sender As Object, e As EventArgs) Handles GlitterAV1.MouseHover, GlitterAV2.MouseHover, GlitterAV3.MouseHover
+    Private Sub GlitterAV1_MouseHover(sender As Object, e As EventArgs) Handles GlitterAV3.MouseHover, GlitterAV2.MouseHover, GlitterAV1.MouseHover
         TTDir.SetToolTip(sender, "Click here to set the image that this contact will use as her Glitter avatar.")
     End Sub
-    Private Sub CBGlitter1_MouseHover(sender As Object, e As EventArgs) Handles CBGlitter1.MouseHover, CBGlitter2.MouseHover, CBGlitter3.MouseHover
+    Private Sub CBGlitter1_MouseHover(sender As Object, e As EventArgs) Handles CBGlitter3.MouseHover, CBGlitter2.MouseHover, CBGlitter1.MouseHover
         TTDir.SetToolTip(sender, "This check box enables this contact's participation in the Glitter feed.")
     End Sub
-    Private Sub BTNGlitter1_MouseHover(sender As Object, e As EventArgs) Handles BTNGlitter1.MouseHover, BTNGlitter2.MouseHover, BTNGlitter3.MouseHover
+    Private Sub BTNGlitter1_MouseHover(sender As Object, e As EventArgs) Handles BTNGlitter3.MouseHover, BTNGlitter2.MouseHover, BTNGlitter1.MouseHover
         TTDir.SetToolTip(sender, "This button allows you to change the color of this contact's name as it appears in the Glitter app.")
     End Sub
 
-    Private Sub LBLContact1ImageDir_MouseHover(sender As Object, e As EventArgs) Handles TbxContact1ImageDir.MouseHover, TbxContact2ImageDir.MouseHover, TbxContact3ImageDir.MouseHover, TbxDomImageDir.MouseHover
+    Private Sub LBLContact1ImageDir_MouseHover(sender As Object, e As EventArgs) Handles TbxDomImageDir.MouseHover, TbxContact3ImageDir.MouseHover, TbxContact2ImageDir.MouseHover, TbxContact1ImageDir.MouseHover
         TTDir.SetToolTip(sender, CType(sender, TextBox).Text)
     End Sub
 
-    Private Sub Button2_MouseHover(sender As Object, e As EventArgs) Handles BtnContact1ImageDir.MouseHover, BtnContact2ImageDir.MouseHover, BtnContact3ImageDir.MouseHover
+    Private Sub Button2_MouseHover(sender As Object, e As EventArgs) Handles BtnContact3ImageDir.MouseHover, BtnContact2ImageDir.MouseHover, BtnContact1ImageDir.MouseHover
 
         If RBEnglish.Checked Then TTDir.SetToolTip(sender, "Use this button to select a directory containing several image" & Environment.NewLine &
 "set folders of the same model you're using as your contact.")
@@ -1124,53 +1124,49 @@ Public Class FrmSettings
 "Bildersets von dem selben Model enthält, die du als Kontakt benutzt.")
     End Sub
 
-    Private Sub LBLIHardcore_MouseHover(sender As Object, e As EventArgs) Handles TbxIHardcore.MouseHover
-        TTDir.SetToolTip(TbxIHardcore, TbxIHardcore.Text)
+    Private Sub LBLIHardcore_MouseHover(sender As Object, e As EventArgs) Handles LocalHardcoreDirectoryTextBox.MouseHover
+        TTDir.SetToolTip(LocalHardcoreDirectoryTextBox, LocalHardcoreDirectoryTextBox.Text)
     End Sub
-    Private Sub LBLISoftcore_MouseHover(sender As Object, e As EventArgs) Handles TbxISoftcore.MouseHover
-        TTDir.SetToolTip(TbxISoftcore, TbxISoftcore.Text)
+    Private Sub LBLISoftcore_MouseHover(sender As Object, e As EventArgs) Handles LocalSoftcoreDirectoryTextBox.MouseHover
+        TTDir.SetToolTip(LocalSoftcoreDirectoryTextBox, LocalSoftcoreDirectoryTextBox.Text)
     End Sub
-    Private Sub LBLILesbian_MouseHover(sender As Object, e As EventArgs) Handles TbxILesbian.MouseHover
-        TTDir.SetToolTip(TbxILesbian, TbxILesbian.Text)
+    Private Sub LBLILesbian_MouseHover(sender As Object, e As EventArgs) Handles LocalLesbianDirectoryTextBox.MouseHover
+        TTDir.SetToolTip(LocalLesbianDirectoryTextBox, LocalLesbianDirectoryTextBox.Text)
     End Sub
-    Private Sub LBLIBlowjob_MouseHover(sender As Object, e As EventArgs) Handles TbxIBlowjob.MouseHover
-        TTDir.SetToolTip(TbxIBlowjob, TbxIBlowjob.Text)
+    Private Sub LBLIBlowjob_MouseHover(sender As Object, e As EventArgs) Handles LocalBlowjobDirectoryTextBox.MouseHover
+        TTDir.SetToolTip(LocalBlowjobDirectoryTextBox, LocalBlowjobDirectoryTextBox.Text)
     End Sub
-    Private Sub LBLIFemdom_MouseHover(sender As Object, e As EventArgs) Handles TbxIFemdom.MouseHover
-        TTDir.SetToolTip(TbxIFemdom, TbxIFemdom.Text)
+    Private Sub LBLIFemdom_MouseHover(sender As Object, e As EventArgs) Handles LocalFemdomDirectoryTextBox.MouseHover
+        TTDir.SetToolTip(LocalFemdomDirectoryTextBox, LocalFemdomDirectoryTextBox.Text)
     End Sub
-    Private Sub LBLILezdom_MouseHover(sender As Object, e As EventArgs) Handles TbxILezdom.MouseHover
-        TTDir.SetToolTip(TbxILezdom, TbxILezdom.Text)
+    Private Sub LBLILezdom_MouseHover(sender As Object, e As EventArgs) Handles LocalLezdomDirectoryTextBox.MouseHover
+        TTDir.SetToolTip(LocalLezdomDirectoryTextBox, LocalLezdomDirectoryTextBox.Text)
     End Sub
-    Private Sub LBLIHentai_MouseHover(sender As Object, e As EventArgs) Handles TbxIHentai.MouseHover
-        TTDir.SetToolTip(TbxIHentai, TbxIHentai.Text)
+    Private Sub LBLIHentai_MouseHover(sender As Object, e As EventArgs) Handles LocalHentaiDirectoryTextBox.MouseHover
+        TTDir.SetToolTip(LocalHentaiDirectoryTextBox, LocalHentaiDirectoryTextBox.Text)
     End Sub
-    Private Sub LBLIGay_MouseHover(sender As Object, e As EventArgs) Handles TbxIGay.MouseHover
-        TTDir.SetToolTip(TbxIGay, TbxIGay.Text)
+    Private Sub LBLIGay_MouseHover(sender As Object, e As EventArgs) Handles LocalGayDirectoryTextBox.MouseHover
+        TTDir.SetToolTip(LocalGayDirectoryTextBox, LocalGayDirectoryTextBox.Text)
     End Sub
-    Private Sub LBLIMaledom_MouseHover(sender As Object, e As EventArgs) Handles TbxIMaledom.MouseHover
-        TTDir.SetToolTip(TbxIMaledom, TbxIMaledom.Text)
+    Private Sub LBLIMaledom_MouseHover(sender As Object, e As EventArgs) Handles LocalMaledomDirectoryTextBox.MouseHover
+        TTDir.SetToolTip(LocalMaledomDirectoryTextBox, LocalMaledomDirectoryTextBox.Text)
     End Sub
-    Private Sub LBLICaptions_MouseHover(sender As Object, e As EventArgs) Handles TbxICaptions.MouseHover
-        TTDir.SetToolTip(TbxICaptions, TbxICaptions.Text)
+    Private Sub LBLICaptions_MouseHover(sender As Object, e As EventArgs) Handles LocalCaptionsDirectoryTextBox.MouseHover
+        TTDir.SetToolTip(LocalCaptionsDirectoryTextBox, LocalCaptionsDirectoryTextBox.Text)
     End Sub
-    Private Sub LBLIGeneral_MouseHover(sender As Object, e As EventArgs) Handles TbxIGeneral.MouseHover
-        TTDir.SetToolTip(TbxIGeneral, TbxIGeneral.Text)
-    End Sub
-
-    Private Sub LBLBoobPath_MouseHover(sender As Object, e As EventArgs) Handles TbxIBoobs.MouseHover
-        TTDir.SetToolTip(TbxIBoobs, TbxIBoobs.Text)
+    Private Sub LBLIGeneral_MouseHover(sender As Object, e As EventArgs) Handles LocalGeneralDirectoryTextBox.MouseHover
+        TTDir.SetToolTip(LocalGeneralDirectoryTextBox, LocalGeneralDirectoryTextBox.Text)
     End Sub
 
-    Private Sub LBLButtPath_MouseHover(sender As Object, e As EventArgs) Handles TbxIButts.MouseHover
-        TTDir.SetToolTip(TbxIButts, TbxIButts.Text)
+    Private Sub LBLBoobPath_MouseHover(sender As Object, e As EventArgs) Handles LocalBoobsDirectoryTextBox.MouseHover
+        TTDir.SetToolTip(LocalBoobsDirectoryTextBox, LocalBoobsDirectoryTextBox.Text)
     End Sub
 
-    Private Sub TxbVideoFolder_MouseHover(sender As Object, e As EventArgs) Handles TxbVideoHardCore.MouseHover,
-                TxbVideoHardCoreD.MouseHover, TxbVideoSoftCore.MouseHover, TxbVideoSoftCoreD.MouseHover, TxbVideoLesbian.MouseHover,
-                TxbVideoLesbianD.MouseHover, TxbVideoBlowjob.MouseHover, TxbVideoBlowjobD.MouseHover, TxbVideoFemdom.MouseHover,
-                TxbVideoFemdomD.MouseHover, TxbVideoFemsub.MouseHover, TxbVideoFemsubD.MouseHover, TxbVideoJOI.MouseHover,
-                TxbVideoJOID.MouseHover, TxbVideoCH.MouseHover, TxbVideoCHD.MouseHover, TxbVideoGeneral.MouseHover, TxbVideoGeneralD.MouseHover
+    Private Sub LBLButtPath_MouseHover(sender As Object, e As EventArgs) Handles LocalButtDirectoryTextBox.MouseHover
+        TTDir.SetToolTip(LocalButtDirectoryTextBox, LocalButtDirectoryTextBox.Text)
+    End Sub
+
+    Private Sub TxbVideoFolder_MouseHover(sender As Object, e As EventArgs) Handles TxbVideoSoftCoreD.MouseHover, TxbVideoSoftCore.MouseHover, TxbVideoLesbianD.MouseHover, TxbVideoLesbian.MouseHover, TxbVideoJOID.MouseHover, TxbVideoJOI.MouseHover, TxbVideoHardCoreD.MouseHover, TxbVideoHardCore.MouseHover, TxbVideoGeneralD.MouseHover, TxbVideoGeneral.MouseHover, TxbVideoFemsubD.MouseHover, TxbVideoFemsub.MouseHover, TxbVideoFemdomD.MouseHover, TxbVideoFemdom.MouseHover, TxbVideoCHD.MouseHover, TxbVideoCH.MouseHover, TxbVideoBlowjobD.MouseHover, TxbVideoBlowjob.MouseHover
 
         TTDir.SetToolTip(sender, CType(sender, TextBox).Text)
     End Sub
@@ -1429,7 +1425,7 @@ Public Class FrmSettings
         My.Settings.CBSettingsPause = CBSettingsPause.Checked
     End Sub
 
-    Private Sub Radio_LostFocus(sender As Object, e As EventArgs) Handles TeaseSlideShowRadio.LostFocus, ManualSlideShowRadio.LostFocus, TimedSlideShowRadio.LostFocus
+    Private Sub Radio_LostFocus(sender As Object, e As EventArgs) Handles TimedSlideShowRadio.LostFocus, TeaseSlideShowRadio.LostFocus, ManualSlideShowRadio.LostFocus
         If TeaseSlideShowRadio.Checked Then My.Settings.SlideshowMode = "Tease"
         If TimedSlideShowRadio.Checked Then My.Settings.SlideshowMode = "Timed"
         If ManualSlideShowRadio.Checked Then My.Settings.SlideshowMode = "Manual"
@@ -1514,7 +1510,7 @@ Public Class FrmSettings
 #End Region ' General
 
 #Region "-------------------------------------- Domme Tab -----------------------------------------------"
-    Private Sub PetNameBox1_LostFocus(sender As Object, e As EventArgs) Handles PetNameBox1.LostFocus, petnameBox2.LostFocus, petnameBox3.LostFocus, petnameBox4.LostFocus, petnameBox5.LostFocus, petnameBox6.LostFocus, petnameBox7.LostFocus, petnameBox8.LostFocus
+    Private Sub PetNameBox1_LostFocus(sender As Object, e As EventArgs) Handles petnameBox8.LostFocus, petnameBox7.LostFocus, petnameBox6.LostFocus, petnameBox5.LostFocus, petnameBox4.LostFocus, petnameBox3.LostFocus, petnameBox2.LostFocus, PetNameBox1.LostFocus
         Dim defaultPetNames As List(Of String) = New List(Of String)
         defaultPetNames.Add("stroker")
         defaultPetNames.Add("loser")
@@ -1830,7 +1826,7 @@ Public Class FrmSettings
         MainWindow.ShellExecute(clickedScript.Key)
     End Sub
 
-    Private Sub BtnScriptsSelectAutomated_Click(sender As Object, e As EventArgs) Handles SelectAvailableScriptsButton.Click, SelectNoScriptsButton.Click, SelectAllScriptsButton.Click
+    Private Sub BtnScriptsSelectAutomated_Click(sender As Object, e As EventArgs) Handles SelectNoScriptsButton.Click, SelectAvailableScriptsButton.Click, SelectAllScriptsButton.Click
         ' Lock Buttons to prevent double trigger
         SelectAvailableScriptsButton.Enabled = False
         SelectNoScriptsButton.Enabled = False
@@ -2249,7 +2245,7 @@ Public Class FrmSettings
         SetColor(LBLGlitterNC3)
     End Sub
 
-    Private Sub CBGlitterFeed_CheckedChanged(sender As Object, e As EventArgs) Handles CBGlitterFeed.Click, CBGlitterFeedScripts.Click, CBGlitterFeedOff.Click
+    Private Sub CBGlitterFeed_CheckedChanged(sender As Object, e As EventArgs) Handles CBGlitterFeedScripts.Click, CBGlitterFeedOff.Click, CBGlitterFeed.Click
         If MainWindow.FormLoading Then
             Return
         End If
@@ -2545,29 +2541,17 @@ Public Class FrmSettings
         End Try
     End Sub
 
-    Private Sub CardPictureboxes_DragEnter(ByVal sender As Object, ByVal e As Windows.Forms.DragEventArgs) Handles _
-                                        BP1.DragEnter, BP2.DragEnter, BP3.DragEnter, BP4.DragEnter, BP5.DragEnter, BP6.DragEnter,
-                                        SP1.DragEnter, SP2.DragEnter, SP3.DragEnter, SP4.DragEnter, SP5.DragEnter, SP6.DragEnter,
-                                        GP1.DragEnter, GP2.DragEnter, GP3.DragEnter, GP4.DragEnter, GP5.DragEnter, GP6.DragEnter,
-                                        CardBack.DragEnter
+    Private Sub CardPictureboxes_DragEnter(ByVal sender As Object, ByVal e As Windows.Forms.DragEventArgs) Handles SP6.DragEnter, SP5.DragEnter, SP4.DragEnter, SP3.DragEnter, SP2.DragEnter, SP1.DragEnter, GP6.DragEnter, GP5.DragEnter, GP4.DragEnter, GP3.DragEnter, GP2.DragEnter, GP1.DragEnter, CardBack.DragEnter, BP6.DragEnter, BP5.DragEnter, BP4.DragEnter, BP3.DragEnter, BP2.DragEnter, BP1.DragEnter
         If (e.Data.GetDataPresent(DataFormats.FileDrop)) Then
             e.Effect = DragDropEffects.Copy
         End If
     End Sub
 
-    Private Sub CardPictureboxes_DragDrop(sender As Object, e As Windows.Forms.DragEventArgs) Handles _
-                                        BP1.DragDrop, BP2.DragDrop, BP3.DragDrop, BP4.DragDrop, BP5.DragDrop, BP6.DragDrop,
-                                        SP1.DragDrop, SP2.DragDrop, SP3.DragDrop, SP4.DragDrop, SP5.DragDrop, SP6.DragDrop,
-                                        GP1.DragDrop, GP2.DragDrop, GP3.DragDrop, GP4.DragDrop, GP5.DragDrop, GP6.DragDrop,
-                                        CardBack.DragDrop
+    Private Sub CardPictureboxes_DragDrop(sender As Object, e As Windows.Forms.DragEventArgs) Handles SP6.DragDrop, SP5.DragDrop, SP4.DragDrop, SP3.DragDrop, SP2.DragDrop, SP1.DragDrop, GP6.DragDrop, GP5.DragDrop, GP4.DragDrop, GP3.DragDrop, GP2.DragDrop, GP1.DragDrop, CardBack.DragDrop, BP6.DragDrop, BP5.DragDrop, BP4.DragDrop, BP3.DragDrop, BP2.DragDrop, BP1.DragDrop
         CardImageSet(CType(sender, PictureBox), CType(e.Data.GetData(DataFormats.FileDrop), Array).GetValue(0))
     End Sub
 
-    Private Sub CardPictureboxes_Click(sender As Object, e As EventArgs) Handles _
-                                        BP1.Click, BP2.Click, BP3.Click, BP4.Click, BP5.Click, BP6.Click,
-                                        SP1.Click, SP2.Click, SP3.Click, SP4.Click, SP5.Click, SP6.Click,
-                                        GP1.Click, GP2.Click, GP3.Click, GP4.Click, GP5.Click, GP6.Click,
-                                        CardBack.Click
+    Private Sub CardPictureboxes_Click(sender As Object, e As EventArgs) Handles SP6.Click, SP5.Click, SP4.Click, SP3.Click, SP2.Click, SP1.Click, GP6.Click, GP5.Click, GP4.Click, GP3.Click, GP2.Click, GP1.Click, CardBack.Click, BP6.Click, BP5.Click, BP4.Click, BP3.Click, BP2.Click, BP1.Click
         If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
             CardImageSet(CType(sender, PictureBox), OpenFileDialog1.FileName)
         End If
@@ -2576,10 +2560,7 @@ Public Class FrmSettings
     ''' <summary>
     ''' Resets the databinding source of a TextBox to its initial value, if there is no Text entered.
     ''' </summary>
-    Private Sub CardTextboxes_Validating(sender As Object, e As CancelEventArgs) Handles _
-                                        BN1.Validating, BN2.Validating, BN3.Validating, BN4.Validating, BN5.Validating, BN6.Validating,
-                                        SN1.Validating, SN2.Validating, SN3.Validating, SN4.Validating, SN5.Validating, SN6.Validating,
-                                        GN1.Validating, GN2.Validating, GN3.Validating, GN4.Validating, GN5.Validating, GN6.Validating
+    Private Sub CardTextboxes_Validating(sender As Object, e As CancelEventArgs) Handles SN6.Validating, SN5.Validating, SN4.Validating, SN3.Validating, SN2.Validating, SN1.Validating, GN6.Validating, GN5.Validating, GN4.Validating, GN3.Validating, GN2.Validating, GN1.Validating, BN6.Validating, BN5.Validating, BN4.Validating, BN3.Validating, BN2.Validating, BN1.Validating
         Dim tmpTbx As TextBox = CType(sender, TextBox)
 
         If tmpTbx.Text = "" AndAlso tmpTbx.DataBindings("Text") IsNot Nothing Then
@@ -2659,42 +2640,158 @@ Public Class FrmSettings
     End Sub
 
     Private Sub TpImagesG(sender As Object, e As EventArgs) Handles TpImagesGenre.VisibleChanged
-        Dim mediaContainers = myMediaContainerService.Get().Where(Function(mc) mc.MediaTypeId = 1).ToList()
+        If Not TpImagesGenre.Visible Then
+            Return
+        End If
+        Dim mediaContainers = myMediaContainerService.Get().Where(Function(mc) mc.MediaTypeId = 1 AndAlso mc.SourceId = ImageSource.Local).ToList()
 
-        Dim source As ImageSource = ImageSource.Local
-        Dim genre As ImageGenre = ImageGenre.Hardcore
-        Dim controlName As String = source.ToString() & genre.ToString() & "EnabledCheckBox"
-        Dim checkBoxControl As CheckBox = CType(FindChildControl(GbxImagesGenre, controlName), CheckBox)
-        checkBoxControl.Checked = mediaContainers.First(Function(mc) mc.SourceId = source AndAlso mc.GenreId = genre).IsEnabled
+        For Each mediaContainer In mediaContainers
+            Dim controlName As String = mediaContainer.SourceId.ToString() & mediaContainer.GenreId.ToString()
+            Dim enabledCheckBoxControl As CheckBox = CType(FindChildControl(TableLayoutPanel1, controlName & "EnabledCheckBox"), CheckBox)
+            enabledCheckBoxControl.Checked = mediaContainer.IsEnabled
 
+            Dim subdirectoryCheckBoxControl As CheckBox = CType(FindChildControl(TableLayoutPanel1, controlName & "SubdirectoryCheckBox"), CheckBox)
+            subdirectoryCheckBoxControl.Checked = mediaContainer.UseSubFolders
+
+            Dim directoryTextBox As TextBox = CType(FindChildControl(TableLayoutPanel1, controlName & "DirectoryTextBox"), TextBox)
+            directoryTextBox.Text = mediaContainer.Path
+        Next
     End Sub
 
-    Private Sub CBIHardcore_CheckedChanged(sender As Object, e As EventArgs) Handles LocalHardcoreEnabledCheckBox.CheckedChanged
-        Dim source As ImageSource = ImageSource.Local
-        Dim genre As ImageGenre = ImageGenre.Hardcore
-        UpdateMediaContainerFromControl(source, genre)
+    Private Sub LocalHardcoreEnabledCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles LocalHardcoreSubdirectoryCheckBox.CheckedChanged, LocalHardcoreEnabledCheckBox.CheckedChanged
+        UpdateMediaContainerFromControls(ImageSource.Local, ImageGenre.Hardcore)
     End Sub
 
-    Private Sub UpdateMediaContainerFromControl(source As ImageSource, genre As ImageGenre)
-        Dim controlName As String = source.ToString() & genre.ToString() & "EnabledCheckBox"
-        Dim checkBoxControl As CheckBox = CType(FindChildControl(GbxImagesGenre, controlName), CheckBox)
-        If Not checkBoxControl.Visible Then
+    Private Sub LocalHardcoreDirectoryButton_Click(sender As Object, e As EventArgs) Handles LocalHardcoreDirectoryButton.Click
+        SetDirectory(ImageSource.Local, ImageGenre.Hardcore)
+    End Sub
+
+    Private Sub LocalSoftcoreEnabledCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles LocalSoftcoreSubdirectoryCheckBox.CheckedChanged, LocalSoftcoreEnabledCheckBox.CheckedChanged
+        UpdateMediaContainerFromControls(ImageSource.Local, ImageGenre.Softcore)
+    End Sub
+
+    Private Sub LocalSoftcoreDirectoryButton_Click(sender As Object, e As EventArgs) Handles LocalSoftcoreDirectoryButton.Click
+        SetDirectory(ImageSource.Local, ImageGenre.Softcore)
+    End Sub
+
+    Private Sub LocalLesbianEnabledCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles LocalLesbianSubdirectoryCheckBox.CheckedChanged, LocalLesbianEnabledCheckBox.CheckedChanged
+        UpdateMediaContainerFromControls(ImageSource.Local, ImageGenre.Lesbian)
+    End Sub
+
+    Private Sub LocalLesbianDirectoryButton_Click(sender As Object, e As EventArgs) Handles LocalLesbianDirectoryButton.Click
+        SetDirectory(ImageSource.Local, ImageGenre.Lesbian)
+    End Sub
+
+    Private Sub LocalBlowJobEnabledCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles LocalBlowjobSubdirectoryCheckBox.CheckedChanged, LocalBlowjobEnabledCheckBox.CheckedChanged
+        UpdateMediaContainerFromControls(ImageSource.Local, ImageGenre.Blowjob)
+    End Sub
+
+    Private Sub LocalBlowjobDirectoryButton_Click(sender As Object, e As EventArgs) Handles LocalBlowjobDirectoryButton.Click
+        SetDirectory(ImageSource.Local, ImageGenre.Blowjob)
+    End Sub
+
+    Private Sub LocalFemdomEnabledCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles LocalFemdomSubdirectoryCheckBox.CheckedChanged, LocalFemdomEnabledCheckBox.CheckedChanged
+        UpdateMediaContainerFromControls(ImageSource.Local, ImageGenre.Femdom)
+    End Sub
+
+    Private Sub LocalFemdomDirectoryButton_Click(sender As Object, e As EventArgs) Handles LocalFemdomDirectoryButton.Click
+        SetDirectory(ImageSource.Local, ImageGenre.Femdom)
+    End Sub
+
+    Private Sub LocalLezdomEnabledCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles LocalLezdomSubdirectoryCheckBox.CheckedChanged, LocalLezdomEnabledCheckBox.CheckedChanged
+        UpdateMediaContainerFromControls(ImageSource.Local, ImageGenre.Lezdom)
+    End Sub
+
+    Private Sub LocalLezdomDirectoryButton_Click(sender As Object, e As EventArgs) Handles LocalLezdomDirectoryButton.Click
+        SetDirectory(ImageSource.Local, ImageGenre.Lezdom)
+    End Sub
+
+    Private Sub LocalHentaiEnabledCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles LocalHentaiSubdirectoryCheckBox.CheckedChanged, LocalHentaiEnabledCheckBox.CheckedChanged
+        UpdateMediaContainerFromControls(ImageSource.Local, ImageGenre.Hentai)
+    End Sub
+
+    Private Sub LocalHentaiDirectoryButton_Click(sender As Object, e As EventArgs) Handles LocalHentaiDirectoryButton.Click
+        SetDirectory(ImageSource.Local, ImageGenre.Hentai)
+    End Sub
+
+    Private Sub LocalGayEnabledCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles LocalGaySubdirectoryCheckBox.CheckedChanged, LocalGayEnabledCheckBox.CheckedChanged
+        UpdateMediaContainerFromControls(ImageSource.Local, ImageGenre.Gay)
+    End Sub
+
+    Private Sub LocalGayDirectoryButton_Click(sender As Object, e As EventArgs) Handles LocalGayDirectoryButton.Click
+        SetDirectory(ImageSource.Local, ImageGenre.Gay)
+    End Sub
+
+    Private Sub LocalMaledomEnabledCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles LocalMaledomSubdirectoryCheckBox.CheckedChanged, LocalMaledomEnabledCheckBox.CheckedChanged
+        UpdateMediaContainerFromControls(ImageSource.Local, ImageGenre.Maledom)
+    End Sub
+
+    Private Sub LocalMaledomDirectoryButton_Click(sender As Object, e As EventArgs) Handles LocalMaledomDirectoryButton.Click
+        SetDirectory(ImageSource.Local, ImageGenre.Maledom)
+    End Sub
+
+    Private Sub LocalCaptionsEnabledCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles LocalCaptionsSubdirectoryCheckBox.CheckedChanged, LocalCaptionsEnabledCheckBox.CheckedChanged
+        UpdateMediaContainerFromControls(ImageSource.Local, ImageGenre.Captions)
+    End Sub
+
+    Private Sub LocalCaptionsDirectoryButton_Click(sender As Object, e As EventArgs) Handles LocalCaptionsDirectoryButton.Click
+        SetDirectory(ImageSource.Local, ImageGenre.Captions)
+    End Sub
+
+    Private Sub LocalGeneralEnabledCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles LocalGeneralSubdirectoryCheckBox.CheckedChanged, LocalGeneralEnabledCheckBox.CheckedChanged
+        UpdateMediaContainerFromControls(ImageSource.Local, ImageGenre.General)
+    End Sub
+
+    Private Sub LocalGeneralDirectoryButton_Click(sender As Object, e As EventArgs) Handles LocalGeneralDirectoryButton.Click
+        SetDirectory(ImageSource.Local, ImageGenre.General)
+    End Sub
+
+    Private Sub LocalBoobsEnabledCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles LocalBoobsSubdirectoryCheckBox.CheckedChanged, LocalBoobsEnabledCheckBox.CheckedChanged
+        UpdateMediaContainerFromControls(ImageSource.Local, ImageGenre.Boobs)
+    End Sub
+
+    Private Sub LocalBoobsDirectoryButton_Click(sender As Object, e As EventArgs) Handles LocalBoobsDirectoryButton.Click
+        SetDirectory(ImageSource.Local, ImageGenre.Boobs)
+    End Sub
+
+    Private Sub LocalButtEnabledCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles LocalButtSubdirectoryCheckBox.CheckedChanged, LocalButtEnabledCheckBox.CheckedChanged
+        UpdateMediaContainerFromControls(ImageSource.Local, ImageGenre.Butt)
+    End Sub
+
+    Private Sub LocalButtDirectoryButton_Click(sender As Object, e As EventArgs) Handles LocalButtDirectoryButton.Click
+        SetDirectory(ImageSource.Local, ImageGenre.Butt)
+    End Sub
+
+    Private Sub UpdateMediaContainerFromControls(source As ImageSource, genre As ImageGenre)
+        If Not TableLayoutPanel1.Visible Then
             Return
         End If
 
+        Dim controlName As String = source.ToString() & genre.ToString()
         Dim mediaContainer As MediaContainer = GetMediaContainer(1, source, genre)
-        mediaContainer.IsEnabled = checkBoxControl.Checked
+
+        Dim enabledCheckBoxControl As CheckBox = CType(FindChildControl(TableLayoutPanel1, controlName & "EnabledCheckBox"), CheckBox)
+        mediaContainer.IsEnabled = enabledCheckBoxControl.Checked
+
+        Dim subdirectoryCheckBoxControl As CheckBox = CType(FindChildControl(TableLayoutPanel1, controlName & "SubdirectoryCheckBox"), CheckBox)
+        mediaContainer.UseSubFolders = subdirectoryCheckBoxControl.Checked
+
         myMediaContainerService.Update(mediaContainer)
     End Sub
 
-    Private Function FindChildControl(parent As Control, childName As String) As Control
-        Dim child As Control = parent.Controls.Find(childName, True).FirstOrDefault()
+    Private Sub SetDirectory(source As ImageSource, genre As ImageGenre)
+        Dim controlName As String = source.ToString() & genre.ToString()
+        Dim directoryTextBoxControl As TextBox = CType(FindChildControl(TableLayoutPanel1, controlName & "DirectoryTextBox"), TextBox)
+        Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
+        folderBrowserDialog.SelectedPath = directoryTextBoxControl.Text
 
-        If child Is Nothing Then
-            Throw New ArgumentOutOfRangeException(NameOf(childName), childName & " is not a child of " & parent.Name)
+        Dim answer = folderBrowserDialog.ShowDialog()
+        If answer <> DialogResult.OK Then
+            Return
         End If
-        Return child
-    End Function
+        directoryTextBoxControl.Text = folderBrowserDialog.SelectedPath
+        UpdateMediaContainerFromControls(source, genre)
+    End Sub
 #End Region ' Images
 
 #Region "--------------------------------------- Videos -------------------------------------------------"
@@ -3687,7 +3784,7 @@ Public Class FrmSettings
         Throw New ArgumentOutOfRangeException()
     End Function
 
-    Private Sub TagCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles CBTagHardcore.CheckedChanged, CBTagTrap.CheckedChanged, CBTagTentacles.CheckedChanged, CBTagTeacher.CheckedChanged, CBTagTD.CheckedChanged, CBTagSuperhero.CheckedChanged, CBTagSoloM.CheckedChanged, CBTagSoloFuta.CheckedChanged, CBTagSoloF.CheckedChanged, CBTagSM.CheckedChanged, CBTagShower.CheckedChanged, CBTagShibari.CheckedChanged, CBTagSchoolgirl.CheckedChanged, CBTagPOV.CheckedChanged, CBTagOutdoors.CheckedChanged, CBTagNurse.CheckedChanged, CBTagMonsterGirl.CheckedChanged, CBTagMaid.CheckedChanged, CBTagMahouShoujo.CheckedChanged, CBTagLesbian.CheckedChanged, CBTagGay.CheckedChanged, CBTagGanguro.CheckedChanged, CBTagChastity.CheckedChanged, CBTagCFNM.CheckedChanged, CBTagBukkake.CheckedChanged, CBTagBondage.CheckedChanged, CBTagBodyWriting.CheckedChanged, CBTagBisexual.CheckedChanged, CBTagBath.CheckedChanged, CBTagBakunyuu.CheckedChanged, CBTagArtwork.CheckedChanged, CBTagAhegao.CheckedChanged, CBTagWhipping.CheckedChanged, CBTagStrapon.CheckedChanged, CBTagSpanking.CheckedChanged, CBTagNeedles.CheckedChanged, CBTagHotWax.CheckedChanged, CBTagGag.CheckedChanged, CBTagElectro.CheckedChanged, CBTagCockTorture.CheckedChanged, CBTagClamps.CheckedChanged, CBTagBlindfold.CheckedChanged, CBTagBallTorture.CheckedChanged, CBTagWatersports.CheckedChanged, CBTagVibrator.CheckedChanged, CBTagTitjob.CheckedChanged, CBTagTattoos.CheckedChanged, CBTagStockings.CheckedChanged, CBTagStanding.CheckedChanged, CBTagRimming.CheckedChanged, CBTagRCowgirl.CheckedChanged, CBTagPocketPussy.CheckedChanged, CBTagMultiSub.CheckedChanged, CBTagMultiDom.CheckedChanged, CBTagMissionary.CheckedChanged, CBTagMasturbation.CheckedChanged, CBTagMalesub.CheckedChanged, CBTagMaledom.CheckedChanged, CBTagKissing.CheckedChanged, CBTagHandjob.CheckedChanged, CBTagGangbang.CheckedChanged, CBTagFutasub.CheckedChanged, CBTagFutadom.CheckedChanged, CBTagFootjob.CheckedChanged, CBTagFingering.CheckedChanged, CBTagFemsub.CheckedChanged, CBTagFemdom.CheckedChanged, CBTagFacesitting.CheckedChanged, CBTagDP.CheckedChanged, CBTagDomme.CheckedChanged, CBTagDoggyStyle.CheckedChanged, CBTagDildo.CheckedChanged, CBTagCunnilingus.CheckedChanged, CBTagCumshot.CheckedChanged, CBTagCumEating.CheckedChanged, CBTagCowgirl.CheckedChanged, CBTagBodyTits.CheckedChanged, CBTagBodyPussy.CheckedChanged, CBTagBodyNipples.CheckedChanged, CBTagBodyMouth.CheckedChanged, CBTagBodyLegs.CheckedChanged, CBTagBodyFingers.CheckedChanged, CBTagBodyFeet.CheckedChanged, CBTagBodyFace.CheckedChanged, CBTagBodyCock.CheckedChanged, CBTagBodyBalls.CheckedChanged, CBTagBodyAss.CheckedChanged, CBTagBlowjob.CheckedChanged, CBTagAnalToy.CheckedChanged, CBTagAnalSex.CheckedChanged, CBTag3M.CheckedChanged, CBTag3Futa.CheckedChanged, CBTag3F.CheckedChanged, CBTag2M.CheckedChanged, CBTag2Futa.CheckedChanged, CBTag2F.CheckedChanged, CBTag1M.CheckedChanged, CBTag1Futa.CheckedChanged, CBTag1F.CheckedChanged
+    Private Sub TagCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles CBTagWhipping.CheckedChanged, CBTagWatersports.CheckedChanged, CBTagVibrator.CheckedChanged, CBTagTrap.CheckedChanged, CBTagTitjob.CheckedChanged, CBTagTentacles.CheckedChanged, CBTagTeacher.CheckedChanged, CBTagTD.CheckedChanged, CBTagTattoos.CheckedChanged, CBTagSuperhero.CheckedChanged, CBTagStrapon.CheckedChanged, CBTagStockings.CheckedChanged, CBTagStanding.CheckedChanged, CBTagSpanking.CheckedChanged, CBTagSoloM.CheckedChanged, CBTagSoloFuta.CheckedChanged, CBTagSoloF.CheckedChanged, CBTagSM.CheckedChanged, CBTagShower.CheckedChanged, CBTagShibari.CheckedChanged, CBTagSchoolgirl.CheckedChanged, CBTagRimming.CheckedChanged, CBTagRCowgirl.CheckedChanged, CBTagPOV.CheckedChanged, CBTagPocketPussy.CheckedChanged, CBTagOutdoors.CheckedChanged, CBTagNurse.CheckedChanged, CBTagNeedles.CheckedChanged, CBTagMultiSub.CheckedChanged, CBTagMultiDom.CheckedChanged, CBTagMonsterGirl.CheckedChanged, CBTagMissionary.CheckedChanged, CBTagMasturbation.CheckedChanged, CBTagMalesub.CheckedChanged, CBTagMaledom.CheckedChanged, CBTagMaid.CheckedChanged, CBTagMahouShoujo.CheckedChanged, CBTagLesbian.CheckedChanged, CBTagKissing.CheckedChanged, CBTagHotWax.CheckedChanged, CBTagHardcore.CheckedChanged, CBTagHandjob.CheckedChanged, CBTagGay.CheckedChanged, CBTagGanguro.CheckedChanged, CBTagGangbang.CheckedChanged, CBTagGag.CheckedChanged, CBTagFutasub.CheckedChanged, CBTagFutadom.CheckedChanged, CBTagFootjob.CheckedChanged, CBTagFingering.CheckedChanged, CBTagFemsub.CheckedChanged, CBTagFemdom.CheckedChanged, CBTagFacesitting.CheckedChanged, CBTagElectro.CheckedChanged, CBTagDP.CheckedChanged, CBTagDomme.CheckedChanged, CBTagDoggyStyle.CheckedChanged, CBTagDildo.CheckedChanged, CBTagCunnilingus.CheckedChanged, CBTagCumshot.CheckedChanged, CBTagCumEating.CheckedChanged, CBTagCowgirl.CheckedChanged, CBTagCockTorture.CheckedChanged, CBTagClamps.CheckedChanged, CBTagChastity.CheckedChanged, CBTagCFNM.CheckedChanged, CBTagBukkake.CheckedChanged, CBTagBondage.CheckedChanged, CBTagBodyWriting.CheckedChanged, CBTagBodyTits.CheckedChanged, CBTagBodyPussy.CheckedChanged, CBTagBodyNipples.CheckedChanged, CBTagBodyMouth.CheckedChanged, CBTagBodyLegs.CheckedChanged, CBTagBodyFingers.CheckedChanged, CBTagBodyFeet.CheckedChanged, CBTagBodyFace.CheckedChanged, CBTagBodyCock.CheckedChanged, CBTagBodyBalls.CheckedChanged, CBTagBodyAss.CheckedChanged, CBTagBlowjob.CheckedChanged, CBTagBlindfold.CheckedChanged, CBTagBisexual.CheckedChanged, CBTagBath.CheckedChanged, CBTagBallTorture.CheckedChanged, CBTagBakunyuu.CheckedChanged, CBTagArtwork.CheckedChanged, CBTagAnalToy.CheckedChanged, CBTagAnalSex.CheckedChanged, CBTagAhegao.CheckedChanged, CBTag3M.CheckedChanged, CBTag3Futa.CheckedChanged, CBTag3F.CheckedChanged, CBTag2M.CheckedChanged, CBTag2Futa.CheckedChanged, CBTag2F.CheckedChanged, CBTag1M.CheckedChanged, CBTag1Futa.CheckedChanged, CBTag1F.CheckedChanged
         If (myIsFormSettingTags) Then
             Return
         End If
@@ -4288,8 +4385,7 @@ Public Class FrmSettings
 
     End Sub
 
-    Private Sub Button38_Click(sender As Object, e As EventArgs) Handles BTNMaintenanceRefresh.Click,
-                                                                                       BTNMaintenanceRebuild.Click
+    Private Sub Button38_Click(sender As Object, e As EventArgs) Handles BTNMaintenanceRefresh.Click, BTNMaintenanceRebuild.Click, BTNMaintenanceRebuild.Click
         Dim __PreEnabled As New List(Of Control) From
             {SelectBlogDropDown, CreateBlogContainerButton, BTNMaintenanceRefresh,
             BTNMaintenanceRebuild, BTNMaintenanceScripts}
@@ -5918,7 +6014,7 @@ Public Class FrmSettings
         LBLRangeSettingsDescription.Text = "This determines the maximum amount of time the domme will keep the video playing while playing Red Light Green Light."
     End Sub
 
-    Private Sub RangeSet_MouseHover(sender As Object, e As EventArgs) Handles Panel6.MouseEnter, GroupBox21.MouseEnter, GroupBox18.MouseEnter, GroupBox19.MouseEnter, GroupBox10.MouseEnter, GBRangeRuinChance.MouseEnter, GBRangeOrgasmChance.MouseEnter, GroupBox57.MouseEnter
+    Private Sub RangeSet_MouseHover(sender As Object, e As EventArgs) Handles Panel6.MouseEnter, GroupBox57.MouseEnter, GroupBox21.MouseEnter, GroupBox19.MouseEnter, GroupBox18.MouseEnter, GroupBox10.MouseEnter, GBRangeRuinChance.MouseEnter, GBRangeOrgasmChance.MouseEnter
         LBLRangeSettingsDescription.Text = "Hover over any setting in the menu for a more detailed description of its function."
     End Sub
 
@@ -6757,7 +6853,7 @@ Public Class FrmSettings
         End If
     End Sub
 
-    Private Sub ThemeLbl_Click(sender As Object, e As EventArgs) Handles LBLBackColor2.Click, LBLButtonColor2.Click, LBLTextColor2.Click, LBLDateTimeColor2.Click, LBLDateBackColor2.Click, LBLChatWindowColor2.Click, LBLChatTextColor2.Click
+    Private Sub ThemeLbl_Click(sender As Object, e As EventArgs) Handles LBLTextColor2.Click, LBLDateTimeColor2.Click, LBLDateBackColor2.Click, LBLChatWindowColor2.Click, LBLChatTextColor2.Click, LBLButtonColor2.Click, LBLBackColor2.Click
         If GetColor.ShowDialog() = DialogResult.OK Then
             MainWindow.SuspendLayout()
             CType(sender, Label).BackColor = GetColor.Color
@@ -7263,6 +7359,15 @@ Public Class FrmSettings
 
     Private Function GetMediaContainer(mediaType As Integer, mediaSource As ImageSource, mediaGenre As ImageGenre) As MediaContainer
         Return myMediaContainerService.Get(mediaType, mediaSource).FirstOrDefault(Function(mc) mc.GenreId = mediaGenre)
+    End Function
+
+    Private Function FindChildControl(parent As Control, childName As String) As Control
+        Dim child As Control = parent.Controls.Find(childName, True).FirstOrDefault()
+
+        If child Is Nothing Then
+            Throw New ArgumentOutOfRangeException(NameOf(childName), childName & " is not a child of " & parent.Name)
+        End If
+        Return child
     End Function
 
     Private ReadOnly mySettingsAccessor As ISettingsAccessor
