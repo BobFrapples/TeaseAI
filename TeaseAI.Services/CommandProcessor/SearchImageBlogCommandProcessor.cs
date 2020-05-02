@@ -16,6 +16,7 @@ namespace TeaseAI.Services.CommandProcessor
             _imageAccessor = imageAccessor;
         }
 
+        public event EventHandler<CommandProcessedEventArgs> BeforeCommandProcessed;
         public event EventHandler<CommandProcessedEventArgs> CommandProcessed;
 
         public string DeleteCommandFrom(string line)
@@ -29,8 +30,8 @@ namespace TeaseAI.Services.CommandProcessor
 
         public Result<Session> PerformCommand(Session session, string line)
         {
-            Result<List<ImageMetaData>> images = _imageAccessor.GetImageMetaDataList(ImageSource.Remote, ImageGenre.Blog);
-            var selected = images.Value[new Random().Next(images.Value.Count)];
+            var images = _imageAccessor.Get(ImageSource.Remote, ImageGenre.Blog);
+            var selected = images[new Random().Next(images.Count)];
 
             OnCommandProcessed(session, selected);
 

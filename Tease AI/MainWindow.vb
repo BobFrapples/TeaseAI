@@ -14,7 +14,6 @@ Imports TeaseAI.Services
 Imports TeaseAI.Services.CommandDetection
 Imports System.Threading.Tasks
 Imports TeaseAI.Common.Interfaces
-Imports TeaseAI.Services.Processor
 Imports TeaseAI.Services.Keywords
 Imports TeaseAI.Common.Events
 Imports TeaseAI.Common.Interfaces.Accessors
@@ -36,22 +35,26 @@ Public Class MainWindow
 
     Dim parseTagDataService As ParseOldTagDataService = New ParseOldTagDataService()
     Dim myLineService As LineService = New LineService()
-    Dim loadFileData As ILoadFileData = ServiceFactory.CreateLoadFileData()
+    Dim loadFileData As ILoadFileData = ApplicationFactory.CreateLoadFileData()
     Dim myChatLogToHtmlService As IChatLogToHtmlService = New ChatLogToHtmlService()
     Dim myStringService As StringService = New StringService()
-    Dim myGetScripts As IScriptAccessor = New ScriptAccessor(New CldAccessor())
+    Dim myGetScripts As IScriptAccessor = ApplicationFactory.CreateScriptAccessor()
     Dim myImageTagReplaceHash As ImageTagReplaceHash = New ImageTagReplaceHash()
     Dim myFlagService As FlagService = New FlagService(New FlagAccessor())
     Dim myFlagAccessor As FlagAccessor = New FlagAccessor()
-    Dim mySettingsAccessor As ISettingsAccessor = ServiceFactory.CreateSettingsAccessor()
+    Dim mySettingsAccessor As ISettingsAccessor = ApplicationFactory.CreateSettingsAccessor()
     Dim myRandomNumberService As IRandomNumberService = New RandomNumberService()
     Dim mySlideShowNavigationService As ISlideShowNavigationService = New SlideShowNavigationService()
-    Dim myPathsAccessor As PathsAccessor = ServiceFactory.CreatePathsAccessor()
+    Dim myPathsAccessor As PathsAccessor = New PathsAccessor(ApplicationFactory.CreateConfigurationAccessor, ApplicationFactory.CreateSettingsAccessor())
     Dim WithEvents mySession As SessionEngine
+    Private myDisplayedImage As ImageMetaData
 
     'TODO: Use a custom class to pass data between ScriptParsing methods.
     <Obsolete("QND-Implementation of ContactData.GetTaggedImage. ")>
     Dim ContactToUse As ContactData
+
+    Private ReadOnly mySystemImageDir As String = Windows.Forms.Application.StartupPath + "\Images\System\"
+    Private myPathUrlFileDir As String = mySystemImageDir + "URL Files\"
 
     Dim sshSyncLock As New Object
     ''' <summary>
@@ -281,11 +284,17 @@ ByVal lpstrReturnString As String, ByVal uReturnLength As Integer, ByVal hwndCal
     End Sub
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles Me.Load
+        ConvertImageMetaData()
+        ConvertScriptMetaData()
+
+        Dim imageAccessor = ApplicationFactory.CreateImageMetaDataService()
+        Dim images = imageAccessor.Get(Nothing, Nothing)
         If mySession Is Nothing Then
-            Dim getCommandProcessor = ServiceFactory.CreateGetCommandProcessorsService()
-            mySession = ServiceFactory.CreateSessionEngine()
+            Dim getCommandProcessor = ApplicationFactory.CreateGetCommandProcessorsService()
+            mySession = ApplicationFactory.CreateSessionEngine()
             AddHandler mySession.DommeSaid, AddressOf mySession_DommeSaid
             AddHandler mySession.ShowImage, AddressOf mySession_ShowImage
+            AddHandler mySession.QueryImage, AddressOf mySession_QueryImage
             AddHandler mySession.PlayVideo, AddressOf mySession_PlayVideo
             AddHandler mySession.MessageProcessors(MessageProcessor.RequestTask).MessageProcessed, AddressOf Task_Requested
             AddHandler mySession.MessageProcessors(MessageProcessor.Greeting).MessageProcessed, AddressOf Greeting_Spoken
@@ -807,7 +816,7 @@ retryStart:
             Return
         End If
 
-        If FrmSettings.CBSettingsPause.Checked And FrmSettings.SettingsPanel.Visible Then
+        If FrmSettings.CBSettingsPause.Checked And FrmSettings.Visible Then
             MsgBox("Please close the settings menu or disable ""Pause Program When Settings Menu is Visible"" option first!", , "Warning!")
             Return
         End If
@@ -1460,7 +1469,7 @@ NullSkip:
 
         If WaitTimer.Enabled OrElse ssh.DomTypeCheck Then Return
 
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
 
         If IsSpeechModeOn() = True Then
             If ssh.ScriptTick < 4 Then Return
@@ -1900,7 +1909,7 @@ NonModuleEnd:
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
-        If FrmSettings.CBSettingsPause.Checked AndAlso FrmSettings.SettingsPanel.Visible Then Return
+        If FrmSettings.CBSettingsPause.Checked AndAlso FrmSettings.Visible Then Return
 
         ssh.DomTyping = True
         Dim ShowPicture As Boolean = False
@@ -2714,7 +2723,7 @@ DommeSlideshowFallback:
             GoTo NullResponseLine
         End If
 
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
 
         Dim ShowPicture As Boolean = False
 
@@ -3225,7 +3234,7 @@ DommeSlideshowFallback:
         End If
 
         'TODO-Next-Stefaf: Implement enhanced RecentSlideshows.Item handling
-        If FrmSettings.CBSettingsPause.Checked AndAlso FrmSettings.SettingsPanel.Visible Then
+        If FrmSettings.CBSettingsPause.Checked AndAlso FrmSettings.Visible Then
             MsgBox("Please close the settings menu or disable ""Pause Program When Settings Menu is Visible"" option first!", , "Warning!")
             Return
         End If
@@ -3326,7 +3335,7 @@ DommeSlideshowFallback:
         Try
             EnableSlideShowControls(False)
             Dim imageSlideShow As ImageSlideShow = CreateImageSlideShow(ssh.SlideshowMain)
-            If My.Settings.CBSettingsPause AndAlso FrmSettings.SettingsPanel.Visible Then
+            If My.Settings.CBSettingsPause AndAlso FrmSettings.Visible Then
                 MsgBox("Please close the settings menu or disable ""Pause Program When Settings Menu is Visible"" option first!", , "Warning!")
                 Exit Sub
             End If
@@ -3370,7 +3379,7 @@ DommeSlideshowFallback:
 #Region " VLC "
 
     Private Sub BTNLoadVideo_Click(sender As Object, e As EventArgs) Handles BTNLoadVideo.Click
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then
             MsgBox("Please close the settings menu or disable ""Pause Program When Settings Menu is Visible"" option first!", , "Warning!")
             Return
         End If
@@ -3422,7 +3431,7 @@ DommeSlideshowFallback:
 
     Private Sub StrokeTimer_Tick(sender As Object, e As EventArgs) Handles StrokeTimer.Tick
         If ssh.InputFlag = True Then Return
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
         If ssh.DomTypeCheck = True And ssh.StrokeTick < 5 Then Return
         If chatBox.Text <> "" And ssh.StrokeTick < 5 Then Return
         If ChatBox2.Text <> "" And ssh.StrokeTick < 5 Then Return
@@ -3464,7 +3473,7 @@ DommeSlideshowFallback:
         If ssh.MiniScript = True Then Return
         If ssh.InputFlag = True Then Return
 
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
 
         If ssh.DomTyping = True Then Return
         If ssh.DomTypeCheck = True And ssh.StrokeTauntTick < 6 Then Return
@@ -4084,7 +4093,7 @@ GetAnotherRandomVideo:
 
 
         If ssh.MiniScript = True Then Return
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
 
         If ssh.DomTyping = True Then Return
         If ssh.DomTypeCheck = True And ssh.CensorshipTick < 6 Then Return
@@ -4176,7 +4185,7 @@ CensorConstant:
     Public Sub RLGLTimer_Tick(sender As Object, e As EventArgs) Handles RLGLTimer.Tick
         ' Check all Conditions before starting scripts.
         If ssh.MiniScript = True Then Return
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
 
         If ssh.DomTyping = True Then Return
         If ssh.DomTypeCheck = True And ssh.RLGLTick < 6 Then Return
@@ -4648,7 +4657,7 @@ StatusUpdateEnd:
     Private Sub UpdatesTimer_Tick(sender As Object, e As EventArgs) Handles UpdatesTimer.Tick
         ' GLITTER POSTING
 
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
 
         If My.Settings.CBGlitterFeed = True And ssh.UpdatingPost = False Then
 
@@ -6236,38 +6245,6 @@ TaskCleanSet:
 
         End If
 
-
-        ' The @DislikeBlogImage Command takes the URL of the most recently viewed blog image and adds it to the "Disliked" list located in [Tease AI Root Directory]\Images\System\DislikedImageURLS.txt
-
-        If StringClean.Contains("@DislikeBlogImage") Then
-
-            If ssh.ImageLocation <> "" Then
-
-                If File.Exists(Application.StartupPath & "\Images\System\DislikedImageURLs.txt") Then
-                    My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Images\System\DislikedImageURLs.txt", Environment.NewLine & ssh.ImageLocation, True)
-                Else
-                    My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Images\System\DislikedImageURLs.txt", ssh.ImageLocation, True)
-                End If
-                StringClean = StringClean.Replace("@DislikeBlogImage", "")
-            End If
-
-        End If
-
-        ' The @LikeBlogImage Command takes the URL of the most recently viewed blog image and adds it to the "Liked" list located in [Tease AI Root Directory]\Images\System\LikedImageURLS.txt
-
-        If StringClean.Contains("@LikeBlogImage") Then
-
-            If ssh.ImageLocation <> "" Then
-
-                If File.Exists(Application.StartupPath & "\Images\System\LikedImageURLs.txt") Then
-                    My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Images\System\LikedImageURLs.txt", Environment.NewLine & ssh.ImageLocation, True)
-                Else
-                    My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Images\System\LikedImageURLs.txt", ssh.ImageLocation, True)
-                End If
-                StringClean = StringClean.Replace("@LikeBlogImage", "")
-            End If
-
-        End If
 
         '  ╔═╗┌┬┐┬─┐┌─┐┬┌─┌─┐╔═╗┌─┐┌─┐┌┬┐┌─┐┬─┐
         '  ╚═╗ │ ├┬┘│ │├┴┐├┤ ╠╣ ├─┤└─┐ │ ├┤ ├┬┘
@@ -9318,6 +9295,7 @@ VTSkip:
 
     End Function
 
+    <Obsolete("Don't use me")>
     Public Function GetLocalImage(Optional ByVal IncludeTags As List(Of String) = Nothing,
                                   Optional ByVal ExcludeTags As List(Of String) = Nothing) As String
 
@@ -10022,7 +10000,7 @@ SkipTextedTags:
                 .Add("@ShowMaledomImage", Not Directory.Exists(My.Settings.IMaledom) OrElse My.Settings.CBIMaledom = False OrElse ssh.CustomSlideEnabled OrElse myFlagAccessor.IsSet(CreateDommePersonality(), "SYS_NoPornAllowed") OrElse ssh.LockImage)
                 .Add("@ShowCaptionsImage", Not Directory.Exists(My.Settings.ICaptions) OrElse My.Settings.CBICaptions = False OrElse ssh.CustomSlideEnabled OrElse myFlagAccessor.IsSet(CreateDommePersonality(), "SYS_NoPornAllowed") OrElse ssh.LockImage)
                 .Add("@ShowGeneralImage", Not Directory.Exists(My.Settings.IGeneral) OrElse My.Settings.CBIGeneral = False OrElse ssh.CustomSlideEnabled OrElse myFlagAccessor.IsSet(CreateDommePersonality(), "SYS_NoPornAllowed") OrElse ssh.LockImage)
-                .Add("@ShowBlogImage", FrmSettings.URLFileList.CheckedItems.Count = 0 OrElse ssh.CustomSlideEnabled OrElse myFlagAccessor.IsSet(CreateDommePersonality(), "SYS_NoPornAllowed") OrElse ssh.LockImage)
+                .Add("@ShowBlogImage", FrmSettings.RemoteMediaContainerList.CheckedItems.Count = 0 OrElse ssh.CustomSlideEnabled OrElse myFlagAccessor.IsSet(CreateDommePersonality(), "SYS_NoPornAllowed") OrElse ssh.LockImage)
                 .Add("@NewBlogImage", __ConditionDic("@ShowBlogImage")) ' duplicate Command, lets get the Value af the other one.
                 .Add("@ShowLocalImage", myFlagAccessor.IsSet(CreateDommePersonality(), "SYS_NoPornAllowed") OrElse ssh.CustomSlideEnabled Or ssh.LockImage = True _
                       Or (My.Settings.CBIHardcore = False And My.Settings.CBISoftcore = False And My.Settings.CBILesbian = False And My.Settings.CBIBlowjob = False _
@@ -10274,7 +10252,7 @@ SkipTextedTags:
 
     Private Sub AvoidTheEdge_Tick(sender As Object, e As EventArgs) Handles AvoidTheEdge.Tick
 
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
 
         If ssh.DomTyping = True Then Return
         If ssh.DomTypeCheck = True And ssh.AvoidTheEdgeTick < 6 Then Return
@@ -10406,7 +10384,7 @@ SkipTextedTags:
 
     Private Sub AvoidTheEdgeResume_Tick(sender As Object, e As EventArgs) Handles AvoidTheEdgeResume.Tick
 
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
 
         If ssh.DomTyping = True Then Return
         If ssh.DomTypeCheck = True And ssh.AtECountdown < 6 Then Return
@@ -10826,7 +10804,7 @@ NoPlaylistLinkFile:
         If ssh.MiniScript = True Then Return
         If ssh.InputFlag = True Then Return
 
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
 
         If ssh.DomTyping = True Then Return
         If ssh.DomTypeCheck = True And ssh.EdgeTauntInt < 6 Then Return
@@ -10878,7 +10856,7 @@ NoPlaylistLinkFile:
 
         If ssh.InputFlag = True Then Return
 
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
 
 
         'If DomTyping = True Then Return
@@ -11189,7 +11167,7 @@ NoRepeatOFiles:
         If ssh.MiniScript = True Then Return
         If ssh.InputFlag = True Then Return
 
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
 
         If ssh.DomTyping = True Then Return
         If ssh.DomTypeCheck = True And ssh.EdgeTauntInt < 6 Then Return
@@ -11500,7 +11478,7 @@ PoundLoop:
 
     Private Sub SlideshowTimer_Tick(sender As Object, e As EventArgs) Handles SlideshowTimer.Tick
         'TODO: Remove CrossForm data access
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
 
         If ssh.SlideshowLoaded = False Or FrmSettings.TimedSlideShowRadio.Checked = False Or ssh.TeaseVideo = True Or ssh.LockImage = True Or ssh.JustShowedBlogImage = True Or ssh.CustomSlideEnabled = True Then Return
 
@@ -11561,7 +11539,7 @@ TryNext:
 
     Private Sub EdgeCountTimer_Tick(sender As Object, e As EventArgs) Handles EdgeCountTimer.Tick
 
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
 
         ssh.EdgeCountTick += 1
 
@@ -11581,7 +11559,7 @@ TryNext:
 
     Private Sub StrokeTimeTotalTimer_Tick(sender As Object, e As EventArgs) Handles StrokeTimeTotalTimer.Tick
 
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
 
         If ssh.SubStroking = False Then Return
 
@@ -11849,7 +11827,7 @@ RestartFunction:
     End Sub
 
     Private Sub WaitTimer_Tick(sender As Object, e As EventArgs) Handles WaitTimer.Tick
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
 
         If ssh.DomTypeCheck = True Or ssh.YesOrNo = True Then Return
 
@@ -11892,7 +11870,6 @@ RestartFunction:
 
     Public Sub LoadExercise()
         CLBExercise.Items.Clear()
-        Dim myCldAccessor As ICldAccessor = New CldAccessor()
         Dim fileStream As New FileStream(Application.StartupPath & "\System\VitalSub\ExerciseList.cld", FileMode.Open)
         Dim binaryReader As New BinaryReader(fileStream)
         CLBExercise.BeginUpdate()
@@ -11956,7 +11933,7 @@ RestartFunction:
     Private Sub VideoTauntTimer_Tick(sender As Object, e As EventArgs) Handles VideoTauntTimer.Tick
 
         'TODO: Merge redundant code: VideoTauntTimer_Tick, RLGLTauntTimer_Tick, AvoidTheEdgeTaunts_Tick
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
         If ssh.MiniScript = True Then Return
 
         If ssh.DomTyping = True Then Return
@@ -12012,7 +11989,7 @@ RestartFunction:
 
     Public Sub RLGLTauntTimer_Tick(sender As Object, e As EventArgs) Handles RLGLTauntTimer.Tick
         'TODO: Merge redundant code: VideoTauntTimer_Tick, RLGLTauntTimer_Tick, AvoidTheEdgeTaunts_Tick
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
         If ssh.MiniScript = True Then Return
 
         If ssh.DomTyping = True Then Return
@@ -12057,7 +12034,7 @@ RestartFunction:
 
     Private Sub AvoidTheEdgeTaunts_Tick(sender As Object, e As EventArgs) Handles AvoidTheEdgeTaunts.Tick
         'TODO: Merge redundant code: VideoTauntTimer_Tick, RLGLTauntTimer_Tick, AvoidTheEdgeTaunts_Tick
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
 
         If ssh.DomTyping = True Then Return
         If ssh.DomTypeCheck = True And ssh.AvoidTheEdgeTick < 6 Then Return
@@ -12112,8 +12089,6 @@ RestartFunction:
             PictureStrip.Show(CType(sender, Control), e.Location)
         End If
     End Sub
-
-
 
 #End Region ' MainPictureBox
 
@@ -12283,7 +12258,7 @@ RestartFunction:
 
     Private Sub PicStripTSMIdommeSlideshowGoToLast_Click(sender As Object, e As EventArgs) Handles PicStripTSMIdommeSlideshowGoToLast.Click
 
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then
             MsgBox("Please close the settings menu or disable ""Pause Program When Settings Menu Is Visible"" option first!", , "Warning!")
             Return
         End If
@@ -12300,7 +12275,7 @@ RestartFunction:
 
     Private Sub PicStripTSMIdommeSlideshow_GoToFirst_Click(sender As Object, e As EventArgs) Handles PicStripTSMIdommeSlideshow_GoToFirst.Click
 
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then
             MsgBox("Please close the settings menu or disable ""Pause Program When Settings Menu Is Visible"" option first!", , "Warning!")
             Return
         End If
@@ -12317,7 +12292,7 @@ RestartFunction:
 
     Private Sub PicStripTSMIdommeSlideshowLoadNewSlideshow_Click(sender As Object, e As EventArgs) Handles PicStripTSMIdommeSlideshowLoadNewSlideshow.Click
 
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then
             MsgBox("Please close the settings menu or disable ""Pause Program When Settings Menu Is Visible"" option first!", , "Warning!")
             Return
         End If
@@ -12453,7 +12428,7 @@ RestartFunction:
     End Function
 
     Private Sub CustomSlideshowTimer_Tick(sender As Object, e As EventArgs) Handles CustomSlideshowTimer.Tick
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
         Try
             Dim sw As New Stopwatch
 restartInstantly:
@@ -12604,7 +12579,7 @@ restartInstantly:
     End Sub
 
     Private Sub UpdateStageTimer_Tick(sender As Object, e As EventArgs) Handles UpdateStageTimer.Tick
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
         ssh.UpdateStageTick -= 1
         If ssh.UpdateStageTick < 1 Then
             UpdateStageTimer.Stop()
@@ -12632,7 +12607,7 @@ restartInstantly:
         WatchDogImageAnimator.Reset(TeaseAIClock.Interval * 3)
 
 
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then
             LBLTime.Text = Format(Now, "h:mm")
             LBLAMPM.Text = Format(Now, "tt")
             LBLDate.Text = Format(Now, "Long Date")
@@ -14478,7 +14453,7 @@ playLoop:
 
     Private Sub TimeoutTimer_Tick(sender As Object, e As EventArgs) Handles TimeoutTimer.Tick
 
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
 
         If chatBox.Text <> "" And ssh.TimeoutTick < 3 Then Return
         If ChatBox2.Text <> "" And ssh.TimeoutTick < 3 Then Return
@@ -14510,7 +14485,7 @@ playLoop:
 
     Private Sub VideoTimer_Tick(sender As Object, e As EventArgs) Handles VideoTimer.Tick
 
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
 
         ssh.VideoTick -= 1
 
@@ -14525,7 +14500,7 @@ playLoop:
     Private Sub MultipleEdgesTimer_Tick(sender As Object, e As EventArgs) Handles MultipleEdgesTimer.Tick
 
         If ssh.DomTypeCheck = True Then Return
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.SettingsPanel.Visible = True Then Return
+        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
 
         ssh.MultipleEdgesTick -= 1
 
@@ -14986,6 +14961,283 @@ playLoop:
     End Function
 #End Region
 
+#Region "conversion methods"
+    Private Sub ConvertImageMetaData()
+        ' Force the personality home to be the current directory for now.
+        Dim mediaContainerService As IMediaContainerService = ApplicationFactory.CreateMediaContainerService()
+        Dim imageMetaDataService As IImageAccessor = ApplicationFactory.CreateImageMetaDataService()
+        Dim configurationAccessor As IConfigurationAccessor = ApplicationFactory.CreateConfigurationAccessor()
+        Dim genreService As IGenreService = ApplicationFactory.CreateGenreService()
+        Dim itemTagService As IItemTagService = ApplicationFactory.CreateItemTagService()
+
+        If Not itemTagService.Get().Any() Then
+            itemTagService.Initialize()
+        End If
+
+        If Not genreService.Get().Any() Then
+            genreService.Initialize()
+        End If
+
+        Dim mediaContainers As List(Of MediaContainer) = mediaContainerService.Get()
+        If (Not mediaContainers.Any()) Then
+            mediaContainers = UpdateContainersFromOldConfigs(mediaContainers)
+            mediaContainers = mediaContainerService.Create(mediaContainers).Value
+        End If
+
+        If (Not imageMetaDataService.Get(Nothing, Nothing).Any()) Then
+            Dim oldImages = GetOldImages(mediaContainers)
+            imageMetaDataService.Create(oldImages)
+            UpdateItemTags(oldImages)
+        End If
+
+        Dim appConfig As ApplicationConfiguration = configurationAccessor.GetApplicationConfiguration()
+        appConfig.BaseDataFolder = Application.StartupPath
+        configurationAccessor.SaveApplicationConfiguration(appConfig)
+    End Sub
+
+    ''' <summary>
+    ''' This ensures the default containers match the old application configuration
+    ''' </summary>
+    ''' <param name="containers"></param>
+    ''' <returns></returns>
+    Private Function UpdateContainersFromOldConfigs(containers As List(Of MediaContainer)) As List(Of MediaContainer)
+        Dim inputs As List(Of Tuple(Of Boolean, String, ImageSource, ImageGenre, String, Boolean)) = New List(Of Tuple(Of Boolean, String, ImageSource, ImageGenre, String, Boolean))()
+
+        inputs.Add(Tuple.Create(My.MySettings.Default.CBIBlowjob, NameOf(ImageGenre.Blowjob), ImageSource.Local, ImageGenre.Blowjob, My.MySettings.Default.IBlowjob, My.MySettings.Default.CBBlowjob))
+        inputs.Add(Tuple.Create(My.MySettings.Default.CBIBoobs, NameOf(ImageGenre.Boobs), ImageSource.Local, ImageGenre.Boobs, My.MySettings.Default.LBLBoobPath, My.MySettings.Default.CBBoobSubDir))
+        inputs.Add(Tuple.Create(My.MySettings.Default.CBIButts, NameOf(ImageGenre.Butt), ImageSource.Local, ImageGenre.Butt, My.MySettings.Default.LBLButtPath, My.MySettings.Default.CBButtSubDir))
+        inputs.Add(Tuple.Create(My.MySettings.Default.CBICaptions, NameOf(ImageGenre.Captions), ImageSource.Local, ImageGenre.Captions, My.MySettings.Default.ICaptions, My.MySettings.Default.ICaptionsSD))
+        inputs.Add(Tuple.Create(My.MySettings.Default.CBIFemdom, NameOf(ImageGenre.Femdom), ImageSource.Local, ImageGenre.Femdom, My.MySettings.Default.IFemdom, My.MySettings.Default.IFemdomSD))
+        inputs.Add(Tuple.Create(My.MySettings.Default.CBIGay, NameOf(ImageGenre.Gay), ImageSource.Local, ImageGenre.Gay, My.MySettings.Default.IGay, My.MySettings.Default.IGaySD))
+        inputs.Add(Tuple.Create(My.MySettings.Default.CBIGeneral, NameOf(ImageGenre.General), ImageSource.Local, ImageGenre.General, My.MySettings.Default.IGeneral, My.MySettings.Default.IGeneralSD))
+        inputs.Add(Tuple.Create(My.MySettings.Default.CBIHardcore, NameOf(ImageGenre.Hardcore), ImageSource.Local, ImageGenre.Hardcore, My.MySettings.Default.IHardcore, My.MySettings.Default.IHardcoreSD))
+        inputs.Add(Tuple.Create(My.MySettings.Default.CBIHentai, NameOf(ImageGenre.Hentai), ImageSource.Local, ImageGenre.Hentai, My.MySettings.Default.IHentai, My.MySettings.Default.IHentaiSD))
+        inputs.Add(Tuple.Create(My.MySettings.Default.CBILesbian, NameOf(ImageGenre.Lesbian), ImageSource.Local, ImageGenre.Lesbian, My.MySettings.Default.ILesbian, My.MySettings.Default.ILesbianSD))
+        inputs.Add(Tuple.Create(My.MySettings.Default.CBILezdom, NameOf(ImageGenre.Lezdom), ImageSource.Local, ImageGenre.Lezdom, My.MySettings.Default.ILesbian, My.MySettings.Default.ILezdomSD))
+        inputs.Add(Tuple.Create(My.MySettings.Default.CBIMaledom, NameOf(ImageGenre.Maledom), ImageSource.Local, ImageGenre.Maledom, My.MySettings.Default.IMaledom, My.MySettings.Default.IMaledomSD))
+        inputs.Add(Tuple.Create(My.MySettings.Default.CBISoftcore, NameOf(ImageGenre.Softcore), ImageSource.Local, ImageGenre.Softcore, My.MySettings.Default.ISoftcore, My.MySettings.Default.ISoftcoreSD))
+        inputs.Add(Tuple.Create(True, NameOf(ImageGenre.Liked), ImageSource.Virtual, ImageGenre.Liked, mySystemImageDir + "LikedImageURLs.txt", False))
+        inputs.Add(Tuple.Create(True, NameOf(ImageGenre.Disliked), ImageSource.Virtual, ImageGenre.Disliked, mySystemImageDir + "DislikedImageURLs.txt", False))
+
+        Dim blogImageAccessor = New BlogImageAccessor()
+        Dim bmd As List(Of BlogMetaData) = blogImageAccessor.GetBlogMetaData()
+        For Each blog As BlogMetaData In bmd
+            Dim filename As String = blog.FileName & ".txt"
+            Dim url As String = "https://" & blog.FileName
+            Dim name = blog.FileName.Replace(".tumblr.com", String.Empty)
+
+            If filename = My.MySettings.Default.UrlFileBlowjob Then
+                inputs.Add(Tuple.Create(blog.IsEnabled, name, ImageSource.Remote, ImageGenre.Blowjob, url, False))
+            ElseIf filename = My.MySettings.Default.UrlFileBoobs Then
+                inputs.Add(Tuple.Create(blog.IsEnabled, name, ImageSource.Remote, ImageGenre.Boobs, url, False))
+            ElseIf filename = My.MySettings.Default.UrlFileButt Then
+                inputs.Add(Tuple.Create(blog.IsEnabled, name, ImageSource.Remote, ImageGenre.Butt, url, False))
+            ElseIf filename = My.MySettings.Default.UrlFileCaptions Then
+                inputs.Add(Tuple.Create(blog.IsEnabled, name, ImageSource.Remote, ImageGenre.Captions, url, False))
+            ElseIf filename = My.MySettings.Default.UrlFileFemdom Then
+                inputs.Add(Tuple.Create(blog.IsEnabled, name, ImageSource.Remote, ImageGenre.Femdom, url, False))
+            ElseIf filename = My.MySettings.Default.UrlFileGay Then
+                inputs.Add(Tuple.Create(blog.IsEnabled, name, ImageSource.Remote, ImageGenre.Gay, url, False))
+            ElseIf filename = My.MySettings.Default.UrlFileGeneral Then
+                inputs.Add(Tuple.Create(blog.IsEnabled, name, ImageSource.Remote, ImageGenre.General, url, False))
+            ElseIf filename = My.MySettings.Default.UrlFileHardcore Then
+                inputs.Add(Tuple.Create(blog.IsEnabled, name, ImageSource.Remote, ImageGenre.Hardcore, url, False))
+            ElseIf filename = My.MySettings.Default.UrlFileHentai Then
+                inputs.Add(Tuple.Create(blog.IsEnabled, name, ImageSource.Remote, ImageGenre.Hentai, url, False))
+            ElseIf filename = My.MySettings.Default.UrlFileLesbian Then
+                inputs.Add(Tuple.Create(blog.IsEnabled, name, ImageSource.Remote, ImageGenre.Lesbian, url, False))
+            ElseIf filename = My.MySettings.Default.UrlFileLezdom Then
+                inputs.Add(Tuple.Create(blog.IsEnabled, name, ImageSource.Remote, ImageGenre.Lezdom, url, False))
+            ElseIf filename = My.MySettings.Default.UrlFileMaledom Then
+                inputs.Add(Tuple.Create(blog.IsEnabled, name, ImageSource.Remote, ImageGenre.Maledom, url, False))
+            ElseIf filename = My.MySettings.Default.UrlFileSoftcore Then
+                inputs.Add(Tuple.Create(blog.IsEnabled, name, ImageSource.Remote, ImageGenre.Softcore, url, False))
+            Else
+                inputs.Add(Tuple.Create(blog.IsEnabled, name, ImageSource.Remote, ImageGenre.Blog, url, False))
+            End If
+        Next
+
+        For Each inputData As Tuple(Of Boolean, String, ImageSource, ImageGenre, String, Boolean) In inputs
+            Dim container As MediaContainer = Nothing
+            For Each thing As MediaContainer In containers
+                If (thing.Name = inputData.Item2 AndAlso thing.SourceId = inputData.Item3 AndAlso thing.MediaTypeId = 1) Then
+                    container = thing
+                End If
+            Next
+            If (container Is Nothing) Then
+                containers.Add(New MediaContainer With
+                           {
+                           .IsEnabled = inputData.Item1,
+                           .Name = inputData.Item2,
+                           .SourceId = inputData.Item3,
+                           .GenreId = inputData.Item4,
+                           .Path = inputData.Item5,
+                           .UseSubFolders = inputData.Item6,
+                           .MediaTypeId = 1
+                           })
+            Else
+                container.IsEnabled = inputData.Item1
+                container.SourceId = inputData.Item3
+                container.GenreId = inputData.Item4
+                container.Path = inputData.Item5
+                container.UseSubFolders = inputData.Item6
+            End If
+        Next
+        Return containers
+    End Function
+
+    Public Function GetOldImages(mediaContainers As List(Of MediaContainer)) As List(Of ImageMetaData)
+        Dim returnValue As List(Of ImageMetaData) = New List(Of ImageMetaData)()
+
+        For Each container As MediaContainer In mediaContainers
+            Dim searchLevel As FileIO.SearchOption = If(container.UseSubFolders, FileIO.SearchOption.SearchAllSubDirectories, FileIO.SearchOption.SearchTopLevelOnly)
+
+            If Not container.IsEnabled Then
+                Continue For
+            End If
+            If (container.SourceId = ImageSource.Local) Then
+                If (container.GenreId = ImageGenre.Liked) OrElse (container.GenreId = ImageGenre.Disliked) Then
+                    For Each foundFile As String In File.ReadAllLines(container.Path)
+                        If (Not foundFile.ToLower().StartsWith("http")) Then
+                            returnValue.Add(New ImageMetaData() With
+                                        {
+                                            .ItemName = Path.GetFileNameWithoutExtension(foundFile),
+                                            .FullFileName = foundFile,
+                                            .MediaContainerId = container.Id,
+                                            .SourceId = ImageSource.Virtual,
+                                            .GenreId = container.GenreId
+                                        })
+                        End If
+                    Next
+                Else
+                    For Each foundFile As String In My.Computer.FileSystem.GetFiles(container.Path, searchLevel, "*.jpg")
+                        returnValue.Add(New ImageMetaData() With
+                        {
+                                            .ItemName = Path.GetFileNameWithoutExtension(foundFile),
+                                            .FullFileName = foundFile,
+                                            .MediaContainerId = container.Id,
+                                            .SourceId = container.SourceId,
+                                            .GenreId = container.GenreId
+                        })
+                    Next
+                End If
+            ElseIf container.SourceId = ImageSource.Virtual Then
+                If (container.GenreId = ImageGenre.Liked) OrElse (container.GenreId = ImageGenre.Disliked) Then
+                    For Each foundFile As String In File.ReadAllLines(container.Path)
+                        If (foundFile.ToLower().StartsWith("http")) Then
+                            returnValue.Add(New ImageMetaData() With
+                                        {
+                                            .ItemName = Path.GetFileNameWithoutExtension(foundFile),
+                                            .FullFileName = foundFile,
+                                            .MediaContainerId = container.Id,
+                                            .SourceId = container.SourceId,
+                                            .GenreId = container.GenreId
+                                        })
+                        End If
+                    Next
+                ElseIf (container.GenreId = ImageGenre.Blog) Then
+                    'For Each blogFile As String In GetAvailableBlogFiles()
+                    '    For Each foundFile As String In File.ReadAllLines(blogFile)
+                    '        returnValue.Add(New ImageMetaData() With
+                    '                    {
+                    '                        .ItemName = Path.GetFileNameWithoutExtension(foundFile),
+                    '                        .FullFileName = foundFile,
+                    '                        .MediaContainerId = container.Id,
+                    '                        .SourceId = container.SourceId,
+                    '                        .GenreId = container.GenreId
+                    '                    })
+                    '    Next
+                    'Next
+                End If
+            ElseIf container.SourceId = ImageSource.Remote Then
+                    Dim fileName As String = myPathUrlFileDir + container.Path.Replace("https://", String.Empty) & ".txt"
+                    For Each foundFile As String In File.ReadAllLines(fileName)
+                        returnValue.Add(New ImageMetaData() With
+                                        {
+                                            .ItemName = Path.GetFileNameWithoutExtension(foundFile),
+                                            .FullFileName = foundFile,
+                                            .MediaContainerId = container.Id,
+                                            .SourceId = container.SourceId,
+                                            .GenreId = container.GenreId
+                                        })
+                    Next
+                End If
+        Next
+        Dim local = returnValue.Where(Function(imd) imd.SourceId = ImageSource.Virtual).ToList()
+        Return returnValue
+    End Function
+
+    Public Sub UpdateItemTags(imageMetaDatas As List(Of ImageMetaData))
+        Dim oldImageTagFile As String = Application.StartupPath & "\Images\System\LocalImageTags.txt"
+        Dim oldTagDatas As List(Of OldImageTag) = New List(Of OldImageTag)()
+        If (File.Exists(oldImageTagFile)) Then
+            Dim fileLines As List(Of String) = File.ReadAllLines(oldImageTagFile).ToList()
+
+            For Each line As String In fileLines
+                Dim tokens As List(Of String) = line.Split(" ").ToList()
+                Dim oldTag As OldImageTag = New OldImageTag()
+                If (line.IndexOf("Tag") > 0) Then
+                    oldTag.filename = line.Substring(0, line.IndexOf("Tag")).Trim()
+                Else
+                    oldTag.filename = line.Trim()
+                End If
+                tokens.RemoveAt(0)
+                Dim tags As List(Of String) = tokens.Where(Function(tag) Not String.IsNullOrWhiteSpace(tag) AndAlso tag.Contains("Tag")).ToList()
+                oldTag.TagIds = ConvertTags(tags)
+                oldTagDatas.Add(oldTag)
+            Next
+        End If
+        Dim nonBlogs As List(Of ImageMetaData) = imageMetaDatas.Where(Function(imd) imd.SourceId <> CType(ImageSource.Remote, Integer)).ToList()
+        Dim itemTagService As IItemTagService = ApplicationFactory.CreateItemTagService()
+        Dim itemTags As List(Of ItemTag) = itemTagService.Get()
+        For Each oldTagData As OldImageTag In oldTagDatas
+            Dim foundFile As ImageMetaData = imageMetaDatas.FirstOrDefault(Function(imd) imd.FullFileName = oldTagData.filename)
+            If (foundFile IsNot Nothing) Then
+                Dim imageTagMapService As IImageTagMapService = ApplicationFactory.CreateImageTagMapService()
+                imageTagMapService.SetTagsForImage(foundFile.Id, oldTagData.TagIds.Select(Function(ti) CType(ti, Integer)))
+            End If
+        Next
+    End Sub
+
+    Private Function GetAvailableBlogFiles() As List(Of String)
+        Dim checkList As String = myPathUrlFileDir + "..\URLFileCheckList.cld"
+
+        Dim returnValue As List(Of String) = New List(Of String)()
+        Using fs As New FileStream(checkList, FileMode.Open), binRead As New BinaryReader(fs)
+            Do While fs.Position < fs.Length
+                Dim fileName As String = binRead.ReadString()
+                Dim enabled As Boolean = binRead.ReadBoolean()
+                Dim fullFilePath As String = myPathUrlFileDir + fileName + ".txt"
+
+                If File.Exists(fullFilePath) AndAlso enabled Then
+                    returnValue.Add(fullFilePath)
+                End If
+            Loop
+        End Using
+        Return returnValue.Distinct().ToList()
+    End Function
+
+    Private Class OldImageTag
+        Public filename As String
+        Public TagIds As List(Of ItemTagId)
+    End Class
+
+    Private Function ConvertTags(oldTags As List(Of String)) As List(Of ItemTagId)
+        Dim convertTagLogic As ConvertTagLogic = New ConvertTagLogic()
+        Dim returnValue As List(Of ItemTagId) = New List(Of ItemTagId)()
+        For Each oldTag In oldTags
+            returnValue.Add(convertTagLogic.ConvertTag(oldTag))
+        Next
+        Return returnValue
+    End Function
+
+    Private Sub ConvertScriptMetaData()
+        Dim scriptAccessor As ScriptAccessor = New ScriptAccessor(ApplicationFactory.CreateCldAccessor())
+        Dim scripts As List(Of ScriptMetaData) = scriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality)
+
+    End Sub
+#End Region
+
 #Region "Session Engine Events"
     Public Sub mySession_DommeSaid(sender As Object, e As DommeSaidEventArgs)
         Dim session As SessionEngine = CType(sender, SessionEngine)
@@ -15002,9 +15254,15 @@ playLoop:
         End If
     End Sub
 
+    Private Sub mySession_QueryImage(sender As Object, e As ShowImageEventArgs)
+        If (InvokeRequired) Then
+            BeginInvoke(New MethodInvoker(Sub() QueryImage(e)))
+        End If
+    End Sub
+
     Private Sub mySession_ShowImage(sender As Object, e As ShowImageEventArgs)
         If (InvokeRequired) Then
-            BeginInvoke(New MethodInvoker(Sub() ShowImage(e.ImageMetaData.ItemName, False)))
+            BeginInvoke(New MethodInvoker(Sub() ShowImage(e.ImageMetaData)))
         End If
     End Sub
 
@@ -15926,7 +16184,7 @@ NoPlaylistStartFile:
             ' This loads tag data from the file, because some tags have options, such as Garment
             If (ssh.SlideshowLoaded And mainPictureBox.Image IsNot Nothing And Not DomWMP.Visible) Then
                 Dim tagList = loadFileData.ReadData(fileName) _
-                        .OnSuccess(Function(data) parseTagDataService.ParseTagData(data)).GetResultOrDefault(New List(Of TaggedItem))
+                        .OnSuccess(Function(data) parseTagDataService.ParseTagData(data)).GetResultOrDefault(New List(Of TeaseAI.Common.TaggedItem))
                 Dim imageData = tagList.FirstOrDefault(Function(ti) ti.ItemName = Path.GetFileName(slide.CurrentImage))
                 messageString = myImageTagReplaceHash.ReplaceImageTags(messageString, imageData)
             End If
@@ -17180,39 +17438,6 @@ TaskCleanSet:
             If FrmSettings.CBInputIcon.Checked = True Then ssh.InputIcon = True
 
             inputString = inputString.Replace("@InputVar[" & ssh.InputString & "]", "")
-
-        End If
-
-
-        ' The @DislikeBlogImage Command takes the URL of the most recently viewed blog image and adds it to the "Disliked" list located in [Tease AI Root Directory]\Images\System\DislikedImageURLS.txt
-
-        If inputString.Contains("@DislikeBlogImage") Then
-
-            If ssh.ImageLocation <> "" Then
-
-                If File.Exists(Application.StartupPath & "\Images\System\DislikedImageURLs.txt") Then
-                    My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Images\System\DislikedImageURLs.txt", Environment.NewLine & ssh.ImageLocation, True)
-                Else
-                    My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Images\System\DislikedImageURLs.txt", ssh.ImageLocation, True)
-                End If
-                inputString = inputString.Replace("@DislikeBlogImage", "")
-            End If
-
-        End If
-
-        ' The @LikeBlogImage Command takes the URL of the most recently viewed blog image and adds it to the "Liked" list located in [Tease AI Root Directory]\Images\System\LikedImageURLS.txt
-
-        If inputString.Contains("@LikeBlogImage") Then
-
-            If ssh.ImageLocation <> "" Then
-
-                If File.Exists(Application.StartupPath & "\Images\System\LikedImageURLs.txt") Then
-                    My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Images\System\LikedImageURLs.txt", Environment.NewLine & ssh.ImageLocation, True)
-                Else
-                    My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Images\System\LikedImageURLs.txt", ssh.ImageLocation, True)
-                End If
-                inputString = inputString.Replace("@LikeBlogImage", "")
-            End If
 
         End If
 

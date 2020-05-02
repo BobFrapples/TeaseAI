@@ -16,5 +16,12 @@ namespace TeaseAI.Common.Interfaces
         /// <param name="message"></param>
         /// <returns></returns>
         Task ModalMessageAsync(string message);
+
+        /// <summary>
+        /// Show an error message
+        /// </summary>
+        /// <param name="error"></param>
+        /// <returns></returns>
+        Task ErrorMessageAsync(Error error);
     }
 }

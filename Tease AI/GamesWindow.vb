@@ -141,12 +141,10 @@ Public Class GamesWindow
     Public CardImage8 As Image
     Public CardImage9 As Image
     Private ReadOnly mySettingsAccessor As ISettingsAccessor
-    Private ReadOnly myPathsAccessor As PathsAccessor
 #End Region
 
     Public Sub New()
-        mySettingsAccessor = ServiceFactory.CreateSettingsAccessor()
-        myPathsAccessor = ServiceFactory.CreatePathsAccessor()
+        mySettingsAccessor = ApplicationFactory.CreateSettingsAccessor()
 
         ' This call is required by the designer.
         InitializeComponent()
@@ -221,14 +219,14 @@ Public Class GamesWindow
         MatchList.Clear()
 
 
-        For i As Integer = 0 To FrmSettings.URLFileList.Items.Count - 1
+        For i As Integer = 0 To FrmSettings.RemoteMediaContainerList.Items.Count - 1
 
 
-            If File.Exists(Application.StartupPath & "\Images\System\URL Files\" & FrmSettings.URLFileList.Items(i) & ".txt") Then
+            If File.Exists(Application.StartupPath & "\Images\System\URL Files\" & FrmSettings.RemoteMediaContainerList.Items(i) & ".txt") Then
 
-                If FrmSettings.URLFileList.GetItemCheckState(i) = CheckState.Checked Then
+                If FrmSettings.RemoteMediaContainerList.GetItemCheckState(i) = CheckState.Checked Then
 
-                    Dim URLString As String = Application.StartupPath & "\Images\System\URL Files\" & FrmSettings.URLFileList.Items(i) & ".txt"
+                    Dim URLString As String = Application.StartupPath & "\Images\System\URL Files\" & FrmSettings.RemoteMediaContainerList.Items(i) & ".txt"
                     Dim CardReader As New System.IO.StreamReader(URLString)
 
                     While CardReader.Peek <> -1
@@ -263,7 +261,7 @@ Public Class GamesWindow
 
 
         If My.Settings.CBIHardcore = True And Directory.Exists(My.Settings.IHardcore) Then
-            If FrmSettings.CBIHardcoreSD.Checked = True Then
+            If FrmSettings.LocalHardcoreSubdirectoryCheckBox.Checked = True Then
                 files = myDirectory.GetFiles(My.Settings.IHardcore, "*.*", SearchOption.AllDirectories)
             Else
                 files = myDirectory.GetFiles(My.Settings.IHardcore, "*.*")
@@ -451,14 +449,14 @@ Public Class GamesWindow
         MatchList.Clear()
 
 
-        For i As Integer = 0 To FrmSettings.URLFileList.Items.Count - 1
+        For i As Integer = 0 To FrmSettings.RemoteMediaContainerList.Items.Count - 1
 
 
-            If File.Exists(Application.StartupPath & "\Images\System\URL Files\" & FrmSettings.URLFileList.Items(i) & ".txt") Then
+            If File.Exists(Application.StartupPath & "\Images\System\URL Files\" & FrmSettings.RemoteMediaContainerList.Items(i) & ".txt") Then
 
-                If FrmSettings.URLFileList.GetItemCheckState(i) = CheckState.Checked Then
+                If FrmSettings.RemoteMediaContainerList.GetItemCheckState(i) = CheckState.Checked Then
 
-                    Dim URLString As String = Application.StartupPath & "\Images\System\URL Files\" & FrmSettings.URLFileList.Items(i) & ".txt"
+                    Dim URLString As String = Application.StartupPath & "\Images\System\URL Files\" & FrmSettings.RemoteMediaContainerList.Items(i) & ".txt"
                     Dim CardReader As New System.IO.StreamReader(URLString)
 
                     While CardReader.Peek <> -1
@@ -493,7 +491,7 @@ Public Class GamesWindow
 
 
         If My.Settings.CBIHardcore = True And Directory.Exists(My.Settings.IHardcore) Then
-            If FrmSettings.CBIHardcoreSD.Checked = True Then
+            If FrmSettings.LocalHardcoreSubdirectoryCheckBox.Checked = True Then
                 files = myDirectory.GetFiles(My.Settings.IHardcore, "*.*", SearchOption.AllDirectories)
             Else
                 files = myDirectory.GetFiles(My.Settings.IHardcore, "*.*")

@@ -29,7 +29,7 @@ namespace TeaseAI.PersonalityEditor.ViewModels
         private void Loaded()
         {
             var applicationConfiguration = _configurationSettings.GetApplicationConfiguration();
-            PersonalityDirectory = applicationConfiguration.PersonalityHome;
+            PersonalityDirectory = applicationConfiguration.BaseDataFolder;
         }
 
         private void PickPersonalityDirectory()
@@ -43,7 +43,7 @@ namespace TeaseAI.PersonalityEditor.ViewModels
                 PersonalityDirectory = dialog.SelectedPath;
 
                 var applicationConfiguration = _configurationSettings.GetApplicationConfiguration();
-                applicationConfiguration.PersonalityHome = PersonalityDirectory;
+                applicationConfiguration.BaseDataFolder = PersonalityDirectory;
                 _configurationSettings.SaveApplicationConfiguration(applicationConfiguration);
             }
         }

@@ -1,6 +1,7 @@
 ﻿Imports System.ComponentModel
 Imports System.IO
 Imports System.Speech.Synthesis
+Imports System.Threading.Tasks
 Imports Tease_AI.URL_Files
 Imports TeaseAI.Common
 Imports TeaseAI.Common.Constants
@@ -24,6 +25,7 @@ Public Class FrmSettings
     ''' Location of the local image tag file.
     ''' </summary>
     ''' <returns></returns>
+    <Obsolete("TODO: go away")>
     Private ReadOnly Property LocalImageTagFile As String
         Get
             Return Application.StartupPath & "\Images\System\LocalImageTags.txt"
@@ -35,20 +37,16 @@ Public Class FrmSettings
     Dim LocalImageDir As New List(Of String)
 
     Dim ImageTagDir As New List(Of String)
-    ''' <summary>
-    ''' List of images in the current genre
-    ''' </summary>
     Dim LocalImageTagDir As New List(Of String)
     Dim ImageTagCount As Integer
     Dim CurrentImageTagImage As String
     Dim CurrentLocalImageTagImage As String
+
+    ' Index of current working image for tagging
     Dim TagCount As Integer
 
-    ''' <summary>
-    ''' Index + 1 of the displayed local image in LocalImageTagDir
-    ''' </summary>
-    Private LocalTagCount As Integer
-
+    ' Index of current working image for image blogs
+    Dim myUrlFileIndex As Integer
     Public WebImage As String
     Public WebImageFile As StreamReader
     Public WebImageLines As New List(Of String)
@@ -60,28 +58,35 @@ Public Class FrmSettings
     Dim CheckImgDir As New List(Of String)
 
     Public Sub New()
-        mySettingsAccessor = ServiceFactory.CreateSettingsAccessor()
+        mySettingsAccessor = ApplicationFactory.CreateSettingsAccessor()
+        myConfigurationAccessor = ApplicationFactory.CreateConfigurationAccessor()
         myBlogAccessor = New BlogImageAccessor()
-        myCldAccessor = New CldAccessor()
-        myScriptAccessor = New ScriptAccessor(New CldAccessor())
-        myLoadFileData = New LoadFileData()
+        myCldAccessor = ApplicationFactory.CreateCldAccessor()
+        myScriptAccessor = ApplicationFactory.CreateScriptAccessor()
+        myLoadFileData = ApplicationFactory.CreateLoadFileData()
         myParseTagDataService = New ParseOldTagDataService()
-        myPathsAccessor = ServiceFactory.CreatePathsAccessor()
+        myPathsAccessor = New PathsAccessor(ApplicationFactory.CreateConfigurationAccessor, ApplicationFactory.CreateSettingsAccessor())
+        myMediaContainerService = ApplicationFactory.CreateMediaContainerService()
+        myImageMetaDataService = ApplicationFactory.CreateImageMetaDataService()
+        myImageTagMapService = ApplicationFactory.CreateImageTagMapService()
+        myGetCommandProcessorsService = ApplicationFactory.CreateGetCommandProcessorsService()
+        myNotifyUserService = ApplicationFactory.CreateNotifyUserService()
+        myImageBlogDownloadService = ApplicationFactory.CreateImageBlogDownloadService()
 
         InitializeComponent()
     End Sub
 
-    Private Sub frmProgramma_FormClosing(ByVal sender As Object, ByVal e As Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+    Private Sub frmProgramma_FormClosing(ByVal sender As Object, ByVal e As Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
         Visible = False
         MainWindow.BtnToggleSettings.Text = "Open Settings Menu"
         e.Cancel = True
     End Sub
 
-    Private Sub FrmSettings_LostFocus(sender As Object, e As EventArgs) Handles Me.Deactivate
+    Private Sub FrmSettings_LostFocus(sender As Object, e As EventArgs) Handles MyBase.Deactivate
         My.Settings.Save()
     End Sub
 
-    Private Sub FrmSettings_Visible(sender As Object, e As EventArgs) Handles Me.VisibleChanged
+    Private Sub FrmSettings_Visible(sender As Object, e As EventArgs) Handles MyBase.VisibleChanged
         LoadSettings()
     End Sub
 
@@ -206,31 +211,30 @@ Public Class FrmSettings
 
         oSpeech.Dispose()
 
-        FrmSplash.UpdateText("Checking URL Files...")
-        Dim blogMetaDatas As List(Of BlogMetaData) = myBlogAccessor.GetBlogMetaData()
+        Dim mediaContainers As List(Of MediaContainer) = myMediaContainerService.Get()
 
-        URLFileList.Items.Clear()
-        For Each blogMetaData In blogMetaDatas
-            URLFileList.Items.Add(blogMetaData.FileName, blogMetaData.IsEnabled)
+        FrmSplash.UpdateText("Checking URL Files...")
+        Dim remoteImageMediaContainers As List(Of MediaContainer) = mediaContainers.Where(Function(mc) mc.MediaTypeId = 1 AndAlso mc.SourceId = ImageSource.Remote).ToList()
+
+        RemoteMediaContainerList.Items.Clear()
+        For Each mediaContainer In remoteImageMediaContainers
+            RemoteMediaContainerList.Items.Add(mediaContainer.Name, mediaContainer.IsEnabled)
         Next
-        URLFileList.Refresh()
+        RemoteMediaContainerList.Refresh()
 
         FrmSplash.UpdateText("Checking Local Image settings...")
 
         ' Check image Folders
-        CheckImageFolder(ImageGenre.Blowjob)
-        CheckImageFolder(ImageGenre.Boobs)
-        CheckImageFolder(ImageGenre.Butt)
-        CheckImageFolder(ImageGenre.Captions)
-        CheckImageFolder(ImageGenre.Femdom)
-        CheckImageFolder(ImageGenre.Gay)
-        CheckImageFolder(ImageGenre.General)
-        CheckImageFolder(ImageGenre.Hardcore)
-        CheckImageFolder(ImageGenre.Hentai)
-        CheckImageFolder(ImageGenre.Softcore)
-        CheckImageFolder(ImageGenre.Lesbian)
-        CheckImageFolder(ImageGenre.Lezdom)
-        CheckImageFolder(ImageGenre.Maledom)
+        Dim localEnabledImageMediaContainers As List(Of MediaContainer) = mediaContainers _
+            .Where(Function(mc) mc.MediaTypeId = 1 AndAlso mc.SourceId = ImageSource.Local AndAlso mc.IsEnabled) _
+            .ToList()
+
+        For Each mediaContainer In localEnabledImageMediaContainers
+            If Not Directory.Exists(mediaContainer.Path) Then
+                myNotifyUserService.ModalMessage(mediaContainer.Path + ", the folder for " + mediaContainer.GenreId.ToString() _
+                                                 + Environment.NewLine + "  does not exist, please update your settings")
+            End If
+        Next
 
         FrmSplash.UpdateText("Checking installed fonts...")
 
@@ -238,20 +242,20 @@ Public Class FrmSettings
 
         DommeMessageFontCB.Items.AddRange(New Text.InstalledFontCollection().Families)
 
-        FrmSplash.UpdateText("Checking available scripts...")
+        'FrmSplash.UpdateText("Checking available scripts...")
 
-        Dim scriptType As String = "Stroke"
-        Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality, scriptType, SessionPhase.Start, True)
-        myScriptAccessor.Save(scripts, mySettingsAccessor.DommePersonality, scriptType, SessionPhase.Start)
+        'Dim scriptType As String = "Stroke"
+        'Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality, scriptType, SessionPhase.Start, True)
+        'myScriptAccessor.Save(scripts, mySettingsAccessor.DommePersonality, scriptType, SessionPhase.Start)
 
-        scripts = myScriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality, "Modules", SessionPhase.Modules, True)
-        myScriptAccessor.Save(scripts, mySettingsAccessor.DommePersonality, "Modules", SessionPhase.Modules)
+        'scripts = myScriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality, "Modules", SessionPhase.Modules, True)
+        'myScriptAccessor.Save(scripts, mySettingsAccessor.DommePersonality, "Modules", SessionPhase.Modules)
 
-        scripts = myScriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality, scriptType, SessionPhase.Link, True)
-        myScriptAccessor.Save(scripts, mySettingsAccessor.DommePersonality, scriptType, SessionPhase.Link)
+        'scripts = myScriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality, scriptType, SessionPhase.Link, True)
+        'myScriptAccessor.Save(scripts, mySettingsAccessor.DommePersonality, scriptType, SessionPhase.Link)
 
-        scripts = myScriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality, scriptType, SessionPhase.End, True)
-        myScriptAccessor.Save(scripts, mySettingsAccessor.DommePersonality, scriptType, SessionPhase.End)
+        'scripts = myScriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality, scriptType, SessionPhase.End, True)
+        'myScriptAccessor.Save(scripts, mySettingsAccessor.DommePersonality, scriptType, SessionPhase.End)
 
         FrmSplash.UpdateText("Populating available voices...")
         Dim voicecheck As Integer
@@ -300,17 +304,17 @@ Public Class FrmSettings
 
         WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & mySettingsAccessor.DommePersonality & "\Playlist\Start\")
 
-        For Each tmptbx As TextBox In New List(Of TextBox) From {TbxContact1ImageDir, TbxContact2ImageDir, TbxContact3ImageDir, TbxDomImageDir}
-            If tmptbx.DataBindings("Text") Is Nothing Then
-                Throw New Exception("There is no databinding set on """ & tmptbx.Name & """'s text-property. Set the databinding and recompile!")
-            End If
-        Next
+        'For Each tmptbx As TextBox In New List(Of TextBox) From {TbxContact1ImageDir, TbxContact2ImageDir, TbxContact3ImageDir, TbxDomImageDir}
+        '    If tmptbx.DataBindings("Text") Is Nothing Then
+        '        Throw New Exception("There is no databinding set on """ & tmptbx.Name & """'s text-property. Set the databinding and recompile!")
+        '    End If
+        'Next
 
-        For Each tmptbx As CheckBox In New List(Of CheckBox) From {CBGlitter1, CBGlitter2, CBGlitter3}
-            If tmptbx.DataBindings("Checked") Is Nothing Then
-                Throw New Exception("There is no databinding set on """ & tmptbx.Name & """'s checked-property. Set the databinding and recompile!")
-            End If
-        Next
+        'For Each tmptbx As CheckBox In New List(Of CheckBox) From {CBGlitter1, CBGlitter2, CBGlitter3}
+        '    If tmptbx.DataBindings("Checked") Is Nothing Then
+        '        Throw New Exception("There is no databinding set on """ & tmptbx.Name & """'s checked-property. Set the databinding and recompile!")
+        '    End If
+        'Next
 
         If My.Settings.TeaseAILanguage = "English" Then EnglishMenu()
         If My.Settings.TeaseAILanguage = "German" Then GermanMenu()
@@ -328,12 +332,11 @@ Public Class FrmSettings
         LBLVVolume.Text = SliderVVolume.Value
         LBLVRate.Text = SliderVRate.Value
 
-
         CBNewSlideshow.Checked = My.Settings.CBNewSlideshow
 
         NBTauntEdging.Value = My.Settings.TauntEdging
 
-        CBURLPreview.Checked = My.Settings.CBURLPreview
+        PreviewRemoteImagesCheckBox.Checked = My.Settings.CBURLPreview
 
         TypesSpeedVal.Text = TypeSpeedSlider.Value
 
@@ -344,10 +347,6 @@ Public Class FrmSettings
             languageCode = "de"
         End If
         SetToolTips(languageCode)
-    End Sub
-
-    Private Sub SettingsTabs_TabIndexChanged(sender As Object, e As EventArgs) Handles SettingsTabs.SelectedIndexChanged
-        If SettingsTabs.SelectedTab Is TabPage16 Then TCScripts_TabIndexChanged(TCScripts, Nothing)
     End Sub
 
 #Region "set tooltips"
@@ -1061,7 +1060,7 @@ Public Class FrmSettings
     Private Sub GlitterAV_MouseHover(sender As Object, e As EventArgs) Handles GlitterAV.MouseHover
         TTDir.SetToolTip(GlitterAV, "Click here to set the image the domme will use as her Glitter avatar.")
     End Sub
-    Private Sub LBLGlitterNCDomme_Click(sender As Object, e As EventArgs) Handles LBLGlitterNCDomme.MouseHover, LBLGlitterNC1.MouseHover, LBLGlitterNC2.MouseHover, LBLGlitterNC3.MouseHover
+    Private Sub LBLGlitterNCDomme_Click(sender As Object, e As EventArgs) Handles LBLGlitterNCDomme.MouseHover, LBLGlitterNC3.MouseHover, LBLGlitterNC2.MouseHover, LBLGlitterNC1.MouseHover
         TTDir.SetToolTip(sender, "After clicking the ""Choose Name Color"" button above, a preview of the selected color will appear here.")
     End Sub
     Private Sub TBGlitterShortName_MouseHover(sender As Object, e As EventArgs) Handles TBGlitterShortName.MouseHover
@@ -1096,28 +1095,28 @@ Public Class FrmSettings
                                              "The further to the right the slider is, the more often she posts.")
     End Sub
 
-    Private Sub TBGlitter1_MouseHover(sender As Object, e As EventArgs) Handles TBGlitter1.MouseHover, TBGlitter2.MouseHover, TBGlitter3.MouseHover
+    Private Sub TBGlitter1_MouseHover(sender As Object, e As EventArgs) Handles TBGlitter3.MouseHover, TBGlitter2.MouseHover, TBGlitter1.MouseHover
         TTDir.SetToolTip(sender, "This will be the name of this contact as it appears in the Glitter feed.")
     End Sub
-    Private Sub GlitterSlider1_MouseHover(sender As Object, e As EventArgs) Handles GlitterSlider1.MouseHover, GlitterSlider2.MouseHover, GlitterSlider3.MouseHover, LBLGlitterSlider1.MouseHover, LBLGlitterSlider2.MouseHover, LBLGlitterSlider3.MouseHover
+    Private Sub GlitterSlider1_MouseHover(sender As Object, e As EventArgs) Handles LBLGlitterSlider3.MouseHover, LBLGlitterSlider2.MouseHover, LBLGlitterSlider1.MouseHover, GlitterSlider3.MouseHover, GlitterSlider2.MouseHover, GlitterSlider1.MouseHover
         TTDir.SetToolTip(sender, "This slider determines how often this contact responds to the domme's Glitter posts." & Environment.NewLine &
                                          "The further to the right the slider is, the more often she responds.")
     End Sub
-    Private Sub GlitterAV1_MouseHover(sender As Object, e As EventArgs) Handles GlitterAV1.MouseHover, GlitterAV2.MouseHover, GlitterAV3.MouseHover
+    Private Sub GlitterAV1_MouseHover(sender As Object, e As EventArgs) Handles GlitterAV3.MouseHover, GlitterAV2.MouseHover, GlitterAV1.MouseHover
         TTDir.SetToolTip(sender, "Click here to set the image that this contact will use as her Glitter avatar.")
     End Sub
-    Private Sub CBGlitter1_MouseHover(sender As Object, e As EventArgs) Handles CBGlitter1.MouseHover, CBGlitter2.MouseHover, CBGlitter3.MouseHover
+    Private Sub CBGlitter1_MouseHover(sender As Object, e As EventArgs) Handles CBGlitter3.MouseHover, CBGlitter2.MouseHover, CBGlitter1.MouseHover
         TTDir.SetToolTip(sender, "This check box enables this contact's participation in the Glitter feed.")
     End Sub
-    Private Sub BTNGlitter1_MouseHover(sender As Object, e As EventArgs) Handles BTNGlitter1.MouseHover, BTNGlitter2.MouseHover, BTNGlitter3.MouseHover
+    Private Sub BTNGlitter1_MouseHover(sender As Object, e As EventArgs) Handles BTNGlitter3.MouseHover, BTNGlitter2.MouseHover, BTNGlitter1.MouseHover
         TTDir.SetToolTip(sender, "This button allows you to change the color of this contact's name as it appears in the Glitter app.")
     End Sub
 
-    Private Sub LBLContact1ImageDir_MouseHover(sender As Object, e As EventArgs) Handles TbxContact1ImageDir.MouseHover, TbxContact2ImageDir.MouseHover, TbxContact3ImageDir.MouseHover, TbxDomImageDir.MouseHover
+    Private Sub LBLContact1ImageDir_MouseHover(sender As Object, e As EventArgs) Handles TbxDomImageDir.MouseHover, TbxContact3ImageDir.MouseHover, TbxContact2ImageDir.MouseHover, TbxContact1ImageDir.MouseHover
         TTDir.SetToolTip(sender, CType(sender, TextBox).Text)
     End Sub
 
-    Private Sub Button2_MouseHover(sender As Object, e As EventArgs) Handles BtnContact1ImageDir.MouseHover, BtnContact2ImageDir.MouseHover, BtnContact3ImageDir.MouseHover
+    Private Sub Button2_MouseHover(sender As Object, e As EventArgs) Handles BtnContact3ImageDir.MouseHover, BtnContact2ImageDir.MouseHover, BtnContact1ImageDir.MouseHover
 
         If RBEnglish.Checked Then TTDir.SetToolTip(sender, "Use this button to select a directory containing several image" & Environment.NewLine &
 "set folders of the same model you're using as your contact.")
@@ -1125,53 +1124,49 @@ Public Class FrmSettings
 "Bildersets von dem selben Model enthält, die du als Kontakt benutzt.")
     End Sub
 
-    Private Sub LBLIHardcore_MouseHover(sender As Object, e As EventArgs) Handles TbxIHardcore.MouseHover
-        TTDir.SetToolTip(TbxIHardcore, TbxIHardcore.Text)
+    Private Sub LBLIHardcore_MouseHover(sender As Object, e As EventArgs) Handles LocalHardcoreDirectoryTextBox.MouseHover
+        TTDir.SetToolTip(LocalHardcoreDirectoryTextBox, LocalHardcoreDirectoryTextBox.Text)
     End Sub
-    Private Sub LBLISoftcore_MouseHover(sender As Object, e As EventArgs) Handles TbxISoftcore.MouseHover
-        TTDir.SetToolTip(TbxISoftcore, TbxISoftcore.Text)
+    Private Sub LBLISoftcore_MouseHover(sender As Object, e As EventArgs) Handles LocalSoftcoreDirectoryTextBox.MouseHover
+        TTDir.SetToolTip(LocalSoftcoreDirectoryTextBox, LocalSoftcoreDirectoryTextBox.Text)
     End Sub
-    Private Sub LBLILesbian_MouseHover(sender As Object, e As EventArgs) Handles TbxILesbian.MouseHover
-        TTDir.SetToolTip(TbxILesbian, TbxILesbian.Text)
+    Private Sub LBLILesbian_MouseHover(sender As Object, e As EventArgs) Handles LocalLesbianDirectoryTextBox.MouseHover
+        TTDir.SetToolTip(LocalLesbianDirectoryTextBox, LocalLesbianDirectoryTextBox.Text)
     End Sub
-    Private Sub LBLIBlowjob_MouseHover(sender As Object, e As EventArgs) Handles TbxIBlowjob.MouseHover
-        TTDir.SetToolTip(TbxIBlowjob, TbxIBlowjob.Text)
+    Private Sub LBLIBlowjob_MouseHover(sender As Object, e As EventArgs) Handles LocalBlowjobDirectoryTextBox.MouseHover
+        TTDir.SetToolTip(LocalBlowjobDirectoryTextBox, LocalBlowjobDirectoryTextBox.Text)
     End Sub
-    Private Sub LBLIFemdom_MouseHover(sender As Object, e As EventArgs) Handles TbxIFemdom.MouseHover
-        TTDir.SetToolTip(TbxIFemdom, TbxIFemdom.Text)
+    Private Sub LBLIFemdom_MouseHover(sender As Object, e As EventArgs) Handles LocalFemdomDirectoryTextBox.MouseHover
+        TTDir.SetToolTip(LocalFemdomDirectoryTextBox, LocalFemdomDirectoryTextBox.Text)
     End Sub
-    Private Sub LBLILezdom_MouseHover(sender As Object, e As EventArgs) Handles TbxILezdom.MouseHover
-        TTDir.SetToolTip(TbxILezdom, TbxILezdom.Text)
+    Private Sub LBLILezdom_MouseHover(sender As Object, e As EventArgs) Handles LocalLezdomDirectoryTextBox.MouseHover
+        TTDir.SetToolTip(LocalLezdomDirectoryTextBox, LocalLezdomDirectoryTextBox.Text)
     End Sub
-    Private Sub LBLIHentai_MouseHover(sender As Object, e As EventArgs) Handles TbxIHentai.MouseHover
-        TTDir.SetToolTip(TbxIHentai, TbxIHentai.Text)
+    Private Sub LBLIHentai_MouseHover(sender As Object, e As EventArgs) Handles LocalHentaiDirectoryTextBox.MouseHover
+        TTDir.SetToolTip(LocalHentaiDirectoryTextBox, LocalHentaiDirectoryTextBox.Text)
     End Sub
-    Private Sub LBLIGay_MouseHover(sender As Object, e As EventArgs) Handles TbxIGay.MouseHover
-        TTDir.SetToolTip(TbxIGay, TbxIGay.Text)
+    Private Sub LBLIGay_MouseHover(sender As Object, e As EventArgs) Handles LocalGayDirectoryTextBox.MouseHover
+        TTDir.SetToolTip(LocalGayDirectoryTextBox, LocalGayDirectoryTextBox.Text)
     End Sub
-    Private Sub LBLIMaledom_MouseHover(sender As Object, e As EventArgs) Handles TbxIMaledom.MouseHover
-        TTDir.SetToolTip(TbxIMaledom, TbxIMaledom.Text)
+    Private Sub LBLIMaledom_MouseHover(sender As Object, e As EventArgs) Handles LocalMaledomDirectoryTextBox.MouseHover
+        TTDir.SetToolTip(LocalMaledomDirectoryTextBox, LocalMaledomDirectoryTextBox.Text)
     End Sub
-    Private Sub LBLICaptions_MouseHover(sender As Object, e As EventArgs) Handles TbxICaptions.MouseHover
-        TTDir.SetToolTip(TbxICaptions, TbxICaptions.Text)
+    Private Sub LBLICaptions_MouseHover(sender As Object, e As EventArgs) Handles LocalCaptionsDirectoryTextBox.MouseHover
+        TTDir.SetToolTip(LocalCaptionsDirectoryTextBox, LocalCaptionsDirectoryTextBox.Text)
     End Sub
-    Private Sub LBLIGeneral_MouseHover(sender As Object, e As EventArgs) Handles TbxIGeneral.MouseHover
-        TTDir.SetToolTip(TbxIGeneral, TbxIGeneral.Text)
-    End Sub
-
-    Private Sub LBLBoobPath_MouseHover(sender As Object, e As EventArgs) Handles TbxIBoobs.MouseHover
-        TTDir.SetToolTip(TbxIBoobs, TbxIBoobs.Text)
+    Private Sub LBLIGeneral_MouseHover(sender As Object, e As EventArgs) Handles LocalGeneralDirectoryTextBox.MouseHover
+        TTDir.SetToolTip(LocalGeneralDirectoryTextBox, LocalGeneralDirectoryTextBox.Text)
     End Sub
 
-    Private Sub LBLButtPath_MouseHover(sender As Object, e As EventArgs) Handles TbxIButts.MouseHover
-        TTDir.SetToolTip(TbxIButts, TbxIButts.Text)
+    Private Sub LBLBoobPath_MouseHover(sender As Object, e As EventArgs) Handles LocalBoobsDirectoryTextBox.MouseHover
+        TTDir.SetToolTip(LocalBoobsDirectoryTextBox, LocalBoobsDirectoryTextBox.Text)
     End Sub
 
-    Private Sub TxbVideoFolder_MouseHover(sender As Object, e As EventArgs) Handles TxbVideoHardCore.MouseHover,
-                TxbVideoHardCoreD.MouseHover, TxbVideoSoftCore.MouseHover, TxbVideoSoftCoreD.MouseHover, TxbVideoLesbian.MouseHover,
-                TxbVideoLesbianD.MouseHover, TxbVideoBlowjob.MouseHover, TxbVideoBlowjobD.MouseHover, TxbVideoFemdom.MouseHover,
-                TxbVideoFemdomD.MouseHover, TxbVideoFemsub.MouseHover, TxbVideoFemsubD.MouseHover, TxbVideoJOI.MouseHover,
-                TxbVideoJOID.MouseHover, TxbVideoCH.MouseHover, TxbVideoCHD.MouseHover, TxbVideoGeneral.MouseHover, TxbVideoGeneralD.MouseHover
+    Private Sub LBLButtPath_MouseHover(sender As Object, e As EventArgs) Handles LocalButtDirectoryTextBox.MouseHover
+        TTDir.SetToolTip(LocalButtDirectoryTextBox, LocalButtDirectoryTextBox.Text)
+    End Sub
+
+    Private Sub TxbVideoFolder_MouseHover(sender As Object, e As EventArgs) Handles TxbVideoSoftCoreD.MouseHover, TxbVideoSoftCore.MouseHover, TxbVideoLesbianD.MouseHover, TxbVideoLesbian.MouseHover, TxbVideoJOID.MouseHover, TxbVideoJOI.MouseHover, TxbVideoHardCoreD.MouseHover, TxbVideoHardCore.MouseHover, TxbVideoGeneralD.MouseHover, TxbVideoGeneral.MouseHover, TxbVideoFemsubD.MouseHover, TxbVideoFemsub.MouseHover, TxbVideoFemdomD.MouseHover, TxbVideoFemdom.MouseHover, TxbVideoCHD.MouseHover, TxbVideoCH.MouseHover, TxbVideoBlowjobD.MouseHover, TxbVideoBlowjob.MouseHover
 
         TTDir.SetToolTip(sender, CType(sender, TextBox).Text)
     End Sub
@@ -1320,8 +1315,8 @@ Public Class FrmSettings
         LBLSubSettingsDescription.Text = "Sets how long (in seconds) it will take after being told to edge for the domme to believe you have been trying to reach the edge for too long."
     End Sub
 
-    Private Sub BTNWICreateURL_MouseHover(sender As Object, e As EventArgs) Handles BTNWICreateURL.MouseHover
-        TTDir.SetToolTip(BTNWICreateURL, "Click here to create a new URL File." & Environment.NewLine & Environment.NewLine &
+    Private Sub BTNWICreateURL_MouseHover(sender As Object, e As EventArgs) Handles CreateBlogContainerButton.MouseHover
+        TTDir.SetToolTip(CreateBlogContainerButton, "Click here to create a new URL File." & Environment.NewLine & Environment.NewLine &
                                          "URL Files create a txt file containing the URL address" & Environment.NewLine &
                                          "of every image posted at the image blog you specify.")
     End Sub
@@ -1336,13 +1331,13 @@ Public Class FrmSettings
                                          "to the specified HDD directory as they are added.")
     End Sub
 
-    Private Sub BTNWIAddandContinue_MouseHover(sender As Object, e As EventArgs) Handles BTNWIAddandContinue.MouseHover
-        TTDir.SetToolTip(BTNWIAddandContinue, "When reviewing images, click this button to add the" & Environment.NewLine &
+    Private Sub BTNWIAddandContinue_MouseHover(sender As Object, e As EventArgs) Handles UrlImageAddAndContinue.MouseHover
+        TTDir.SetToolTip(UrlImageAddAndContinue, "When reviewing images, click this button to add the" & Environment.NewLine &
                                               "current image to the URL File and continue to the next.")
     End Sub
 
-    Private Sub BTNWIContinue_MouseHover(sender As Object, e As EventArgs) Handles BTNWIContinue.MouseHover
-        TTDir.SetToolTip(BTNWIContinue, "When reviewing images, click this button to skip the" & Environment.NewLine &
+    Private Sub BTNWIContinue_MouseHover(sender As Object, e As EventArgs) Handles UrlImageContinueButton.MouseHover
+        TTDir.SetToolTip(UrlImageContinueButton, "When reviewing images, click this button to skip the" & Environment.NewLine &
                                         "current image without adding it to the URL File.")
     End Sub
 
@@ -1350,20 +1345,20 @@ Public Class FrmSettings
         TTDir.SetToolTip(BTNWICancel, "Use this button to cancel URL File creation.")
     End Sub
 
-    Private Sub BTNWIOpenURL_MouseHover(sender As Object, e As EventArgs) Handles BTNWIOpenURL.MouseHover
-        TTDir.SetToolTip(BTNWIOpenURL, "Use this button to view a URL File you have previously created.")
+    Private Sub SelectBlogDropDown_MouseHover(sender As Object, e As EventArgs) Handles SelectBlogDropDown.MouseHover
+        TTDir.SetToolTip(SelectBlogDropDown, "Use this button to view a URL File you have previously created.")
     End Sub
 
-    Private Sub BTNWIPrevious_MouseHover(sender As Object, e As EventArgs) Handles BTNWIPrevious.MouseHover
-        TTDir.SetToolTip(BTNWIPrevious, "Use this button to view the previous image of a URL File.")
+    Private Sub BTNWIPrevious_MouseHover(sender As Object, e As EventArgs) Handles UrlFilesPreviousImageButton.MouseHover
+        TTDir.SetToolTip(UrlFilesPreviousImageButton, "Use this button to view the previous image of a URL File.")
     End Sub
 
-    Private Sub BTNWINext_MouseHover(sender As Object, e As EventArgs) Handles BTNWINext.MouseHover
-        TTDir.SetToolTip(BTNWINext, "Use this button to view the next image of a URL File.")
+    Private Sub BTNWINext_MouseHover(sender As Object, e As EventArgs) Handles UrlFilesNextImageButton.MouseHover
+        TTDir.SetToolTip(UrlFilesNextImageButton, "Use this button to view the next image of a URL File.")
     End Sub
 
-    Private Sub BTNWIRemove_MouseHover(sender As Object, e As EventArgs) Handles BTNWIRemove.MouseHover
-        TTDir.SetToolTip(BTNWIRemove, "Use this button to remove an image from a URL File.")
+    Private Sub BTNWIRemove_MouseHover(sender As Object, e As EventArgs) Handles UrlImageRemoveButton.MouseHover
+        TTDir.SetToolTip(UrlImageRemoveButton, "Use this button to remove an image from a URL File.")
     End Sub
 
     Private Sub BTNWILiked_MouseHover(sender As Object, e As EventArgs) Handles BTNWILiked.MouseHover
@@ -1430,7 +1425,7 @@ Public Class FrmSettings
         My.Settings.CBSettingsPause = CBSettingsPause.Checked
     End Sub
 
-    Private Sub Radio_LostFocus(sender As Object, e As EventArgs) Handles TeaseSlideShowRadio.LostFocus, ManualSlideShowRadio.LostFocus, TimedSlideShowRadio.LostFocus
+    Private Sub Radio_LostFocus(sender As Object, e As EventArgs) Handles TimedSlideShowRadio.LostFocus, TeaseSlideShowRadio.LostFocus, ManualSlideShowRadio.LostFocus
         If TeaseSlideShowRadio.Checked Then My.Settings.SlideshowMode = "Tease"
         If TimedSlideShowRadio.Checked Then My.Settings.SlideshowMode = "Timed"
         If ManualSlideShowRadio.Checked Then My.Settings.SlideshowMode = "Manual"
@@ -1515,7 +1510,7 @@ Public Class FrmSettings
 #End Region ' General
 
 #Region "-------------------------------------- Domme Tab -----------------------------------------------"
-    Private Sub PetNameBox1_LostFocus(sender As Object, e As EventArgs) Handles PetNameBox1.LostFocus, petnameBox2.LostFocus, petnameBox3.LostFocus, petnameBox4.LostFocus, petnameBox5.LostFocus, petnameBox6.LostFocus, petnameBox7.LostFocus, petnameBox8.LostFocus
+    Private Sub PetNameBox1_LostFocus(sender As Object, e As EventArgs) Handles petnameBox8.LostFocus, petnameBox7.LostFocus, petnameBox6.LostFocus, petnameBox5.LostFocus, petnameBox4.LostFocus, petnameBox3.LostFocus, petnameBox2.LostFocus, PetNameBox1.LostFocus
         Dim defaultPetNames As List(Of String) = New List(Of String)
         defaultPetNames.Add("stroker")
         defaultPetNames.Add("loser")
@@ -1722,23 +1717,33 @@ Public Class FrmSettings
 
 #End Region ' Domme
 
-#Region "-------------------------------------- Scripts -------------------------------------------------"
-
-    ''' <summary>
-    ''' Forces the Focus onto the CheckedListBoxes in Tabcontrol.
-    ''' </summary>
-    ''' <param name="sender"></param>
-    ''' <param name="e"></param>
-    Private Sub TCScripts_TabIndexChanged(sender As Object, e As EventArgs) Handles TCScripts.SelectedIndexChanged
-        If TCScripts.SelectedTab Is ScriptsStartTab Then
-            StartScripts.Focus()
-        ElseIf TCScripts.SelectedTab Is ScriptsModuleTab Then
-            ModuleScripts.Focus()
-        ElseIf TCScripts.SelectedTab Is ScriptsLinkTab Then
-            LinkScripts.Focus()
-        ElseIf TCScripts.SelectedTab Is ScriptsEndTab Then
-            EndScripts.Focus()
+#Region "Scripts Tab"
+    Public Sub ScriptsStartTab_VisibleChanged() Handles ScriptsStartTab.VisibleChanged
+        If (Not ScriptsStartTab.Visible) Then
+            Return
         End If
+        LoadScriptMetaData(StartScripts, mySettingsAccessor.DommePersonality, "Stroke", SessionPhase.Start, False)
+    End Sub
+
+    Public Sub ScriptsModuleTab_VisibleChanged() Handles ScriptsModuleTab.VisibleChanged
+        If (Not ScriptsModuleTab.Visible) Then
+            Return
+        End If
+        LoadScriptMetaData(ModuleScripts, mySettingsAccessor.DommePersonality, "Modules", SessionPhase.Modules, False)
+    End Sub
+
+    Public Sub ScriptsLinkTab_VisibleChanged() Handles ScriptsLinkTab.VisibleChanged
+        If (Not ScriptsLinkTab.Visible) Then
+            Return
+        End If
+        LoadScriptMetaData(LinkScripts, mySettingsAccessor.DommePersonality, "Stroke", Constants.SessionPhase.Link, False)
+    End Sub
+
+    Public Sub ScriptsEndTab_VisibleChanged() Handles ScriptsEndTab.VisibleChanged
+        If (Not ScriptsEndTab.Visible) Then
+            Return
+        End If
+        LoadScriptMetaData(EndScripts, mySettingsAccessor.DommePersonality, "Stroke", Constants.SessionPhase.End, False)
     End Sub
 
     Public Shared Sub saveCheckedListBox(target As CheckedListBox, filePath As String)
@@ -1769,34 +1774,6 @@ Public Class FrmSettings
         saveCheckedListBox(EndScripts, Ssh.Files.EndChecklist)
     End Sub
 
-    Public Sub ScriptsStartTab_VisibleChanged() Handles ScriptsStartTab.VisibleChanged
-        If (Not ScriptsStartTab.Visible) Then
-            Return
-        End If
-        LoadScriptMetaData(StartScripts, mySettingsAccessor.DommePersonality, "Stroke", SessionPhase.Start, False)
-    End Sub
-
-    Public Sub ScriptsModuleTab_VisibleChanged() Handles ScriptsModuleTab.VisibleChanged
-        If (Not ScriptsModuleTab.Visible) Then
-            Return
-        End If
-        LoadScriptMetaData(ModuleScripts, mySettingsAccessor.DommePersonality, "Modules", SessionPhase.Modules, False)
-    End Sub
-
-    Public Sub ScriptsLinkTab_VisibleChanged() Handles ScriptsLinkTab.VisibleChanged
-        If (Not ScriptsLinkTab.Visible) Then
-            Return
-        End If
-        LoadScriptMetaData(LinkScripts, mySettingsAccessor.DommePersonality, "Stroke", Constants.SessionPhase.Link, False)
-    End Sub
-
-    Public Sub ScriptsEndTab_VisibleChanged() Handles ScriptsEndTab.VisibleChanged
-        If (Not ScriptsEndTab.Visible) Then
-            Return
-        End If
-        LoadScriptMetaData(EndScripts, mySettingsAccessor.DommePersonality, "Stroke", Constants.SessionPhase.End, False)
-    End Sub
-
     Private Sub Scripts_SelectedIndexChanged(sender As Object, e As EventArgs) Handles StartScripts.SelectedIndexChanged, ModuleScripts.SelectedIndexChanged, LinkScripts.SelectedIndexChanged, EndScripts.SelectedIndexChanged
         Dim sessionPhase As SessionPhase = GetSessionPhase(TCScripts.SelectedTab)
         Dim target As CheckedListBox = GetScriptsCheckedListBox(sessionPhase)
@@ -1817,7 +1794,7 @@ Public Class FrmSettings
             Throw New NotImplementedException("The starting control is not implemented in this method.")
         End If
 
-        Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality, If(sessionPhase = SessionPhase.Modules, "Modules", "Stroke"), sessionPhase, True)
+        Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality, sessionPhase)
         Dim script = scripts.First(Function(smd) smd.Name = target.SelectedItem.ToString())
         ScriptInfoTextArea.Text = script.Info
         GetScriptStatus(script)
@@ -1831,11 +1808,11 @@ Public Class FrmSettings
     Private Sub ScriptStatusUnlock(state As Boolean)
         BTNScriptOpen.Enabled = state
         ScriptInfoTextArea.Enabled = state
-        RTBScriptReq.Enabled = state
+        ScriptRequirements.Enabled = state
         LBLScriptReq.Enabled = state
         If Not state Then
             ScriptInfoTextArea.Text = ""
-            RTBScriptReq.Text = ""
+            ScriptRequirements.Text = ""
             LBLScriptReq.Text = ""
         End If
     End Sub
@@ -1843,13 +1820,13 @@ Public Class FrmSettings
     Private Sub BtnScriptsOpen_Click(sender As Object, e As EventArgs) Handles BTNScriptOpen.Click
         Dim sessionPhase As SessionPhase = GetSessionPhase(TCScripts.SelectedTab)
         Dim checkedListBox As CheckedListBox = GetScriptsCheckedListBox(sessionPhase)
-        Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality, IIf(sessionPhase = SessionPhase.Modules, "Modules", "Stroke"), sessionPhase, True)
+        Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality, sessionPhase)
 
         Dim clickedScript = scripts.First(Function(smd) smd.Name = checkedListBox.SelectedItem.ToString())
         MainWindow.ShellExecute(clickedScript.Key)
     End Sub
 
-    Private Sub BtnScriptsSelectAutomated_Click(sender As Object, e As EventArgs) Handles SelectAvailableScriptsButton.Click, SelectNoScriptsButton.Click, SelectAllScriptsButton.Click
+    Private Sub BtnScriptsSelectAutomated_Click(sender As Object, e As EventArgs) Handles SelectNoScriptsButton.Click, SelectAvailableScriptsButton.Click, SelectAllScriptsButton.Click
         ' Lock Buttons to prevent double trigger
         SelectAvailableScriptsButton.Enabled = False
         SelectNoScriptsButton.Enabled = False
@@ -1883,7 +1860,7 @@ Public Class FrmSettings
                 End If
 
                 Dim scriptType As String = "Stroke"
-                Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality, IIf(sessionPhase = SessionPhase.Modules, "Modules", "Stroke"), sessionPhase, True)
+                Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality, sessionPhase)
 
                 For i As Integer = 0 To target.Items.Count - 1
                     Dim item = target.Items(i)
@@ -1904,6 +1881,284 @@ Public Class FrmSettings
         SelectAllScriptsButton.Enabled = True
     End Sub
 
+    ''' <summary>
+    ''' Load script metadata into the checked list box
+    ''' </summary>
+    ''' <param name="target"></param>
+    ''' <param name="dommePersonalityName"></param>
+    ''' <param name="type"></param>
+    ''' <param name="stage"></param>
+    ''' <param name="isEnabledByDefault"></param>
+    Private Sub LoadScriptMetaData(target As CheckedListBox, dommePersonalityName As String, type As String, stage As SessionPhase, isEnabledByDefault As Boolean)
+        Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(dommePersonalityName, stage)
+
+        Dim lastIndex As Integer = target.SelectedIndex
+        Dim lastItem As String = target.SelectedItem
+
+        target.BeginUpdate()
+        target.Items.Clear()
+        For Each cldFile In scripts
+            target.Items.Add(cldFile.Name, cldFile.IsEnabled)
+        Next
+
+        If lastIndex = -1 Then
+            ScriptStatusUnlock(False)
+        ElseIf target.Items.Count >= lastIndex Then
+            target.SelectedIndex = lastIndex
+        ElseIf target.Items.Contains(lastItem) Then
+            target.SelectedItem = lastItem
+        End If
+        target.EndUpdate()
+    End Sub
+
+    ''' <summary>
+    ''' Determine requirements for <paramref name="scriptMetaData"/>
+    ''' </summary>
+    ''' <param name="scriptMetaData"></param>
+    Public Function GetScriptRequirements(scriptMetaData As ScriptMetaData) As Tuple(Of Boolean, String)
+        Dim commandProcessors As Dictionary(Of String, ICommandProcessor) = myGetCommandProcessorsService.CreateCommandProcessors()
+        Dim areScriptRequirementsMet As Boolean = True
+        Dim requirements As List(Of String) = New List(Of String)()
+        Dim getScript As Result(Of Script) = myScriptAccessor.GetScript(scriptMetaData)
+        If (getScript.IsFailure) Then
+            Throw New ApplicationException(getScript.Error.Message)
+        End If
+        Dim script As Script = getScript.Value
+        For Each line In script.Lines
+            Dim workingLine As String = line
+            For Each scriptCommand In commandProcessors.Keys
+                If (commandProcessors(scriptCommand).IsRelevant(workingLine)) Then
+                    Dim parseCommand = commandProcessors(scriptCommand).ParseCommand(script, mySettingsAccessor.DommePersonality, workingLine)
+                    areScriptRequirementsMet = areScriptRequirementsMet AndAlso parseCommand.IsSuccess
+                    Dim requirement As String = GetCommandRequirement(scriptCommand)
+                    If (parseCommand.IsFailure) Then
+                        requirements.Add("- " + scriptCommand + " : " + requirement + Environment.NewLine + "   " + parseCommand.Error.Message)
+                    ElseIf Not String.IsNullOrWhiteSpace(requirement) Then
+                        requirements.Add("+ " + scriptCommand + " : " + requirement)
+                    End If
+                End If
+            Next
+        Next
+
+
+
+        'If script.Lines.Any(Function(l) l.Contains(Keyword.ShowLocalImage) OrElse l.Contains(Keyword.ShowImage)) Then
+        '    requirements.Add("* At least one Local Image path selected with a valid directory *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.IsImageGenreEnabled.Values.Any(Function(isEn) isEn)
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains("@CBTBalls")) Then
+        '    requirements.Add("* Ball Torture must be enabled *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.IsBallTortureEnabled
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains("@CBTCock")) Then
+        '    requirements.Add("* Cock Torture must be enabled *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.IsCockTortureEnabled
+        'End If
+
+        'If script.Lines.Any(Function(l) Not l.Contains("@CBTCock") AndAlso Not l.Contains("@CBTBalls") AndAlso l.Contains("@CBT")) Then
+        '    requirements.Add("* Cock Torture must be enabled *")
+        '    requirements.Add("* Ball Torture must be enabled *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.IsCockTortureEnabled AndAlso mySettingsAccessor.IsBallTortureEnabled
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains(Keyword.PlayJoiVideo)) Then
+        '    requirements.Add("* JOI or JOI Domme Video path selected with a valid directory *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet _
+        '            AndAlso ((CBVideoJOI.Checked AndAlso Convert.ToInt32(LblVideoJOITotal.Text) > 0) _
+        '                OrElse (CBVideoJOID.Checked AndAlso Convert.ToInt32(LblVideoJOITotalD.Text) > 0)
+        '            )
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains("PlayCHVideo")) Then
+        '    requirements.Add("* CH or CH Domme Video path selected with a valid directory *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet _
+        '            AndAlso ((CBVideoCH.Checked AndAlso Convert.ToInt32(LblVideoCHTotal.Text) > 0) _
+        '                OrElse (CBVideoCHD.Checked AndAlso Convert.ToInt32(LblVideoCHTotalD.Text) > 0)
+        '            )
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains(Keyword.ShowButtImage) OrElse l.Contains(Keyword.ShowButtsImage)) Then
+        '    requirements.Add("* BnB Butt path must be set to a valid directory or URL File *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso
+        '            ((mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Butt) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Butt))) OrElse
+        '            (ChbImageUrlButts.Checked AndAlso File.Exists(My.Settings.UrlFileButt)))
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains(Keyword.ShowBoobImage) OrElse l.Contains(Keyword.ShowBoobsImage)) Then
+        '    requirements.Add("* BnB Boobs path must be set to a valid directory or URL File *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso
+        '        ((mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Boobs) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Boobs))) OrElse
+        '        (ChbImageUrlButts.Checked AndAlso File.Exists(My.Settings.UrlFileButt)))
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains(Keyword.ShowHardcoreImage)) Then
+        '    requirements.Add("* Local Hardcore images must be enabled and set to a valid directory  *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso
+        '        mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Hardcore) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Hardcore))
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains(Keyword.ShowLesbianImage)) Then
+        '    requirements.Add("* Local Lesbian images must be enabled and set to a valid directory  *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso
+        '        mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Lesbian) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Lesbian))
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains(Keyword.ShowBlowjobImage)) Then
+        '    requirements.Add("* Local Blowjob images must be enabled and set to a valid directory  *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso
+        '        mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Blowjob) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Blowjob))
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains(Keyword.ShowFemdomImage)) Then
+        '    requirements.Add("* Local Femdom images must be enabled and set to a valid directory  *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso
+        '        mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Femdom) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Femdom))
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains(Keyword.ShowLezdomImage)) Then
+        '    requirements.Add("* Local Lezdom images must be enabled and set to a valid directory  *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso
+        '        mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Lezdom) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Lezdom))
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains(Keyword.ShowHentaiImage)) Then
+        '    requirements.Add("* Local Hentai images must be enabled and set to a valid directory  *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso
+        '        mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Hentai) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Hentai))
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains(Keyword.ShowGayImage)) Then
+        '    requirements.Add("* Local gay images must be enabled and set to a valid directory  *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso
+        '        mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Gay) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Gay))
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains(Keyword.ShowMaledomImage)) Then
+        '    requirements.Add("* Local maledom images must be enabled and set to a valid directory  *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso
+        '        mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Maledom) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Maledom))
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains(Keyword.ShowCaptionsImage)) Then
+        '    requirements.Add("* Local caption images must be enabled and set to a valid directory  *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso
+        '        mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Captions) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Captions))
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains(Keyword.ShowGeneralImage)) Then
+        '    requirements.Add("* Local general images must be enabled and set to a valid directory  *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso
+        '        mySettingsAccessor.IsImageGenreEnabled(ImageGenre.General) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.General))
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains("@ShowTaggedImage") AndAlso l.Contains("@Tag")) Then
+        '    Dim scriptTags As List(Of String) = String.Join(" ", script.Lines.All(Function(l) l.Contains("@Tag"))) _
+        '        .Split(" ") _
+        '        .Where(Function(l) l.StartsWith("@Tag")) _
+        '        .Select(Function(l) l.Replace("@Tag", "Tag")) _
+        '        .Distinct() _
+        '        .ToList()
+
+        '    Dim convertTagLogic = New ConvertTagLogic()
+        '    Dim missingTags As List(Of String) = New List(Of String)
+        '    For Each scriptTag In scriptTags
+        '        Dim images As List(Of ImageMetaData) = myImageMetaDataService.GetImagesWithTag(convertTagLogic.ConvertTag(scriptTag))
+        '        If (Not images.Any()) Then
+        '            missingTags.Add(scriptTag)
+        '        End If
+        '    Next
+        '    requirements.Add("* Images in LocalImageTags.txt tagged with: " & String.Join(" ", missingTags))
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso Not missingTags.Any()
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains("@ShowTaggedImage") AndAlso Not l.Contains("@Tag")) Then
+        '    Dim images As List(Of ImageMetaData) = myImageMetaDataService.Get(ImageSource.Local, Nothing)
+        '    requirements.Add("* Local images must be configured, and some images must exist *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso images.Any()
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains("@CheckVideo")) Then
+        '    MainWindow.ssh.VideoCheck = True
+        '    MainWindow.RandomVideo()
+        '    requirements.Add("* At least one Genre or Domme Video path set and selected *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso Not MainWindow.ssh.NoVideo
+        '    MainWindow.ssh.VideoCheck = False
+        '    MainWindow.ssh.NoVideo = False
+        'End If
+
+        '' Need to find out if we have videos for the next few
+        'MainWindow.ssh.VideoCheck = True
+        'MainWindow.RandomVideo()
+        'Dim hasVideos = Not MainWindow.ssh.NoVideo
+        'MainWindow.ssh.VideoCheck = False
+        'MainWindow.ssh.NoVideo = False
+
+        'If script.Lines.Any(Function(l) l.Contains("@CheckVideo")) Then
+        '    requirements.Add("* At least one Genre or Domme Video path set and selected *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso hasVideos
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains("@PlayCensorShipSucks") OrElse l.Contains("@PlayAvoidTheEdge") OrElse l.Contains("@PlayRedLightGreenLight")) Then
+        '    requirements.Add("* At least one non-Special Genre or Domme Video path set and selected *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso hasVideos
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains("@ChastityOn") OrElse l.Contains("@ChastityOff")) Then
+        '    requirements.Add("* You must indicate you own a chastity device *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.HasChastityDevice
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains("@DeleteLocalImage")) Then
+        '    requirements.Add("* ""Allow Domme to Delete Local Media"" muct be checked *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.CanDommeDeleteFiles
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains("@DeleteLocalImage")) Then
+        '    requirements.Add("* ""Allow Domme to Delete Local Media"" muct be checked *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.CanDommeDeleteFiles
+        'End If
+
+        'If script.Lines.Any(Function(l) l.Contains("@VitalSubAssignment")) Then
+        '    requirements.Add("* ""Allow Domme to Delete Local Media"" muct be checked *")
+        '    requirements.Add("* VitalSub must be enabled *")
+        '    requirements.Add("* ""Domme Assignments"" must be checked in the VitalSub app *")
+        '    areScriptRequirementsMet = areScriptRequirementsMet AndAlso MainWindow.CBVitalSub.Checked AndAlso MainWindow.CBVitalSubDomTask.Checked
+        'End If
+        Return Tuple.Create(areScriptRequirementsMet, String.Join(Environment.NewLine, requirements.Distinct()).Replace("**", "* *"))
+    End Function
+
+    ''' <summary>
+    ''' Determine requirements for <paramref name="scriptMetaData"/>
+    ''' </summary>
+    ''' <param name="scriptMetaData"></param>
+    Public Sub GetScriptStatus(scriptMetaData As ScriptMetaData)
+        Dim scriptRequirements = GetScriptRequirements(scriptMetaData)
+
+        Try
+            ScriptStatusUnlock(True)
+            Me.ScriptRequirements.Text = scriptRequirements.Item2
+
+            If Not scriptRequirements.Item1 Then
+                LBLScriptReq.ForeColor = Color.Red
+                LBLScriptReq.Text = "All requirements not met!"
+            Else
+                LBLScriptReq.ForeColor = Color.Green
+                LBLScriptReq.Text = "All requirements met!"
+            End If
+        Catch ex As Exception
+            ScriptStatusUnlock(False)
+            MessageBox.Show(ex.Message, "Error Checking ScriptStatus", MessageBoxButtons.OK, MessageBoxIcon.Hand)
+        End Try
+    End Sub
+
+    Public Function GetCommandRequirement(scriptCommand As String) As String
+        If scriptCommand.Contains(Keyword.ShowBlogImage) OrElse scriptCommand.Contains(Keyword.NewBlogImage) OrElse scriptCommand.Contains(Keyword.ShowImage) Then
+            Return "At least one URL File must be configured"
+        End If
+        Return String.Empty
+    End Function
 #End Region ' Scripts
 
 #Region "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Apps ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
@@ -1990,7 +2245,7 @@ Public Class FrmSettings
         SetColor(LBLGlitterNC3)
     End Sub
 
-    Private Sub CBGlitterFeed_CheckedChanged(sender As Object, e As EventArgs) Handles CBGlitterFeed.Click, CBGlitterFeedScripts.Click, CBGlitterFeedOff.Click
+    Private Sub CBGlitterFeed_CheckedChanged(sender As Object, e As EventArgs) Handles CBGlitterFeedScripts.Click, CBGlitterFeedOff.Click, CBGlitterFeed.Click
         If MainWindow.FormLoading Then
             Return
         End If
@@ -2200,14 +2455,9 @@ Public Class FrmSettings
         {BP1, BP2, BP3, BP4, BP5, BP6, SP1, SP2, SP3, SP4, SP5, SP6,
         GP1, GP2, GP3, GP4, GP5, GP6, CardBack}
 
-            If tmpPicBox.DataBindings.Item("ImageLocation") Is Nothing Then
-                Throw New Exception("There is no databinding set on """ & tmpPicBox.Name &
-                                    """'s image location. Set the databinding and recompile!")
-            End If
-
             tmpPicBox.AllowDrop = True
 
-            If tmpPicBox.ImageLocation = My.Settings.GetDefault(tmpPicBox, "ImageLocation") Then
+            If String.IsNullOrWhiteSpace(tmpPicBox.ImageLocation) Then
                 rtnVal = False
             ElseIf File.Exists(tmpPicBox.ImageLocation) Then
                 tmpPicBox.Image = Image.FromFile(tmpPicBox.ImageLocation)
@@ -2222,12 +2472,7 @@ Public Class FrmSettings
                 SN1, SN2, SN3, SN4, SN5, SN6,
                 GN1, GN2, GN3, GN4, GN5, GN6}
 
-            If tmpTbx.DataBindings.Item("Text") Is Nothing Then
-                Throw New Exception("There is no databinding set on """ & tmpTbx.Name &
-                                    """'s text property. Set the databinding and recompile!")
-            End If
-
-            If tmpTbx.Text.Length < 1 Then My.Settings.ResetField(tmpTbx, "Text")
+            'If tmpTbx.Text.Length < 1 Then My.Settings.ResetField(tmpTbx, "Text")
         Next
         Return rtnVal
     End Function
@@ -2296,29 +2541,17 @@ Public Class FrmSettings
         End Try
     End Sub
 
-    Private Sub CardPictureboxes_DragEnter(ByVal sender As Object, ByVal e As Windows.Forms.DragEventArgs) Handles _
-                                        BP1.DragEnter, BP2.DragEnter, BP3.DragEnter, BP4.DragEnter, BP5.DragEnter, BP6.DragEnter,
-                                        SP1.DragEnter, SP2.DragEnter, SP3.DragEnter, SP4.DragEnter, SP5.DragEnter, SP6.DragEnter,
-                                        GP1.DragEnter, GP2.DragEnter, GP3.DragEnter, GP4.DragEnter, GP5.DragEnter, GP6.DragEnter,
-                                        CardBack.DragEnter
+    Private Sub CardPictureboxes_DragEnter(ByVal sender As Object, ByVal e As Windows.Forms.DragEventArgs) Handles SP6.DragEnter, SP5.DragEnter, SP4.DragEnter, SP3.DragEnter, SP2.DragEnter, SP1.DragEnter, GP6.DragEnter, GP5.DragEnter, GP4.DragEnter, GP3.DragEnter, GP2.DragEnter, GP1.DragEnter, CardBack.DragEnter, BP6.DragEnter, BP5.DragEnter, BP4.DragEnter, BP3.DragEnter, BP2.DragEnter, BP1.DragEnter
         If (e.Data.GetDataPresent(DataFormats.FileDrop)) Then
             e.Effect = DragDropEffects.Copy
         End If
     End Sub
 
-    Private Sub CardPictureboxes_DragDrop(sender As Object, e As Windows.Forms.DragEventArgs) Handles _
-                                        BP1.DragDrop, BP2.DragDrop, BP3.DragDrop, BP4.DragDrop, BP5.DragDrop, BP6.DragDrop,
-                                        SP1.DragDrop, SP2.DragDrop, SP3.DragDrop, SP4.DragDrop, SP5.DragDrop, SP6.DragDrop,
-                                        GP1.DragDrop, GP2.DragDrop, GP3.DragDrop, GP4.DragDrop, GP5.DragDrop, GP6.DragDrop,
-                                        CardBack.DragDrop
+    Private Sub CardPictureboxes_DragDrop(sender As Object, e As Windows.Forms.DragEventArgs) Handles SP6.DragDrop, SP5.DragDrop, SP4.DragDrop, SP3.DragDrop, SP2.DragDrop, SP1.DragDrop, GP6.DragDrop, GP5.DragDrop, GP4.DragDrop, GP3.DragDrop, GP2.DragDrop, GP1.DragDrop, CardBack.DragDrop, BP6.DragDrop, BP5.DragDrop, BP4.DragDrop, BP3.DragDrop, BP2.DragDrop, BP1.DragDrop
         CardImageSet(CType(sender, PictureBox), CType(e.Data.GetData(DataFormats.FileDrop), Array).GetValue(0))
     End Sub
 
-    Private Sub CardPictureboxes_Click(sender As Object, e As EventArgs) Handles _
-                                        BP1.Click, BP2.Click, BP3.Click, BP4.Click, BP5.Click, BP6.Click,
-                                        SP1.Click, SP2.Click, SP3.Click, SP4.Click, SP5.Click, SP6.Click,
-                                        GP1.Click, GP2.Click, GP3.Click, GP4.Click, GP5.Click, GP6.Click,
-                                        CardBack.Click
+    Private Sub CardPictureboxes_Click(sender As Object, e As EventArgs) Handles SP6.Click, SP5.Click, SP4.Click, SP3.Click, SP2.Click, SP1.Click, GP6.Click, GP5.Click, GP4.Click, GP3.Click, GP2.Click, GP1.Click, CardBack.Click, BP6.Click, BP5.Click, BP4.Click, BP3.Click, BP2.Click, BP1.Click
         If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
             CardImageSet(CType(sender, PictureBox), OpenFileDialog1.FileName)
         End If
@@ -2327,10 +2560,7 @@ Public Class FrmSettings
     ''' <summary>
     ''' Resets the databinding source of a TextBox to its initial value, if there is no Text entered.
     ''' </summary>
-    Private Sub CardTextboxes_Validating(sender As Object, e As CancelEventArgs) Handles _
-                                        BN1.Validating, BN2.Validating, BN3.Validating, BN4.Validating, BN5.Validating, BN6.Validating,
-                                        SN1.Validating, SN2.Validating, SN3.Validating, SN4.Validating, SN5.Validating, SN6.Validating,
-                                        GN1.Validating, GN2.Validating, GN3.Validating, GN4.Validating, GN5.Validating, GN6.Validating
+    Private Sub CardTextboxes_Validating(sender As Object, e As CancelEventArgs) Handles SN6.Validating, SN5.Validating, SN4.Validating, SN3.Validating, SN2.Validating, SN1.Validating, GN6.Validating, GN5.Validating, GN4.Validating, GN3.Validating, GN2.Validating, GN1.Validating, BN6.Validating, BN5.Validating, BN4.Validating, BN3.Validating, BN2.Validating, BN1.Validating
         Dim tmpTbx As TextBox = CType(sender, TextBox)
 
         If tmpTbx.Text = "" AndAlso tmpTbx.DataBindings("Text") IsNot Nothing Then
@@ -2343,864 +2573,225 @@ Public Class FrmSettings
 
 #End Region ' Apps
 
-#Region "-------------------------------------- URL Files -----------------------------------------------"
+#Region "Images Tab"
 
-    Private Sub Button57_Click(sender As Object, e As EventArgs) Handles BTNWIBrowse.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-            TBWIDirectory.Text = FolderBrowserDialog1.SelectedPath
+    Private Async Sub RemoteMediaContainerList_SelectedIndexChanged(sender As Object, e As EventArgs) Handles RemoteMediaContainerList.SelectedIndexChanged
+        If Not RemoteMediaContainerList.Visible AndAlso RemoteMediaContainerList.SelectedIndex >= 0 Then
+            Return
         End If
-    End Sub
-
-    Private Sub CBWISaveToDisk_CheckedChanged(sender As Object, e As EventArgs) Handles CBWISaveToDisk.CheckedChanged
-
-        If CBWISaveToDisk.Checked Then
-            If Not Directory.Exists(TBWIDirectory.Text) Then
-                MessageBox.Show(Me, "Please enter or browse for a valid Saved Image Directory first!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
-                CBWISaveToDisk.Checked = False
+        If PreviewRemoteImagesCheckBox.Checked Then
+            Dim mediaContainer = myMediaContainerService.Get(1, ImageSource.Remote).First(Function(mc) mc.Name = RemoteMediaContainerList.SelectedItem.ToString())
+            Dim imageMetaDatas = myImageMetaDataService.GetImagesInContainer(mediaContainer.Id) _
+                .Ensure(Function(imds) imds.Any(), "No images stored for " & mediaContainer.Name) _
+                .OnSuccess(Async Function(imds)
+                               Dim image As ImageMetaData = imds(MainWindow.ssh.randomizer.Next(0, imds.Count))
+                               PBURLPreview.Image = Await LoadImageAsync(image)
+                           End Function)
+            If imageMetaDatas.IsFailure Then
+                Await myNotifyUserService.ErrorMessageAsync(imageMetaDatas.Error)
             End If
         End If
     End Sub
 
-    Private Sub BTNWIAddandContinue_Click(sender As Object, e As EventArgs) Handles BTNWIAddandContinue.Click
-        ApproveImage = 1
-    End Sub
-
-    Private Sub BTNWIContinue_Click(sender As Object, e As EventArgs) Handles BTNWIContinue.Click
-        ApproveImage = 2
-    End Sub
-
-    Private Sub BTNCancel_Click(sender As Object, e As EventArgs) Handles BTNWICancel.Click
-        If BWURLFiles.IsBusy Then BWURLFiles.CancelAsync()
-    End Sub
-
-    Private Sub BTNWIRemove_Click(sender As Object, e As EventArgs) Handles BTNWIRemove.Click
-
-
-        WebImageLines.Remove(WebImageLines(WebImageLine))
-
-
-        If WebImageLine = WebImageLines.Count Then WebImageLine = 0
-        '
-        'Else
-        'WebImageLine += 1
-        'End If
-
-        Try
-            WebPictureBox.Image.Dispose()
-        Catch
-        End Try
-
-        WebPictureBox.Image = Nothing
-        GC.Collect()
-
-        WebPictureBox.Image = New System.Drawing.Bitmap(New IO.MemoryStream(New System.Net.WebClient().DownloadData(WebImageLines(WebImageLine))))
-
-        Debug.Print(WebImageLines(WebImageLine))
-
-        My.Computer.FileSystem.DeleteFile(WebImagePath)
-
-        If File.Exists(WebImagePath) Then
-            Debug.Print("File Exists")
-        Else
-            Debug.Print("Nope")
+    Private Async Sub RemoteMediaContainerList_ItemCheck(sender As Object, e As EventArgs) Handles RemoteMediaContainerList.ItemCheck
+        If (Not RemoteMediaContainerList.Visible) OrElse RemoteMediaContainerList.SelectedIndex < 0 Then
+            Return
         End If
+        Dim mediaContainer = myMediaContainerService.Get(1, ImageSource.Remote).First(Function(mc) mc.Name = RemoteMediaContainerList.SelectedItem.ToString())
+        mediaContainer.IsEnabled = Not mediaContainer.IsEnabled
+        Dim updateContainer As Result(Of MediaContainer) = myMediaContainerService.Update(mediaContainer)
 
-        My.Computer.FileSystem.WriteAllText(WebImagePath, String.Join(Environment.NewLine, WebImageLines), False)
-
-    End Sub
-
-    Private Sub BTNWILiked_Click(sender As Object, e As EventArgs) Handles BTNWILiked.Click
-
-
-        If File.Exists(Application.StartupPath & "\Images\System\LikedImageURLs.txt") Then
-            My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Images\System\LikedImageURLs.txt", Environment.NewLine & WebImageLines(WebImageLine), True)
-        Else
-            My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Images\System\LikedImageURLs.txt", WebImageLines(WebImageLine), True)
-        End If
-
-
-    End Sub
-
-    Private Sub BTNWIDisliked_Click(sender As Object, e As EventArgs) Handles BTNWIDisliked.Click
-
-        If File.Exists(Application.StartupPath & "\Images\System\DislikedImageURLs.txt") Then
-            My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Images\System\DislikedImageURLs.txt", Environment.NewLine & WebImageLines(WebImageLine), True)
-        Else
-            My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Images\System\DislikedImageURLs.txt", WebImageLines(WebImageLine), True)
+        If updateContainer.IsFailure Then
+            Await myNotifyUserService.ErrorMessageAsync(updateContainer.Error)
         End If
 
     End Sub
 
-    Private Sub WebPictureBox_MouseWheel(sender As Object, e As Windows.Forms.MouseEventArgs) Handles WebPictureBox.MouseWheel
-
-        Select Case e.Delta
-            Case -120 'Scrolling down
-                WebImageLine += 1
-
-                If WebImageLine > WebImageLineTotal - 1 Then
-                    WebImageLine = WebImageLineTotal
-                    MsgBox("No more images to display!", , "Warning!")
-                    Return
-                End If
-
-                Try
-                    WebPictureBox.Image.Dispose()
-                Catch
-                End Try
-                WebPictureBox.Image = Nothing
-                GC.Collect()
-
-                WebPictureBox.Image = New System.Drawing.Bitmap(New IO.MemoryStream(New System.Net.WebClient().DownloadData(WebImageLines(WebImageLine))))
-                LBLWebImageCount.Text = WebImageLine + 1 & "/" & WebImageLineTotal
-            Case 120 'Scrolling up
-                WebImageLine -= 1
-
-                If WebImageLine < 0 Then
-                    WebImageLine = 0
-                    MsgBox("No more images to display!", , "Warning!")
-                    Return
-                End If
-
-                Try
-                    WebPictureBox.Image.Dispose()
-                Catch
-                End Try
-                WebPictureBox.Image = Nothing
-                GC.Collect()
-                WebPictureBox.Image = New System.Drawing.Bitmap(New IO.MemoryStream(New System.Net.WebClient().DownloadData(WebImageLines(WebImageLine))))
-                LBLWebImageCount.Text = WebImageLine + 1 & "/" & WebImageLineTotal
-        End Select
-
-
+    Private Sub RemoteMediaContainerList_VisibleChanged(sender As Object, e As EventArgs) Handles RemoteMediaContainerList.VisibleChanged
+        Dim remoteImageMediaContainers = myMediaContainerService.Get(1, ImageSource.Remote)
+        RemoteMediaContainerList.Items.Clear()
+        For Each mediaContainer In remoteImageMediaContainers
+            RemoteMediaContainerList.Items.Add(mediaContainer.Name, mediaContainer.IsEnabled)
+        Next
+        RemoteMediaContainerList.Refresh()
     End Sub
 
-    Private Sub PictureBox1_MouseEnter(ByVal sender As Object, ByVal e As EventArgs) Handles WebPictureBox.MouseEnter
-        WebPictureBox.Focus()
-    End Sub
-
-
-    Private Sub Button36_Click(sender As Object, e As EventArgs) Handles BTNWIOpenURL.Click
-
-        WebImageFileDialog.InitialDirectory = Application.StartupPath & "\Images\System\URL Files"
-
-        If (WebImageFileDialog.ShowDialog = Windows.Forms.DialogResult.OK) Then
-
-            WebImageFile = New IO.StreamReader(WebImageFileDialog.FileName)
-            WebImagePath = WebImageFileDialog.FileName
-
-            WebImageLines.Clear()
-
-            WebImageLine = 0
-            WebImageLineTotal = 0
-
-            While WebImageFile.Peek <> -1
-                WebImageLineTotal += 1
-                WebImageLines.Add(WebImageFile.ReadLine())
-            End While
-
-            Try
-                WebPictureBox.Image.Dispose()
-            Catch
-            End Try
-            WebPictureBox.Image = Nothing
-            GC.Collect()
-
-            Try
-                WebPictureBox.Image = New System.Drawing.Bitmap(New IO.MemoryStream(New System.Net.WebClient().DownloadData(WebImageLines(0))))
-            Catch
-                MessageBox.Show(Me, "Failed to load URL File image!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            End Try
-
-            WebImageFile.Close()
-            WebImageFile.Dispose()
-
-            LBLWebImageCount.Text = WebImageLine + 1 & "/" & WebImageLineTotal
-
-
-            BTNWINext.Enabled = True
-            BTNWIPrevious.Enabled = True
-            BTNWIRemove.Enabled = True
-            BTNWILiked.Enabled = True
-            BTNWIDisliked.Enabled = True
-            BTNWISave.Enabled = True
-
-
+    Private Sub URL_File_Set(ByVal URL_FileName As String)
+        ' Set the new URL-File
+        If Not RemoteMediaContainerList.Items.Contains(URL_FileName) Then
+            RemoteMediaContainerList.Items.Add(URL_FileName)
+            For i As Integer = 0 To RemoteMediaContainerList.Items.Count - 1
+                If RemoteMediaContainerList.Items(i) = URL_FileName Then RemoteMediaContainerList.SetItemChecked(i, True)
+            Next
         End If
-
-
-
-
+        ' Save ListState
     End Sub
 
+    Private Sub BTNURLFilesAll_Click(sender As Object, e As EventArgs) Handles BTNURLFilesAll.Click
+        For i As Integer = 0 To RemoteMediaContainerList.Items.Count - 1
+            RemoteMediaContainerList.SetItemChecked(i, True)
+        Next
+    End Sub
 
-    Private Sub Button35_Click_2(sender As Object, e As EventArgs) Handles BTNWINext.Click
+    Private Sub BTNURLFilesNone_Click(sender As Object, e As EventArgs) Handles BTNURLFilesNone.Click
+        For i As Integer = 0 To RemoteMediaContainerList.Items.Count - 1
+            RemoteMediaContainerList.SetItemChecked(i, False)
+        Next
+    End Sub
 
-TryNextImage:
+    Private Sub TpImagesG(sender As Object, e As EventArgs) Handles TpImagesGenre.VisibleChanged
+        If Not TpImagesGenre.Visible Then
+            Return
+        End If
+        Dim mediaContainers = myMediaContainerService.Get().Where(Function(mc) mc.MediaTypeId = 1 AndAlso mc.SourceId = ImageSource.Local).ToList()
 
-        WebImageLine += 1
+        For Each mediaContainer In mediaContainers
+            Dim controlName As String = mediaContainer.SourceId.ToString() & mediaContainer.GenreId.ToString()
+            Dim enabledCheckBoxControl As CheckBox = CType(FindChildControl(TableLayoutPanel1, controlName & "EnabledCheckBox"), CheckBox)
+            enabledCheckBoxControl.Checked = mediaContainer.IsEnabled
 
-        If WebImageLine > WebImageLineTotal - 1 Then
-            WebImageLine = WebImageLineTotal
-            MsgBox("No more images to display!", , "Warning!")
+            Dim subdirectoryCheckBoxControl As CheckBox = CType(FindChildControl(TableLayoutPanel1, controlName & "SubdirectoryCheckBox"), CheckBox)
+            subdirectoryCheckBoxControl.Checked = mediaContainer.UseSubFolders
+
+            Dim directoryTextBox As TextBox = CType(FindChildControl(TableLayoutPanel1, controlName & "DirectoryTextBox"), TextBox)
+            directoryTextBox.Text = mediaContainer.Path
+        Next
+    End Sub
+
+    Private Sub LocalHardcoreEnabledCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles LocalHardcoreSubdirectoryCheckBox.CheckedChanged, LocalHardcoreEnabledCheckBox.CheckedChanged
+        UpdateMediaContainerFromControls(ImageSource.Local, ImageGenre.Hardcore)
+    End Sub
+
+    Private Sub LocalHardcoreDirectoryButton_Click(sender As Object, e As EventArgs) Handles LocalHardcoreDirectoryButton.Click
+        SetDirectory(ImageSource.Local, ImageGenre.Hardcore)
+    End Sub
+
+    Private Sub LocalSoftcoreEnabledCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles LocalSoftcoreSubdirectoryCheckBox.CheckedChanged, LocalSoftcoreEnabledCheckBox.CheckedChanged
+        UpdateMediaContainerFromControls(ImageSource.Local, ImageGenre.Softcore)
+    End Sub
+
+    Private Sub LocalSoftcoreDirectoryButton_Click(sender As Object, e As EventArgs) Handles LocalSoftcoreDirectoryButton.Click
+        SetDirectory(ImageSource.Local, ImageGenre.Softcore)
+    End Sub
+
+    Private Sub LocalLesbianEnabledCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles LocalLesbianSubdirectoryCheckBox.CheckedChanged, LocalLesbianEnabledCheckBox.CheckedChanged
+        UpdateMediaContainerFromControls(ImageSource.Local, ImageGenre.Lesbian)
+    End Sub
+
+    Private Sub LocalLesbianDirectoryButton_Click(sender As Object, e As EventArgs) Handles LocalLesbianDirectoryButton.Click
+        SetDirectory(ImageSource.Local, ImageGenre.Lesbian)
+    End Sub
+
+    Private Sub LocalBlowJobEnabledCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles LocalBlowjobSubdirectoryCheckBox.CheckedChanged, LocalBlowjobEnabledCheckBox.CheckedChanged
+        UpdateMediaContainerFromControls(ImageSource.Local, ImageGenre.Blowjob)
+    End Sub
+
+    Private Sub LocalBlowjobDirectoryButton_Click(sender As Object, e As EventArgs) Handles LocalBlowjobDirectoryButton.Click
+        SetDirectory(ImageSource.Local, ImageGenre.Blowjob)
+    End Sub
+
+    Private Sub LocalFemdomEnabledCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles LocalFemdomSubdirectoryCheckBox.CheckedChanged, LocalFemdomEnabledCheckBox.CheckedChanged
+        UpdateMediaContainerFromControls(ImageSource.Local, ImageGenre.Femdom)
+    End Sub
+
+    Private Sub LocalFemdomDirectoryButton_Click(sender As Object, e As EventArgs) Handles LocalFemdomDirectoryButton.Click
+        SetDirectory(ImageSource.Local, ImageGenre.Femdom)
+    End Sub
+
+    Private Sub LocalLezdomEnabledCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles LocalLezdomSubdirectoryCheckBox.CheckedChanged, LocalLezdomEnabledCheckBox.CheckedChanged
+        UpdateMediaContainerFromControls(ImageSource.Local, ImageGenre.Lezdom)
+    End Sub
+
+    Private Sub LocalLezdomDirectoryButton_Click(sender As Object, e As EventArgs) Handles LocalLezdomDirectoryButton.Click
+        SetDirectory(ImageSource.Local, ImageGenre.Lezdom)
+    End Sub
+
+    Private Sub LocalHentaiEnabledCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles LocalHentaiSubdirectoryCheckBox.CheckedChanged, LocalHentaiEnabledCheckBox.CheckedChanged
+        UpdateMediaContainerFromControls(ImageSource.Local, ImageGenre.Hentai)
+    End Sub
+
+    Private Sub LocalHentaiDirectoryButton_Click(sender As Object, e As EventArgs) Handles LocalHentaiDirectoryButton.Click
+        SetDirectory(ImageSource.Local, ImageGenre.Hentai)
+    End Sub
+
+    Private Sub LocalGayEnabledCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles LocalGaySubdirectoryCheckBox.CheckedChanged, LocalGayEnabledCheckBox.CheckedChanged
+        UpdateMediaContainerFromControls(ImageSource.Local, ImageGenre.Gay)
+    End Sub
+
+    Private Sub LocalGayDirectoryButton_Click(sender As Object, e As EventArgs) Handles LocalGayDirectoryButton.Click
+        SetDirectory(ImageSource.Local, ImageGenre.Gay)
+    End Sub
+
+    Private Sub LocalMaledomEnabledCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles LocalMaledomSubdirectoryCheckBox.CheckedChanged, LocalMaledomEnabledCheckBox.CheckedChanged
+        UpdateMediaContainerFromControls(ImageSource.Local, ImageGenre.Maledom)
+    End Sub
+
+    Private Sub LocalMaledomDirectoryButton_Click(sender As Object, e As EventArgs) Handles LocalMaledomDirectoryButton.Click
+        SetDirectory(ImageSource.Local, ImageGenre.Maledom)
+    End Sub
+
+    Private Sub LocalCaptionsEnabledCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles LocalCaptionsSubdirectoryCheckBox.CheckedChanged, LocalCaptionsEnabledCheckBox.CheckedChanged
+        UpdateMediaContainerFromControls(ImageSource.Local, ImageGenre.Captions)
+    End Sub
+
+    Private Sub LocalCaptionsDirectoryButton_Click(sender As Object, e As EventArgs) Handles LocalCaptionsDirectoryButton.Click
+        SetDirectory(ImageSource.Local, ImageGenre.Captions)
+    End Sub
+
+    Private Sub LocalGeneralEnabledCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles LocalGeneralSubdirectoryCheckBox.CheckedChanged, LocalGeneralEnabledCheckBox.CheckedChanged
+        UpdateMediaContainerFromControls(ImageSource.Local, ImageGenre.General)
+    End Sub
+
+    Private Sub LocalGeneralDirectoryButton_Click(sender As Object, e As EventArgs) Handles LocalGeneralDirectoryButton.Click
+        SetDirectory(ImageSource.Local, ImageGenre.General)
+    End Sub
+
+    Private Sub LocalBoobsEnabledCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles LocalBoobsSubdirectoryCheckBox.CheckedChanged, LocalBoobsEnabledCheckBox.CheckedChanged
+        UpdateMediaContainerFromControls(ImageSource.Local, ImageGenre.Boobs)
+    End Sub
+
+    Private Sub LocalBoobsDirectoryButton_Click(sender As Object, e As EventArgs) Handles LocalBoobsDirectoryButton.Click
+        SetDirectory(ImageSource.Local, ImageGenre.Boobs)
+    End Sub
+
+    Private Sub LocalButtEnabledCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles LocalButtSubdirectoryCheckBox.CheckedChanged, LocalButtEnabledCheckBox.CheckedChanged
+        UpdateMediaContainerFromControls(ImageSource.Local, ImageGenre.Butt)
+    End Sub
+
+    Private Sub LocalButtDirectoryButton_Click(sender As Object, e As EventArgs) Handles LocalButtDirectoryButton.Click
+        SetDirectory(ImageSource.Local, ImageGenre.Butt)
+    End Sub
+
+    Private Sub UpdateMediaContainerFromControls(source As ImageSource, genre As ImageGenre)
+        If Not TableLayoutPanel1.Visible Then
             Return
         End If
 
-        Try
-            WebPictureBox.Image.Dispose()
-        Catch
-        End Try
+        Dim controlName As String = source.ToString() & genre.ToString()
+        Dim mediaContainer As MediaContainer = GetMediaContainer(1, source, genre)
 
-        WebPictureBox.Image = Nothing
-        GC.Collect()
-        Try
-            WebPictureBox.Image = New System.Drawing.Bitmap(New IO.MemoryStream(New System.Net.WebClient().DownloadData(WebImageLines(WebImageLine))))
-            LBLWebImageCount.Text = WebImageLine + 1 & "/" & WebImageLineTotal
-        Catch ex As Exception
-            GoTo TryNextImage
-        End Try
+        Dim enabledCheckBoxControl As CheckBox = CType(FindChildControl(TableLayoutPanel1, controlName & "EnabledCheckBox"), CheckBox)
+        mediaContainer.IsEnabled = enabledCheckBoxControl.Checked
 
+        Dim subdirectoryCheckBoxControl As CheckBox = CType(FindChildControl(TableLayoutPanel1, controlName & "SubdirectoryCheckBox"), CheckBox)
+        mediaContainer.UseSubFolders = subdirectoryCheckBoxControl.Checked
 
-
+        myMediaContainerService.Update(mediaContainer)
     End Sub
 
-    Private Sub Button18_Click_2(sender As Object, e As EventArgs) Handles BTNWIPrevious.Click
+    Private Sub SetDirectory(source As ImageSource, genre As ImageGenre)
+        Dim controlName As String = source.ToString() & genre.ToString()
+        Dim directoryTextBoxControl As TextBox = CType(FindChildControl(TableLayoutPanel1, controlName & "DirectoryTextBox"), TextBox)
+        Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
+        folderBrowserDialog.SelectedPath = directoryTextBoxControl.Text
 
-trypreviousimage:
-
-        WebImageLine -= 1
-
-        If WebImageLine < 0 Then
-            WebImageLine = 0
-            MsgBox("No more images to display!", , "Warning!")
+        Dim answer = folderBrowserDialog.ShowDialog()
+        If answer <> DialogResult.OK Then
             Return
         End If
-
-        Try
-            WebPictureBox.Image.Dispose()
-        Catch
-        End Try
-
-        WebPictureBox.Image = Nothing
-        GC.Collect()
-        Try
-            WebPictureBox.Image = New System.Drawing.Bitmap(New IO.MemoryStream(New System.Net.WebClient().DownloadData(WebImageLines(WebImageLine))))
-            LBLWebImageCount.Text = WebImageLine + 1 & "/" & WebImageLineTotal
-        Catch ex As Exception
-            GoTo trypreviousimage
-        End Try
-
+        directoryTextBoxControl.Text = folderBrowserDialog.SelectedPath
+        UpdateMediaContainerFromControls(source, genre)
     End Sub
-
-    Private Sub Button37_Click(sender As Object, e As EventArgs) Handles BTNWISave.Click
-
-        If WebPictureBox.Image Is Nothing Then
-            MsgBox("Nothing to save!", , "Error!")
-            Return
-        End If
-
-
-        SaveFileDialog1.Filter = "jpegs|*.jpg|gifs|*.gif|pngs|*.png|Bitmaps|*.bmp"
-        SaveFileDialog1.FilterIndex = 1
-        SaveFileDialog1.RestoreDirectory = True
-
-
-        Try
-
-            WebImage = WebImageLines(WebImageLine)
-
-            Dim DirSplit As String() = WebImage.Split("/")
-            WebImage = DirSplit(DirSplit.Length - 1)
-
-            ' ### Clean Code
-            'Do Until Not Form1.WebImage.Contains("/")
-            'Form1.WebImage = Form1.WebImage.Remove(0, 1)
-            'Loop
-
-            SaveFileDialog1.FileName = WebImage
-
-        Catch ex As Exception
-
-            SaveFileDialog1.FileName = "image.jpg"
-
-        End Try
-
-
-
-
-
-        If SaveFileDialog1.ShowDialog() = DialogResult.OK Then
-
-            WebPictureBox.Image.Save(SaveFileDialog1.FileName)
-
-        End If
-
-    End Sub
-
-    Private Sub Button38_Click(sender As Object, e As EventArgs) Handles BTNWICreateURL.Click,
-                                                                                       BTNMaintenanceRefresh.Click,
-                                                                                       BTNMaintenanceRebuild.Click
-        ' Group Buttons by inital-State.
-        Dim __PreEnabled As New List(Of Control) From
-            {BTNWIOpenURL, BTNWICreateURL, BTNMaintenanceRefresh,
-            BTNMaintenanceRebuild, BTNMaintenanceScripts}
-        Dim __PreDisabled As New List(Of Control) From
-            {BTNWICancel, BTNMaintenanceCancel}
-
-        Try
-            ' Set their new State, so the User can't disturb.
-            __PreEnabled.ForEach(Sub(x) x.Enabled = False)
-            __PreDisabled.ForEach(Sub(x) x.Enabled = True)
-
-            Select Case sender.name
-                Case BTNWICreateURL.Name
-                    '**************************************************************************************************************
-                    '                                                Create URL-File
-                    '**************************************************************************************************************
-                    Dim __BtnLocalURL As New List(Of Control) From {
-                        BTNWINext, BTNWIPrevious, BTNWIRemove, BTNWILiked, BTNWIDisliked, BTNWISave}
-                    Try
-                        ' Disable Buttons for Opening-URL-Files
-                        __BtnLocalURL.ForEach(Sub(x) x.Enabled = False)
-
-                        ' Run Backgroundworker
-                        Dim __tmpResult As URL_File_BGW.CreateUrlFileResult = BWURLFiles.CreateURLFileAsync()
-
-                        ' Activate the created URL-File
-                        URL_File_Set(__tmpResult.Filename)
-
-                        ' UserInfo
-                        If __tmpResult._Error Is Nothing Then
-                            MsgBox("URL File has been saved to:" &
-                               vbCrLf & vbCrLf & Application.StartupPath & "\Images\System\URL Files\" & __tmpResult.Filename & ".txt" &
-                               vbCrLf & vbCrLf & "Use the ""Open URL File"" button to load and view your collections.",  , "Success!")
-                        Else
-                            MsgBox("It is encountered an error during URL-File-Creation." & vbCrLf &
-                                   __tmpResult._Error.Message & vbCrLf &
-                                       "URL File has been saved to:" &
-                                    vbCrLf & vbCrLf & Application.StartupPath & "\Images\System\URL Files\" & __tmpResult.Filename & ".txt" &
-                                    vbCrLf & vbCrLf & "Use the ""Open URL File"" button to load and view your collections.",  , "Successful despite errors!")
-                        End If
-                    Catch
-                        '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-                        '                                            All Errors
-                        '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-                        Throw
-                    Finally
-                        '⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑ Finally ⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑
-                        __BtnLocalURL.ForEach(Sub(x) x.Enabled = True)
-                    End Try
-                Case BTNMaintenanceRefresh.Name
-                    '**************************************************************************************************************
-                    '                                             Refresh URL-Files
-                    '**************************************************************************************************************
-                    Try
-
-                        ' Run Backgroundworker
-                        Dim __tmpResult As URL_File_BGW.MaintainUrlResult = BWURLFiles.RefreshURLFilesAsync()
-
-                        ' Activate the URL-Files
-                        __tmpResult.MaintainedUrlFiles.ForEach(AddressOf URL_File_Set)
-
-                        If __tmpResult.Cancelled Then
-                            MessageBox.Show(Me, "Refreshing URL-File has been aborted after " & __tmpResult.MaintainedUrlFiles.Count & " URL-Files." &
-                                            vbCrLf & __tmpResult.ModifiedLinkCount & " new URLs have been added.",
-                                            "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        ElseIf __tmpResult.ErrorText.Capacity > 0 Then
-                            MessageBox.Show(Me, "URL Files have been refreshed with errors!" &
-                                            vbCrLf & vbCrLf & __tmpResult.ModifiedLinkCount & " new URLs have been added." &
-                                            vbCrLf & vbCrLf & String.Join(vbCrLf, __tmpResult.ErrorText),
-                                            "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        Else
-                            MessageBox.Show(Me, "All URL Files have been refreshed!" &
-                                            vbCrLf & vbCrLf & __tmpResult.ModifiedLinkCount & " new URLs have been added.",
-                                            "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        End If
-                    Catch
-                        '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-                        '                                            All Errors
-                        '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-                        Throw
-                    Finally
-                        '⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑ Finally ⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑
-                        LBLMaintenance.Text = String.Empty
-                        PBCurrent.Value = 0
-                        PBMaintenance.Value = 0
-                    End Try
-                Case BTNMaintenanceRebuild.Name
-                    '**************************************************************************************************************
-                    '                                             Rebuild URL-Files
-                    '**************************************************************************************************************
-                    Try
-                        ' Run Backgroundworker
-                        Dim __tmpResult As URL_File_BGW.MaintainUrlResult = BWURLFiles.RebuildURLFilesAsync()
-
-                        ' Activate the URL-Files
-                        __tmpResult.MaintainedUrlFiles.ForEach(AddressOf URL_File_Set)
-
-                        If __tmpResult.Cancelled Then
-                            MessageBox.Show(Me, "Rebuilding URL-File has been aborted after " & __tmpResult.MaintainedUrlFiles.Count & " URL-Files." &
-                                            vbCrLf & __tmpResult.ModifiedLinkCount & " dead URLs have been removed.",
-                                            "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        ElseIf __tmpResult.ErrorText.Capacity > 0 Then
-                            MessageBox.Show(Me, "URL Files have been rebuilded with errors!" &
-                                            vbCrLf & vbCrLf & __tmpResult.ModifiedLinkCount & " dead URLs have been removed." &
-                                            vbCrLf & vbCrLf & __tmpResult.LinkCountTotal & " URLs in total." &
-                                            vbCrLf & vbCrLf & String.Join(vbCrLf, __tmpResult.ErrorText),
-                                            "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        Else
-                            MessageBox.Show(Me, "All URL Files have been rebuilded!" &
-                                            vbCrLf & vbCrLf & __tmpResult.ModifiedLinkCount & " dead URLs have been removed." &
-                                            vbCrLf & vbCrLf & __tmpResult.LinkCountTotal & " URLs in total.",
-                                            "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        End If
-                    Catch
-                        '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-                        '                                            All Errors
-                        '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-                        Throw
-                    Finally
-                        '⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑ Finally ⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑
-                        LBLMaintenance.Text = String.Empty
-                        PBCurrent.Value = 0
-                        PBMaintenance.Value = 0
-                    End Try
-            End Select
-        Catch ex As Exception
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-            '                                            All Errors
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-            If ex.InnerException IsNot Nothing Then
-                ' If an Error ocurred in the other Thread, initial Exception is innner one.
-                MsgBox(ex.InnerException.Message, MsgBoxStyle.Critical, "Error Creating URL-File")
-            Else
-                ' Otherwise show it normal.
-                MsgBox(ex.Message, MsgBoxStyle.Critical, "Error Creating URL-File")
-            End If
-        Finally
-            '⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑ Finally ⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑
-            ' Restore the initial State of the Buttons
-            __PreEnabled.ForEach(Sub(x) x.Enabled = True)
-            __PreDisabled.ForEach(Sub(x) x.Enabled = False)
-        End Try
-    End Sub
-
-#Region "-------------------------------------- Backgroundworker URL Files --------------------------------------"
-
-    ''' =========================================================================================================
-    ''' <summary>
-    ''' This Event is used, to gather Variables, for the BackgroundThread, the User can change during runtime.
-    ''' </summary>
-    ''' <param name="sender"></param>
-    ''' <param name="e"></param>
-    Private Sub BWURLFiles_URLCreate_User_Interactions(ByVal sender As URL_File_BGW, ByRef e As URL_File_BGW.UserActions) Handles BWURLFiles.URL_FileCreate_UserInteractions
-        If Me.InvokeRequired Then
-            Dim Callbak As New URL_File_BGW.URL_FileCreate_UserInteractions_Delegate(AddressOf BWURLFiles_URLCreate_User_Interactions)
-            Me.Invoke(Callbak, sender, e)
-        Else
-            e.ReviewImages = CBWIReview.Checked
-            e.ApproveImage = ApproveImage
-            e.SaveImages = CBWISaveToDisk.Checked
-            e.ImgSaveDir = TBWIDirectory.Text
-        End If
-    End Sub
-
-    ''' =========================================================================================================
-    ''' <summary>
-    ''' This Event will be triggered, when the Working Stage of the BGW changes
-    ''' </summary>
-    ''' <param name="Sender"></param>
-    ''' <param name="e"></param>
-    Private Sub BWURLFiles_ProgressChanged(ByVal Sender As Object, ByRef e As URL_File_BGW.URL_File_ProgressChangedEventArgs) Handles BWURLFiles.URL_File_ProgressChanged
-        If Me.InvokeRequired Then
-            ' Beware: Event is fired in Worker Thread, so you need to do a Function Callback.
-            Dim CallBack As New URL_File_BGW.URL_File_ProgressChanged_Delegate(AddressOf BWURLFiles_ProgressChanged)
-            Me.Invoke(CallBack, Sender, e)
-        Else
-            ' Reset remanent Marker for Image Approval
-            If ApproveImage <> 0 Then ApproveImage = 0
-            Select Case e.CurrentTask
-                Case URL_File_Tasks.CreateURLFile
-                    '===============================================================================
-                    '                           Create URL-File
-                    '===============================================================================
-                    Select Case e.ActStage
-                        ' ------------------------ Image Approval -------------------------------
-                        Case WorkingStages.ImageApproval
-                            If e.ImageToReview IsNot Nothing Then
-                                ' Dispose old Image & Set new Image
-                                Try : WebPictureBox.Image.Dispose() : Catch : End Try
-                                WebPictureBox.Image = e.ImageToReview
-                                ' Enabled UI Elements
-                                BTNWIContinue.Enabled = True
-                                BTNWIAddandContinue.Enabled = True
-                            End If
-                        Case WorkingStages.Writing_File
-                            ' ---------------------- Write to File -------------------------------
-                            'State info to User
-                            LBLWebImageCount.Text = "Writing"
-                            ' At this state no cnancel possible
-                            BTNWICancel.Enabled = False
-                            WebPictureBox.Image = Nothing
-                        Case Else
-                            ' ---------------------- Everthing else ------------------------------
-                            ' Refresh Progressbars
-                            WebImageProgressBar.Maximum = e.BlogPageTotal + 1
-                            WebImageProgressBar.Value = e.BlogPage
-                            ' Disable Image Approval-UI
-                            BTNWIContinue.Enabled = False
-                            BTNWIAddandContinue.Enabled = False
-                            ' Inform User about BGW-State
-                            LBLWebImageCount.Text = String.Format("{0}/{1} ({2})", e.BlogPage, e.BlogPageTotal, e.ImageCount)
-                    End Select
-                Case Else
-                    '===============================================================================
-                    '                           Refresh URL-File
-                    '===============================================================================
-                    LBLMaintenance.Text = e.InfoText
-                    PBCurrent.Maximum = e.BlogPageTotal
-                    PBCurrent.Value = e.BlogPage
-                    PBMaintenance.Maximum = e.OverallProgressTotal
-                    PBMaintenance.Value = e.OverallProgress
-            End Select
-        End If
-    End Sub
-
-#End Region
-
-#End Region ' Url Files
-
-#Region "--------------------------------------- Images -------------------------------------------------"
-
-    Friend Shared Function Image_FolderCheck(ByVal directoryDescription As String,
-                                             ByVal directoryPath As String,
-                                             ByVal defaultPath As String,
-                                             ByRef subDirectories As Boolean) As String
-        Dim rtnPath As String
-
-        ' Exit if default value.
-        If directoryPath = defaultPath Then subDirectories = False : Return defaultPath
-
-        ' check it if the directory exists.
-        If Directory.Exists(directoryPath) Then rtnPath = directoryPath : GoTo checkFolder
-
-        ' Tell User, the dir. wasn't found. Ask to search manually for the folder.
-        If MessageBox.Show(ActiveForm,
-                           "The directory """ & directoryPath & """ was not found." & vbCrLf & "Do you want to search for it?",
-                           directoryDescription & " image directory not found.",
-                           MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) <> DialogResult.Yes Then
-set_default:
-            Return defaultPath
-        Else
-            '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
-            '								Set new Folder
-            '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
-set_newFolder:
-            ' Find the first available parent-directory. 
-            ' This way the user hasn't to browse through his hole IO-System.
-            Dim __tmp_dir As String = directoryPath
-            Do Until Directory.Exists(__tmp_dir) Or __tmp_dir Is Nothing
-                __tmp_dir = Path.GetDirectoryName(__tmp_dir)
-            Loop
-
-            ' Initialize new Dialog-Form
-            Dim FolSel As New FolderBrowserDialog With {.SelectedPath = __tmp_dir,
-                                                            .Description = "Select " & directoryDescription & " image folder."}
-            ' Display the Dialog -> Now the user has to set the new dir.
-            If FolSel.ShowDialog(ActiveForm) = DialogResult.OK Then
-                rtnPath = FolSel.SelectedPath
-            Else
-                GoTo set_default
-            End If
-            '▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
-            ' Set new Folder - End
-            '▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
-        End If ' END IF - Messagebox.
-
-        '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
-        '							   Check folder content
-        '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
-checkFolder:
-        Dim count_top As Integer = myDirectory.GetFilesImages(rtnPath, SearchOption.TopDirectoryOnly).Count
-        Dim count_all As Integer = myDirectory.GetFilesImages(rtnPath, SearchOption.AllDirectories).Count
-
-        If count_top = 0 And count_all = 0 Then
-            ' ================================= No images in folder ===============================
-            If MessageBox.Show(ActiveForm,
-               "The directory """ & directoryPath & """ doesn't contain images." & vbCrLf & "Do you want to set a new folder?",
-               directoryDescription & " image folder empty",
-               MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
-                GoTo set_newFolder
-            Else
-                GoTo set_default
-            End If
-        ElseIf count_top = 0 And count_all > count_top And subDirectories = False Then
-            ' ======================== none in top, but in sub ->enable sub? ======================
-            If MessageBox.Show(ActiveForm,
-               "The directory """ & directoryPath & """ doesn't contain images, but it's " &
-               "subdirectories. Do you want to include subdirectories? If you click no the " &
-               "default value will be set.",
-               directoryDescription & " image folder empty",
-               MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
-                subDirectories = True
-                Return rtnPath
-            Else
-                GoTo set_default
-            End If
-        Else
-            '================================= everything fine ====================================
-            Return rtnPath
-        End If
-        '▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
-        ' Check folder content - End
-        '▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
-    End Function
-
-    Private Function CheckFolderSettings(directoryDescription As String, directoryPath As String, defaultPath As String, includeSubDirectories As Boolean) As Tuple(Of Boolean, String)
-        Dim rtnPath As String
-
-        If directoryPath = defaultPath Then
-            Return Tuple.Create(False, defaultPath)
-        End If
-
-        If Directory.Exists(directoryPath) Then
-            rtnPath = directoryPath
-        ElseIf MessageBox.Show(ActiveForm,
-                           "The directory """ & directoryPath & """ was not found." & vbCrLf & "Do you want to search for it?",
-                           directoryDescription & " image directory not found.",
-                           MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) <> DialogResult.Yes Then
-            Return Tuple.Create(includeSubDirectories, defaultPath)
-        Else
-setNewFolder:
-            Dim parentDirectory As String = directoryPath
-            Do Until Directory.Exists(parentDirectory) OrElse parentDirectory Is Nothing
-                parentDirectory = Path.GetDirectoryName(parentDirectory)
-            Loop
-
-            Dim folderBrowser As New FolderBrowserDialog With {.SelectedPath = parentDirectory, .Description = "Select " & directoryDescription & " image folder."}
-            If folderBrowser.ShowDialog(ActiveForm) = DialogResult.OK Then
-                rtnPath = folderBrowser.SelectedPath
-            Else
-                Return Tuple.Create(False, defaultPath)
-            End If
-        End If
-
-checkFolder:
-        Dim count_top As Integer = myDirectory.GetFilesImages(rtnPath, SearchOption.TopDirectoryOnly).Count
-        Dim count_all As Integer = myDirectory.GetFilesImages(rtnPath, SearchOption.AllDirectories).Count
-
-        If count_top > 0 AndAlso count_all > 0 Then
-            Return Tuple.Create(includeSubDirectories, rtnPath)
-        End If
-        If count_top = 0 AndAlso count_all = 0 Then
-            If MessageBox.Show(ActiveForm,
-                   "The directory """ & directoryPath & """ doesn't contain images." & Environment.NewLine & "Do you want to set a new folder?",
-                   directoryDescription & " image folder empty",
-                   MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
-                GoTo setNewFolder
-            End If
-        ElseIf count_top = 0 AndAlso count_all > count_top AndAlso Not includeSubDirectories Then
-            If MessageBox.Show(ActiveForm,
-                   "The directory """ & directoryPath & """ doesn't contain images, but it's " &
-                   "subdirectories. Do you want to include subdirectories? If you click no the " &
-                   "default value will be set.",
-                   directoryDescription & " image folder empty",
-                   MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
-                Return Tuple.Create(True, rtnPath)
-            End If
-        End If
-
-        Return Tuple.Create(includeSubDirectories, defaultPath)
-    End Function
-
-    Private Function CheckImageFolder(imageGenre As ImageGenre) As Boolean
-        Dim isSubdir As Boolean = mySettingsAccessor.ImageGenreIncludeSubDirectory(imageGenre)
-        Dim imageFolder As String = mySettingsAccessor.ImageGenreFolder(imageGenre)
-
-        Dim def As String = String.Empty
-
-        Dim folderCheck As Tuple(Of Boolean, String) = CheckFolderSettings(imageGenre.ToString(), imageFolder, def, isSubdir)
-
-        mySettingsAccessor.ImageGenreFolder(imageGenre) = folderCheck.Item2
-        mySettingsAccessor.IsImageGenreEnabled(imageGenre) = Not (folderCheck.Item2 = def)
-        mySettingsAccessor.ImageGenreIncludeSubDirectory(imageGenre) = folderCheck.Item1
-
-        Return mySettingsAccessor.IsImageGenreEnabled(imageGenre)
-    End Function
-
-#Region "------------------------------------- Hardcore Images -------------------------------------------"
-
-    Private Sub BTNIHardcore_Click(sender As Object, e As EventArgs) Handles BTNIHardcore.Click
-        SetFolderFromDialog(ImageGenre.Hardcore)
-    End Sub
-
-    Private Sub BTNISoftcore_Click(sender As Object, e As EventArgs) Handles BTNISoftcore.Click
-        SetFolderFromDialog(ImageGenre.Softcore)
-    End Sub
-
-    Private Sub BTNILesbian_Click(sender As Object, e As EventArgs) Handles BTNILesbian.Click
-        SetFolderFromDialog(ImageGenre.Lesbian)
-    End Sub
-
-    Private Sub BTNIBlowjob_Click(sender As Object, e As EventArgs) Handles BTNIBlowjob.Click
-        SetFolderFromDialog(ImageGenre.Blowjob)
-    End Sub
-
-    Private Sub BTNIFemdom_Click(sender As Object, e As EventArgs) Handles BTNIFemdom.Click
-        SetFolderFromDialog(ImageGenre.Femdom)
-    End Sub
-
-    Private Sub BTNILezdom_Click(sender As Object, e As EventArgs) Handles BTNILezdom.Click
-        SetFolderFromDialog(ImageGenre.Lezdom)
-    End Sub
-
-    Private Sub BTNIHentai_Click(sender As Object, e As EventArgs) Handles BTNIHentai.Click
-        SetFolderFromDialog(ImageGenre.Hentai)
-    End Sub
-
-    Private Sub BTNIGay_Click(sender As Object, e As EventArgs) Handles BTNIGay.Click
-        SetFolderFromDialog(ImageGenre.Gay)
-    End Sub
-
-    Private Sub BTNIMaledom_Click(sender As Object, e As EventArgs) Handles BTNIMaledom.Click
-        SetFolderFromDialog(ImageGenre.Maledom)
-    End Sub
-
-    Private Sub BTNIGeneral_Click(sender As Object, e As EventArgs) Handles BTNIGeneral.Click
-        SetFolderFromDialog(ImageGenre.General)
-    End Sub
-
-    Private Sub BTNICaptions_Click(sender As Object, e As EventArgs) Handles BTNICaptions.Click
-        SetFolderFromDialog(ImageGenre.Captions)
-    End Sub
-
-    Private Sub BTNBoobPath_Click(sender As Object, e As EventArgs) Handles BTNBoobPath.Click
-        SetFolderFromDialog(ImageGenre.Boobs)
-    End Sub
-
-    Private Sub BTNButtPath_Click(sender As Object, e As EventArgs) Handles BTNButtPath.Click
-        SetFolderFromDialog(ImageGenre.Butt)
-    End Sub
-
-#End Region ' Butt
-
-    Private Sub ImagePathTextBox_DoubleClick(sender As Object, e As EventArgs) Handles TbxIHardcore.DoubleClick, TbxISoftcore.DoubleClick
-        CType(sender, TextBox).Text = "No path selected"
-    End Sub
-
-    Private Sub LBLILesbian_Click(sender As Object, e As EventArgs) Handles TbxILesbian.DoubleClick
-        TbxILesbian.Text = "No path selected"
-    End Sub
-
-    Private Sub LBLIBlowjob_Click(sender As Object, e As EventArgs) Handles TbxIBlowjob.DoubleClick
-        TbxIBlowjob.Text = "No path selected"
-    End Sub
-
-    Private Sub LBLIFemdom_Click(sender As Object, e As EventArgs) Handles TbxIFemdom.DoubleClick
-        TbxIFemdom.Text = "No path selected"
-    End Sub
-
-    Private Sub LBLILezdom_Click(sender As Object, e As EventArgs) Handles TbxILezdom.DoubleClick
-        TbxILezdom.Text = "No path selected"
-    End Sub
-
-    Private Sub LBLIHentai_Click(sender As Object, e As EventArgs) Handles TbxIHentai.DoubleClick
-        TbxIHentai.Text = "No path selected"
-    End Sub
-
-    Private Sub LBLIGay_Click(sender As Object, e As EventArgs) Handles TbxIGay.DoubleClick
-        TbxIGay.Text = "No path selected"
-    End Sub
-
-    Private Sub LBLIMaledom_Click(sender As Object, e As EventArgs) Handles TbxIMaledom.DoubleClick
-        TbxIMaledom.Text = "No path selected"
-    End Sub
-
-    Private Sub LBLICaptions_Click(sender As Object, e As EventArgs) Handles TbxICaptions.DoubleClick
-        TbxICaptions.Text = "No path selected"
-    End Sub
-
-    Private Sub LBLIGeneral_Click(sender As Object, e As EventArgs) Handles TbxIGeneral.DoubleClick
-        TbxIGeneral.Text = "No path selected"
-    End Sub
-
-#Region "----------------------------------- GenreImages-Url-Files --------------------------------------"
-
-    Private Sub BtnImageUrlSetFile_Click(sender As Object, e As EventArgs) Handles BtnImageUrlHardcore.Click,
-                    BtnImageUrlSoftcore.Click, BtnImageUrlMaledom.Click, BtnImageUrlLezdom.Click, BtnImageUrlLesbian.Click,
-                    BtnImageUrlHentai.Click, BtnImageUrlGeneral.Click, BtnImageUrlGay.Click, BtnImageUrlFemdom.Click,
-                    BtnImageUrlCaptions.Click, BtnImageUrlButt.Click, BtnImageUrlBoobs.Click, BtnImageUrlBlowjob.Click
-        Try
-            ' Read the Row of the current Button
-            Dim tmpTlpRow As Integer = TlpImageUrls.GetRow(sender)
-
-            ' Check if the Button is in the TableLayoutPanel.
-            If tmpTlpRow = -1 Then Throw New Exception("Can't find control in TableLayoutPanel. " &
-                                                       "This is a major Design issue has to be fixed in code.")
-
-            ' Get the Checkbox for the current button
-            Dim tmpCheckbox As CheckBox = TlpImageUrls.GetControlFromPosition(0, tmpTlpRow)
-
-            ' Check if the Text-Property has an active Databinding.
-            If tmpCheckbox.DataBindings.Item("Checked") Is Nothing Then _
-                Throw New InvalidDataException("Databinding """" Checked """" was not found in Checkbox." &
-                                                "This is a major design issue and has to be fixed in code.")
-
-            ' Get the TExtBox for the Current Button
-            Dim tmpTextbox As TextBox = TlpImageUrls.GetControlFromPosition(2, tmpTlpRow)
-
-            ' Check if the Text-Property has an active Databinding.
-            If tmpTextbox.DataBindings.Item("Text") Is Nothing Then _
-                Throw New InvalidDataException("This function is only availabe with a Databound Textbox. " &
-                                                "This is a major design issue and has to be fixed in code.")
-
-            'Declare a new instance of An OpenFileDialog. Use the URL-FilePat as initial
-            Dim tmpFS As New OpenFileDialog With {
-                .Filter = "Textfiles|*.txt",
-                .Multiselect = False,
-                .CheckFileExists = True,
-                .Title = "Select an " & tmpCheckbox.Text & " URL-File",
-                .InitialDirectory = myPathsAccessor.UrlsDirectory}
-
-            ' Check if the URL-FilePath exits -> Otherwise create it.
-            If Not Directory.Exists(tmpFS.InitialDirectory) Then _
-            Directory.CreateDirectory(tmpFS.InitialDirectory)
-
-            Dim tmpPath As String = tmpTextbox.Text
-            If tmpPath.ToLower.EndsWith(".txt") Then
-                If Path.IsPathRooted(tmpPath) AndAlso Directory.Exists(Path.GetDirectoryName(tmpPath)) Then
-                    ' Set an alternate Initial directory if filepath is absolute 
-                    tmpFS.InitialDirectory = Path.GetDirectoryName(tmpPath)
-                    tmpFS.FileName = Path.GetFileName(tmpPath)
-                Else
-                    ' Set the given Filename
-                    tmpFS.FileName = tmpPath
-                End If
-            End If
-
-            If tmpFS.ShowDialog() = DialogResult.OK Then
-                If Path.GetDirectoryName(tmpFS.FileName).ToLower = Path.GetDirectoryName(myPathsAccessor.UrlsDirectory).ToLower Then
-                    ' If the file is located standarddirectory st only the filename
-                    tmpTextbox.Text = tmpFS.SafeFileName
-                Else
-                    ' Otherwise set the absoulte filepath
-                    tmpTextbox.Text = tmpFS.FileName
-                End If
-
-                ' This will force the Settings to save.
-                tmpCheckbox.Checked = True
-            End If
-        Catch ex As Exception
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-            '						       All Errors
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-            MsgBox(ex.Message & vbCrLf & "Please report this error at the Milovana Forum.",
-                   MsgBoxStyle.Critical, "Cant Set URl-File")
-            Log.WriteError(ex.Message, ex, "Error Set Url-File")
-        End Try
-    End Sub
-
-#End Region 'GenreImages-Url-Files
-
 #End Region ' Images
 
 #Region "--------------------------------------- Videos -------------------------------------------------"
@@ -3798,6 +3389,1115 @@ checkFolder:
 
 #End Region ' Videos
 
+#Region "Local Tags"
+    Private Sub LocalTagsTab_Selecting(sender As Object, e As TabControlCancelEventArgs) Handles LocalTagsTab.Selecting
+        Dim mediaContainers As List(Of MediaContainer) = myMediaContainerService.Get() _
+            .Where(Function(mc) mc.MediaTypeId = 1 AndAlso mc.SourceId = ImageSource.Local) _
+            .OrderBy(Function(mc) mc.Name) _
+            .ToList()
+
+        GenreCombo.DisplayMember = NameOf(MediaContainer.Name)
+        GenreCombo.ValueMember = NameOf(MediaContainer.Id)
+        GenreCombo.DataSource = mediaContainers
+    End Sub
+
+    Private Sub GenreCombo_SelectedValueChanged(sender As Object, e As EventArgs) Handles GenreCombo.SelectedValueChanged
+        Dim mediaContainer As List(Of MediaContainer) = (CType(GenreCombo.DataSource, List(Of MediaContainer)))
+        If mediaContainer Is Nothing Then
+            Return
+        End If
+        Dim containerId As Integer = GenreCombo.SelectedValue
+        Dim imageMetaData As Result(Of List(Of ImageMetaData)) = myImageMetaDataService.GetImagesInContainer(containerId)
+        If imageMetaData.IsFailure Then
+            MessageBox.Show(imageMetaData.Error.Message)
+        End If
+        FileTagCombo.DisplayMember = NameOf(Data.ImageMetaData.ItemName)
+        FileTagCombo.ValueMember = NameOf(Data.ImageMetaData.Id)
+        FileTagCombo.DataSource = imageMetaData.Value
+        If imageMetaData.Value.Count = 0 Then
+            FileTagCombo.Text = String.Empty
+            LocalTagPictureBox.Image = Nothing
+            LBLLocalTagCount.Text = "0 / 0"
+            EnableUserInterface(New List(Of ImageMetaData), 0)
+            SetLocalTagCheckboxes(New List(Of ItemTagId))
+        End If
+    End Sub
+
+    Private Sub FileTagCombo_SelectedValueChanged() Handles FileTagCombo.SelectedValueChanged
+        Dim images As List(Of ImageMetaData) = (CType(FileTagCombo.DataSource, List(Of ImageMetaData)))
+        If images Is Nothing Then
+            Return
+        End If
+        LBLLocalTagCount.Text = String.Format("{0} / {1} ", FileTagCombo.SelectedIndex + 1, images.Count)
+        LocalTagPictureBox.Load(images(FileTagCombo.SelectedIndex).FullFileName)
+
+        EnableUserInterface(images, FileTagCombo.SelectedIndex)
+        Dim imageTagMaps As List(Of ImageTagMap) = myImageTagMapService.GetTagMapsForImage(FileTagCombo.SelectedValue)
+        Dim itemTagIds As List(Of ItemTagId) = imageTagMaps.Select(Function(itm) itm.ItemTagId).ToList()
+        SetLocalTagCheckboxes(itemTagIds)
+    End Sub
+
+    Private Sub FileTagNextButton_Click(sender As Object, e As EventArgs) Handles FileTagNextButton.Click
+        FileTagCombo.SelectedIndex += 1
+    End Sub
+
+    Private Sub FileTagPreviousButton_Click(sender As Object, e As EventArgs) Handles FileTagPreviousButton.Click
+        FileTagCombo.SelectedIndex -= 1
+    End Sub
+
+    Private Sub EnableUserInterface(images As List(Of ImageMetaData), selectedIndex As Integer)
+        Dim hasImages As Boolean = images.Count > 0
+        CBTagHardcore.Enabled = hasImages
+        CBTagLesbian.Enabled = hasImages
+        CBTagGay.Enabled = hasImages
+        CBTagBisexual.Enabled = hasImages
+        CBTagSoloF.Enabled = hasImages
+        CBTagSoloM.Enabled = hasImages
+        CBTagSoloFuta.Enabled = hasImages
+        CBTagPOV.Enabled = hasImages
+        CBTagBondage.Enabled = hasImages
+        CBTagSM.Enabled = hasImages
+        CBTagTD.Enabled = hasImages
+        CBTagChastity.Enabled = hasImages
+        CBTagCFNM.Enabled = hasImages
+        CBTagBath.Enabled = hasImages
+        CBTagShower.Enabled = hasImages
+        CBTagOutdoors.Enabled = hasImages
+        CBTagArtwork.Enabled = hasImages
+
+        CBTagMasturbation.Enabled = hasImages
+        CBTagHandjob.Enabled = hasImages
+        CBTagFingering.Enabled = hasImages
+        CBTagBlowjob.Enabled = hasImages
+        CBTagCunnilingus.Enabled = hasImages
+        CBTagTitjob.Enabled = hasImages
+        CBTagFootjob.Enabled = hasImages
+        CBTagFacesitting.Enabled = hasImages
+        CBTagRimming.Enabled = hasImages
+        CBTagMissionary.Enabled = hasImages
+        CBTagDoggyStyle.Enabled = hasImages
+        CBTagCowgirl.Enabled = hasImages
+        CBTagRCowgirl.Enabled = hasImages
+        CBTagStanding.Enabled = hasImages
+        CBTagAnalSex.Enabled = hasImages
+        CBTagDP.Enabled = hasImages
+        CBTagGangbang.Enabled = hasImages
+
+        CBTag1F.Enabled = hasImages
+        CBTag2F.Enabled = hasImages
+        CBTag3F.Enabled = hasImages
+        CBTag1M.Enabled = hasImages
+        CBTag2M.Enabled = hasImages
+        CBTag3M.Enabled = hasImages
+        CBTag1Futa.Enabled = hasImages
+        CBTag2Futa.Enabled = hasImages
+        CBTag3Futa.Enabled = hasImages
+        CBTagFemdom.Enabled = hasImages
+        CBTagMaledom.Enabled = hasImages
+        CBTagFutadom.Enabled = hasImages
+        CBTagFemsub.Enabled = hasImages
+        CBTagMalesub.Enabled = hasImages
+        CBTagFutasub.Enabled = hasImages
+        CBTagMultiDom.Enabled = hasImages
+        CBTagMultiSub.Enabled = hasImages
+
+        CBTagBodyFace.Enabled = hasImages
+        CBTagBodyFingers.Enabled = hasImages
+        CBTagBodyMouth.Enabled = hasImages
+        CBTagBodyTits.Enabled = hasImages
+        CBTagBodyNipples.Enabled = hasImages
+        CBTagBodyPussy.Enabled = hasImages
+        CBTagBodyAss.Enabled = hasImages
+        CBTagBodyLegs.Enabled = hasImages
+        CBTagBodyFeet.Enabled = hasImages
+        CBTagBodyCock.Enabled = hasImages
+        CBTagBodyBalls.Enabled = hasImages
+
+        CBTagNurse.Enabled = hasImages
+        CBTagTeacher.Enabled = hasImages
+        CBTagSchoolgirl.Enabled = hasImages
+        CBTagMaid.Enabled = hasImages
+        CBTagSuperhero.Enabled = hasImages
+
+        CBTagWhipping.Enabled = hasImages
+        CBTagSpanking.Enabled = hasImages
+        CBTagCockTorture.Enabled = hasImages
+        CBTagBallTorture.Enabled = hasImages
+        CBTagStrapon.Enabled = hasImages
+        CBTagBlindfold.Enabled = hasImages
+        CBTagGag.Enabled = hasImages
+        CBTagClamps.Enabled = hasImages
+        CBTagHotWax.Enabled = hasImages
+        CBTagNeedles.Enabled = hasImages
+        CBTagElectro.Enabled = hasImages
+
+        CBTagDomme.Enabled = hasImages
+        CBTagCumshot.Enabled = hasImages
+        CBTagCumEating.Enabled = hasImages
+        CBTagKissing.Enabled = hasImages
+        CBTagTattoos.Enabled = hasImages
+        CBTagStockings.Enabled = hasImages
+        CBTagVibrator.Enabled = hasImages
+        CBTagDildo.Enabled = hasImages
+        CBTagPocketPussy.Enabled = hasImages
+        CBTagAnalToy.Enabled = hasImages
+        CBTagWatersports.Enabled = hasImages
+
+        CBTagShibari.Enabled = hasImages
+        CBTagTentacles.Enabled = hasImages
+        CBTagBukkake.Enabled = hasImages
+        CBTagBakunyuu.Enabled = hasImages
+        CBTagAhegao.Enabled = hasImages
+        CBTagBodyWriting.Enabled = hasImages
+        CBTagTrap.Enabled = hasImages
+        CBTagGanguro.Enabled = hasImages
+        CBTagMahouShoujo.Enabled = hasImages
+        CBTagMonsterGirl.Enabled = hasImages
+
+        FileTagPreviousButton.Enabled = selectedIndex > 0
+        FileTagNextButton.Enabled = images.Count > 0 AndAlso selectedIndex < (images.Count - 1)
+    End Sub
+
+    ''' <summary>
+    ''' Set the checkboxes based on whether or not <paramref name="itemTags"/> contains a given tag
+    ''' </summary>
+    ''' <param name="itemTags"></param>
+    Private Sub SetLocalTagCheckboxes(itemTags As IEnumerable(Of ItemTagId))
+        myIsFormSettingTags = True
+        CBTagHardcore.Checked = itemTags.Contains(ItemTagId.Hardcore)
+        CBTagLesbian.Checked = itemTags.Contains(ItemTagId.Lesbian)
+        CBTagGay.Checked = itemTags.Contains(ItemTagId.Gay)
+        CBTagBisexual.Checked = itemTags.Contains(ItemTagId.Bisexual)
+        CBTagSoloF.Checked = itemTags.Contains(ItemTagId.SoloFemale)
+        CBTagSoloM.Checked = itemTags.Contains(ItemTagId.SoloMale)
+        CBTagSoloFuta.Checked = itemTags.Contains(ItemTagId.SoloFuta)
+        CBTagPOV.Checked = itemTags.Contains(ItemTagId.PointOfView)
+        CBTagBondage.Checked = itemTags.Contains(ItemTagId.Bondage)
+        CBTagSM.Checked = itemTags.Contains(ItemTagId.SadismAndMasochism)
+        CBTagTD.Checked = itemTags.Contains(ItemTagId.TeaseAndDenial)
+        CBTagChastity.Checked = itemTags.Contains(ItemTagId.Chastity)
+        CBTagCFNM.Checked = itemTags.Contains(ItemTagId.ClothedFemaleNakedMale)
+        CBTagBath.Checked = itemTags.Contains(ItemTagId.Bath)
+        CBTagShower.Checked = itemTags.Contains(ItemTagId.Shower)
+        CBTagOutdoors.Checked = itemTags.Contains(ItemTagId.Outdoors)
+        CBTagArtwork.Checked = itemTags.Contains(ItemTagId.Artwork)
+
+        CBTagMasturbation.Checked = itemTags.Contains(ItemTagId.Masturbation)
+        CBTagHandjob.Checked = itemTags.Contains(ItemTagId.Handjob)
+        CBTagFingering.Checked = itemTags.Contains(ItemTagId.Fingering)
+        CBTagBlowjob.Checked = itemTags.Contains(ItemTagId.Blowjob)
+        CBTagCunnilingus.Checked = itemTags.Contains(ItemTagId.Cunnilingus)
+        CBTagTitjob.Checked = itemTags.Contains(ItemTagId.Titjob)
+        CBTagFootjob.Checked = itemTags.Contains(ItemTagId.Footjob)
+        CBTagFacesitting.Checked = itemTags.Contains(ItemTagId.Facesitting)
+        CBTagRimming.Checked = itemTags.Contains(ItemTagId.Rimming)
+        CBTagMissionary.Checked = itemTags.Contains(ItemTagId.Missionary)
+        CBTagDoggyStyle.Checked = itemTags.Contains(ItemTagId.DoggyStyle)
+        CBTagCowgirl.Checked = itemTags.Contains(ItemTagId.Cowgirl)
+        CBTagRCowgirl.Checked = itemTags.Contains(ItemTagId.ReverseCowgirl)
+        CBTagStanding.Checked = itemTags.Contains(ItemTagId.Standing)
+        CBTagAnalSex.Checked = itemTags.Contains(ItemTagId.AnalSex)
+        CBTagDP.Checked = itemTags.Contains(ItemTagId.DoublePenetration)
+        CBTagGangbang.Checked = itemTags.Contains(ItemTagId.Gangbang)
+
+        CBTag1F.Checked = itemTags.Contains(ItemTagId.OneWoman)
+        CBTag2F.Checked = itemTags.Contains(ItemTagId.TwoWomen)
+        CBTag3F.Checked = itemTags.Contains(ItemTagId.ThreeWomen)
+        CBTag1M.Checked = itemTags.Contains(ItemTagId.OneMan)
+        CBTag2M.Checked = itemTags.Contains(ItemTagId.TwoMen)
+        CBTag3M.Checked = itemTags.Contains(ItemTagId.ThreeMen)
+        CBTag1Futa.Checked = itemTags.Contains(ItemTagId.OneFuta)
+        CBTag2Futa.Checked = itemTags.Contains(ItemTagId.TwoFutas)
+        CBTag3Futa.Checked = itemTags.Contains(ItemTagId.ThreeFutas)
+        CBTagFemdom.Checked = itemTags.Contains(ItemTagId.Femdom)
+        CBTagMaledom.Checked = itemTags.Contains(ItemTagId.Maledom)
+        CBTagFutadom.Checked = itemTags.Contains(ItemTagId.Futadom)
+        CBTagFemsub.Checked = itemTags.Contains(ItemTagId.Femsub)
+        CBTagMalesub.Checked = itemTags.Contains(ItemTagId.Malesub)
+        CBTagFutasub.Checked = itemTags.Contains(ItemTagId.Futasub)
+        CBTagMultiDom.Checked = itemTags.Contains(ItemTagId.MultiDom)
+        CBTagMultiSub.Checked = itemTags.Contains(ItemTagId.MultiSub)
+
+        CBTagBodyTits.Checked = itemTags.Contains(ItemTagId.Tits)
+        CBTagBodyFace.Checked = itemTags.Contains(ItemTagId.Face)
+        CBTagBodyFingers.Checked = itemTags.Contains(ItemTagId.Fingers)
+        CBTagBodyMouth.Checked = itemTags.Contains(ItemTagId.Mouth)
+        CBTagBodyNipples.Checked = itemTags.Contains(ItemTagId.Nipples)
+        CBTagBodyPussy.Checked = itemTags.Contains(ItemTagId.Pussy)
+        CBTagBodyAss.Checked = itemTags.Contains(ItemTagId.Ass)
+        CBTagBodyLegs.Checked = itemTags.Contains(ItemTagId.Legs)
+        CBTagBodyFeet.Checked = itemTags.Contains(ItemTagId.Feet)
+        CBTagBodyCock.Checked = itemTags.Contains(ItemTagId.Cock)
+        CBTagBodyBalls.Checked = itemTags.Contains(ItemTagId.Balls)
+
+        CBTagNurse.Checked = itemTags.Contains(ItemTagId.Nurse)
+        CBTagTeacher.Checked = itemTags.Contains(ItemTagId.Teacher)
+        CBTagSchoolgirl.Checked = itemTags.Contains(ItemTagId.Schoolgirl)
+        CBTagMaid.Checked = itemTags.Contains(ItemTagId.Maid)
+        CBTagSuperhero.Checked = itemTags.Contains(ItemTagId.Superhero)
+
+        CBTagWhipping.Checked = itemTags.Contains(ItemTagId.Whipping)
+        CBTagSpanking.Checked = itemTags.Contains(ItemTagId.Spanking)
+        CBTagCockTorture.Checked = itemTags.Contains(ItemTagId.CockTorture)
+        CBTagBallTorture.Checked = itemTags.Contains(ItemTagId.BallTorture)
+        CBTagStrapon.Checked = itemTags.Contains(ItemTagId.StrapOn)
+        CBTagBlindfold.Checked = itemTags.Contains(ItemTagId.Blindfold)
+        CBTagGag.Checked = itemTags.Contains(ItemTagId.Gag)
+        CBTagClamps.Checked = itemTags.Contains(ItemTagId.Clamps)
+        CBTagHotWax.Checked = itemTags.Contains(ItemTagId.HotWax)
+        CBTagNeedles.Checked = itemTags.Contains(ItemTagId.Needles)
+        CBTagElectro.Checked = itemTags.Contains(ItemTagId.Electro)
+
+        CBTagDomme.Checked = itemTags.Contains(ItemTagId.TeaseAiDomme)
+        CBTagCumshot.Checked = itemTags.Contains(ItemTagId.Cumshot)
+        CBTagCumEating.Checked = itemTags.Contains(ItemTagId.CumEating)
+        CBTagKissing.Checked = itemTags.Contains(ItemTagId.Kissing)
+        CBTagTattoos.Checked = itemTags.Contains(ItemTagId.Tattoos)
+        CBTagStockings.Checked = itemTags.Contains(ItemTagId.Stockings)
+        CBTagVibrator.Checked = itemTags.Contains(ItemTagId.Vibrator)
+        CBTagDildo.Checked = itemTags.Contains(ItemTagId.Dildo)
+        CBTagPocketPussy.Checked = itemTags.Contains(ItemTagId.PocketPussy)
+        CBTagAnalToy.Checked = itemTags.Contains(ItemTagId.AnalToy)
+        CBTagWatersports.Checked = itemTags.Contains(ItemTagId.Watersports)
+
+        CBTagShibari.Checked = itemTags.Contains(ItemTagId.Shibari)
+        CBTagTentacles.Checked = itemTags.Contains(ItemTagId.Tentacles)
+        CBTagBukkake.Checked = itemTags.Contains(ItemTagId.Bukkake)
+        CBTagBakunyuu.Checked = itemTags.Contains(ItemTagId.Bakunyuu)
+        CBTagAhegao.Checked = itemTags.Contains(ItemTagId.Ahegao)
+        CBTagBodyWriting.Checked = itemTags.Contains(ItemTagId.BodyWriting)
+        CBTagTrap.Checked = itemTags.Contains(ItemTagId.Trap)
+        CBTagGanguro.Checked = itemTags.Contains(ItemTagId.Ganguro)
+        CBTagMahouShoujo.Checked = itemTags.Contains(ItemTagId.MahouShoujo)
+        CBTagMonsterGirl.Checked = itemTags.Contains(ItemTagId.MonsterGirl)
+
+        myIsFormSettingTags = False
+    End Sub
+
+    Private Function GetTagIdFromCheckBox(checkBox As CheckBox) As Constants.ItemTagId
+        If CBTagHardcore Is checkBox Then Return ItemTagId.Hardcore
+        If CBTagLesbian Is checkBox Then Return ItemTagId.Lesbian
+        If CBTagGay Is checkBox Then Return ItemTagId.Gay
+        If CBTagBisexual Is checkBox Then Return ItemTagId.Bisexual
+        If CBTagSoloF Is checkBox Then Return ItemTagId.SoloFemale
+        If CBTagSoloM Is checkBox Then Return ItemTagId.SoloMale
+        If CBTagSoloFuta Is checkBox Then Return ItemTagId.SoloFuta
+        If CBTagPOV Is checkBox Then Return ItemTagId.PointOfView
+        If CBTagBondage Is checkBox Then Return ItemTagId.Bondage
+        If CBTagSM Is checkBox Then Return ItemTagId.SadismAndMasochism
+        If CBTagTD Is checkBox Then Return ItemTagId.TeaseAndDenial
+        If CBTagChastity Is checkBox Then Return ItemTagId.Chastity
+        If CBTagCFNM Is checkBox Then Return ItemTagId.ClothedFemaleNakedMale
+        If CBTagBath Is checkBox Then Return ItemTagId.Bath
+        If CBTagShower Is checkBox Then Return ItemTagId.Shower
+        If CBTagOutdoors Is checkBox Then Return ItemTagId.Outdoors
+        If CBTagArtwork Is checkBox Then Return ItemTagId.Artwork
+
+        If CBTagMasturbation Is checkBox Then Return ItemTagId.Masturbation
+        If CBTagHandjob Is checkBox Then Return ItemTagId.Handjob
+        If CBTagFingering Is checkBox Then Return ItemTagId.Fingering
+        If CBTagBlowjob Is checkBox Then Return ItemTagId.Blowjob
+        If CBTagCunnilingus Is checkBox Then Return ItemTagId.Cunnilingus
+        If CBTagTitjob Is checkBox Then Return ItemTagId.Titjob
+        If CBTagFootjob Is checkBox Then Return ItemTagId.Footjob
+        If CBTagFacesitting Is checkBox Then Return ItemTagId.Facesitting
+        If CBTagRimming Is checkBox Then Return ItemTagId.Rimming
+        If CBTagMissionary Is checkBox Then Return ItemTagId.Missionary
+        If CBTagDoggyStyle Is checkBox Then Return ItemTagId.DoggyStyle
+        If CBTagCowgirl Is checkBox Then Return ItemTagId.Cowgirl
+        If CBTagRCowgirl Is checkBox Then Return ItemTagId.ReverseCowgirl
+        If CBTagStanding Is checkBox Then Return ItemTagId.Standing
+        If CBTagAnalSex Is checkBox Then Return ItemTagId.AnalSex
+        If CBTagDP Is checkBox Then Return ItemTagId.DoublePenetration
+        If CBTagGangbang Is checkBox Then Return ItemTagId.Gangbang
+
+        If CBTag1F Is checkBox Then Return ItemTagId.OneWoman
+        If CBTag2F Is checkBox Then Return ItemTagId.TwoWomen
+        If CBTag3F Is checkBox Then Return ItemTagId.ThreeWomen
+        If CBTag1M Is checkBox Then Return ItemTagId.OneMan
+        If CBTag2M Is checkBox Then Return ItemTagId.TwoMen
+        If CBTag3M Is checkBox Then Return ItemTagId.ThreeMen
+        If CBTag1Futa Is checkBox Then Return ItemTagId.OneFuta
+        If CBTag2Futa Is checkBox Then Return ItemTagId.TwoFutas
+        If CBTag3Futa Is checkBox Then Return ItemTagId.ThreeFutas
+        If CBTagFemdom Is checkBox Then Return ItemTagId.Femdom
+        If CBTagMaledom Is checkBox Then Return ItemTagId.Maledom
+        If CBTagFutadom Is checkBox Then Return ItemTagId.Futadom
+        If CBTagFemsub Is checkBox Then Return ItemTagId.Femsub
+        If CBTagMalesub Is checkBox Then Return ItemTagId.Malesub
+        If CBTagFutasub Is checkBox Then Return ItemTagId.Futasub
+        If CBTagMultiDom Is checkBox Then Return ItemTagId.MultiDom
+        If CBTagMultiSub Is checkBox Then Return ItemTagId.MultiSub
+
+        If CBTagBodyTits Is checkBox Then Return ItemTagId.Tits
+        If CBTagBodyFace Is checkBox Then Return ItemTagId.Face
+        If CBTagBodyFingers Is checkBox Then Return ItemTagId.Fingers
+        If CBTagBodyMouth Is checkBox Then Return ItemTagId.Mouth
+        If CBTagBodyNipples Is checkBox Then Return ItemTagId.Nipples
+        If CBTagBodyPussy Is checkBox Then Return ItemTagId.Pussy
+        If CBTagBodyAss Is checkBox Then Return ItemTagId.Ass
+        If CBTagBodyLegs Is checkBox Then Return ItemTagId.Legs
+        If CBTagBodyFeet Is checkBox Then Return ItemTagId.Feet
+        If CBTagBodyCock Is checkBox Then Return ItemTagId.Cock
+        If CBTagBodyBalls Is checkBox Then Return ItemTagId.Balls
+
+        If CBTagNurse Is checkBox Then Return ItemTagId.Nurse
+        If CBTagTeacher Is checkBox Then Return ItemTagId.Teacher
+        If CBTagSchoolgirl Is checkBox Then Return ItemTagId.Schoolgirl
+        If CBTagMaid Is checkBox Then Return ItemTagId.Maid
+        If CBTagSuperhero Is checkBox Then Return ItemTagId.Superhero
+
+        If CBTagWhipping Is checkBox Then Return ItemTagId.Whipping
+        If CBTagSpanking Is checkBox Then Return ItemTagId.Spanking
+        If CBTagCockTorture Is checkBox Then Return ItemTagId.CockTorture
+        If CBTagBallTorture Is checkBox Then Return ItemTagId.BallTorture
+        If CBTagStrapon Is checkBox Then Return ItemTagId.StrapOn
+        If CBTagBlindfold Is checkBox Then Return ItemTagId.Blindfold
+        If CBTagGag Is checkBox Then Return ItemTagId.Gag
+        If CBTagClamps Is checkBox Then Return ItemTagId.Clamps
+        If CBTagHotWax Is checkBox Then Return ItemTagId.HotWax
+        If CBTagNeedles Is checkBox Then Return ItemTagId.Needles
+        If CBTagElectro Is checkBox Then Return ItemTagId.Electro
+
+        If CBTagDomme Is checkBox Then Return ItemTagId.TeaseAiDomme
+        If CBTagCumshot Is checkBox Then Return ItemTagId.Cumshot
+        If CBTagCumEating Is checkBox Then Return ItemTagId.CumEating
+        If CBTagKissing Is checkBox Then Return ItemTagId.Kissing
+        If CBTagTattoos Is checkBox Then Return ItemTagId.Tattoos
+        If CBTagStockings Is checkBox Then Return ItemTagId.Stockings
+        If CBTagVibrator Is checkBox Then Return ItemTagId.Vibrator
+        If CBTagDildo Is checkBox Then Return ItemTagId.Dildo
+        If CBTagPocketPussy Is checkBox Then Return ItemTagId.PocketPussy
+        If CBTagAnalToy Is checkBox Then Return ItemTagId.AnalToy
+        If CBTagWatersports Is checkBox Then Return ItemTagId.Watersports
+
+        If CBTagShibari Is checkBox Then Return ItemTagId.Shibari
+        If CBTagTentacles Is checkBox Then Return ItemTagId.Tentacles
+        If CBTagBukkake Is checkBox Then Return ItemTagId.Bukkake
+        If CBTagBakunyuu Is checkBox Then Return ItemTagId.Bakunyuu
+        If CBTagAhegao Is checkBox Then Return ItemTagId.Ahegao
+        If CBTagBodyWriting Is checkBox Then Return ItemTagId.BodyWriting
+        If CBTagTrap Is checkBox Then Return ItemTagId.Trap
+        If CBTagGanguro Is checkBox Then Return ItemTagId.Ganguro
+        If CBTagMahouShoujo Is checkBox Then Return ItemTagId.MahouShoujo
+        If CBTagMonsterGirl Is checkBox Then Return ItemTagId.MonsterGirl
+        Throw New ArgumentOutOfRangeException()
+    End Function
+
+    Private Sub TagCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles CBTagWhipping.CheckedChanged, CBTagWatersports.CheckedChanged, CBTagVibrator.CheckedChanged, CBTagTrap.CheckedChanged, CBTagTitjob.CheckedChanged, CBTagTentacles.CheckedChanged, CBTagTeacher.CheckedChanged, CBTagTD.CheckedChanged, CBTagTattoos.CheckedChanged, CBTagSuperhero.CheckedChanged, CBTagStrapon.CheckedChanged, CBTagStockings.CheckedChanged, CBTagStanding.CheckedChanged, CBTagSpanking.CheckedChanged, CBTagSoloM.CheckedChanged, CBTagSoloFuta.CheckedChanged, CBTagSoloF.CheckedChanged, CBTagSM.CheckedChanged, CBTagShower.CheckedChanged, CBTagShibari.CheckedChanged, CBTagSchoolgirl.CheckedChanged, CBTagRimming.CheckedChanged, CBTagRCowgirl.CheckedChanged, CBTagPOV.CheckedChanged, CBTagPocketPussy.CheckedChanged, CBTagOutdoors.CheckedChanged, CBTagNurse.CheckedChanged, CBTagNeedles.CheckedChanged, CBTagMultiSub.CheckedChanged, CBTagMultiDom.CheckedChanged, CBTagMonsterGirl.CheckedChanged, CBTagMissionary.CheckedChanged, CBTagMasturbation.CheckedChanged, CBTagMalesub.CheckedChanged, CBTagMaledom.CheckedChanged, CBTagMaid.CheckedChanged, CBTagMahouShoujo.CheckedChanged, CBTagLesbian.CheckedChanged, CBTagKissing.CheckedChanged, CBTagHotWax.CheckedChanged, CBTagHardcore.CheckedChanged, CBTagHandjob.CheckedChanged, CBTagGay.CheckedChanged, CBTagGanguro.CheckedChanged, CBTagGangbang.CheckedChanged, CBTagGag.CheckedChanged, CBTagFutasub.CheckedChanged, CBTagFutadom.CheckedChanged, CBTagFootjob.CheckedChanged, CBTagFingering.CheckedChanged, CBTagFemsub.CheckedChanged, CBTagFemdom.CheckedChanged, CBTagFacesitting.CheckedChanged, CBTagElectro.CheckedChanged, CBTagDP.CheckedChanged, CBTagDomme.CheckedChanged, CBTagDoggyStyle.CheckedChanged, CBTagDildo.CheckedChanged, CBTagCunnilingus.CheckedChanged, CBTagCumshot.CheckedChanged, CBTagCumEating.CheckedChanged, CBTagCowgirl.CheckedChanged, CBTagCockTorture.CheckedChanged, CBTagClamps.CheckedChanged, CBTagChastity.CheckedChanged, CBTagCFNM.CheckedChanged, CBTagBukkake.CheckedChanged, CBTagBondage.CheckedChanged, CBTagBodyWriting.CheckedChanged, CBTagBodyTits.CheckedChanged, CBTagBodyPussy.CheckedChanged, CBTagBodyNipples.CheckedChanged, CBTagBodyMouth.CheckedChanged, CBTagBodyLegs.CheckedChanged, CBTagBodyFingers.CheckedChanged, CBTagBodyFeet.CheckedChanged, CBTagBodyFace.CheckedChanged, CBTagBodyCock.CheckedChanged, CBTagBodyBalls.CheckedChanged, CBTagBodyAss.CheckedChanged, CBTagBlowjob.CheckedChanged, CBTagBlindfold.CheckedChanged, CBTagBisexual.CheckedChanged, CBTagBath.CheckedChanged, CBTagBallTorture.CheckedChanged, CBTagBakunyuu.CheckedChanged, CBTagArtwork.CheckedChanged, CBTagAnalToy.CheckedChanged, CBTagAnalSex.CheckedChanged, CBTagAhegao.CheckedChanged, CBTag3M.CheckedChanged, CBTag3Futa.CheckedChanged, CBTag3F.CheckedChanged, CBTag2M.CheckedChanged, CBTag2Futa.CheckedChanged, CBTag2F.CheckedChanged, CBTag1M.CheckedChanged, CBTag1Futa.CheckedChanged, CBTag1F.CheckedChanged
+        If (myIsFormSettingTags) Then
+            Return
+        End If
+
+        Dim checkBox As CheckBox = CType(sender, CheckBox)
+        Dim imageTagId As ItemTagId = GetTagIdFromCheckBox(checkBox)
+        If (checkBox.Checked) Then
+            Dim selectedImage As ImageMetaData = CType(FileTagCombo.DataSource, List(Of ImageMetaData))(FileTagCombo.SelectedIndex)
+            myImageTagMapService.Create(selectedImage.Id, imageTagId)
+        Else
+            Dim selectedImage As ImageMetaData = CType(FileTagCombo.DataSource, List(Of ImageMetaData))(FileTagCombo.SelectedIndex)
+            myImageTagMapService.Delete(selectedImage.Id, imageTagId)
+        End If
+    End Sub
+#End Region
+
+#Region "Domme Tags"
+
+    Private Sub DommeTagDirectoryButton_Click(sender As Object, e As EventArgs) Handles DommeTagDirectoryButton.Click
+
+        Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
+        If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
+            ImageTagDir.Clear()
+
+            DommeTagDirInput.Text = folderBrowserDialog.SelectedPath
+
+            Dim supportedExtensions As String = "*.png,*.jpg,*.gif,*.bmp,*.jpeg"
+            Dim files As String() = myDirectory.GetFiles(DommeTagDirInput.Text, "*.*")
+
+            Array.Sort(files)
+
+            For Each fi As String In files
+                If supportedExtensions.Contains(Path.GetExtension(LCase(fi))) Then
+                    ImageTagDir.Add(fi)
+                End If
+            Next
+
+            If ImageTagDir.Count < 1 Then
+                MessageBox.Show(Me, "There are no images in the specified folder.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return
+            End If
+
+            ImageTagPictureBox.Image = Image.FromFile(ImageTagDir(0))
+            MainWindow.mainPictureBox.LoadAsync(ImageTagDir(0))
+            CurrentImageTagImage = ImageTagDir(0)
+
+            Dim taggedItem As TeaseAI.Common.TaggedItem = GetTaggedItem(DommeTagDirInput.Text & "\ImageTags.txt", CurrentImageTagImage)
+            SetDommeTagCheckboxes(taggedItem.ItemTags)
+
+            TagCount = 1
+            LBLTagCount.Text = TagCount & "/" & ImageTagDir.Count
+
+            ImageTagCount = 0
+
+            BTNTagSave.Enabled = True
+            BTNTagNext.Enabled = True
+            BTNTagPrevious.Enabled = False
+            DommeTagDirectoryButton.Enabled = False
+            DommeTagDirInput.Enabled = False
+
+            SetDommeTagCheckboxesEnabled(True)
+            LBLTagCount.Enabled = True
+        End If
+    End Sub
+
+    Private Sub DommeTagDirInput_KeyPress(sender As Object, e As KeyPressEventArgs) Handles DommeTagDirInput.KeyPress
+        If e.KeyChar <> Convert.ToChar(13) Then
+            Return
+        End If
+
+        e.Handled = True
+        e.KeyChar = Chr(0)
+
+        Dim getImages As Result(Of List(Of String)) = GetImagesInFolder(DommeTagDirInput.Text) _
+            .Ensure(Function(data) data.Any(), DommeTagDirInput.Text & " does not have any images in it.")
+
+        LocalImageTagDir = getImages.GetResultOrDefault(New List(Of String))
+
+        If Not getImages.IsFailure() Then
+            MessageBox.Show(Me, getImages.GetErrorMessageOrDefault(), "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Return
+        End If
+
+
+        CurrentImageTagImage = ImageTagDir.First()
+        ImageTagPictureBox.Image = Image.FromFile(CurrentImageTagImage)
+        MainWindow.mainPictureBox.LoadAsync(CurrentImageTagImage)
+
+        Dim taggedItem As TeaseAI.Common.TaggedItem = GetTaggedItem(DommeTagDirInput.Text & "\ImageTags.txt", CurrentImageTagImage)
+        SetDommeTagCheckboxes(taggedItem.ItemTags)
+
+        TagCount = 1
+        LBLTagCount.Text = TagCount & "/" & ImageTagDir.Count
+
+        ImageTagCount = 0
+        BTNTagSave.Enabled = True
+        BTNTagNext.Enabled = TagCount < ImageTagDir.Count
+        BTNTagPrevious.Enabled = TagCount > 1
+        DommeTagDirectoryButton.Enabled = False
+        DommeTagDirInput.Enabled = False
+        SetDommeTagCheckboxesEnabled(True)
+    End Sub
+
+    Private Sub BTNTagSave_Click(sender As Object, e As EventArgs) Handles BTNTagSave.Click
+
+        SaveDommeTags(DommeTagDirInput.Text & "\ImageTags.txt", CurrentImageTagImage)
+
+        DommeTagDirectoryButton.Enabled = True
+        DommeTagDirInput.Enabled = True
+        BTNTagSave.Enabled = False
+        BTNTagNext.Enabled = False
+        BTNTagPrevious.Enabled = False
+
+
+
+
+        ' If BTNTagSave.Text = "Save and Finish" Then
+        'BTNTagSave.Text = "Save and Display Next Image"
+        'BTNTagSave.Enabled = False
+        'MessageBox.Show(Me, "All images in this folder have been successfully tagged.", "Success!", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        'ImageTagPictureBox.Image = Nothing
+        'Return
+        'End If
+
+        SetDommeTagCheckboxes(New List(Of Constants.TaggedItem)())
+        SetDommeTagCheckboxesEnabled(False)
+
+        LBLTagCount.Text = "0/0"
+        LBLTagCount.Enabled = False
+
+        ImageTagPictureBox.Image = Nothing
+    End Sub
+
+    Private Sub BTNTagNext_Click(sender As Object, e As EventArgs) Handles BTNTagNext.Click
+        TagCount += 1
+        LBLTagCount.Text = TagCount & "/" & ImageTagDir.Count
+
+        SaveDommeTags(DommeTagDirInput.Text & "\ImageTags.txt", CurrentImageTagImage)
+
+        ImageTagCount += 1
+
+        CurrentImageTagImage = ImageTagDir(ImageTagCount - 1)
+        ImageTagPictureBox.Image = Image.FromFile(CurrentImageTagImage)
+        MainWindow.mainPictureBox.LoadAsync(CurrentImageTagImage)
+
+        BTNTagNext.Enabled = TagCount < ImageTagDir.Count
+        BTNTagPrevious.Enabled = TagCount > 1
+
+        Dim taggedItem As TeaseAI.Common.TaggedItem = GetTaggedItem(DommeTagDirInput.Text & "\ImageTags.txt", CurrentImageTagImage)
+        SetDommeTagCheckboxes(taggedItem.ItemTags)
+    End Sub
+
+    Private Sub BTNTagPrevious_Click(sender As Object, e As EventArgs) Handles BTNTagPrevious.Click
+
+        TagCount -= 1
+        LBLTagCount.Text = TagCount & "/" & ImageTagDir.Count
+        BTNTagNext.Enabled = True
+
+
+        SaveDommeTags(DommeTagDirInput.Text & "\ImageTags.txt", CurrentImageTagImage)
+
+        ImageTagCount -= 1
+
+        Try
+            ImageTagPictureBox.Image.Dispose()
+        Catch
+        End Try
+
+        ImageTagPictureBox.Image = Nothing
+        GC.Collect()
+
+        ImageTagPictureBox.Image = Image.FromFile(ImageTagDir(ImageTagCount))
+        MainWindow.mainPictureBox.LoadAsync(ImageTagDir(ImageTagCount))
+        CurrentImageTagImage = ImageTagDir(ImageTagCount)
+
+        BTNTagPrevious.Enabled = ImageTagCount > 0
+        Dim taggedItem As TeaseAI.Common.TaggedItem = GetTaggedItem(DommeTagDirInput.Text & "\ImageTags.txt", CurrentImageTagImage)
+        SetDommeTagCheckboxes(taggedItem.ItemTags)
+    End Sub
+
+    Private Function GetTaggedItem(tagFile As String, imageFile As String) As TeaseAI.Common.TaggedItem
+        Dim taggedItems As List(Of TeaseAI.Common.TaggedItem) = ReadTagFile(tagFile)
+        Return taggedItems.FirstOrDefault(Function(ti) ti.ItemName.ToLower() = imageFile.ToLower())
+    End Function
+
+    Private Sub SetDommeTagCheckboxesEnabled(isEnabled As Boolean)
+        CBTagFace.Enabled = isEnabled
+        CBTagBoobs.Enabled = isEnabled
+        CBTagPussy.Enabled = isEnabled
+        CBTagAss.Enabled = isEnabled
+        CBTagLegs.Enabled = isEnabled
+        CBTagFeet.Enabled = isEnabled
+        CBTagFullyDressed.Enabled = isEnabled
+        CBTagHalfDressed.Enabled = isEnabled
+        CBTagGarmentCovering.Enabled = isEnabled
+        CBTagHandsCovering.Enabled = isEnabled
+        CBTagNaked.Enabled = isEnabled
+        CBTagSideView.Enabled = isEnabled
+        CBTagCloseUp.Enabled = isEnabled
+        CBTagMasturbating.Enabled = isEnabled
+        CBTagSucking.Enabled = isEnabled
+        CBTagPiercing.Enabled = isEnabled
+        CBTagSmiling.Enabled = isEnabled
+        CBTagGlaring.Enabled = isEnabled
+        CBTagSeeThrough.Enabled = isEnabled
+        CBTagAllFours.Enabled = isEnabled
+
+        CBTagGarment.Enabled = isEnabled
+        CBTagUnderwear.Enabled = isEnabled
+        CBTagTattoo.Enabled = isEnabled
+        CBTagSexToy.Enabled = isEnabled
+        CBTagFurniture.Enabled = isEnabled
+
+        TBTagGarment.Enabled = isEnabled
+        TBTagUnderwear.Enabled = isEnabled
+        TBTagTattoo.Enabled = isEnabled
+        TBTagSexToy.Enabled = isEnabled
+        TBTagFurniture.Enabled = isEnabled
+
+        LBLTagCount.Enabled = isEnabled
+    End Sub
+
+    ''' <summary>
+    ''' Set the domme tag checkboxes
+    ''' </summary>
+    ''' <param name="itemTags"></param>
+    Private Sub SetDommeTagCheckboxes(itemTags As List(Of Constants.TaggedItem))
+        CBTagFace.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagFace").Value)
+        CBTagBoobs.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagBoobs").Value)
+        CBTagPussy.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagPussy").Value)
+        CBTagAss.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagAss").Value)
+        CBTagLegs.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagLegs").Value)
+        CBTagFeet.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagFeet").Value)
+        CBTagFullyDressed.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagFullyDressed").Value)
+        CBTagHalfDressed.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagHalfDressed").Value)
+        CBTagGarmentCovering.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagGarmentCovering").Value)
+        CBTagHandsCovering.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagHandsCovering").Value)
+        CBTagNaked.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagNaked").Value)
+        CBTagSideView.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagSideView").Value)
+        CBTagCloseUp.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagCloseUp").Value)
+        CBTagMasturbating.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagMasturbating").Value)
+        CBTagSucking.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagSucking").Value)
+        CBTagPiercing.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagPiercing").Value)
+        CBTagSmiling.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagSmiling").Value)
+        CBTagGlaring.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagGlaring").Value)
+        CBTagSeeThrough.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagSeeThrough").Value)
+        CBTagAllFours.Checked = itemTags.Contains(Constants.TaggedItem.Create("TagAllFours").Value)
+
+        Dim garmentTag As Constants.TaggedItem? = itemTags.FirstOrDefault(Function(it) it.Equals(Constants.TaggedItem.Create("TagGarment").Value))
+        CBTagGarment.Checked = garmentTag.HasValue
+        TBTagGarment.Text = If(garmentTag.HasValue, String.Empty, garmentTag.Value.ToString().Replace("TagGarment", ""))
+
+        Dim underwearTag As Constants.TaggedItem? = itemTags.FirstOrDefault(Function(it) it.Equals(Constants.TaggedItem.Create("TagUnderwear").Value))
+        CBTagUnderwear.Checked = underwearTag.HasValue
+        TBTagUnderwear.Text = If(underwearTag.HasValue, String.Empty, underwearTag.Value.ToString().Replace("TagUnderwear", ""))
+
+        Dim tattooTag As Constants.TaggedItem? = itemTags.FirstOrDefault(Function(it) it.Equals(Constants.TaggedItem.Create("TagTattoo").Value))
+        CBTagTattoo.Checked = tattooTag.HasValue
+        TBTagTattoo.Text = If(tattooTag.HasValue, String.Empty, tattooTag.Value.ToString().Replace("TagTattoo", ""))
+
+        Dim sexToyTag As Constants.TaggedItem? = itemTags.FirstOrDefault(Function(it) it.Equals(Constants.TaggedItem.Create("TagSexToy").Value))
+        CBTagSexToy.Checked = sexToyTag.HasValue
+        TBTagSexToy.Text = If(sexToyTag.HasValue, String.Empty, sexToyTag.Value.ToString().Replace("TagSexToy", ""))
+
+        Dim furnitureTag As Constants.TaggedItem? = itemTags.FirstOrDefault(Function(it) it.Equals(Constants.TaggedItem.Create("TagFurniture").Value))
+        CBTagFurniture.Checked = furnitureTag.HasValue
+        TBTagFurniture.Text = If(furnitureTag.HasValue, String.Empty, furnitureTag.Value.ToString().Replace("TagFurniture", ""))
+    End Sub
+
+    Public Sub SaveDommeTags(tagFile As String, imageFile As String)
+
+        Dim imageTagLine As String = Path.GetFileName(imageFile)
+
+        If CBTagFace.Checked Then imageTagLine = imageTagLine & " " & "TagFace"
+        If CBTagBoobs.Checked Then imageTagLine = imageTagLine & " " & "TagBoobs"
+        If CBTagPussy.Checked Then imageTagLine = imageTagLine & " " & "TagPussy"
+        If CBTagAss.Checked Then imageTagLine = imageTagLine & " " & "TagAss"
+        If CBTagLegs.Checked Then imageTagLine = imageTagLine & " " & "TagLegs"
+        If CBTagFeet.Checked Then imageTagLine = imageTagLine & " " & "TagFeet"
+        If CBTagFullyDressed.Checked Then imageTagLine = imageTagLine & " " & "TagFullyDressed"
+        If CBTagHalfDressed.Checked Then imageTagLine = imageTagLine & " " & "TagHalfDressed"
+        If CBTagGarmentCovering.Checked Then imageTagLine = imageTagLine & " " & "TagGarmentCovering"
+        If CBTagHandsCovering.Checked Then imageTagLine = imageTagLine & " " & "TagHandsCovering"
+        If CBTagNaked.Checked Then imageTagLine = imageTagLine & " " & "TagNaked"
+        If CBTagSideView.Checked Then imageTagLine = imageTagLine & " " & "TagSideView"
+        If CBTagCloseUp.Checked Then imageTagLine = imageTagLine & " " & "TagCloseUp"
+        If CBTagMasturbating.Checked Then imageTagLine = imageTagLine & " " & "TagMasturbating"
+        If CBTagSucking.Checked Then imageTagLine = imageTagLine & " " & "TagSucking"
+        If CBTagPiercing.Checked Then imageTagLine = imageTagLine & " " & "TagPiercing"
+        If CBTagSmiling.Checked Then imageTagLine = imageTagLine & " " & "TagSmiling"
+        If CBTagGlaring.Checked Then imageTagLine = imageTagLine & " " & "TagGlaring"
+        If CBTagSeeThrough.Checked Then imageTagLine = imageTagLine & " " & "TagSeeThrough"
+        If CBTagAllFours.Checked Then imageTagLine = imageTagLine & " " & "TagAllFours"
+
+        If CBTagGarment.Checked Then
+            If TBTagGarment.Text = "" Then
+                MessageBox.Show(Me, "Please enter a description in the Garment field!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
+                Return
+            Else
+                imageTagLine = imageTagLine & " " & "TagGarment" & TBTagGarment.Text
+            End If
+        End If
+
+        If CBTagUnderwear.Checked Then
+            If TBTagUnderwear.Text = "" Then
+                MessageBox.Show(Me, "Please enter a description in the Underwear field!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
+                Return
+            Else
+                imageTagLine = imageTagLine & " " & "TagUnderwear" & TBTagUnderwear.Text
+            End If
+        End If
+
+        If CBTagTattoo.Checked Then
+            If TBTagTattoo.Text = "" Then
+                MessageBox.Show(Me, "Please enter a description in the Tattoo field!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
+                Return
+            Else
+                imageTagLine = imageTagLine & " " & "TagTattoo" & TBTagTattoo.Text
+            End If
+        End If
+
+        If CBTagSexToy.Checked Then
+            If TBTagSexToy.Text = "" Then
+                MessageBox.Show(Me, "Please enter a description in the Room field!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
+                Return
+            Else
+                imageTagLine = imageTagLine & " " & "TagSexToy" & TBTagSexToy.Text
+            End If
+        End If
+
+        If CBTagFurniture.Checked Then
+            If TBTagFurniture.Text = "" Then
+                MessageBox.Show(Me, "Please enter a description in the Furniture field!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
+                Return
+            Else
+                imageTagLine = imageTagLine & " " & "TagFurniture" & TBTagFurniture.Text
+            End If
+        End If
+
+
+        If File.Exists(tagFile) Then
+            Dim TagCheckList As List(Of TeaseAI.Common.TaggedItem) = ReadTagFile(tagFile)
+            Dim LineExists As Boolean
+            LineExists = False
+            ' FINISH ME
+            'For i As Integer = 0 To TagCheckList.Count - 1
+            '    If TagCheckList(i).Contains(Path.GetFileName(CurrentImageTagImage)) Then
+            '        TagCheckList(i) = TempImageDir
+            '        LineExists = True
+            '        System.IO.File.WriteAllLines(TBTagDir.Text & "\ImageTags.txt", TagCheckList)
+            '    End If
+            'Next
+
+            If Not LineExists Then
+                My.Computer.FileSystem.WriteAllText(tagFile, Environment.NewLine & imageTagLine, True)
+                LineExists = False
+            End If
+
+        Else
+            My.Computer.FileSystem.WriteAllText(tagFile, imageTagLine, True)
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Reads the tag data from a file as a collection of strings
+    ''' </summary>
+    ''' <param name="fileName"></param>
+    ''' <returns></returns>
+    Private Function ReadTagFile(fileName As String) As List(Of TeaseAI.Common.TaggedItem)
+        Return myLoadFileData.ReadData(fileName) _
+                    .OnSuccess(Function(data) myParseTagDataService.ParseTagData(data)).GetResultOrDefault(New List(Of TeaseAI.Common.TaggedItem))
+    End Function
+
+#End Region
+
+#Region "URL Files"
+    Private Sub UrlFilesTab_VisibleChanged(sender As Object, e As EventArgs) Handles UrlFilesTab.VisibleChanged
+        Dim mediaContainers As List(Of MediaContainer) = myMediaContainerService.Get() _
+            .Where(Function(mc) mc.MediaTypeId = 1 AndAlso mc.SourceId = ImageSource.Remote) _
+            .OrderBy(Function(mc) mc.Name) _
+            .ToList()
+
+        SelectBlogDropDown.DisplayMember = NameOf(MediaContainer.Name)
+        SelectBlogDropDown.ValueMember = NameOf(MediaContainer.Id)
+        SelectBlogDropDown.DataSource = mediaContainers
+    End Sub
+
+    Private Async Sub CreateBlogContainerButton_Click(sender As Object, e As EventArgs) Handles CreateBlogContainerButton.Click
+        Dim imageBlogUrl = InputBox("Enter an image blog", "URL File Generator", "https://(Blog Name).tumblr.com/")
+        Dim mediaContainer As MediaContainer = myMediaContainerService.Get().FirstOrDefault(Function(mc) mc.Path = imageBlogUrl)
+        If mediaContainer Is Nothing Then
+            mediaContainer = New MediaContainer With {
+                .Path = imageBlogUrl,
+                .IsEnabled = True,
+                .Name = imageBlogUrl.Replace("https://", String.Empty).Replace(".tumblr.com/", String.Empty).Replace("--", "-").Replace("-", " "),
+                .MediaTypeId = 1, ' image
+                .SourceId = ImageSource.Remote,
+                .GenreId = ImageGenre.Blog
+            }
+            mediaContainer = myMediaContainerService.Create(mediaContainer).GetResultOrDefault(mediaContainer)
+        End If
+
+        Dim imageMetaDatas As List(Of ImageMetaData) = (Await myImageBlogDownloadService.GetBlogImagesAsync(New Uri(imageBlogUrl), 0, 100)) _
+            .GetResultOrDefault(New List(Of ImageMetaData))
+
+        imageMetaDatas.ForEach(Sub(imd) imd.MediaContainerId = mediaContainer.Id)
+
+        Dim containerImages As List(Of ImageMetaData) = myImageMetaDataService.GetImagesInContainer(mediaContainer.Id).GetResultOrDefault(New List(Of ImageMetaData))
+        Dim i As Integer = 0
+        While i < imageMetaDatas.Count
+            If containerImages.Any(Function(imd) imd.FullFileName = imageMetaDatas(i).FullFileName) Then
+                imageMetaDatas.RemoveAt(i)
+                i = i - 1
+            End If
+            i = i + 1
+        End While
+
+        Dim mediaContainers As List(Of MediaContainer) = CType(SelectBlogDropDown.DataSource, List(Of MediaContainer))
+        mediaContainers.Add(mediaContainer)
+        mediaContainers = mediaContainers.OrderBy(Function(mc) mc.Name).ToList()
+        SelectBlogDropDown.DataSource = mediaContainers
+
+        myUrlFileIndex = 0
+        SelectBlogDropDown.ValueMember = mediaContainer.Id
+
+        myWorkingUrlImageMetaDatas = imageMetaDatas
+
+        Await LoadUrlImageAsync(myWorkingUrlImageMetaDatas, myUrlFileIndex)
+    End Sub
+
+    Private Async Sub WebPictureBox_MouseWheel(sender As Object, e As Windows.Forms.MouseEventArgs) Handles WebPictureBox.MouseWheel
+        Select Case e.Delta
+            Case -120 'Scrolling down
+                If myUrlFileIndex = myWorkingUrlImageMetaDatas.Count - 1 Then
+                    Return
+                End If
+                myUrlFileIndex += 1
+                Await LoadUrlImageAsync(myWorkingUrlImageMetaDatas, myUrlFileIndex)
+
+            Case 120 'Scrolling up
+                If myUrlFileIndex = 0 Then
+                    Return
+                End If
+                myUrlFileIndex -= 1
+                Await LoadUrlImageAsync(myWorkingUrlImageMetaDatas, myUrlFileIndex)
+        End Select
+    End Sub
+
+    Private Sub WebPictureBox_MouseEnter(ByVal sender As Object, ByVal e As EventArgs) Handles WebPictureBox.MouseEnter
+        WebPictureBox.Focus()
+    End Sub
+
+    Private Sub Button57_Click(sender As Object, e As EventArgs) Handles BTNWIBrowse.Click
+        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
+            TBWIDirectory.Text = FolderBrowserDialog1.SelectedPath
+        End If
+    End Sub
+
+    Private Sub CBWISaveToDisk_CheckedChanged(sender As Object, e As EventArgs) Handles CBWISaveToDisk.CheckedChanged
+
+        If CBWISaveToDisk.Checked Then
+            If Not Directory.Exists(TBWIDirectory.Text) Then
+                MessageBox.Show(Me, "Please enter or browse for a valid Saved Image Directory first!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
+                CBWISaveToDisk.Checked = False
+            End If
+        End If
+    End Sub
+
+    Private Async Sub UrlImageAddAndContinue_Click(sender As Object, e As EventArgs) Handles UrlImageAddAndContinue.Click
+        Dim containerImages = myImageMetaDataService.GetImagesInContainer(CType(SelectBlogDropDown.SelectedValue, Integer)) _
+            .OnSuccess(Function(imds)
+                           Dim currentImageMetaData = myWorkingUrlImageMetaDatas(myUrlFileIndex)
+                           ' it isn't an error if this is saved, we just do nothing
+                           If imds.Any(Function(imd) imd.FullFileName = currentImageMetaData.FullFileName) Then
+                               Return Result.Ok()
+                           End If
+                           myImageMetaDataService.Create(New List(Of ImageMetaData)(currentImageMetaData))
+                       End Function)
+
+        myUrlFileIndex += 1
+        Await LoadUrlImageAsync(myWorkingUrlImageMetaDatas, myUrlFileIndex)
+
+        If containerImages.IsFailure Then
+            Await myNotifyUserService.ModalMessageAsync(containerImages.Error.Message)
+        End If
+    End Sub
+
+    Private Async Sub UrlImageContinueButton_Click(sender As Object, e As EventArgs) Handles UrlImageContinueButton.Click
+        myUrlFileIndex += 1
+        Await LoadUrlImageAsync(myWorkingUrlImageMetaDatas, myUrlFileIndex)
+    End Sub
+
+    Private Sub BTNCancel_Click(sender As Object, e As EventArgs) Handles BTNWICancel.Click
+        If BWURLFiles.IsBusy Then BWURLFiles.CancelAsync()
+    End Sub
+
+    Private Async Sub BTNWIRemove_Click(sender As Object, e As EventArgs) Handles UrlImageRemoveButton.Click
+        Dim containerImages = myImageMetaDataService.GetImagesInContainer(CType(SelectBlogDropDown.SelectedValue, Integer)) _
+            .OnSuccess(Function(imds)
+                           Dim currentImage = myWorkingUrlImageMetaDatas(myUrlFileIndex)
+                           Dim containerImage = imds.FirstOrDefault(Function(imd) imd.FullFileName = currentImage.FullFileName)
+                           If containerImage IsNot Nothing Then
+                               Return myImageMetaDataService.Delete(containerImage)
+                           End If
+                           Return Result.Ok()
+                       End Function)
+
+        If containerImages.IsFailure Then
+            Await myNotifyUserService.ModalMessageAsync(containerImages.Error.Message)
+        End If
+    End Sub
+
+    Private Async Sub BTNWILiked_Click(sender As Object, e As EventArgs) Handles BTNWILiked.Click
+        Dim mediaContainer = myMediaContainerService.Get().First(Function(mc) mc.MediaTypeId = 1 AndAlso mc.SourceId = ImageSource.Remote AndAlso mc.GenreId = ImageGenre.Liked)
+        Dim containerImages = myImageMetaDataService.GetImagesInContainer(mediaContainer.Id) _
+            .OnSuccess(Function(imds)
+                           Dim currentImage = myWorkingUrlImageMetaDatas(myUrlFileIndex)
+                           Dim containerImage = imds.FirstOrDefault(Function(imd) imd.FullFileName = currentImage.FullFileName)
+                           If containerImage Is Nothing Then
+                               myImageMetaDataService.Create(New List(Of ImageMetaData)(containerImage))
+                           End If
+                           Return Result.Ok()
+                       End Function)
+
+        If containerImages.IsFailure Then
+            Await myNotifyUserService.ModalMessageAsync(containerImages.Error.Message)
+        End If
+    End Sub
+
+    Private Sub BTNWIDisliked_Click(sender As Object, e As EventArgs) Handles BTNWIDisliked.Click
+
+        If File.Exists(Application.StartupPath & "\Images\System\DislikedImageURLs.txt") Then
+            My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Images\System\DislikedImageURLs.txt", Environment.NewLine & WebImageLines(WebImageLine), True)
+        Else
+            My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Images\System\DislikedImageURLs.txt", WebImageLines(WebImageLine), True)
+        End If
+
+    End Sub
+
+    Private Async Sub SelectBlogDropDown_SelectedIndexChanged(sender As Object, e As EventArgs) Handles SelectBlogDropDown.SelectedIndexChanged
+        If Not SelectBlogDropDown.Visible Then
+            Return
+        End If
+        Dim containerId As Integer = CType(SelectBlogDropDown.SelectedValue, Integer)
+        myWorkingUrlImageMetaDatas = myImageMetaDataService.GetImagesInContainer(containerId).GetResultOrDefault(New List(Of ImageMetaData)())
+        myUrlFileIndex = 0
+        Await LoadUrlImageAsync(myWorkingUrlImageMetaDatas, myUrlFileIndex)
+    End Sub
+
+    Private Async Sub UrlFilesNextImageButton_Click(sender As Object, e As EventArgs) Handles UrlFilesNextImageButton.Click
+        myUrlFileIndex = myUrlFileIndex + 1
+        Await LoadUrlImageAsync(myWorkingUrlImageMetaDatas, myUrlFileIndex)
+    End Sub
+
+    Private Async Sub UrlFilesPreviousImageButton_Click(sender As Object, e As EventArgs) Handles UrlFilesPreviousImageButton.Click
+        myUrlFileIndex = myUrlFileIndex - 1
+        Await LoadUrlImageAsync(myWorkingUrlImageMetaDatas, myUrlFileIndex)
+    End Sub
+
+    Private Sub Button37_Click(sender As Object, e As EventArgs) Handles BTNWISave.Click
+
+        If WebPictureBox.Image Is Nothing Then
+            MsgBox("Nothing to save!", , "Error!")
+            Return
+        End If
+
+
+        SaveFileDialog1.Filter = "jpegs|*.jpg|gifs|*.gif|pngs|*.png|Bitmaps|*.bmp"
+        SaveFileDialog1.FilterIndex = 1
+        SaveFileDialog1.RestoreDirectory = True
+
+
+        Try
+
+            WebImage = WebImageLines(WebImageLine)
+
+            Dim DirSplit As String() = WebImage.Split("/")
+            WebImage = DirSplit(DirSplit.Length - 1)
+
+            ' ### Clean Code
+            'Do Until Not Form1.WebImage.Contains("/")
+            'Form1.WebImage = Form1.WebImage.Remove(0, 1)
+            'Loop
+
+            SaveFileDialog1.FileName = WebImage
+
+        Catch ex As Exception
+
+            SaveFileDialog1.FileName = "image.jpg"
+
+        End Try
+
+        If SaveFileDialog1.ShowDialog() = DialogResult.OK Then
+
+            WebPictureBox.Image.Save(SaveFileDialog1.FileName)
+
+        End If
+
+    End Sub
+
+    Private Sub Button38_Click(sender As Object, e As EventArgs) Handles BTNMaintenanceRefresh.Click, BTNMaintenanceRebuild.Click, BTNMaintenanceRebuild.Click
+        Dim __PreEnabled As New List(Of Control) From
+            {SelectBlogDropDown, CreateBlogContainerButton, BTNMaintenanceRefresh,
+            BTNMaintenanceRebuild, BTNMaintenanceScripts}
+        Dim __PreDisabled As New List(Of Control) From
+            {BTNWICancel, BTNMaintenanceCancel}
+
+        Try
+            ' Set their new State, so the User can't disturb.
+            __PreEnabled.ForEach(Sub(x) x.Enabled = False)
+            __PreDisabled.ForEach(Sub(x) x.Enabled = True)
+
+            Select Case sender.name
+                Case BTNMaintenanceRefresh.Name
+                    'on the misc page
+                    Try
+
+                        ' Run Backgroundworker
+                        Dim __tmpResult As URL_File_BGW.MaintainUrlResult = BWURLFiles.RefreshURLFilesAsync()
+
+                        ' Activate the URL-Files
+                        __tmpResult.MaintainedUrlFiles.ForEach(AddressOf URL_File_Set)
+
+                        If __tmpResult.Cancelled Then
+                            MessageBox.Show(Me, "Refreshing URL-File has been aborted after " & __tmpResult.MaintainedUrlFiles.Count & " URL-Files." &
+                                            vbCrLf & __tmpResult.ModifiedLinkCount & " new URLs have been added.",
+                                            "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        ElseIf __tmpResult.ErrorText.Capacity > 0 Then
+                            MessageBox.Show(Me, "URL Files have been refreshed with errors!" &
+                                            vbCrLf & vbCrLf & __tmpResult.ModifiedLinkCount & " new URLs have been added." &
+                                            vbCrLf & vbCrLf & String.Join(vbCrLf, __tmpResult.ErrorText),
+                                            "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Else
+                            MessageBox.Show(Me, "All URL Files have been refreshed!" &
+                                            vbCrLf & vbCrLf & __tmpResult.ModifiedLinkCount & " new URLs have been added.",
+                                            "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        End If
+                    Finally
+                        LBLMaintenance.Text = String.Empty
+                        PBCurrent.Value = 0
+                        PBMaintenance.Value = 0
+                    End Try
+                Case BTNMaintenanceRebuild.Name
+                    'on the misc page
+                    Try
+                        ' Run Backgroundworker
+                        Dim __tmpResult As URL_File_BGW.MaintainUrlResult = BWURLFiles.RebuildURLFilesAsync()
+
+                        ' Activate the URL-Files
+                        __tmpResult.MaintainedUrlFiles.ForEach(AddressOf URL_File_Set)
+
+                        If __tmpResult.Cancelled Then
+                            MessageBox.Show(Me, "Rebuilding URL-File has been aborted after " & __tmpResult.MaintainedUrlFiles.Count & " URL-Files." &
+                                            vbCrLf & __tmpResult.ModifiedLinkCount & " dead URLs have been removed.",
+                                            "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        ElseIf __tmpResult.ErrorText.Capacity > 0 Then
+                            MessageBox.Show(Me, "URL Files have been rebuilded with errors!" &
+                                            vbCrLf & vbCrLf & __tmpResult.ModifiedLinkCount & " dead URLs have been removed." &
+                                            vbCrLf & vbCrLf & __tmpResult.LinkCountTotal & " URLs in total." &
+                                            vbCrLf & vbCrLf & String.Join(vbCrLf, __tmpResult.ErrorText),
+                                            "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Else
+                            MessageBox.Show(Me, "All URL Files have been rebuilded!" &
+                                            vbCrLf & vbCrLf & __tmpResult.ModifiedLinkCount & " dead URLs have been removed." &
+                                            vbCrLf & vbCrLf & __tmpResult.LinkCountTotal & " URLs in total.",
+                                            "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        End If
+                    Catch
+                        '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
+                        '                                            All Errors
+                        '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
+                        Throw
+                    Finally
+                        '⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑ Finally ⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑
+                        LBLMaintenance.Text = String.Empty
+                        PBCurrent.Value = 0
+                        PBMaintenance.Value = 0
+                    End Try
+            End Select
+        Catch ex As Exception
+            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
+            '                                            All Errors
+            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
+            If ex.InnerException IsNot Nothing Then
+                ' If an Error ocurred in the other Thread, initial Exception is innner one.
+                MsgBox(ex.InnerException.Message, MsgBoxStyle.Critical, "Error Creating URL-File")
+            Else
+                ' Otherwise show it normal.
+                MsgBox(ex.Message, MsgBoxStyle.Critical, "Error Creating URL-File")
+            End If
+        Finally
+            '⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑ Finally ⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑
+            ' Restore the initial State of the Buttons
+            __PreEnabled.ForEach(Sub(x) x.Enabled = True)
+            __PreDisabled.ForEach(Sub(x) x.Enabled = False)
+        End Try
+    End Sub
+
+    ''' <summary>
+    ''' Load the image and set nav buttons to enabled status as appropriate
+    ''' </summary>
+    ''' <param name="imageMetaDatas"></param>
+    ''' <param name="urlFileIndex"></param>
+    Private Async Function LoadUrlImageAsync(imageMetaDatas As List(Of ImageMetaData), urlFileIndex As Integer) As Task
+
+        LBLWebImageCount.Text = BuildIndexString(urlFileIndex, imageMetaDatas.Count)
+        WebPictureBox.Image = Await LoadImageAsync(imageMetaDatas(urlFileIndex))
+
+        UrlFilesNextImageButton.Enabled = urlFileIndex < imageMetaDatas.Count
+        UrlFilesPreviousImageButton.Enabled = urlFileIndex > 0
+    End Function
+
+#End Region
 
     Private Sub ComboBox1_DrawItem(ByVal sender As Object, ByVal e As Windows.Forms.DrawItemEventArgs) Handles SubMessageFontCB.DrawItem
         e.DrawBackground()
@@ -3901,6 +4601,7 @@ checkFolder:
     Private Sub NBRedLightMax_LostFocus(sender As Object, e As EventArgs) Handles NBRedLightMax.LostFocus
         My.Settings.RedLightMax = NBRedLightMax.Value
     End Sub
+
     Private Sub NBGreenLightMin_LostFocus(sender As Object, e As EventArgs) Handles NBGreenLightMin.LostFocus
         My.Settings.GreenLightMin = NBGreenLightMin.Value
     End Sub
@@ -4142,23 +4843,6 @@ checkFolder:
 
     End Sub
 
-    ''' =========================================================================================================
-    ''' <summary>
-    ''' Activates the specified is activaed in Listbox and saves the Listboxstate.
-    ''' </summary>
-    ''' <param name="URL_FileName"></param>
-    Private Sub URL_File_Set(ByVal URL_FileName As String)
-        ' Set the new URL-File
-        If Not URLFileList.Items.Contains(URL_FileName) Then
-            URLFileList.Items.Add(URL_FileName)
-            For i As Integer = 0 To URLFileList.Items.Count - 1
-                If URLFileList.Items(i) = URL_FileName Then URLFileList.SetItemChecked(i, True)
-            Next
-        End If
-        ' Save ListState
-        SaveURLFileSelection()
-    End Sub
-
     Private Sub SliderSTF_Scroll(sender As Object, e As EventArgs) Handles SliderSTF.Scroll
         If SliderSTF.Value = 1 Then LBLStf.Text = "Preoccupied"
         If SliderSTF.Value = 2 Then LBLStf.Text = "Distracted"
@@ -4202,170 +4886,6 @@ checkFolder:
 
     Private Sub NBWritingTaskMax_ValueChanged(sender As Object, e As EventArgs) Handles NBWritingTaskMax.ValueChanged
         If NBWritingTaskMax.Value < NBWritingTaskMin.Value Then NBWritingTaskMax.Value = NBWritingTaskMin.Value
-    End Sub
-
-    Private Sub BTNTagDir_Click(sender As Object, e As EventArgs) Handles BTNTagDir.Click
-
-        Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
-        If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
-            ImageTagDir.Clear()
-
-            TBTagDir.Text = folderBrowserDialog.SelectedPath
-
-            Dim supportedExtensions As String = "*.png,*.jpg,*.gif,*.bmp,*.jpeg"
-            Dim files As String() = myDirectory.GetFiles(TBTagDir.Text, "*.*")
-
-            Array.Sort(files)
-
-            For Each fi As String In files
-                If supportedExtensions.Contains(Path.GetExtension(LCase(fi))) Then
-                    ImageTagDir.Add(fi)
-                End If
-            Next
-
-            If ImageTagDir.Count < 1 Then
-                MessageBox.Show(Me, "There are no images in the specified folder.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Return
-            End If
-
-            ImageTagPictureBox.Image = Image.FromFile(ImageTagDir(0))
-            MainWindow.mainPictureBox.LoadAsync(ImageTagDir(0))
-            CurrentImageTagImage = ImageTagDir(0)
-
-            Dim taggedItem As TaggedItem = GetTaggedItem(TBTagDir.Text & "\ImageTags.txt", CurrentImageTagImage)
-            SetDommeTagCheckboxes(taggedItem.ItemTags)
-
-            TagCount = 1
-            LBLTagCount.Text = TagCount & "/" & ImageTagDir.Count
-
-            'If ImageTagDir.Count = 1 Then BTNTagSave.Text = "Save and Finish"
-
-            ImageTagCount = 0
-
-            BTNTagSave.Enabled = True
-            BTNTagNext.Enabled = True
-            BTNTagPrevious.Enabled = False
-            BTNTagDir.Enabled = False
-            TBTagDir.Enabled = False
-
-            SetDommeTagCheckboxesEnabled(True)
-            LBLTagCount.Enabled = True
-        End If
-    End Sub
-
-    Private Sub TBTagDir_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TBTagDir.KeyPress
-        If e.KeyChar <> Convert.ToChar(13) Then
-            Return
-        End If
-
-        e.Handled = True
-        e.KeyChar = Chr(0)
-
-        Dim getImages As Result(Of List(Of String)) = GetImagesInFolder(TBTagDir.Text) _
-            .Ensure(Function(data) data.Any(), TBTagDir.Text & " does not have any images in it.")
-
-        LocalImageTagDir = getImages.GetResultOrDefault(New List(Of String))
-
-        If Not getImages.IsFailure() Then
-            MessageBox.Show(Me, getImages.GetErrorMessageOrDefault(), "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            Return
-        End If
-
-
-        CurrentImageTagImage = ImageTagDir.First()
-        ImageTagPictureBox.Image = Image.FromFile(CurrentImageTagImage)
-        MainWindow.mainPictureBox.LoadAsync(CurrentImageTagImage)
-
-        Dim taggedItem As TaggedItem = GetTaggedItem(TBTagDir.Text & "\ImageTags.txt", CurrentImageTagImage)
-        SetDommeTagCheckboxes(taggedItem.ItemTags)
-
-        TagCount = 1
-        LBLTagCount.Text = TagCount & "/" & ImageTagDir.Count
-
-        ImageTagCount = 0
-        BTNTagSave.Enabled = True
-        BTNTagNext.Enabled = TagCount < ImageTagDir.Count
-        BTNTagPrevious.Enabled = TagCount > 1
-        BTNTagDir.Enabled = False
-        TBTagDir.Enabled = False
-        SetDommeTagCheckboxesEnabled(True)
-    End Sub
-
-    Private Sub BTNTagSave_Click(sender As Object, e As EventArgs) Handles BTNTagSave.Click
-
-        SaveDommeTags(TBTagDir.Text & "\ImageTags.txt", CurrentImageTagImage)
-
-        BTNTagDir.Enabled = True
-        TBTagDir.Enabled = True
-        BTNTagSave.Enabled = False
-        BTNTagNext.Enabled = False
-        BTNTagPrevious.Enabled = False
-
-
-
-
-        ' If BTNTagSave.Text = "Save and Finish" Then
-        'BTNTagSave.Text = "Save and Display Next Image"
-        'BTNTagSave.Enabled = False
-        'MessageBox.Show(Me, "All images in this folder have been successfully tagged.", "Success!", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        'ImageTagPictureBox.Image = Nothing
-        'Return
-        'End If
-
-        SetDommeTagCheckboxes(New List(Of ItemTag)())
-        SetDommeTagCheckboxesEnabled(False)
-
-        LBLTagCount.Text = "0/0"
-        LBLTagCount.Enabled = False
-
-        ImageTagPictureBox.Image = Nothing
-    End Sub
-
-    Private Sub BTNTagNext_Click(sender As Object, e As EventArgs) Handles BTNTagNext.Click
-        TagCount += 1
-        LBLTagCount.Text = TagCount & "/" & ImageTagDir.Count
-
-        SaveDommeTags(TBTagDir.Text & "\ImageTags.txt", CurrentImageTagImage)
-
-        ImageTagCount += 1
-
-        CurrentImageTagImage = ImageTagDir(ImageTagCount - 1)
-        ImageTagPictureBox.Image = Image.FromFile(CurrentImageTagImage)
-        MainWindow.mainPictureBox.LoadAsync(CurrentImageTagImage)
-
-        BTNTagNext.Enabled = TagCount < ImageTagDir.Count
-        BTNTagPrevious.Enabled = TagCount > 1
-
-        Dim taggedItem As TaggedItem = GetTaggedItem(TBTagDir.Text & "\ImageTags.txt", CurrentImageTagImage)
-        SetDommeTagCheckboxes(taggedItem.ItemTags)
-    End Sub
-
-    Private Sub BTNTagPrevious_Click(sender As Object, e As EventArgs) Handles BTNTagPrevious.Click
-
-        TagCount -= 1
-        LBLTagCount.Text = TagCount & "/" & ImageTagDir.Count
-        BTNTagNext.Enabled = True
-
-
-        SaveDommeTags(TBTagDir.Text & "\ImageTags.txt", CurrentImageTagImage)
-
-        ImageTagCount -= 1
-
-        Try
-            ImageTagPictureBox.Image.Dispose()
-        Catch
-        End Try
-
-        ImageTagPictureBox.Image = Nothing
-        GC.Collect()
-
-        ImageTagPictureBox.Image = Image.FromFile(ImageTagDir(ImageTagCount))
-        MainWindow.mainPictureBox.LoadAsync(ImageTagDir(ImageTagCount))
-        CurrentImageTagImage = ImageTagDir(ImageTagCount)
-
-        BTNTagPrevious.Enabled = ImageTagCount > 0
-        Dim taggedItem As TaggedItem = GetTaggedItem(TBTagDir.Text & "\ImageTags.txt", CurrentImageTagImage)
-        SetDommeTagCheckboxes(taggedItem.ItemTags)
     End Sub
 
     Private Sub Button50_Click(sender As Object, e As EventArgs) Handles Button50.Click
@@ -4591,56 +5111,14 @@ checkFolder:
         Return InstrCount
     End Function
 
-    Private Sub TBTagDir_MouseClick(sender As Object, e As Windows.Forms.MouseEventArgs) Handles TBTagDir.MouseClick
-        TBTagDir.SelectionStart = 0
-        TBTagDir.SelectionLength = Len(TBTagDir.Text)
+    Private Sub TBTagDir_MouseClick(sender As Object, e As Windows.Forms.MouseEventArgs) Handles DommeTagDirInput.MouseClick
+        DommeTagDirInput.SelectionStart = 0
+        DommeTagDirInput.SelectionLength = Len(DommeTagDirInput.Text)
     End Sub
 
     Private Sub TBWIDirectory_MouseClick(sender As Object, e As Windows.Forms.MouseEventArgs) Handles TBWIDirectory.MouseClick
         TBWIDirectory.SelectionStart = 0
         TBWIDirectory.SelectionLength = Len(TBWIDirectory.Text)
-    End Sub
-
-    Private Sub SaveURLFileSelection()
-        If FrmSettingsLoading Then Return
-
-        Dim blogMetaData As List(Of BlogMetaData) = New List(Of BlogMetaData)()
-        For i = 0 To URLFileList.Items.Count - 1
-            blogMetaData.Add(New BlogMetaData With {
-                             .FileName = CStr(URLFileList.Items(i)),
-                             .IsEnabled = URLFileList.GetItemChecked(i)
-                             })
-        Next
-        myBlogAccessor.SaveBlogMetaData(blogMetaData)
-    End Sub
-
-    Private Sub URLFileList_LostFocus(sender As Object, e As EventArgs) Handles URLFileList.LostFocus
-        SaveURLFileSelection()
-    End Sub
-
-    Private Sub URLFileList_SelectedIndexChanged(sender As Object, e As EventArgs) Handles URLFileList.SelectedIndexChanged
-        If CBURLPreview.Checked Then
-            Dim blogMetaData = myBlogAccessor.GetBlogMetaData().First(Function(x) x.FileName.Equals(URLFileList.SelectedItem.ToString()))
-            Dim imageMetaDatas = myBlogAccessor.GetImageMetaData(blogMetaData)
-            Dim imageUrl As ImageMetaData = imageMetaDatas(MainWindow.ssh.randomizer.Next(0, imageMetaDatas.Count))
-            PBURLPreview.Image = New Bitmap(New MemoryStream(New Net.WebClient().DownloadData(imageUrl.ItemName)))
-        End If
-
-        SaveURLFileSelection()
-    End Sub
-
-    Private Sub BTNURLFilesAll_Click(sender As Object, e As EventArgs) Handles BTNURLFilesAll.Click
-        For i As Integer = 0 To URLFileList.Items.Count - 1
-            URLFileList.SetItemChecked(i, True)
-        Next
-        SaveURLFileSelection()
-    End Sub
-
-    Private Sub BTNURLFilesNone_Click(sender As Object, e As EventArgs) Handles BTNURLFilesNone.Click
-        For i As Integer = 0 To URLFileList.Items.Count - 1
-            URLFileList.SetItemChecked(i, False)
-        Next
-        SaveURLFileSelection()
     End Sub
 
     Private Sub CBCBTCock_CheckedChanged(sender As Object, e As EventArgs) Handles CockTortureEnabledCB.LostFocus
@@ -4649,66 +5127,6 @@ checkFolder:
 
     Private Sub CBCBTBalls_CheckedChanged(sender As Object, e As EventArgs) Handles BallTortureEnabledCB.LostFocus
         mySettingsAccessor.IsBallTortureEnabled = BallTortureEnabledCB.Checked
-    End Sub
-
-    Private Sub Button9_Click_1(sender As Object, e As EventArgs) Handles BTNLocalTagDir.Click
-        Dim folderBrowser As FolderBrowserDialog = New FolderBrowserDialog()
-        If (folderBrowser.ShowDialog() = DialogResult.OK) Then
-            LocalImageTagDir.Clear()
-
-            Dim tagLocalImageFolder As String = folderBrowser.SelectedPath
-            Dim supportedExtensions As String = "*.png,*.jpg,*.gif,*.bmp,*.jpeg"
-            Dim files As List(Of String) = myDirectory.GetFiles(tagLocalImageFolder, "*.*").ToList()
-            files.Sort()
-
-            For Each fi As String In files
-                If supportedExtensions.Contains(Path.GetExtension(fi.ToLower())) Then
-                    LocalImageTagDir.Add(fi)
-                End If
-            Next
-
-            If Not LocalImageTagDir.Any() Then
-                MessageBox.Show(Me, "There are no images in the specified folder.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Return
-            End If
-
-            CurrentLocalImageTagImage = LocalImageTagDir(0)
-            MainWindow.mainPictureBox.LoadAsync(CurrentLocalImageTagImage)
-
-            Dim taggedItem As TaggedItem = GetTaggedItem(LocalImageTagFile, CurrentLocalImageTagImage)
-            SetLocalTagCheckboxes(taggedItem.ItemTags)
-
-            LocalTagCount = 1
-            LBLLocalTagCount.Text = LocalTagCount & "/" & LocalImageTagDir.Count
-
-            BTNLocalTagSave.Enabled = True
-            BTNLocalTagNext.Enabled = LocalImageTagDir.Count < LocalTagCount
-            BTNLocalTagPrevious.Enabled = False
-            BTNLocalTagDir.Enabled = False
-            TBLocalTagDir.Enabled = False
-
-            SetLocalImageEnabled(True)
-
-            LBLLocalTagCount.Enabled = True
-        End If
-    End Sub
-
-    Private Sub BTNLocalTagNext_Click(sender As Object, e As EventArgs) Handles BTNLocalTagNext.Click
-
-        LocalTagCount += 1
-        LBLLocalTagCount.Text = LocalTagCount & "/" & LocalImageTagDir.Count
-        BTNLocalTagPrevious.Enabled = LocalTagCount > 1
-
-        SaveLocalImageTags(CurrentLocalImageTagImage)
-
-        MainWindow.mainPictureBox.LoadAsync(LocalImageTagDir(LocalTagCount - 1))
-        CurrentLocalImageTagImage = LocalImageTagDir(LocalTagCount - 1)
-
-        BTNLocalTagNext.Enabled = LocalImageTagDir.Count < LocalTagCount
-
-        Dim taggedItem As TaggedItem = GetTaggedItem(LocalImageTagFile, CurrentLocalImageTagImage)
-        SetLocalTagCheckboxes(taggedItem.ItemTags)
-
     End Sub
 
     Private Sub NBLongEdge_ValueChanged(sender As Object, e As EventArgs) Handles NBLongEdge.LostFocus
@@ -5101,79 +5519,6 @@ checkFolder:
 
     End Sub
 
-    Private Sub BTNLocalTagPrevious_Click(sender As Object, e As EventArgs) Handles BTNLocalTagPrevious.Click
-
-        LocalTagCount -= 1
-        LBLLocalTagCount.Text = LocalTagCount & "/" & LocalImageTagDir.Count
-        BTNLocalTagNext.Enabled = LocalImageTagDir.Count < LocalTagCount
-
-        SaveLocalImageTags(CurrentLocalImageTagImage)
-
-        MainWindow.mainPictureBox.LoadAsync(LocalImageTagDir(LocalTagCount - 1))
-        CurrentLocalImageTagImage = LocalImageTagDir(LocalTagCount - 1)
-
-        BTNLocalTagPrevious.Enabled = LocalTagCount > 1
-
-        Dim taggedItem As TaggedItem = GetTaggedItem(LocalImageTagFile, CurrentLocalImageTagImage)
-        SetLocalTagCheckboxes(taggedItem.ItemTags)
-    End Sub
-
-    Private Sub BTNLocalTagSave_Click(sender As Object, e As EventArgs) Handles BTNLocalTagSave.Click
-
-        SaveLocalImageTags(CurrentLocalImageTagImage)
-
-        BTNLocalTagDir.Enabled = True
-        TBLocalTagDir.Enabled = True
-        BTNLocalTagSave.Enabled = False
-        BTNLocalTagNext.Enabled = False
-        BTNLocalTagPrevious.Enabled = False
-
-        SetLocalImageEnabled(False)
-
-        LBLLocalTagCount.Text = "0/0"
-        LBLLocalTagCount.Enabled = False
-
-        MainWindow.mainPictureBox.Image = Nothing
-    End Sub
-
-    Private Sub TBLocalTagDir_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TBLocalTagDir.KeyPress
-        If e.KeyChar <> Convert.ToChar(13) Then
-            Return
-        End If
-
-        e.Handled = True
-        e.KeyChar = Chr(0)
-
-        Dim getImages As Result(Of List(Of String)) = GetImagesInFolder(TBLocalTagDir.Text) _
-            .Ensure(Function(data) data.Any(), TBLocalTagDir.Text & " does not have any images in it.")
-
-        LocalImageTagDir = getImages.GetResultOrDefault(New List(Of String))
-
-        If getImages.IsFailure Then
-            MessageBox.Show(Me, getImages.GetErrorMessageOrDefault(), "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            Return
-        End If
-
-        CurrentLocalImageTagImage = LocalImageTagDir.First()
-        MainWindow.mainPictureBox.LoadAsync(CurrentLocalImageTagImage)
-
-        Dim taggedItem As TaggedItem = GetTaggedItem(LocalImageTagFile, CurrentLocalImageTagImage)
-        SetLocalTagCheckboxes(taggedItem.ItemTags)
-
-        LocalTagCount = 1
-        LBLLocalTagCount.Text = LocalTagCount.ToString() & "/" & LocalImageTagDir.Count.ToString()
-
-        BTNLocalTagSave.Enabled = True
-        BTNLocalTagNext.Enabled = LocalImageTagDir.Count < LocalTagCount
-        BTNLocalTagPrevious.Enabled = False
-        BTNLocalTagDir.Enabled = False
-        TBLocalTagDir.Enabled = False
-
-        SetLocalImageEnabled(True)
-
-        LBLLocalTagCount.Enabled = True
-    End Sub
-
     Private Sub CBRangeOrgasm_CheckedChanged(sender As Object, e As EventArgs) Handles DommeDecideOrgasmCB.CheckedChanged
         AllowOrgasmOftenNB.Enabled = Not DommeDecideOrgasmCB.Checked
         NBAllowSometimes.Enabled = Not DommeDecideOrgasmCB.Checked
@@ -5558,7 +5903,6 @@ checkFolder:
             "If the domme decides to tease you again, the tease time will be reset to a new amount based Tease Length settings."
     End Sub
 
-
     Private Sub CBTeaseLengthDD_LostFocus(sender As Object, e As EventArgs) Handles TeaseLengthDommeDetermined.LostFocus
         mySettingsAccessor.IsTeaseLengthDommeDetermined = TeaseLengthDommeDetermined.Checked
     End Sub
@@ -5630,7 +5974,6 @@ checkFolder:
         LBLRangeSettingsDescription.Text = "When ""Domme Decide"" is not checked, this allows you to set what chance the domme will ruin an orgasm when she is set to ""Rarely Ruins""."
     End Sub
 
-
     Private Sub NBNextImageChance_MouseHover(sender As Object, e As EventArgs) Handles NBNextImageChance.MouseEnter
         LBLRangeSettingsDescription.Text = "When running a slideshow with the ""Tease"" option selected, this value determines what chance the slideshow will move forward instead of backward."
     End Sub
@@ -5671,7 +6014,7 @@ checkFolder:
         LBLRangeSettingsDescription.Text = "This determines the maximum amount of time the domme will keep the video playing while playing Red Light Green Light."
     End Sub
 
-    Private Sub RangeSet_MouseHover(sender As Object, e As EventArgs) Handles Panel6.MouseEnter, GroupBox21.MouseEnter, GroupBox18.MouseEnter, GroupBox19.MouseEnter, GroupBox10.MouseEnter, GBRangeRuinChance.MouseEnter, GBRangeOrgasmChance.MouseEnter, GroupBox57.MouseEnter
+    Private Sub RangeSet_MouseHover(sender As Object, e As EventArgs) Handles Panel6.MouseEnter, GroupBox57.MouseEnter, GroupBox21.MouseEnter, GroupBox19.MouseEnter, GroupBox18.MouseEnter, GroupBox10.MouseEnter, GBRangeRuinChance.MouseEnter, GBRangeOrgasmChance.MouseEnter
         LBLRangeSettingsDescription.Text = "Hover over any setting in the menu for a more detailed description of its function."
     End Sub
 
@@ -6510,7 +6853,7 @@ checkFolder:
         End If
     End Sub
 
-    Private Sub ThemeLbl_Click(sender As Object, e As EventArgs) Handles LBLBackColor2.Click, LBLButtonColor2.Click, LBLTextColor2.Click, LBLDateTimeColor2.Click, LBLDateBackColor2.Click, LBLChatWindowColor2.Click, LBLChatTextColor2.Click
+    Private Sub ThemeLbl_Click(sender As Object, e As EventArgs) Handles LBLTextColor2.Click, LBLDateTimeColor2.Click, LBLDateBackColor2.Click, LBLChatWindowColor2.Click, LBLChatTextColor2.Click, LBLButtonColor2.Click, LBLBackColor2.Click
         If GetColor.ShowDialog() = DialogResult.OK Then
             MainWindow.SuspendLayout()
             CType(sender, Label).BackColor = GetColor.Color
@@ -6780,13 +7123,14 @@ checkFolder:
         MainWindow.ssh.HoldEdgeTick = 5
     End Sub
 
-    Private Sub CBURLPreview_LostFocus(sender As Object, e As EventArgs) Handles CBURLPreview.LostFocus
-        My.Settings.CBURLPreview = CBURLPreview.Checked
+    Private Sub CBURLPreview_LostFocus(sender As Object, e As EventArgs) Handles PreviewRemoteImagesCheckBox.LostFocus
+        My.Settings.CBURLPreview = PreviewRemoteImagesCheckBox.Checked
     End Sub
 
     Private Sub NBTaskStrokesMin_ValueChanged(sender As Object, e As EventArgs) Handles NBTaskStrokesMin.ValueChanged
         If NBTaskStrokesMin.Value > NBTaskStrokesMax.Value Then NBTaskStrokesMin.Value = NBTaskStrokesMax.Value
     End Sub
+
     Private Sub NBTaskStrokesMax_ValueChanged(sender As Object, e As EventArgs) Handles NBTaskStrokesMax.ValueChanged
         If NBTaskStrokesMax.Value < NBTaskStrokesMin.Value Then NBTaskStrokesMax.Value = NBTaskStrokesMin.Value
     End Sub
@@ -6794,6 +7138,7 @@ checkFolder:
     Private Sub NBTaskStrokingTimeMin_ValueChanged(sender As Object, e As EventArgs) Handles NBTaskStrokingTimeMin.ValueChanged
         If NBTaskStrokingTimeMin.Value > NBTaskStrokingTimeMax.Value Then NBTaskStrokingTimeMin.Value = NBTaskStrokingTimeMax.Value
     End Sub
+
     Private Sub NBTaskStrokingTimeMax_ValueChanged(sender As Object, e As EventArgs) Handles NBTaskStrokingTimeMax.ValueChanged
         If NBTaskStrokingTimeMax.Value < NBTaskStrokingTimeMin.Value Then NBTaskStrokingTimeMax.Value = NBTaskStrokingTimeMin.Value
     End Sub
@@ -6801,6 +7146,7 @@ checkFolder:
     Private Sub NBTaskEdgesMin_ValueChanged(sender As Object, e As EventArgs) Handles NBTaskEdgesMin.ValueChanged
         If NBTaskEdgesMin.Value > NBTaskEdgesMax.Value Then NBTaskEdgesMin.Value = NBTaskEdgesMax.Value
     End Sub
+
     Private Sub NBTaskEdgesMax_ValueChanged(sender As Object, e As EventArgs) Handles NBTaskEdgesMax.ValueChanged
         If NBTaskEdgesMax.Value < NBTaskEdgesMin.Value Then NBTaskEdgesMax.Value = NBTaskEdgesMin.Value
     End Sub
@@ -6808,6 +7154,7 @@ checkFolder:
     Private Sub NBTaskEdgeHoldTimeMin_ValueChanged(sender As Object, e As EventArgs) Handles NBTaskEdgeHoldTimeMin.ValueChanged
         If NBTaskEdgeHoldTimeMin.Value > NBTaskEdgeHoldTimeMax.Value Then NBTaskEdgeHoldTimeMin.Value = NBTaskEdgeHoldTimeMax.Value
     End Sub
+
     Private Sub NBTaskEdgeHoldTimeMax_ValueChanged(sender As Object, e As EventArgs) Handles NBTaskEdgeHoldTimeMax.ValueChanged
         If NBTaskEdgeHoldTimeMax.Value < NBTaskEdgeHoldTimeMin.Value Then NBTaskEdgeHoldTimeMax.Value = NBTaskEdgeHoldTimeMin.Value
     End Sub
@@ -6815,6 +7162,7 @@ checkFolder:
     Private Sub NBTaskCBTTimeMin_ValueChanged(sender As Object, e As EventArgs) Handles NBTaskCBTTimeMin.ValueChanged
         If NBTaskCBTTimeMin.Value > NBTaskCBTTimeMax.Value Then NBTaskCBTTimeMin.Value = NBTaskCBTTimeMax.Value
     End Sub
+
     Private Sub NBTaskCBTTimeMax_ValueChanged(sender As Object, e As EventArgs) Handles NBTaskCBTTimeMax.ValueChanged
         If NBTaskCBTTimeMax.Value < NBTaskCBTTimeMin.Value Then NBTaskCBTTimeMax.Value = NBTaskCBTTimeMin.Value
     End Sub
@@ -6872,268 +7220,6 @@ checkFolder:
         Return scriptList
     End Function
 
-    ''' <summary>
-    ''' Determine requirements for <paramref name="scriptMetaData"/>
-    ''' </summary>
-    ''' <param name="scriptMetaData"></param>
-    Public Function GetScriptRequirements(scriptMetaData As ScriptMetaData) As Tuple(Of Boolean, String)
-        Dim requirements As List(Of String) = New List(Of String)()
-        Dim getScript As Result(Of Script) = myScriptAccessor.GetScript(scriptMetaData)
-        If (getScript.IsFailure) Then
-            Throw New ApplicationException(getScript.Error.Message)
-        End If
-        Dim script As Script = getScript.Value
-        Dim areScriptRequirementsMet As Boolean = True
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowBlogImage) OrElse l.Contains(Keyword.NewBlogImage) OrElse l.Contains(Keyword.ShowImage)) Then
-            requirements.Add("* At least one URL File Selected *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso URLFileList.CheckedItems.Count > 0
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowLocalImage) OrElse l.Contains(Keyword.ShowImage)) Then
-            requirements.Add("* At least one Local Image path selected with a valid directory *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.IsImageGenreEnabled.Values.Any(Function(isEn) isEn)
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains("@CBTBalls")) Then
-            requirements.Add("* Ball Torture must be enabled *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.IsBallTortureEnabled
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains("@CBTCock")) Then
-            requirements.Add("* Cock Torture must be enabled *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.IsCockTortureEnabled
-        End If
-
-        If script.Lines.Any(Function(l) Not l.Contains("@CBTCock") AndAlso Not l.Contains("@CBTBalls") AndAlso l.Contains("@CBT")) Then
-            requirements.Add("* Cock Torture must be enabled *")
-            requirements.Add("* Ball Torture must be enabled *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.IsCockTortureEnabled AndAlso mySettingsAccessor.IsBallTortureEnabled
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.PlayJoiVideo)) Then
-            requirements.Add("* JOI or JOI Domme Video path selected with a valid directory *")
-            areScriptRequirementsMet = areScriptRequirementsMet _
-                    AndAlso ((CBVideoJOI.Checked AndAlso Convert.ToInt32(LblVideoJOITotal.Text) > 0) _
-                        OrElse (CBVideoJOID.Checked AndAlso Convert.ToInt32(LblVideoJOITotalD.Text) > 0)
-                    )
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains("PlayCHVideo")) Then
-            requirements.Add("* CH or CH Domme Video path selected with a valid directory *")
-            areScriptRequirementsMet = areScriptRequirementsMet _
-                    AndAlso ((CBVideoCH.Checked AndAlso Convert.ToInt32(LblVideoCHTotal.Text) > 0) _
-                        OrElse (CBVideoCHD.Checked AndAlso Convert.ToInt32(LblVideoCHTotalD.Text) > 0)
-                    )
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowButtImage) OrElse l.Contains(Keyword.ShowButtsImage)) Then
-            requirements.Add("* BnB Butt path must be set to a valid directory or URL File *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
-                    ((mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Butt) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Butt))) OrElse
-                    (ChbImageUrlButts.Checked AndAlso File.Exists(My.Settings.UrlFileButt)))
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowBoobImage) OrElse l.Contains(Keyword.ShowBoobsImage)) Then
-            requirements.Add("* BnB Boobs path must be set to a valid directory or URL File *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
-                ((mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Boobs) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Boobs))) OrElse
-                (ChbImageUrlButts.Checked AndAlso File.Exists(My.Settings.UrlFileButt)))
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowHardcoreImage)) Then
-            requirements.Add("* Local Hardcore images must be enabled and set to a valid directory  *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
-                mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Hardcore) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Hardcore))
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowLesbianImage)) Then
-            requirements.Add("* Local Lesbian images must be enabled and set to a valid directory  *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
-                mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Lesbian) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Lesbian))
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowBlowjobImage)) Then
-            requirements.Add("* Local Blowjob images must be enabled and set to a valid directory  *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
-                mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Blowjob) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Blowjob))
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowFemdomImage)) Then
-            requirements.Add("* Local Femdom images must be enabled and set to a valid directory  *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
-                mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Femdom) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Femdom))
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowLezdomImage)) Then
-            requirements.Add("* Local Lezdom images must be enabled and set to a valid directory  *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
-                mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Lezdom) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Lezdom))
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowHentaiImage)) Then
-            requirements.Add("* Local Hentai images must be enabled and set to a valid directory  *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
-                mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Hentai) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Hentai))
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowGayImage)) Then
-            requirements.Add("* Local gay images must be enabled and set to a valid directory  *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
-                mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Gay) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Gay))
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowMaledomImage)) Then
-            requirements.Add("* Local maledom images must be enabled and set to a valid directory  *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
-                mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Maledom) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Maledom))
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowCaptionsImage)) Then
-            requirements.Add("* Local caption images must be enabled and set to a valid directory  *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
-                mySettingsAccessor.IsImageGenreEnabled(ImageGenre.Captions) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.Captions))
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains(Keyword.ShowGeneralImage)) Then
-            requirements.Add("* Local general images must be enabled and set to a valid directory  *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso
-                mySettingsAccessor.IsImageGenreEnabled(ImageGenre.General) AndAlso File.Exists(mySettingsAccessor.ImageGenreFolder(ImageGenre.General))
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains("@ShowTaggedImage") AndAlso l.Contains("@Tag")) Then
-            Dim tagImageList As List(Of String) = New List(Of String)()
-
-            Dim tagFile = LocalImageTagFile
-            If File.Exists(tagFile) Then
-                tagImageList = File.ReadAllText(tagFile) _
-                    .Split(" ") _
-                    .Where(Function(l) l.StartsWith("Tag")) _
-                    .Distinct() _
-                    .ToList()
-            End If
-
-            Dim scriptTags As List(Of String) = String.Join(" ", script.Lines.All(Function(l) l.Contains("@Tag"))) _
-                .Split(" ") _
-                .Where(Function(l) l.StartsWith("@Tag")) _
-                .Select(Function(l) l.Replace("@Tag", "Tag")) _
-                .Distinct() _
-                .ToList()
-
-            Dim missingTags As List(Of String) = scriptTags.Where(Function(l) Not tagFile.Contains(l)).ToList()
-            requirements.Add("* Images in LocalImageTags.txt tagged with: " & String.Join(" ", missingTags))
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso Not missingTags.Any()
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains("@ShowTaggedImage") AndAlso Not l.Contains("@Tag")) Then
-            Dim tagFile = LocalImageTagFile
-            requirements.Add("* LocalImageTags.txt must exist in \Images\System\ *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso File.Exists(tagFile)
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains("@CheckVideo")) Then
-            MainWindow.ssh.VideoCheck = True
-            MainWindow.RandomVideo()
-            requirements.Add("* At least one Genre or Domme Video path set and selected *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso Not MainWindow.ssh.NoVideo
-            MainWindow.ssh.VideoCheck = False
-            MainWindow.ssh.NoVideo = False
-        End If
-
-        ' Need to find out if we have videos for the next few
-        MainWindow.ssh.VideoCheck = True
-        MainWindow.RandomVideo()
-        Dim hasVideos = Not MainWindow.ssh.NoVideo
-        MainWindow.ssh.VideoCheck = False
-        MainWindow.ssh.NoVideo = False
-
-        If script.Lines.Any(Function(l) l.Contains("@CheckVideo")) Then
-            requirements.Add("* At least one Genre or Domme Video path set and selected *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso hasVideos
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains("@PlayCensorShipSucks") OrElse l.Contains("@PlayAvoidTheEdge") OrElse l.Contains("@PlayRedLightGreenLight")) Then
-            requirements.Add("* At least one non-Special Genre or Domme Video path set and selected *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso hasVideos
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains("@ChastityOn") OrElse l.Contains("@ChastityOff")) Then
-            requirements.Add("* You must indicate you own a chastity device *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.HasChastityDevice
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains("@DeleteLocalImage")) Then
-            requirements.Add("* ""Allow Domme to Delete Local Media"" muct be checked *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.CanDommeDeleteFiles
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains("@DeleteLocalImage")) Then
-            requirements.Add("* ""Allow Domme to Delete Local Media"" muct be checked *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso mySettingsAccessor.CanDommeDeleteFiles
-        End If
-
-        If script.Lines.Any(Function(l) l.Contains("@VitalSubAssignment")) Then
-            requirements.Add("* ""Allow Domme to Delete Local Media"" muct be checked *")
-            requirements.Add("* VitalSub must be enabled *")
-            requirements.Add("* ""Domme Assignments"" must be checked in the VitalSub app *")
-            areScriptRequirementsMet = areScriptRequirementsMet AndAlso MainWindow.CBVitalSub.Checked AndAlso MainWindow.CBVitalSubDomTask.Checked
-        End If
-        Return Tuple.Create(areScriptRequirementsMet, String.Join(Environment.NewLine, requirements).Replace("**", "* *"))
-    End Function
-
-    ''' <summary>
-    ''' Load script metadata into the checked list box
-    ''' </summary>
-    ''' <param name="target"></param>
-    ''' <param name="dommePersonalityName"></param>
-    ''' <param name="type"></param>
-    ''' <param name="stage"></param>
-    ''' <param name="isEnabledByDefault"></param>
-    Private Sub LoadScriptMetaData(target As CheckedListBox, dommePersonalityName As String, type As String, stage As SessionPhase, isEnabledByDefault As Boolean)
-        Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(dommePersonalityName, type, stage, isEnabledByDefault)
-
-        Dim lastIndex As Integer = target.SelectedIndex
-        Dim lastItem As String = target.SelectedItem
-
-        target.BeginUpdate()
-        target.Items.Clear()
-        For Each cldFile In scripts
-            target.Items.Add(cldFile.Name, cldFile.IsEnabled)
-        Next
-
-        If lastIndex = -1 Then
-            ScriptStatusUnlock(False)
-        ElseIf target.Items.Count >= lastIndex Then
-            target.SelectedIndex = lastIndex
-        ElseIf target.Items.Contains(lastItem) Then
-            target.SelectedItem = lastItem
-        End If
-        target.EndUpdate()
-    End Sub
-
-    ''' <summary>
-    ''' Determine requirements for <paramref name="scriptMetaData"/>
-    ''' </summary>
-    ''' <param name="scriptMetaData"></param>
-    Public Sub GetScriptStatus(scriptMetaData As ScriptMetaData)
-        Dim scriptRequirements = GetScriptRequirements(scriptMetaData)
-
-        Try
-            ScriptStatusUnlock(True)
-            RTBScriptReq.Text = scriptRequirements.Item2
-
-            If Not scriptRequirements.Item1 Then
-                LBLScriptReq.ForeColor = Color.Red
-                LBLScriptReq.Text = "All requirements not met!"
-            Else
-                LBLScriptReq.ForeColor = Color.Green
-                LBLScriptReq.Text = "All requirements met!"
-            End If
-        Catch ex As Exception
-            ScriptStatusUnlock(False)
-            MessageBox.Show(ex.Message, "Error Checking ScriptStatus", MessageBoxButtons.OK, MessageBoxIcon.Hand)
-        End Try
-    End Sub
-
     Private Function GetScriptsCheckedListBox(sessionPhase As SessionPhase) As CheckedListBox
         If sessionPhase = SessionPhase.Start Then
             Return StartScripts
@@ -7179,244 +7265,8 @@ checkFolder:
         End If
     End Sub
 
-    Private Sub SetFolderFromDialog(imageGenre As ImageGenre)
-        Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
-        If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
-            mySettingsAccessor.ImageGenreFolder(imageGenre) = FolderBrowserDialog1.SelectedPath
-            CheckImageFolder(imageGenre)
-        End If
-    End Sub
-
     Public Function Color2Html(color As Color) As String
         Return "#" & color.ToArgb().ToString("x").Substring(2).ToUpper
-    End Function
-
-    ''' <summary>
-    ''' Set the checkboxes based on whether or not <paramref name="itemTags"/> contains a given tag
-    ''' </summary>
-    ''' <param name="itemTags"></param>
-    Private Sub SetLocalTagCheckboxes(itemTags As List(Of ItemTag))
-        CBTagHardcore.Checked = itemTags.Contains(ItemTag.Create("TagHardcore").Value)
-        CBTagLesbian.Checked = itemTags.Contains(ItemTag.Create("TagLesbian").Value)
-        CBTagGay.Checked = itemTags.Contains(ItemTag.Create("TagGay").Value)
-        CBTagBisexual.Checked = itemTags.Contains(ItemTag.Create("TagBisexual").Value)
-        CBTagSoloF.Checked = itemTags.Contains(ItemTag.Create("TagSoloF").Value)
-        CBTagSoloM.Checked = itemTags.Contains(ItemTag.Create("TagSoloM").Value)
-        CBTagSoloFuta.Checked = itemTags.Contains(ItemTag.Create("TagSoloFuta").Value)
-        CBTagPOV.Checked = itemTags.Contains(ItemTag.Create("TagPOV").Value)
-        CBTagBondage.Checked = itemTags.Contains(ItemTag.Create("TagBondage").Value)
-        CBTagSM.Checked = itemTags.Contains(ItemTag.Create("TagSM").Value)
-        CBTagTD.Checked = itemTags.Contains(ItemTag.Create("TagTD").Value)
-        CBTagChastity.Checked = itemTags.Contains(ItemTag.Create("TagChastity").Value)
-        CBTagCFNM.Checked = itemTags.Contains(ItemTag.Create("TagCFNM").Value)
-        CBTagBath.Checked = itemTags.Contains(ItemTag.Create("TagBath").Value)
-        CBTagShower.Checked = itemTags.Contains(ItemTag.Create("TagShower").Value)
-        CBTagOutdoors.Checked = itemTags.Contains(ItemTag.Create("TagOutdoors").Value)
-        CBTagArtwork.Checked = itemTags.Contains(ItemTag.Create("TagArtwork").Value)
-
-        CBTagMasturbation.Checked = itemTags.Contains(ItemTag.Create("TagMasturbation").Value)
-        CBTagHandjob.Checked = itemTags.Contains(ItemTag.Create("TagHandjob").Value)
-        CBTagFingering.Checked = itemTags.Contains(ItemTag.Create("TagFingering").Value)
-        CBTagBlowjob.Checked = itemTags.Contains(ItemTag.Create("TagBlowjob").Value)
-        CBTagCunnilingus.Checked = itemTags.Contains(ItemTag.Create("TagCunnilingus").Value)
-        CBTagTitjob.Checked = itemTags.Contains(ItemTag.Create("TagTitjob").Value)
-        CBTagFootjob.Checked = itemTags.Contains(ItemTag.Create("TagFootjob").Value)
-        CBTagFacesitting.Checked = itemTags.Contains(ItemTag.Create("TagFacesitting").Value)
-        CBTagRimming.Checked = itemTags.Contains(ItemTag.Create("TagRimming").Value)
-        CBTagMissionary.Checked = itemTags.Contains(ItemTag.Create("TagMissionary").Value)
-        CBTagDoggyStyle.Checked = itemTags.Contains(ItemTag.Create("TagDoggyStyle").Value)
-        CBTagCowgirl.Checked = itemTags.Contains(ItemTag.Create("TagCowgirl").Value)
-        CBTagRCowgirl.Checked = itemTags.Contains(ItemTag.Create("TagRCowgirl").Value)
-        CBTagStanding.Checked = itemTags.Contains(ItemTag.Create("TagStanding").Value)
-        CBTagAnalSex.Checked = itemTags.Contains(ItemTag.Create("TagAnalSex").Value)
-        CBTagDP.Checked = itemTags.Contains(ItemTag.Create("TagDP").Value)
-        CBTagGangbang.Checked = itemTags.Contains(ItemTag.Create("TagGangbang").Value)
-
-        CBTag1F.Checked = itemTags.Contains(ItemTag.Create("Tag1F").Value)
-        CBTag2F.Checked = itemTags.Contains(ItemTag.Create("Tag2F").Value)
-        CBTag3F.Checked = itemTags.Contains(ItemTag.Create("Tag3F").Value)
-        CBTag1M.Checked = itemTags.Contains(ItemTag.Create("Tag1M").Value)
-        CBTag2M.Checked = itemTags.Contains(ItemTag.Create("Tag2M").Value)
-        CBTag3M.Checked = itemTags.Contains(ItemTag.Create("Tag3M").Value)
-        CBTag1Futa.Checked = itemTags.Contains(ItemTag.Create("Tag1Futa").Value)
-        CBTag2Futa.Checked = itemTags.Contains(ItemTag.Create("Tag2Futa").Value)
-        CBTag3Futa.Checked = itemTags.Contains(ItemTag.Create("Tag3Futa").Value)
-        CBTagFemdom.Checked = itemTags.Contains(ItemTag.Create("TagFemdom").Value)
-        CBTagMaledom.Checked = itemTags.Contains(ItemTag.Create("TagMaledom").Value)
-        CBTagFutadom.Checked = itemTags.Contains(ItemTag.Create("TagFutadom").Value)
-        CBTagFemsub.Checked = itemTags.Contains(ItemTag.Create("TagFemsub").Value)
-        CBTagMalesub.Checked = itemTags.Contains(ItemTag.Create("TagMalesub").Value)
-        CBTagFutasub.Checked = itemTags.Contains(ItemTag.Create("TagFutasub").Value)
-        CBTagMultiDom.Checked = itemTags.Contains(ItemTag.Create("TagMultiDom").Value)
-        CBTagMultiSub.Checked = itemTags.Contains(ItemTag.Create("TagMultiSub").Value)
-
-        CBTagBodyTits.Checked = itemTags.Contains(ItemTag.Create("TagBodyTits").Value)
-        CBTagBodyFace.Checked = itemTags.Contains(ItemTag.Create("TagBodyFace").Value)
-        CBTagBodyFingers.Checked = itemTags.Contains(ItemTag.Create("TagBodyFingers").Value)
-        CBTagBodyMouth.Checked = itemTags.Contains(ItemTag.Create("TagBodyMouth").Value)
-        CBTagBodyNipples.Checked = itemTags.Contains(ItemTag.Create("TagBodyNipples").Value)
-        CBTagBodyPussy.Checked = itemTags.Contains(ItemTag.Create("TagBodyPussy").Value)
-        CBTagBodyAss.Checked = itemTags.Contains(ItemTag.Create("TagBodyAss").Value)
-        CBTagBodyLegs.Checked = itemTags.Contains(ItemTag.Create("TagBodyLegs").Value)
-        CBTagBodyFeet.Checked = itemTags.Contains(ItemTag.Create("TagBodyFeet").Value)
-        CBTagBodyCock.Checked = itemTags.Contains(ItemTag.Create("TagBodyCock").Value)
-        CBTagBodyBalls.Checked = itemTags.Contains(ItemTag.Create("TagBodyBalls").Value)
-
-        CBTagNurse.Checked = itemTags.Contains(ItemTag.Create("TagNurse").Value)
-        CBTagTeacher.Checked = itemTags.Contains(ItemTag.Create("TagTeacher").Value)
-        CBTagSchoolgirl.Checked = itemTags.Contains(ItemTag.Create("TagSchoolgirl").Value)
-        CBTagMaid.Checked = itemTags.Contains(ItemTag.Create("TagMaid").Value)
-        CBTagSuperhero.Checked = itemTags.Contains(ItemTag.Create("TagSuperhero").Value)
-
-        CBTagWhipping.Checked = itemTags.Contains(ItemTag.Create("TagWhipping").Value)
-        CBTagSpanking.Checked = itemTags.Contains(ItemTag.Create("TagSpanking").Value)
-        CBTagCockTorture.Checked = itemTags.Contains(ItemTag.Create("TagCockTorture").Value)
-        CBTagBallTorture.Checked = itemTags.Contains(ItemTag.Create("TagBallTorture").Value)
-        CBTagStrapon.Checked = itemTags.Contains(ItemTag.Create("TagStrapon").Value)
-        CBTagBlindfold.Checked = itemTags.Contains(ItemTag.Create("TagBlindfold").Value)
-        CBTagGag.Checked = itemTags.Contains(ItemTag.Create("TagGag").Value)
-        CBTagClamps.Checked = itemTags.Contains(ItemTag.Create("TagClamps").Value)
-        CBTagHotWax.Checked = itemTags.Contains(ItemTag.Create("TagHotWax").Value)
-        CBTagNeedles.Checked = itemTags.Contains(ItemTag.Create("TagNeedles").Value)
-        CBTagElectro.Checked = itemTags.Contains(ItemTag.Create("TagElectro").Value)
-
-        CBTagDomme.Checked = itemTags.Contains(ItemTag.Create("TagDomme").Value)
-        CBTagCumshot.Checked = itemTags.Contains(ItemTag.Create("TagCumshot").Value)
-        CBTagCumEating.Checked = itemTags.Contains(ItemTag.Create("TagCumEating").Value)
-        CBTagKissing.Checked = itemTags.Contains(ItemTag.Create("TagKissing").Value)
-        CBTagTattoos.Checked = itemTags.Contains(ItemTag.Create("TagTattoos").Value)
-        CBTagStockings.Checked = itemTags.Contains(ItemTag.Create("TagStockings").Value)
-        CBTagVibrator.Checked = itemTags.Contains(ItemTag.Create("TagVibrator").Value)
-        CBTagDildo.Checked = itemTags.Contains(ItemTag.Create("TagDildo").Value)
-        CBTagPocketPussy.Checked = itemTags.Contains(ItemTag.Create("TagPocketPussy").Value)
-        CBTagAnalToy.Checked = itemTags.Contains(ItemTag.Create("TagAnalToy").Value)
-        CBTagWatersports.Checked = itemTags.Contains(ItemTag.Create("TagWaterSports").Value)
-
-        CBTagShibari.Checked = itemTags.Contains(ItemTag.Create("TagShibari").Value)
-        CBTagTentacles.Checked = itemTags.Contains(ItemTag.Create("TagTentacles").Value)
-        CBTagBukkake.Checked = itemTags.Contains(ItemTag.Create("TagBukkake").Value)
-        CBTagBakunyuu.Checked = itemTags.Contains(ItemTag.Create("TagBakunyuu").Value)
-        CBTagAhegao.Checked = itemTags.Contains(ItemTag.Create("TagAhegao").Value)
-        CBTagBodyWriting.Checked = itemTags.Contains(ItemTag.Create("TagBodyWriting").Value)
-        CBTagTrap.Checked = itemTags.Contains(ItemTag.Create("TagTrap").Value)
-        CBTagGanguro.Checked = itemTags.Contains(ItemTag.Create("TagGanguro").Value)
-        CBTagMahouShoujo.Checked = itemTags.Contains(ItemTag.Create("TagMahouShoujo").Value)
-        CBTagMonsterGirl.Checked = itemTags.Contains(ItemTag.Create("TagMonsterGirl").Value)
-    End Sub
-
-    ''' <summary>
-    ''' Look at the checkboxes and build a list of item tags
-    ''' </summary>
-    Private Function GetItemTagsFromCheckboxes() As List(Of ItemTag)
-        Dim tags As List(Of ItemTag) = New List(Of ItemTag)
-        If CBTagHardcore.Checked Then tags.Add(ItemTag.Create("TagHardcore").Value)
-        If CBTagLesbian.Checked Then tags.Add(ItemTag.Create("TagLesbian").Value)
-        If CBTagLesbian.Checked Then tags.Add(ItemTag.Create("TagLesbian").Value)
-        If CBTagGay.Checked Then tags.Add(ItemTag.Create("TagGay").Value)
-        If CBTagBisexual.Checked Then tags.Add(ItemTag.Create("TagBisexual").Value)
-        If CBTagSoloF.Checked Then tags.Add(ItemTag.Create("TagSoloF").Value)
-        If CBTagSoloM.Checked Then tags.Add(ItemTag.Create("TagSoloM").Value)
-        If CBTagSoloFuta.Checked Then tags.Add(ItemTag.Create("TagSoloFuta").Value)
-        If CBTagPOV.Checked Then tags.Add(ItemTag.Create("TagPOV").Value)
-        If CBTagBondage.Checked Then tags.Add(ItemTag.Create("TagBondage").Value)
-        If CBTagSM.Checked Then tags.Add(ItemTag.Create("TagSM").Value)
-        If CBTagTD.Checked Then tags.Add(ItemTag.Create("TagTD").Value)
-        If CBTagChastity.Checked Then tags.Add(ItemTag.Create("TagChastity").Value)
-        If CBTagCFNM.Checked Then tags.Add(ItemTag.Create("TagCFNM").Value)
-        If CBTagBath.Checked Then tags.Add(ItemTag.Create("TagBath").Value)
-        If CBTagShower.Checked Then tags.Add(ItemTag.Create("TagShower").Value)
-        If CBTagOutdoors.Checked Then tags.Add(ItemTag.Create("TagOutdoors").Value)
-        If CBTagArtwork.Checked Then tags.Add(ItemTag.Create("TagArtwork").Value)
-
-        If CBTagMasturbation.Checked Then tags.Add(ItemTag.Create("TagMasturbation").Value)
-        If CBTagHandjob.Checked Then tags.Add(ItemTag.Create("TagHandjob").Value)
-        If CBTagFingering.Checked Then tags.Add(ItemTag.Create("TagFingering").Value)
-        If CBTagBlowjob.Checked Then tags.Add(ItemTag.Create("TagBlowjob").Value)
-        If CBTagCunnilingus.Checked Then tags.Add(ItemTag.Create("TagCunnilingus").Value)
-        If CBTagTitjob.Checked Then tags.Add(ItemTag.Create("TagTitjob").Value)
-        If CBTagFootjob.Checked Then tags.Add(ItemTag.Create("TagFootjob").Value)
-        If CBTagFacesitting.Checked Then tags.Add(ItemTag.Create("TagFacesitting").Value)
-        If CBTagRimming.Checked Then tags.Add(ItemTag.Create("TagRimming").Value)
-        If CBTagMissionary.Checked Then tags.Add(ItemTag.Create("TagMissionary").Value)
-        If CBTagDoggyStyle.Checked Then tags.Add(ItemTag.Create("TagDoggyStyle").Value)
-        If CBTagCowgirl.Checked Then tags.Add(ItemTag.Create("TagCowgirl").Value)
-        If CBTagRCowgirl.Checked Then tags.Add(ItemTag.Create("TagRCowgirl").Value)
-        If CBTagStanding.Checked Then tags.Add(ItemTag.Create("TagStanding").Value)
-        If CBTagAnalSex.Checked Then tags.Add(ItemTag.Create("TagAnalSex").Value)
-        If CBTagDP.Checked Then tags.Add(ItemTag.Create("TagDP").Value)
-        If CBTagGangbang.Checked Then tags.Add(ItemTag.Create("TagGangbang").Value)
-
-        If CBTag1F.Checked Then tags.Add(ItemTag.Create("Tag1F").Value)
-        If CBTag2F.Checked Then tags.Add(ItemTag.Create("Tag2F").Value)
-        If CBTag3F.Checked Then tags.Add(ItemTag.Create("Tag3F").Value)
-        If CBTag1M.Checked Then tags.Add(ItemTag.Create("Tag1M").Value)
-        If CBTag2M.Checked Then tags.Add(ItemTag.Create("Tag2M").Value)
-        If CBTag3M.Checked Then tags.Add(ItemTag.Create("Tag3M").Value)
-        If CBTag1Futa.Checked Then tags.Add(ItemTag.Create("Tag1Futa").Value)
-        If CBTag2Futa.Checked Then tags.Add(ItemTag.Create("Tag2Futa").Value)
-        If CBTag3Futa.Checked Then tags.Add(ItemTag.Create("Tag3Futa").Value)
-        If CBTagFemdom.Checked Then tags.Add(ItemTag.Create("TagFemdom").Value)
-        If CBTagMaledom.Checked Then tags.Add(ItemTag.Create("TagMaledom").Value)
-        If CBTagFutadom.Checked Then tags.Add(ItemTag.Create("TagFutadom").Value)
-        If CBTagFemsub.Checked Then tags.Add(ItemTag.Create("TagFemsub").Value)
-        If CBTagMalesub.Checked Then tags.Add(ItemTag.Create("TagMalesub").Value)
-        If CBTagFutasub.Checked Then tags.Add(ItemTag.Create("TagFutasub").Value)
-        If CBTagMultiDom.Checked Then tags.Add(ItemTag.Create("TagMultiDom").Value)
-        If CBTagMultiSub.Checked Then tags.Add(ItemTag.Create("TagMultiSub").Value)
-
-        If CBTagBodyFace.Checked Then tags.Add(ItemTag.Create("TagBodyFace").Value)
-        If CBTagBodyFingers.Checked Then tags.Add(ItemTag.Create("TagBodyFingers").Value)
-        If CBTagBodyMouth.Checked Then tags.Add(ItemTag.Create("TagBodyMouth").Value)
-        If CBTagBodyTits.Checked Then tags.Add(ItemTag.Create("TagBodyTits").Value)
-        If CBTagBodyNipples.Checked Then tags.Add(ItemTag.Create("TagBodyNipples").Value)
-        If CBTagBodyPussy.Checked Then tags.Add(ItemTag.Create("TagBodyPussy").Value)
-        If CBTagBodyAss.Checked Then tags.Add(ItemTag.Create("TagBodyAss").Value)
-        If CBTagBodyLegs.Checked Then tags.Add(ItemTag.Create("TagBodyLegs").Value)
-        If CBTagBodyFeet.Checked Then tags.Add(ItemTag.Create("TagBodyFeet").Value)
-        If CBTagBodyCock.Checked Then tags.Add(ItemTag.Create("TagBodyCock").Value)
-        If CBTagBodyBalls.Checked Then tags.Add(ItemTag.Create("TagBodyBalls").Value)
-
-        If CBTagNurse.Checked Then tags.Add(ItemTag.Create("TagNurse").Value)
-        If CBTagTeacher.Checked Then tags.Add(ItemTag.Create("TagTeacher").Value)
-        If CBTagSchoolgirl.Checked Then tags.Add(ItemTag.Create("TagSchoolgirl").Value)
-        If CBTagMaid.Checked Then tags.Add(ItemTag.Create("TagMaid").Value)
-        If CBTagSuperhero.Checked Then tags.Add(ItemTag.Create("TagSuperhero").Value)
-
-        If CBTagWhipping.Checked Then tags.Add(ItemTag.Create("TagWhipping").Value)
-        If CBTagSpanking.Checked Then tags.Add(ItemTag.Create("TagSpanking").Value)
-        If CBTagCockTorture.Checked Then tags.Add(ItemTag.Create("TagCockTorture").Value)
-        If CBTagBallTorture.Checked Then tags.Add(ItemTag.Create("TagBallTorture").Value)
-        If CBTagStrapon.Checked Then tags.Add(ItemTag.Create("TagStrapon").Value)
-        If CBTagBlindfold.Checked Then tags.Add(ItemTag.Create("TagBlindfold").Value)
-        If CBTagGag.Checked Then tags.Add(ItemTag.Create("TagGag").Value)
-        If CBTagClamps.Checked Then tags.Add(ItemTag.Create("TagClamps").Value)
-        If CBTagHotWax.Checked Then tags.Add(ItemTag.Create("TagHotWax").Value)
-        If CBTagNeedles.Checked Then tags.Add(ItemTag.Create("TagNeedles").Value)
-        If CBTagElectro.Checked Then tags.Add(ItemTag.Create("TagElectro").Value)
-
-        If CBTagDomme.Checked Then tags.Add(ItemTag.Create("TagDomme").Value)
-        If CBTagCumshot.Checked Then tags.Add(ItemTag.Create("TagCumshot").Value)
-        If CBTagCumEating.Checked Then tags.Add(ItemTag.Create("TagCumEating").Value)
-        If CBTagKissing.Checked Then tags.Add(ItemTag.Create("TagKissing").Value)
-        If CBTagTattoos.Checked Then tags.Add(ItemTag.Create("TagTattoos").Value)
-        If CBTagStockings.Checked Then tags.Add(ItemTag.Create("TagStockings").Value)
-        If CBTagVibrator.Checked Then tags.Add(ItemTag.Create("TagVibrator").Value)
-        If CBTagDildo.Checked Then tags.Add(ItemTag.Create("TagDildo").Value)
-        If CBTagPocketPussy.Checked Then tags.Add(ItemTag.Create("TagPocketPussy").Value)
-        If CBTagAnalToy.Checked Then tags.Add(ItemTag.Create("TagAnalToy").Value)
-        If CBTagWatersports.Checked Then tags.Add(ItemTag.Create("TagWatersports").Value)
-
-        If CBTagShibari.Checked Then tags.Add(ItemTag.Create("TagShibari").Value)
-        If CBTagTentacles.Checked Then tags.Add(ItemTag.Create("TagTentacles").Value)
-        If CBTagBukkake.Checked Then tags.Add(ItemTag.Create("TagBukkake").Value)
-        If CBTagBakunyuu.Checked Then tags.Add(ItemTag.Create("TagBakunyuu").Value)
-        If CBTagAhegao.Checked Then tags.Add(ItemTag.Create("TagAhegao").Value)
-        If CBTagBodyWriting.Checked Then tags.Add(ItemTag.Create("TagBodyWriting").Value)
-        If CBTagTrap.Checked Then tags.Add(ItemTag.Create("TagTrap").Value)
-        If CBTagGanguro.Checked Then tags.Add(ItemTag.Create("TagGanguro").Value)
-        If CBTagMahouShoujo.Checked Then tags.Add(ItemTag.Create("TagMahouShoujo").Value)
-        If CBTagMonsterGirl.Checked Then tags.Add(ItemTag.Create("TagMonsterGirl").Value)
-        Return tags
     End Function
 
     ''' <summary>
@@ -7442,338 +7292,6 @@ checkFolder:
             .ToList()
 
         Return Result.Ok(images)
-    End Function
-
-    Private Function GetTaggedItem(tagFile As String, imageFile As String) As TaggedItem
-        Dim taggedItems As List(Of TaggedItem) = ReadTagFile(tagFile)
-        Return taggedItems.FirstOrDefault(Function(ti) ti.ItemName.ToLower() = imageFile.ToLower())
-    End Function
-
-    Private Sub SetDommeTagCheckboxesEnabled(isEnabled As Boolean)
-        CBTagFace.Enabled = isEnabled
-        CBTagBoobs.Enabled = isEnabled
-        CBTagPussy.Enabled = isEnabled
-        CBTagAss.Enabled = isEnabled
-        CBTagLegs.Enabled = isEnabled
-        CBTagFeet.Enabled = isEnabled
-        CBTagFullyDressed.Enabled = isEnabled
-        CBTagHalfDressed.Enabled = isEnabled
-        CBTagGarmentCovering.Enabled = isEnabled
-        CBTagHandsCovering.Enabled = isEnabled
-        CBTagNaked.Enabled = isEnabled
-        CBTagSideView.Enabled = isEnabled
-        CBTagCloseUp.Enabled = isEnabled
-        CBTagMasturbating.Enabled = isEnabled
-        CBTagSucking.Enabled = isEnabled
-        CBTagPiercing.Enabled = isEnabled
-        CBTagSmiling.Enabled = isEnabled
-        CBTagGlaring.Enabled = isEnabled
-        CBTagSeeThrough.Enabled = isEnabled
-        CBTagAllFours.Enabled = isEnabled
-
-        CBTagGarment.Enabled = isEnabled
-        CBTagUnderwear.Enabled = isEnabled
-        CBTagTattoo.Enabled = isEnabled
-        CBTagSexToy.Enabled = isEnabled
-        CBTagFurniture.Enabled = isEnabled
-
-        TBTagGarment.Enabled = isEnabled
-        TBTagUnderwear.Enabled = isEnabled
-        TBTagTattoo.Enabled = isEnabled
-        TBTagSexToy.Enabled = isEnabled
-        TBTagFurniture.Enabled = isEnabled
-
-        LBLTagCount.Enabled = isEnabled
-    End Sub
-
-    ''' <summary>
-    ''' Set the domme tag checkboxes
-    ''' </summary>
-    ''' <param name="itemTags"></param>
-    Private Sub SetDommeTagCheckboxes(itemTags As List(Of ItemTag))
-        CBTagFace.Checked = itemTags.Contains(ItemTag.Create("TagFace").Value)
-        CBTagBoobs.Checked = itemTags.Contains(ItemTag.Create("TagBoobs").Value)
-        CBTagPussy.Checked = itemTags.Contains(ItemTag.Create("TagPussy").Value)
-        CBTagAss.Checked = itemTags.Contains(ItemTag.Create("TagAss").Value)
-        CBTagLegs.Checked = itemTags.Contains(ItemTag.Create("TagLegs").Value)
-        CBTagFeet.Checked = itemTags.Contains(ItemTag.Create("TagFeet").Value)
-        CBTagFullyDressed.Checked = itemTags.Contains(ItemTag.Create("TagFullyDressed").Value)
-        CBTagHalfDressed.Checked = itemTags.Contains(ItemTag.Create("TagHalfDressed").Value)
-        CBTagGarmentCovering.Checked = itemTags.Contains(ItemTag.Create("TagGarmentCovering").Value)
-        CBTagHandsCovering.Checked = itemTags.Contains(ItemTag.Create("TagHandsCovering").Value)
-        CBTagNaked.Checked = itemTags.Contains(ItemTag.Create("TagNaked").Value)
-        CBTagSideView.Checked = itemTags.Contains(ItemTag.Create("TagSideView").Value)
-        CBTagCloseUp.Checked = itemTags.Contains(ItemTag.Create("TagCloseUp").Value)
-        CBTagMasturbating.Checked = itemTags.Contains(ItemTag.Create("TagMasturbating").Value)
-        CBTagSucking.Checked = itemTags.Contains(ItemTag.Create("TagSucking").Value)
-        CBTagPiercing.Checked = itemTags.Contains(ItemTag.Create("TagPiercing").Value)
-        CBTagSmiling.Checked = itemTags.Contains(ItemTag.Create("TagSmiling").Value)
-        CBTagGlaring.Checked = itemTags.Contains(ItemTag.Create("TagGlaring").Value)
-        CBTagSeeThrough.Checked = itemTags.Contains(ItemTag.Create("TagSeeThrough").Value)
-        CBTagAllFours.Checked = itemTags.Contains(ItemTag.Create("TagAllFours").Value)
-
-        Dim garmentTag As ItemTag? = itemTags.FirstOrDefault(Function(it) it.Equals(ItemTag.Create("TagGarment").Value))
-        CBTagGarment.Checked = garmentTag.HasValue
-        TBTagGarment.Text = If(garmentTag.HasValue, String.Empty, garmentTag.Value.ToString().Replace("TagGarment", ""))
-
-        Dim underwearTag As ItemTag? = itemTags.FirstOrDefault(Function(it) it.Equals(ItemTag.Create("TagUnderwear").Value))
-        CBTagUnderwear.Checked = underwearTag.HasValue
-        TBTagUnderwear.Text = If(underwearTag.HasValue, String.Empty, underwearTag.Value.ToString().Replace("TagUnderwear", ""))
-
-        Dim tattooTag As ItemTag? = itemTags.FirstOrDefault(Function(it) it.Equals(ItemTag.Create("TagTattoo").Value))
-        CBTagTattoo.Checked = tattooTag.HasValue
-        TBTagTattoo.Text = If(tattooTag.HasValue, String.Empty, tattooTag.Value.ToString().Replace("TagTattoo", ""))
-
-        Dim sexToyTag As ItemTag? = itemTags.FirstOrDefault(Function(it) it.Equals(ItemTag.Create("TagSexToy").Value))
-        CBTagSexToy.Checked = sexToyTag.HasValue
-        TBTagSexToy.Text = If(sexToyTag.HasValue, String.Empty, sexToyTag.Value.ToString().Replace("TagSexToy", ""))
-
-        Dim furnitureTag As ItemTag? = itemTags.FirstOrDefault(Function(it) it.Equals(ItemTag.Create("TagFurniture").Value))
-        CBTagFurniture.Checked = furnitureTag.HasValue
-        TBTagFurniture.Text = If(furnitureTag.HasValue, String.Empty, furnitureTag.Value.ToString().Replace("TagFurniture", ""))
-    End Sub
-
-    Public Sub SetLocalImageEnabled(isEnabled As Boolean)
-        CBTagHardcore.Enabled = isEnabled
-        CBTagLesbian.Enabled = isEnabled
-        CBTagGay.Enabled = isEnabled
-        CBTagBisexual.Enabled = isEnabled
-        CBTagSoloF.Enabled = isEnabled
-        CBTagSoloM.Enabled = isEnabled
-        CBTagSoloFuta.Enabled = isEnabled
-        CBTagPOV.Enabled = isEnabled
-        CBTagBondage.Enabled = isEnabled
-        CBTagSM.Enabled = isEnabled
-        CBTagTD.Enabled = isEnabled
-        CBTagChastity.Enabled = isEnabled
-        CBTagCFNM.Enabled = isEnabled
-        CBTagBath.Enabled = isEnabled
-        CBTagShower.Enabled = isEnabled
-        CBTagOutdoors.Enabled = isEnabled
-        CBTagArtwork.Enabled = isEnabled
-
-        CBTagMasturbation.Enabled = isEnabled
-        CBTagHandjob.Enabled = isEnabled
-        CBTagFingering.Enabled = isEnabled
-        CBTagBlowjob.Enabled = isEnabled
-        CBTagCunnilingus.Enabled = isEnabled
-        CBTagTitjob.Enabled = isEnabled
-        CBTagFootjob.Enabled = isEnabled
-        CBTagFacesitting.Enabled = isEnabled
-        CBTagRimming.Enabled = isEnabled
-        CBTagMissionary.Enabled = isEnabled
-        CBTagDoggyStyle.Enabled = isEnabled
-        CBTagCowgirl.Enabled = isEnabled
-        CBTagRCowgirl.Enabled = isEnabled
-        CBTagStanding.Enabled = isEnabled
-        CBTagAnalSex.Enabled = isEnabled
-        CBTagDP.Enabled = isEnabled
-        CBTagGangbang.Enabled = isEnabled
-
-        CBTag1F.Enabled = isEnabled
-        CBTag2F.Enabled = isEnabled
-        CBTag3F.Enabled = isEnabled
-        CBTag1M.Enabled = isEnabled
-        CBTag2M.Enabled = isEnabled
-        CBTag3M.Enabled = isEnabled
-        CBTag1Futa.Enabled = isEnabled
-        CBTag2Futa.Enabled = isEnabled
-        CBTag3Futa.Enabled = isEnabled
-        CBTagFemdom.Enabled = isEnabled
-        CBTagMaledom.Enabled = isEnabled
-        CBTagFutadom.Enabled = isEnabled
-        CBTagFemsub.Enabled = isEnabled
-        CBTagMalesub.Enabled = isEnabled
-        CBTagFutasub.Enabled = isEnabled
-        CBTagMultiDom.Enabled = isEnabled
-        CBTagMultiSub.Enabled = isEnabled
-
-        CBTagBodyFace.Enabled = isEnabled
-        CBTagBodyFingers.Enabled = isEnabled
-        CBTagBodyMouth.Enabled = isEnabled
-        CBTagBodyTits.Enabled = isEnabled
-        CBTagBodyNipples.Enabled = isEnabled
-        CBTagBodyPussy.Enabled = isEnabled
-        CBTagBodyAss.Enabled = isEnabled
-        CBTagBodyLegs.Enabled = isEnabled
-        CBTagBodyFeet.Enabled = isEnabled
-        CBTagBodyCock.Enabled = isEnabled
-        CBTagBodyBalls.Enabled = isEnabled
-
-        CBTagNurse.Enabled = isEnabled
-        CBTagTeacher.Enabled = isEnabled
-        CBTagSchoolgirl.Enabled = isEnabled
-        CBTagMaid.Enabled = isEnabled
-        CBTagSuperhero.Enabled = isEnabled
-
-        CBTagWhipping.Enabled = isEnabled
-        CBTagSpanking.Enabled = isEnabled
-        CBTagCockTorture.Enabled = isEnabled
-        CBTagBallTorture.Enabled = isEnabled
-        CBTagStrapon.Enabled = isEnabled
-        CBTagBlindfold.Enabled = isEnabled
-        CBTagGag.Enabled = isEnabled
-        CBTagClamps.Enabled = isEnabled
-        CBTagHotWax.Enabled = isEnabled
-        CBTagNeedles.Enabled = isEnabled
-        CBTagElectro.Enabled = isEnabled
-
-        CBTagDomme.Enabled = isEnabled
-        CBTagCumshot.Enabled = isEnabled
-        CBTagCumEating.Enabled = isEnabled
-        CBTagKissing.Enabled = isEnabled
-        CBTagTattoos.Enabled = isEnabled
-        CBTagStockings.Enabled = isEnabled
-        CBTagVibrator.Enabled = isEnabled
-        CBTagDildo.Enabled = isEnabled
-        CBTagPocketPussy.Enabled = isEnabled
-        CBTagAnalToy.Enabled = isEnabled
-        CBTagWatersports.Enabled = isEnabled
-
-        CBTagShibari.Enabled = isEnabled
-        CBTagTentacles.Enabled = isEnabled
-        CBTagBukkake.Enabled = isEnabled
-        CBTagBakunyuu.Enabled = isEnabled
-        CBTagAhegao.Enabled = isEnabled
-        CBTagBodyWriting.Enabled = isEnabled
-        CBTagTrap.Enabled = isEnabled
-        CBTagGanguro.Enabled = isEnabled
-        CBTagMahouShoujo.Enabled = isEnabled
-        CBTagMonsterGirl.Enabled = isEnabled
-
-
-    End Sub
-
-    Public Sub SaveLocalImageTags(imageFileName As String)
-        Dim tags As List(Of ItemTag) = GetItemTagsFromCheckboxes()
-        Dim imageLine As String = imageFileName & " " & String.Join(" ", tags.Select(Function(t) t.ToString()))
-
-        If File.Exists(LocalImageTagFile) Then
-            Dim tagCheckList As List(Of String) = File.ReadAllLines(LocalImageTagFile).ToList()
-
-            Dim lineExists As Boolean
-            lineExists = False
-
-            For i As Integer = 0 To tagCheckList.Count - 1
-                If tagCheckList(i).Contains(imageFileName) Then
-                    lineExists = True
-                    tagCheckList(i) = imageLine
-                End If
-            Next
-
-            If Not lineExists Then
-                tagCheckList.Add(imageLine)
-                lineExists = False
-            End If
-
-            File.WriteAllLines(LocalImageTagFile, tagCheckList)
-        Else
-            File.AppendAllText(LocalImageTagFile, imageLine)
-        End If
-    End Sub
-
-    Public Sub SaveDommeTags(tagFile As String, imageFile As String)
-
-        Dim imageTagLine As String = Path.GetFileName(imageFile)
-
-        If CBTagFace.Checked Then imageTagLine = imageTagLine & " " & "TagFace"
-        If CBTagBoobs.Checked Then imageTagLine = imageTagLine & " " & "TagBoobs"
-        If CBTagPussy.Checked Then imageTagLine = imageTagLine & " " & "TagPussy"
-        If CBTagAss.Checked Then imageTagLine = imageTagLine & " " & "TagAss"
-        If CBTagLegs.Checked Then imageTagLine = imageTagLine & " " & "TagLegs"
-        If CBTagFeet.Checked Then imageTagLine = imageTagLine & " " & "TagFeet"
-        If CBTagFullyDressed.Checked Then imageTagLine = imageTagLine & " " & "TagFullyDressed"
-        If CBTagHalfDressed.Checked Then imageTagLine = imageTagLine & " " & "TagHalfDressed"
-        If CBTagGarmentCovering.Checked Then imageTagLine = imageTagLine & " " & "TagGarmentCovering"
-        If CBTagHandsCovering.Checked Then imageTagLine = imageTagLine & " " & "TagHandsCovering"
-        If CBTagNaked.Checked Then imageTagLine = imageTagLine & " " & "TagNaked"
-        If CBTagSideView.Checked Then imageTagLine = imageTagLine & " " & "TagSideView"
-        If CBTagCloseUp.Checked Then imageTagLine = imageTagLine & " " & "TagCloseUp"
-        If CBTagMasturbating.Checked Then imageTagLine = imageTagLine & " " & "TagMasturbating"
-        If CBTagSucking.Checked Then imageTagLine = imageTagLine & " " & "TagSucking"
-        If CBTagPiercing.Checked Then imageTagLine = imageTagLine & " " & "TagPiercing"
-        If CBTagSmiling.Checked Then imageTagLine = imageTagLine & " " & "TagSmiling"
-        If CBTagGlaring.Checked Then imageTagLine = imageTagLine & " " & "TagGlaring"
-        If CBTagSeeThrough.Checked Then imageTagLine = imageTagLine & " " & "TagSeeThrough"
-        If CBTagAllFours.Checked Then imageTagLine = imageTagLine & " " & "TagAllFours"
-
-        If CBTagGarment.Checked Then
-            If TBTagGarment.Text = "" Then
-                MessageBox.Show(Me, "Please enter a description in the Garment field!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
-                Return
-            Else
-                imageTagLine = imageTagLine & " " & "TagGarment" & TBTagGarment.Text
-            End If
-        End If
-
-        If CBTagUnderwear.Checked Then
-            If TBTagUnderwear.Text = "" Then
-                MessageBox.Show(Me, "Please enter a description in the Underwear field!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
-                Return
-            Else
-                imageTagLine = imageTagLine & " " & "TagUnderwear" & TBTagUnderwear.Text
-            End If
-        End If
-
-        If CBTagTattoo.Checked Then
-            If TBTagTattoo.Text = "" Then
-                MessageBox.Show(Me, "Please enter a description in the Tattoo field!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
-                Return
-            Else
-                imageTagLine = imageTagLine & " " & "TagTattoo" & TBTagTattoo.Text
-            End If
-        End If
-
-        If CBTagSexToy.Checked Then
-            If TBTagSexToy.Text = "" Then
-                MessageBox.Show(Me, "Please enter a description in the Room field!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
-                Return
-            Else
-                imageTagLine = imageTagLine & " " & "TagSexToy" & TBTagSexToy.Text
-            End If
-        End If
-
-        If CBTagFurniture.Checked Then
-            If TBTagFurniture.Text = "" Then
-                MessageBox.Show(Me, "Please enter a description in the Furniture field!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
-                Return
-            Else
-                imageTagLine = imageTagLine & " " & "TagFurniture" & TBTagFurniture.Text
-            End If
-        End If
-
-
-        If File.Exists(tagFile) Then
-            Dim TagCheckList As List(Of TaggedItem) = ReadTagFile(tagFile)
-            Dim LineExists As Boolean
-            LineExists = False
-            ' FINISH ME
-            'For i As Integer = 0 To TagCheckList.Count - 1
-            '    If TagCheckList(i).Contains(Path.GetFileName(CurrentImageTagImage)) Then
-            '        TagCheckList(i) = TempImageDir
-            '        LineExists = True
-            '        System.IO.File.WriteAllLines(TBTagDir.Text & "\ImageTags.txt", TagCheckList)
-            '    End If
-            'Next
-
-            If Not LineExists Then
-                My.Computer.FileSystem.WriteAllText(tagFile, Environment.NewLine & imageTagLine, True)
-                LineExists = False
-            End If
-
-        Else
-            My.Computer.FileSystem.WriteAllText(tagFile, imageTagLine, True)
-        End If
-    End Sub
-
-    ''' <summary>
-    ''' Reads the tag data from a file as a collection of strings
-    ''' </summary>
-    ''' <param name="fileName"></param>
-    ''' <returns></returns>
-    Private Function ReadTagFile(fileName As String) As List(Of TaggedItem)
-        Return myLoadFileData.ReadData(fileName) _
-                    .OnSuccess(Function(data) myParseTagDataService.ParseTagData(data)).GetResultOrDefault(New List(Of TaggedItem))
     End Function
 
     Private Function GetOrgasmReleaseDate(lockTimeDuration As String, startDate As Date) As Date
@@ -7827,11 +7345,47 @@ checkFolder:
         Throw New Exception("Unkonown DomLevel")
     End Function
 
-    Private mySettingsAccessor As ISettingsAccessor
-    Private myBlogAccessor As BlogImageAccessor
-    Private myCldAccessor As ICldAccessor
-    Private myScriptAccessor As IScriptAccessor
-    Private myLoadFileData As ILoadFileData
-    Private myParseTagDataService As ParseOldTagDataService
-    Private myPathsAccessor As PathsAccessor
+    Private Function BuildIndexString(index As Integer, count As Integer) As String
+        If count = 0 Then
+            Return "0 / 0"
+        End If
+        Return String.Format("{0} / {1}", (index + 1).ToString(), count.ToString())
+    End Function
+
+    Private Async Function LoadImageAsync(imageMetaData As ImageMetaData) As Task(Of Image)
+        Dim webClient As Net.WebClient = New Net.WebClient()
+        Return New Bitmap(New MemoryStream(Await webClient.DownloadDataTaskAsync(imageMetaData.FullFileName)))
+    End Function
+
+    Private Function GetMediaContainer(mediaType As Integer, mediaSource As ImageSource, mediaGenre As ImageGenre) As MediaContainer
+        Return myMediaContainerService.Get(mediaType, mediaSource).FirstOrDefault(Function(mc) mc.GenreId = mediaGenre)
+    End Function
+
+    Private Function FindChildControl(parent As Control, childName As String) As Control
+        Dim child As Control = parent.Controls.Find(childName, True).FirstOrDefault()
+
+        If child Is Nothing Then
+            Throw New ArgumentOutOfRangeException(NameOf(childName), childName & " is not a child of " & parent.Name)
+        End If
+        Return child
+    End Function
+
+    Private ReadOnly mySettingsAccessor As ISettingsAccessor
+    Private ReadOnly myConfigurationAccessor As IConfigurationAccessor
+    Private ReadOnly myBlogAccessor As BlogImageAccessor
+    Private ReadOnly myCldAccessor As ICldAccessor
+    Private ReadOnly myScriptAccessor As IScriptAccessor
+    Private ReadOnly myLoadFileData As ILoadFileData
+    Private ReadOnly myParseTagDataService As ParseOldTagDataService
+    Private ReadOnly myPathsAccessor As PathsAccessor
+    Private ReadOnly myMediaContainerService As IMediaContainerService
+    Private ReadOnly myImageMetaDataService As IImageAccessor
+    Private ReadOnly myImageTagMapService As IImageTagMapService
+    Private ReadOnly myGetCommandProcessorsService As IGetCommandProcessorsService
+    Private ReadOnly myNotifyUserService As INotifyUser
+    Private ReadOnly myImageBlogDownloadService As IImageBlogDownloadService
+
+    Private myIsFormSettingTags As Boolean
+    Private myIsMediaContainerLoading As Boolean
+    Private myWorkingUrlImageMetaDatas As List(Of ImageMetaData)
 End Class

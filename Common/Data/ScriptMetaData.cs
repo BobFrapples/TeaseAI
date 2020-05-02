@@ -27,6 +27,22 @@ namespace TeaseAI.Common.Data
         /// </summary>
         public bool IsEnabled { get; set; }
         public SessionPhase SessionPhase { get; set; }
+        /// <summary>
+        /// This script is meant for subs in chastity
+        /// </summary>
+        public bool IsChastity { get; set; }
+        /// <summary>
+        /// This script is meant for subs that have restricted orgasms
+        /// </summary>
+        public bool IsRestricted { get; set; }
+        /// <summary>
+        /// Unsure
+        /// </summary>
+        public bool IsBeg { get; set; }
+        /// <summary>
+        /// Unsure
+        /// </summary>
+        public bool IsEdge { get; set; }
 
         public ScriptMetaData Clone()
         {

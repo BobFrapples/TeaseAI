@@ -23,12 +23,12 @@ namespace TeaseAI.ServicesTests.Keywords
         [TestMethod]
         public void ReplaceImageTags_ShouldReplaceGarmentHash_WhenNoGarmentSet()
         {
-            var taggedItem = new TaggedItem()
+            var taggedItem = new Common.TaggedItem()
             {
                 ItemName = "item_name.jpg",
-                ItemTags = new List<ItemTag>()
+                ItemTags = new List<Common.Constants.TaggedItem>()
                 {
-                    ItemTag.GarmentCovering,
+                    Common.Constants.TaggedItem.GarmentCovering,
                 }
             };
 
@@ -40,7 +40,7 @@ namespace TeaseAI.ServicesTests.Keywords
         [TestMethod]
         public void ReplaceImageTags_ShouldReplaceGarmentHash_WhenNoGarmentTag()
         {
-            var taggedItem = new TaggedItem()
+            var taggedItem = new Common.TaggedItem()
             {
                 ItemName = "item_name.jpg",
             };
@@ -53,10 +53,10 @@ namespace TeaseAI.ServicesTests.Keywords
         [TestMethod]
         public void ReplaceImageTags_ShouldReplaceGarmentHash_WhenGarmentTagSet()
         {
-            var taggedItem = new TaggedItem()
+            var taggedItem = new Common.TaggedItem()
             {
                 ItemName = "item_name.jpg",
-                ItemTags = new List<ItemTag>() { (ItemTag)"TagGarmentBra" },
+                ItemTags = new List<Common.Constants.TaggedItem>() { (Common.Constants.TaggedItem)"TagGarmentBra" },
             };
 
             var actual = _service.ReplaceImageTags("my #TagGarment is black", taggedItem);

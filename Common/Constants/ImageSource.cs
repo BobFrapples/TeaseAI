@@ -1,14 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TeaseAI.Common.Constants
+﻿namespace TeaseAI.Common.Constants
 {
+    /// <summary>
+    /// Where are this container's files stored
+    /// </summary>
     public enum ImageSource
     {
-        Local,
-        Remote
+        /// <summary>
+        /// Files stored locally
+        /// </summary>
+        Local = 1,
+        /// <summary>
+        /// Files stored remotely (tumblr blogs, etc)
+        /// </summary>
+        Remote = 2,
+        /// <summary>
+        /// This container can be either
+        /// </summary>
+        Virtual = 3,
     }
 }

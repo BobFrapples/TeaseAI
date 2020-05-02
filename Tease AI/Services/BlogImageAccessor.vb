@@ -7,23 +7,23 @@ Public Class BlogImageAccessor
     Function GetBlogMetaData() As List(Of BlogMetaData)
         'Private myPathUrlFileDir As String = mySystemImageDIr + "URL Files\"
         Dim returnValue As List(Of BlogMetaData) = New List(Of BlogMetaData)()
-        If File.Exists(myUrlMasterFile) Then
-            Using fs As New FileStream(myUrlMasterFile, FileMode.Open), binRead As New BinaryReader(fs)
-                Do While fs.Position < fs.Length
-                    Dim fileName As String = binRead.ReadString()
-                    Dim enabled As Boolean = binRead.ReadBoolean()
-                    If File.Exists(mySystemImageDir & "/Url Files/" & fileName) Then
-                        returnValue.Add(New BlogMetaData() With
-                                            {
-                                            .Genre = ImageGenre.Blog,
-                                            .FileName = fileName,
-                                            .IsEnabled = enabled
-                                            })
-                    End If
-                Loop
-            End Using
-        Else
-            For Each foundFile As String In My.Computer.FileSystem.GetFiles(mySystemImageDir & "/URL Files", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
+        'If File.Exists(myUrlMasterFile) Then
+        '    Using fs As New FileStream(myUrlMasterFile, FileMode.Open), binRead As New BinaryReader(fs)
+        '        Do While fs.Position < fs.Length
+        '            Dim fileName As String = binRead.ReadString()
+        '            Dim enabled As Boolean = binRead.ReadBoolean()
+        '            If File.Exists(mySystemImageDir & "/Url Files/" & fileName) Then
+        '                returnValue.Add(New BlogMetaData() With
+        '                                    {
+        '                                    .Genre = ImageGenre.Blog,
+        '                                    .FileName = fileName,
+        '                                    .IsEnabled = enabled
+        '                                    })
+        '            End If
+        '        Loop
+        '    End Using
+        'Else
+        For Each foundFile As String In My.Computer.FileSystem.GetFiles(mySystemImageDir & "/URL Files", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
                 returnValue.Add(New BlogMetaData() With
                                             {
                                             .Genre = ImageGenre.Blog,
@@ -31,7 +31,7 @@ Public Class BlogImageAccessor
                                             .IsEnabled = True
                                             })
             Next
-        End If
+        'End If
         Return returnValue.Distinct().ToList()
     End Function
 
@@ -41,8 +41,8 @@ Public Class BlogImageAccessor
         For Each imageUrl As String In File.ReadAllLines(blogImageList)
             returnValue.Add(New ImageMetaData() With
                                 {
-                                .Genre = ImageGenre.Blog,
-                                .Source = ImageSource.Remote,
+                                .GenreId = ImageGenre.Blog,
+                                .SourceId = ImageSource.Remote,
                                 .ItemName = imageUrl
                                 })
         Next

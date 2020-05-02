@@ -66,8 +66,8 @@ namespace TeaseAI.ServicesTests.CommandProcessors
         [TestMethod]
         public void PerformCommand_ShouldFail_WhenAccessorFails()
         {
-            Arrange.Call(() => _imageAccessor.GetImageMetaDataList(default(ImageSource?), ImageGenre.Hardcore))
-                .Returns(Result.Fail<List<ImageMetaData>>("Testing failure"));
+            Arrange.Call(() => _imageAccessor.Get(default(ImageSource?), ImageGenre.Hardcore))
+                .Returns(new List<ImageMetaData>());
 
             var actual = _service.PerformCommand(_session, Keyword.ShowHardcoreImage);
             Assert.AreEqual("Testing failure", actual.Error.Message);
@@ -76,8 +76,8 @@ namespace TeaseAI.ServicesTests.CommandProcessors
         [TestMethod]
         public void PerformCommand_ShouldFail_WhenAccessorFindsNoImages()
         {
-            Arrange.Call(() => _imageAccessor.GetImageMetaDataList(default(ImageSource?), ImageGenre.Hardcore))
-                .Returns(Result.Ok(new List<ImageMetaData>()));
+            Arrange.Call(() => _imageAccessor.Get(default(ImageSource?), ImageGenre.Hardcore))
+                .Returns(new List<ImageMetaData>());
 
             var actual = _service.PerformCommand(_session, Keyword.ShowHardcoreImage);
             Assert.AreEqual(ErrorMessage.NoImagesFound, actual.Error.Message);
@@ -89,8 +89,8 @@ namespace TeaseAI.ServicesTests.CommandProcessors
             var eventSession = default(Session);
             _service.CommandProcessed += (s, e) => eventSession = e.Session;
 
-            Arrange.Call(() => _imageAccessor.GetImageMetaDataList(default(ImageSource?), ImageGenre.Hardcore))
-                .Returns(Result.Ok(new List<ImageMetaData>() { new ImageMetaData() }));
+            Arrange.Call(() => _imageAccessor.Get(default(ImageSource?), ImageGenre.Hardcore))
+                .Returns(new List<ImageMetaData>() { new ImageMetaData() });
 
             var actual = _service.PerformCommand(_session, Keyword.ShowHardcoreImage);
             Assert.AreEqual(actual.Value, eventSession);
@@ -103,8 +103,8 @@ namespace TeaseAI.ServicesTests.CommandProcessors
             _service.CommandProcessed += (s, e) => imageData = e.Parameter as ImageMetaData;
 
             var foundImage = new ImageMetaData();
-            Arrange.Call(() => _imageAccessor.GetImageMetaDataList(default(ImageSource?), ImageGenre.Hardcore))
-                .Returns(Result.Ok(new List<ImageMetaData>() { foundImage }));
+            Arrange.Call(() => _imageAccessor.Get(default(ImageSource?), ImageGenre.Hardcore))
+                .Returns(new List<ImageMetaData>() { foundImage });
 
             var actual = _service.PerformCommand(_session, Keyword.ShowHardcoreImage);
             Assert.AreEqual(foundImage, imageData);

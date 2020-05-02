@@ -28,5 +28,11 @@ namespace TeaseAI.Common.Interfaces.Accessors
         /// <returns></returns>
         string GetScriptDir(string dommePersonalityName, string type, SessionPhase sessionPhase);
         string GetScriptCld(string dommePersonalityName, SessionPhase sessionPhase);
+
+        /// <summary>
+        /// Get the system images folder
+        /// </summary>
+        /// <returns></returns>
+        string GetSystemImages();
     }
 }

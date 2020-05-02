@@ -82,6 +82,7 @@
     <Compile Include="LineService_Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TagData\ParseOldTagDataService_Tests.cs" />
+    <Compile Include="TumblrImageBlogRepository_Tests.cs" />
     <Compile Include="VocabularyProcessors\ImageVocabularyProcessor_Tests.cs" />
     <Compile Include="VocabularyProcessors\RandomVocabularyProcessor_Tests.cs" />
     <Compile Include="VocabularyProcessor_Tests.cs" />

@@ -1,9 +1,9 @@
 ﻿Imports System.ComponentModel
 Imports System.IO
 Imports System.Threading
-Imports System.Windows.Forms
+Imports TeaseAI.Common.Constants
 Imports TeaseAI.Common.Data
-Imports TeaseAI.Common.Data.RiskyPick
+Imports TeaseAI.Common.Events
 
 Partial Class MainWindow
 
@@ -12,25 +12,6 @@ Partial Class MainWindow
     Friend Enum ImageSourceType
         Local
         Remote
-    End Enum
-
-    Enum ImageGenre
-        Blog
-        Butt
-        Boobs
-        Hardcore
-        Softcore
-        Lesbian
-        Blowjob
-        Femdom
-        Lezdom
-        Hentai
-        Gay
-        Maledom
-        Captions
-        General
-        Liked
-        Disliked
     End Enum
 
     ''' <summary>
@@ -42,7 +23,7 @@ Partial Class MainWindow
         Private ReadOnly myPathsAccessor As PathsAccessor
 
         Public Sub New()
-            myPathsAccessor = ServiceFactory.CreatePathsAccessor()
+            myPathsAccessor = ApplicationFactory.CreatePathsAccessor()
         End Sub
 
         'TODO: ImageDataContainer Improve the usage of System Ressources.
@@ -172,7 +153,7 @@ Partial Class MainWindow
 
                     ' Load threadsafe all checked Items into List.
                     Dim temp As Object = FrmSettings.UIThread(Function()
-                                                                  Return FrmSettings.URLFileList.CheckedItems.Cast(Of String).ToList
+                                                                  Return FrmSettings.RemoteMediaContainerList.CheckedItems.Cast(Of String).ToList
                                                               End Function)
 
                     tmpList.AddRange(DirectCast(temp, List(Of String)))
@@ -602,9 +583,18 @@ NoNeFound:
 #End Region ' Get Random Image
 
     ''' <summary>
+    ''' Set the currently displayed image to eventArgs.ImageMetaData
+    ''' </summary>
+    ''' <param name="eventArgs"></param>
+    Private Sub QueryImage(eventArgs As ShowImageEventArgs)
+        eventArgs.ImageMetaData = myDisplayedImage
+    End Sub
+
+    ''' <summary>
     ''' Displays the image passed in as <paramref name="imageToShow"/> to the window
     ''' </summary>
     ''' <param name="imageToShow">The local path to the image to display.</param>
+    <Obsolete("Use the version that takes ImageMetaData")>
     Public Sub ShowImage(imageToShow As String, ignored As Boolean)
         If FormLoading Then
             Return
@@ -620,6 +610,26 @@ NoNeFound:
         mainPictureBox.Image = Image.FromFile(imageToShow)
     End Sub
 
+    Public Sub ShowImage(imageToShow As ImageMetaData)
+        If FormLoading Then
+            Return
+        End If
+
+        Dim imageData As Image = Nothing
+        If imageToShow.SourceId = ImageSource.Local AndAlso Not File.Exists(imageToShow.FullFileName) Then
+            Throw New ArgumentException(NameOf(imageToShow), imageToShow.ItemName + " does not exist.")
+        End If
+
+        If imageToShow.SourceId = ImageSource.Local Then
+            imageData = Image.FromFile(imageToShow.FullFileName)
+        ElseIf imageToShow.SourceId = ImageSource.Remote Then
+            Dim webClient As Net.WebClient = New Net.WebClient()
+            imageData = New Bitmap(New MemoryStream(webClient.DownloadData(imageToShow.FullFileName)))
+        End If
+
+        myDisplayedImage = imageToShow
+        mainPictureBox.Image = imageData
+    End Sub
 #Region "---------------------------------------------------- BWimageSync -----------------------------------------------------"
 
 #Region "---------------------------------------------------- Declarations ----------------------------------------------------"
@@ -915,6 +925,7 @@ retryLocal: ' If an exception occures the function is restarted and the Errorima
     ''' Signals the ImageAnimatorThread to suspend when the signal is set.
     ''' </summary>
     Shared mreImageanimator As New ManualResetEvent(True)
+
     ''' <summary>
     ''' This Method will stop the ImageAnimatorThread
     ''' </summary>

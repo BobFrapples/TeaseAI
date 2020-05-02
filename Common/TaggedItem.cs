@@ -16,11 +16,11 @@ namespace TeaseAI.Common
         /// <summary>
         /// Tags for the item. Will never be null
         /// </summary>
-        public List<ItemTag> ItemTags
+        public List<Constants.TaggedItem> ItemTags
         {
-            get { return _itemTags ?? (_itemTags = new List<ItemTag>()); }
+            get { return _itemTags ?? (_itemTags = new List<Constants.TaggedItem>()); }
             set { _itemTags = value; }
         }
-        private List<ItemTag> _itemTags;
+        private List<Constants.TaggedItem> _itemTags;
     }
 }

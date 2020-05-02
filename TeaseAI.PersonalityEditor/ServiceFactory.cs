@@ -1,6 +1,7 @@
 ﻿using System;
 using TeaseAI.Common.Interfaces;
 using TeaseAI.Common.Interfaces.Accessors;
+using TeaseAI.Data;
 using TeaseAI.PersonalityEditor.Services;
 using TeaseAI.Services;
 using TeaseAI.Services.Accessors;
@@ -34,7 +35,8 @@ namespace TeaseAI.PersonalityEditor
                 CreateNotifyUser(),
                 CreateSettingsAccessor(),
                 CreatePathsAccessor(),
-                CreateBookmarkService()
+                CreateBookmarkService(),
+                CreateMediaContainerService()
             );
         }
 
@@ -54,10 +56,32 @@ namespace TeaseAI.PersonalityEditor
 
         public static IVideoAccessor CreateVideoAccessor() => new VideoAccessor(CreateConfigurationAccessor());
 
-        public static IImageAccessor CreateImageAccessor() => new ImageAccessor(CreateConfigurationAccessor());
+        public static IImageAccessor CreateImageAccessor() => new ImageAccessor(CreateConfigurationAccessor()
+            , CreatePathsAccessor()
+            , RepositoryFactory.CreateImageMetaDataRepository(CreateConfigurationAccessor())
+            , CreateMediaContainerService());
 
         public static LineService CreateLineService() => new LineService();
 
         public static IFlagAccessor CreateFlagAccessor() => new FlagAccessor(CreateConfigurationAccessor());
+
+        public static IItemTagService CreateItemTagService()
+        {
+            var itemTagRepository = RepositoryFactory.CreateItemTagRepository(CreateConfigurationAccessor());
+            return new ItemTagService(itemTagRepository);
+        }
+
+        public static IGenreService CreateGenreService()
+        {
+            var genreRepository = RepositoryFactory.CreateGenreRepository(CreateConfigurationAccessor());
+            return new GenreService(genreRepository);
+        }
+
+        public static IMediaContainerService CreateMediaContainerService()
+        {
+            var repository = RepositoryFactory.CreateMediaContainerRepository(CreateConfigurationAccessor());
+            var genreRepository = RepositoryFactory.CreateGenreRepository(CreateConfigurationAccessor());
+            return new MediaContainerService(repository, genreRepository);
+        }
     }
 }

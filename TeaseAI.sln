@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PersonalityEditor", "Person
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeaseAI.PersonalityEditor", "TeaseAI.PersonalityEditor\TeaseAI.PersonalityEditor.csproj", "{4DDC4F13-4360-4CD1-AA7B-375A98413A46}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeaseAI.Data", "TeaseAi.Data\TeaseAI.Data.csproj", "{953EE102-B5EB-4736-8659-F0332DB83E5B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -129,6 +131,26 @@ Global
 		{4DDC4F13-4360-4CD1-AA7B-375A98413A46}.Release|x64.Build.0 = Release|Any CPU
 		{4DDC4F13-4360-4CD1-AA7B-375A98413A46}.Release|x86.ActiveCfg = Release|Any CPU
 		{4DDC4F13-4360-4CD1-AA7B-375A98413A46}.Release|x86.Build.0 = Release|Any CPU
+		{953EE102-B5EB-4736-8659-F0332DB83E5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{953EE102-B5EB-4736-8659-F0332DB83E5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{953EE102-B5EB-4736-8659-F0332DB83E5B}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{953EE102-B5EB-4736-8659-F0332DB83E5B}.Debug|ARM.Build.0 = Debug|Any CPU
+		{953EE102-B5EB-4736-8659-F0332DB83E5B}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{953EE102-B5EB-4736-8659-F0332DB83E5B}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{953EE102-B5EB-4736-8659-F0332DB83E5B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{953EE102-B5EB-4736-8659-F0332DB83E5B}.Debug|x64.Build.0 = Debug|Any CPU
+		{953EE102-B5EB-4736-8659-F0332DB83E5B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{953EE102-B5EB-4736-8659-F0332DB83E5B}.Debug|x86.Build.0 = Debug|Any CPU
+		{953EE102-B5EB-4736-8659-F0332DB83E5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{953EE102-B5EB-4736-8659-F0332DB83E5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{953EE102-B5EB-4736-8659-F0332DB83E5B}.Release|ARM.ActiveCfg = Release|Any CPU
+		{953EE102-B5EB-4736-8659-F0332DB83E5B}.Release|ARM.Build.0 = Release|Any CPU
+		{953EE102-B5EB-4736-8659-F0332DB83E5B}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{953EE102-B5EB-4736-8659-F0332DB83E5B}.Release|ARM64.Build.0 = Release|Any CPU
+		{953EE102-B5EB-4736-8659-F0332DB83E5B}.Release|x64.ActiveCfg = Release|Any CPU
+		{953EE102-B5EB-4736-8659-F0332DB83E5B}.Release|x64.Build.0 = Release|Any CPU
+		{953EE102-B5EB-4736-8659-F0332DB83E5B}.Release|x86.ActiveCfg = Release|Any CPU
+		{953EE102-B5EB-4736-8659-F0332DB83E5B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

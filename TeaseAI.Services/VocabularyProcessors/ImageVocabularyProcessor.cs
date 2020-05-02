@@ -40,9 +40,8 @@ namespace TeaseAI.Services.VocabularyProcessors
 
         private string GetImageCount(Session session, string line, ImageSource? imageSource, ImageGenre? imageGenre)
         {
-            var getCount = _imageAccessor.GetImageMetaDataList(imageSource, imageGenre)
-                .OnSuccess(data => data.Count);
-            return getCount.IsSuccess ? getCount.Value.ToString() : getCount.Error.Message;
+            var imageCount = _imageAccessor.Get(imageSource, imageGenre).Count;
+            return imageCount.ToString();
         }
     }
 }

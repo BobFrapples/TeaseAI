@@ -1,6 +1,7 @@
 ﻿Option Strict On
 Option Infer Off
 Imports System.Threading.Tasks
+Imports TeaseAI.Common
 Imports TeaseAI.Common.Interfaces
 
 Public Class NotifyUser
@@ -11,6 +12,10 @@ Public Class NotifyUser
     End Sub
 
     Public Function ModalMessageAsync(message As String) As Task Implements INotifyUser.ModalMessageAsync
+        Throw New NotImplementedException()
+    End Function
+
+    Public Function ErrorMessageAsync([error] As [Error]) As Task Implements INotifyUser.ErrorMessageAsync
         Throw New NotImplementedException()
     End Function
 End Class

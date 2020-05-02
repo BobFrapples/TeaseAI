@@ -28,7 +28,7 @@ namespace TeaseAI.Services.CommandProcessor
         public override Result<Session> PerformCommand(Session session, string line)
         {
             var genres = line.Contains(Keyword.ShowLocalCategoryImage) ? GetCategoryies(line) : new List<string>();
-            return _imageAccessor.GetImageMetaDataList(ImageSource.Local, null)
+            return Result.Ok(_imageAccessor.Get(ImageSource.Local, null))
                 .Ensure(data => data.Count > 0, "No  images of genre " + ImageGenre.Boobs.ToString() + " to load")
                 .OnSuccess(data => data[new Random().Next(data.Count)])
                 .OnSuccess(img => OnCommandProcessed(session, img))

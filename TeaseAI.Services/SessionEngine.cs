@@ -84,6 +84,8 @@ namespace TeaseAI.Services
 
             CommandProcessors[Keyword.RiskyPickStart].CommandProcessed += RiskyPickStartCommandProcessed;
 
+            CommandProcessors[Keyword.LikeImage].BeforeCommandProcessed += LikeImageCommandProcessed;
+
             _scriptAccessor = scriptAccessor;
             _variableAccessor = variableAccessor;
 
@@ -133,6 +135,15 @@ namespace TeaseAI.Services
         private void OnShowImage(ImageMetaData imageMetaData)
         {
             ShowImage?.Invoke(this, new ShowImageEventArgs() { ImageMetaData = imageMetaData });
+        }
+
+        /// <summary>
+        /// Event used to ask the UI what image is currently being displayed
+        /// </summary>
+        public event EventHandler<ShowImageEventArgs> QueryImage;
+        private void OnQueryImage(ShowImageEventArgs queryImageEventArgs)
+        {
+            QueryImage?.Invoke(this, queryImageEventArgs);
         }
 
         public event EventHandler<PlayVideoEventArgs> PlayVideo;
@@ -534,6 +545,12 @@ namespace TeaseAI.Services
             BeginSession((Script)e.Parameter);
         }
 
+        private void LikeImageCommandProcessed(object sender, CommandProcessedEventArgs e)
+        {
+            var eventArgs = (ShowImageEventArgs)e.Parameter;
+            OnQueryImage(eventArgs);
+        }
+
         #endregion
 
         #region Services
@@ -585,6 +602,8 @@ namespace TeaseAI.Services
                     })
                     .OnSuccess(sesh => Session = sesh);
 
+                if (doWork.IsFailure)
+                    OnDommeSaid(Session.Domme, doWork.Error.Message);
                 // We are all done, so go ahead and schedule a new timer.
                 _scriptTimer.Enabled = true;
             }

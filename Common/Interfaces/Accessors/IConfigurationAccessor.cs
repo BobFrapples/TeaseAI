@@ -25,5 +25,12 @@ namespace TeaseAI.Common.Interfaces.Accessors
         /// The root folder for image / videos / all other data
         /// </summary>
         string GetBaseFolder();
+
+        /// <summary>
+        /// Get the full path and filename to the SQLite database file. Will create it if it doesn't exist.
+        /// </summary>
+        /// <returns></returns>
+        string GetDatabaseConnectionString();
+
     }
 }

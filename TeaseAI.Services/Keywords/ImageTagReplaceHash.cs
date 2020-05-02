@@ -11,18 +11,18 @@ namespace TeaseAI.Services.Keywords
     /// </summary>
     public class ImageTagReplaceHash
     {
-        public string ReplaceImageTags(string messageString, TaggedItem slide)
+        public string ReplaceImageTags(string messageString, Common.TaggedItem slide)
         {
             try
             {
                 // nothing to do
                 if (slide == null)
                     return messageString;
-                var newMessage = messageString.Replace("#TagGarment", GetReplacementString(slide.ItemTags, "TagGarment", ItemTag.GarmentCovering, "garment"));
-                newMessage = newMessage.Replace("#TagUnderwear", GetReplacementString(slide.ItemTags, "TagUnderwear", ItemTag.Underwear, "underwear"));
-                newMessage = newMessage.Replace("#TagTattoo", GetReplacementString(slide.ItemTags, "TagTattoo", ItemTag.Tattoo, "tattoo"));
-                newMessage = newMessage.Replace("#TagSexToy", GetReplacementString(slide.ItemTags, "TagSexToy", ItemTag.SexToy, "sex toy"));
-                newMessage = newMessage.Replace("#TagFurniture", GetReplacementString(slide.ItemTags, "TagFurniture", ItemTag.Furniture, "furniture"));
+                var newMessage = messageString.Replace("#TagGarment", GetReplacementString(slide.ItemTags, "TagGarment", Common.Constants.TaggedItem.GarmentCovering, "garment"));
+                newMessage = newMessage.Replace("#TagUnderwear", GetReplacementString(slide.ItemTags, "TagUnderwear", Common.Constants.TaggedItem.Underwear, "underwear"));
+                newMessage = newMessage.Replace("#TagTattoo", GetReplacementString(slide.ItemTags, "TagTattoo", Common.Constants.TaggedItem.Tattoo, "tattoo"));
+                newMessage = newMessage.Replace("#TagSexToy", GetReplacementString(slide.ItemTags, "TagSexToy", Common.Constants.TaggedItem.SexToy, "sex toy"));
+                newMessage = newMessage.Replace("#TagFurniture", GetReplacementString(slide.ItemTags, "TagFurniture", Common.Constants.TaggedItem.Furniture, "furniture"));
 
                 return messageString;
             }
@@ -40,7 +40,7 @@ namespace TeaseAI.Services.Keywords
         /// <param name="itemTag"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        private string GetReplacementString(List<ItemTag> tags, string tagStart, ItemTag itemTag, string defaultValue)
+        private string GetReplacementString(List<Common.Constants.TaggedItem> tags, string tagStart, Common.Constants.TaggedItem itemTag, string defaultValue)
         {
             var replacementString = defaultValue;
             if (tags.Any(tag => tag.ToString().Contains(tagStart)))

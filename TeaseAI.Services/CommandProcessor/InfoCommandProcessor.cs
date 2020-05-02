@@ -10,7 +10,7 @@ namespace TeaseAI.Services.CommandProcessor
         {
         }
 
-        public override string DeleteCommandFrom(string line) => string.Empty;
+        public override string DeleteCommandFrom(string line) => IsRelevant(line) ? string.Empty : line;
 
         public override Result<Session> PerformCommand(Session session, string line) => Result.Ok(session);
 

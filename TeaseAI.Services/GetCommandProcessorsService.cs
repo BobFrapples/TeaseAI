@@ -21,6 +21,7 @@ namespace TeaseAI.Services
         private readonly ISettingsAccessor _settingsAccessor;
         private readonly IPathsAccessor _pathsAccessor;
         private readonly IBookmarkService _bookmarkService;
+        private readonly IMediaContainerService _mediaContainerService;
 
         public GetCommandProcessorsService(IScriptAccessor scriptAccessor
             , IFlagAccessor flagAccessor
@@ -35,6 +36,7 @@ namespace TeaseAI.Services
             , ISettingsAccessor settingsAccessor
             , IPathsAccessor pathsAccessor
             , IBookmarkService bookmarkService
+            , IMediaContainerService mediaContainerService
             )
         {
             _scriptAccessor = scriptAccessor;
@@ -50,6 +52,7 @@ namespace TeaseAI.Services
             _settingsAccessor = settingsAccessor;
             _pathsAccessor = pathsAccessor;
             _bookmarkService = bookmarkService;
+            _mediaContainerService = mediaContainerService;
         }
 
         public Dictionary<string, ICommandProcessor> CreateCommandProcessors()
@@ -136,6 +139,8 @@ namespace TeaseAI.Services
             rVal.Add(Keyword.Info, new InfoCommandProcessor(_lineService));
             rVal.Add(Keyword.DifferentAnswer, new DifferentAnswerCommandProcessor(_lineService));
             rVal.Add(Keyword.AcceptAnswer, new AcceptAnswerCommandProcessor(_lineService));
+            rVal.Add(Keyword.LikeImage, new LikeImageCommandProcessor(_lineService, _imageAccessor, _mediaContainerService));
+            rVal.Add(Keyword.DislikeImage, new DislikeImageCommandProcessor(_lineService, _imageAccessor, _mediaContainerService));
 
             return rVal;
         }

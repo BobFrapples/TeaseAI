@@ -8,9 +8,8 @@ Imports TeaseAI.Common.Interfaces
 Imports TeaseAI.Common.Interfaces.Accessors
 
 Public Class ScriptAccessor
-    Implements IScriptAccessor
 
-    Public Sub New(cldAccessor As CldAccessor)
+    Public Sub New(cldAccessor As ICldAccessor)
         myCldAccessor = cldAccessor
     End Sub
 
@@ -22,7 +21,7 @@ Public Class ScriptAccessor
     ''' <param name="type">one of Stroke or Interrupt </param>
     ''' <param name="stage">This varies.</param>
     ''' <returns></returns>
-    Public Function GetAvailableScripts(domme As DommePersonality, submissive As SubPersonality, type As String, stage As SessionPhase) As Result(Of List(Of ScriptMetaData)) Implements IScriptAccessor.GetAvailableScripts
+    Public Function GetAvailableScripts(domme As DommePersonality, submissive As SubPersonality, type As String, stage As SessionPhase) As Result(Of List(Of ScriptMetaData))
         Dim searchSuffix As String = GetSearchSuffix(submissive)
         Dim scriptList As New List(Of ScriptMetaData)
 
@@ -54,7 +53,7 @@ Public Class ScriptAccessor
         Return Result.Ok(scriptList)
     End Function
 
-    Public Function GetAllScripts(dommePersonalityName As String, type As String, stage As SessionPhase, isDefaultEnabled As Boolean) As List(Of ScriptMetaData) Implements IScriptAccessor.GetAllScripts
+    Public Function GetAllScripts(dommePersonalityName As String, type As String, stage As SessionPhase, isDefaultEnabled As Boolean) As List(Of ScriptMetaData)
         Dim baseDir As String = GetDommeBaseDir(dommePersonalityName)
         Dim scriptDir As String = GetDirPath(dommePersonalityName, type, stage)
         Dim checkListFile As String = baseDir + "System\" + stage.ToString() + "CheckList.cld"
@@ -139,7 +138,7 @@ Public Class ScriptAccessor
         Return "*.txt"
     End Function
 
-    Public Function GetScript(metaData As ScriptMetaData) As Result(Of Script) Implements IScriptAccessor.GetScript
+    Public Function GetScript(metaData As ScriptMetaData) As Result(Of Script)
         Try
             Return Result.Ok(New Script(metaData, File.ReadAllLines(metaData.Key).ToList()))
         Catch ex As Exception
@@ -147,7 +146,7 @@ Public Class ScriptAccessor
         End Try
     End Function
 
-    Public Function GetScript(domme As DommePersonality, fileName As String) As Result(Of Script) Implements IScriptAccessor.GetScript
+    Public Function GetScript(domme As DommePersonality, fileName As String) As Result(Of Script)
         Try
             Dim fullName As String = Application.StartupPath + "\Scripts\" + domme.PersonalityName + "\" + fileName
             If (Not File.Exists(fullName)) Then
@@ -161,7 +160,7 @@ Public Class ScriptAccessor
         End Try
     End Function
 
-    Public Function GetFallbackMetaData(session As Session, stage As SessionPhase) As Result(Of ScriptMetaData) Implements IScriptAccessor.GetFallbackMetaData
+    Public Function GetFallbackMetaData(session As Session, stage As SessionPhase) As Result(Of ScriptMetaData)
         Dim fallbackFileName As String = stage.ToString()
         If stage = SessionPhase.Modules Then
             fallbackFileName = "module"
@@ -199,15 +198,11 @@ Public Class ScriptAccessor
         Return info
     End Function
 
-    Public Sub Save(scripts As List(Of ScriptMetaData), dommePersonalityName As String, type As String, stage As SessionPhase) Implements IScriptAccessor.Save
+    Public Sub Save(scripts As List(Of ScriptMetaData), dommePersonalityName As String, type As String, stage As SessionPhase)
         Dim baseDir As String = GetDommeBaseDir(dommePersonalityName)
         Dim checkListFile As String = baseDir + "System\" + stage.ToString() + "CheckList.cld"
         myCldAccessor.WriteCld(scripts, checkListFile)
     End Sub
-
-    Public Function Save(script As Script) As Result Implements IScriptAccessor.Save
-        Throw New NotImplementedException()
-    End Function
 
 #Region "File location information"
     Private Function GetDirPath(dommePersonalityName As String, type As String, stage As SessionPhase) As String
@@ -230,11 +225,11 @@ Public Class ScriptAccessor
         Return Application.StartupPath + "\Scripts\" + dommePersonalityName + "\"
     End Function
 
-    Public Function GetAllScripts(dommePersonalityName As String) As Result(Of List(Of ScriptMetaData)) Implements IScriptAccessor.GetAllScripts
-        Throw New NotImplementedException()
+    Public Function GetAllScripts(dommePersonalityName As String) As List(Of ScriptMetaData)
+        Return Nothing
     End Function
 
-    Public Function GetScript(id As String) As Result(Of Script) Implements IScriptAccessor.GetScript
+    Public Function GetScript(id As String) As Result(Of Script)
         Try
             If (Not File.Exists(id)) Then
                 Return Result.Fail(Of Script)(id + "does not exist please try again.")

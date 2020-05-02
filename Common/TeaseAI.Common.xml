@@ -62,60 +62,29 @@
             How much the dom cares about the sub
             </summary>
         </member>
-        <member name="T:TeaseAI.Common.Constants.ItemTag">
+        <member name="T:TeaseAI.Common.Constants.ImageSource">
             <summary>
-            Possible tags for a TaggedItem
+            Where are this container's files stored
             </summary>
         </member>
-        <member name="M:TeaseAI.Common.Constants.ItemTag.#ctor(System.String)">
+        <member name="F:TeaseAI.Common.Constants.ImageSource.Local">
             <summary>
-            private constructure ensures correct data
-            </summary>
-            <param name="name"></param>
-        </member>
-        <member name="P:TeaseAI.Common.Constants.ItemTag.Face">
-            <summary>
-            This item has Face
+            Files stored locally
             </summary>
         </member>
-        <member name="P:TeaseAI.Common.Constants.ItemTag.Furniture">
+        <member name="F:TeaseAI.Common.Constants.ImageSource.Remote">
             <summary>
-            This item has Furniture
+            Files stored remotely (tumblr blogs, etc)
             </summary>
         </member>
-        <member name="P:TeaseAI.Common.Constants.ItemTag.GarmentCovering">
+        <member name="F:TeaseAI.Common.Constants.ImageSource.Virtual">
             <summary>
-            This item has a garment
+            This container can be either
             </summary>
         </member>
-        <member name="P:TeaseAI.Common.Constants.ItemTag.Naked">
+        <member name="T:TeaseAI.Common.Constants.ItemTagId">
             <summary>
-            This item has Naked
-            </summary>
-        </member>
-        <member name="P:TeaseAI.Common.Constants.ItemTag.SexToy">
-            <summary>
-            This item has SexToy
-            </summary>
-        </member>
-        <member name="P:TeaseAI.Common.Constants.ItemTag.Tattoo">
-            <summary>
-            This item has Tattoo
-            </summary>
-        </member>
-        <member name="P:TeaseAI.Common.Constants.ItemTag.Underwear">
-            <summary>
-            This item has underwear
-            </summary>
-        </member>
-        <member name="P:TeaseAI.Common.Constants.ItemTag.Smiling">
-            <summary>
-            This item has Smiling
-            </summary>
-        </member>
-        <member name="P:TeaseAI.Common.Constants.ItemTag.CloseUp">
-            <summary>
-            This item has CloseUp
+            Database Ids for default tags
             </summary>
         </member>
         <member name="T:TeaseAI.Common.Constants.Keyword">
@@ -449,6 +418,16 @@
             Provides a description of the script, does nothing in the script
             </summary>
         </member>
+        <member name="P:TeaseAI.Common.Constants.Keyword.LikeImage">
+            <summary>
+            flag whatever image is being displaed as liked.
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.Keyword.DislikeImage">
+            <summary>
+            Flag whatever image is being displayed as disliked
+            </summary>
+        </member>
         <member name="T:TeaseAI.Common.Constants.Kink">
             <summary>
             Possible things to be enjoyed by the sub
@@ -541,6 +520,62 @@
             How many times this session has the sub edged.
             </summary>
         </member>
+        <member name="T:TeaseAI.Common.Constants.TaggedItem">
+            <summary>
+            Possible tags for a TaggedItem
+            </summary>
+        </member>
+        <member name="M:TeaseAI.Common.Constants.TaggedItem.#ctor(System.String)">
+            <summary>
+            private constructure ensures correct data
+            </summary>
+            <param name="name"></param>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.TaggedItem.Face">
+            <summary>
+            This item has Face
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.TaggedItem.Furniture">
+            <summary>
+            This item has Furniture
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.TaggedItem.GarmentCovering">
+            <summary>
+            This item has a garment
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.TaggedItem.Naked">
+            <summary>
+            This item has Naked
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.TaggedItem.SexToy">
+            <summary>
+            This item has SexToy
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.TaggedItem.Tattoo">
+            <summary>
+            This item has Tattoo
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.TaggedItem.Underwear">
+            <summary>
+            This item has underwear
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.TaggedItem.Smiling">
+            <summary>
+            This item has Smiling
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Constants.TaggedItem.CloseUp">
+            <summary>
+            This item has CloseUp
+            </summary>
+        </member>
         <member name="T:TeaseAI.Common.Constants.TortureLevel">
             <summary>
             Acceptable level of physical pain for the sub
@@ -621,9 +656,19 @@
             Configuration options for any application
             </summary>
         </member>
-        <member name="P:TeaseAI.Common.Data.ApplicationConfiguration.PersonalityHome">
+        <member name="P:TeaseAI.Common.Data.ApplicationConfiguration.BaseDataFolder">
             <summary>
             Directory where all personalities are stored
+            </summary>
+        </member>
+        <member name="T:TeaseAI.Common.Data.ImageMetaData">
+            <summary>
+            metadata about an image
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Data.ImageMetaData.Id">
+            <summary>
+            Primary key of this in the database
             </summary>
         </member>
         <member name="P:TeaseAI.Common.Data.ImageMetaData.ItemName">
@@ -631,9 +676,36 @@
             Name of the item
             </summary>
         </member>
-        <member name="P:TeaseAI.Common.Data.ImageMetaData.ItemTags">
+        <member name="M:TeaseAI.Common.Data.ImageMetaData.Clone">
             <summary>
-            Tags for the item. Will never be null
+            Create a new instances of this image meta data
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:TeaseAI.Common.Data.ItemTag">
+            <summary>
+            Tags for videos, images, etc.
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Data.ItemTag.Id">
+            <summary>
+            Database key for this tag
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Data.ItemTag.Name">
+            <summary>
+            Name of this tag, Face, Furniture, etc.
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Data.ItemTag.Description">
+            <summary>
+            Description of this tag
+            </summary>
+        </member>
+        <member name="T:TeaseAI.Common.Data.MediaContainer">
+            <summary>
+            Data model for media containers 
+            where does the media live, is it remote or local, Video or Image
             </summary>
         </member>
         <member name="P:TeaseAI.Common.Data.Response.Phrases">
@@ -721,6 +793,26 @@
         <member name="P:TeaseAI.Common.Data.ScriptMetaData.IsEnabled">
             <summary>
             Is this script enabled or not
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Data.ScriptMetaData.IsChastity">
+            <summary>
+            This script is meant for subs in chastity
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Data.ScriptMetaData.IsRestricted">
+            <summary>
+            This script is meant for subs that have restricted orgasms
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Data.ScriptMetaData.IsBeg">
+            <summary>
+            Unsure
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Data.ScriptMetaData.IsEdge">
+            <summary>
+            Unsure
             </summary>
         </member>
         <member name="P:TeaseAI.Common.Data.VideoMetaData.FeaturesDomme">
@@ -906,6 +998,12 @@
             The root folder for image / videos / all other data
             </summary>
         </member>
+        <member name="M:TeaseAI.Common.Interfaces.Accessors.IConfigurationAccessor.GetDatabaseConnectionString">
+            <summary>
+            Get the full path and filename to the SQLite database file. Will create it if it doesn't exist.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:TeaseAI.Common.Interfaces.Accessors.IFlagAccessor">
             <summary>
             Interface defining how to get / set flag state
@@ -937,6 +1035,45 @@
             <param name="command"></param>
             <returns></returns>
         </member>
+        <member name="T:TeaseAI.Common.Interfaces.Accessors.IImageAccessor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.Accessors.IImageAccessor.Get(System.Nullable{TeaseAI.Common.Constants.ImageSource},System.Nullable{TeaseAI.Common.Constants.ImageGenre})">
+            <summary>
+            Get the ImageMetaData requested
+            </summary>
+            <param name="source"></param>
+            <param name="genre"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.Accessors.IImageAccessor.Update(System.Collections.Generic.IEnumerable{TeaseAI.Common.Data.ImageMetaData})">
+            <summary>
+            Save the ImageMetaData
+            </summary>
+            <param name="imageMetaDatas"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.Accessors.IImageAccessor.Initialize">
+            <summary>
+            Initialize the database with any default data.
+            </summary>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.Accessors.IImageAccessor.Create(System.Collections.Generic.List{TeaseAI.Common.Data.ImageMetaData})">
+            <summary>
+            Create all images in  <paramref name="images"/>
+            </summary>
+            <param name="images"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.Accessors.IImageAccessor.Delete(TeaseAI.Common.Data.ImageMetaData)">
+            <summary>
+            remove <paramref name="imageMetaData"/>
+            </summary>
+            <param name="imageMetaData"></param>
+            <returns></returns>
+        </member>
         <member name="M:TeaseAI.Common.Interfaces.Accessors.IPathsAccessor.GetPersonalitiesFolder">
             <summary>
             Get the folder which has all personalities in it
@@ -957,6 +1094,12 @@
             <param name="dommePersonalityName"></param>
             <param name="type"></param>
             <param name="sessionPhase"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.Accessors.IPathsAccessor.GetSystemImages">
+            <summary>
+            Get the system images folder
+            </summary>
             <returns></returns>
         </member>
         <member name="P:TeaseAI.Common.Interfaces.Accessors.ISettingsAccessor.DommePersonality">
@@ -1002,12 +1145,11 @@
             <param name="stage"></param>
             <returns></returns>
         </member>
-        <member name="M:TeaseAI.Common.Interfaces.IScriptAccessor.GetAllScripts(System.String,System.String,TeaseAI.Common.Constants.SessionPhase,System.Boolean)">
+        <member name="M:TeaseAI.Common.Interfaces.IScriptAccessor.GetAllScripts(System.String,TeaseAI.Common.Constants.SessionPhase)">
             <summary>
             Get all scripts for <paramref name="domme"/>
             </summary>
-            <param name="domme"></param>
-            <param name="type"></param>
+            <param name="dommePersonalityName"></param>
             <param name="stage"></param>
             <returns></returns>
         </member>
@@ -1062,6 +1204,7 @@
             <summary>
             Confirm the command is correct within the context of the script / personality
             </summary>
+            <param name="script"></param>
             <param name="personalityName"></param>
             <param name="line"></param>
             <returns></returns>
@@ -1092,6 +1235,27 @@
             <param name="lines"></param>
             <returns></returns>
         </member>
+        <member name="M:TeaseAI.Common.Interfaces.IMediaContainerService.Get">
+            <summary>
+            Get all media containers
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.IMediaContainerService.Get(System.Int32)">
+            <summary>
+            Get a specific media container by <paramref name="containerId"/>
+            </summary>
+            <param name="containerId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.IMediaContainerService.Get(System.Int32,TeaseAI.Common.Constants.ImageSource)">
+            <summary>
+            Get all containers for <paramref name="mediaTypeId"/> sourced at <paramref name="imageSource"/>
+            </summary>
+            <param name="mediaTypeId"></param>
+            <param name="imageSource"></param>
+            <returns></returns>
+        </member>
         <member name="E:TeaseAI.Common.Interfaces.IMessageProcessor.MessageProcessed">
             <summary>
             Event fired if the proccessor successfully handles this events
@@ -1116,6 +1280,13 @@
             Async version of Modal message
             </summary>
             <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.INotifyUser.ErrorMessageAsync(TeaseAI.Common.Error)">
+            <summary>
+            Show an error message
+            </summary>
+            <param name="error"></param>
             <returns></returns>
         </member>
         <member name="M:TeaseAI.Common.Interfaces.IPersonalityService.GetAllPersonalities">

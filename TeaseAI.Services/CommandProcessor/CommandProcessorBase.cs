@@ -17,6 +17,7 @@ namespace TeaseAI.Services.CommandProcessor
             _lineService = lineService;
         }
 
+        public event EventHandler<CommandProcessedEventArgs> BeforeCommandProcessed;
         public event EventHandler<CommandProcessedEventArgs> CommandProcessed;
 
         public abstract Result<Session> PerformCommand(Session session, string line);
@@ -35,6 +36,22 @@ namespace TeaseAI.Services.CommandProcessor
         public virtual bool IsRelevant(string line) => line.Contains(_keyword);
 
         public virtual bool IsRelevant(Session session, string line) => line.Contains(_keyword);
+
+        /// <summary>
+        /// Fires <see cref="BeforeCommandProcessed"/> event passing session to subscribers.
+        /// </summary>
+        /// <param name="session"></param>
+        protected virtual void OnBeforeCommandProcessed(Session session) => BeforeCommandProcessed(session, null);
+
+        /// <summary>
+        /// Fires <see cref="BeforeCommandProcessed"/> event, passing <paramref name="session"/> and <paramref name="parameter"/> to subscribers
+        /// </summary>
+        /// <param name="session"></param>
+        /// <param name="parameter"></param>
+        protected virtual void OnBeforeCommandProcessed(Session session, object parameter)
+        {
+            BeforeCommandProcessed?.Invoke(this, new CommandProcessedEventArgs() { Session = session, Parameter = parameter });
+        }
 
         /// <summary>
         /// Fires <see cref="CommandProcessed"/> event passing session to subscribers.
