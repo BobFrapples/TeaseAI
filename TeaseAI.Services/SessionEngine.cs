@@ -84,7 +84,7 @@ namespace TeaseAI.Services
 
             CommandProcessors[Keyword.RiskyPickStart].CommandProcessed += RiskyPickStartCommandProcessed;
 
-            CommandProcessors[Keyword.LikeImage].CommandProcessed += LikeImageCommandProcessed;
+            CommandProcessors[Keyword.LikeImage].BeforeCommandProcessed += LikeImageCommandProcessed;
 
             _scriptAccessor = scriptAccessor;
             _variableAccessor = variableAccessor;

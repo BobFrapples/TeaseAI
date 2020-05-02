@@ -16,6 +16,7 @@ namespace TeaseAI.Services.CommandProcessor
             _imageAccessor = imageAccessor;
         }
 
+        public event EventHandler<CommandProcessedEventArgs> BeforeCommandProcessed;
         public event EventHandler<CommandProcessedEventArgs> CommandProcessed;
 
         public string DeleteCommandFrom(string line)

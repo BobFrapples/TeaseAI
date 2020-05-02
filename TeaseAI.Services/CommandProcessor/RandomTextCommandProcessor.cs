@@ -15,6 +15,7 @@ namespace TeaseAI.Services.CommandProcessor
             _lineService = lineService;
         }
 
+        public event EventHandler<CommandProcessedEventArgs> BeforeCommandProcessed;
         public event EventHandler<CommandProcessedEventArgs> CommandProcessed;
 
         /// <summary>

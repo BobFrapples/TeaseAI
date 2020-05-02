@@ -49,7 +49,8 @@ Public Class ApplicationFactory
             , New NotifyUser() _
             , CreateSettingsAccessor() _
             , CreatePathsAccessor() _
-            , New BookmarkService())
+            , New BookmarkService() _
+            , CreateMediaContainerService())
     End Function
 
     Public Shared Function CreateImageMetaDataService() As IImageAccessor

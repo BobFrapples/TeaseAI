@@ -6,6 +6,7 @@ namespace TeaseAI.Common.Interfaces
 {
     public interface ICommandProcessor
     {
+         event EventHandler<CommandProcessedEventArgs> BeforeCommandProcessed;
         event EventHandler<CommandProcessedEventArgs> CommandProcessed;
 
         Result<Session> PerformCommand(Session session, string line);
@@ -15,6 +16,7 @@ namespace TeaseAI.Common.Interfaces
         /// <summary>
         /// Confirm the command is correct within the context of the script / personality
         /// </summary>
+        /// <param name="script"></param>
         /// <param name="personalityName"></param>
         /// <param name="line"></param>
         /// <returns></returns>

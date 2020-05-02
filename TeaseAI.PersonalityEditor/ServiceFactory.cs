@@ -35,7 +35,8 @@ namespace TeaseAI.PersonalityEditor
                 CreateNotifyUser(),
                 CreateSettingsAccessor(),
                 CreatePathsAccessor(),
-                CreateBookmarkService()
+                CreateBookmarkService(),
+                CreateMediaContainerService()
             );
         }
 

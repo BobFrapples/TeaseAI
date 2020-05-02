@@ -8,6 +8,7 @@ namespace TeaseAI.Services.CommandProcessor
 {
     public class ChangeRuinedOrgasmFrequencyCommandProcessor : ICommandProcessor
     {
+        public event EventHandler<CommandProcessedEventArgs> BeforeCommandProcessed;
         public event EventHandler<CommandProcessedEventArgs> CommandProcessed;
 
         public string DeleteCommandFrom(string line)

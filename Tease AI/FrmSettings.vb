@@ -1932,9 +1932,9 @@ Public Class FrmSettings
                     areScriptRequirementsMet = areScriptRequirementsMet AndAlso parseCommand.IsSuccess
                     Dim requirement As String = GetCommandRequirement(scriptCommand)
                     If (parseCommand.IsFailure) Then
-                        requirements.Add("-  " + requirement + Environment.NewLine + "   " + parseCommand.Error.Message)
+                        requirements.Add("- " + scriptCommand + " : " + requirement + Environment.NewLine + "   " + parseCommand.Error.Message)
                     ElseIf Not String.IsNullOrWhiteSpace(requirement) Then
-                        requirements.Add("+ " + requirement)
+                        requirements.Add("+ " + scriptCommand + " : " + requirement)
                     End If
                 End If
             Next
