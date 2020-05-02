@@ -1204,6 +1204,7 @@
             <summary>
             Confirm the command is correct within the context of the script / personality
             </summary>
+            <param name="script"></param>
             <param name="personalityName"></param>
             <param name="line"></param>
             <returns></returns>
