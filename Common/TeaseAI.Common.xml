@@ -206,6 +206,11 @@
             Increase the chance Sub will get to orgasm
             </summary>
         </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.DecideOrgasm">
+            <summary>
+            Decide if the sub should have an orgasm
+            </summary>
+        </member>
         <member name="F:TeaseAI.Common.Constants.Keyword.GotoDommeOrgasm">
             <summary>
             Finds the bookmark matching the frequency that the domme lets the sub orgasm.

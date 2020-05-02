@@ -141,6 +141,11 @@ namespace TeaseAI.Common.Constants
         public const string IncreaseOrgasmChance = @"@IncreaseOrgasmChance";
 
         public const string DecreaseOrgasmChance = @"@DecreaseOrgasmChance";
+
+        /// <summary>
+        /// Decide if the sub should have an orgasm
+        /// </summary>
+        public const string DecideOrgasm = @"@DecideOrgasm";
         public const string IncreaseRuinChance = @"@IncreaseRuinChance";
         public const string DecreaseRuinChance = @"@DecreaseRuinChance";
 
@@ -403,5 +408,6 @@ namespace TeaseAI.Common.Constants
         /// Flag whatever image is being displayed as disliked
         /// </summary>
         public static string DislikeImage => @"@DislikeBlogImage";
+
     }
 }

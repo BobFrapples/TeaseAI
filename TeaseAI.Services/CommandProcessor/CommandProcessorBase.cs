@@ -9,7 +9,7 @@ namespace TeaseAI.Services.CommandProcessor
     public abstract class CommandProcessorBase : ICommandProcessor
     {
         private readonly string _keyword;
-        private LineService _lineService;
+        protected LineService _lineService;
 
         public CommandProcessorBase(string keyword, LineService lineService)
         {

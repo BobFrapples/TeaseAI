@@ -10892,7 +10892,7 @@ NoPlaylistLinkFile:
                 GoTo AllowedOrgasm
             End If
 
-            If ssh.OrgasmDenied = True Then
+            If ssh.OrgasmDenied  Then
 
                 ssh.LastOrgasmType = "DENIED"
 
@@ -17912,94 +17912,6 @@ TaskCleanSet:
             End If
 
             inputString = inputString.Replace("@CBT", "")
-        End If
-
-        If inputString.Contains("@DecideOrgasm") Then
-
-            ssh.OrgasmDenied = False
-            ssh.OrgasmAllowed = False
-            ssh.OrgasmRuined = False
-
-            Dim AllowGoto As String = "Orgasm Allow"
-            Dim RuinGoto As String = "Orgasm Ruin"
-            Dim DenyGoto As String = "Orgasm Deny"
-
-            If inputString.Contains("@DecideOrgasm(") Then
-
-                Dim OrgasmFlag As String = GetParentheses(inputString, "@DecideOrgasm(")
-                OrgasmFlag = FixCommas(OrgasmFlag)
-                Dim OrgasmArray As String() = OrgasmFlag.Split(",")
-
-                If OrgasmArray.Count = 3 Then
-                    AllowGoto = OrgasmArray(0)
-                    RuinGoto = OrgasmArray(1)
-                    DenyGoto = OrgasmArray(2)
-                End If
-
-            End If
-
-
-            If FrmSettings.alloworgasmComboBox.Text = "Always Allows" And FrmSettings.ruinorgasmComboBox.Text = "Always Ruins" Then
-                ssh.FileGoto = RuinGoto
-                ssh.OrgasmRuined = True
-                GoTo OrgasmDecided
-            End If
-
-            Dim OrgasmInt As Integer = ssh.randomizer.Next(1, 101)
-            Dim OrgasmThreshold As Integer
-
-            If FrmSettings.alloworgasmComboBox.Text = "Never Allows" Then OrgasmThreshold = 0
-            If FrmSettings.alloworgasmComboBox.Text = "Always Allows" Then OrgasmThreshold = 1000
-
-            If FrmSettings.DommeDecideOrgasmCB.Checked = True Then
-                If FrmSettings.alloworgasmComboBox.Text = "Rarely Allows" Then OrgasmThreshold = 20
-                If FrmSettings.alloworgasmComboBox.Text = "Sometimes Allows" Then OrgasmThreshold = 50
-                If FrmSettings.alloworgasmComboBox.Text = "Often Allows" Then OrgasmThreshold = 75
-            Else
-                If FrmSettings.alloworgasmComboBox.Text = "Rarely Allows" Then OrgasmThreshold = FrmSettings.NBAllowRarely.Value
-                If FrmSettings.alloworgasmComboBox.Text = "Sometimes Allows" Then OrgasmThreshold = FrmSettings.NBAllowSometimes.Value
-                If FrmSettings.alloworgasmComboBox.Text = "Often Allows" Then OrgasmThreshold = FrmSettings.AllowOrgasmOftenNB.Value
-            End If
-
-
-            If OrgasmInt > OrgasmThreshold Then
-                ssh.FileGoto = DenyGoto
-                ssh.OrgasmDenied = True
-                GoTo OrgasmDecided
-            End If
-
-            Dim RuinInt As Integer = ssh.randomizer.Next(1, 101)
-            Dim RuinThreshold As Integer
-
-            If FrmSettings.ruinorgasmComboBox.Text = "Never Ruins" Then RuinThreshold = 0
-            If FrmSettings.ruinorgasmComboBox.Text = "Always Ruins" Then RuinThreshold = 1000
-
-
-            If FrmSettings.DommeDecideRuinCB.Checked = True Then
-                If FrmSettings.ruinorgasmComboBox.Text = "Rarely Ruins" Then RuinThreshold = 20
-                If FrmSettings.ruinorgasmComboBox.Text = "Sometimes Ruins" Then RuinThreshold = 50
-                If FrmSettings.ruinorgasmComboBox.Text = "Often Ruins" Then RuinThreshold = 75
-            Else
-                If FrmSettings.ruinorgasmComboBox.Text = "Rarely Ruins" Then RuinThreshold = FrmSettings.NBRuinRarely.Value
-                If FrmSettings.ruinorgasmComboBox.Text = "Sometimes Ruins" Then RuinThreshold = FrmSettings.NBRuinSometimes.Value
-                If FrmSettings.ruinorgasmComboBox.Text = "Often Ruins" Then RuinThreshold = FrmSettings.NBRuinOften.Value
-            End If
-
-
-            If RuinInt > RuinThreshold Then
-                ssh.FileGoto = AllowGoto
-                ssh.OrgasmAllowed = True
-            Else
-                ssh.FileGoto = RuinGoto
-                ssh.OrgasmRuined = True
-            End If
-
-OrgasmDecided:
-
-            ssh.SkipGotoLine = True
-            GetGoto()
-
-            inputString = inputString.Replace("@DecideOrgasm", "")
         End If
 
         If inputString.Contains(Keyword.OrgasmRuin) Then
