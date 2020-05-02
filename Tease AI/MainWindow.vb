@@ -6246,22 +6246,6 @@ TaskCleanSet:
         End If
 
 
-        ' The @DislikeBlogImage Command takes the URL of the most recently viewed blog image and adds it to the "Disliked" list located in [Tease AI Root Directory]\Images\System\DislikedImageURLS.txt
-
-        If StringClean.Contains("@DislikeBlogImage") Then
-
-            If ssh.ImageLocation <> "" Then
-
-                If File.Exists(Application.StartupPath & "\Images\System\DislikedImageURLs.txt") Then
-                    My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Images\System\DislikedImageURLs.txt", Environment.NewLine & ssh.ImageLocation, True)
-                Else
-                    My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Images\System\DislikedImageURLs.txt", ssh.ImageLocation, True)
-                End If
-                StringClean = StringClean.Replace("@DislikeBlogImage", "")
-            End If
-
-        End If
-
         '  ╔═╗┌┬┐┬─┐┌─┐┬┌─┌─┐╔═╗┌─┐┌─┐┌┬┐┌─┐┬─┐
         '  ╚═╗ │ ├┬┘│ │├┴┐├┤ ╠╣ ├─┤└─┐ │ ├┤ ├┬┘
         '  ╚═╝ ┴ ┴└─└─┘┴ ┴└─┘╚  ┴ ┴└─┘ ┴ └─┘┴└─
@@ -17454,23 +17438,6 @@ TaskCleanSet:
             If FrmSettings.CBInputIcon.Checked = True Then ssh.InputIcon = True
 
             inputString = inputString.Replace("@InputVar[" & ssh.InputString & "]", "")
-
-        End If
-
-
-        ' The @DislikeBlogImage Command takes the URL of the most recently viewed blog image and adds it to the "Disliked" list located in [Tease AI Root Directory]\Images\System\DislikedImageURLS.txt
-
-        If inputString.Contains("@DislikeBlogImage") Then
-
-            If ssh.ImageLocation <> "" Then
-
-                If File.Exists(Application.StartupPath & "\Images\System\DislikedImageURLs.txt") Then
-                    My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Images\System\DislikedImageURLs.txt", Environment.NewLine & ssh.ImageLocation, True)
-                Else
-                    My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Images\System\DislikedImageURLs.txt", ssh.ImageLocation, True)
-                End If
-                inputString = inputString.Replace("@DislikeBlogImage", "")
-            End If
 
         End If
 
