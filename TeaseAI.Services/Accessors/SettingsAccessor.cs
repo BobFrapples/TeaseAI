@@ -88,7 +88,6 @@ namespace TeaseAI.Services.Accessors
 
         public DateTime OrgasmLockDate { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool IsOffline { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public bool ShowNames { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool DoesDommeTypeInstantly { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool WebTeaseModeEnabled { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool InChastity { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
@@ -118,9 +117,10 @@ namespace TeaseAI.Services.Accessors
                 RuinOrgasmRarelyPercent = RuinsOrgasms.Rarely,
                 RuinOrgasmSometimesPercent = RuinsOrgasms.Sometimes,
                 RuinOrgasmOftenPercent = RuinsOrgasms.Often,
-                Ui = new UiSettings
+                Chat = new ChatSettings
                 {
                     IsTimeStampEnabled = true,
+                    ShowChatUserNames = true,
                 },
             };
         }

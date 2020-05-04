@@ -187,8 +187,8 @@ Public Class FrmSettings
         InChastityLabel.Text = mySettingsAccessor.InChastity.ToOnOff()
         InChastityLabel.ForeColor = mySettingsAccessor.InChastity.ToColor()
 
-        TimeStampCheckBox.Checked = settings.Ui.IsTimeStampEnabled
-        ShowNamesCheckBox.Checked = mySettingsAccessor.ShowNames
+        TimeStampCheckBox.Checked = settings.Chat.IsTimeStampEnabled
+        ShowNamesCheckBox.Checked = settings.Chat.ShowChatUserNames
         TypeInstantlyCheckBox.Checked = mySettingsAccessor.DoesDommeTypeInstantly
         WebTeaseMode.Checked = mySettingsAccessor.WebTeaseModeEnabled
     End Sub
@@ -201,7 +201,7 @@ Public Class FrmSettings
         Dim settings As Settings = mySettingsAccessor.GetSettings()
 
         FrmSplash.UpdateText("Loading Settings...")
-        LoadSettings(Settings)
+        LoadSettings(settings)
         ' Sub tab
         NBLongEdge.Value = My.Settings.LongEdge
 
@@ -1409,12 +1409,18 @@ Public Class FrmSettings
         End If
 
         Dim settings As Settings = mySettingsAccessor.GetSettings()
-        settings.Ui.IsTimeStampEnabled = TimeStampCheckBox.Checked
+        settings.Chat.IsTimeStampEnabled = TimeStampCheckBox.Checked
         mySettingsAccessor.WriteSettings(settings)
     End Sub
 
     Private Sub ShowNamesCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles ShowNamesCheckBox.CheckedChanged
-        mySettingsAccessor.ShowNames = ShowNamesCheckBox.Checked
+        If Not DommeDecideOrgasmCheckBox.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Chat.ShowChatUserNames = ShowNamesCheckBox.Checked
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
     Private Sub TypeInstantlyCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles TypeInstantlyCheckBox.CheckedChanged

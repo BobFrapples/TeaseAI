@@ -91,7 +91,6 @@ namespace TeaseAI.Common.Interfaces.Accessors
         DateTime OrgasmLockDate { get; set; }
         bool IsOffline { get; set; }
 
-        bool ShowNames { get; set; }
         bool DoesDommeTypeInstantly { get; set; }
         bool WebTeaseModeEnabled { get; set; }
         bool InChastity { get; set; }

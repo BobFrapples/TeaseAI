@@ -418,15 +418,6 @@ Public Class SettingsAccessor
         End Set
     End Property
 
-    Public Property ShowNames As Boolean Implements ISettingsAccessor.ShowNames
-        Get
-            Return Settings.CBShowNames
-        End Get
-        Set(value As Boolean)
-            Settings.CBShowNames = value
-        End Set
-    End Property
-
     Public Property DoesDommeTypeInstantly As Boolean Implements ISettingsAccessor.DoesDommeTypeInstantly
         Get
             Return Settings.CBInstantType

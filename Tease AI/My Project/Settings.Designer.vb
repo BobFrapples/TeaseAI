@@ -1266,40 +1266,18 @@ Namespace My
             End Set
         End Property
 
-        <Obsolete("", True)>
-        Public Property CBTimeStamps() As Boolean
+        <Global.System.Configuration.UserScopedSettingAttribute(),
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>
+        Public Property CBInstantType() As Boolean
             Get
-                Return CType(Me("CBTimeStamps"), Boolean)
+                Return CType(Me("CBInstantType"), Boolean)
             End Get
             Set
-                Me("CBTimeStamps") = Value
+                Me("CBInstantType") = Value
             End Set
         End Property
 
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
-        Public Property CBShowNames() As Boolean
-            Get
-                Return CType(Me("CBShowNames"),Boolean)
-            End Get
-            Set
-                Me("CBShowNames") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
-        Public Property CBInstantType() As Boolean
-            Get
-                Return CType(Me("CBInstantType"),Boolean)
-            End Get
-            Set
-                Me("CBInstantType") = value
-            End Set
-        End Property
-        
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("True")>  _

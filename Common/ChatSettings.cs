@@ -3,12 +3,12 @@
     /// <summary>
     /// Settings which are specific to the UI in question
     /// </summary>
-    public class UiSettings
+    public class ChatSettings
     {
         /// <summary>
         /// Constructor
         /// </summary>
-        public UiSettings()
+        public ChatSettings()
         {
             Version = 1;
         }
@@ -22,5 +22,10 @@
         /// Show the timestamp in chat window
         /// </summary>
         public bool IsTimeStampEnabled { get; set; }
+
+        /// <summary>
+        /// Show the username of chat message senders in the UI
+        /// </summary>
+        public bool ShowChatUserNames { get; set; }
     }
 }

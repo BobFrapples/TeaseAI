@@ -9,6 +9,31 @@
             preferences on how chat messagaes should display (timestamp, color, etc)
             </summary>
         </member>
+        <member name="T:TeaseAI.Common.ChatSettings">
+            <summary>
+            Settings which are specific to the UI in question
+            </summary>
+        </member>
+        <member name="M:TeaseAI.Common.ChatSettings.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.ChatSettings.Version">
+            <summary>
+            used to manage serialization. Changes when the model breaks compatibility
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.ChatSettings.IsTimeStampEnabled">
+            <summary>
+            Show the timestamp in chat window
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.ChatSettings.ShowChatUserNames">
+            <summary>
+            Show the username of chat message senders in the UI
+            </summary>
+        </member>
         <member name="T:TeaseAI.Common.Constants.AllowsOrgasms">
             <summary>
             
@@ -1546,7 +1571,7 @@
             Name of the domme personality.
             </summary>
         </member>
-        <member name="P:TeaseAI.Common.Settings.Ui">
+        <member name="P:TeaseAI.Common.Settings.Chat">
             <summary>
             User Interface configuration
             </summary>
@@ -1614,26 +1639,6 @@
         <member name="P:TeaseAI.Common.TaskLetter.FileName">
             <summary>
             Filename this letter should be written to
-            </summary>
-        </member>
-        <member name="T:TeaseAI.Common.UiSettings">
-            <summary>
-            Settings which are specific to the UI in question
-            </summary>
-        </member>
-        <member name="M:TeaseAI.Common.UiSettings.#ctor">
-            <summary>
-            Constructor
-            </summary>
-        </member>
-        <member name="P:TeaseAI.Common.UiSettings.Version">
-            <summary>
-            used to manage serialization. Changes when the model breaks compatibility
-            </summary>
-        </member>
-        <member name="P:TeaseAI.Common.UiSettings.IsTimeStampEnabled">
-            <summary>
-            Show the timestamp in chat window
             </summary>
         </member>
         <member name="P:TeaseAI.Common.VocabularyResponses.TriggerWords">

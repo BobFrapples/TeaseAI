@@ -69,12 +69,12 @@ namespace TeaseAI.Common
         /// <summary>
         /// User Interface configuration
         /// </summary>
-        public UiSettings Ui
+        public ChatSettings Chat
         {
-            get { return _ui ?? (_ui = new UiSettings()); }
+            get { return _ui ?? (_ui = new ChatSettings()); }
             set { _ui = value; }
         }
 
-        private UiSettings _ui;
+        private ChatSettings _ui;
     }
 }
