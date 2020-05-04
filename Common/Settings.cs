@@ -75,6 +75,16 @@ namespace TeaseAI.Common
             set { _ui = value; }
         }
 
+        /// <summary>
+        /// Domme configuration ( Domme name, preferences, etc )
+        /// </summary>
+        public DommeSettings Domme
+        {
+            get { return _domme ?? (_domme = new DommeSettings()); }
+            set { _domme = value; }
+        }
+
         private ChatSettings _ui;
+        private DommeSettings _domme;
     }
 }

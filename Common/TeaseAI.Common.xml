@@ -945,6 +945,26 @@
             Is the Domme marked away from keyboard
             </summary>
         </member>
+        <member name="T:TeaseAI.Common.DommeSettings">
+            <summary>
+            Settings specific to the Domme
+            </summary>
+        </member>
+        <member name="M:TeaseAI.Common.DommeSettings.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.Version">
+            <summary>
+            used to manage serialization. Changes when the model breaks compatibility
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.ApathyLevel">
+            <summary>
+            How caring does the Domme start each session
+            </summary>
+        </member>
         <member name="T:TeaseAI.Common.Error">
             <summary>Error when a method that returns <see cref="T:TeaseAI.Common.Result"/> fails.</summary>
         </member>
@@ -1574,6 +1594,11 @@
         <member name="P:TeaseAI.Common.Settings.Chat">
             <summary>
             User Interface configuration
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Settings.Domme">
+            <summary>
+            Domme configuration ( Domme name, preferences, etc )
             </summary>
         </member>
         <member name="P:TeaseAI.Common.SubPersonality.IsStroking">

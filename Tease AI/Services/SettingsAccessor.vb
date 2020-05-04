@@ -143,15 +143,6 @@ Public Class SettingsAccessor
         End Set
     End Property
 
-    Public Property ApathyLevel As ApathyLevel Implements ISettingsAccessor.ApathyLevel
-        Get
-            Return ApathyLevel.Create(Settings.DomEmpathy).Value
-        End Get
-        Set(value As ApathyLevel)
-            Settings.DomEmpathy = value
-        End Set
-    End Property
-
     Public Property SafeWord As String Implements ISettingsAccessor.SafeWord
         Get
             Return Settings.Safeword

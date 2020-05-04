@@ -53,7 +53,6 @@ namespace TeaseAI.Services.Accessors
         public string DommeAvatarImageName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public string DommeName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public DomLevel DominationLevel { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public ApathyLevel ApathyLevel { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool DoesDommeDecideOrgasmRange { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool DoesDommeDecideRuinRange { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public int AllowOrgasmOftenPercent { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
@@ -121,6 +120,10 @@ namespace TeaseAI.Services.Accessors
                 {
                     IsTimeStampEnabled = true,
                     ShowChatUserNames = true,
+                },
+                Domme = new DommeSettings
+                {
+                    ApathyLevel = ApathyLevel.Moderate,
                 },
             };
         }

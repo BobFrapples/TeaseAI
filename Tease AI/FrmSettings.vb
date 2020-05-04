@@ -99,7 +99,7 @@ Public Class FrmSettings
         DominationLevel.Value = domLevel
         DomLevelDescLabel.Text = domLevel.ToString()
 
-        Dim apathyLevel As ApathyLevel = mySettingsAccessor.ApathyLevel
+        Dim apathyLevel As ApathyLevel = settings.Domme.ApathyLevel
         NBEmpathy.Value = apathyLevel
         LBLEmpathy.Text = apathyLevel.ToString()
 
@@ -1721,16 +1721,19 @@ Public Class FrmSettings
         If NBSubAgeMax.Value < NBSubAgeMin.Value Then NBSubAgeMax.Value = NBSubAgeMin.Value
     End Sub
 
-    Private Sub NBEmpathy_LostFocus(sender As Object, e As EventArgs) Handles NBEmpathy.LostFocus
-        mySettingsAccessor.ApathyLevel = ApathyLevel.Create(CType(NBEmpathy.Value, Integer)).Value
-    End Sub
-
     Private Sub domlevelNumBox_ValueChanged(sender As Object, e As EventArgs) Handles DominationLevel.ValueChanged
         DomLevelDescLabel.Text = mySettingsAccessor.DominationLevel.ToString()
     End Sub
 
     Private Sub NBEmpathy_ValueChanged(sender As Object, e As EventArgs) Handles NBEmpathy.ValueChanged
-        LBLEmpathy.Text = mySettingsAccessor.ApathyLevel.ToString()
+        If Not NBEmpathy.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.ApathyLevel = ApathyLevel.Create(CType(NBEmpathy.Value, Integer)).Value
+        mySettingsAccessor.WriteSettings(settings)
+        LBLEmpathy.Text = settings.Domme.ApathyLevel.ToString()
     End Sub
 
 #End Region ' Domme
@@ -5518,9 +5521,10 @@ Public Class FrmSettings
         End If
     End Sub
 
+    <Obsolete("This looks to be used to save the settings to a random file. ")>
     Private Sub SaveDommeSettings(settings As Settings)
         mySettingsAccessor.DominationLevel = DomLevel.Create(Convert.ToInt32(DominationLevel.Value)).Value
-        mySettingsAccessor.ApathyLevel = ApathyLevel.Create(Convert.ToInt32(NBEmpathy.Value)).Value
+        settings.Domme.ApathyLevel = ApathyLevel.Create(Convert.ToInt32(NBEmpathy.Value)).Value
         My.Settings.DomAge = domageNumBox.Value
         My.Settings.DomBirthMonth = NBDomBirthdayMonth.Value
         My.Settings.DomBirthDay = NBDomBirthdayDay.Value
@@ -5573,7 +5577,7 @@ Public Class FrmSettings
     Public Sub LoadDommeSettings(settings As Settings)
 
         DominationLevel.Value = mySettingsAccessor.DominationLevel
-        NBEmpathy.Value = mySettingsAccessor.ApathyLevel
+        NBEmpathy.Value = settings.Domme.ApathyLevel
         domageNumBox.Value = My.Settings.DomAge
         NBDomBirthdayMonth.Value = My.Settings.DomBirthMonth
         NBDomBirthdayDay.Value = My.Settings.DomBirthDay

@@ -2823,91 +2823,19 @@ Namespace My
                 Me("SubPierced") = value
             End Set
         End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("3")>  _
-        Public Property DomEmpathy() As Integer
-            Get
-                Return CType(Me("DomEmpathy"),Integer)
-            End Get
-            Set
-                Me("DomEmpathy") = value
-            End Set
-        End Property
 
-        <Obsolete("Use settingsAccessor", True)>
-        Public Property AllowOften() As Integer
-            Get
-                Return CType(Me("AllowOften"), Integer)
-            End Get
-            Set
-                Me("AllowOften") = Value
-            End Set
-        End Property
-
-        <Obsolete("Use settingsAccessor", True)>
-        Public Property AllowSometimes() As Integer
-            Get
-                Return CType(Me("AllowSometimes"), Integer)
-            End Get
-            Set
-                Me("AllowSometimes") = Value
-            End Set
-        End Property
-
-        <Obsolete("Use settingsAccessor", True)>
-        Public Property AllowRarely() As Integer
-            Get
-                Return CType(Me("AllowRarely"), Integer)
-            End Get
-            Set
-                Me("AllowRarely") = Value
-            End Set
-        End Property
-
-        <Obsolete("Use settingsAccessor", True)>
-        Public Property RuinOften() As Integer
-            Get
-                Return CType(Me("RuinOften"), Integer)
-            End Get
-            Set
-                Me("RuinOften") = Value
-            End Set
-        End Property
-
-        <Obsolete("Use settingsAccessor", True)>
-        Public Property RuinSometimes() As Integer
-            Get
-                Return CType(Me("RuinSometimes"), Integer)
-            End Get
-            Set
-                Me("RuinSometimes") = Value
-            End Set
-        End Property
-
-        <Obsolete("Use settingsAccessor", True)>
-        Public Property RuinRarely() As Integer
-            Get
-                Return CType(Me("RuinRarely"), Integer)
-            End Get
-            Set
-                Me("RuinRarely") = Value
-            End Set
-        End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        <Global.System.Configuration.UserScopedSettingAttribute(),
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>
         Public Property Chastity() As Boolean
             Get
-                Return CType(Me("Chastity"),Boolean)
+                Return CType(Me("Chastity"), Boolean)
             End Get
             Set
-                Me("Chastity") = value
+                Me("Chastity") = Value
             End Set
         End Property
-        
+
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("red")>  _

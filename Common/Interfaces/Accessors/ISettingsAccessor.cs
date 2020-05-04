@@ -46,7 +46,6 @@ namespace TeaseAI.Common.Interfaces.Accessors
         string DommeAvatarImageName { get; set; }
         string DommeName { get; set; }
         DomLevel DominationLevel { get; set; }
-        ApathyLevel ApathyLevel { get; set; }
         //bool DoesDommeDecideOrgasmRange { get; set; }
         //bool DoesDommeDecideRuinRange { get; set; }
         //int AllowOrgasmOftenPercent { get; set; }
