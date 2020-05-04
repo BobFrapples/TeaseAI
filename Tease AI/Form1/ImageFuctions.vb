@@ -511,7 +511,7 @@ NoneFound:
         Next
 
         ' Check if there are images
-        If AllImages.Count = 0 Then Return myPathsAccessor.PathImageErrorNoLocalImages
+        If AllImages.Count = 0 Then Return myOldPathsAccessor.PathImageErrorNoLocalImages
 
         ' get an Random Image from the all available Locations
         Return AllImages(New Random().Next(0, AllImages.Count)).ToString
@@ -554,8 +554,8 @@ NoneFound:
 NoNeFound:
         ' Return an Error-Image FilePath
         If source = ImageSourceType.Local _
-        Then Return myPathsAccessor.PathImageErrorNoLocalImages _
-        Else Return myPathsAccessor.NoUrlFilesSelected
+        Then Return myOldPathsAccessor.PathImageErrorNoLocalImages _
+        Else Return myOldPathsAccessor.NoUrlFilesSelected
     End Function
 
     ''' <summary>
@@ -676,7 +676,7 @@ NoNeFound:
     Private Sub BWimageFetcher_DoWork(sender As Object, e As DoWorkEventArgs) Handles BWimageFetcher.DoWork
         mreImageanimator.Set()
 
-        Dim errorImagePath As String = myPathsAccessor.PathImageErrorOnLoading
+        Dim errorImagePath As String = myOldPathsAccessor.PathImageErrorOnLoading
 
 
         With CType(e.Argument, ImageFetchObject)
@@ -768,7 +768,7 @@ retryLocal: ' If an exception occures the function is restarted and the Errorima
             ssh.JustShowedBlogImage = True
 
             If e.Cancelled Then
-                MainPictureboxSetImage(New Bitmap(Image.FromFile(myPathsAccessor.PathImageErrorOnLoading)), "")
+                MainPictureboxSetImage(New Bitmap(Image.FromFile(myOldPathsAccessor.PathImageErrorOnLoading)), "")
                 Exit Sub
             End If
 
@@ -849,7 +849,7 @@ retryLocal: ' If an exception occures the function is restarted and the Errorima
             End If
 
             ' Updeate the pathimformations.
-            If ImagePath <> myPathsAccessor.PathImageErrorOnLoading Then
+            If ImagePath <> myOldPathsAccessor.PathImageErrorOnLoading Then
                 ssh.ImageLocation = ImagePath
                 LBLImageInfo.Text = ImagePath
                 mainPictureBox.ImageLocation = ImagePath
@@ -1063,7 +1063,7 @@ retryLocal: ' If an exception occures the function is restarted and the Errorima
     ''' <param name="path">The Path/Url to remove from the file.</param>
     ''' <return>The number of lines deleted.</return>
     Friend Function RemoveFromLikeList(ByVal path As String) As Integer
-        Return TxtRemoveLine(myPathsAccessor.LikedImages, path)
+        Return TxtRemoveLine(myOldPathsAccessor.LikedImages, path)
     End Function
 
     ''' =========================================================================================================
@@ -1073,7 +1073,7 @@ retryLocal: ' If an exception occures the function is restarted and the Errorima
     ''' <param name="path">The Path/Url to remove from the file.</param>
     ''' <return>The number of lines deleted.</return>
     Friend Function RemoveFromDislikeList(ByVal path As String) As Integer
-        Return TxtRemoveLine(myPathsAccessor.DislikedImages, path)
+        Return TxtRemoveLine(myOldPathsAccessor.DislikedImages, path)
     End Function
 
     ''' =========================================================================================================
@@ -1083,7 +1083,7 @@ retryLocal: ' If an exception occures the function is restarted and the Errorima
     ''' <param name="path">The Path/Url to remove from the file.</param>
     ''' <return>The number of lines deleted.</return>
     Friend Function RemoveFromLocalTagList(ByVal path As String) As Integer
-        Return TxtRemoveLine(myPathsAccessor.LocalImageTags, path)
+        Return TxtRemoveLine(myOldPathsAccessor.LocalImageTags, path)
     End Function
 
     ''' =========================================================================================================

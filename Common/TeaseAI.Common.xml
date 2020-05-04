@@ -892,7 +892,7 @@
         </member>
         <member name="P:TeaseAI.Common.DommePersonality.PersonalityName">
             <summary>
-            This is the name the program uses to find files on the Domme
+            This is the name the program uses to find files on the Domme's personality
             </summary>
         </member>
         <member name="P:TeaseAI.Common.DommePersonality.SubAgeYoungLimit">
@@ -1506,14 +1506,49 @@
             Does the domme decide the range for <see cref="T:TeaseAI.Common.Constants.AllowsOrgasms"/>, or is it set custom
             </summary>
         </member>
+        <member name="P:TeaseAI.Common.Settings.AllowOrgasmOftenPercent">
+            <summary>
+            Custom allow often percentage
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Settings.AllowOrgasmSometimesPercent">
+            <summary>
+            Custom allow sometimes percentage
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Settings.AllowOrgasmRarelyPercent">
+            <summary>
+            Custom allow rarely percentage
+            </summary>
+        </member>
         <member name="P:TeaseAI.Common.Settings.DoesDommeDecideRuinRange">
             <summary>
             Does the domme decide the range for <see cref="T:TeaseAI.Common.Constants.RuinsOrgasms"/>, or is it set custom
             </summary>
         </member>
+        <member name="P:TeaseAI.Common.Settings.RuinOrgasmOftenPercent">
+            <summary>
+            Custom allow often percentage
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Settings.RuinOrgasmSometimesPercent">
+            <summary>
+            Custom allow sometimes percentage
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Settings.RuinOrgasmRarelyPercent">
+            <summary>
+            Custom allow rarely percentage
+            </summary>
+        </member>
         <member name="P:TeaseAI.Common.Settings.DommePersonality">
             <summary>
             Name of the domme personality.
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Settings.Ui">
+            <summary>
+            User Interface configuration
             </summary>
         </member>
         <member name="P:TeaseAI.Common.SubPersonality.IsStroking">
@@ -1579,6 +1614,26 @@
         <member name="P:TeaseAI.Common.TaskLetter.FileName">
             <summary>
             Filename this letter should be written to
+            </summary>
+        </member>
+        <member name="T:TeaseAI.Common.UiSettings">
+            <summary>
+            Settings which are specific to the UI in question
+            </summary>
+        </member>
+        <member name="M:TeaseAI.Common.UiSettings.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.UiSettings.Version">
+            <summary>
+            used to manage serialization. Changes when the model breaks compatibility
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.UiSettings.IsTimeStampEnabled">
+            <summary>
+            Show the timestamp in chat window
             </summary>
         </member>
         <member name="P:TeaseAI.Common.VocabularyResponses.TriggerWords">

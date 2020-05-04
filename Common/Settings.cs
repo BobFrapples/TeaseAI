@@ -7,6 +7,7 @@ namespace TeaseAI.Common
     /// </summary>
     public class Settings
     {
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -25,8 +26,19 @@ namespace TeaseAI.Common
         /// </summary>
         public bool DoesDommeDecideOrgasmRange { get; set; }
 
+        /// <summary>
+        /// Custom allow often percentage
+        /// </summary>
         public int AllowOrgasmOftenPercent { get; set; }
+
+        /// <summary>
+        /// Custom allow sometimes percentage
+        /// </summary>
         public int AllowOrgasmSometimesPercent { get; set; }
+
+        /// <summary>
+        /// Custom allow rarely percentage
+        /// </summary>
         public int AllowOrgasmRarelyPercent { get; set; }
 
         /// <summary>
@@ -34,14 +46,35 @@ namespace TeaseAI.Common
         /// </summary>
         public bool DoesDommeDecideRuinRange { get; set; }
 
+        /// <summary>
+        /// Custom allow often percentage
+        /// </summary>
         public int RuinOrgasmOftenPercent { get; set; }
+
+        /// <summary>
+        /// Custom allow sometimes percentage
+        /// </summary>
         public int RuinOrgasmSometimesPercent { get; set; }
+
+        /// <summary>
+        /// Custom allow rarely percentage
+        /// </summary>
         public int RuinOrgasmRarelyPercent { get; set; }
-        public bool IsTimeStampEnabled { get; set; }
 
         /// <summary>
         /// Name of the domme personality.
         /// </summary>
         public string DommePersonality { get; set; }
+
+        /// <summary>
+        /// User Interface configuration
+        /// </summary>
+        public UiSettings Ui
+        {
+            get { return _ui ?? (_ui = new UiSettings()); }
+            set { _ui = value; }
+        }
+
+        private UiSettings _ui;
     }
 }

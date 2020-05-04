@@ -118,7 +118,10 @@ namespace TeaseAI.Services.Accessors
                 RuinOrgasmRarelyPercent = RuinsOrgasms.Rarely,
                 RuinOrgasmSometimesPercent = RuinsOrgasms.Sometimes,
                 RuinOrgasmOftenPercent = RuinsOrgasms.Often,
-                IsTimeStampEnabled = true,
+                Ui = new UiSettings
+                {
+                    IsTimeStampEnabled = true,
+                },
             };
         }
 

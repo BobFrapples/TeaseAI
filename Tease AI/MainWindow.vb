@@ -45,7 +45,8 @@ Public Class MainWindow
     Dim mySettingsAccessor As ISettingsAccessor = ApplicationFactory.CreateSettingsAccessor()
     Dim myRandomNumberService As IRandomNumberService = New RandomNumberService()
     Dim mySlideShowNavigationService As ISlideShowNavigationService = New SlideShowNavigationService()
-    Dim myPathsAccessor As PathsAccessor = New PathsAccessor(ApplicationFactory.CreateConfigurationAccessor, ApplicationFactory.CreateOldSettingsAccessor())
+    Dim myOldPathsAccessor As PathsAccessor = New PathsAccessor(ApplicationFactory.CreateConfigurationAccessor, ApplicationFactory.CreateOldSettingsAccessor())
+    Dim myPathsAccessor As IPathsAccessor = ApplicationFactory.CreatePathsAccessor()
     Dim WithEvents mySession As SessionEngine
     Private myDisplayedImage As ImageMetaData
 
@@ -328,7 +329,7 @@ retryStart:
 
             splashScreen.UpdateText("Checking installed personalities...")
 
-            Dim personalities As List(Of String) = GetDommePersonalities(myPathsAccessor.GetPersonalityFolder())
+            Dim personalities As List(Of String) = GetDommePersonalities(myPathsAccessor.GetPersonalitiesFolder())
             DommePersonalityComboBox.Items.AddRange(personalities.ToArray())
             If Not personalities.Any() Then
                 MessageBox.Show(Me, "No domme Personalities were found! Many aspects of this program will not work correctly until at least one Personality is installed.", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -5281,7 +5282,7 @@ RinseLatherRepeat:
             Dim FoundString As String = GetLocalImage(Tags, Nothing)
 
             'TODO: @ShowTaggedImage - Add a dedicated ErrorImage when there are no tagged images.
-            If String.IsNullOrWhiteSpace(FoundString) Then FoundString = myPathsAccessor.PathImageErrorNoLocalImages
+            If String.IsNullOrWhiteSpace(FoundString) Then FoundString = myOldPathsAccessor.PathImageErrorNoLocalImages
 
             ssh.JustShowedBlogImage = True
             ShowImage(FoundString, False)
@@ -12127,10 +12128,10 @@ RestartFunction:
         PicStripTSMIdislikeImage.Enabled = True
         PicStripTSMIdislikeImage.Checked = False
 
-        Dim tmp As List(Of String) = Txt2List(myPathsAccessor.LikedImages)
+        Dim tmp As List(Of String) = Txt2List(myOldPathsAccessor.LikedImages)
         If tmp.Contains(ssh.ImageLocation) Then PicStripTSMIlikeImage.Checked = True
 
-        tmp = Txt2List(myPathsAccessor.DislikedImages)
+        tmp = Txt2List(myOldPathsAccessor.DislikedImages)
         If tmp.Contains(ssh.ImageLocation) Then PicStripTSMIdislikeImage.Checked = True
     End Sub
 
@@ -12172,8 +12173,8 @@ RestartFunction:
             End If
 
             Return fileName
-        ElseIf sender Is PicStripTSMIlikeImage Then : Return myPathsAccessor.LikedImages
-        ElseIf sender Is PicStripTSMIdislikeImage Then : Return myPathsAccessor.DislikedImages
+        ElseIf sender Is PicStripTSMIlikeImage Then : Return myOldPathsAccessor.LikedImages
+        ElseIf sender Is PicStripTSMIdislikeImage Then : Return myOldPathsAccessor.DislikedImages
         Else : Throw New NotImplementedException("Action for this button is not implemented.")
         End If
 
@@ -14055,7 +14056,7 @@ restartInstantly:
             BTNWishlist.Enabled = False
             BTNWishlist.Text = ""
 
-            Dim rewardsDir As String = myPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Apps\Wishlist\Silver Rewards\"
+            Dim rewardsDir As String = myOldPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Apps\Wishlist\Silver Rewards\"
             Dim silverList As List(Of String) = My.Computer.FileSystem.GetFiles(rewardsDir, FileIO.SearchOption.SearchTopLevelOnly, "*.txt").ToList()
             If Not silverList.Any() Then
                 MessageBox.Show(Me, "No Silver Reward scripts were found!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
@@ -14081,7 +14082,7 @@ restartInstantly:
             My.Settings.GoldTokens = ssh.GoldTokens
             My.Settings.ClearWishlist = True
 
-            Dim rewardsDir As String = myPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Apps\Wishlist\Gold Rewards\"
+            Dim rewardsDir As String = myOldPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Apps\Wishlist\Gold Rewards\"
             Dim goldList As List(Of String) = My.Computer.FileSystem.GetFiles(rewardsDir, FileIO.SearchOption.SearchTopLevelOnly, "*.txt").ToList()
             If Not goldList.Any() Then
                 MessageBox.Show(Me, "No Gold Reward scripts were found!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
@@ -14111,20 +14112,20 @@ restartInstantly:
         Dim settings As Settings = mySettingsAccessor.GetSettings()
         If Not ssh.HypnoGen Then
             If CBHypnoGenInduction.Checked Then
-                If File.Exists(myPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Apps\Hypnotic Guide\Inductions\" & LBHypnoGenInduction.SelectedItem & ".txt") Then
+                If File.Exists(myOldPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Apps\Hypnotic Guide\Inductions\" & LBHypnoGenInduction.SelectedItem & ".txt") Then
                     ssh.Induction = True
-                    ssh.FileText = myPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Apps\Hypnotic Guide\Inductions\" & LBHypnoGenInduction.SelectedItem & ".txt"
+                    ssh.FileText = myOldPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Apps\Hypnotic Guide\Inductions\" & LBHypnoGenInduction.SelectedItem & ".txt"
                 Else
                     MessageBox.Show(Me, "Please select a valid Hypno Induction File or deselect the Induction option!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
                     Return
                 End If
             End If
 
-            If File.Exists(myPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Apps\Hypnotic Guide\Hypno Files\" & LBHypnoGen.SelectedItem & ".txt") Then
+            If File.Exists(myOldPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Apps\Hypnotic Guide\Hypno Files\" & LBHypnoGen.SelectedItem & ".txt") Then
                 If ssh.Induction = False Then
-                    ssh.FileText = myPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Apps\Hypnotic Guide\Hypno Files\" & LBHypnoGen.SelectedItem & ".txt"
+                    ssh.FileText = myOldPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Apps\Hypnotic Guide\Hypno Files\" & LBHypnoGen.SelectedItem & ".txt"
                 Else
-                    ssh.TempHypno = myPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Apps\Hypnotic Guide\Hypno Files\" & LBHypnoGen.SelectedItem & ".txt"
+                    ssh.TempHypno = myOldPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Apps\Hypnotic Guide\Hypno Files\" & LBHypnoGen.SelectedItem & ".txt"
                 End If
             Else
                 MessageBox.Show(Me, "Please select a valid Hypno File!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
@@ -14134,7 +14135,7 @@ restartInstantly:
             ssh.StrokeTauntVal = -1
             ssh.ScriptTick = 1
             ScriptTimer.Start()
-            Dim HypnoTrack As String = myPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Apps\Hypnotic Guide\" & ComboBoxHypnoGenTrack.SelectedItem
+            Dim HypnoTrack As String = myOldPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Apps\Hypnotic Guide\" & ComboBoxHypnoGenTrack.SelectedItem
             If File.Exists(HypnoTrack) Then DomWMP.URL = HypnoTrack
             ssh.HypnoGen = True
             ssh.AFK = True
@@ -15407,8 +15408,8 @@ NoPlaylistStartFile:
 
             FrmSettings.FrmSettingStartUp()
 
-            If File.Exists(myPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Apps\Glitter\Contact_Descriptions.txt") Then
-                Dim ContactList As List(Of String) = File.ReadAllLines(myPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Apps\Glitter\Contact_Descriptions.txt").ToList()
+            If File.Exists(myOldPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Apps\Glitter\Contact_Descriptions.txt") Then
+                Dim ContactList As List(Of String) = File.ReadAllLines(myOldPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Apps\Glitter\Contact_Descriptions.txt").ToList()
                 FrmSettings.GBGlitter1.Text = PoundClean(ContactList(0))
                 FrmSettings.GBGlitter2.Text = PoundClean(ContactList(1))
                 FrmSettings.GBGlitter3.Text = PoundClean(ContactList(2))
@@ -15434,13 +15435,13 @@ NoPlaylistStartFile:
                 Return
             End If
 
-            Dim filename As String = myPathsAccessor.SavedSessionDefaultPath
+            Dim filename As String = myOldPathsAccessor.SavedSessionDefaultPath
             '	 ===============================================================================
             '						 Custom Location if Control-Key pressed
             '	 ===============================================================================
             If My.Computer.Keyboard.CtrlKeyDown Then
-                Dim fsd As New SaveFileDialog With {.Filter = "Saved Session|*" & Path.GetExtension(myPathsAccessor.SavedSessionDefaultPath) & "",
-                                                    .InitialDirectory = Path.GetDirectoryName(myPathsAccessor.SavedSessionDefaultPath),
+                Dim fsd As New SaveFileDialog With {.Filter = "Saved Session|*" & Path.GetExtension(myOldPathsAccessor.SavedSessionDefaultPath) & "",
+                                                    .InitialDirectory = Path.GetDirectoryName(myOldPathsAccessor.SavedSessionDefaultPath),
                                                     .Title = "Select a destination to safe the sessin to.",
                                                     .FileName = Now.ToString("yy-MM-dd_HH-mm-ss") & "_" & DommePersonalityComboBox.Text,
                                                     .AddExtension = True,
@@ -15478,12 +15479,12 @@ NoPlaylistStartFile:
 
     Private Sub ResumeSessionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ResumeSessionToolStripMenuItem.Click
         Try
-            Dim filename As String = myPathsAccessor.SavedSessionDefaultPath
+            Dim filename As String = myOldPathsAccessor.SavedSessionDefaultPath
 
             '						 Custom Location if Control-Key pressed
             If My.Computer.Keyboard.CtrlKeyDown Then
-                Dim fsd As New OpenFileDialog With {.Filter = "Saved Session|*" & Path.GetExtension(myPathsAccessor.SavedSessionDefaultPath) & "",
-                                                    .InitialDirectory = Path.GetDirectoryName(myPathsAccessor.SavedSessionDefaultPath),
+                Dim fsd As New OpenFileDialog With {.Filter = "Saved Session|*" & Path.GetExtension(myOldPathsAccessor.SavedSessionDefaultPath) & "",
+                                                    .InitialDirectory = Path.GetDirectoryName(myOldPathsAccessor.SavedSessionDefaultPath),
                                                     .Title = "Select a saved session to resume.",
                                                     .CheckPathExists = True,
                                                     .CheckFileExists = True,
@@ -15496,7 +15497,7 @@ NoPlaylistStartFile:
                 '						Check if default-File exists
                 '===============================================================================
             ElseIf Not File.Exists(filename) Then
-                MessageBox.Show(Me, Path.GetFileName(myPathsAccessor.SavedSessionDefaultPath) & " could not be found!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
+                MessageBox.Show(Me, Path.GetFileName(myOldPathsAccessor.SavedSessionDefaultPath) & " could not be found!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
                 Exit Sub
             End If
 
@@ -15679,7 +15680,7 @@ NoPlaylistStartFile:
         LBLWishlistGold.Text = ssh.GoldTokens
 
         If Date.Compare(My.Settings.WishlistDate.Date, Now.Date) Then
-            Dim itemsPath As String = myPathsAccessor.GetPersonalityFolder(mySettingsAccessor.GetSettings().DommePersonality) + "\Apps\Wishlist\Items"
+            Dim itemsPath As String = myOldPathsAccessor.GetPersonalityFolder(mySettingsAccessor.GetSettings().DommePersonality) + "\Apps\Wishlist\Items"
             Dim wishList As List(Of String) = My.Computer.FileSystem.GetFiles(itemsPath, FileIO.SearchOption.SearchTopLevelOnly, "*.txt").ToList()
 
             If Not wishList.Any() Then
@@ -16498,7 +16499,7 @@ RinseLatherRepeat:
             Dim foundString As String = GetLocalImage(Tags, Nothing)
 
             'TODO: @ShowTaggedImage - Add a dedicated ErrorImage when there are no tagged images.
-            If String.IsNullOrWhiteSpace(foundString) Then foundString = myPathsAccessor.PathImageErrorNoLocalImages
+            If String.IsNullOrWhiteSpace(foundString) Then foundString = myOldPathsAccessor.PathImageErrorNoLocalImages
 
             ssh.JustShowedBlogImage = True
             ShowImage(foundString, False)

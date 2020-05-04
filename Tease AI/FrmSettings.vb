@@ -187,7 +187,7 @@ Public Class FrmSettings
         InChastityLabel.Text = mySettingsAccessor.InChastity.ToOnOff()
         InChastityLabel.ForeColor = mySettingsAccessor.InChastity.ToColor()
 
-        TimeStampCheckBox.Checked = settings.IsTimeStampEnabled
+        TimeStampCheckBox.Checked = settings.Ui.IsTimeStampEnabled
         ShowNamesCheckBox.Checked = mySettingsAccessor.ShowNames
         TypeInstantlyCheckBox.Checked = mySettingsAccessor.DoesDommeTypeInstantly
         WebTeaseMode.Checked = mySettingsAccessor.WebTeaseModeEnabled
@@ -1409,7 +1409,7 @@ Public Class FrmSettings
         End If
 
         Dim settings As Settings = mySettingsAccessor.GetSettings()
-        settings.IsTimeStampEnabled = TimeStampCheckBox.Checked
+        settings.Ui.IsTimeStampEnabled = TimeStampCheckBox.Checked
         mySettingsAccessor.WriteSettings(settings)
     End Sub
 
