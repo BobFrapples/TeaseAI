@@ -444,7 +444,6 @@ retryStart:
             splashScreen.PBSplash.Value += 1
             splashScreen.UpdateText("Loading Domme Settings...")
             FrmSettings.domageNumBox.Value = My.Settings.DomAge
-            FrmSettings.DomLevelDescLabel.Text = mySettingsAccessor.DominationLevel.ToString()
 
             FrmSettings.NBDomBirthdayMonth.Value = My.Settings.DomBirthMonth
             FrmSettings.NBDomBirthdayDay.Value = My.Settings.DomBirthDay

@@ -1325,31 +1325,19 @@ Namespace My
                 Me("CBSettingsPause") = value
             End Set
         End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("3")>  _
-        Public Property DomLevel() As Integer
-            Get
-                Return CType(Me("DomLevel"),Integer)
-            End Get
-            Set
-                Me("DomLevel") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Sometimes Allows")>  _
+
+        <Global.System.Configuration.UserScopedSettingAttribute(),
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
+         Global.System.Configuration.DefaultSettingValueAttribute("Sometimes Allows")>
         Public Property OrgasmAllow() As String
             Get
-                Return CType(Me("OrgasmAllow"),String)
+                Return CType(Me("OrgasmAllow"), String)
             End Get
             Set
-                Me("OrgasmAllow") = value
+                Me("OrgasmAllow") = Value
             End Set
         End Property
-        
+
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("Sometimes Ruins")>  _

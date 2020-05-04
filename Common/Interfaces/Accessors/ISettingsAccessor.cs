@@ -45,7 +45,6 @@ namespace TeaseAI.Common.Interfaces.Accessors
         #region Domme settings
         string DommeAvatarImageName { get; set; }
         string DommeName { get; set; }
-        DomLevel DominationLevel { get; set; }
         //bool DoesDommeDecideOrgasmRange { get; set; }
         //bool DoesDommeDecideRuinRange { get; set; }
         //int AllowOrgasmOftenPercent { get; set; }

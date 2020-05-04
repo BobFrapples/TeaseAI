@@ -24,5 +24,10 @@ namespace TeaseAI.Common
         /// How caring does the Domme start each session
         /// </summary>
         public ApathyLevel ApathyLevel { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public DomLevel DominationLevel { get; set; }
     }
 }

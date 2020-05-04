@@ -134,15 +134,6 @@ Public Class SettingsAccessor
         End Set
     End Property
 
-    Public Property DominationLevel As DomLevel Implements ISettingsAccessor.DominationLevel
-        Get
-            Return DomLevel.Create(Settings.DomLevel).Value
-        End Get
-        Set(value As DomLevel)
-            Settings.DomLevel = value
-        End Set
-    End Property
-
     Public Property SafeWord As String Implements ISettingsAccessor.SafeWord
         Get
             Return Settings.Safeword

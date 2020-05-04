@@ -5,6 +5,7 @@ using System.IO;
 using TeaseAI.Common;
 using TeaseAI.Common.Constants;
 using TeaseAI.Common.Interfaces.Accessors;
+using TeaseAI.Services.Serialization;
 
 namespace TeaseAI.Services.Accessors
 {
@@ -21,7 +22,7 @@ namespace TeaseAI.Services.Accessors
             if (File.Exists(settingsFile))
             {
                 var jsonString = File.ReadAllText(settingsFile);
-                return JsonConvert.DeserializeObject<Settings>(jsonString);
+                return Deserialize(jsonString);
             }
             var settings = CreateDefaultSettings();
             return WriteSettings(settings);
@@ -30,8 +31,57 @@ namespace TeaseAI.Services.Accessors
         public Settings WriteSettings(Settings settings)
         {
             var settingsFile = _configurationAccessor.GetSettingsLocation();
-            File.WriteAllText(settingsFile, JsonConvert.SerializeObject(settings, Formatting.Indented));
+            File.WriteAllText(settingsFile, Serialize(settings));
             return settings;
+        }
+
+        /// <summary>
+        /// Create a default settings object
+        /// </summary>
+        /// <returns></returns>
+        public Settings CreateDefaultSettings()
+        {
+            return new Settings
+            {
+                DoesDommeDecideOrgasmRange = true,
+                DoesDommeDecideRuinRange = true,
+                AllowOrgasmRarelyPercent = AllowsOrgasms.Rarely,
+                AllowOrgasmSometimesPercent = AllowsOrgasms.Sometimes,
+                AllowOrgasmOftenPercent = AllowsOrgasms.Often,
+                RuinOrgasmRarelyPercent = RuinsOrgasms.Rarely,
+                RuinOrgasmSometimesPercent = RuinsOrgasms.Sometimes,
+                RuinOrgasmOftenPercent = RuinsOrgasms.Often,
+                Chat = new ChatSettings
+                {
+                    IsTimeStampEnabled = true,
+                    ShowChatUserNames = true,
+                },
+                Domme = new DommeSettings
+                {
+                    ApathyLevel = ApathyLevel.Moderate,
+                    DominationLevel = DomLevel.Tease,
+                },
+            };
+        }
+
+        public Settings Deserialize(string settingsJson)
+        {
+            var jsonConverters = CreateCustomJsonConverters();
+            return JsonConvert.DeserializeObject<Settings>(settingsJson, jsonConverters.ToArray());
+        }
+
+        public string Serialize(Settings settings)
+        {
+            var jsonConverters = CreateCustomJsonConverters();
+            return JsonConvert.SerializeObject(settings, Formatting.Indented, jsonConverters.ToArray());
+        }
+
+        private List<JsonConverter> CreateCustomJsonConverters()
+        {
+            var jsonConverters = new List<JsonConverter>();
+            jsonConverters.Add(new ApathyLevelJsonConverter());
+            jsonConverters.Add(new DomLevelJsonConverter());
+            return jsonConverters;
         }
 
         public string SubName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
@@ -52,7 +102,6 @@ namespace TeaseAI.Services.Accessors
         public string DommePersonality { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public string DommeAvatarImageName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public string DommeName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public DomLevel DominationLevel { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool DoesDommeDecideOrgasmRange { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool DoesDommeDecideRuinRange { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public int AllowOrgasmOftenPercent { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
@@ -102,30 +151,6 @@ namespace TeaseAI.Services.Accessors
         public void Save()
         {
             throw new NotImplementedException();
-        }
-
-        private Settings CreateDefaultSettings()
-        {
-            return new Settings
-            {
-                DoesDommeDecideOrgasmRange = true,
-                DoesDommeDecideRuinRange = true,
-                AllowOrgasmRarelyPercent = AllowsOrgasms.Rarely,
-                AllowOrgasmSometimesPercent = AllowsOrgasms.Sometimes,
-                AllowOrgasmOftenPercent = AllowsOrgasms.Often,
-                RuinOrgasmRarelyPercent = RuinsOrgasms.Rarely,
-                RuinOrgasmSometimesPercent = RuinsOrgasms.Sometimes,
-                RuinOrgasmOftenPercent = RuinsOrgasms.Often,
-                Chat = new ChatSettings
-                {
-                    IsTimeStampEnabled = true,
-                    ShowChatUserNames = true,
-                },
-                Domme = new DommeSettings
-                {
-                    ApathyLevel = ApathyLevel.Moderate,
-                },
-            };
         }
 
         private readonly IConfigurationAccessor _configurationAccessor;

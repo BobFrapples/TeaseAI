@@ -3,7 +3,7 @@
 namespace TeaseAI.Common.Constants
 {
     /// <summary>
-    /// How much the dom cares about the sub
+    /// How rough will the dom be
     /// </summary>
     public struct DomLevel : IEquatable<DomLevel>
     {

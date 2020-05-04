@@ -84,7 +84,7 @@
         </member>
         <member name="T:TeaseAI.Common.Constants.DomLevel">
             <summary>
-            How much the dom cares about the sub
+            How rough will the dom be
             </summary>
         </member>
         <member name="T:TeaseAI.Common.Constants.ImageSource">
@@ -963,6 +963,11 @@
         <member name="P:TeaseAI.Common.DommeSettings.ApathyLevel">
             <summary>
             How caring does the Domme start each session
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.DominationLevel">
+            <summary>
+            
             </summary>
         </member>
         <member name="T:TeaseAI.Common.Error">

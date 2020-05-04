@@ -95,7 +95,7 @@ Public Class FrmSettings
     ''' </summary>
     Private Sub LoadSettings(settings As Settings)
         ' Domme Tab
-        Dim domLevel As DomLevel = mySettingsAccessor.DominationLevel
+        Dim domLevel As DomLevel = settings.Domme.DominationLevel
         DominationLevel.Value = domLevel
         DomLevelDescLabel.Text = domLevel.ToString()
 
@@ -1566,7 +1566,14 @@ Public Class FrmSettings
     End Sub
 
     Private Sub DominationLevel_ValueChanged(sender As Object, e As EventArgs) Handles DominationLevel.ValueChanged
-        mySettingsAccessor.DominationLevel = DomLevel.Create(Convert.ToInt32(DominationLevel.Value)).Value
+        If Not DominationLevel.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.DominationLevel = DomLevel.Create(CType(DominationLevel.Value, Integer)).Value
+        mySettingsAccessor.WriteSettings(settings)
+        DomLevelDescLabel.Text = settings.Domme.DominationLevel.ToString()
     End Sub
 
     Private Sub alloworgasmComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles alloworgasmComboBox.SelectedIndexChanged
@@ -1721,9 +1728,6 @@ Public Class FrmSettings
         If NBSubAgeMax.Value < NBSubAgeMin.Value Then NBSubAgeMax.Value = NBSubAgeMin.Value
     End Sub
 
-    Private Sub domlevelNumBox_ValueChanged(sender As Object, e As EventArgs) Handles DominationLevel.ValueChanged
-        DomLevelDescLabel.Text = mySettingsAccessor.DominationLevel.ToString()
-    End Sub
 
     Private Sub NBEmpathy_ValueChanged(sender As Object, e As EventArgs) Handles NBEmpathy.ValueChanged
         If Not NBEmpathy.Visible Then
@@ -5523,7 +5527,7 @@ Public Class FrmSettings
 
     <Obsolete("This looks to be used to save the settings to a random file. ")>
     Private Sub SaveDommeSettings(settings As Settings)
-        mySettingsAccessor.DominationLevel = DomLevel.Create(Convert.ToInt32(DominationLevel.Value)).Value
+        settings.Domme.DominationLevel = DomLevel.Create(Convert.ToInt32(DominationLevel.Value)).Value
         settings.Domme.ApathyLevel = ApathyLevel.Create(Convert.ToInt32(NBEmpathy.Value)).Value
         My.Settings.DomAge = domageNumBox.Value
         My.Settings.DomBirthMonth = NBDomBirthdayMonth.Value
@@ -5576,7 +5580,7 @@ Public Class FrmSettings
 
     Public Sub LoadDommeSettings(settings As Settings)
 
-        DominationLevel.Value = mySettingsAccessor.DominationLevel
+        DominationLevel.Value = settings.Domme.DominationLevel
         NBEmpathy.Value = settings.Domme.ApathyLevel
         domageNumBox.Value = My.Settings.DomAge
         NBDomBirthdayMonth.Value = My.Settings.DomBirthMonth
@@ -5906,6 +5910,7 @@ Public Class FrmSettings
             Return
         End If
 
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
         Dim randomOrgasms As Integer = MainWindow.ssh.randomizer.Next(1, 6)
 
         My.Settings.OrgasmsRemaining = randomOrgasms
@@ -5913,7 +5918,7 @@ Public Class FrmSettings
 
         orgasmsPerNumBox.Value = randomOrgasms
 
-        Dim orgasmInterval As String = GetOrgasmInterval(mySettingsAccessor.DominationLevel)
+        Dim orgasmInterval As String = GetOrgasmInterval(Settings.Domme.DominationLevel)
         My.Settings.DomPerMonth = orgasmInterval
         orgasmsperComboBox.Text = My.Settings.DomPerMonth
 
