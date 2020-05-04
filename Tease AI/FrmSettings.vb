@@ -65,7 +65,7 @@ Public Class FrmSettings
         myScriptAccessor = ApplicationFactory.CreateScriptAccessor()
         myLoadFileData = ApplicationFactory.CreateLoadFileData()
         myParseTagDataService = New ParseOldTagDataService()
-        myPathsAccessor = New PathsAccessor(ApplicationFactory.CreateConfigurationAccessor, ApplicationFactory.CreateSettingsAccessor())
+        myPathsAccessor = New PathsAccessor(ApplicationFactory.CreateConfigurationAccessor, ApplicationFactory.CreateOldSettingsAccessor())
         myMediaContainerService = ApplicationFactory.CreateMediaContainerService()
         myImageMetaDataService = ApplicationFactory.CreateImageMetaDataService()
         myImageTagMapService = ApplicationFactory.CreateImageTagMapService()
@@ -87,13 +87,13 @@ Public Class FrmSettings
     End Sub
 
     Private Sub FrmSettings_Visible(sender As Object, e As EventArgs) Handles MyBase.VisibleChanged
-        LoadSettings()
+        LoadSettings(mySettingsAccessor.GetSettings())
     End Sub
 
     ''' <summary>
     ''' Load all settings into the form
     ''' </summary>
-    Private Sub LoadSettings()
+    Private Sub LoadSettings(settings As Settings)
         ' Domme Tab
         Dim domLevel As DomLevel = mySettingsAccessor.DominationLevel
         DominationLevel.Value = domLevel
@@ -103,21 +103,21 @@ Public Class FrmSettings
         NBEmpathy.Value = apathyLevel
         LBLEmpathy.Text = apathyLevel.ToString()
 
-        DommeDecideOrgasmCB.Checked = mySettingsAccessor.DoesDommeDecideOrgasmRange
-        AllowOrgasmOftenNB.Enabled = Not DommeDecideOrgasmCB.Checked
-        AllowOrgasmOftenNB.Value = mySettingsAccessor.AllowOrgasmOftenPercent
-        NBAllowSometimes.Enabled = Not DommeDecideOrgasmCB.Checked
-        NBAllowSometimes.Value = mySettingsAccessor.AllowOrgasmSometimesPercent
-        NBAllowRarely.Enabled = Not DommeDecideOrgasmCB.Checked
-        NBAllowRarely.Value = mySettingsAccessor.AllowOrgasmRarelyPercent
+        DommeDecideOrgasmCheckBox.Checked = settings.DoesDommeDecideOrgasmRange
+        OftenAllowsPercentNumberBox.Enabled = Not DommeDecideOrgasmCheckBox.Checked
+        OftenAllowsPercentNumberBox.Value = settings.AllowOrgasmOftenPercent
+        SometimesAllowsPercentNumberBox.Enabled = Not DommeDecideOrgasmCheckBox.Checked
+        SometimesAllowsPercentNumberBox.Value = settings.AllowOrgasmSometimesPercent
+        RarelyAllowsPercentNumberBox.Enabled = Not DommeDecideOrgasmCheckBox.Checked
+        RarelyAllowsPercentNumberBox.Value = settings.AllowOrgasmRarelyPercent
 
-        DommeDecideRuinCB.Checked = mySettingsAccessor.DoesDommeDecideRuinRange
-        NBRuinOften.Enabled = Not DommeDecideRuinCB.Checked
-        NBRuinOften.Value = mySettingsAccessor.RuinOrgasmOftenPercent
-        NBRuinSometimes.Enabled = Not DommeDecideRuinCB.Checked
-        NBRuinSometimes.Value = mySettingsAccessor.RuinOrgasmSometimesPercent
-        NBRuinRarely.Enabled = Not DommeDecideRuinCB.Checked
-        NBRuinRarely.Value = mySettingsAccessor.RuinOrgasmRarelyPercent
+        DommeDecideRuinCheckBox.Checked = settings.DoesDommeDecideRuinRange
+        NBRuinOften.Enabled = Not DommeDecideRuinCheckBox.Checked
+        NBRuinOften.Value = settings.RuinOrgasmOftenPercent
+        NBRuinSometimes.Enabled = Not DommeDecideRuinCheckBox.Checked
+        NBRuinSometimes.Value = settings.RuinOrgasmSometimesPercent
+        NBRuinRarely.Enabled = Not DommeDecideRuinCheckBox.Checked
+        NBRuinRarely.Value = settings.RuinOrgasmRarelyPercent
 
         TBSafeword.Text = mySettingsAccessor.SafeWord
 
@@ -186,6 +186,11 @@ Public Class FrmSettings
 
         InChastityLabel.Text = mySettingsAccessor.InChastity.ToOnOff()
         InChastityLabel.ForeColor = mySettingsAccessor.InChastity.ToColor()
+
+        TimeStampCheckBox.Checked = settings.IsTimeStampEnabled
+        ShowNamesCheckBox.Checked = mySettingsAccessor.ShowNames
+        TypeInstantlyCheckBox.Checked = mySettingsAccessor.DoesDommeTypeInstantly
+        WebTeaseMode.Checked = mySettingsAccessor.WebTeaseModeEnabled
     End Sub
 
     ''' <summary>
@@ -193,9 +198,10 @@ Public Class FrmSettings
     ''' </summary>
     Public Sub FrmSettingStartUp()
         FrmSettingsLoading = True
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
 
         FrmSplash.UpdateText("Loading Settings...")
-        LoadSettings()
+        LoadSettings(Settings)
         ' Sub tab
         NBLongEdge.Value = My.Settings.LongEdge
 
@@ -302,7 +308,7 @@ Public Class FrmSettings
         SaveSettingsDialog.InitialDirectory = Application.StartupPath & "\System"
         OpenSettingsDialog.InitialDirectory = Application.StartupPath & "\System"
 
-        WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & mySettingsAccessor.DommePersonality & "\Playlist\Start\")
+        WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & settings.DommePersonality & "\Playlist\Start\")
 
         'For Each tmptbx As TextBox In New List(Of TextBox) From {TbxContact1ImageDir, TbxContact2ImageDir, TbxContact3ImageDir, TbxDomImageDir}
         '    If tmptbx.DataBindings("Text") Is Nothing Then
@@ -1391,14 +1397,20 @@ Public Class FrmSettings
 
 #End Region
 
-#Region "------------------------------------- GeneralTab -----------------------------------------------"
+#Region "General Tab"
 
     Private Sub BtnImportSettings_Click(sender As Object, e As EventArgs) Handles BtnImportSettings.Click
         My.MySettings.importOnRestart()
     End Sub
 
     Private Sub TimeStampCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles TimeStampCheckBox.CheckedChanged
-        mySettingsAccessor.IsTimeStampEnabled = TimeStampCheckBox.Checked
+        If Not DommeDecideOrgasmCheckBox.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.IsTimeStampEnabled = TimeStampCheckBox.Checked
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
     Private Sub ShowNamesCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles ShowNamesCheckBox.CheckedChanged
@@ -1722,28 +1734,28 @@ Public Class FrmSettings
         If (Not ScriptsStartTab.Visible) Then
             Return
         End If
-        LoadScriptMetaData(StartScripts, mySettingsAccessor.DommePersonality, "Stroke", SessionPhase.Start, False)
+        LoadScriptMetaData(StartScripts, mySettingsAccessor.GetSettings().DommePersonality, "Stroke", SessionPhase.Start, False)
     End Sub
 
     Public Sub ScriptsModuleTab_VisibleChanged() Handles ScriptsModuleTab.VisibleChanged
         If (Not ScriptsModuleTab.Visible) Then
             Return
         End If
-        LoadScriptMetaData(ModuleScripts, mySettingsAccessor.DommePersonality, "Modules", SessionPhase.Modules, False)
+        LoadScriptMetaData(ModuleScripts, mySettingsAccessor.GetSettings().DommePersonality, "Modules", SessionPhase.Modules, False)
     End Sub
 
     Public Sub ScriptsLinkTab_VisibleChanged() Handles ScriptsLinkTab.VisibleChanged
         If (Not ScriptsLinkTab.Visible) Then
             Return
         End If
-        LoadScriptMetaData(LinkScripts, mySettingsAccessor.DommePersonality, "Stroke", Constants.SessionPhase.Link, False)
+        LoadScriptMetaData(LinkScripts, mySettingsAccessor.GetSettings().DommePersonality, "Stroke", Constants.SessionPhase.Link, False)
     End Sub
 
     Public Sub ScriptsEndTab_VisibleChanged() Handles ScriptsEndTab.VisibleChanged
         If (Not ScriptsEndTab.Visible) Then
             Return
         End If
-        LoadScriptMetaData(EndScripts, mySettingsAccessor.DommePersonality, "Stroke", Constants.SessionPhase.End, False)
+        LoadScriptMetaData(EndScripts, mySettingsAccessor.GetSettings().DommePersonality, "Stroke", Constants.SessionPhase.End, False)
     End Sub
 
     Public Shared Sub saveCheckedListBox(target As CheckedListBox, filePath As String)
@@ -1794,7 +1806,7 @@ Public Class FrmSettings
             Throw New NotImplementedException("The starting control is not implemented in this method.")
         End If
 
-        Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality, sessionPhase)
+        Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(mySettingsAccessor.GetSettings().DommePersonality, sessionPhase)
         Dim script = scripts.First(Function(smd) smd.Name = target.SelectedItem.ToString())
         ScriptInfoTextArea.Text = script.Info
         GetScriptStatus(script)
@@ -1820,7 +1832,7 @@ Public Class FrmSettings
     Private Sub BtnScriptsOpen_Click(sender As Object, e As EventArgs) Handles BTNScriptOpen.Click
         Dim sessionPhase As SessionPhase = GetSessionPhase(TCScripts.SelectedTab)
         Dim checkedListBox As CheckedListBox = GetScriptsCheckedListBox(sessionPhase)
-        Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality, sessionPhase)
+        Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(mySettingsAccessor.GetSettings().DommePersonality, sessionPhase)
 
         Dim clickedScript = scripts.First(Function(smd) smd.Name = checkedListBox.SelectedItem.ToString())
         MainWindow.ShellExecute(clickedScript.Key)
@@ -1860,7 +1872,7 @@ Public Class FrmSettings
                 End If
 
                 Dim scriptType As String = "Stroke"
-                Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality, sessionPhase)
+                Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(mySettingsAccessor.GetSettings().DommePersonality, sessionPhase)
 
                 For i As Integer = 0 To target.Items.Count - 1
                     Dim item = target.Items(i)
@@ -1928,7 +1940,7 @@ Public Class FrmSettings
             Dim workingLine As String = line
             For Each scriptCommand In commandProcessors.Keys
                 If (commandProcessors(scriptCommand).IsRelevant(workingLine)) Then
-                    Dim parseCommand = commandProcessors(scriptCommand).ParseCommand(script, mySettingsAccessor.DommePersonality, workingLine)
+                    Dim parseCommand = commandProcessors(scriptCommand).ParseCommand(script, mySettingsAccessor.GetSettings().DommePersonality, workingLine)
                     areScriptRequirementsMet = areScriptRequirementsMet AndAlso parseCommand.IsSuccess
                     Dim requirement As String = GetCommandRequirement(scriptCommand)
                     If (parseCommand.IsFailure) Then
@@ -4499,6 +4511,97 @@ Public Class FrmSettings
 
 #End Region
 
+#Region "Ranges Tab"
+    Private Sub CBRangeOrgasm_CheckedChanged(sender As Object, e As EventArgs) Handles DommeDecideOrgasmCheckBox.CheckedChanged
+        If Not DommeDecideOrgasmCheckBox.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.DoesDommeDecideOrgasmRange = DommeDecideOrgasmCheckBox.Checked
+        mySettingsAccessor.WriteSettings(settings)
+
+        OftenAllowsPercentNumberBox.Enabled = Not DommeDecideOrgasmCheckBox.Checked
+        SometimesAllowsPercentNumberBox.Enabled = Not DommeDecideOrgasmCheckBox.Checked
+        RarelyAllowsPercentNumberBox.Enabled = Not DommeDecideOrgasmCheckBox.Checked
+    End Sub
+
+    Private Sub OftenAllowsPercentNumberBox_ValueChanged(sender As Object, e As EventArgs) Handles OftenAllowsPercentNumberBox.ValueChanged
+        If Not OftenAllowsPercentNumberBox.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.AllowOrgasmOftenPercent = Convert.ToInt32(OftenAllowsPercentNumberBox.Value)
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub SometimesAllowsPercentNumberBox_ValueChanged(sender As Object, e As EventArgs) Handles SometimesAllowsPercentNumberBox.ValueChanged
+        If Not SometimesAllowsPercentNumberBox.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.AllowOrgasmSometimesPercent = Convert.ToInt32(SometimesAllowsPercentNumberBox.Value)
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub RarelyAllowsPercentNumberBox_ValueChanged(sender As Object, e As EventArgs) Handles RarelyAllowsPercentNumberBox.ValueChanged
+        If Not RarelyAllowsPercentNumberBox.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.AllowOrgasmRarelyPercent = Convert.ToInt32(RarelyAllowsPercentNumberBox.Value)
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub DommeDecideRuinCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles DommeDecideRuinCheckBox.CheckedChanged
+        If Not DommeDecideRuinCheckBox.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.DoesDommeDecideRuinRange = DommeDecideRuinCheckBox.Checked
+        mySettingsAccessor.WriteSettings(settings)
+
+        NBRuinOften.Enabled = Not DommeDecideRuinCheckBox.Checked
+        NBRuinSometimes.Enabled = Not DommeDecideRuinCheckBox.Checked
+        NBRuinRarely.Enabled = Not DommeDecideRuinCheckBox.Checked
+    End Sub
+
+    Private Sub NBRuinOften_ValueChanged(sender As Object, e As EventArgs) Handles NBRuinOften.ValueChanged
+        If Not NBRuinOften.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.RuinOrgasmOftenPercent = Convert.ToInt32(NBRuinOften.Value)
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub NBRuinSometimes_ValueChanged(sender As Object, e As EventArgs) Handles NBRuinSometimes.ValueChanged
+        If Not NBRuinSometimes.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.RuinOrgasmSometimesPercent = Convert.ToInt32(NBRuinSometimes.Value)
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub NBRuinRarely_ValueChanged(sender As Object, e As EventArgs) Handles NBRuinRarely.ValueChanged
+        If Not NBRuinRarely.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.RuinOrgasmRarelyPercent = Convert.ToInt32(NBRuinRarely.Value)
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+#End Region
+
     Private Sub ComboBox1_DrawItem(ByVal sender As Object, ByVal e As Windows.Forms.DrawItemEventArgs) Handles SubMessageFontCB.DrawItem
         e.DrawBackground()
         If (e.State And DrawItemState.Focus) <> 0 Then
@@ -5322,8 +5425,8 @@ Public Class FrmSettings
 
     End Sub
 
-    Private Sub Button12_Click(sender As Object, e As EventArgs) Handles BTNLoadDomSet.Click
-
+    Private Sub BTNLoadDomSet_Click(sender As Object, e As EventArgs) Handles BTNLoadDomSet.Click
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
         OpenSettingsDialog.Title = "Select a Domme settings file"
         OpenSettingsDialog.InitialDirectory = Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\System\"
 
@@ -5401,19 +5504,15 @@ Public Class FrmSettings
                 NBTypoChance.Value = SettingsList(47).Replace("Typo Chance: ", "")
 
 
-                SaveDommeSettings()
+                SaveDommeSettings(settings)
             Catch
                 MessageBox.Show(Me, "This settings file is invalid or has been edited incorrectly!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
-                LoadDommeSettings()
+                LoadDommeSettings(settings)
             End Try
-
-
-
-
         End If
     End Sub
 
-    Public Sub SaveDommeSettings()
+    Private Sub SaveDommeSettings(settings As Settings)
         mySettingsAccessor.DominationLevel = DomLevel.Create(Convert.ToInt32(DominationLevel.Value)).Value
         mySettingsAccessor.ApathyLevel = ApathyLevel.Create(Convert.ToInt32(NBEmpathy.Value)).Value
         My.Settings.DomAge = domageNumBox.Value
@@ -5427,7 +5526,7 @@ Public Class FrmSettings
         My.Settings.DomTattoos = CBDomTattoos.Checked
         My.Settings.DomFreckles = CBDomFreckles.Checked
 
-        mySettingsAccessor.DommePersonality = MainWindow.DommePersonalityComboBox.Text
+        settings.DommePersonality = MainWindow.DommePersonalityComboBox.Text
         My.Settings.DomCrazy = crazyCheckBox.Checked
         My.Settings.DomVulgar = vulgarCheckBox.Checked
         My.Settings.DomSupremacist = supremacistCheckBox.Checked
@@ -5465,7 +5564,7 @@ Public Class FrmSettings
         My.Settings.SubAgeMax = NBSubAgeMax.Value
     End Sub
 
-    Public Sub LoadDommeSettings()
+    Public Sub LoadDommeSettings(settings As Settings)
 
         DominationLevel.Value = mySettingsAccessor.DominationLevel
         NBEmpathy.Value = mySettingsAccessor.ApathyLevel
@@ -5480,7 +5579,7 @@ Public Class FrmSettings
         CBDomTattoos.Checked = My.Settings.DomTattoos
         CBDomFreckles.Checked = My.Settings.DomFreckles
 
-        MainWindow.DommePersonalityComboBox.Text = mySettingsAccessor.DommePersonality
+        MainWindow.DommePersonalityComboBox.Text = settings.DommePersonality
         crazyCheckBox.Checked = My.Settings.DomCrazy
         vulgarCheckBox.Checked = My.Settings.DomVulgar
         supremacistCheckBox.Checked = My.Settings.DomSupremacist
@@ -5517,56 +5616,6 @@ Public Class FrmSettings
         NBSubAgeMin.Value = My.Settings.SubAgeMin
         NBSubAgeMax.Value = My.Settings.SubAgeMax
 
-    End Sub
-
-    Private Sub CBRangeOrgasm_CheckedChanged(sender As Object, e As EventArgs) Handles DommeDecideOrgasmCB.CheckedChanged
-        AllowOrgasmOftenNB.Enabled = Not DommeDecideOrgasmCB.Checked
-        NBAllowSometimes.Enabled = Not DommeDecideOrgasmCB.Checked
-        NBAllowRarely.Enabled = Not DommeDecideOrgasmCB.Checked
-    End Sub
-
-    Private Sub CBRangeRuin_CheckedChanged(sender As Object, e As EventArgs) Handles DommeDecideRuinCB.CheckedChanged
-        If DommeDecideRuinCB.Checked = False Then
-            NBRuinOften.Enabled = True
-            NBRuinSometimes.Enabled = True
-            NBRuinRarely.Enabled = True
-        Else
-            NBRuinOften.Enabled = False
-            NBRuinSometimes.Enabled = False
-            NBRuinRarely.Enabled = False
-        End If
-    End Sub
-
-    Private Sub CBRangeOrgasm_LostFocus(sender As Object, e As EventArgs) Handles DommeDecideOrgasmCB.LostFocus
-        mySettingsAccessor.DoesDommeDecideOrgasmRange = DommeDecideOrgasmCB.Checked
-    End Sub
-
-    Private Sub CBRangeRuin_LostFocus(sender As Object, e As EventArgs) Handles DommeDecideRuinCB.LostFocus
-        mySettingsAccessor.DoesDommeDecideRuinRange = DommeDecideRuinCB.Checked
-    End Sub
-
-    Private Sub NBAllowOften_ValueChanged(sender As Object, e As EventArgs) Handles AllowOrgasmOftenNB.LostFocus
-        mySettingsAccessor.AllowOrgasmOftenPercent = AllowOrgasmOftenNB.Value
-    End Sub
-
-    Private Sub NBAllowSometimes_ValueChanged(sender As Object, e As EventArgs) Handles NBAllowSometimes.LostFocus
-        mySettingsAccessor.AllowOrgasmSometimesPercent = NBAllowSometimes.Value
-    End Sub
-
-    Private Sub NBAllowRarely_ValueChanged(sender As Object, e As EventArgs) Handles NBAllowRarely.LostFocus
-        mySettingsAccessor.AllowOrgasmRarelyPercent = NBAllowRarely.Value
-    End Sub
-
-    Private Sub NBRuinOften_ValueChanged(sender As Object, e As EventArgs) Handles NBRuinOften.LostFocus
-        mySettingsAccessor.RuinOrgasmOftenPercent = NBRuinOften.Value
-    End Sub
-
-    Private Sub NBRuinSometimes_ValueChanged(sender As Object, e As EventArgs) Handles NBRuinSometimes.LostFocus
-        mySettingsAccessor.RuinOrgasmSometimesPercent = NBRuinSometimes.Value
-    End Sub
-
-    Private Sub NBRuinRarely_ValueChanged(sender As Object, e As EventArgs) Handles NBRuinRarely.LostFocus
-        mySettingsAccessor.RuinOrgasmRarelyPercent = NBRuinRarely.Value
     End Sub
 
     Private Sub TBSafeword_LostFocus(sender As Object, e As EventArgs) Handles TBSafeword.LostFocus
@@ -5940,24 +5989,24 @@ Public Class FrmSettings
             "A middle value creates a fairly common use of Taunts. Use a higher value to make the domme extremely engaged. Use a lower value to focus on the Video Tease with minimal interaction from the domme."
     End Sub
 
-    Private Sub CBRangeOrgasm_MouseHover(sender As Object, e As EventArgs) Handles DommeDecideOrgasmCB.MouseEnter
+    Private Sub CBRangeOrgasm_MouseHover(sender As Object, e As EventArgs) Handles DommeDecideOrgasmCheckBox.MouseEnter
         LBLRangeSettingsDescription.Text = "This allows the domme to decide what chance she will allow an orgasm based on her settings." & Environment.NewLine & Environment.NewLine &
             "Default settings are: Often Allows: 75% - Sometimes Allows: 50% - Rarely Allows: 20%"
     End Sub
 
-    Private Sub NBAllowOften_MouseHover(sender As Object, e As EventArgs) Handles AllowOrgasmOftenNB.MouseEnter
+    Private Sub NBAllowOften_MouseHover(sender As Object, e As EventArgs) Handles OftenAllowsPercentNumberBox.MouseEnter
         LBLRangeSettingsDescription.Text = "When ""Domme Decide"" is not checked, this allows you to set what chance the domme will allow orgasm when she is set to ""Often Allows""."
     End Sub
 
-    Private Sub NBAllowSometimes_MouseHover(sender As Object, e As EventArgs) Handles NBAllowSometimes.MouseEnter
+    Private Sub NBAllowSometimes_MouseHover(sender As Object, e As EventArgs) Handles SometimesAllowsPercentNumberBox.MouseEnter
         LBLRangeSettingsDescription.Text = "When ""Domme Decide"" is not checked, this allows you to set what chance the domme will allow orgasm when she is set to ""Sometimes Allows""."
     End Sub
 
-    Private Sub NBAllowRarely_MouseHover(sender As Object, e As EventArgs) Handles NBAllowRarely.MouseEnter
+    Private Sub NBAllowRarely_MouseHover(sender As Object, e As EventArgs) Handles RarelyAllowsPercentNumberBox.MouseEnter
         LBLRangeSettingsDescription.Text = "When ""Domme Decide"" is not checked, this allows you to set what chance the domme will allow orgasm when she is set to ""Rarely Allows""."
     End Sub
 
-    Private Sub CBRangeRuin_MouseHover(sender As Object, e As EventArgs) Handles DommeDecideRuinCB.MouseEnter
+    Private Sub CBRangeRuin_MouseHover(sender As Object, e As EventArgs) Handles DommeDecideRuinCheckBox.MouseEnter
         LBLRangeSettingsDescription.Text = "This allows the domme to decide what chance she will ruin an orgasm based on her settings." & Environment.NewLine & Environment.NewLine &
             "Default settings are: Often Ruins: 75% - Sometimes Ruins: 50% - Rarely Ruins: 20%"
     End Sub
@@ -7388,4 +7437,8 @@ Public Class FrmSettings
     Private myIsFormSettingTags As Boolean
     Private myIsMediaContainerLoading As Boolean
     Private myWorkingUrlImageMetaDatas As List(Of ImageMetaData)
+
+    Private Sub Label89_Click(sender As Object, e As EventArgs) Handles RarelyAllowsPercentLabel.Click
+
+    End Sub
 End Class

@@ -72,7 +72,7 @@ namespace TeaseAI.Common
         public string Name { get; set; }
 
         /// <summary>
-        /// This is the name the program uses to find files on the Domme
+        /// This is the name the program uses to find files on the Domme's personality
         /// </summary>
         public string PersonalityName { get; set; }
 

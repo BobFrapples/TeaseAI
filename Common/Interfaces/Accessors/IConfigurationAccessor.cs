@@ -32,5 +32,10 @@ namespace TeaseAI.Common.Interfaces.Accessors
         /// <returns></returns>
         string GetDatabaseConnectionString();
 
+        /// <summary>
+        /// Get the location of the settings data. Currently a JSON file
+        /// </summary>
+        /// <returns></returns>
+        string GetSettingsLocation();
     }
 }

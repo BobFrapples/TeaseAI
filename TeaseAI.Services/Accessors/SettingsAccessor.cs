@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using TeaseAI.Common;
 using TeaseAI.Common.Constants;
 using TeaseAI.Common.Interfaces.Accessors;
 
@@ -7,11 +10,28 @@ namespace TeaseAI.Services.Accessors
 {
     public class SettingsAccessor : ISettingsAccessor
     {
-        private readonly IConfigurationAccessor _configurationAccessor;
-
         public SettingsAccessor(IConfigurationAccessor configurationAccessor)
         {
             _configurationAccessor = configurationAccessor;
+        }
+
+        public Settings GetSettings()
+        {
+            var settingsFile = _configurationAccessor.GetSettingsLocation();
+            if (File.Exists(settingsFile))
+            {
+                var jsonString = File.ReadAllText(settingsFile);
+                return JsonConvert.DeserializeObject<Settings>(jsonString);
+            }
+            var settings = CreateDefaultSettings();
+            return WriteSettings(settings);
+        }
+
+        public Settings WriteSettings(Settings settings)
+        {
+            var settingsFile = _configurationAccessor.GetSettingsLocation();
+            File.WriteAllText(settingsFile, JsonConvert.SerializeObject(settings, Formatting.Indented));
+            return settings;
         }
 
         public string SubName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
@@ -68,7 +88,6 @@ namespace TeaseAI.Services.Accessors
 
         public DateTime OrgasmLockDate { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool IsOffline { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public bool IsTimeStampEnabled { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool ShowNames { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool DoesDommeTypeInstantly { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool WebTeaseModeEnabled { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
@@ -86,5 +105,23 @@ namespace TeaseAI.Services.Accessors
         {
             throw new NotImplementedException();
         }
+
+        private Settings CreateDefaultSettings()
+        {
+            return new Settings
+            {
+                DoesDommeDecideOrgasmRange = true,
+                DoesDommeDecideRuinRange = true,
+                AllowOrgasmRarelyPercent = AllowsOrgasms.Rarely,
+                AllowOrgasmSometimesPercent = AllowsOrgasms.Sometimes,
+                AllowOrgasmOftenPercent = AllowsOrgasms.Often,
+                RuinOrgasmRarelyPercent = RuinsOrgasms.Rarely,
+                RuinOrgasmSometimesPercent = RuinsOrgasms.Sometimes,
+                RuinOrgasmOftenPercent = RuinsOrgasms.Often,
+                IsTimeStampEnabled = true,
+            };
+        }
+
+        private readonly IConfigurationAccessor _configurationAccessor;
     }
 }

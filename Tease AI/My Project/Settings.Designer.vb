@@ -1265,19 +1265,17 @@ Namespace My
                 Me("SubColorColor") = value
             End Set
         End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+
+        <Obsolete("", True)>
         Public Property CBTimeStamps() As Boolean
             Get
-                Return CType(Me("CBTimeStamps"),Boolean)
+                Return CType(Me("CBTimeStamps"), Boolean)
             End Get
             Set
-                Me("CBTimeStamps") = value
+                Me("CBTimeStamps") = Value
             End Set
         End Property
-        
+
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
@@ -1661,19 +1659,17 @@ Namespace My
                 Me("DomCup") = value
             End Set
         End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Wicked Tease")>  _
+
+        <Obsolete("", True)>
         Public Property DomPersonality() As String
             Get
-                Return CType(Me("DomPersonality"),String)
+                Return CType(Me("DomPersonality"), String)
             End Get
             Set
-                Me("DomPersonality") = value
+                Me("DomPersonality") = Value
             End Set
         End Property
-        
+
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
@@ -2861,103 +2857,67 @@ Namespace My
                 Me("DomEmpathy") = value
             End Set
         End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
-        Public Property RangeOrgasm() As Boolean
-            Get
-                Return CType(Me("RangeOrgasm"),Boolean)
-            End Get
-            Set
-                Me("RangeOrgasm") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
-        Public Property RangeRuin() As Boolean
-            Get
-                Return CType(Me("RangeRuin"),Boolean)
-            End Get
-            Set
-                Me("RangeRuin") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("75")>  _
+
+        <Obsolete("Use settingsAccessor", True)>
         Public Property AllowOften() As Integer
             Get
-                Return CType(Me("AllowOften"),Integer)
+                Return CType(Me("AllowOften"), Integer)
             End Get
             Set
-                Me("AllowOften") = value
+                Me("AllowOften") = Value
             End Set
         End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("50")>  _
+
+        <Obsolete("Use settingsAccessor", True)>
         Public Property AllowSometimes() As Integer
             Get
-                Return CType(Me("AllowSometimes"),Integer)
+                Return CType(Me("AllowSometimes"), Integer)
             End Get
             Set
-                Me("AllowSometimes") = value
+                Me("AllowSometimes") = Value
             End Set
         End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("20")>  _
+
+        <Obsolete("Use settingsAccessor", True)>
         Public Property AllowRarely() As Integer
             Get
-                Return CType(Me("AllowRarely"),Integer)
+                Return CType(Me("AllowRarely"), Integer)
             End Get
             Set
-                Me("AllowRarely") = value
+                Me("AllowRarely") = Value
             End Set
         End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("75")>  _
+
+        <Obsolete("Use settingsAccessor", True)>
         Public Property RuinOften() As Integer
             Get
-                Return CType(Me("RuinOften"),Integer)
+                Return CType(Me("RuinOften"), Integer)
             End Get
             Set
-                Me("RuinOften") = value
+                Me("RuinOften") = Value
             End Set
         End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("50")>  _
+
+        <Obsolete("Use settingsAccessor", True)>
         Public Property RuinSometimes() As Integer
             Get
-                Return CType(Me("RuinSometimes"),Integer)
+                Return CType(Me("RuinSometimes"), Integer)
             End Get
             Set
-                Me("RuinSometimes") = value
+                Me("RuinSometimes") = Value
             End Set
         End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("20")>  _
+
+        <Obsolete("Use settingsAccessor", True)>
         Public Property RuinRarely() As Integer
             Get
-                Return CType(Me("RuinRarely"),Integer)
+                Return CType(Me("RuinRarely"), Integer)
             End Get
             Set
-                Me("RuinRarely") = value
+                Me("RuinRarely") = Value
             End Set
         End Property
-        
+
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("False")>  _

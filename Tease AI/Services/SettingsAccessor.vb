@@ -6,7 +6,7 @@ Imports TeaseAI.Common.Constants
 Imports TeaseAI.Common.Interfaces.Accessors
 
 Public Class SettingsAccessor
-    Implements ISettingsAccessor
+    Implements TeaseAI.Common.Interfaces.Accessors.ISettingsAccessor
 
     Public Property IsBallTortureEnabled As Boolean Implements ISettingsAccessor.IsBallTortureEnabled
         Get
@@ -152,78 +152,6 @@ Public Class SettingsAccessor
         End Set
     End Property
 
-    Public Property DoesDommeDecideOrgasmRange As Boolean Implements ISettingsAccessor.DoesDommeDecideOrgasmRange
-        Get
-            Return Settings.RangeOrgasm
-        End Get
-        Set(value As Boolean)
-            Settings.RangeOrgasm = value
-        End Set
-    End Property
-
-    Public Property DoesDommeDecideRuinRange As Boolean Implements ISettingsAccessor.DoesDommeDecideRuinRange
-        Get
-            Return Settings.RangeRuin
-        End Get
-        Set(value As Boolean)
-            Settings.RangeRuin = value
-        End Set
-    End Property
-
-    Public Property AllowOrgasmOftenPercent As Integer Implements ISettingsAccessor.AllowOrgasmOftenPercent
-        Get
-            Return Settings.AllowOften
-        End Get
-        Set(value As Integer)
-            Settings.AllowOften = value
-        End Set
-    End Property
-
-    Public Property AllowOrgasmSometimesPercent As Integer Implements ISettingsAccessor.AllowOrgasmSometimesPercent
-        Get
-            Return Settings.AllowSometimes
-        End Get
-        Set(value As Integer)
-            Settings.AllowSometimes = value
-        End Set
-    End Property
-
-    Public Property AllowOrgasmRarelyPercent As Integer Implements ISettingsAccessor.AllowOrgasmRarelyPercent
-        Get
-            Return Settings.AllowRarely
-        End Get
-        Set(value As Integer)
-            Settings.AllowRarely = value
-        End Set
-    End Property
-
-    Public Property RuinOrgasmOftenPercent As Integer Implements ISettingsAccessor.RuinOrgasmOftenPercent
-        Get
-            Return Settings.RuinOften
-        End Get
-        Set(value As Integer)
-            Settings.RuinOften = value
-        End Set
-    End Property
-
-    Public Property RuinOrgasmSometimesPercent As Integer Implements ISettingsAccessor.RuinOrgasmSometimesPercent
-        Get
-            Return Settings.RuinSometimes
-        End Get
-        Set(value As Integer)
-            Settings.RuinSometimes = value
-        End Set
-    End Property
-
-    Public Property RuinOrgasmRarelyPercent As Integer Implements ISettingsAccessor.RuinOrgasmRarelyPercent
-        Get
-            Return Settings.RuinRarely
-        End Get
-        Set(value As Integer)
-            Settings.RuinRarely = value
-        End Set
-    End Property
-
     Public Property SafeWord As String Implements ISettingsAccessor.SafeWord
         Get
             Return Settings.Safeword
@@ -331,14 +259,13 @@ Public Class SettingsAccessor
         Settings.Save()
     End Sub
 
-    Public Property DommePersonality As String Implements ISettingsAccessor.DommePersonality
-        Get
-            Return Settings.DomPersonality
-        End Get
-        Set(value As String)
-            Settings.DomPersonality = value
-        End Set
-    End Property
+    Private Function ISettingsAccessor_GetSettings() As TeaseAI.Common.Settings Implements ISettingsAccessor.GetSettings
+        Throw New NotImplementedException()
+    End Function
+
+    Public Function WriteSettings(settings As TeaseAI.Common.Settings) As TeaseAI.Common.Settings Implements ISettingsAccessor.WriteSettings
+        Throw New NotImplementedException()
+    End Function
 
     Public Property DommeName As String Implements ISettingsAccessor.DommeName
         Get
@@ -488,15 +415,6 @@ Public Class SettingsAccessor
         End Get
         Set(value As Boolean)
             Settings.OfflineMode = value
-        End Set
-    End Property
-
-    Public Property IsTimeStampEnabled As Boolean Implements ISettingsAccessor.IsTimeStampEnabled
-        Get
-            Return Settings.CBTimeStamps
-        End Get
-        Set(value As Boolean)
-            Settings.CBTimeStamps = value
         End Set
     End Property
 

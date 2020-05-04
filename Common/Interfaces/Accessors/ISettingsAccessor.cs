@@ -4,8 +4,24 @@ using TeaseAI.Common.Constants;
 
 namespace TeaseAI.Common.Interfaces.Accessors
 {
+    /// <summary>
+    /// User configurable settings.
+    /// </summary>
     public interface ISettingsAccessor
     {
+        /// <summary>
+        /// Get the current settings for the application
+        /// </summary>
+        /// <returns></returns>
+        Settings GetSettings();
+
+        /// <summary>
+        /// Write <paramref name="settings"/> to long term storage
+        /// </summary>
+        /// <param name="settings"></param>
+        /// <returns></returns>
+        Settings WriteSettings(Settings settings);
+
         List<string> GetGreetings();
         string SubName { get; set; }
 
@@ -27,23 +43,19 @@ namespace TeaseAI.Common.Interfaces.Accessors
         #endregion
 
         #region Domme settings
-        /// <summary>
-        /// Name of the domme personality.
-        /// </summary>
-        string DommePersonality { get; set; }
         string DommeAvatarImageName { get; set; }
         string DommeName { get; set; }
         DomLevel DominationLevel { get; set; }
         ApathyLevel ApathyLevel { get; set; }
-        bool DoesDommeDecideOrgasmRange { get; set; }
-        bool DoesDommeDecideRuinRange { get; set; }
-        int AllowOrgasmOftenPercent { get; set; }
-        int AllowOrgasmSometimesPercent { get; set; }
-        int AllowOrgasmRarelyPercent { get; set; }
+        //bool DoesDommeDecideOrgasmRange { get; set; }
+        //bool DoesDommeDecideRuinRange { get; set; }
+        //int AllowOrgasmOftenPercent { get; set; }
+        //int AllowOrgasmSometimesPercent { get; set; }
+        //int AllowOrgasmRarelyPercent { get; set; }
 
-        int RuinOrgasmOftenPercent { get; set; }
-        int RuinOrgasmSometimesPercent { get; set; }
-        int RuinOrgasmRarelyPercent { get; set; }
+        //int RuinOrgasmOftenPercent { get; set; }
+        //int RuinOrgasmSometimesPercent { get; set; }
+        //int RuinOrgasmRarelyPercent { get; set; }
         string SafeWord { get; set; }
         #endregion
 
@@ -79,7 +91,6 @@ namespace TeaseAI.Common.Interfaces.Accessors
         DateTime OrgasmLockDate { get; set; }
         bool IsOffline { get; set; }
 
-        bool IsTimeStampEnabled { get; set; }
         bool ShowNames { get; set; }
         bool DoesDommeTypeInstantly { get; set; }
         bool WebTeaseModeEnabled { get; set; }

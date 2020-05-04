@@ -880,7 +880,7 @@ Partial Class FrmSettings
         Me.Label92 = New System.Windows.Forms.Label()
         Me.NBRuinRarely = New System.Windows.Forms.NumericUpDown()
         Me.NBRuinOften = New System.Windows.Forms.NumericUpDown()
-        Me.DommeDecideRuinCB = New System.Windows.Forms.CheckBox()
+        Me.DommeDecideRuinCheckBox = New System.Windows.Forms.CheckBox()
         Me.GroupBox17 = New System.Windows.Forms.GroupBox()
         Me.GroupBox19 = New System.Windows.Forms.GroupBox()
         Me.Label110 = New System.Windows.Forms.Label()
@@ -908,13 +908,13 @@ Partial Class FrmSettings
         Me.GroupBox21 = New System.Windows.Forms.GroupBox()
         Me.LBLRangeSettingsDescription = New System.Windows.Forms.Label()
         Me.GBRangeOrgasmChance = New System.Windows.Forms.GroupBox()
-        Me.Label89 = New System.Windows.Forms.Label()
-        Me.NBAllowSometimes = New System.Windows.Forms.NumericUpDown()
-        Me.Label86 = New System.Windows.Forms.Label()
-        Me.Label82 = New System.Windows.Forms.Label()
-        Me.NBAllowRarely = New System.Windows.Forms.NumericUpDown()
-        Me.AllowOrgasmOftenNB = New System.Windows.Forms.NumericUpDown()
-        Me.DommeDecideOrgasmCB = New System.Windows.Forms.CheckBox()
+        Me.RarelyAllowsPercentLabel = New System.Windows.Forms.Label()
+        Me.SometimesAllowsPercentNumberBox = New System.Windows.Forms.NumericUpDown()
+        Me.SometimesAllowsPercentLabel = New System.Windows.Forms.Label()
+        Me.OftenAllowsPercentLabel = New System.Windows.Forms.Label()
+        Me.RarelyAllowsPercentNumberBox = New System.Windows.Forms.NumericUpDown()
+        Me.OftenAllowsPercentNumberBox = New System.Windows.Forms.NumericUpDown()
+        Me.DommeDecideOrgasmCheckBox = New System.Windows.Forms.CheckBox()
         Me.PictureBox8 = New System.Windows.Forms.PictureBox()
         Me.Label38 = New System.Windows.Forms.Label()
         Me.TabPage13 = New System.Windows.Forms.TabPage()
@@ -1316,9 +1316,9 @@ Partial Class FrmSettings
         CType(Me.NBCensorShowMax, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GroupBox21.SuspendLayout
         Me.GBRangeOrgasmChance.SuspendLayout
-        CType(Me.NBAllowSometimes, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.NBAllowRarely, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.AllowOrgasmOftenNB, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.SometimesAllowsPercentNumberBox, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.RarelyAllowsPercentNumberBox, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.OftenAllowsPercentNumberBox, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.PictureBox8, System.ComponentModel.ISupportInitialize).BeginInit
         Me.TabPage13.SuspendLayout
         Me.TabControl2.SuspendLayout
@@ -11955,7 +11955,7 @@ Partial Class FrmSettings
         Me.GBRangeRuinChance.Controls.Add(Me.Label92)
         Me.GBRangeRuinChance.Controls.Add(Me.NBRuinRarely)
         Me.GBRangeRuinChance.Controls.Add(Me.NBRuinOften)
-        Me.GBRangeRuinChance.Controls.Add(Me.DommeDecideRuinCB)
+        Me.GBRangeRuinChance.Controls.Add(Me.DommeDecideRuinCheckBox)
         Me.GBRangeRuinChance.Location = New System.Drawing.Point(236, 159)
         Me.GBRangeRuinChance.Name = "GBRangeRuinChance"
         Me.GBRangeRuinChance.Size = New System.Drawing.Size(166, 122)
@@ -12032,16 +12032,16 @@ Partial Class FrmSettings
         Me.NBRuinOften.TabIndex = 168
         Me.NBRuinOften.Value = New Decimal(New Integer() {75, 0, 0, 0})
         '
-        'DommeDecideRuinCB
+        'DommeDecideRuinCheckBox
         '
-        Me.DommeDecideRuinCB.AutoSize = True
-        Me.DommeDecideRuinCB.ForeColor = System.Drawing.Color.Black
-        Me.DommeDecideRuinCB.Location = New System.Drawing.Point(9, 19)
-        Me.DommeDecideRuinCB.Name = "DommeDecideRuinCB"
-        Me.DommeDecideRuinCB.Size = New System.Drawing.Size(99, 17)
-        Me.DommeDecideRuinCB.TabIndex = 159
-        Me.DommeDecideRuinCB.Text = "Domme Decide"
-        Me.DommeDecideRuinCB.UseVisualStyleBackColor = True
+        Me.DommeDecideRuinCheckBox.AutoSize = True
+        Me.DommeDecideRuinCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.DommeDecideRuinCheckBox.Location = New System.Drawing.Point(9, 19)
+        Me.DommeDecideRuinCheckBox.Name = "DommeDecideRuinCheckBox"
+        Me.DommeDecideRuinCheckBox.Size = New System.Drawing.Size(99, 17)
+        Me.DommeDecideRuinCheckBox.TabIndex = 159
+        Me.DommeDecideRuinCheckBox.Text = "Domme Decide"
+        Me.DommeDecideRuinCheckBox.UseVisualStyleBackColor = True
         '
         'GroupBox17
         '
@@ -12351,13 +12351,13 @@ Partial Class FrmSettings
         '
         'GBRangeOrgasmChance
         '
-        Me.GBRangeOrgasmChance.Controls.Add(Me.Label89)
-        Me.GBRangeOrgasmChance.Controls.Add(Me.NBAllowSometimes)
-        Me.GBRangeOrgasmChance.Controls.Add(Me.Label86)
-        Me.GBRangeOrgasmChance.Controls.Add(Me.Label82)
-        Me.GBRangeOrgasmChance.Controls.Add(Me.NBAllowRarely)
-        Me.GBRangeOrgasmChance.Controls.Add(Me.AllowOrgasmOftenNB)
-        Me.GBRangeOrgasmChance.Controls.Add(Me.DommeDecideOrgasmCB)
+        Me.GBRangeOrgasmChance.Controls.Add(Me.RarelyAllowsPercentLabel)
+        Me.GBRangeOrgasmChance.Controls.Add(Me.SometimesAllowsPercentNumberBox)
+        Me.GBRangeOrgasmChance.Controls.Add(Me.SometimesAllowsPercentLabel)
+        Me.GBRangeOrgasmChance.Controls.Add(Me.OftenAllowsPercentLabel)
+        Me.GBRangeOrgasmChance.Controls.Add(Me.RarelyAllowsPercentNumberBox)
+        Me.GBRangeOrgasmChance.Controls.Add(Me.OftenAllowsPercentNumberBox)
+        Me.GBRangeOrgasmChance.Controls.Add(Me.DommeDecideOrgasmCheckBox)
         Me.GBRangeOrgasmChance.Location = New System.Drawing.Point(236, 31)
         Me.GBRangeOrgasmChance.Name = "GBRangeOrgasmChance"
         Me.GBRangeOrgasmChance.Size = New System.Drawing.Size(166, 122)
@@ -12365,85 +12365,85 @@ Partial Class FrmSettings
         Me.GBRangeOrgasmChance.TabStop = False
         Me.GBRangeOrgasmChance.Text = "Orgasm Chance"
         '
-        'Label89
+        'RarelyAllowsPercentLabel
         '
-        Me.Label89.BackColor = System.Drawing.Color.Transparent
-        Me.Label89.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label89.ForeColor = System.Drawing.Color.Black
-        Me.Label89.Location = New System.Drawing.Point(6, 94)
-        Me.Label89.Name = "Label89"
-        Me.Label89.Size = New System.Drawing.Size(83, 17)
-        Me.Label89.TabIndex = 173
-        Me.Label89.Text = "Rarely Allows:"
-        Me.Label89.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.RarelyAllowsPercentLabel.BackColor = System.Drawing.Color.Transparent
+        Me.RarelyAllowsPercentLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RarelyAllowsPercentLabel.ForeColor = System.Drawing.Color.Black
+        Me.RarelyAllowsPercentLabel.Location = New System.Drawing.Point(6, 94)
+        Me.RarelyAllowsPercentLabel.Name = "RarelyAllowsPercentLabel"
+        Me.RarelyAllowsPercentLabel.Size = New System.Drawing.Size(83, 17)
+        Me.RarelyAllowsPercentLabel.TabIndex = 173
+        Me.RarelyAllowsPercentLabel.Text = "Rarely Allows:"
+        Me.RarelyAllowsPercentLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'NBAllowSometimes
+        'SometimesAllowsPercentNumberBox
         '
-        Me.NBAllowSometimes.Enabled = False
-        Me.NBAllowSometimes.Location = New System.Drawing.Point(113, 68)
-        Me.NBAllowSometimes.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
-        Me.NBAllowSometimes.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NBAllowSometimes.Name = "NBAllowSometimes"
-        Me.NBAllowSometimes.Size = New System.Drawing.Size(44, 20)
-        Me.NBAllowSometimes.TabIndex = 169
-        Me.NBAllowSometimes.Value = New Decimal(New Integer() {50, 0, 0, 0})
+        Me.SometimesAllowsPercentNumberBox.Enabled = False
+        Me.SometimesAllowsPercentNumberBox.Location = New System.Drawing.Point(113, 68)
+        Me.SometimesAllowsPercentNumberBox.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
+        Me.SometimesAllowsPercentNumberBox.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.SometimesAllowsPercentNumberBox.Name = "SometimesAllowsPercentNumberBox"
+        Me.SometimesAllowsPercentNumberBox.Size = New System.Drawing.Size(44, 20)
+        Me.SometimesAllowsPercentNumberBox.TabIndex = 169
+        Me.SometimesAllowsPercentNumberBox.Value = New Decimal(New Integer() {50, 0, 0, 0})
         '
-        'Label86
+        'SometimesAllowsPercentLabel
         '
-        Me.Label86.BackColor = System.Drawing.Color.Transparent
-        Me.Label86.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label86.ForeColor = System.Drawing.Color.Black
-        Me.Label86.Location = New System.Drawing.Point(6, 68)
-        Me.Label86.Name = "Label86"
-        Me.Label86.Size = New System.Drawing.Size(102, 17)
-        Me.Label86.TabIndex = 172
-        Me.Label86.Text = "Sometimes Allows:"
-        Me.Label86.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.SometimesAllowsPercentLabel.BackColor = System.Drawing.Color.Transparent
+        Me.SometimesAllowsPercentLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SometimesAllowsPercentLabel.ForeColor = System.Drawing.Color.Black
+        Me.SometimesAllowsPercentLabel.Location = New System.Drawing.Point(6, 68)
+        Me.SometimesAllowsPercentLabel.Name = "SometimesAllowsPercentLabel"
+        Me.SometimesAllowsPercentLabel.Size = New System.Drawing.Size(102, 17)
+        Me.SometimesAllowsPercentLabel.TabIndex = 172
+        Me.SometimesAllowsPercentLabel.Text = "Sometimes Allows:"
+        Me.SometimesAllowsPercentLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'Label82
+        'OftenAllowsPercentLabel
         '
-        Me.Label82.BackColor = System.Drawing.Color.Transparent
-        Me.Label82.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label82.ForeColor = System.Drawing.Color.Black
-        Me.Label82.Location = New System.Drawing.Point(6, 42)
-        Me.Label82.Name = "Label82"
-        Me.Label82.Size = New System.Drawing.Size(83, 17)
-        Me.Label82.TabIndex = 171
-        Me.Label82.Text = "Often Allows:"
-        Me.Label82.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.OftenAllowsPercentLabel.BackColor = System.Drawing.Color.Transparent
+        Me.OftenAllowsPercentLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.OftenAllowsPercentLabel.ForeColor = System.Drawing.Color.Black
+        Me.OftenAllowsPercentLabel.Location = New System.Drawing.Point(6, 42)
+        Me.OftenAllowsPercentLabel.Name = "OftenAllowsPercentLabel"
+        Me.OftenAllowsPercentLabel.Size = New System.Drawing.Size(83, 17)
+        Me.OftenAllowsPercentLabel.TabIndex = 171
+        Me.OftenAllowsPercentLabel.Text = "Often Allows:"
+        Me.OftenAllowsPercentLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'NBAllowRarely
+        'RarelyAllowsPercentNumberBox
         '
-        Me.NBAllowRarely.Enabled = False
-        Me.NBAllowRarely.Location = New System.Drawing.Point(113, 94)
-        Me.NBAllowRarely.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
-        Me.NBAllowRarely.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NBAllowRarely.Name = "NBAllowRarely"
-        Me.NBAllowRarely.Size = New System.Drawing.Size(44, 20)
-        Me.NBAllowRarely.TabIndex = 170
-        Me.NBAllowRarely.Value = New Decimal(New Integer() {20, 0, 0, 0})
+        Me.RarelyAllowsPercentNumberBox.Enabled = False
+        Me.RarelyAllowsPercentNumberBox.Location = New System.Drawing.Point(113, 94)
+        Me.RarelyAllowsPercentNumberBox.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
+        Me.RarelyAllowsPercentNumberBox.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.RarelyAllowsPercentNumberBox.Name = "RarelyAllowsPercentNumberBox"
+        Me.RarelyAllowsPercentNumberBox.Size = New System.Drawing.Size(44, 20)
+        Me.RarelyAllowsPercentNumberBox.TabIndex = 170
+        Me.RarelyAllowsPercentNumberBox.Value = New Decimal(New Integer() {20, 0, 0, 0})
         '
-        'AllowOrgasmOftenNB
+        'OftenAllowsPercentNumberBox
         '
-        Me.AllowOrgasmOftenNB.Enabled = False
-        Me.AllowOrgasmOftenNB.Location = New System.Drawing.Point(113, 42)
-        Me.AllowOrgasmOftenNB.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
-        Me.AllowOrgasmOftenNB.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.AllowOrgasmOftenNB.Name = "AllowOrgasmOftenNB"
-        Me.AllowOrgasmOftenNB.Size = New System.Drawing.Size(44, 20)
-        Me.AllowOrgasmOftenNB.TabIndex = 168
-        Me.AllowOrgasmOftenNB.Value = New Decimal(New Integer() {75, 0, 0, 0})
+        Me.OftenAllowsPercentNumberBox.Enabled = False
+        Me.OftenAllowsPercentNumberBox.Location = New System.Drawing.Point(113, 42)
+        Me.OftenAllowsPercentNumberBox.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
+        Me.OftenAllowsPercentNumberBox.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.OftenAllowsPercentNumberBox.Name = "OftenAllowsPercentNumberBox"
+        Me.OftenAllowsPercentNumberBox.Size = New System.Drawing.Size(44, 20)
+        Me.OftenAllowsPercentNumberBox.TabIndex = 168
+        Me.OftenAllowsPercentNumberBox.Value = New Decimal(New Integer() {75, 0, 0, 0})
         '
-        'DommeDecideOrgasmCB
+        'DommeDecideOrgasmCheckBox
         '
-        Me.DommeDecideOrgasmCB.AutoSize = True
-        Me.DommeDecideOrgasmCB.ForeColor = System.Drawing.Color.Black
-        Me.DommeDecideOrgasmCB.Location = New System.Drawing.Point(9, 19)
-        Me.DommeDecideOrgasmCB.Name = "DommeDecideOrgasmCB"
-        Me.DommeDecideOrgasmCB.Size = New System.Drawing.Size(99, 17)
-        Me.DommeDecideOrgasmCB.TabIndex = 159
-        Me.DommeDecideOrgasmCB.Text = "Domme Decide"
-        Me.DommeDecideOrgasmCB.UseVisualStyleBackColor = True
+        Me.DommeDecideOrgasmCheckBox.AutoSize = True
+        Me.DommeDecideOrgasmCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.DommeDecideOrgasmCheckBox.Location = New System.Drawing.Point(9, 19)
+        Me.DommeDecideOrgasmCheckBox.Name = "DommeDecideOrgasmCheckBox"
+        Me.DommeDecideOrgasmCheckBox.Size = New System.Drawing.Size(99, 17)
+        Me.DommeDecideOrgasmCheckBox.TabIndex = 159
+        Me.DommeDecideOrgasmCheckBox.Text = "Domme Decide"
+        Me.DommeDecideOrgasmCheckBox.UseVisualStyleBackColor = True
         '
         'PictureBox8
         '
@@ -14553,9 +14553,9 @@ Partial Class FrmSettings
         Me.GroupBox21.ResumeLayout(False)
         Me.GBRangeOrgasmChance.ResumeLayout(False)
         Me.GBRangeOrgasmChance.PerformLayout
-        CType(Me.NBAllowSometimes, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.NBAllowRarely, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.AllowOrgasmOftenNB, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.SometimesAllowsPercentNumberBox, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.RarelyAllowsPercentNumberBox, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.OftenAllowsPercentNumberBox, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.PictureBox8, System.ComponentModel.ISupportInitialize).EndInit
         Me.TabPage13.ResumeLayout(False)
         Me.TabControl2.ResumeLayout(False)
@@ -15085,13 +15085,13 @@ Partial Class FrmSettings
     Friend WithEvents BTNLoadDomSet As System.Windows.Forms.Button
     Friend WithEvents CBAuditStartup As System.Windows.Forms.CheckBox
     Friend WithEvents GBRangeOrgasmChance As System.Windows.Forms.GroupBox
-    Friend WithEvents Label89 As System.Windows.Forms.Label
-    Friend WithEvents NBAllowSometimes As System.Windows.Forms.NumericUpDown
-    Friend WithEvents Label86 As System.Windows.Forms.Label
-    Friend WithEvents Label82 As System.Windows.Forms.Label
-    Friend WithEvents NBAllowRarely As System.Windows.Forms.NumericUpDown
-    Friend WithEvents AllowOrgasmOftenNB As System.Windows.Forms.NumericUpDown
-    Friend WithEvents DommeDecideOrgasmCB As System.Windows.Forms.CheckBox
+    Friend WithEvents RarelyAllowsPercentLabel As System.Windows.Forms.Label
+    Friend WithEvents SometimesAllowsPercentNumberBox As System.Windows.Forms.NumericUpDown
+    Friend WithEvents SometimesAllowsPercentLabel As System.Windows.Forms.Label
+    Friend WithEvents OftenAllowsPercentLabel As System.Windows.Forms.Label
+    Friend WithEvents RarelyAllowsPercentNumberBox As System.Windows.Forms.NumericUpDown
+    Friend WithEvents OftenAllowsPercentNumberBox As System.Windows.Forms.NumericUpDown
+    Friend WithEvents DommeDecideOrgasmCheckBox As System.Windows.Forms.CheckBox
     Friend WithEvents GBRangeRuinChance As System.Windows.Forms.GroupBox
     Friend WithEvents Label90 As System.Windows.Forms.Label
     Friend WithEvents NBRuinSometimes As System.Windows.Forms.NumericUpDown
@@ -15099,7 +15099,7 @@ Partial Class FrmSettings
     Friend WithEvents Label92 As System.Windows.Forms.Label
     Friend WithEvents NBRuinRarely As System.Windows.Forms.NumericUpDown
     Friend WithEvents NBRuinOften As System.Windows.Forms.NumericUpDown
-    Friend WithEvents DommeDecideRuinCB As System.Windows.Forms.CheckBox
+    Friend WithEvents DommeDecideRuinCheckBox As System.Windows.Forms.CheckBox
     Friend WithEvents GroupBox57 As System.Windows.Forms.GroupBox
     Friend WithEvents LBLSafeword As System.Windows.Forms.Label
     Friend WithEvents TBSafeword As System.Windows.Forms.TextBox

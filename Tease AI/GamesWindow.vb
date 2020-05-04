@@ -144,7 +144,7 @@ Public Class GamesWindow
 #End Region
 
     Public Sub New()
-        mySettingsAccessor = ApplicationFactory.CreateSettingsAccessor()
+        mySettingsAccessor = ApplicationFactory.CreateOldSettingsAccessor()
 
         ' This call is required by the designer.
         InitializeComponent()

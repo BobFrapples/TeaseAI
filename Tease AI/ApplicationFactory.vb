@@ -20,8 +20,13 @@ Public Class ApplicationFactory
         Return New Accessors.ConfigurationAccessor()
     End Function
 
-    Public Shared Function CreateSettingsAccessor() As ISettingsAccessor
+    <Obsolete("switch to CreateSettingsAccessor as soon as possible")>
+    Public Shared Function CreateOldSettingsAccessor() As SettingsAccessor
         Return New SettingsAccessor()
+    End Function
+
+    Public Shared Function CreateSettingsAccessor() As ISettingsAccessor
+        Return New Accessors.SettingsAccessor(CreateConfigurationAccessor())
     End Function
 
     Friend Shared Function CreateLoadFileData() As ILoadFileData
@@ -47,7 +52,7 @@ Public Class ApplicationFactory
             , CreateConfigurationAccessor() _
             , New RandomNumberService() _
             , New NotifyUser() _
-            , CreateSettingsAccessor() _
+            , CreateOldSettingsAccessor() _
             , CreatePathsAccessor() _
             , New BookmarkService() _
             , CreateMediaContainerService())

@@ -1009,6 +1009,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:TeaseAI.Common.Interfaces.Accessors.IConfigurationAccessor.GetSettingsLocation">
+            <summary>
+            Get the location of the settings data. Currently a JSON file
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:TeaseAI.Common.Interfaces.Accessors.IFlagAccessor">
             <summary>
             Interface defining how to get / set flag state
@@ -1107,10 +1113,23 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="P:TeaseAI.Common.Interfaces.Accessors.ISettingsAccessor.DommePersonality">
+        <member name="T:TeaseAI.Common.Interfaces.Accessors.ISettingsAccessor">
             <summary>
-            Name of the domme personality.
+            User configurable settings.
             </summary>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.Accessors.ISettingsAccessor.GetSettings">
+            <summary>
+            Get the current settings for the application
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.Accessors.ISettingsAccessor.WriteSettings(TeaseAI.Common.Settings)">
+            <summary>
+            Write <paramref name="settings"/> to long term storage
+            </summary>
+            <param name="settings"></param>
+            <returns></returns>
         </member>
         <member name="P:TeaseAI.Common.Interfaces.Accessors.ISettingsAccessor.IsSubFemale">
             <summary>
@@ -1465,6 +1484,36 @@
         <member name="P:TeaseAI.Common.Session.IsVideoPlaying">
             <summary>
             This is for tracking to / from the UI. is true when the UI starts a video, is false when the video stops
+            </summary>
+        </member>
+        <member name="T:TeaseAI.Common.Settings">
+            <summary>
+            Various user configuration information
+            </summary>
+        </member>
+        <member name="M:TeaseAI.Common.Settings.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Settings.Version">
+            <summary>
+            used to manage serialization. Changes when the model breaks compatibility
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Settings.DoesDommeDecideOrgasmRange">
+            <summary>
+            Does the domme decide the range for <see cref="T:TeaseAI.Common.Constants.AllowsOrgasms"/>, or is it set custom
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Settings.DoesDommeDecideRuinRange">
+            <summary>
+            Does the domme decide the range for <see cref="T:TeaseAI.Common.Constants.RuinsOrgasms"/>, or is it set custom
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Settings.DommePersonality">
+            <summary>
+            Name of the domme personality.
             </summary>
         </member>
         <member name="P:TeaseAI.Common.SubPersonality.IsStroking">

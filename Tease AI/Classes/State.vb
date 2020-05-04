@@ -37,9 +37,6 @@ Public Class SessionState
 #Region "------------------------------------------- Data -----------------------------------------------"
     Const EditorGenericStringList As String = "System.Windows.Forms.Design.ListControlStringCollectionEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
 
-    <Obsolete("Use SettingsAccessor.DommePersonality instead")>
-    Public Property DomPersonality As String
-
     Public Property randomizer As New Random
     Public Property ScriptOperator As String
 
@@ -651,7 +648,7 @@ Public Class SessionState
 #End Region ' DataSection
 
     <NonSerialized> <OptionalField> Friend Files As New FileClass(Me)
-    <NonSerialized> <OptionalField> Friend Folders As PathsAccessor = New PathsAccessor(ApplicationFactory.CreateConfigurationAccessor(), ApplicationFactory.CreateSettingsAccessor())
+    <NonSerialized> <OptionalField> Friend Folders As PathsAccessor = New PathsAccessor(ApplicationFactory.CreateConfigurationAccessor(), ApplicationFactory.CreateOldSettingsAccessor())
 
     <NonSerialized> Dim ActivationForm As MainWindow
 
@@ -674,8 +671,6 @@ Public Class SessionState
 
     Private Sub InitializeComponent()
         randomizer = New Random()
-
-        DomPersonality = My.Settings.DomPersonality
 
         StrokeTimeTotal = My.Settings.StrokeTimeTotal
 
@@ -735,7 +730,7 @@ Public Class SessionState
     Sub onDeserialized_FixFields(sc As StreamingContext)
         ' Marked as <NonSerialized> <OptionalField> have to be initialized on every deserialization.
         If Files Is Nothing Then Files = New FileClass(Me)
-        If Folders Is Nothing Then Folders = New PathsAccessor(ApplicationFactory.CreateConfigurationAccessor(), ApplicationFactory.CreateSettingsAccessor())
+        If Folders Is Nothing Then Folders = New PathsAccessor(ApplicationFactory.CreateConfigurationAccessor(), ApplicationFactory.CreateOldSettingsAccessor())
     End Sub
 
 #End Region
@@ -760,11 +755,6 @@ Public Class SessionState
 
 
         With serializeForm
-            DomPersonality = .DommePersonalityComboBox.SelectedItem.ToString
-
-            '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
-            '							Get Timer EnableStates
-            '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
             AvoidTheEdge_enabled = .AvoidTheEdge.Enabled
             AvoidTheEdgeResume_enabled = .AvoidTheEdgeResume.Enabled
             AvoidTheEdgeTaunts_enabled = .AvoidTheEdgeTaunts.Enabled
@@ -933,19 +923,6 @@ Public Class SessionState
 
             If .ssh IsNot Nothing Then .ssh.Dispose()
             .ssh = Me
-
-            '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
-            '							Set Domme Personality
-            '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
-            If DomPersonality = String.Empty Then
-                DomPersonality = My.Settings.DomPersonality
-            End If
-
-            If .DommePersonalityComboBox.Items.Contains(DomPersonality) = False Then
-                Throw New Exception("The personality """ & DomPersonality & """ was not found.")
-            Else
-                .DommePersonalityComboBox.SelectedItem = DomPersonality
-            End If
 
             '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
             '							Restore Variables 

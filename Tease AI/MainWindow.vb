@@ -45,7 +45,7 @@ Public Class MainWindow
     Dim mySettingsAccessor As ISettingsAccessor = ApplicationFactory.CreateSettingsAccessor()
     Dim myRandomNumberService As IRandomNumberService = New RandomNumberService()
     Dim mySlideShowNavigationService As ISlideShowNavigationService = New SlideShowNavigationService()
-    Dim myPathsAccessor As PathsAccessor = New PathsAccessor(ApplicationFactory.CreateConfigurationAccessor, ApplicationFactory.CreateSettingsAccessor())
+    Dim myPathsAccessor As PathsAccessor = New PathsAccessor(ApplicationFactory.CreateConfigurationAccessor, ApplicationFactory.CreateOldSettingsAccessor())
     Dim WithEvents mySession As SessionEngine
     Private myDisplayedImage As ImageMetaData
 
@@ -284,8 +284,9 @@ ByVal lpstrReturnString As String, ByVal uReturnLength As Integer, ByVal hwndCal
     End Sub
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles Me.Load
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
         ConvertImageMetaData()
-        ConvertScriptMetaData()
+        ConvertScriptMetaData(settings.DommePersonality)
 
         Dim imageAccessor = ApplicationFactory.CreateImageMetaDataService()
         Dim images = imageAccessor.Get(Nothing, Nothing)
@@ -327,13 +328,12 @@ retryStart:
 
             splashScreen.UpdateText("Checking installed personalities...")
 
-            Dim personalities As List(Of String) = GetDommePersonalities(Application.StartupPath & "\Scripts\")
+            Dim personalities As List(Of String) = GetDommePersonalities(myPathsAccessor.GetPersonalityFolder())
             DommePersonalityComboBox.Items.AddRange(personalities.ToArray())
             If Not personalities.Any() Then
                 MessageBox.Show(Me, "No domme Personalities were found! Many aspects of this program will not work correctly until at least one Personality is installed.", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Else
-                Dim domme As String = mySettingsAccessor.DommePersonality()
-                DommePersonalityComboBox.Text = If(personalities.Contains(domme), domme, personalities.First())
+                DommePersonalityComboBox.Text = If(personalities.Contains(settings.DommePersonality), settings.DommePersonality, personalities.First())
             End If
 
             FrmSettings.FrmSettingsLoading = True
@@ -426,13 +426,8 @@ retryStart:
             FrmSettings.petnameBox8.Text = My.Settings.pnSetting8
 
             splashScreen.UpdateText("Loading General Settings...")
-            FrmSettings.TimeStampCheckBox.Checked = mySettingsAccessor.IsTimeStampEnabled
-            FrmSettings.ShowNamesCheckBox.Checked = mySettingsAccessor.ShowNames
-            FrmSettings.TypeInstantlyCheckBox.Checked = mySettingsAccessor.DoesDommeTypeInstantly
-            FrmSettings.WebTeaseMode.Checked = mySettingsAccessor.WebTeaseModeEnabled
             If FrmSettings.WebTeaseMode.Checked = True _
                 Then WebteaseModeToolStripMenuItem.Checked = True
-
 
             FrmSettings.CBInputIcon.Checked = My.Settings.CBInputIcon
             FrmSettings.CBBlogImageWindow.Checked = My.Settings.CBBlogImageMain
@@ -637,8 +632,7 @@ retryStart:
             End If
 
             splashScreen.UpdateText("Loading Domme Personality...")
-            ssh.DomPersonality = DommePersonalityComboBox.Text
-            mySettingsAccessor.DommePersonality = DommePersonalityComboBox.Text
+            settings.DommePersonality = DommePersonalityComboBox.Text
 
             Dim CheckSpace As String = chatBox.Text
             If CheckSpace = "" Then
@@ -6802,14 +6796,14 @@ TaskCleanSet:
             If FrmSettings.alloworgasmComboBox.Text = "Never Allows" Then OrgasmThreshold = 0
             If FrmSettings.alloworgasmComboBox.Text = "Always Allows" Then OrgasmThreshold = 1000
 
-            If FrmSettings.DommeDecideOrgasmCB.Checked = True Then
+            If FrmSettings.DommeDecideOrgasmCheckBox.Checked = True Then
                 If FrmSettings.alloworgasmComboBox.Text = "Rarely Allows" Then OrgasmThreshold = 20
                 If FrmSettings.alloworgasmComboBox.Text = "Sometimes Allows" Then OrgasmThreshold = 50
                 If FrmSettings.alloworgasmComboBox.Text = "Often Allows" Then OrgasmThreshold = 75
             Else
-                If FrmSettings.alloworgasmComboBox.Text = "Rarely Allows" Then OrgasmThreshold = FrmSettings.NBAllowRarely.Value
-                If FrmSettings.alloworgasmComboBox.Text = "Sometimes Allows" Then OrgasmThreshold = FrmSettings.NBAllowSometimes.Value
-                If FrmSettings.alloworgasmComboBox.Text = "Often Allows" Then OrgasmThreshold = FrmSettings.AllowOrgasmOftenNB.Value
+                If FrmSettings.alloworgasmComboBox.Text = "Rarely Allows" Then OrgasmThreshold = FrmSettings.RarelyAllowsPercentNumberBox.Value
+                If FrmSettings.alloworgasmComboBox.Text = "Sometimes Allows" Then OrgasmThreshold = FrmSettings.SometimesAllowsPercentNumberBox.Value
+                If FrmSettings.alloworgasmComboBox.Text = "Often Allows" Then OrgasmThreshold = FrmSettings.OftenAllowsPercentNumberBox.Value
             End If
 
 
@@ -6826,7 +6820,7 @@ TaskCleanSet:
             If FrmSettings.ruinorgasmComboBox.Text = "Always Ruins" Then RuinThreshold = 1000
 
 
-            If FrmSettings.DommeDecideRuinCB.Checked = True Then
+            If FrmSettings.DommeDecideRuinCheckBox.Checked = True Then
                 If FrmSettings.ruinorgasmComboBox.Text = "Rarely Ruins" Then RuinThreshold = 20
                 If FrmSettings.ruinorgasmComboBox.Text = "Sometimes Ruins" Then RuinThreshold = 50
                 If FrmSettings.ruinorgasmComboBox.Text = "Often Ruins" Then RuinThreshold = 75
@@ -10892,7 +10886,7 @@ NoPlaylistLinkFile:
                 GoTo AllowedOrgasm
             End If
 
-            If ssh.OrgasmDenied  Then
+            If ssh.OrgasmDenied Then
 
                 ssh.LastOrgasmType = "DENIED"
 
@@ -14043,6 +14037,7 @@ restartInstantly:
             Return
         End If
 
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
         If WishlistCostSilver.Visible AndAlso ssh.SilverTokens >= Val(LBLWishlistCost.Text) Then
             ssh.SilverTokens -= Val(LBLWishlistCost.Text)
             My.Settings.SilverTokens = ssh.SilverTokens
@@ -14060,7 +14055,7 @@ restartInstantly:
             BTNWishlist.Enabled = False
             BTNWishlist.Text = ""
 
-            Dim rewardsDir As String = Application.StartupPath & "\Scripts\" & mySettingsAccessor.DommePersonality & "\Apps\Wishlist\Silver Rewards\"
+            Dim rewardsDir As String = myPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Apps\Wishlist\Silver Rewards\"
             Dim silverList As List(Of String) = My.Computer.FileSystem.GetFiles(rewardsDir, FileIO.SearchOption.SearchTopLevelOnly, "*.txt").ToList()
             If Not silverList.Any() Then
                 MessageBox.Show(Me, "No Silver Reward scripts were found!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
@@ -14086,7 +14081,7 @@ restartInstantly:
             My.Settings.GoldTokens = ssh.GoldTokens
             My.Settings.ClearWishlist = True
 
-            Dim rewardsDir As String = Application.StartupPath & "\Scripts\" & mySettingsAccessor.DommePersonality & "\Apps\Wishlist\Gold Rewards\"
+            Dim rewardsDir As String = myPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Apps\Wishlist\Gold Rewards\"
             Dim goldList As List(Of String) = My.Computer.FileSystem.GetFiles(rewardsDir, FileIO.SearchOption.SearchTopLevelOnly, "*.txt").ToList()
             If Not goldList.Any() Then
                 MessageBox.Show(Me, "No Gold Reward scripts were found!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
@@ -14113,22 +14108,23 @@ restartInstantly:
 #Region "------------------------------------------------- Hypno-Guide App ----------------------------------------------------"
 
     Private Sub BTNHypnoGenStart_Click(sender As Object, e As EventArgs) Handles BTNHypnoGenStart.Click
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
         If Not ssh.HypnoGen Then
             If CBHypnoGenInduction.Checked Then
-                If File.Exists(Application.StartupPath & "\Scripts\" & mySettingsAccessor.DommePersonality & "\Apps\Hypnotic Guide\Inductions\" & LBHypnoGenInduction.SelectedItem & ".txt") Then
+                If File.Exists(myPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Apps\Hypnotic Guide\Inductions\" & LBHypnoGenInduction.SelectedItem & ".txt") Then
                     ssh.Induction = True
-                    ssh.FileText = Application.StartupPath & "\Scripts\" & mySettingsAccessor.DommePersonality & "\Apps\Hypnotic Guide\Inductions\" & LBHypnoGenInduction.SelectedItem & ".txt"
+                    ssh.FileText = myPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Apps\Hypnotic Guide\Inductions\" & LBHypnoGenInduction.SelectedItem & ".txt"
                 Else
                     MessageBox.Show(Me, "Please select a valid Hypno Induction File or deselect the Induction option!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
                     Return
                 End If
             End If
 
-            If File.Exists(Application.StartupPath & "\Scripts\" & mySettingsAccessor.DommePersonality & "\Apps\Hypnotic Guide\Hypno Files\" & LBHypnoGen.SelectedItem & ".txt") Then
+            If File.Exists(myPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Apps\Hypnotic Guide\Hypno Files\" & LBHypnoGen.SelectedItem & ".txt") Then
                 If ssh.Induction = False Then
-                    ssh.FileText = Application.StartupPath & "\Scripts\" & mySettingsAccessor.DommePersonality & "\Apps\Hypnotic Guide\Hypno Files\" & LBHypnoGen.SelectedItem & ".txt"
+                    ssh.FileText = myPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Apps\Hypnotic Guide\Hypno Files\" & LBHypnoGen.SelectedItem & ".txt"
                 Else
-                    ssh.TempHypno = Application.StartupPath & "\Scripts\" & mySettingsAccessor.DommePersonality & "\Apps\Hypnotic Guide\Hypno Files\" & LBHypnoGen.SelectedItem & ".txt"
+                    ssh.TempHypno = myPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Apps\Hypnotic Guide\Hypno Files\" & LBHypnoGen.SelectedItem & ".txt"
                 End If
             Else
                 MessageBox.Show(Me, "Please select a valid Hypno File!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
@@ -14138,7 +14134,7 @@ restartInstantly:
             ssh.StrokeTauntVal = -1
             ssh.ScriptTick = 1
             ScriptTimer.Start()
-            Dim HypnoTrack As String = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Apps\Hypnotic Guide\" & ComboBoxHypnoGenTrack.SelectedItem
+            Dim HypnoTrack As String = myPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Apps\Hypnotic Guide\" & ComboBoxHypnoGenTrack.SelectedItem
             If File.Exists(HypnoTrack) Then DomWMP.URL = HypnoTrack
             ssh.HypnoGen = True
             ssh.AFK = True
@@ -14761,8 +14757,8 @@ playLoop:
 #Region "data marshalling For services"
     Private Function CreateDommePersonality() As DommePersonality
         Dim returnValue As DommePersonality = New DommePersonality()
-
-        returnValue.PersonalityName = mySettingsAccessor.DommePersonality
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        returnValue.PersonalityName = settings.DommePersonality
 
         returnValue.IsCrazy = FrmSettings.crazyCheckBox.Checked
         returnValue.IsDegrading = FrmSettings.degradingCheckBox.Checked
@@ -15150,18 +15146,18 @@ playLoop:
                     'Next
                 End If
             ElseIf container.SourceId = ImageSource.Remote Then
-                    Dim fileName As String = myPathUrlFileDir + container.Path.Replace("https://", String.Empty) & ".txt"
-                    For Each foundFile As String In File.ReadAllLines(fileName)
-                        returnValue.Add(New ImageMetaData() With
-                                        {
-                                            .ItemName = Path.GetFileNameWithoutExtension(foundFile),
-                                            .FullFileName = foundFile,
-                                            .MediaContainerId = container.Id,
-                                            .SourceId = container.SourceId,
-                                            .GenreId = container.GenreId
-                                        })
-                    Next
-                End If
+                Dim fileName As String = myPathUrlFileDir + container.Path.Replace("https://", String.Empty) & ".txt"
+                For Each foundFile As String In File.ReadAllLines(fileName)
+                    returnValue.Add(New ImageMetaData() With
+                                    {
+                                        .ItemName = Path.GetFileNameWithoutExtension(foundFile),
+                                        .FullFileName = foundFile,
+                                        .MediaContainerId = container.Id,
+                                        .SourceId = container.SourceId,
+                                        .GenreId = container.GenreId
+                                    })
+                Next
+            End If
         Next
         Dim local = returnValue.Where(Function(imd) imd.SourceId = ImageSource.Virtual).ToList()
         Return returnValue
@@ -15231,10 +15227,9 @@ playLoop:
         Return returnValue
     End Function
 
-    Private Sub ConvertScriptMetaData()
+    Private Sub ConvertScriptMetaData(dommePersonality As String)
         Dim scriptAccessor As ScriptAccessor = New ScriptAccessor(ApplicationFactory.CreateCldAccessor())
-        Dim scripts As List(Of ScriptMetaData) = scriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality)
-
+        Dim scripts As List(Of ScriptMetaData) = scriptAccessor.GetAllScripts(dommePersonality)
     End Sub
 #End Region
 
@@ -15399,25 +15394,21 @@ NoPlaylistStartFile:
 #Region "------------------------------------------------------ MenuStuff -----------------------------------------------------"
 
 #Region "-------------------------------------------------------- File --------------------------------------------------------"
-
-    Private Sub dompersonalitycombobox_LostFocus(sender As Object, e As EventArgs) Handles DommePersonalityComboBox.LostFocus
-        mySettingsAccessor.DommePersonality = DommePersonalityComboBox.Text
-    End Sub
-
     Private Sub dompersonalitycombobox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles DommePersonalityComboBox.SelectedIndexChanged
-        If FormLoading = True Then Exit Sub
+        If FormLoading Then
+            Return
+        End If
 
         Try
-            mySettingsAccessor.DommePersonality = DommePersonalityComboBox.Text
+            Dim settings As Settings = mySettingsAccessor.GetSettings()
+            settings.DommePersonality = DommePersonalityComboBox.Text
+            mySettingsAccessor.WriteSettings(settings)
             FrmSettings.LBLGlitModDomType.Text = DommePersonalityComboBox.Text
-
-            ssh.DomPersonality = DommePersonalityComboBox.Text
 
             FrmSettings.FrmSettingStartUp()
 
-            If File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Apps\Glitter\Contact_Descriptions.txt") Then
-                Dim ContactList As New List(Of String)
-                ContactList = Txt2List(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Apps\Glitter\Contact_Descriptions.txt")
+            If File.Exists(myPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Apps\Glitter\Contact_Descriptions.txt") Then
+                Dim ContactList As List(Of String) = File.ReadAllLines(myPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Apps\Glitter\Contact_Descriptions.txt").ToList()
                 FrmSettings.GBGlitter1.Text = PoundClean(ContactList(0))
                 FrmSettings.GBGlitter2.Text = PoundClean(ContactList(1))
                 FrmSettings.GBGlitter3.Text = PoundClean(ContactList(2))
@@ -15430,9 +15421,6 @@ NoPlaylistStartFile:
             Form9.LBLPersonality.Text = DommePersonalityComboBox.Text
 
         Catch ex As Exception
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-            '                                            All Errors
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
             Log.WriteError(ex.Message, ex, "Error on changing Personality")
             MessageBox.Show(ex.Message, "Error on changing Personality", MessageBoxButtons.OK, MessageBoxIcon.Hand)
         End Try
@@ -15691,7 +15679,7 @@ NoPlaylistStartFile:
         LBLWishlistGold.Text = ssh.GoldTokens
 
         If Date.Compare(My.Settings.WishlistDate.Date, Now.Date) Then
-            Dim itemsPath As String = Application.StartupPath + "\Scripts\" + mySettingsAccessor.DommePersonality + "\Apps\Wishlist\Items"
+            Dim itemsPath As String = myPathsAccessor.GetPersonalityFolder(mySettingsAccessor.GetSettings().DommePersonality) + "\Apps\Wishlist\Items"
             Dim wishList As List(Of String) = My.Computer.FileSystem.GetFiles(itemsPath, FileIO.SearchOption.SearchTopLevelOnly, "*.txt").ToList()
 
             If Not wishList.Any() Then

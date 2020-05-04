@@ -16,7 +16,7 @@ Public Class PathsAccessor
     ''' <returns>The Path for the selected personality. Ends with Backslash!</returns>
     Public ReadOnly Property Personality As String
         Get
-            Return String.Format("{0}\Scripts\{1}\", myConfigurationAccessor.GetBaseFolder(), mySettingsAccessor.DommePersonality)
+            Return String.Format("{0}\Scripts\{1}\", myConfigurationAccessor.GetBaseFolder(), mySettingsAccessor.GetSettings.DommePersonality)
         End Get
     End Property
 

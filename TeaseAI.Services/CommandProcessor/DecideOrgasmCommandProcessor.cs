@@ -6,6 +6,7 @@ using TeaseAI.Common;
 using TeaseAI.Common.Constants;
 using TeaseAI.Common.Data;
 using TeaseAI.Common.Interfaces;
+using TeaseAI.Common.Interfaces.Accessors;
 
 namespace TeaseAI.Services.CommandProcessor
 {
@@ -14,13 +15,16 @@ namespace TeaseAI.Services.CommandProcessor
         public const string OrgasmAllowBookmark = "(Orgasm Allow)";
         public const string OrgasmRuinBookmark = "(Orgasm Ruin)";
         public const string OrgasmDenyBookmark = "(Orgasm Deny)";
+
         public DecideOrgasmCommandProcessor(LineService lineService
             , IRandomNumberService randomNumberService
             , IBookmarkService bookmarkService
+            , ISettingsAccessor settingsAccessor
             ) : base(Keyword.DecideOrgasm, lineService)
         {
             _randomNumberService = randomNumberService;
             _bookmarkService = bookmarkService;
+            _settingsAccessor = settingsAccessor;
         }
 
         public override Result<Session> PerformCommand(Session session, string line)
@@ -71,5 +75,6 @@ namespace TeaseAI.Services.CommandProcessor
 
         private readonly IRandomNumberService _randomNumberService;
         private readonly IBookmarkService _bookmarkService;
+        private readonly ISettingsAccessor _settingsAccessor;
     }
 }

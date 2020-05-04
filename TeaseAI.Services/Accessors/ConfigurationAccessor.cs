@@ -53,6 +53,8 @@ namespace TeaseAI.Services.Accessors
             return "Data Source=" + dbFile + ";Version=3;";
         }
 
+        public string GetSettingsLocation() => GetAppSettingsFolder() + Path.DirectorySeparatorChar + "settings.json";
+
         private string GetAppSettingsFolder()
         {
             var path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
