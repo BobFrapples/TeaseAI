@@ -61,6 +61,10 @@ namespace TeaseAI.Services.Accessors
                     ApathyLevel = ApathyLevel.Moderate,
                     DominationLevel = DomLevel.Tease,
                 },
+                Sub = new SubSettings
+                {
+                    Safeword = "red",
+                },
             };
         }
 
@@ -110,7 +114,6 @@ namespace TeaseAI.Services.Accessors
         public int RuinOrgasmOftenPercent { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public int RuinOrgasmSometimesPercent { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public int RuinOrgasmRarelyPercent { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string SafeWord { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool UseAverageEdgeTimeAsThreshold { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool AllowsLongEdgeTaunts { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool AllowsLongEdgeInterrupts { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }

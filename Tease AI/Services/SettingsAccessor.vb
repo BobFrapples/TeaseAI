@@ -134,15 +134,6 @@ Public Class SettingsAccessor
         End Set
     End Property
 
-    Public Property SafeWord As String Implements ISettingsAccessor.SafeWord
-        Get
-            Return Settings.Safeword
-        End Get
-        Set(value As String)
-            Settings.Safeword = value
-        End Set
-    End Property
-
     Public Property UseAverageEdgeTimeAsThreshold As Boolean Implements ISettingsAccessor.UseAverageEdgeTimeAsThreshold
         Get
             Return Settings.CBEdgeUseAvg

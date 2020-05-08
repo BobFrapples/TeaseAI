@@ -13,6 +13,8 @@ namespace TeaseAI.Common
         public DommeSettings()
         {
             Version = 1;
+            DominationLevel = DomLevel.Tease;
+            ApathyLevel = ApathyLevel.Moderate;
         }
 
         /// <summary>
@@ -26,7 +28,7 @@ namespace TeaseAI.Common
         public ApathyLevel ApathyLevel { get; set; }
 
         /// <summary>
-        /// 
+        /// How heavily will the Domme tease
         /// </summary>
         public DomLevel DominationLevel { get; set; }
     }

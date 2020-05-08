@@ -17,7 +17,8 @@ namespace TeaseAI.Services.Serialization
                 return ApathyLevel.Moderate;
 
             var s = (string)reader.Value;
-            return ApathyLevel.Create(s).Value;
+
+            return string.IsNullOrWhiteSpace(s) ? ApathyLevel.Moderate : ApathyLevel.Create(s).Value;
         }
     }
 }

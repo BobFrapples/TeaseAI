@@ -2824,30 +2824,18 @@ Namespace My
             End Set
         End Property
 
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("red")>  _
-        Public Property Safeword() As String
-            Get
-                Return CType(Me("Safeword"),String)
-            End Get
-            Set
-                Me("Safeword") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        <Global.System.Configuration.UserScopedSettingAttribute(),
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>
         Public Property CaloriesConsumed() As Integer
             Get
-                Return CType(Me("CaloriesConsumed"),Integer)
+                Return CType(Me("CaloriesConsumed"), Integer)
             End Get
             Set
-                Me("CaloriesConsumed") = value
+                Me("CaloriesConsumed") = Value
             End Set
         End Property
-        
+
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("2000")>  _

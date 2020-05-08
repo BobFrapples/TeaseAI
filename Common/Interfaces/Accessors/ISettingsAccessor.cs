@@ -54,7 +54,6 @@ namespace TeaseAI.Common.Interfaces.Accessors
         //int RuinOrgasmOftenPercent { get; set; }
         //int RuinOrgasmSometimesPercent { get; set; }
         //int RuinOrgasmRarelyPercent { get; set; }
-        string SafeWord { get; set; }
         #endregion
 
         bool UseAverageEdgeTimeAsThreshold { get; set; }

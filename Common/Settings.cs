@@ -84,7 +84,17 @@ namespace TeaseAI.Common
             set { _domme = value; }
         }
 
+        /// <summary>
+        /// Sub configuration
+        /// </summary>
+        public SubSettings Sub 
+        {
+            get { return _sub ?? (_sub = new SubSettings()); }
+            set { _sub = value; }
+        }
+
         private ChatSettings _ui;
         private DommeSettings _domme;
+        private SubSettings _sub;
     }
 }

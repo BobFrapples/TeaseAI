@@ -119,7 +119,7 @@ Public Class FrmSettings
         NBRuinRarely.Enabled = Not DommeDecideRuinCheckBox.Checked
         NBRuinRarely.Value = settings.RuinOrgasmRarelyPercent
 
-        TBSafeword.Text = mySettingsAccessor.SafeWord
+        TBSafeword.Text = settings.Sub.Safeword
 
         ' Sub Tab
         AllowLongEdgeInterruptCB.Checked = mySettingsAccessor.CanInterruptLongEdge
@@ -1738,6 +1738,16 @@ Public Class FrmSettings
         settings.Domme.ApathyLevel = ApathyLevel.Create(CType(NBEmpathy.Value, Integer)).Value
         mySettingsAccessor.WriteSettings(settings)
         LBLEmpathy.Text = settings.Domme.ApathyLevel.ToString()
+    End Sub
+
+    Private Sub TBSafeword_LostFocus(sender As Object, e As EventArgs) Handles TBSafeword.LostFocus
+        If Not TBSafeword.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.Safeword = TBSafeword.Text
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
 #End Region ' Domme
@@ -5632,9 +5642,7 @@ Public Class FrmSettings
 
     End Sub
 
-    Private Sub TBSafeword_LostFocus(sender As Object, e As EventArgs) Handles TBSafeword.LostFocus
-        mySettingsAccessor.SafeWord = TBSafeword.Text
-    End Sub
+
 
     Private Sub Button4_Click_5(sender As Object, e As EventArgs) Handles Button4.Click
 

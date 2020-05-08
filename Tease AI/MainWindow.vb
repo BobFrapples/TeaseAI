@@ -14798,6 +14798,7 @@ playLoop:
     End Function
 
     Private Function CreateSubPersonality() As SubPersonality
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
         Dim returnValue As SubPersonality = New SubPersonality()
 
         returnValue.Age = Convert.ToUInt16(FrmSettings.subAgeNumBox.Value)
@@ -14813,7 +14814,7 @@ playLoop:
         'returnValue.CockTortureLevel = TortureLevel.Create(ssh.CBTCockCount).Value()
         returnValue.BallsTortureLevel = TortureLevel.Create(FrmSettings.CockAndBallTortureLevelSlider.Value).Value
         returnValue.CockTortureLevel = TortureLevel.Create(FrmSettings.CockAndBallTortureLevelSlider.Value).Value
-        returnValue.Safeword = mySettingsAccessor.SafeWord
+        returnValue.Safeword = settings.Sub.Safeword
 
 #Region "Setup Kinks"
         If FrmSettings.CockTortureEnabledCB.Checked Then
