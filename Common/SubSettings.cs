@@ -25,5 +25,15 @@
         /// This appears unused.
         /// </summary>
         public bool CanInterruptLongEdge { get; set; }
+
+        /// <summary>
+        /// Maximum seconds to hold an edge
+        /// </summary>
+        public int HoldEdgeSecondsMaximum { get; set; }
+
+        /// <summary>
+        /// Minimum seconds to hold an edge
+        /// </summary>
+        public int HoldEdgeSecondsMinimum { get; set; }
     }
 }

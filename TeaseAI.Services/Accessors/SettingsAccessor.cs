@@ -95,8 +95,6 @@ namespace TeaseAI.Services.Accessors
         public bool IsBallTortureEnabled { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool DoesChastityDeviceRequirePiercing { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool DoesChastityDeviceContainSpikes { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int HoldEdgeMaximum { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int HoldEdgeMinimum { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public int LongHoldEdgeMaximum { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public int LongHoldEdgeMinimum { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public int ExtremeHoldEdgeMaximum { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }

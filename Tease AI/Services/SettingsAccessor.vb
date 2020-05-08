@@ -44,30 +44,12 @@ Public Class SettingsAccessor
         End Set
     End Property
 
-    Public Property HoldEdgeMinimum As Integer Implements ISettingsAccessor.HoldEdgeMinimum
-        Get
-            Return Settings.HoldTheEdgeMin
-        End Get
-        Set(value As Integer)
-            Settings.HoldTheEdgeMin = value
-        End Set
-    End Property
-
     Public Property LongHoldEdgeMinimum As Integer Implements ISettingsAccessor.LongHoldEdgeMinimum
         Get
             Return Settings.LongHoldMin
         End Get
         Set(value As Integer)
             Settings.LongHoldMin = value
-        End Set
-    End Property
-
-    Public Property HoldEdgeMaximum As Integer Implements ISettingsAccessor.HoldEdgeMaximum
-        Get
-            Return Settings.HoldTheEdgeMax
-        End Get
-        Set(value As Integer)
-            Settings.HoldTheEdgeMax = value
         End Set
     End Property
 

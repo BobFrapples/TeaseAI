@@ -30,8 +30,6 @@ namespace TeaseAI.Common.Interfaces.Accessors
         bool IsBallTortureEnabled { get; set; }
         bool DoesChastityDeviceRequirePiercing { get; set; }
         bool DoesChastityDeviceContainSpikes { get; set; }
-        int HoldEdgeMaximum { get; set; }
-        int HoldEdgeMinimum { get; set; }
         int LongHoldEdgeMaximum { get; set; }
         int LongHoldEdgeMinimum { get; set; }
         int ExtremeHoldEdgeMaximum { get; set; }

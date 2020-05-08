@@ -1661,6 +1661,21 @@
             What word does the sub use to indicate a problem. UI puts this in domme section, but it is typically defined by the sub.
             </summary>
         </member>
+        <member name="P:TeaseAI.Common.SubSettings.CanInterruptLongEdge">
+            <summary>
+            This appears unused.
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubSettings.HoldEdgeSecondsMaximum">
+            <summary>
+            Maximum seconds to hold an edge
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubSettings.HoldEdgeSecondsMinimum">
+            <summary>
+            Minimum seconds to hold an edge
+            </summary>
+        </member>
         <member name="T:TeaseAI.Common.TaggedItem">
             <summary>
             An item and its associated Tags

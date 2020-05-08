@@ -124,10 +124,10 @@ Public Class FrmSettings
         ' Sub Tab
         AllowLongEdgeInterruptCB.Checked = settings.Sub.CanInterruptLongEdge
 
-        HoldEdgeMaximum.Value = ConvertHoldTime(mySettingsAccessor.HoldEdgeMaximum)
-        LBLMaxHold.Text = ConvertHoldTimeUnits(mySettingsAccessor.HoldEdgeMaximum)
-        HoldEdgeMinimum.Value = ConvertHoldTime(mySettingsAccessor.HoldEdgeMinimum)
-        HoldEdgeMinimumUnits.Text = ConvertHoldTime(mySettingsAccessor.HoldEdgeMinimum)
+        HoldEdgeMaximum.Value = ConvertHoldTime(settings.Sub.HoldEdgeSecondsMaximum)
+        LBLMaxHold.Text = ConvertHoldTimeUnits(settings.Sub.HoldEdgeSecondsMaximum)
+        HoldEdgeMinimum.Value = ConvertHoldTime(settings.Sub.HoldEdgeSecondsMinimum)
+        HoldEdgeMinimumUnits.Text = ConvertHoldTime(settings.Sub.HoldEdgeSecondsMinimum)
 
         LongEdgeHoldMaximum.Value = mySettingsAccessor.LongHoldEdgeMaximum
         LongEdgeHoldMinimum.Value = mySettingsAccessor.LongHoldEdgeMinimum
@@ -1728,7 +1728,6 @@ Public Class FrmSettings
         If NBSubAgeMax.Value < NBSubAgeMin.Value Then NBSubAgeMax.Value = NBSubAgeMin.Value
     End Sub
 
-
     Private Sub NBEmpathy_ValueChanged(sender As Object, e As EventArgs) Handles NBEmpathy.ValueChanged
         If Not NBEmpathy.Visible Then
             Return
@@ -1751,6 +1750,63 @@ Public Class FrmSettings
     End Sub
 
 #End Region ' Domme
+
+#Region "Sub Tab"
+
+    Private Sub NBHoldTheEdgeMax_LostFocus(sender As Object, e As EventArgs) Handles HoldEdgeMaximum.LostFocus
+        If Not HoldEdgeMaximum.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.HoldEdgeSecondsMaximum = ConvertHoldTime(HoldEdgeMaximum.Value, LBLMaxHold.Text)
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub HoldEdgeMaximumValueChanged(sender As Object, e As EventArgs) Handles HoldEdgeMaximum.ValueChanged
+        If FrmSettingsLoading = False Then
+
+            If HoldEdgeMaximum.Value = 0 And LBLMaxHold.Text = "minutes" Then
+                HoldEdgeMaximum.Value = 59
+                LBLMaxHold.Text = "seconds"
+                Return
+            End If
+
+            If HoldEdgeMaximum.Value = 60 And LBLMaxHold.Text = "seconds" Then
+                HoldEdgeMaximum.Value = 1
+                LBLMaxHold.Text = "minutes"
+                Return
+            End If
+        End If
+    End Sub
+
+    Private Sub HoldEdgeMinimum_LostFocus(sender As Object, e As EventArgs) Handles HoldEdgeMinimum.LostFocus
+        If Not HoldEdgeMinimum.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.HoldEdgeSecondsMinimum = ConvertHoldTime(HoldEdgeMinimum.Value, HoldEdgeMinimumUnits.Text)
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub HoldEdgeMinimum_ValueChanged(sender As Object, e As EventArgs) Handles HoldEdgeMinimum.ValueChanged
+        If FrmSettingsLoading = False Then
+            If HoldEdgeMinimum.Value = 0 And HoldEdgeMinimumUnits.Text = "minutes" Then
+                HoldEdgeMinimum.Value = 59
+                HoldEdgeMinimumUnits.Text = "seconds"
+                Return
+            End If
+
+            If HoldEdgeMinimum.Value = 60 And HoldEdgeMinimumUnits.Text = "seconds" Then
+                HoldEdgeMinimum.Value = 1
+                HoldEdgeMinimumUnits.Text = "minutes"
+                Return
+            End If
+        End If
+    End Sub
+
+#End Region
 
 #Region "Scripts Tab"
     Public Sub ScriptsStartTab_VisibleChanged() Handles ScriptsStartTab.VisibleChanged
@@ -5259,48 +5315,6 @@ Public Class FrmSettings
         My.Settings.LongEdge = NBLongEdge.Value
     End Sub
 
-    Private Sub NBHoldTheEdgeMax_LostFocus(sender As Object, e As EventArgs) Handles HoldEdgeMaximum.LostFocus
-        mySettingsAccessor.HoldEdgeMaximum = ConvertHoldTime(HoldEdgeMaximum.Value, LBLMaxHold.Text)
-    End Sub
-
-    Private Sub NBHoldTheEdgeMin_LostFocus(sender As Object, e As EventArgs) Handles HoldEdgeMinimum.LostFocus
-        mySettingsAccessor.HoldEdgeMaximum = ConvertHoldTime(HoldEdgeMinimum.Value, HoldEdgeMinimumUnits.Text)
-    End Sub
-
-    Private Sub NBHoldTheEdgeMax_ValueChanged(sender As Object, e As EventArgs) Handles HoldEdgeMaximum.ValueChanged
-        If FrmSettingsLoading = False Then
-
-            If HoldEdgeMaximum.Value = 0 And LBLMaxHold.Text = "minutes" Then
-                HoldEdgeMaximum.Value = 59
-                LBLMaxHold.Text = "seconds"
-                Return
-            End If
-
-            If HoldEdgeMaximum.Value = 60 And LBLMaxHold.Text = "seconds" Then
-                HoldEdgeMaximum.Value = 1
-                LBLMaxHold.Text = "minutes"
-                Return
-            End If
-        End If
-    End Sub
-
-    Private Sub NBHoldTheEdgeMin_ValueChanged(sender As Object, e As EventArgs) Handles HoldEdgeMinimum.ValueChanged
-        If FrmSettingsLoading = False Then
-
-            If HoldEdgeMinimum.Value = 0 And HoldEdgeMinimumUnits.Text = "minutes" Then
-                HoldEdgeMinimum.Value = 59
-                HoldEdgeMinimumUnits.Text = "seconds"
-                Return
-            End If
-
-            If HoldEdgeMinimum.Value = 60 And HoldEdgeMinimumUnits.Text = "seconds" Then
-                HoldEdgeMinimum.Value = 1
-                HoldEdgeMinimumUnits.Text = "minutes"
-                Return
-            End If
-        End If
-    End Sub
-
     Private Sub NBLongHoldMax_LostFocus(sender As Object, e As EventArgs) Handles LongEdgeHoldMaximum.LostFocus
         mySettingsAccessor.LongHoldEdgeMaximum = LongEdgeHoldMaximum.Value
     End Sub
@@ -5639,10 +5653,7 @@ Public Class FrmSettings
         NBSelfAgeMax.Value = My.Settings.SelfAgeMax
         NBSubAgeMin.Value = My.Settings.SubAgeMin
         NBSubAgeMax.Value = My.Settings.SubAgeMax
-
     End Sub
-
-
 
     Private Sub Button4_Click_5(sender As Object, e As EventArgs) Handles Button4.Click
 
@@ -7251,14 +7262,14 @@ Public Class FrmSettings
         TypesSpeedVal.Text = TypeSpeedSlider.Value
     End Sub
 
-    Private Function ConvertHoldTime(holdTimeSeconds As Int16) As Int16
+    Private Function ConvertHoldTime(holdTimeSeconds As Integer) As Integer
         If (ConvertHoldTimeUnits(holdTimeSeconds) = "minutes") Then
             Return holdTimeSeconds / 60
         End If
         Return holdTimeSeconds
     End Function
 
-    Private Function ConvertHoldTime(holdTime As Int16, holdTimeUnits As String) As Int16
+    Private Function ConvertHoldTime(holdTime As Integer, holdTimeUnits As String) As Int16
         If (holdTimeUnits = "minutes") Then
             Return holdTime * 60
         End If

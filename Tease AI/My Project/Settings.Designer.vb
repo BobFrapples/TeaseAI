@@ -2740,18 +2740,6 @@ Namespace My
             End Set
         End Property
 
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("1")>
-        Public Property HoldTheEdgeMax() As Integer
-            Get
-                Return CType(Me("HoldTheEdgeMax"), Integer)
-            End Get
-            Set
-                Me("HoldTheEdgeMax") = Value
-            End Set
-        End Property
-
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
@@ -4604,31 +4592,19 @@ Namespace My
                 Me("WakeUp") = value
             End Set
         End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("10")>  _
-        Public Property HoldTheEdgeMin() As Integer
-            Get
-                Return CType(Me("HoldTheEdgeMin"),Integer)
-            End Get
-            Set
-                Me("HoldTheEdgeMin") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("seconds")>  _
+
+        <Global.System.Configuration.UserScopedSettingAttribute(),
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
+         Global.System.Configuration.DefaultSettingValueAttribute("seconds")>
         Public Property HoldTheEdgeMinAmount() As String
             Get
-                Return CType(Me("HoldTheEdgeMinAmount"),String)
+                Return CType(Me("HoldTheEdgeMinAmount"), String)
             End Get
             Set
-                Me("HoldTheEdgeMinAmount") = value
+                Me("HoldTheEdgeMinAmount") = Value
             End Set
         End Property
-        
+
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("minutes")>  _
