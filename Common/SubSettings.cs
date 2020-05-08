@@ -20,5 +20,10 @@
         /// What word does the sub use to indicate a problem. UI puts this in domme section, but it is typically defined by the sub.
         /// </summary>
         public string Safeword { get; set; }
+
+        /// <summary>
+        /// This appears unused.
+        /// </summary>
+        public bool CanInterruptLongEdge { get; set; }
     }
 }

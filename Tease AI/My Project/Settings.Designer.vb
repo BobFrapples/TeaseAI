@@ -2739,31 +2739,19 @@ Namespace My
                 Me("LongEdge") = value
             End Set
         End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
-        Public Property CBLongEdgeInterrupt() As Boolean
-            Get
-                Return CType(Me("CBLongEdgeInterrupt"),Boolean)
-            End Get
-            Set
-                Me("CBLongEdgeInterrupt") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("1")>  _
+
+        <Global.System.Configuration.UserScopedSettingAttribute(),
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
+         Global.System.Configuration.DefaultSettingValueAttribute("1")>
         Public Property HoldTheEdgeMax() As Integer
             Get
-                Return CType(Me("HoldTheEdgeMax"),Integer)
+                Return CType(Me("HoldTheEdgeMax"), Integer)
             End Get
             Set
-                Me("HoldTheEdgeMax") = value
+                Me("HoldTheEdgeMax") = Value
             End Set
         End Property
-        
+
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("0")>  _

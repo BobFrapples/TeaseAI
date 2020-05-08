@@ -44,15 +44,6 @@ Public Class SettingsAccessor
         End Set
     End Property
 
-    Public Property CanInterruptLongEdge As Boolean Implements ISettingsAccessor.CanInterruptLongEdge
-        Get
-            Return Settings.CBLongEdgeInterrupt
-        End Get
-        Set(value As Boolean)
-            Settings.CBLongEdgeInterrupt = value
-        End Set
-    End Property
-
     Public Property HoldEdgeMinimum As Integer Implements ISettingsAccessor.HoldEdgeMinimum
         Get
             Return Settings.HoldTheEdgeMin

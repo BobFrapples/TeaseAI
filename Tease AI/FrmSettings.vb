@@ -122,7 +122,7 @@ Public Class FrmSettings
         TBSafeword.Text = settings.Sub.Safeword
 
         ' Sub Tab
-        AllowLongEdgeInterruptCB.Checked = mySettingsAccessor.CanInterruptLongEdge
+        AllowLongEdgeInterruptCB.Checked = settings.Sub.CanInterruptLongEdge
 
         HoldEdgeMaximum.Value = ConvertHoldTime(mySettingsAccessor.HoldEdgeMaximum)
         LBLMaxHold.Text = ConvertHoldTimeUnits(mySettingsAccessor.HoldEdgeMaximum)

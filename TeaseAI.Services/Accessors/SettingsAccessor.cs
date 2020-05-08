@@ -18,12 +18,13 @@ namespace TeaseAI.Services.Accessors
 
         public Settings GetSettings()
         {
-            var settingsFile = _configurationAccessor.GetSettingsLocation();
-            if (File.Exists(settingsFile))
-            {
-                var jsonString = File.ReadAllText(settingsFile);
-                return Deserialize(jsonString);
-            }
+           
+            //var settingsFile = _configurationAccessor.GetSettingsLocation();
+            //if (File.Exists(settingsFile))
+            //{
+            //    var jsonString = File.ReadAllText(settingsFile);
+            //    return Deserialize(jsonString);
+            //}
             var settings = CreateDefaultSettings();
             return WriteSettings(settings);
         }
@@ -64,6 +65,7 @@ namespace TeaseAI.Services.Accessors
                 Sub = new SubSettings
                 {
                     Safeword = "red",
+                    CanInterruptLongEdge = true,
                 },
             };
         }
@@ -93,7 +95,6 @@ namespace TeaseAI.Services.Accessors
         public bool IsBallTortureEnabled { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool DoesChastityDeviceRequirePiercing { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool DoesChastityDeviceContainSpikes { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public bool CanInterruptLongEdge { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public int HoldEdgeMaximum { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public int HoldEdgeMinimum { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public int LongHoldEdgeMaximum { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }

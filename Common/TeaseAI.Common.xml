@@ -1606,6 +1606,11 @@
             Domme configuration ( Domme name, preferences, etc )
             </summary>
         </member>
+        <member name="P:TeaseAI.Common.Settings.Sub">
+            <summary>
+            Sub configuration
+            </summary>
+        </member>
         <member name="P:TeaseAI.Common.SubPersonality.IsStroking">
             <summary>
             Is the sub stroking
@@ -1639,6 +1644,21 @@
         <member name="P:TeaseAI.Common.SubPersonality.Purse">
             <summary>
             How many tokens of what denomination does the sub have
+            </summary>
+        </member>
+        <member name="M:TeaseAI.Common.SubSettings.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubSettings.Version">
+            <summary>
+            used to manage serialization. Changes when the model breaks compatibility
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubSettings.Safeword">
+            <summary>
+            What word does the sub use to indicate a problem. UI puts this in domme section, but it is typically defined by the sub.
             </summary>
         </member>
         <member name="T:TeaseAI.Common.TaggedItem">
