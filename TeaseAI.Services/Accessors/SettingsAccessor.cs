@@ -18,7 +18,7 @@ namespace TeaseAI.Services.Accessors
 
         public Settings GetSettings()
         {
-           
+
             //var settingsFile = _configurationAccessor.GetSettingsLocation();
             //if (File.Exists(settingsFile))
             //{
@@ -66,6 +66,27 @@ namespace TeaseAI.Services.Accessors
                 {
                     Safeword = "red",
                     CanInterruptLongEdge = true,
+                    AllowLongEdgeInterrupts = true,
+                    AllowLongEdgeTaunts = false,
+                    CallBallsPussy = false,
+                    CallCockAClit = false,
+                    HasChastityDevice = false,
+                    DoesChastityDeviceContainSpikes = false,
+                    DoesChastityDeviceRequirePiercing = false,
+                    ExtremeEdgeHoldMaximum = 1,
+                    CockAndBallTortureLevel = TortureLevel.Create(3).Value,
+                    IsBallTortureEnabled = false,
+                    IsCockTortureEnabled = false,
+                    IsSubCircumcised = false,
+                    ExtremeEdgeHoldMinimum = 0,
+                    HoldEdgeSecondsMaximum = 60,
+                    HoldEdgeSecondsMinimum = 10,
+                    IsSubFemale = false,
+                    IsSubPierced = false,
+                    LongEdgeHoldMaximum = 0,
+                    LongEdgeHoldMinimum = 0,
+                    LongEdgeThreshold = 0,
+                    UseAverageEdgeTimeAsThreshold = false,
                 },
             };
         }
@@ -87,6 +108,7 @@ namespace TeaseAI.Services.Accessors
             var jsonConverters = new List<JsonConverter>();
             jsonConverters.Add(new ApathyLevelJsonConverter());
             jsonConverters.Add(new DomLevelJsonConverter());
+            jsonConverters.Add(new TortureLevelJsonConverter());
             return jsonConverters;
         }
 

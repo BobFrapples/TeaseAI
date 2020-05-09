@@ -8,132 +8,6 @@ Imports TeaseAI.Common.Interfaces.Accessors
 Public Class SettingsAccessor
     Implements TeaseAI.Common.Interfaces.Accessors.ISettingsAccessor
 
-    Public Property IsBallTortureEnabled As Boolean Implements ISettingsAccessor.IsBallTortureEnabled
-        Get
-            Return Settings.CBTBalls
-        End Get
-        Set(value As Boolean)
-            Settings.CBTBalls = value
-        End Set
-    End Property
-
-    Public Property IsCockTortureEnabled As Boolean Implements ISettingsAccessor.IsCockTortureEnabled
-        Get
-            Return Settings.CBTCock
-        End Get
-        Set(value As Boolean)
-            Settings.CBTCock = value
-        End Set
-    End Property
-
-    Public Property DoesChastityDeviceRequirePiercing As Boolean Implements ISettingsAccessor.DoesChastityDeviceRequirePiercing
-        Get
-            Return Settings.ChastityPA
-        End Get
-        Set(value As Boolean)
-            Settings.ChastityPA = value
-        End Set
-    End Property
-
-    Public Property DoesChastityDeviceContainSpikes As Boolean Implements ISettingsAccessor.DoesChastityDeviceContainSpikes
-        Get
-            Return Settings.ChastitySpikes
-        End Get
-        Set(value As Boolean)
-            Settings.ChastitySpikes = value
-        End Set
-    End Property
-
-    Public Property LongHoldEdgeMinimum As Integer Implements ISettingsAccessor.LongHoldEdgeMinimum
-        Get
-            Return Settings.LongHoldMin
-        End Get
-        Set(value As Integer)
-            Settings.LongHoldMin = value
-        End Set
-    End Property
-
-    Public Property LongHoldEdgeMaximum As Integer Implements ISettingsAccessor.LongHoldEdgeMaximum
-        Get
-            Return CType(Settings.LongHoldMax, Integer)
-        End Get
-        Set(value As Integer)
-            Settings.LongHoldMax = value.ToString()
-        End Set
-    End Property
-
-    Public Property ExtremeHoldEdgeMaximum As Integer Implements ISettingsAccessor.ExtremeHoldEdgeMaximum
-        Get
-            Return CType(Settings.ExtremeHoldMax, Integer)
-        End Get
-        Set(value As Integer)
-            Settings.ExtremeHoldMax = value.ToString()
-        End Set
-    End Property
-
-    Public Property ExtremeHoldEdgeMinimum As Integer Implements ISettingsAccessor.ExtremeHoldEdgeMinimum
-        Get
-            Return CType(Settings.ExtremeHoldMin, Integer)
-        End Get
-        Set(value As Integer)
-            Settings.ExtremeHoldMin = value.ToString()
-        End Set
-    End Property
-
-    Public Property CockAndBallTortureLevel As TortureLevel Implements ISettingsAccessor.CockAndBallTortureLevel
-        Get
-            Return TortureLevel.Create(Settings.CBTSlider).Value
-        End Get
-        Set(value As TortureLevel)
-            Settings.CBTSlider = value
-        End Set
-    End Property
-
-    Public Property IsSubCircumcised As Boolean Implements ISettingsAccessor.IsSubCircumcised
-        Get
-            Return Settings.SubCircumcised
-        End Get
-        Set(value As Boolean)
-            Settings.SubCircumcised = value
-        End Set
-    End Property
-
-    Public Property IsSubPierced As Boolean Implements ISettingsAccessor.IsSubPierced
-        Get
-            Return Settings.SubPierced
-        End Get
-        Set(value As Boolean)
-            Settings.SubPierced = value
-        End Set
-    End Property
-
-    Public Property UseAverageEdgeTimeAsThreshold As Boolean Implements ISettingsAccessor.UseAverageEdgeTimeAsThreshold
-        Get
-            Return Settings.CBEdgeUseAvg
-        End Get
-        Set(value As Boolean)
-            Settings.CBEdgeUseAvg = value
-        End Set
-    End Property
-
-    Public Property AllowsLongEdgeTaunts As Boolean Implements ISettingsAccessor.AllowsLongEdgeTaunts
-        Get
-            Return Settings.CBLongEdgeTaunts
-        End Get
-        Set(value As Boolean)
-            Settings.CBLongEdgeTaunts = value
-        End Set
-    End Property
-
-    Public Property AllowsLongEdgeInterrupts As Boolean Implements ISettingsAccessor.AllowsLongEdgeInterrupts
-        Get
-            Return Settings.CBLongEdgeInterrupts
-        End Get
-        Set(value As Boolean)
-            Settings.CBLongEdgeInterrupts = value
-        End Set
-    End Property
-
     Public Property IsTeaseLengthDommeDetermined As Boolean Implements ISettingsAccessor.IsTeaseLengthDommeDetermined
         Get
             Return Settings.CBTeaseLengthDD
@@ -152,48 +26,12 @@ Public Class SettingsAccessor
         End Set
     End Property
 
-    Public Property HasChastityDevice As Boolean Implements ISettingsAccessor.HasChastityDevice
-        Get
-            Return Settings.CBOwnChastity
-        End Get
-        Set(value As Boolean)
-            Settings.CBOwnChastity = value
-        End Set
-    End Property
-
-    Public Property CallCockAClit As Boolean Implements ISettingsAccessor.CallCockAClit
-        Get
-            Return Settings.CockToClit
-        End Get
-        Set(value As Boolean)
-            Settings.CockToClit = value
-        End Set
-    End Property
-
-    Public Property CallBallsPussy As Boolean Implements ISettingsAccessor.CallBallsPussy
-        Get
-            Return Settings.BallsToPussy
-        End Get
-        Set(value As Boolean)
-            Settings.BallsToPussy = value
-        End Set
-    End Property
-
     Public Property CanDommeDeleteFiles As Boolean Implements ISettingsAccessor.CanDommeDeleteFiles
         Get
             Return Settings.DomDeleteMedia
         End Get
         Set(value As Boolean)
             Settings.DomDeleteMedia = value
-        End Set
-    End Property
-
-    Public Property IsSubFemale As Boolean Implements ISettingsAccessor.IsSubFemale
-        Get
-            Return Settings.CBHimHer
-        End Get
-        Set(value As Boolean)
-            Settings.CBHimHer = value
         End Set
     End Property
 

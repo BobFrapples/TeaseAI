@@ -129,32 +129,38 @@ Public Class FrmSettings
         HoldEdgeMinimum.Value = ConvertHoldTime(settings.Sub.HoldEdgeSecondsMinimum)
         HoldEdgeMinimumUnits.Text = ConvertHoldTime(settings.Sub.HoldEdgeSecondsMinimum)
 
-        LongEdgeHoldMaximum.Value = mySettingsAccessor.LongHoldEdgeMaximum
-        LongEdgeHoldMinimum.Value = mySettingsAccessor.LongHoldEdgeMinimum
+        LongEdgeHoldMaximum.Value = settings.Sub.LongEdgeHoldMaximum
+        LongEdgeHoldMinimum.Value = settings.Sub.LongEdgeHoldMinimum
 
-        ExtremeEdgeHoldMaximum.Value = mySettingsAccessor.ExtremeHoldEdgeMaximum
-        ExtremeEdgeHoldMinimum.Value = mySettingsAccessor.ExtremeHoldEdgeMinimum
+        ExtremeEdgeHoldMaximum.Value = settings.Sub.ExtremeEdgeHoldMaximum
+        ExtremeEdgeHoldMinimum.Value = settings.Sub.ExtremeEdgeHoldMinimum
 
-        CockAndBallTortureLevelSlider.Value = mySettingsAccessor.CockAndBallTortureLevel
+        CockAndBallTortureLevelSlider.Value = settings.Sub.CockAndBallTortureLevel
         CockAndBallTortureLevelLbl.Text = "CBT Level:  " & CockAndBallTortureLevelSlider.Value
 
-        CBSubCircumcised.Checked = mySettingsAccessor.IsSubCircumcised
-        CBSubPierced.Checked = mySettingsAccessor.IsSubPierced
+        CBSubCircumcised.Checked = settings.Sub.IsSubCircumcised
+        CBSubPierced.Checked = settings.Sub.IsSubPierced
 
-        CockTortureEnabledCB.Checked = mySettingsAccessor.IsCockTortureEnabled
-        BallTortureEnabledCB.Checked = mySettingsAccessor.IsBallTortureEnabled
+        CockTortureEnabledCB.Checked = settings.Sub.IsCockTortureEnabled
+        BallTortureEnabledCB.Checked = settings.Sub.IsBallTortureEnabled
 
-        CBOwnChastity.Checked = mySettingsAccessor.HasChastityDevice
+        CBOwnChastity.Checked = settings.Sub.HasChastityDevice
 
-        DoesChastityDeviceRequirePiercingCB.Checked = mySettingsAccessor.DoesChastityDeviceRequirePiercing
+        DoesChastityDeviceRequirePiercingCB.Checked = settings.Sub.DoesChastityDeviceRequirePiercing
         DoesChastityDeviceRequirePiercingCB.Enabled = CBOwnChastity.Checked
-        ChastityDeviceContainsSpikesCB.Checked = mySettingsAccessor.DoesChastityDeviceContainSpikes
+        ChastityDeviceContainsSpikesCB.Checked = settings.Sub.DoesChastityDeviceContainSpikes
         ChastityDeviceContainsSpikesCB.Enabled = CBOwnChastity.Checked
 
-        UseAverageEdgeThresholdCB.Checked = mySettingsAccessor.UseAverageEdgeTimeAsThreshold
-        AllowLongEdgeTauntCB.Checked = mySettingsAccessor.AllowsLongEdgeTaunts
-        AllowLongEdgeInterruptCB.Checked = mySettingsAccessor.AllowsLongEdgeInterrupts
+        AllowLongEdgeTauntCB.Checked = settings.Sub.AllowLongEdgeTaunts
+        AllowLongEdgeInterruptCB.Checked = settings.Sub.AllowLongEdgeInterrupts
+        NBLongEdge.Value = settings.Sub.LongEdgeThreshold
+        UseAverageEdgeThresholdCB.Checked = settings.Sub.UseAverageEdgeTimeAsThreshold
 
+        CBHimHer.Checked = settings.Sub.IsSubFemale
+        CBCockToClit.Checked = settings.Sub.CallCockAClit
+        CBBallsToPussy.Checked = settings.Sub.CallBallsPussy
+
+        ' unknown tab
         TeaseLengthDommeDetermined.Checked = mySettingsAccessor.IsTeaseLengthDommeDetermined
         CBTauntCycleDD.Checked = mySettingsAccessor.IsTauntCycleDommeDetermined
 
@@ -167,10 +173,6 @@ Public Class FrmSettings
             orgasmsperlockButton.Enabled = False
             orgasmlockrandombutton.Enabled = False
         End If
-
-        CBHimHer.Checked = mySettingsAccessor.IsSubFemale
-        CBCockToClit.Checked = mySettingsAccessor.CallCockAClit
-        CBBallsToPussy.Checked = mySettingsAccessor.CallBallsPussy
 
         CBDomDel.Checked = mySettingsAccessor.CanDommeDeleteFiles
 
@@ -202,8 +204,6 @@ Public Class FrmSettings
 
         FrmSplash.UpdateText("Loading Settings...")
         LoadSettings(settings)
-        ' Sub tab
-        NBLongEdge.Value = My.Settings.LongEdge
 
         FrmSplash.UpdateText("Checking installed voices...")
         Dim oSpeech As New SpeechSynthesizer()
@@ -1752,7 +1752,6 @@ Public Class FrmSettings
 #End Region ' Domme
 
 #Region "Sub Tab"
-
     Private Sub NBHoldTheEdgeMax_LostFocus(sender As Object, e As EventArgs) Handles HoldEdgeMaximum.LostFocus
         If Not HoldEdgeMaximum.Visible Then
             Return
@@ -1806,6 +1805,255 @@ Public Class FrmSettings
         End If
     End Sub
 
+    Private Sub AllowLongEdgeInterruptCB_CheckedChanged(sender As Object, e As EventArgs) Handles AllowLongEdgeInterruptCB.CheckedChanged
+        If Not AllowLongEdgeInterruptCB.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.AllowLongEdgeInterrupts = AllowLongEdgeInterruptCB.Checked
+
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub AllowLongEdgeTauntCB_LostFocus(sender As Object, e As EventArgs) Handles AllowLongEdgeTauntCB.CheckedChanged
+        If Not AllowLongEdgeTauntCB.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.AllowLongEdgeInterrupts = AllowLongEdgeTauntCB.Checked
+
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub CBBallsToPussy_LostFocus(sender As Object, e As EventArgs) Handles CBBallsToPussy.CheckedChanged
+        If Not CBBallsToPussy.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.CallBallsPussy = CBBallsToPussy.Checked
+
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub CBCockToClit_CheckedChanged(sender As Object, e As EventArgs) Handles CBCockToClit.CheckedChanged
+        If Not CBCockToClit.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.CallCockAClit = CBCockToClit.Checked
+
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub CockAndBallTortureLevelSlider_Scroll(sender As Object, e As EventArgs) Handles CockAndBallTortureLevelSlider.Scroll
+        If Not CockAndBallTortureLevelSlider.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.CockAndBallTortureLevel = TortureLevel.Create(CockAndBallTortureLevelSlider.Value).Value
+
+        mySettingsAccessor.WriteSettings(settings)
+
+        CockAndBallTortureLevelLbl.Text = "CBT Level: " & CockAndBallTortureLevelSlider.Value.ToString()
+    End Sub
+
+    Private Sub ChastityDeviceContainsSpikesCB_CheckedChanged(sender As Object, e As EventArgs) Handles ChastityDeviceContainsSpikesCB.CheckedChanged
+        If Not ChastityDeviceContainsSpikesCB.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.DoesChastityDeviceContainSpikes = ChastityDeviceContainsSpikesCB.Checked
+
+        mySettingsAccessor.WriteSettings(settings)
+
+    End Sub
+
+    Private Sub CBOwnChastity_CheckedChanged(sender As Object, e As EventArgs) Handles CBOwnChastity.CheckedChanged
+        If Not CBOwnChastity.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.HasChastityDevice = CBOwnChastity.Checked
+
+        mySettingsAccessor.WriteSettings(settings)
+
+        DoesChastityDeviceRequirePiercingCB.Enabled = CBOwnChastity.Checked
+        ChastityDeviceContainsSpikesCB.Enabled = CBOwnChastity.Checked
+    End Sub
+
+    Private Sub DoesChastityDeviceRequirePiercingCB_CheckedChanged(sender As Object, e As EventArgs) Handles DoesChastityDeviceRequirePiercingCB.CheckedChanged
+        If Not DoesChastityDeviceRequirePiercingCB.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.DoesChastityDeviceRequirePiercing = DoesChastityDeviceRequirePiercingCB.Checked
+
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub CockTortureEnabledCB_CheckedChanged(sender As Object, e As EventArgs) Handles CockTortureEnabledCB.CheckedChanged
+        If Not CockTortureEnabledCB.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.IsCockTortureEnabled = CockTortureEnabledCB.Checked
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub BallTortureEnabledCB_CheckedChanged(sender As Object, e As EventArgs) Handles BallTortureEnabledCB.CheckedChanged
+        If Not BallTortureEnabledCB.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.IsBallTortureEnabled = BallTortureEnabledCB.Checked
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub NBLongEdge_ValueChanged(sender As Object, e As EventArgs) Handles NBLongEdge.LostFocus
+        If Not NBLongEdge.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.LongEdgeThreshold = Convert.ToInt32(NBLongEdge.Value)
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub LongEdgeHoldMaximum_LostFocus(sender As Object, e As EventArgs) Handles LongEdgeHoldMaximum.LostFocus
+        If Not LongEdgeHoldMaximum.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.LongEdgeHoldMaximum = Convert.ToInt32(LongEdgeHoldMaximum.Value)
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub LongEdgeHoldMinimum_LostFocus(sender As Object, e As EventArgs) Handles LongEdgeHoldMinimum.LostFocus
+        If Not LongEdgeHoldMinimum.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.LongEdgeHoldMinimum = Convert.ToInt32(LongEdgeHoldMinimum.Value)
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub LongEdgeHoldMaximum_ValueChanged(sender As Object, e As EventArgs) Handles LongEdgeHoldMaximum.ValueChanged
+        If FrmSettingsLoading = False Then
+            If LongEdgeHoldMaximum.Value = 1 Then
+                LBLMaxLongHold.Text = "minute"
+            Else
+                LBLMaxLongHold.Text = "minutes"
+            End If
+        End If
+    End Sub
+
+    Private Sub LongEdgeHoldMinimum_ValueChanged(sender As Object, e As EventArgs) Handles LongEdgeHoldMinimum.ValueChanged
+        If FrmSettingsLoading = False Then
+            If LongEdgeHoldMinimum.Value = 1 Then
+                LBLMinLongHold.Text = "minute"
+            Else
+                LBLMinLongHold.Text = "minutes"
+            End If
+        End If
+    End Sub
+
+    Private Sub ExtremeEdgeHoldMaximum_LostFocus(sender As Object, e As EventArgs) Handles ExtremeEdgeHoldMaximum.LostFocus
+        If Not ExtremeEdgeHoldMaximum.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.ExtremeEdgeHoldMaximum = Convert.ToInt32(ExtremeEdgeHoldMaximum.Value)
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub ExtremeEdgeHoldMinimum_LostFocus(sender As Object, e As EventArgs) Handles ExtremeEdgeHoldMinimum.LostFocus
+        If Not ExtremeEdgeHoldMinimum.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.ExtremeEdgeHoldMinimum = Convert.ToInt32(ExtremeEdgeHoldMinimum.Value)
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub NBExtremeHoldMax_ValueChanged(sender As Object, e As EventArgs) Handles ExtremeEdgeHoldMaximum.ValueChanged
+        If FrmSettingsLoading = False Then
+            If ExtremeEdgeHoldMaximum.Value = 1 Then
+                LBLMaxExtremeHold.Text = "minute"
+            Else
+                LBLMaxExtremeHold.Text = "minutes"
+            End If
+        End If
+    End Sub
+
+    Private Sub NBExtremeHoldMin_ValueChanged(sender As Object, e As EventArgs) Handles ExtremeEdgeHoldMinimum.ValueChanged
+        If FrmSettingsLoading = False Then
+            If ExtremeEdgeHoldMinimum.Value = 1 Then
+                LBLMinExtremeHold.Text = "minute"
+            Else
+                LBLMinExtremeHold.Text = "minutes"
+            End If
+        End If
+    End Sub
+
+    Private Sub CBSubCircumcised_CheckedChanged(sender As Object, e As EventArgs) Handles CBSubCircumcised.CheckedChanged
+        If Not CBSubCircumcised.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.IsSubCircumcised = CBSubCircumcised.Checked
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub CBSubPierced_CheckedChanged(sender As Object, e As EventArgs) Handles CBSubPierced.CheckedChanged
+        If Not CBSubPierced.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.IsSubPierced = CBSubPierced.Checked
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub CBHimHer_LostFocus(sender As Object, e As EventArgs) Handles CBHimHer.LostFocus
+        If Not CBHimHer.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.IsSubFemale = CBHimHer.Checked
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub UseAverageEdgeThresholdCB_CheckedChanged(sender As Object, e As EventArgs) Handles UseAverageEdgeThresholdCB.CheckedChanged
+        If Not UseAverageEdgeThresholdCB.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.UseAverageEdgeTimeAsThreshold = UseAverageEdgeThresholdCB.Checked
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+#Region "tooltips and descriptions"
+    Private Sub CBHimHer_MouseHover(sender As Object, e As EventArgs) Handles CBHimHer.MouseEnter
+        LBLSubSettingsDescription.Text = "When this is checked, Glitter will automatically replace any instance of He/Him/His with She/Her/Her."
+    End Sub
+#End Region
 #End Region
 
 #Region "Scripts Tab"
@@ -5303,87 +5551,6 @@ Public Class FrmSettings
         TBWIDirectory.SelectionLength = Len(TBWIDirectory.Text)
     End Sub
 
-    Private Sub CBCBTCock_CheckedChanged(sender As Object, e As EventArgs) Handles CockTortureEnabledCB.LostFocus
-        mySettingsAccessor.IsCockTortureEnabled = CockTortureEnabledCB.Checked
-    End Sub
-
-    Private Sub CBCBTBalls_CheckedChanged(sender As Object, e As EventArgs) Handles BallTortureEnabledCB.LostFocus
-        mySettingsAccessor.IsBallTortureEnabled = BallTortureEnabledCB.Checked
-    End Sub
-
-    Private Sub NBLongEdge_ValueChanged(sender As Object, e As EventArgs) Handles NBLongEdge.LostFocus
-        My.Settings.LongEdge = NBLongEdge.Value
-    End Sub
-
-    Private Sub NBLongHoldMax_LostFocus(sender As Object, e As EventArgs) Handles LongEdgeHoldMaximum.LostFocus
-        mySettingsAccessor.LongHoldEdgeMaximum = LongEdgeHoldMaximum.Value
-    End Sub
-
-    Private Sub NBLongHoldMin_LostFocus(sender As Object, e As EventArgs) Handles LongEdgeHoldMinimum.LostFocus
-        mySettingsAccessor.LongHoldEdgeMinimum = LongEdgeHoldMinimum.Value
-    End Sub
-
-    Private Sub NBLongHoldMax_ValueChanged(sender As Object, e As EventArgs) Handles LongEdgeHoldMaximum.ValueChanged
-        If FrmSettingsLoading = False Then
-            If LongEdgeHoldMaximum.Value = 1 Then
-                LBLMaxLongHold.Text = "minute"
-            Else
-                LBLMaxLongHold.Text = "minutes"
-            End If
-        End If
-    End Sub
-
-    Private Sub NBLongHoldMin_ValueChanged(sender As Object, e As EventArgs) Handles LongEdgeHoldMinimum.ValueChanged
-        If FrmSettingsLoading = False Then
-            If LongEdgeHoldMinimum.Value = 1 Then
-                LBLMinLongHold.Text = "minute"
-            Else
-                LBLMinLongHold.Text = "minutes"
-            End If
-        End If
-    End Sub
-
-    Private Sub NBExtremeHoldMax_LostFocus(sender As Object, e As EventArgs) Handles ExtremeEdgeHoldMaximum.LostFocus
-        mySettingsAccessor.ExtremeHoldEdgeMaximum = ExtremeEdgeHoldMaximum.Value
-    End Sub
-
-    Private Sub NBExtremeHoldMin_LostFocus(sender As Object, e As EventArgs) Handles ExtremeEdgeHoldMinimum.LostFocus
-        mySettingsAccessor.ExtremeHoldEdgeMinimum = ExtremeEdgeHoldMinimum.Value
-    End Sub
-
-    Private Sub NBExtremeHoldMax_ValueChanged(sender As Object, e As EventArgs) Handles ExtremeEdgeHoldMaximum.ValueChanged
-        If FrmSettingsLoading = False Then
-            If ExtremeEdgeHoldMaximum.Value = 1 Then
-                LBLMaxExtremeHold.Text = "minute"
-            Else
-                LBLMaxExtremeHold.Text = "minutes"
-            End If
-        End If
-    End Sub
-
-    Private Sub NBExtremeHoldMin_ValueChanged(sender As Object, e As EventArgs) Handles ExtremeEdgeHoldMinimum.ValueChanged
-        If FrmSettingsLoading = False Then
-            If ExtremeEdgeHoldMinimum.Value = 1 Then
-                LBLMinExtremeHold.Text = "minute"
-            Else
-                LBLMinExtremeHold.Text = "minutes"
-            End If
-        End If
-    End Sub
-
-    Private Sub CBTSlider_Scroll(sender As Object, e As EventArgs) Handles CockAndBallTortureLevelSlider.Scroll
-        mySettingsAccessor.CockAndBallTortureLevel = TortureLevel.Create(CockAndBallTortureLevelSlider.Value).Value
-        CockAndBallTortureLevelLbl.Text = "CBT Level: " & CockAndBallTortureLevelSlider.Value.ToString()
-    End Sub
-
-    Private Sub CBSubCircumcised_CheckedChanged(sender As Object, e As EventArgs) Handles CBSubCircumcised.CheckedChanged
-        mySettingsAccessor.IsSubCircumcised = CBSubCircumcised.Checked
-    End Sub
-
-    Private Sub CBSubPierced_CheckedChanged(sender As Object, e As EventArgs) Handles CBSubPierced.CheckedChanged
-        mySettingsAccessor.IsSubPierced = CBSubPierced.Checked
-    End Sub
-
     Private Sub Button14_Click(sender As Object, e As EventArgs) Handles BTNSaveDomSet.Click
 
         SaveSettingsDialog.Title = "Select a location to save current Domme settings"
@@ -5835,17 +6002,6 @@ Public Class FrmSettings
 
     End Sub
 
-    Private Sub CBEdgeUseAvg_LostFocus(sender As Object, e As EventArgs) Handles UseAverageEdgeThresholdCB.LostFocus
-        mySettingsAccessor.UseAverageEdgeTimeAsThreshold = UseAverageEdgeThresholdCB.Checked
-    End Sub
-    Private Sub CBLongEdgeTaunts_LostFocus(sender As Object, e As EventArgs) Handles AllowLongEdgeTauntCB.LostFocus
-        mySettingsAccessor.AllowsLongEdgeTaunts = AllowLongEdgeTauntCB.Checked
-    End Sub
-
-    Private Sub CBLongEdgeInterrupts_LostFocus(sender As Object, e As EventArgs) Handles AllowLongEdgeInterruptCB.LostFocus
-        mySettingsAccessor.AllowsLongEdgeInterrupts = AllowLongEdgeInterruptCB.Checked
-    End Sub
-
     Private Sub CBLongEdgeInterrupts_MouseHover(sender As Object, e As EventArgs) Handles AllowLongEdgeInterruptCB.MouseEnter
         LBLSubSettingsDescription.Text = "When this box is checked, the domme will include edge taunts that call special Interrupt scripts when the Long Edge threshold has been passed."
     End Sub
@@ -5866,15 +6022,14 @@ Public Class FrmSettings
     Private Sub NBWritinGTaskMin_MouseHover(sender As Object, e As EventArgs) Handles NBWritingTaskMin.MouseEnter
         LBLSubSettingsDescription.Text = "Sets the minimum amount of lines the domme will assign you for writing tasks."
     End Sub
+
     Private Sub NBWritinGTaskMax_MouseHover(sender As Object, e As EventArgs) Handles NBWritingTaskMax.MouseEnter
         LBLSubSettingsDescription.Text = "Sets the maximum amount of lines the domme will assign you for writing tasks."
     End Sub
+
     'Private Sub SubDescText_MouseHover(sender As Object, e As EventArgs) Handles Panel2.MouseEnter, GroupBox32.MouseEnter, GroupBox45.MouseEnter, GroupBox35.MouseEnter, GroupBox7.MouseEnter, GroupBox12.MouseEnter
     '   LBLSubSettingsDescription.Text = "Hover over any setting in the menu for a more detailed description of its function."
     'End Sub
-    Private Sub CBHimHer_MouseHover(sender As Object, e As EventArgs) Handles CBHimHer.MouseEnter
-        LBLSubSettingsDescription.Text = "When this is checked, Glitter will automatically replace any instance of He/Him/His with She/Her/Her."
-    End Sub
 
     Private Sub NBNextImageChance_LostFocus(sender As Object, e As EventArgs) Handles NBNextImageChance.LostFocus
         My.Settings.NextImageChance = NBNextImageChance.Value
@@ -5937,7 +6092,7 @@ Public Class FrmSettings
 
         orgasmsPerNumBox.Value = randomOrgasms
 
-        Dim orgasmInterval As String = GetOrgasmInterval(Settings.Domme.DominationLevel)
+        Dim orgasmInterval As String = GetOrgasmInterval(settings.Domme.DominationLevel)
         My.Settings.DomPerMonth = orgasmInterval
         orgasmsperComboBox.Text = My.Settings.DomPerMonth
 
@@ -6192,29 +6347,6 @@ Public Class FrmSettings
 
     End Sub
 
-    Private Sub CBOwnChastity_CheckedChanged(sender As Object, e As EventArgs) Handles CBOwnChastity.CheckedChanged
-
-        DoesChastityDeviceRequirePiercingCB.Enabled = CBOwnChastity.Checked
-        ChastityDeviceContainsSpikesCB.Enabled = CBOwnChastity.Checked
-
-    End Sub
-
-    Private Sub CBOwnChastity_LostFocus(sender As Object, e As EventArgs) Handles CBOwnChastity.LostFocus
-        mySettingsAccessor.HasChastityDevice = CBOwnChastity.Checked
-    End Sub
-
-    Private Sub CBChastityPA_LostFocus(sender As Object, e As EventArgs) Handles DoesChastityDeviceRequirePiercingCB.LostFocus
-        mySettingsAccessor.DoesChastityDeviceRequirePiercing = DoesChastityDeviceRequirePiercingCB.Checked
-    End Sub
-
-    Private Sub CBChastitySpikes_LostFocus(sender As Object, e As EventArgs) Handles ChastityDeviceContainsSpikesCB.LostFocus
-        mySettingsAccessor.DoesChastityDeviceContainSpikes = ChastityDeviceContainsSpikesCB.Checked
-    End Sub
-
-    Private Sub CBHimHer_LostFocus(sender As Object, e As EventArgs) Handles CBHimHer.LostFocus
-        mySettingsAccessor.IsSubFemale = CBHimHer.Checked
-    End Sub
-
     Private Sub CBDomDel_LostFocus(sender As Object, e As EventArgs) Handles CBDomDel.LostFocus
         mySettingsAccessor.CanDommeDeleteFiles = CBDomDel.Checked
     End Sub
@@ -6450,13 +6582,6 @@ Public Class FrmSettings
         End If
     End Sub
 
-    Private Sub CBCockToClit_LostFocus(sender As Object, e As EventArgs) Handles CBCockToClit.LostFocus
-        mySettingsAccessor.CallCockAClit = CBCockToClit.Checked
-    End Sub
-
-    Private Sub CBBallsToPussy_LostFocus(sender As Object, e As EventArgs) Handles CBBallsToPussy.LostFocus
-        mySettingsAccessor.CallBallsPussy = CBBallsToPussy.Checked
-    End Sub
 
     Private Sub CBCockToClit_MouseHover(sender As Object, e As EventArgs) Handles CBCockToClit.MouseEnter
         LBLSubSettingsDescription.Text = "When this box is checked, the domme will replace #Cock with a Keyword for ""clit"" when it appears in a script" & Environment.NewLine & Environment.NewLine &

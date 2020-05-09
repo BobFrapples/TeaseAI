@@ -2667,124 +2667,28 @@ Namespace My
                 Me("DomImageDir") = value
             End Set
         End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
-        Public Property CBTCock() As Boolean
-            Get
-                Return CType(Me("CBTCock"),Boolean)
-            End Get
-            Set
-                Me("CBTCock") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
-        Public Property CBTBalls() As Boolean
-            Get
-                Return CType(Me("CBTBalls"),Boolean)
-            End Get
-            Set
-                Me("CBTBalls") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
-        Public Property ChastityPA() As Boolean
-            Get
-                Return CType(Me("ChastityPA"),Boolean)
-            End Get
-            Set
-                Me("ChastityPA") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
-        Public Property ChastitySpikes() As Boolean
-            Get
-                Return CType(Me("ChastitySpikes"),Boolean)
-            End Get
-            Set
-                Me("ChastitySpikes") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+
+        <Global.System.Configuration.UserScopedSettingAttribute(),
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>
         Public Property SubInChastity() As Boolean
             Get
-                Return CType(Me("SubInChastity"),Boolean)
+                Return CType(Me("SubInChastity"), Boolean)
             End Get
             Set
-                Me("SubInChastity") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("2")>  _
-        Public Property LongEdge() As Integer
-            Get
-                Return CType(Me("LongEdge"),Integer)
-            End Get
-            Set
-                Me("LongEdge") = value
+                Me("SubInChastity") = Value
             End Set
         End Property
 
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        <Global.System.Configuration.UserScopedSettingAttribute(),
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>
         Public Property HoldEdgeTimeTotal() As Integer
             Get
-                Return CType(Me("HoldEdgeTimeTotal"),Integer)
+                Return CType(Me("HoldEdgeTimeTotal"), Integer)
             End Get
             Set
-                Me("HoldEdgeTimeTotal") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("3")>  _
-        Public Property CBTSlider() As Integer
-            Get
-                Return CType(Me("CBTSlider"),Integer)
-            End Get
-            Set
-                Me("CBTSlider") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
-        Public Property SubCircumcised() As Boolean
-            Get
-                Return CType(Me("SubCircumcised"),Boolean)
-            End Get
-            Set
-                Me("SubCircumcised") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
-        Public Property SubPierced() As Boolean
-            Get
-                Return CType(Me("SubPierced"),Boolean)
-            End Get
-            Set
-                Me("SubPierced") = value
+                Me("HoldEdgeTimeTotal") = Value
             End Set
         End Property
 
@@ -3687,55 +3591,19 @@ Namespace My
                 Me("NextImageChance") = value
             End Set
         End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
-        Public Property CBEdgeUseAvg() As Boolean
-            Get
-                Return CType(Me("CBEdgeUseAvg"),Boolean)
-            End Get
-            Set
-                Me("CBEdgeUseAvg") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
-        Public Property CBLongEdgeTaunts() As Boolean
-            Get
-                Return CType(Me("CBLongEdgeTaunts"),Boolean)
-            End Get
-            Set
-                Me("CBLongEdgeTaunts") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
-        Public Property CBLongEdgeInterrupts() As Boolean
-            Get
-                Return CType(Me("CBLongEdgeInterrupts"),Boolean)
-            End Get
-            Set
-                Me("CBLongEdgeInterrupts") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+
+        <Global.System.Configuration.UserScopedSettingAttribute(),
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>
         Public Property OrgasmsRemaining() As Integer
             Get
-                Return CType(Me("OrgasmsRemaining"),Integer)
+                Return CType(Me("OrgasmsRemaining"), Integer)
             End Get
             Set
-                Me("OrgasmsRemaining") = value
+                Me("OrgasmsRemaining") = Value
             End Set
         End Property
-        
+
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
@@ -3831,31 +3699,19 @@ Namespace My
                 Me("CBIncludeGifs") = value
             End Set
         End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
-        Public Property CBHimHer() As Boolean
-            Get
-                Return CType(Me("CBHimHer"),Boolean)
-            End Get
-            Set
-                Me("CBHimHer") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+
+        <Global.System.Configuration.UserScopedSettingAttribute(),
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>
         Public Property DomDeleteMedia() As Boolean
             Get
-                Return CType(Me("DomDeleteMedia"),Boolean)
+                Return CType(Me("DomDeleteMedia"), Boolean)
             End Get
             Set
-                Me("DomDeleteMedia") = value
+                Me("DomDeleteMedia") = Value
             End Set
         End Property
-        
+
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("15")>  _
@@ -4065,43 +3921,19 @@ Namespace My
                 Me("WebToyStop") = value
             End Set
         End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
-        Public Property CockToClit() As Boolean
-            Get
-                Return CType(Me("CockToClit"),Boolean)
-            End Get
-            Set
-                Me("CockToClit") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
-        Public Property BallsToPussy() As Boolean
-            Get
-                Return CType(Me("BallsToPussy"),Boolean)
-            End Get
-            Set
-                Me("BallsToPussy") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("No Path Selected")>  _
+
+        <Global.System.Configuration.UserScopedSettingAttribute(),
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
+         Global.System.Configuration.DefaultSettingValueAttribute("No Path Selected")>
         Public Property Contact1ImageDir() As String
             Get
-                Return CType(Me("Contact1ImageDir"),String)
+                Return CType(Me("Contact1ImageDir"), String)
             End Get
             Set
-                Me("Contact1ImageDir") = value
+                Me("Contact1ImageDir") = Value
             End Set
         End Property
-        
+
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("No Path Selected")>  _
@@ -4856,67 +4688,19 @@ Namespace My
                 Me("LS10") = value
             End Set
         End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("3")>  _
-        Public Property LongHoldMin() As Integer
-            Get
-                Return CType(Me("LongHoldMin"),Integer)
-            End Get
-            Set
-                Me("LongHoldMin") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("5")>  _
-        Public Property LongHoldMax() As String
-            Get
-                Return CType(Me("LongHoldMax"),String)
-            End Get
-            Set
-                Me("LongHoldMax") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("5")>  _
-        Public Property ExtremeHoldMin() As String
-            Get
-                Return CType(Me("ExtremeHoldMin"),String)
-            End Get
-            Set
-                Me("ExtremeHoldMin") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("10")>  _
-        Public Property ExtremeHoldMax() As String
-            Get
-                Return CType(Me("ExtremeHoldMax"),String)
-            End Get
-            Set
-                Me("ExtremeHoldMax") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+
+        <Global.System.Configuration.UserScopedSettingAttribute(),
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>
         Public Property CBWebtease() As Boolean
             Get
-                Return CType(Me("CBWebtease"),Boolean)
+                Return CType(Me("CBWebtease"), Boolean)
             End Get
             Set
-                Me("CBWebtease") = value
+                Me("CBWebtease") = Value
             End Set
         End Property
-        
+
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("-1")>  _

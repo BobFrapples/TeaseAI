@@ -1,4 +1,7 @@
-﻿namespace TeaseAI.Common
+﻿using System;
+using TeaseAI.Common.Constants;
+
+namespace TeaseAI.Common
 {
     public class SubSettings
     {
@@ -35,5 +38,100 @@
         /// Minimum seconds to hold an edge
         /// </summary>
         public int HoldEdgeSecondsMinimum { get; set; }
+
+        /// <summary>
+        /// Should interrupts be allowed for a long edge
+        /// </summary>
+        public bool AllowLongEdgeInterrupts { get; set; }
+
+        /// <summary>
+        /// Should taunts be allowed for a long edge
+        /// </summary>
+        public bool AllowLongEdgeTaunts { get; set; }
+
+        /// <summary>
+        /// Should balls be referred to as a pussy
+        /// </summary>
+        public bool CallBallsPussy { get; set; }
+
+        /// <summary>
+        /// Should penis be referred to as a clit
+        /// </summary>
+        public bool CallCockAClit { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public TortureLevel CockAndBallTortureLevel { get; set; }
+
+        /// <summary>
+        /// Does the sub own a chastity device
+        /// </summary>
+        public bool HasChastityDevice { get; set; }
+
+        /// <summary>
+        /// Does the chastity device contain spikes. should only be true if <see cref="HasChastityDevice"/> is also true
+        /// </summary>
+        public bool DoesChastityDeviceContainSpikes { get; set; }
+
+        /// <summary>
+        /// Does the chastity device require a  piercing. should only be true if <see cref="HasChastityDevice"/> is also true
+        /// </summary>
+        public bool DoesChastityDeviceRequirePiercing { get; set; }
+
+        /// <summary>
+        /// Does the sub want cock (clit) torture
+        /// </summary>
+        public bool IsCockTortureEnabled { get; set; }
+
+        /// <summary>
+        /// Does the sub want ball (pussy) torture
+        /// </summary>
+        public bool IsBallTortureEnabled { get; set; }
+
+        /// <summary>
+        /// Not exactly sure what this is for
+        /// </summary>
+        public int LongEdgeThreshold { get; set; }
+
+        /// <summary>
+        /// what is the maximum time (in seconds) to hold a long edge
+        /// </summary>
+        public int LongEdgeHoldMaximum { get; set; }
+
+        /// <summary>
+        /// What is the minimum time (in seconds) to hold a long edge
+        /// </summary>
+        public int LongEdgeHoldMinimum { get; set; }
+
+        /// <summary>
+        /// What is the maximum time (in seconds) to hold an extreme edge
+        /// </summary>
+        public int ExtremeEdgeHoldMaximum { get; set; }
+
+        /// <summary>
+        /// What is the minimum time (in seconds) to hold an extreme edge
+        /// </summary>
+        public int ExtremeEdgeHoldMinimum { get; set; }
+
+        /// <summary>
+        /// Is the sub circumcised
+        /// </summary>
+        public bool IsSubCircumcised { get; set; }
+
+        /// <summary>
+        /// Is the sub pierced
+        /// </summary>
+        public bool IsSubPierced { get; set; }
+
+        /// <summary>
+        /// Unsure exactly what this is.
+        /// </summary>
+        public bool UseAverageEdgeTimeAsThreshold { get; set; }
+
+        /// <summary>
+        ///  Does the sub use female pronounce
+        /// </summary>
+        public bool IsSubFemale { get; set; }
     }
 }

@@ -17,7 +17,7 @@ namespace TeaseAI.Services.Serialization
                 return DomLevel.Tease;
 
             var s = (string)reader.Value;
-            return DomLevel.Create(s).Value;
+            return string.IsNullOrWhiteSpace(s) ? DomLevel.Tease : DomLevel.Create(s).Value;
         }
     }
 }

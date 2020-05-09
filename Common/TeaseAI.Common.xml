@@ -611,6 +611,16 @@
             Acceptable level of physical pain for the sub
             </summary>
         </member>
+        <member name="F:TeaseAI.Common.Constants.TortureLevel.MaxValue">
+            <summary>
+            Maximum torture level
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.TortureLevel.MinValue">
+            <summary>
+            Maximum torture level
+            </summary>
+        </member>
         <member name="T:TeaseAI.Common.Constants.Toy">
             <summary>
             List of possible toys the system can work with
@@ -1181,7 +1191,7 @@
             <param name="settings"></param>
             <returns></returns>
         </member>
-        <member name="P:TeaseAI.Common.Interfaces.Accessors.ISettingsAccessor.IsSubFemale">
+        <member name="P:TeaseAI.Common.Interfaces.Accessors.ISettingsAccessor.CanDommeDeleteFiles">
             <summary>
             Does the sub identify as female
             </summary>
@@ -1674,6 +1684,101 @@
         <member name="P:TeaseAI.Common.SubSettings.HoldEdgeSecondsMinimum">
             <summary>
             Minimum seconds to hold an edge
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubSettings.AllowLongEdgeInterrupts">
+            <summary>
+            Should interrupts be allowed for a long edge
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubSettings.AllowLongEdgeTaunts">
+            <summary>
+            Should taunts be allowed for a long edge
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubSettings.CallBallsPussy">
+            <summary>
+            Should balls be referred to as a pussy
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubSettings.CallCockAClit">
+            <summary>
+            Should penis be referred to as a clit
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubSettings.CockAndBallTortureLevel">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubSettings.HasChastityDevice">
+            <summary>
+            Does the sub own a chastity device
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubSettings.DoesChastityDeviceContainSpikes">
+            <summary>
+            Does the chastity device contain spikes. should only be true if <see cref="P:TeaseAI.Common.SubSettings.HasChastityDevice"/> is also true
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubSettings.DoesChastityDeviceRequirePiercing">
+            <summary>
+            Does the chastity device require a  piercing. should only be true if <see cref="P:TeaseAI.Common.SubSettings.HasChastityDevice"/> is also true
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubSettings.IsCockTortureEnabled">
+            <summary>
+            Does the sub want cock (clit) torture
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubSettings.IsBallTortureEnabled">
+            <summary>
+            Does the sub want ball (pussy) torture
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubSettings.LongEdgeThreshold">
+            <summary>
+            Not exactly sure what this is for
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubSettings.LongEdgeHoldMaximum">
+            <summary>
+            what is the maximum time (in seconds) to hold a long edge
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubSettings.LongEdgeHoldMinimum">
+            <summary>
+            What is the minimum time (in seconds) to hold a long edge
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubSettings.ExtremeEdgeHoldMaximum">
+            <summary>
+            What is the maximum time (in seconds) to hold an extreme edge
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubSettings.ExtremeEdgeHoldMinimum">
+            <summary>
+            What is the minimum time (in seconds) to hold an extreme edge
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubSettings.IsSubCircumcised">
+            <summary>
+            Is the sub circumcised
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubSettings.IsSubPierced">
+            <summary>
+            Is the sub pierced
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubSettings.UseAverageEdgeTimeAsThreshold">
+            <summary>
+            Unsure exactly what this is.
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubSettings.IsSubFemale">
+            <summary>
+             Does the sub use female pronounce
             </summary>
         </member>
         <member name="T:TeaseAI.Common.TaggedItem">
