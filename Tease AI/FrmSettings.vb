@@ -91,111 +91,6 @@ Public Class FrmSettings
     End Sub
 
     ''' <summary>
-    ''' Load all settings into the form
-    ''' </summary>
-    Private Sub LoadSettings(settings As Settings)
-        ' Domme Tab
-        Dim domLevel As DomLevel = settings.Domme.DominationLevel
-        DominationLevel.Value = domLevel
-        DomLevelDescLabel.Text = domLevel.ToString()
-
-        Dim apathyLevel As ApathyLevel = settings.Domme.ApathyLevel
-        NBEmpathy.Value = apathyLevel
-        LBLEmpathy.Text = apathyLevel.ToString()
-
-        DommeDecideOrgasmCheckBox.Checked = settings.DoesDommeDecideOrgasmRange
-        OftenAllowsPercentNumberBox.Enabled = Not DommeDecideOrgasmCheckBox.Checked
-        OftenAllowsPercentNumberBox.Value = settings.AllowOrgasmOftenPercent
-        SometimesAllowsPercentNumberBox.Enabled = Not DommeDecideOrgasmCheckBox.Checked
-        SometimesAllowsPercentNumberBox.Value = settings.AllowOrgasmSometimesPercent
-        RarelyAllowsPercentNumberBox.Enabled = Not DommeDecideOrgasmCheckBox.Checked
-        RarelyAllowsPercentNumberBox.Value = settings.AllowOrgasmRarelyPercent
-
-        DommeDecideRuinCheckBox.Checked = settings.DoesDommeDecideRuinRange
-        NBRuinOften.Enabled = Not DommeDecideRuinCheckBox.Checked
-        NBRuinOften.Value = settings.RuinOrgasmOftenPercent
-        NBRuinSometimes.Enabled = Not DommeDecideRuinCheckBox.Checked
-        NBRuinSometimes.Value = settings.RuinOrgasmSometimesPercent
-        NBRuinRarely.Enabled = Not DommeDecideRuinCheckBox.Checked
-        NBRuinRarely.Value = settings.RuinOrgasmRarelyPercent
-
-        TBSafeword.Text = settings.Sub.Safeword
-
-        ' Sub Tab
-        AllowLongEdgeInterruptCB.Checked = settings.Sub.CanInterruptLongEdge
-
-        HoldEdgeMaximum.Value = ConvertHoldTime(settings.Sub.HoldEdgeSecondsMaximum)
-        LBLMaxHold.Text = ConvertHoldTimeUnits(settings.Sub.HoldEdgeSecondsMaximum)
-        HoldEdgeMinimum.Value = ConvertHoldTime(settings.Sub.HoldEdgeSecondsMinimum)
-        HoldEdgeMinimumUnits.Text = ConvertHoldTime(settings.Sub.HoldEdgeSecondsMinimum)
-
-        LongEdgeHoldMaximum.Value = settings.Sub.LongEdgeHoldMaximum
-        LongEdgeHoldMinimum.Value = settings.Sub.LongEdgeHoldMinimum
-
-        ExtremeEdgeHoldMaximum.Value = settings.Sub.ExtremeEdgeHoldMaximum
-        ExtremeEdgeHoldMinimum.Value = settings.Sub.ExtremeEdgeHoldMinimum
-
-        CockAndBallTortureLevelSlider.Value = settings.Sub.CockAndBallTortureLevel
-        CockAndBallTortureLevelLbl.Text = "CBT Level:  " & CockAndBallTortureLevelSlider.Value
-
-        CBSubCircumcised.Checked = settings.Sub.IsSubCircumcised
-        CBSubPierced.Checked = settings.Sub.IsSubPierced
-
-        CockTortureEnabledCB.Checked = settings.Sub.IsCockTortureEnabled
-        BallTortureEnabledCB.Checked = settings.Sub.IsBallTortureEnabled
-
-        CBOwnChastity.Checked = settings.Sub.HasChastityDevice
-
-        DoesChastityDeviceRequirePiercingCB.Checked = settings.Sub.DoesChastityDeviceRequirePiercing
-        DoesChastityDeviceRequirePiercingCB.Enabled = CBOwnChastity.Checked
-        ChastityDeviceContainsSpikesCB.Checked = settings.Sub.DoesChastityDeviceContainSpikes
-        ChastityDeviceContainsSpikesCB.Enabled = CBOwnChastity.Checked
-
-        AllowLongEdgeTauntCB.Checked = settings.Sub.AllowLongEdgeTaunts
-        AllowLongEdgeInterruptCB.Checked = settings.Sub.AllowLongEdgeInterrupts
-        NBLongEdge.Value = settings.Sub.LongEdgeThreshold
-        UseAverageEdgeThresholdCB.Checked = settings.Sub.UseAverageEdgeTimeAsThreshold
-
-        CBHimHer.Checked = settings.Sub.IsSubFemale
-        CBCockToClit.Checked = settings.Sub.CallCockAClit
-        CBBallsToPussy.Checked = settings.Sub.CallBallsPussy
-
-        ' unknown tab
-        TeaseLengthDommeDetermined.Checked = mySettingsAccessor.IsTeaseLengthDommeDetermined
-        CBTauntCycleDD.Checked = mySettingsAccessor.IsTauntCycleDommeDetermined
-
-        ' If orgasms are locked, then check the lock until date and possibly unlock them
-        If Not mySettingsAccessor.AreOrgasmsLocked Then
-            limitcheckbox.Checked = True
-            limitcheckbox.Enabled = False
-            orgasmsPerNumBox.Enabled = False
-            orgasmsperComboBox.Enabled = False
-            orgasmsperlockButton.Enabled = False
-            orgasmlockrandombutton.Enabled = False
-        End If
-
-        CBDomDel.Checked = mySettingsAccessor.CanDommeDeleteFiles
-
-        NBTeaseLengthMin.Value = mySettingsAccessor.TeaseLengthMinimum
-        NBTeaseLengthMax.Value = mySettingsAccessor.TeaseLengthMaximum
-
-        NBTauntCycleMin.Value = mySettingsAccessor.TauntCycleMinimum
-        NBTauntCycleMax.Value = mySettingsAccessor.TauntCycleMaximum
-
-        ' Miscellaneous Tab
-        LBLOfflineMode.Text = mySettingsAccessor.IsOffline.ToOnOff()
-        LBLOfflineMode.ForeColor = mySettingsAccessor.IsOffline.ToColor()
-
-        InChastityLabel.Text = mySettingsAccessor.InChastity.ToOnOff()
-        InChastityLabel.ForeColor = mySettingsAccessor.InChastity.ToColor()
-
-        TimeStampCheckBox.Checked = settings.Chat.IsTimeStampEnabled
-        ShowNamesCheckBox.Checked = settings.Chat.ShowChatUserNames
-        TypeInstantlyCheckBox.Checked = mySettingsAccessor.DoesDommeTypeInstantly
-        WebTeaseMode.Checked = mySettingsAccessor.WebTeaseModeEnabled
-    End Sub
-
-    ''' <summary>
     ''' Called when we want to validate everything
     ''' </summary>
     Public Sub FrmSettingStartUp()
@@ -353,6 +248,174 @@ Public Class FrmSettings
             languageCode = "de"
         End If
         SetToolTips(languageCode)
+    End Sub
+
+    ''' <summary>
+    ''' Load all settings into the form
+    ''' </summary>
+    Private Sub LoadSettings(settings As Settings)
+        MainWindow.DommePersonalityComboBox.Text = settings.DommePersonality
+        ' Domme Tab
+
+        DommeDecideOrgasmCheckBox.Checked = settings.DoesDommeDecideOrgasmRange
+        OftenAllowsPercentNumberBox.Enabled = Not DommeDecideOrgasmCheckBox.Checked
+        OftenAllowsPercentNumberBox.Value = settings.AllowOrgasmOftenPercent
+        SometimesAllowsPercentNumberBox.Enabled = Not DommeDecideOrgasmCheckBox.Checked
+        SometimesAllowsPercentNumberBox.Value = settings.AllowOrgasmSometimesPercent
+        RarelyAllowsPercentNumberBox.Enabled = Not DommeDecideOrgasmCheckBox.Checked
+        RarelyAllowsPercentNumberBox.Value = settings.AllowOrgasmRarelyPercent
+
+        DommeDecideRuinCheckBox.Checked = settings.DoesDommeDecideRuinRange
+        NBRuinOften.Enabled = Not DommeDecideRuinCheckBox.Checked
+        NBRuinOften.Value = settings.RuinOrgasmOftenPercent
+        NBRuinSometimes.Enabled = Not DommeDecideRuinCheckBox.Checked
+        NBRuinSometimes.Value = settings.RuinOrgasmSometimesPercent
+        NBRuinRarely.Enabled = Not DommeDecideRuinCheckBox.Checked
+        NBRuinRarely.Value = settings.RuinOrgasmRarelyPercent
+
+        LoadDommeSettings(settings.Domme)
+        LoadSubSettingsTab(settings.Sub)
+
+        ' Ranges tab
+        TeaseLengthDommeDetermined.Checked = mySettingsAccessor.IsTeaseLengthDommeDetermined
+        CBTauntCycleDD.Checked = mySettingsAccessor.IsTauntCycleDommeDetermined
+
+        ' If orgasms are locked, then check the lock until date and possibly unlock them
+        If Not mySettingsAccessor.AreOrgasmsLocked Then
+            limitcheckbox.Checked = True
+            limitcheckbox.Enabled = False
+            orgasmsPerNumBox.Enabled = False
+            orgasmsperComboBox.Enabled = False
+            orgasmsperlockButton.Enabled = False
+            orgasmlockrandombutton.Enabled = False
+        End If
+
+        CBDomDel.Checked = mySettingsAccessor.CanDommeDeleteFiles
+
+        NBTeaseLengthMin.Value = mySettingsAccessor.TeaseLengthMinimum
+        NBTeaseLengthMax.Value = mySettingsAccessor.TeaseLengthMaximum
+
+        NBTauntCycleMin.Value = mySettingsAccessor.TauntCycleMinimum
+        NBTauntCycleMax.Value = mySettingsAccessor.TauntCycleMaximum
+
+        ' Miscellaneous Tab
+        LBLOfflineMode.Text = mySettingsAccessor.IsOffline.ToOnOff()
+        LBLOfflineMode.ForeColor = mySettingsAccessor.IsOffline.ToColor()
+
+        InChastityLabel.Text = mySettingsAccessor.InChastity.ToOnOff()
+        InChastityLabel.ForeColor = mySettingsAccessor.InChastity.ToColor()
+
+        TimeStampCheckBox.Checked = settings.Chat.IsTimeStampEnabled
+        ShowNamesCheckBox.Checked = settings.Chat.ShowChatUserNames
+        TypeInstantlyCheckBox.Checked = mySettingsAccessor.DoesDommeTypeInstantly
+        WebTeaseMode.Checked = mySettingsAccessor.WebTeaseModeEnabled
+    End Sub
+
+    ''' <summary>
+    ''' Load the subsettings data into the subsettings tab
+    ''' </summary>
+    ''' <param name="subSettings"></param>
+    Private Sub LoadSubSettingsTab(subSettings As SubSettings)
+        TBSafeword.Text = subSettings.Safeword
+
+        ' Sub Tab
+        AllowLongEdgeInterruptCB.Checked = subSettings.CanInterruptLongEdge
+
+        HoldEdgeMaximum.Value = ConvertHoldTime(subSettings.HoldEdgeSecondsMaximum)
+        LBLMaxHold.Text = ConvertHoldTimeUnits(subSettings.HoldEdgeSecondsMaximum)
+        HoldEdgeMinimum.Value = ConvertHoldTime(subSettings.HoldEdgeSecondsMinimum)
+        HoldEdgeMinimumUnits.Text = ConvertHoldTime(subSettings.HoldEdgeSecondsMinimum)
+
+        LongEdgeHoldMaximum.Value = subSettings.LongEdgeHoldMaximum
+        LongEdgeHoldMinimum.Value = subSettings.LongEdgeHoldMinimum
+
+        ExtremeEdgeHoldMaximum.Value = subSettings.ExtremeEdgeHoldMaximum
+        ExtremeEdgeHoldMinimum.Value = subSettings.ExtremeEdgeHoldMinimum
+
+        CockAndBallTortureLevelSlider.Value = subSettings.CockAndBallTortureLevel
+        CockAndBallTortureLevelLbl.Text = "CBT Level:  " & CockAndBallTortureLevelSlider.Value
+
+        CBSubCircumcised.Checked = subSettings.IsSubCircumcised
+        CBSubPierced.Checked = subSettings.IsSubPierced
+
+        CockTortureEnabledCB.Checked = subSettings.IsCockTortureEnabled
+        BallTortureEnabledCB.Checked = subSettings.IsBallTortureEnabled
+
+        CBOwnChastity.Checked = subSettings.HasChastityDevice
+
+        DoesChastityDeviceRequirePiercingCB.Checked = subSettings.DoesChastityDeviceRequirePiercing
+        DoesChastityDeviceRequirePiercingCB.Enabled = CBOwnChastity.Checked
+        ChastityDeviceContainsSpikesCB.Checked = subSettings.DoesChastityDeviceContainSpikes
+        ChastityDeviceContainsSpikesCB.Enabled = CBOwnChastity.Checked
+
+        AllowLongEdgeTauntCB.Checked = subSettings.AllowLongEdgeTaunts
+        AllowLongEdgeInterruptCB.Checked = subSettings.AllowLongEdgeInterrupts
+        NBLongEdge.Value = subSettings.LongEdgeThreshold
+        UseAverageEdgeThresholdCB.Checked = subSettings.UseAverageEdgeTimeAsThreshold
+
+        CBHimHer.Checked = subSettings.IsSubFemale
+        CBCockToClit.Checked = subSettings.CallCockAClit
+        CBBallsToPussy.Checked = subSettings.CallBallsPussy
+    End Sub
+
+    Public Sub LoadDommeSettings(dommeSettings As DommeSettings)
+
+        Dim domLevel As DomLevel = dommeSettings.DominationLevel
+        DominationLevel.Value = domLevel
+        DomLevelDescLabel.Text = domLevel.ToString()
+
+        Dim apathyLevel As ApathyLevel = dommeSettings.ApathyLevel
+        NBEmpathy.Value = apathyLevel
+        LBLEmpathy.Text = apathyLevel.ToString()
+
+        DominationLevel.Value = dommeSettings.DominationLevel
+        NBEmpathy.Value = dommeSettings.ApathyLevel
+        domageNumBox.Value = My.Settings.DomAge
+        NBDomBirthdayMonth.Value = My.Settings.DomBirthMonth
+        NBDomBirthdayDay.Value = My.Settings.DomBirthDay
+        TBDomHairColor.Text = My.Settings.DomHair
+        domhairlengthComboBox.Text = My.Settings.DomHairLength
+        TBDomEyeColor.Text = My.Settings.DomEyes
+        boobComboBox.Text = My.Settings.DomCup
+        dompubichairComboBox.Text = My.Settings.DomPubicHair
+        CBDomTattoos.Checked = My.Settings.DomTattoos
+        CBDomFreckles.Checked = My.Settings.DomFreckles
+
+        crazyCheckBox.Checked = My.Settings.DomCrazy
+        vulgarCheckBox.Checked = My.Settings.DomVulgar
+        supremacistCheckBox.Checked = My.Settings.DomSupremacist
+        sadisticCheckBox.Checked = My.Settings.DomSadistic
+        degradingCheckBox.Checked = My.Settings.DomDegrading
+        PetNameBox1.Text = My.Settings.pnSetting1
+        petnameBox2.Text = My.Settings.pnSetting2
+        petnameBox3.Text = My.Settings.pnSetting3
+        petnameBox4.Text = My.Settings.pnSetting4
+        petnameBox5.Text = My.Settings.pnSetting5
+        petnameBox6.Text = My.Settings.pnSetting6
+        petnameBox7.Text = My.Settings.pnSetting7
+        petnameBox8.Text = My.Settings.pnSetting8
+
+        alloworgasmComboBox.Text = My.Settings.OrgasmAllow
+        ruinorgasmComboBox.Text = My.Settings.OrgasmRuin
+        CBLockOrgasmChances.Checked = My.Settings.LockOrgasmChances
+        CBDomDenialEnds.Checked = My.Settings.DomDenialEnd
+        CBDomOrgasmEnds.Checked = My.Settings.DomOrgasmEnd
+        'CBDomPOT.Checked = My.Settings.DomPOT
+        LCaseCheckBox.Checked = My.Settings.DomLowercase
+        apostropheCheckBox.Checked = My.Settings.DomNoApostrophes
+        commaCheckBox.Checked = My.Settings.DomNoCommas
+        periodCheckBox.Checked = My.Settings.DomNoPeriods
+        CBMeMyMine.Checked = My.Settings.DomMeMyMine
+        'domemoteComboBox.Text = My.Settings.DomEmotes
+
+        NBDomMoodMin.Value = My.Settings.DomMoodMin
+        NBDomMoodMax.Value = My.Settings.DomMoodMax
+        NBAvgCockMin.Value = My.Settings.AvgCockMin
+        NBAvgCockMax.Value = My.Settings.AvgCockMax
+        NBSelfAgeMin.Value = My.Settings.SelfAgeMin
+        NBSelfAgeMax.Value = My.Settings.SelfAgeMax
+        NBSubAgeMin.Value = My.Settings.SubAgeMin
+        NBSubAgeMax.Value = My.Settings.SubAgeMax
     End Sub
 
 #Region "set tooltips"
@@ -5711,7 +5774,7 @@ Public Class FrmSettings
                 SaveDommeSettings(settings)
             Catch
                 MessageBox.Show(Me, "This settings file is invalid or has been edited incorrectly!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
-                LoadDommeSettings(settings)
+                LoadDommeSettings(settings.Domme)
             End Try
         End If
     End Sub
@@ -5767,59 +5830,6 @@ Public Class FrmSettings
         My.Settings.SelfAgeMax = NBSelfAgeMax.Value
         My.Settings.SubAgeMin = NBSubAgeMin.Value
         My.Settings.SubAgeMax = NBSubAgeMax.Value
-    End Sub
-
-    Public Sub LoadDommeSettings(settings As Settings)
-
-        DominationLevel.Value = settings.Domme.DominationLevel
-        NBEmpathy.Value = settings.Domme.ApathyLevel
-        domageNumBox.Value = My.Settings.DomAge
-        NBDomBirthdayMonth.Value = My.Settings.DomBirthMonth
-        NBDomBirthdayDay.Value = My.Settings.DomBirthDay
-        TBDomHairColor.Text = My.Settings.DomHair
-        domhairlengthComboBox.Text = My.Settings.DomHairLength
-        TBDomEyeColor.Text = My.Settings.DomEyes
-        boobComboBox.Text = My.Settings.DomCup
-        dompubichairComboBox.Text = My.Settings.DomPubicHair
-        CBDomTattoos.Checked = My.Settings.DomTattoos
-        CBDomFreckles.Checked = My.Settings.DomFreckles
-
-        MainWindow.DommePersonalityComboBox.Text = settings.DommePersonality
-        crazyCheckBox.Checked = My.Settings.DomCrazy
-        vulgarCheckBox.Checked = My.Settings.DomVulgar
-        supremacistCheckBox.Checked = My.Settings.DomSupremacist
-        sadisticCheckBox.Checked = My.Settings.DomSadistic
-        degradingCheckBox.Checked = My.Settings.DomDegrading
-        PetNameBox1.Text = My.Settings.pnSetting1
-        petnameBox2.Text = My.Settings.pnSetting2
-        petnameBox3.Text = My.Settings.pnSetting3
-        petnameBox4.Text = My.Settings.pnSetting4
-        petnameBox5.Text = My.Settings.pnSetting5
-        petnameBox6.Text = My.Settings.pnSetting6
-        petnameBox7.Text = My.Settings.pnSetting7
-        petnameBox8.Text = My.Settings.pnSetting8
-
-        alloworgasmComboBox.Text = My.Settings.OrgasmAllow
-        ruinorgasmComboBox.Text = My.Settings.OrgasmRuin
-        CBLockOrgasmChances.Checked = My.Settings.LockOrgasmChances
-        CBDomDenialEnds.Checked = My.Settings.DomDenialEnd
-        CBDomOrgasmEnds.Checked = My.Settings.DomOrgasmEnd
-        'CBDomPOT.Checked = My.Settings.DomPOT
-        LCaseCheckBox.Checked = My.Settings.DomLowercase
-        apostropheCheckBox.Checked = My.Settings.DomNoApostrophes
-        commaCheckBox.Checked = My.Settings.DomNoCommas
-        periodCheckBox.Checked = My.Settings.DomNoPeriods
-        CBMeMyMine.Checked = My.Settings.DomMeMyMine
-        'domemoteComboBox.Text = My.Settings.DomEmotes
-
-        NBDomMoodMin.Value = My.Settings.DomMoodMin
-        NBDomMoodMax.Value = My.Settings.DomMoodMax
-        NBAvgCockMin.Value = My.Settings.AvgCockMin
-        NBAvgCockMax.Value = My.Settings.AvgCockMax
-        NBSelfAgeMin.Value = My.Settings.SelfAgeMin
-        NBSelfAgeMax.Value = My.Settings.SelfAgeMax
-        NBSubAgeMin.Value = My.Settings.SubAgeMin
-        NBSubAgeMax.Value = My.Settings.SubAgeMax
     End Sub
 
     Private Sub Button4_Click_5(sender As Object, e As EventArgs) Handles Button4.Click
