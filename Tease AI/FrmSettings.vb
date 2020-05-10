@@ -393,8 +393,8 @@ Public Class FrmSettings
         If Not dommeSettings.AreOrgasmsLocked Then
             limitcheckbox.Checked = True
             limitcheckbox.Enabled = False
-            orgasmsPerNumBox.Enabled = False
-            orgasmsperComboBox.Enabled = False
+            OrgasmsPerNumBox.Enabled = False
+            OrgasmsPerComboBox.Enabled = False
             orgasmsperlockButton.Enabled = False
             orgasmlockrandombutton.Enabled = False
         End If
@@ -411,20 +411,22 @@ Public Class FrmSettings
         petnameBox7.Text = dommeSettings.PetNames(6)
         petnameBox8.Text = dommeSettings.PetNames(7)
 
-        alloworgasmComboBox.Text = My.Settings.OrgasmAllow
-        ruinorgasmComboBox.Text = My.Settings.OrgasmRuin
-        CBLockOrgasmChances.Checked = My.Settings.LockOrgasmChances
-        CBDomDenialEnds.Checked = My.Settings.DomDenialEnd
-        CBDomOrgasmEnds.Checked = My.Settings.DomOrgasmEnd
+        alloworgasmComboBox.Text = dommeSettings.AllowsOrgasms
+        ruinorgasmComboBox.Text = dommeSettings.RuinsOrgasms
+        CBLockOrgasmChances.Checked = dommeSettings.IsOrgasmChanceLocked
+        CBDomDenialEnds.Checked = dommeSettings.DoesDenialEndTease
+        CBDomOrgasmEnds.Checked = dommeSettings.DoesOrgasmEndTease
 
-        NBDomMoodMin.Value = My.Settings.DomMoodMin
-        NBDomMoodMax.Value = My.Settings.DomMoodMax
-        NBAvgCockMin.Value = My.Settings.AvgCockMin
-        NBAvgCockMax.Value = My.Settings.AvgCockMax
-        NBSelfAgeMin.Value = My.Settings.SelfAgeMin
-        NBSelfAgeMax.Value = My.Settings.SelfAgeMax
-        NBSubAgeMin.Value = My.Settings.SubAgeMin
-        NBSubAgeMax.Value = My.Settings.SubAgeMax
+        OrgasmsPerNumBox.Value = dommeSettings.OrgasmsPerTimePeriod
+        OrgasmsPerComboBox.SelectedValue = dommeSettings.OrgasmsTimePeriodDays
+        NBDomMoodMin.Value = dommeSettings.BadMoodThreshold
+        NBDomMoodMax.Value = dommeSettings.GoodMoodThreshold
+        NBAvgCockMin.Value = dommeSettings.AveragePenisMinimum
+        NBAvgCockMax.Value = dommeSettings.AveragePenisMaximum
+        NBSelfAgeMin.Value = dommeSettings.AverageAgeSelfMinimum
+        NBSelfAgeMax.Value = dommeSettings.AverageAgeSelfMaximum
+        NBSubAgeMin.Value = dommeSettings.AverageAgeSubMinimum
+        NBSubAgeMax.Value = dommeSettings.AverageAgeSubMaximum
     End Sub
 
 #Region "set tooltips"
@@ -981,15 +983,15 @@ Public Class FrmSettings
                                                 "Once an orgasm limit has been finalized, it cannot be undone until the period of time is up!")
     End Sub
 
-    Private Sub orgasmsPerNumBox_MouseHover(sender As Object, e As EventArgs) Handles orgasmsPerNumBox.MouseHover
-        TTDir.SetToolTip(orgasmsPerNumBox, "When this arrangement is selected, the domme will limit the number of" & Environment.NewLine &
+    Private Sub orgasmsPerNumBox_MouseHover(sender As Object, e As EventArgs) Handles OrgasmsPerNumBox.MouseHover
+        TTDir.SetToolTip(OrgasmsPerNumBox, "When this arrangement is selected, the domme will limit the number of" & Environment.NewLine &
                                                 "orgasms she allows you to have according to the parameters you set." & Environment.NewLine & Environment.NewLine &
                                                 "This will not be finalized until the Limit box is checked and you click ""Lock Selected""." & Environment.NewLine &
                                                 "Once an orgasm limit has been finalized, it cannot be undone until the period of time is up!")
     End Sub
 
-    Private Sub orgasmsperComboBox_MouseHover(sender As Object, e As EventArgs) Handles orgasmsperComboBox.MouseHover
-        TTDir.SetToolTip(orgasmsperComboBox, "When this arrangement is selected, the domme will limit the number of" & Environment.NewLine &
+    Private Sub orgasmsperComboBox_MouseHover(sender As Object, e As EventArgs) Handles OrgasmsPerComboBox.MouseHover
+        TTDir.SetToolTip(OrgasmsPerComboBox, "When this arrangement is selected, the domme will limit the number of" & Environment.NewLine &
                                                 "orgasms she allows you to have according to the parameters you set." & Environment.NewLine & Environment.NewLine &
                                                 "This will not be finalized until the Limit box is checked and you click ""Lock Selected""." & Environment.NewLine &
                                                 "Once an orgasm limit has been finalized, it cannot be undone until the period of time is up!")
@@ -997,7 +999,7 @@ Public Class FrmSettings
 
     Private Sub LockRandomOrgasm_MouseHover(sender As Object, e As EventArgs) Handles orgasmlockrandombutton.MouseHover
 
-        TTDir.SetToolTip(orgasmsperComboBox, "When this arrangement is selected, the domme will randomly limit the" & Environment.NewLine &
+        TTDir.SetToolTip(OrgasmsPerComboBox, "When this arrangement is selected, the domme will randomly limit the" & Environment.NewLine &
                                               "number of orgasms she allows you to have for a random period of time." & Environment.NewLine & Environment.NewLine &
                                               "Once you confirm this choice, it cannot be undone until the period of time is up!")
 
@@ -1643,12 +1645,24 @@ Public Class FrmSettings
         DomLevelDescLabel.Text = settings.Domme.DominationLevel.ToString()
     End Sub
 
-    Private Sub alloworgasmComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles alloworgasmComboBox.SelectedIndexChanged
-        My.Settings.OrgasmAllow = alloworgasmComboBox.Text
+    Private Sub AllowOrgasmComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles alloworgasmComboBox.SelectedIndexChanged
+        If Not DominationLevel.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.AllowsOrgasms = AllowsOrgasms.Create(alloworgasmComboBox.Text).Value
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
-    Private Sub ruinorgasmComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ruinorgasmComboBox.SelectedIndexChanged
-        My.Settings.OrgasmRuin = ruinorgasmComboBox.Text
+    Private Sub RuinOrgasmComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ruinorgasmComboBox.SelectedIndexChanged
+        If Not DominationLevel.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.RuinsOrgasms = RuinsOrgasms.Create(ruinorgasmComboBox.Text).Value
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
     Private Sub DomAgeNumBox_ValueChanged(sender As Object, e As EventArgs) Handles domageNumBox.ValueChanged
@@ -1839,76 +1853,112 @@ Public Class FrmSettings
         mySettingsAccessor.WriteSettings(settings)
     End Sub
 
-    Private Sub CBDomDenialEnds_LostFocus(sender As Object, e As EventArgs) Handles CBDomDenialEnds.LostFocus
-        My.Settings.DomDenialEnd = CBDomDenialEnds.Checked
+    Private Sub CBDomDenialEnds_CheckedChanged(sender As Object, e As EventArgs) Handles CBDomDenialEnds.CheckedChanged
+        If Not CBDomDenialEnds.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.DoesDenialEndTease = CBDomDenialEnds.Checked
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
-    Private Sub CBDomOrgasmEnds_LostFocus(sender As Object, e As EventArgs) Handles CBDomOrgasmEnds.LostFocus
-        My.Settings.DomOrgasmEnd = CBDomOrgasmEnds.Checked
-    End Sub
+    Private Sub CBDomOrgasmEnds_CheckedChanged(sender As Object, e As EventArgs) Handles CBDomOrgasmEnds.CheckedChanged
+        If Not CBDomOrgasmEnds.Visible Then
+            Return
+        End If
 
-    Private Sub NBDomMoodMin_LostFocus(sender As Object, e As EventArgs) Handles NBDomMoodMin.LostFocus
-        My.Settings.DomMoodMin = NBDomMoodMin.Value
-    End Sub
-
-    Private Sub NBDomMoodMax_LostFocus(sender As Object, e As EventArgs) Handles NBDomMoodMax.LostFocus
-        My.Settings.DomMoodMax = NBDomMoodMax.Value
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.DoesOrgasmEndTease = CBDomOrgasmEnds.Checked
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
     Private Sub NBDomMoodMin_ValueChanged(sender As Object, e As EventArgs) Handles NBDomMoodMin.ValueChanged
-        If NBDomMoodMin.Value > NBDomMoodMax.Value Then NBDomMoodMin.Value = NBDomMoodMax.Value
+        If Not NBDomMoodMin.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.BadMoodThreshold = Convert.ToInt32(NBDomMoodMin.Value)
+        mySettingsAccessor.WriteSettings(settings)
+        NBDomMoodMax.Minimum = settings.Domme.BadMoodThreshold
     End Sub
 
     Private Sub NBDomMoodMax_ValueChanged(sender As Object, e As EventArgs) Handles NBDomMoodMax.ValueChanged
-        If NBDomMoodMax.Value < NBDomMoodMin.Value Then NBDomMoodMax.Value = NBDomMoodMin.Value
-    End Sub
+        If Not NBDomMoodMax.Visible Then
+            Return
+        End If
 
-    Private Sub NBAvgCockMin_LostFocus(sender As Object, e As EventArgs) Handles NBAvgCockMin.LostFocus
-        My.Settings.AvgCockMin = NBAvgCockMin.Value
-    End Sub
-
-    Private Sub NBAvgCockMax_LostFocus(sender As Object, e As EventArgs) Handles NBAvgCockMax.LostFocus
-        My.Settings.AvgCockMax = NBAvgCockMax.Value
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.GoodMoodThreshold = Convert.ToInt32(NBDomMoodMax.Value)
+        mySettingsAccessor.WriteSettings(settings)
+        NBDomMoodMin.Maximum = settings.Domme.GoodMoodThreshold
     End Sub
 
     Private Sub NBAvgCockMin_ValueChanged(sender As Object, e As EventArgs) Handles NBAvgCockMin.ValueChanged
-        If NBAvgCockMin.Value > NBAvgCockMax.Value Then NBAvgCockMin.Value = NBAvgCockMax.Value
+        If Not NBAvgCockMin.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.AveragePenisMinimum = NBAvgCockMin.Value
+        mySettingsAccessor.WriteSettings(settings)
+        NBAvgCockMax.Minimum = settings.Domme.AveragePenisMinimum
     End Sub
 
     Private Sub NBAvgCockMax_ValueChanged(sender As Object, e As EventArgs) Handles NBAvgCockMax.ValueChanged
-        If NBAvgCockMax.Value < NBAvgCockMin.Value Then NBAvgCockMax.Value = NBAvgCockMin.Value
-    End Sub
+        If Not NBAvgCockMax.Visible Then
+            Return
+        End If
 
-    Private Sub NBSelfAgeMin_LostFocus(sender As Object, e As EventArgs) Handles NBSelfAgeMin.LostFocus
-        My.Settings.SelfAgeMin = NBSelfAgeMin.Value
-    End Sub
-
-    Private Sub NBSelfAgeMax_LostFocus(sender As Object, e As EventArgs) Handles NBSelfAgeMax.LostFocus
-        My.Settings.SelfAgeMax = NBSelfAgeMax.Value
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.AveragePenisMaximum = NBAvgCockMax.Value
+        mySettingsAccessor.WriteSettings(settings)
+        NBAvgCockMin.Maximum = settings.Domme.AveragePenisMinimum
     End Sub
 
     Private Sub NBSelfAgeMin_ValueChanged(sender As Object, e As EventArgs) Handles NBSelfAgeMin.ValueChanged
-        If NBSelfAgeMin.Value > NBSelfAgeMax.Value Then NBSelfAgeMin.Value = NBSelfAgeMax.Value
+        If Not NBSelfAgeMin.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.AverageAgeSelfMinimum = NBSelfAgeMin.Value
+        mySettingsAccessor.WriteSettings(settings)
+        NBSelfAgeMax.Minimum = settings.Domme.AverageAgeSelfMinimum
     End Sub
 
     Private Sub NBSelfAgeMax_ValueChanged(sender As Object, e As EventArgs) Handles NBSelfAgeMax.ValueChanged
-        If NBSelfAgeMax.Value < NBSelfAgeMin.Value Then NBSelfAgeMax.Value = NBSelfAgeMin.Value
-    End Sub
+        If Not NBSelfAgeMax.Visible Then
+            Return
+        End If
 
-    Private Sub NBSubAgeMin_LostFocus(sender As Object, e As EventArgs) Handles NBSubAgeMin.LostFocus
-        My.Settings.SubAgeMin = NBSubAgeMin.Value
-    End Sub
-
-    Private Sub NBSubAgeMax_LostFocus(sender As Object, e As EventArgs) Handles NBSubAgeMax.LostFocus
-        My.Settings.SubAgeMax = NBSubAgeMax.Value
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.AverageAgeSelfMaximum = NBSelfAgeMax.Value
+        mySettingsAccessor.WriteSettings(settings)
+        NBSelfAgeMin.Maximum = settings.Domme.AverageAgeSelfMaximum
     End Sub
 
     Private Sub NBSubAgeMin_ValueChanged(sender As Object, e As EventArgs) Handles NBSubAgeMin.ValueChanged
-        If NBSubAgeMin.Value > NBSubAgeMax.Value Then NBSubAgeMin.Value = NBSubAgeMax.Value
+        If Not NBSubAgeMin.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.AverageAgeSubMinimum = NBSubAgeMin.Value
+        mySettingsAccessor.WriteSettings(settings)
+        NBSubAgeMax.Minimum = settings.Domme.AverageAgeSubMinimum
     End Sub
 
     Private Sub NBSubAgeMax_ValueChanged(sender As Object, e As EventArgs) Handles NBSubAgeMax.ValueChanged
-        If NBSubAgeMax.Value < NBSubAgeMin.Value Then NBSubAgeMax.Value = NBSubAgeMin.Value
+        If Not NBSubAgeMax.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.AverageAgeSubMaximum = NBSubAgeMax.Value
+        mySettingsAccessor.WriteSettings(settings)
+        NBSubAgeMax.Maximum = settings.Domme.AverageAgeSubMaximum
     End Sub
 
     Private Sub NBEmpathy_ValueChanged(sender As Object, e As EventArgs) Handles NBEmpathy.ValueChanged
@@ -6140,11 +6190,11 @@ Public Class FrmSettings
         End If
 
         Dim result As DialogResult
-        If orgasmsPerNumBox.Value = 1 Then
-            result = MessageBox.Show("This will limit you to 1 orgasm for the next " & LCase(orgasmsperComboBox.Text) & "." & Environment.NewLine & Environment.NewLine &
+        If OrgasmsPerNumBox.Value = 1 Then
+            result = MessageBox.Show("This will limit you to 1 orgasm for the next " & LCase(OrgasmsPerComboBox.Text) & "." & Environment.NewLine & Environment.NewLine &
                                                "Are you absolutely sure you wish to continue?", "Warning!", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation)
         Else
-            result = MessageBox.Show("This will limit you to " & orgasmsPerNumBox.Value & " orgasms for the next " & LCase(orgasmsperComboBox.Text) & "." & Environment.NewLine & Environment.NewLine &
+            result = MessageBox.Show("This will limit you to " & OrgasmsPerNumBox.Value & " orgasms for the next " & LCase(OrgasmsPerComboBox.Text) & "." & Environment.NewLine & Environment.NewLine &
                                                            "Are you absolutely sure you wish to continue?", "Warning!", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation)
         End If
 
@@ -6153,18 +6203,18 @@ Public Class FrmSettings
         End If
 
         Dim settings As Settings = mySettingsAccessor.GetSettings()
-        My.Settings.OrgasmsRemaining = orgasmsPerNumBox.Value
-        My.Settings.DomOrgasmPer = orgasmsPerNumBox.Value
+        My.Settings.OrgasmsRemaining = OrgasmsPerNumBox.Value
+        settings.Domme.OrgasmsPerTimePeriod = OrgasmsPerNumBox.Value
+        Dim timePeriodDays As Integer = GetDaysForTimePeriod(OrgasmsPerComboBox.Text)
+        settings.Domme.OrgasmsTimePeriodDays = timePeriodDays
 
-        My.Settings.DomPerMonth = orgasmsperComboBox.Text
-
-        Dim releaseDate As Date = GetOrgasmReleaseDate(orgasmsperComboBox.Text, DateTime.Now.Date).Date
-        Settings.Domme.OrgasmReleaseDate = releaseDate
+        Dim releaseDate As Date = DateTime.Now.Date.AddDays(timePeriodDays)
+        settings.Domme.OrgasmReleaseDate = releaseDate
         mySettingsAccessor.WriteSettings(settings)
 
         limitcheckbox.Enabled = False
-        orgasmsPerNumBox.Enabled = False
-        orgasmsperComboBox.Enabled = False
+        OrgasmsPerNumBox.Enabled = False
+        OrgasmsPerComboBox.Enabled = False
         orgasmsperlockButton.Enabled = False
         orgasmlockrandombutton.Enabled = False
     End Sub
@@ -6184,22 +6234,23 @@ Public Class FrmSettings
 
         Dim settings As Settings = mySettingsAccessor.GetSettings()
         Dim randomOrgasms As Integer = MainWindow.ssh.randomizer.Next(1, 6)
-
         My.Settings.OrgasmsRemaining = randomOrgasms
-        My.Settings.DomOrgasmPer = randomOrgasms
-
-        orgasmsPerNumBox.Value = randomOrgasms
+        settings.Domme.OrgasmsPerTimePeriod = randomOrgasms
+        OrgasmsPerNumBox.Value = randomOrgasms
 
         Dim orgasmInterval As String = GetOrgasmInterval(settings.Domme.DominationLevel)
-        My.Settings.DomPerMonth = orgasmInterval
-        orgasmsperComboBox.Text = My.Settings.DomPerMonth
+        settings.Domme.OrgasmsTimePeriodDays = GetDaysForTimePeriod(orgasmInterval)
+        OrgasmsPerComboBox.Text = orgasmInterval
 
-        Dim releaseDate As Date = GetOrgasmReleaseDate(orgasmsperComboBox.Text, DateTime.Now.Date).Date
+        Dim timePeriodDays As Integer = GetDaysForTimePeriod(OrgasmsPerComboBox.Text)
+        settings.Domme.OrgasmsTimePeriodDays = timePeriodDays
+
+        Dim releaseDate As Date = DateTime.Now.Date.AddDays(timePeriodDays)
         settings.Domme.OrgasmReleaseDate = releaseDate
 
         limitcheckbox.Enabled = False
-        orgasmsPerNumBox.Enabled = False
-        orgasmsperComboBox.Enabled = False
+        OrgasmsPerNumBox.Enabled = False
+        OrgasmsPerComboBox.Enabled = False
         orgasmsperlockButton.Enabled = False
         orgasmlockrandombutton.Enabled = False
     End Sub
@@ -6661,7 +6712,6 @@ Public Class FrmSettings
             MessageBox.Show(Me, "Tease AI settings have been reverted back to default values.", "Success!", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Sub
-
 
     Private Sub CBCockToClit_MouseHover(sender As Object, e As EventArgs) Handles CBCockToClit.MouseEnter
         LBLSubSettingsDescription.Text = "When this box is checked, the domme will replace #Cock with a Keyword for ""clit"" when it appears in a script" & Environment.NewLine & Environment.NewLine &
@@ -7582,25 +7632,6 @@ Public Class FrmSettings
         Return Result.Ok(images)
     End Function
 
-    Private Function GetOrgasmReleaseDate(lockTimeDuration As String, startDate As Date) As Date
-        If lockTimeDuration = "Week" Then startDate = DateAdd(DateInterval.Day, 7, startDate)
-        If lockTimeDuration = "2 Weeks" Then startDate = DateAdd(DateInterval.Day, 14, startDate)
-        If lockTimeDuration = "Month" Then startDate = DateAdd(DateInterval.Month, 1, startDate)
-        If lockTimeDuration = "2 Months" Then startDate = DateAdd(DateInterval.Month, 2, startDate)
-        If lockTimeDuration = "3 Months" Then startDate = DateAdd(DateInterval.Month, 3, startDate)
-        If lockTimeDuration = "6 Months" Then startDate = DateAdd(DateInterval.Month, 6, startDate)
-        If lockTimeDuration = "9 Months" Then startDate = DateAdd(DateInterval.Month, 9, startDate)
-        If lockTimeDuration = "Year" Then startDate = DateAdd(DateInterval.Year, 1, startDate)
-        If lockTimeDuration = "2 Years" Then startDate = DateAdd(DateInterval.Year, 2, startDate)
-        If lockTimeDuration = "3 Years" Then startDate = DateAdd(DateInterval.Year, 3, startDate)
-        If lockTimeDuration = "5 Years" Then startDate = DateAdd(DateInterval.Year, 5, startDate)
-        If lockTimeDuration = "10 Years" Then startDate = DateAdd(DateInterval.Year, 10, startDate)
-        If lockTimeDuration = "25 Years" Then startDate = DateAdd(DateInterval.Year, 25, startDate)
-        If lockTimeDuration = "Lifetime" Then startDate = DateAdd(DateInterval.Year, 100, startDate)
-
-        Return startDate
-    End Function
-
     Private Function GetOrgasmInterval(dominationLevel As DomLevel) As String
         Dim randomTime As Integer = MainWindow.ssh.randomizer.Next(1, 4)
 
@@ -7658,6 +7689,45 @@ Public Class FrmSettings
         Return child
     End Function
 
+    Private Function GetDaysForTimePeriod(text As String) As Integer
+        Select Case (text)
+            Case "Week"
+                Return Convert.ToInt32(365 / 7)
+            Case "2 Weeks"
+                Return Convert.ToInt32(365 / 14)
+            Case "Month"
+                Return 30
+            Case "2 Months"
+                Return Convert.ToInt32(365 / 6)
+            Case "3 Months"
+                Return Convert.ToInt32(365 / 4)
+            Case "6 Months"
+                Return Convert.ToInt32(365 / 2)
+            Case "9 Months"
+                Return Convert.ToInt32(365 * 0.75)
+            Case "Year"
+                Return 365
+            Case "2 Years"
+                Return 365 * 2
+            Case "3 Years"
+                Return 365 * 3
+            Case "5 Years"
+                Return 365 * 5
+            Case "10 Years"
+                Return 365 * 10
+            Case "25 Years"
+                Return 365 * 25
+            Case "Lifetime"
+                Return 365 * 100
+            Case Else
+                Return 0
+        End Select
+    End Function
+
+    Private Sub Label89_Click(sender As Object, e As EventArgs) Handles RarelyAllowsPercentLabel.Click
+
+    End Sub
+
     Private ReadOnly mySettingsAccessor As ISettingsAccessor
     Private ReadOnly myConfigurationAccessor As IConfigurationAccessor
     Private ReadOnly myBlogAccessor As BlogImageAccessor
@@ -7676,8 +7746,4 @@ Public Class FrmSettings
     Private myIsFormSettingTags As Boolean
     Private myIsMediaContainerLoading As Boolean
     Private myWorkingUrlImageMetaDatas As List(Of ImageMetaData)
-
-    Private Sub Label89_Click(sender As Object, e As EventArgs) Handles RarelyAllowsPercentLabel.Click
-
-    End Sub
 End Class

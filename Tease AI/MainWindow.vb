@@ -438,30 +438,15 @@ retryStart:
 
             If FrmSettings.TBEmote.Text = "" Then FrmSettings.TBEmote.Text = "*"
             If FrmSettings.TBEmoteEnd.Text = "" Then FrmSettings.TBEmoteEnd.Text = "*"
-            FrmSettings.alloworgasmComboBox.Text = My.Settings.OrgasmAllow
-            FrmSettings.ruinorgasmComboBox.Text = My.Settings.OrgasmRuin
-            FrmSettings.CBDomDenialEnds.Checked = My.Settings.DomDenialEnd
-            FrmSettings.CBDomOrgasmEnds.Checked = My.Settings.DomOrgasmEnd
-            FrmSettings.orgasmsPerNumBox.Value = My.Settings.DomOrgasmPer
-            FrmSettings.orgasmsperComboBox.Text = My.Settings.DomPerMonth
 
             If My.Settings.DomLock Then
                 FrmSettings.orgasmsperlockButton.Enabled = False
                 FrmSettings.orgasmlockrandombutton.Enabled = False
                 FrmSettings.limitcheckbox.Checked = True
                 FrmSettings.limitcheckbox.Enabled = False
-                FrmSettings.orgasmsPerNumBox.Enabled = False
-                FrmSettings.orgasmsperComboBox.Enabled = False
+                FrmSettings.OrgasmsPerNumBox.Enabled = False
+                FrmSettings.OrgasmsPerComboBox.Enabled = False
             End If
-
-            FrmSettings.NBDomMoodMin.Value = My.Settings.DomMoodMin
-            FrmSettings.NBDomMoodMax.Value = My.Settings.DomMoodMax
-            FrmSettings.NBAvgCockMin.Value = My.Settings.AvgCockMin
-            FrmSettings.NBAvgCockMax.Value = My.Settings.AvgCockMax
-            FrmSettings.NBSelfAgeMin.Value = My.Settings.SelfAgeMin
-            FrmSettings.NBSelfAgeMax.Value = My.Settings.SelfAgeMax
-            FrmSettings.NBSubAgeMin.Value = My.Settings.SubAgeMin
-            FrmSettings.NBSubAgeMax.Value = My.Settings.SubAgeMax
 
             splashScreen.UpdateText("Checking Glitter scripts...")
             Try
@@ -6055,30 +6040,6 @@ TaskCleanSet:
         If StringClean.Contains("@RestrictOrgasm") Then
             ssh.OrgasmRestricted = True
             StringClean = StringClean.Replace("@RestrictOrgasm", "")
-        End If
-
-        If StringClean.Contains("@DecreaseRuinChance") Then
-
-            If FrmSettings.ruinorgasmComboBox.Text = "Rarely Ruins" Then FrmSettings.ruinorgasmComboBox.Text = "Never Ruins"
-            If FrmSettings.ruinorgasmComboBox.Text = "Sometimes Ruins" Then FrmSettings.ruinorgasmComboBox.Text = "Rarely Ruins"
-            If FrmSettings.ruinorgasmComboBox.Text = "Often Ruins" Then FrmSettings.ruinorgasmComboBox.Text = "Sometimes Ruins"
-            If FrmSettings.ruinorgasmComboBox.Text = "Always Ruins" Then FrmSettings.ruinorgasmComboBox.Text = "Often Ruins"
-
-            My.Settings.OrgasmRuin = FrmSettings.ruinorgasmComboBox.Text
-
-            StringClean = StringClean.Replace("@DecreaseRuinChance", "")
-        End If
-
-        If StringClean.Contains("@IncreaseRuinChance") Then
-
-            If FrmSettings.ruinorgasmComboBox.Text = "Often Ruins" Then FrmSettings.ruinorgasmComboBox.Text = "Always Ruins"
-            If FrmSettings.ruinorgasmComboBox.Text = "Sometimes Ruins" Then FrmSettings.ruinorgasmComboBox.Text = "Often Ruins"
-            If FrmSettings.ruinorgasmComboBox.Text = "Rarely Ruins" Then FrmSettings.ruinorgasmComboBox.Text = "Sometimes Ruins"
-            If FrmSettings.ruinorgasmComboBox.Text = "Never Ruins" Then FrmSettings.ruinorgasmComboBox.Text = "Rarely Ruins"
-
-            My.Settings.OrgasmRuin = FrmSettings.ruinorgasmComboBox.Text
-
-            StringClean = StringClean.Replace("@IncreaseRuinChance", "")
         End If
 
         '@@@@@@@@@@@@@@@@@@@@@@ TASKCLEAN END
@@ -15279,10 +15240,11 @@ playLoop:
     Private Sub Greeting_Spoken(sender As Object, e As MessageProcessedEventArgs)
         ssh.BeforeTease = True
         Dim sesh As Session = mySession.Session
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
         sesh.IsBeforeTease = True
         mySession.Session = sesh
 
-        If My.Settings.LockOrgasmChances Then FrmSettings.LockOrgasmChances(True)
+        If settings.Domme.IsOrgasmChanceLocked Then FrmSettings.LockOrgasmChances(True)
 
         If ssh.PlaylistFile.Count = 0 Then GoTo NoPlaylistStartFile
 
@@ -15466,9 +15428,6 @@ NoPlaylistStartFile:
                 If fsd.ShowDialog() = DialogResult.Cancel Then Exit Sub
 
                 filename = fsd.FileName
-                '===============================================================================
-                '						Check if default-File exists
-                '===============================================================================
             ElseIf Not File.Exists(filename) Then
                 MessageBox.Show(Me, Path.GetFileName(myOldPathsAccessor.SavedSessionDefaultPath) & " could not be found!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
                 Exit Sub
@@ -15484,13 +15443,11 @@ NoPlaylistStartFile:
 
             ssh.Load(filename, True)
 
-            If mySession.Session.Domme.WasGreeted And My.Settings.LockOrgasmChances Then _
+            Dim settings As Settings = mySettingsAccessor.GetSettings()
+            If mySession.Session.Domme.WasGreeted AndAlso settings.Domme.IsOrgasmChanceLocked Then _
                 FrmSettings.LockOrgasmChances(True)
 
         Catch ex As Exception
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-            '                                            All Errors
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
             MessageBox.Show(Me, "An error occurred and the state was not loaded correctly!" &
                             vbCrLf & vbCrLf & ex.Message,
                             "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)

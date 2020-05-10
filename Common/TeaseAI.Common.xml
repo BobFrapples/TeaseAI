@@ -1055,6 +1055,66 @@
             Should the domme skip apostrophes
             </summary>
         </member>
+        <member name="P:TeaseAI.Common.DommeSettings.AllowsOrgasms">
+            <summary>
+            how likely is the domme to allow an orgasm (combines with RuinsOrgams)
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.RuinsOrgasms">
+            <summary>
+            how likely is this domme to ruin the subs orgasm
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.OrgasmsTimePeriodDays">
+            <summary>
+            how many orgasms the domme lets the sub orgasm. i.e. orgasms / range
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.OrgasmsPerTimePeriod">
+            <summary>
+            the time period the domme will let the sub orgasm. i.e. orgasms / range
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.BadMoodThreshold">
+            <summary>
+            The domme is in a bad mood up (but not including) to this point
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.GoodMoodThreshold">
+            <summary>
+            The domme is in a good mood above (but not including) to this point
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.AveragePenisMinimum">
+            <summary>
+            Under this value (but not including) the Domme considers a penis small
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.AveragePenisMaximum">
+            <summary>
+            over this value (but not including) the Domme considers a penis Large
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.AverageAgeSelfMinimum">
+            <summary>
+            Under this number, the Domme thinks of herself as young
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.AverageAgeSelfMaximum">
+            <summary>
+            Over this number, the Domme thinks of herself as old
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.AverageAgeSubMinimum">
+            <summary>
+            Under this number, the Domme things of the sub as young
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.AverageAgeSubMaximum">
+            <summary>
+            Over this number, the Domme thinks of the sub as old
+            </summary>
+        </member>
         <member name="T:TeaseAI.Common.Error">
             <summary>Error when a method that returns <see cref="T:TeaseAI.Common.Result"/> fails.</summary>
         </member>

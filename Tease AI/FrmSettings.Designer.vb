@@ -160,10 +160,10 @@ Partial Class FrmSettings
         Me.Label16 = New System.Windows.Forms.Label()
         Me.Label12 = New System.Windows.Forms.Label()
         Me.orgasmsperlockButton = New System.Windows.Forms.Button()
-        Me.orgasmsperComboBox = New System.Windows.Forms.ComboBox()
+        Me.OrgasmsPerComboBox = New System.Windows.Forms.ComboBox()
         Me.orgasmsperLabel = New System.Windows.Forms.Label()
         Me.limitcheckbox = New System.Windows.Forms.CheckBox()
-        Me.orgasmsPerNumBox = New System.Windows.Forms.NumericUpDown()
+        Me.OrgasmsPerNumBox = New System.Windows.Forms.NumericUpDown()
         Me.CBDomDenialEnds = New System.Windows.Forms.CheckBox()
         Me.alloworgasmComboBox = New System.Windows.Forms.ComboBox()
         Me.ruinorgasmComboBox = New System.Windows.Forms.ComboBox()
@@ -1134,7 +1134,7 @@ Partial Class FrmSettings
         CType(Me.DominationLevel, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GBDomPersonality.SuspendLayout
         Me.GBDomOrgasms.SuspendLayout
-        CType(Me.orgasmsPerNumBox, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.OrgasmsPerNumBox, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GBDomPetNames.SuspendLayout
         Me.TabPage10.SuspendLayout
         Me.Panel2.SuspendLayout
@@ -2999,10 +2999,10 @@ Partial Class FrmSettings
         Me.GBDomOrgasms.Controls.Add(Me.Label16)
         Me.GBDomOrgasms.Controls.Add(Me.Label12)
         Me.GBDomOrgasms.Controls.Add(Me.orgasmsperlockButton)
-        Me.GBDomOrgasms.Controls.Add(Me.orgasmsperComboBox)
+        Me.GBDomOrgasms.Controls.Add(Me.OrgasmsPerComboBox)
         Me.GBDomOrgasms.Controls.Add(Me.orgasmsperLabel)
         Me.GBDomOrgasms.Controls.Add(Me.limitcheckbox)
-        Me.GBDomOrgasms.Controls.Add(Me.orgasmsPerNumBox)
+        Me.GBDomOrgasms.Controls.Add(Me.OrgasmsPerNumBox)
         Me.GBDomOrgasms.Controls.Add(Me.CBDomDenialEnds)
         Me.GBDomOrgasms.Controls.Add(Me.alloworgasmComboBox)
         Me.GBDomOrgasms.Controls.Add(Me.ruinorgasmComboBox)
@@ -3085,19 +3085,19 @@ Partial Class FrmSettings
         Me.orgasmsperlockButton.Text = "Lock Selected"
         Me.orgasmsperlockButton.UseVisualStyleBackColor = False
         '
-        'orgasmsperComboBox
+        'OrgasmsPerComboBox
         '
-        Me.orgasmsperComboBox.BackColor = System.Drawing.Color.White
-        Me.orgasmsperComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.orgasmsperComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.orgasmsperComboBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.orgasmsperComboBox.ForeColor = System.Drawing.Color.Black
-        Me.orgasmsperComboBox.FormattingEnabled = True
-        Me.orgasmsperComboBox.Items.AddRange(New Object() {"Week", "2 Weeks", "Month", "2 Months", "3 Months", "6 Months", "9 Months", "Year", "2 Years", "3 Years", "5 Years", "10 Years", "25 Years", "Lifetime"})
-        Me.orgasmsperComboBox.Location = New System.Drawing.Point(143, 133)
-        Me.orgasmsperComboBox.Name = "orgasmsperComboBox"
-        Me.orgasmsperComboBox.Size = New System.Drawing.Size(101, 21)
-        Me.orgasmsperComboBox.TabIndex = 43
+        Me.OrgasmsPerComboBox.BackColor = System.Drawing.Color.White
+        Me.OrgasmsPerComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.OrgasmsPerComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.OrgasmsPerComboBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.OrgasmsPerComboBox.ForeColor = System.Drawing.Color.Black
+        Me.OrgasmsPerComboBox.FormattingEnabled = True
+        Me.OrgasmsPerComboBox.Items.AddRange(New Object() {"Week", "2 Weeks", "Month", "2 Months", "3 Months", "6 Months", "9 Months", "Year", "2 Years", "3 Years", "5 Years", "10 Years", "25 Years", "Lifetime"})
+        Me.OrgasmsPerComboBox.Location = New System.Drawing.Point(143, 133)
+        Me.OrgasmsPerComboBox.Name = "OrgasmsPerComboBox"
+        Me.OrgasmsPerComboBox.Size = New System.Drawing.Size(101, 21)
+        Me.OrgasmsPerComboBox.TabIndex = 43
         '
         'orgasmsperLabel
         '
@@ -3125,16 +3125,16 @@ Partial Class FrmSettings
         '
         'orgasmsPerNumBox
         '
-        Me.orgasmsPerNumBox.BackColor = System.Drawing.Color.White
-        Me.orgasmsPerNumBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.orgasmsPerNumBox.ForeColor = System.Drawing.Color.Black
-        Me.orgasmsPerNumBox.Location = New System.Drawing.Point(68, 134)
-        Me.orgasmsPerNumBox.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
-        Me.orgasmsPerNumBox.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.orgasmsPerNumBox.Name = "orgasmsPerNumBox"
-        Me.orgasmsPerNumBox.Size = New System.Drawing.Size(41, 20)
-        Me.orgasmsPerNumBox.TabIndex = 41
-        Me.orgasmsPerNumBox.Value = New Decimal(New Integer() {3, 0, 0, 0})
+        Me.OrgasmsPerNumBox.BackColor = System.Drawing.Color.White
+        Me.OrgasmsPerNumBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.OrgasmsPerNumBox.ForeColor = System.Drawing.Color.Black
+        Me.OrgasmsPerNumBox.Location = New System.Drawing.Point(68, 134)
+        Me.OrgasmsPerNumBox.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
+        Me.OrgasmsPerNumBox.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.OrgasmsPerNumBox.Name = "orgasmsPerNumBox"
+        Me.OrgasmsPerNumBox.Size = New System.Drawing.Size(41, 20)
+        Me.OrgasmsPerNumBox.TabIndex = 41
+        Me.OrgasmsPerNumBox.Value = New Decimal(New Integer() {3, 0, 0, 0})
         '
         'CBDomDenialEnds
         '
@@ -14327,7 +14327,7 @@ Partial Class FrmSettings
         Me.GBDomPersonality.PerformLayout
         Me.GBDomOrgasms.ResumeLayout(False)
         Me.GBDomOrgasms.PerformLayout
-        CType(Me.orgasmsPerNumBox, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.OrgasmsPerNumBox, System.ComponentModel.ISupportInitialize).EndInit
         Me.GBDomPetNames.ResumeLayout(False)
         Me.GBDomPetNames.PerformLayout
         Me.TabPage10.ResumeLayout(False)
@@ -14673,10 +14673,10 @@ Partial Class FrmSettings
     Friend WithEvents Label16 As System.Windows.Forms.Label
     Friend WithEvents Label12 As System.Windows.Forms.Label
     Friend WithEvents orgasmsperlockButton As System.Windows.Forms.Button
-    Friend WithEvents orgasmsperComboBox As System.Windows.Forms.ComboBox
+    Friend WithEvents OrgasmsPerComboBox As System.Windows.Forms.ComboBox
     Friend WithEvents orgasmsperLabel As System.Windows.Forms.Label
     Friend WithEvents limitcheckbox As System.Windows.Forms.CheckBox
-    Friend WithEvents orgasmsPerNumBox As System.Windows.Forms.NumericUpDown
+    Friend WithEvents OrgasmsPerNumBox As System.Windows.Forms.NumericUpDown
     Friend WithEvents CBDomDenialEnds As System.Windows.Forms.CheckBox
     Friend WithEvents alloworgasmComboBox As System.Windows.Forms.ComboBox
     Friend WithEvents ruinorgasmComboBox As System.Windows.Forms.ComboBox

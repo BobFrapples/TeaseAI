@@ -128,6 +128,69 @@ namespace TeaseAI.Common
             }
         }
 
+        /// <summary>
+        /// how likely is the domme to allow an orgasm (combines with RuinsOrgams)
+        /// </summary>
+        public AllowsOrgasms AllowsOrgasms { get; set; }
+
+        /// <summary>
+        /// how likely is this domme to ruin the subs orgasm
+        /// </summary>
+        public RuinsOrgasms RuinsOrgasms { get; set; }
+        public bool IsOrgasmChanceLocked { get; set; }
+        public bool DoesDenialEndTease { get; set; }
+        public bool DoesOrgasmEndTease { get; set; }
+
+        /// <summary>
+        /// how many orgasms the domme lets the sub orgasm. i.e. orgasms / range
+        /// </summary>
+        public int OrgasmsTimePeriodDays { get; set; }
+
+        /// <summary>
+        /// the time period the domme will let the sub orgasm. i.e. orgasms / range
+        /// </summary>
+        public int OrgasmsPerTimePeriod { get; set; }
+
+        /// <summary>
+        /// The domme is in a bad mood up (but not including) to this point
+        /// </summary>
+        public int BadMoodThreshold { get; set; }
+
+        /// <summary>
+        /// The domme is in a good mood above (but not including) to this point
+        /// </summary>
+        public int GoodMoodThreshold { get; set; }
+
+        /// <summary>
+        /// Under this value (but not including) the Domme considers a penis small
+        /// </summary>
+        public int AveragePenisMinimum { get; set; }
+
+        /// <summary>
+        /// over this value (but not including) the Domme considers a penis Large
+        /// </summary>
+        public int AveragePenisMaximum { get; set; }
+
+        /// <summary>
+        /// Under this number, the Domme thinks of herself as young
+        /// </summary>
+        public int AverageAgeSelfMinimum { get; set; }
+
+        /// <summary>
+        /// Over this number, the Domme thinks of herself as old
+        /// </summary>
+        public int AverageAgeSelfMaximum { get; set; }
+
+        /// <summary>
+        /// Under this number, the Domme things of the sub as young
+        /// </summary>
+        public int AverageAgeSubMinimum { get; set; }
+
+        /// <summary>
+        /// Over this number, the Domme thinks of the sub as old
+        /// </summary>
+        public int AverageAgeSubMaximum { get; set; }
+
         private List<string> _petNames;
     }
 }
