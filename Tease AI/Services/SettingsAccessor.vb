@@ -8,33 +8,6 @@ Imports TeaseAI.Common.Interfaces.Accessors
 Public Class SettingsAccessor
     Implements TeaseAI.Common.Interfaces.Accessors.ISettingsAccessor
 
-    Public Property IsTeaseLengthDommeDetermined As Boolean Implements ISettingsAccessor.IsTeaseLengthDommeDetermined
-        Get
-            Return Settings.CBTeaseLengthDD
-        End Get
-        Set(value As Boolean)
-            Settings.CBTeaseLengthDD = value
-        End Set
-    End Property
-
-    Public Property IsTauntCycleDommeDetermined As Boolean Implements ISettingsAccessor.IsTauntCycleDommeDetermined
-        Get
-            Return Settings.CBTauntCycleDD
-        End Get
-        Set(value As Boolean)
-            Settings.CBTauntCycleDD = value
-        End Set
-    End Property
-
-    Public Property CanDommeDeleteFiles As Boolean Implements ISettingsAccessor.CanDommeDeleteFiles
-        Get
-            Return Settings.DomDeleteMedia
-        End Get
-        Set(value As Boolean)
-            Settings.DomDeleteMedia = value
-        End Set
-    End Property
-
     Public Function GetGreetings() As List(Of String) Implements ISettingsAccessor.GetGreetings
         Return MySettings.Default.SubGreeting.Split(","(0)).Select(Function(str) str.Trim()).ToList()
     End Function
@@ -78,41 +51,6 @@ Public Class SettingsAccessor
         End Set
     End Property
 
-    Public Property TeaseLengthMinimum As Integer Implements ISettingsAccessor.TeaseLengthMinimum
-        Get
-            Return Settings.TeaseLengthMin
-        End Get
-        Set(value As Integer)
-            Settings.TeaseLengthMin = value
-        End Set
-    End Property
-
-    Public Property TeaseLengthMaximum As Integer Implements ISettingsAccessor.TeaseLengthMaximum
-        Get
-            Return Settings.TeaseLengthMax
-        End Get
-        Set(value As Integer)
-            Settings.TeaseLengthMax = value
-        End Set
-    End Property
-
-    Public Property TauntCycleMinimum As Integer Implements ISettingsAccessor.TauntCycleMinimum
-        Get
-            Return Settings.TauntCycleMin
-        End Get
-        Set(value As Integer)
-            Settings.TauntCycleMin = value
-        End Set
-    End Property
-
-    Public Property TauntCycleMaximum As Integer Implements ISettingsAccessor.TauntCycleMaximum
-        Get
-            Return Settings.TauntCycleMax
-        End Get
-        Set(value As Integer)
-            Settings.TauntCycleMax = value
-        End Set
-    End Property
 
     Public ReadOnly Property IsImageGenreEnabled As Dictionary(Of ImageGenre, Boolean) Implements ISettingsAccessor.IsImageGenreEnabled
         Get
@@ -177,22 +115,6 @@ Public Class SettingsAccessor
             Return returnValue
         End Get
     End Property
-
-    Public ReadOnly Property AreOrgasmsLocked As Boolean Implements ISettingsAccessor.AreOrgasmsLocked
-        Get
-            Return Settings.OrgasmLockDate <= DateTime.Now.Date
-        End Get
-    End Property
-
-    Public Property OrgasmLockDate As Date Implements ISettingsAccessor.OrgasmLockDate
-        Get
-            Return Settings.OrgasmLockDate
-        End Get
-        Set(value As Date)
-            Settings.OrgasmLockDate = value
-        End Set
-    End Property
-
     Public Property IsOffline As Boolean Implements ISettingsAccessor.IsOffline
         Get
             Return Settings.OfflineMode

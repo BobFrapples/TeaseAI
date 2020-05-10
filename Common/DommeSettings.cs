@@ -1,4 +1,7 @@
-﻿using TeaseAI.Common.Constants;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using TeaseAI.Common.Constants;
 
 namespace TeaseAI.Common
 {
@@ -23,6 +26,22 @@ namespace TeaseAI.Common
         public int Version { get; private set; }
 
         /// <summary>
+        /// What is the Domme's Birth date
+        /// </summary>
+        public DateTime BirthDate { get; set; }
+
+        /// <summary>
+        /// how old is the dommme. current date - birthdate
+        /// </summary>
+        public int Age => DateTime.Now.Year - BirthDate.Year;
+
+        /// <summary>
+        /// used to limit orgasms. 
+        /// </summary>
+        [JsonIgnore]
+        public bool AreOrgasmsLocked => OrgasmReleaseDate <= DateTime.Now.Date;
+
+        /// <summary>
         /// How caring does the Domme start each session
         /// </summary>
         public ApathyLevel ApathyLevel { get; set; }
@@ -31,5 +50,84 @@ namespace TeaseAI.Common
         /// How heavily will the Domme tease
         /// </summary>
         public DomLevel DominationLevel { get; set; }
+
+        /// <summary>
+        /// When can the sub have unlimited orgasms again. 
+        /// </summary>
+        public DateTime OrgasmReleaseDate { get; set; }
+
+        /// <summary>
+        /// Does the Domme have Tattoos
+        /// </summary>
+        public bool HasTattoos { get; set; }
+
+        /// <summary>
+        /// Does the Domme have Freckles
+        /// </summary>
+        public bool HasFreckles { get; set; }
+
+        /// <summary>
+        /// What color is the domme's hair
+        /// </summary>
+        public string HairColor { get; set; }
+
+        /// <summary>
+        /// How long is the dommes hair
+        /// </summary>
+        public string HairLength { get; set; }
+
+        public string EyeColor { get; set; }
+
+        /// <summary>
+        /// How big are the domme's boobs
+        /// </summary>
+        public CupSize CupSize { get; set; }
+
+        /// <summary>
+        /// What style is the Domme's pubic hair
+        /// </summary>
+        public string PubicHair { get; set; }
+
+        /// <summary>
+        /// Is the domme crazy
+        /// </summary>
+        public bool IsCrazy { get; set; }
+
+        /// <summary>
+        /// Is the domme Vulgar
+        /// </summary>
+        public bool IsVulgar { get; set; }
+
+        /// <summary>
+        /// Is the Domme a Female Supremicist
+        /// </summary>
+        public bool IsSupremacist { get; set; }
+
+        /// <summary>
+        /// Should the domme type in all lowercase
+        /// </summary>
+        public bool UseLowercase { get; set; }
+
+        /// <summary>
+        /// Should the domme skip apostrophes
+        /// </summary>
+        public bool UseNoApostrophes { get; set; }
+        public bool UseNoCommas { get; set; }
+        public bool UseNoPeriods { get; set; }
+        public bool CapitalizeSelfPronouns { get; set; }
+
+        public List<string> PetNames
+        {
+            get
+            {
+                return _petNames ?? (_petNames = new List<string>(8));
+            }
+            set
+            {
+                _petNames = value;
+            }
+        }
+
+        private List<string> _petNames;
     }
 }

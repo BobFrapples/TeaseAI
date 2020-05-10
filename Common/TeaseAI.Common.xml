@@ -970,6 +970,21 @@
             used to manage serialization. Changes when the model breaks compatibility
             </summary>
         </member>
+        <member name="P:TeaseAI.Common.DommeSettings.BirthDate">
+            <summary>
+            What is the Domme's Birth date
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.Age">
+            <summary>
+            how old is the dommme. current date - birthdate
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.AreOrgasmsLocked">
+            <summary>
+            used to limit orgasms. 
+            </summary>
+        </member>
         <member name="P:TeaseAI.Common.DommeSettings.ApathyLevel">
             <summary>
             How caring does the Domme start each session
@@ -978,6 +993,66 @@
         <member name="P:TeaseAI.Common.DommeSettings.DominationLevel">
             <summary>
             How heavily will the Domme tease
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.OrgasmReleaseDate">
+            <summary>
+            When can the sub have unlimited orgasms again. 
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.HasTattoos">
+            <summary>
+            Does the Domme have Tattoos
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.HasFreckles">
+            <summary>
+            Does the Domme have Freckles
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.HairColor">
+            <summary>
+            What color is the domme's hair
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.HairLength">
+            <summary>
+            How long is the dommes hair
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.CupSize">
+            <summary>
+            How big are the domme's boobs
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.PubicHair">
+            <summary>
+            What style is the Domme's pubic hair
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.IsCrazy">
+            <summary>
+            Is the domme crazy
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.IsVulgar">
+            <summary>
+            Is the domme Vulgar
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.IsSupremacist">
+            <summary>
+            Is the Domme a Female Supremicist
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.UseLowercase">
+            <summary>
+            Should the domme type in all lowercase
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.UseNoApostrophes">
+            <summary>
+            Should the domme skip apostrophes
             </summary>
         </member>
         <member name="T:TeaseAI.Common.Error">
@@ -1017,6 +1092,11 @@
         <member name="P:TeaseAI.Common.Events.PlayVideoEventArgs.Result">
             <summary>
             Did the video start, or did it fail, and why
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.GeneralSettings.CanDommeDeleteFiles">
+            <summary>
+            Can the Domme actually delete files not owned by this program
             </summary>
         </member>
         <member name="T:TeaseAI.Common.ILoadFileData">
@@ -1190,21 +1270,6 @@
             </summary>
             <param name="settings"></param>
             <returns></returns>
-        </member>
-        <member name="P:TeaseAI.Common.Interfaces.Accessors.ISettingsAccessor.CanDommeDeleteFiles">
-            <summary>
-            Does the sub identify as female
-            </summary>
-        </member>
-        <member name="P:TeaseAI.Common.Interfaces.Accessors.ISettingsAccessor.AreOrgasmsLocked">
-            <summary>
-            Are orgasms currently locked. true if <see cref="P:TeaseAI.Common.Interfaces.Accessors.ISettingsAccessor.OrgasmLockDate"/> is in the future
-            </summary>
-        </member>
-        <member name="P:TeaseAI.Common.Interfaces.Accessors.ISettingsAccessor.OrgasmLockDate">
-            <summary>
-            Date orgasms are locked until
-            </summary>
         </member>
         <member name="M:TeaseAI.Common.Interfaces.Accessors.IVariableAccessor.AddToVariable(TeaseAI.Common.DommePersonality,System.String,System.Int32)">
             <summary>
@@ -1453,6 +1518,76 @@
             any response the Domme is making to the message
             </summary>
         </member>
+        <member name="P:TeaseAI.Common.RangeSettings.DoesDommeDecideOrgasmRange">
+            <summary>
+            Does the domme decide the range for <see cref="T:TeaseAI.Common.Constants.AllowsOrgasms"/>, or is it set custom
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.RangeSettings.AllowOrgasmOftenPercent">
+            <summary>
+            Custom allow often percentage
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.RangeSettings.AllowOrgasmSometimesPercent">
+            <summary>
+            Custom allow sometimes percentage
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.RangeSettings.AllowOrgasmRarelyPercent">
+            <summary>
+            Custom allow rarely percentage
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.RangeSettings.DoesDommeDecideRuinRange">
+            <summary>
+            Does the domme decide the range for <see cref="T:TeaseAI.Common.Constants.RuinsOrgasms"/>, or is it set custom
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.RangeSettings.RuinOrgasmOftenPercent">
+            <summary>
+            Custom allow often percentage
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.RangeSettings.RuinOrgasmSometimesPercent">
+            <summary>
+            Custom allow sometimes percentage
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.RangeSettings.RuinOrgasmRarelyPercent">
+            <summary>
+            Custom allow rarely percentage
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.RangeSettings.IsTeaseLengthDommeDetermined">
+            <summary>
+            Does the domme determine how long the tease should be (based on <see cref="T:TeaseAI.Common.Constants.DomLevel"/>)
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.RangeSettings.IsTauntCycleDommeDetermined">
+            <summary>
+            Does the domme decide the taunt cycle (based on <see cref="T:TeaseAI.Common.Constants.DomLevel"/>) 
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.RangeSettings.TeaseLengthMinutesMinimum">
+            <summary>
+            approximate minimum time for a tease to run
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.RangeSettings.TeaseLengthMinutesMaximum">
+            <summary>
+            approximate maximum time for a tease to run
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.RangeSettings.TauntCycleMinutesMinimum">
+            <summary>
+            approximate minimum time for a taunt to run
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.RangeSettings.TauntCycleMinutesMaximum">
+            <summary>
+            approximate maximum time for a taunt to run
+            </summary>
+        </member>
         <member name="T:TeaseAI.Common.Result">
             <summary>
             Success / Failure with error of an operation
@@ -1561,46 +1696,6 @@
             used to manage serialization. Changes when the model breaks compatibility
             </summary>
         </member>
-        <member name="P:TeaseAI.Common.Settings.DoesDommeDecideOrgasmRange">
-            <summary>
-            Does the domme decide the range for <see cref="T:TeaseAI.Common.Constants.AllowsOrgasms"/>, or is it set custom
-            </summary>
-        </member>
-        <member name="P:TeaseAI.Common.Settings.AllowOrgasmOftenPercent">
-            <summary>
-            Custom allow often percentage
-            </summary>
-        </member>
-        <member name="P:TeaseAI.Common.Settings.AllowOrgasmSometimesPercent">
-            <summary>
-            Custom allow sometimes percentage
-            </summary>
-        </member>
-        <member name="P:TeaseAI.Common.Settings.AllowOrgasmRarelyPercent">
-            <summary>
-            Custom allow rarely percentage
-            </summary>
-        </member>
-        <member name="P:TeaseAI.Common.Settings.DoesDommeDecideRuinRange">
-            <summary>
-            Does the domme decide the range for <see cref="T:TeaseAI.Common.Constants.RuinsOrgasms"/>, or is it set custom
-            </summary>
-        </member>
-        <member name="P:TeaseAI.Common.Settings.RuinOrgasmOftenPercent">
-            <summary>
-            Custom allow often percentage
-            </summary>
-        </member>
-        <member name="P:TeaseAI.Common.Settings.RuinOrgasmSometimesPercent">
-            <summary>
-            Custom allow sometimes percentage
-            </summary>
-        </member>
-        <member name="P:TeaseAI.Common.Settings.RuinOrgasmRarelyPercent">
-            <summary>
-            Custom allow rarely percentage
-            </summary>
-        </member>
         <member name="P:TeaseAI.Common.Settings.DommePersonality">
             <summary>
             Name of the domme personality.
@@ -1614,6 +1709,16 @@
         <member name="P:TeaseAI.Common.Settings.Domme">
             <summary>
             Domme configuration ( Domme name, preferences, etc )
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Settings.General">
+            <summary>
+            settings from the General tab.
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Settings.Range">
+            <summary>
+            settings from the ranges tab.
             </summary>
         </member>
         <member name="P:TeaseAI.Common.Settings.Sub">

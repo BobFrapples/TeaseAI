@@ -22,46 +22,6 @@ namespace TeaseAI.Common
         public int Version { get; private set; }
 
         /// <summary>
-        /// Does the domme decide the range for <see cref="AllowsOrgasms"/>, or is it set custom
-        /// </summary>
-        public bool DoesDommeDecideOrgasmRange { get; set; }
-
-        /// <summary>
-        /// Custom allow often percentage
-        /// </summary>
-        public int AllowOrgasmOftenPercent { get; set; }
-
-        /// <summary>
-        /// Custom allow sometimes percentage
-        /// </summary>
-        public int AllowOrgasmSometimesPercent { get; set; }
-
-        /// <summary>
-        /// Custom allow rarely percentage
-        /// </summary>
-        public int AllowOrgasmRarelyPercent { get; set; }
-
-        /// <summary>
-        /// Does the domme decide the range for <see cref="RuinsOrgasms"/>, or is it set custom
-        /// </summary>
-        public bool DoesDommeDecideRuinRange { get; set; }
-
-        /// <summary>
-        /// Custom allow often percentage
-        /// </summary>
-        public int RuinOrgasmOftenPercent { get; set; }
-
-        /// <summary>
-        /// Custom allow sometimes percentage
-        /// </summary>
-        public int RuinOrgasmSometimesPercent { get; set; }
-
-        /// <summary>
-        /// Custom allow rarely percentage
-        /// </summary>
-        public int RuinOrgasmRarelyPercent { get; set; }
-
-        /// <summary>
         /// Name of the domme personality.
         /// </summary>
         public string DommePersonality { get; set; }
@@ -85,6 +45,24 @@ namespace TeaseAI.Common
         }
 
         /// <summary>
+        /// settings from the General tab.
+        /// </summary>
+        public GeneralSettings General
+        {
+            get { return _general ?? (_general = new GeneralSettings()); }
+            set { _general = value; }
+        }
+
+        /// <summary>
+        /// settings from the ranges tab.
+        /// </summary>
+        public RangeSettings Range
+        {
+            get { return _range ?? (_range = new RangeSettings()); }
+            set { _range = value; }
+        }
+
+        /// <summary>
         /// Sub configuration
         /// </summary>
         public SubSettings Sub 
@@ -92,9 +70,12 @@ namespace TeaseAI.Common
             get { return _sub ?? (_sub = new SubSettings()); }
             set { _sub = value; }
         }
-
+        
+        
         private ChatSettings _ui;
         private DommeSettings _domme;
         private SubSettings _sub;
+        private RangeSettings _range;
+        private GeneralSettings _general;
     }
 }

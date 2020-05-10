@@ -44,14 +44,6 @@ namespace TeaseAI.Services.Accessors
         {
             return new Settings
             {
-                DoesDommeDecideOrgasmRange = true,
-                DoesDommeDecideRuinRange = true,
-                AllowOrgasmRarelyPercent = AllowsOrgasms.Rarely,
-                AllowOrgasmSometimesPercent = AllowsOrgasms.Sometimes,
-                AllowOrgasmOftenPercent = AllowsOrgasms.Often,
-                RuinOrgasmRarelyPercent = RuinsOrgasms.Rarely,
-                RuinOrgasmSometimesPercent = RuinsOrgasms.Sometimes,
-                RuinOrgasmOftenPercent = RuinsOrgasms.Often,
                 Chat = new ChatSettings
                 {
                     IsTimeStampEnabled = true,
@@ -59,8 +51,35 @@ namespace TeaseAI.Services.Accessors
                 },
                 Domme = new DommeSettings
                 {
+                    BirthDate = new DateTime(DateTime.Now.Year - 21, 1, 1),
+                    OrgasmReleaseDate = DateTime.MinValue,
+                    CapitalizeSelfPronouns = false,
                     ApathyLevel = ApathyLevel.Moderate,
                     DominationLevel = DomLevel.Tease,
+                    CupSize = CupSize.CCup,
+                    EyeColor = "green",
+                    HairColor = "blonde",
+                    HairLength = "long",
+                    HasFreckles = false,
+                    HasTattoos = false,
+                    IsVulgar = false,
+                    IsSupremacist = false,
+                    PubicHair = "shaved",
+                    UseLowercase = false,
+                    UseNoApostrophes = false,
+                    UseNoCommas = false,
+                    UseNoPeriods = false,
+                    PetNames = new List<string>
+                    {
+                        "stroker",
+                        "stroker",
+                        "stroker",
+                        "stroker",
+                        "stroker",
+                        "stroker",
+                        "stroker",
+                        "stroker",
+                    },
                 },
                 Sub = new SubSettings
                 {
@@ -87,6 +106,23 @@ namespace TeaseAI.Services.Accessors
                     LongEdgeHoldMinimum = 60,
                     LongEdgeThreshold = 45,
                     UseAverageEdgeTimeAsThreshold = false,
+                },
+                Range = new RangeSettings
+                {
+                    DoesDommeDecideOrgasmRange = true,
+                    DoesDommeDecideRuinRange = true,
+                    AllowOrgasmRarelyPercent = AllowsOrgasms.Rarely,
+                    AllowOrgasmSometimesPercent = AllowsOrgasms.Sometimes,
+                    AllowOrgasmOftenPercent = AllowsOrgasms.Often,
+                    RuinOrgasmRarelyPercent = RuinsOrgasms.Rarely,
+                    RuinOrgasmSometimesPercent = RuinsOrgasms.Sometimes,
+                    RuinOrgasmOftenPercent = RuinsOrgasms.Often,
+                    IsTauntCycleDommeDetermined = false,
+                    IsTeaseLengthDommeDetermined = false,
+                    TeaseLengthMinutesMaximum = 60,
+                    TeaseLengthMinutesMinimum = 15,
+                    TauntCycleMinutesMaximum = 5,
+                    TauntCycleMinutesMinimum = 1,
                 },
             };
         }
@@ -138,11 +174,8 @@ namespace TeaseAI.Services.Accessors
         public bool UseAverageEdgeTimeAsThreshold { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool AllowsLongEdgeTaunts { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool AllowsLongEdgeInterrupts { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public bool IsTeaseLengthDommeDetermined { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public bool IsTauntCycleDommeDetermined { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool HasChastityDevice { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool IsSubFemale { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public bool CanDommeDeleteFiles { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public int TeaseLengthMinimum { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public int TeaseLengthMaximum { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public int TauntCycleMaximum { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }

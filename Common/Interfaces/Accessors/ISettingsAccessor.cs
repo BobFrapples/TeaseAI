@@ -30,29 +30,11 @@ namespace TeaseAI.Common.Interfaces.Accessors
         string DommeName { get; set; }
         #endregion
 
-        bool IsTeaseLengthDommeDetermined { get; set; }
-        bool IsTauntCycleDommeDetermined { get; set; }
-        /// <summary>
-        /// Does the sub identify as female
-        /// </summary>
-        bool CanDommeDeleteFiles { get; set; }
-        int TeaseLengthMinimum { get; set; }
-        int TeaseLengthMaximum { get; set; }
-        int TauntCycleMaximum { get; set; }
-        int TauntCycleMinimum { get; set; }
         Dictionary<ImageGenre, bool> ImageGenreIncludeSubDirectory { get; }
         Dictionary<ImageGenre, bool> IsImageGenreEnabled { get; }
         Dictionary<ImageGenre, string> ImageGenreFolder { get; }
 
-        /// <summary>
-        /// Are orgasms currently locked. true if <see cref="OrgasmLockDate"/> is in the future
-        /// </summary>
-        bool AreOrgasmsLocked { get; }
-
-        /// <summary>
-        /// Date orgasms are locked until
-        /// </summary>
-        DateTime OrgasmLockDate { get; set; }
+  
         bool IsOffline { get; set; }
 
         bool DoesDommeTypeInstantly { get; set; }

@@ -417,15 +417,6 @@ retryStart:
             domName.Text = mySettingsAccessor.DommeName.Trim()
             SubName.Text = mySettingsAccessor.SubName.Trim()
 
-            FrmSettings.PetNameBox1.Text = My.Settings.pnSetting1
-            FrmSettings.petnameBox2.Text = My.Settings.pnSetting2
-            FrmSettings.petnameBox3.Text = My.Settings.pnSetting3
-            FrmSettings.petnameBox4.Text = My.Settings.pnSetting4
-            FrmSettings.petnameBox5.Text = My.Settings.pnSetting5
-            FrmSettings.petnameBox6.Text = My.Settings.pnSetting6
-            FrmSettings.petnameBox7.Text = My.Settings.pnSetting7
-            FrmSettings.petnameBox8.Text = My.Settings.pnSetting8
-
             splashScreen.UpdateText("Loading General Settings...")
             If FrmSettings.WebTeaseMode.Checked = True _
                 Then WebteaseModeToolStripMenuItem.Checked = True
@@ -442,26 +433,6 @@ retryStart:
             FrmSettings.CBImageInfo.Checked = My.Settings.CBImageInfo
 
             splashScreen.PBSplash.Value += 1
-            splashScreen.UpdateText("Loading Domme Settings...")
-            FrmSettings.domageNumBox.Value = My.Settings.DomAge
-
-            FrmSettings.NBDomBirthdayMonth.Value = My.Settings.DomBirthMonth
-            FrmSettings.NBDomBirthdayDay.Value = My.Settings.DomBirthDay
-            FrmSettings.TBDomHairColor.Text = My.Settings.DomHair
-            FrmSettings.domhairlengthComboBox.Text = My.Settings.DomHairLength
-            FrmSettings.TBDomEyeColor.Text = My.Settings.DomEyes
-            FrmSettings.boobComboBox.Text = My.Settings.DomCup
-            FrmSettings.dompubichairComboBox.Text = My.Settings.DomPubicHair
-            FrmSettings.CBDomTattoos.Checked = My.Settings.DomTattoos
-            FrmSettings.CBDomFreckles.Checked = My.Settings.DomFreckles
-            FrmSettings.crazyCheckBox.Checked = My.Settings.DomCrazy
-            FrmSettings.vulgarCheckBox.Checked = My.Settings.DomVulgar
-            FrmSettings.supremacistCheckBox.Checked = My.Settings.DomSupremacist
-            FrmSettings.LCaseCheckBox.Checked = My.Settings.DomLowercase
-            FrmSettings.apostropheCheckBox.Checked = My.Settings.DomNoApostrophes
-            FrmSettings.commaCheckBox.Checked = My.Settings.DomNoCommas
-            FrmSettings.periodCheckBox.Checked = My.Settings.DomNoPeriods
-            FrmSettings.CBMeMyMine.Checked = My.Settings.DomMeMyMine
             FrmSettings.TBEmote.Text = My.Settings.TBEmote
             FrmSettings.TBEmoteEnd.Text = My.Settings.TBEmoteEnd
 
@@ -1114,8 +1085,9 @@ DebugAwareness:
 
     End Sub
 
-    Private Function GetTeaseTick(mySession As Session, settings As My.MySettings) As Integer
-        If mySettingsAccessor.IsTeaseLengthDommeDetermined Then
+    Private Function GetTeaseTick(mySession As Session, mySettings As My.MySettings) As Integer
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        If settings.Range.IsTeaseLengthDommeDetermined Then
             If mySession.Domme.DomLevel = DomLevel.Gentle Then
                 Return ssh.randomizer.Next(10, 16) * 60
             End If
@@ -1132,7 +1104,7 @@ DebugAwareness:
                 Return ssh.randomizer.Next(45, 61) * 60
             End If
         End If
-        Return ssh.randomizer.Next(mySettingsAccessor.TeaseLengthMinimum * 60, mySettingsAccessor.TeaseLengthMaximum * 60)
+        Return ssh.randomizer.Next(settings.Range.TeaseLengthMinutesMinimum * 60, settings.Range.TeaseLengthMinutesMaximum * 60)
     End Function
 
     Public Function ResponseClean(ByVal CleanResponse As String) As String
@@ -5076,6 +5048,7 @@ SkipTextedTags:
     End Function
 
     Public Function CommandClean(ByVal StringClean As String, Optional ByVal TaskClean As Boolean = False) As String
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
         Dim domme As DommePersonality = CreateDommePersonality()
 
         If TaskClean = True Then
@@ -5098,7 +5071,7 @@ RinseLatherRepeat:
         ' LiskedList, DislikedList and LocalImageTagList,  if the  current Image is 
         ' not an image in the Domme- or Contacts-Image directory or their subdirectories.
         If StringClean.Contains("@DeleteLocalImage") Then
-            If mySettingsAccessor.CanDommeDeleteFiles Then
+            If settings.General.CanDommeDeleteFiles Then
                 Try
                     DeleteCurrentImage(True)
                 Catch ex As Exception
@@ -5116,7 +5089,7 @@ RinseLatherRepeat:
         ' DislikedList, LocalImageTagList and URL-Files, if the  current Image is 
         ' not an image in the Domme- or Contacts-Image directory or their subdirectories.
         If StringClean.Contains("@DeleteImage") Then
-            If mySettingsAccessor.CanDommeDeleteFiles Then
+            If settings.General.CanDommeDeleteFiles Then
                 Try
                     DeleteCurrentImage(False)
                 Catch ex As Exception
@@ -16302,6 +16275,7 @@ NoPlaylistStartFile:
 
 RinseLatherRepeat:
 
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
         '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
         '									ImageCommands
         ' - Make sure you call all Display ImageFunctions before executing @LockImages.
@@ -16316,7 +16290,7 @@ RinseLatherRepeat:
         ' LiskedList, DislikedList and LocalImageTagList,  if the  current Image is 
         ' not an image in the Domme- or Contacts-Image directory or their subdirectories.
         If inputString.Contains("@DeleteLocalImage") Then
-            If mySettingsAccessor.CanDommeDeleteFiles Then
+            If settings.General.CanDommeDeleteFiles Then
                 Try
                     DeleteCurrentImage(True)
                 Catch ex As Exception
@@ -16334,7 +16308,7 @@ RinseLatherRepeat:
         ' DislikedList, LocalImageTagList and URL-Files, if the  current Image is 
         ' not an image in the Domme- or Contacts-Image directory or their subdirectories.
         If inputString.Contains("@DeleteImage") Then
-            If mySettingsAccessor.CanDommeDeleteFiles Then
+            If settings.General.CanDommeDeleteFiles Then
                 Try
                     DeleteCurrentImage(False)
                 Catch ex As Exception
