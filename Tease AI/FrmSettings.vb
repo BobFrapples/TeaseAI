@@ -359,6 +359,26 @@ Public Class FrmSettings
         CBHimHer.Checked = subSettings.IsSubFemale
         CBCockToClit.Checked = subSettings.CallCockAClit
         CBBallsToPussy.Checked = subSettings.CallBallsPussy
+
+        CockSizeNumBox.Value = My.Settings.SubCockSize
+        subAgeNumBox.Value = My.Settings.SubAge
+
+        TBGreeting.Text = String.Join(",", subSettings.Greetings)
+        TBYes.Text = My.Settings.SubYes
+        TBNo.Text = My.Settings.SubNo
+
+        TBHonorific.Text = My.Settings.SubHonorific
+
+        If String.IsNullOrWhiteSpace(TBHonorific.Text) Then TBHonorific.Text = "Mistress"
+
+        CBHonorificInclude.Checked = My.Settings.CBUseHonor
+        CBHonorificCapitalized.Checked = My.Settings.CBCapHonor
+
+        NBBirthdayMonth.Value = My.Settings.SubBirthMonth
+        NBBirthdayDay.Value = My.Settings.SubBirthDay
+        TBSubHairColor.Text = My.Settings.SubHair
+        TBSubEyeColor.Text = My.Settings.SubEyes
+
     End Sub
 
     Public Sub LoadDommeSettings(dommeSettings As DommeSettings)
@@ -2303,6 +2323,16 @@ Public Class FrmSettings
 
     Private Sub subAgeNumBox_LostFocus(sender As Object, e As EventArgs) Handles subAgeNumBox.ValueChanged
         My.Settings.SubAge = subAgeNumBox.Value
+    End Sub
+
+    Private Sub TBGreeting_LostFocus(sender As Object, e As EventArgs) Handles TBGreeting.LostFocus
+        If Not TBGreeting.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.Greetings = TBGreeting.Text.Trim().Split(",").ToList()
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
 #Region "tooltips and descriptions"
@@ -5730,10 +5760,6 @@ Public Class FrmSettings
 
         MessageBox.Show(Me, "Keyword file has been saved!", "Success!", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
-    End Sub
-
-    Private Sub TBGreeting_LostFocus(sender As Object, e As EventArgs) Handles TBGreeting.LostFocus
-        My.Settings.SubGreeting = TBGreeting.Text
     End Sub
 
     Private Sub TBYes_LostFocus(sender As Object, e As EventArgs) Handles TBYes.LostFocus

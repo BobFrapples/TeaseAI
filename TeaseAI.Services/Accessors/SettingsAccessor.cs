@@ -129,6 +129,7 @@ namespace TeaseAI.Services.Accessors
                     LongEdgeHoldMinimum = 60,
                     LongEdgeThreshold = 45,
                     UseAverageEdgeTimeAsThreshold = false,
+                    Greetings = new List<string> { "hello", "hi", "hey", "heya", "good morning", "good afternoon", "good evening" },
                 },
                 Range = new RangeSettings
                 {
@@ -176,23 +177,12 @@ namespace TeaseAI.Services.Accessors
             return jsonConverters;
         }
 
-        public List<string> GetGreetings()
-        {
-            throw new NotImplementedException();
-        }
-
         public void Save()
         {
             throw new NotImplementedException();
         }
 
         private readonly IConfigurationAccessor _configurationAccessor;
-
-        public string SubName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string DommeAvatarImageName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string DommeName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-        public Dictionary<ImageGenre, bool> IsImageGenreEnabled => throw new NotImplementedException();
 
         public Dictionary<ImageGenre, string> ImageGenreFolder => throw new NotImplementedException();
 

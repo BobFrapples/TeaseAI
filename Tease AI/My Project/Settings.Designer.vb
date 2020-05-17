@@ -1470,18 +1470,6 @@ Namespace My
 
         <Global.System.Configuration.UserScopedSettingAttribute(),
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("hello, hi, hey, heya, good morning, good afternoon, good evening")>
-        Public Property SubGreeting() As String
-            Get
-                Return CType(Me("SubGreeting"), String)
-            End Get
-            Set
-                Me("SubGreeting") = Value
-            End Set
-        End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
          Global.System.Configuration.DefaultSettingValueAttribute("yes, yeah, yep, yup, sure, of course, absolutely, you know it, definitely")>
         Public Property SubYes() As String
             Get

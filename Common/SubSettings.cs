@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using TeaseAI.Common.Constants;
 
 namespace TeaseAI.Common
@@ -135,5 +136,16 @@ namespace TeaseAI.Common
         public bool IsSubFemale { get; set; }
         public string AvatarImageFile { get; set; }
         public string Name { get; set; }
+
+        /// <summary>
+        /// list of greetings the sub may use
+        /// </summary>
+        public List<string> Greetings
+        {
+            get { return _greetings ?? (_greetings = new List<string>()); }
+            set { _greetings = value; }
+        }
+
+        private List<string> _greetings;
     }
 }

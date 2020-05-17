@@ -468,24 +468,6 @@ retryStart:
             FrmSettings.NBWritingTaskMin.Value = My.Settings.NBWritingTaskMin
             FrmSettings.NBWritingTaskMax.Value = My.Settings.NBWritingTaskMax
 
-            splashScreen.UpdateText("Loading Sub settings...")
-            FrmSettings.CockSizeNumBox.Value = My.Settings.SubCockSize
-            FrmSettings.subAgeNumBox.Value = My.Settings.SubAge
-
-            FrmSettings.TBGreeting.Text = My.Settings.SubGreeting
-            FrmSettings.TBYes.Text = My.Settings.SubYes
-            FrmSettings.TBNo.Text = My.Settings.SubNo
-
-            FrmSettings.TBHonorific.Text = My.Settings.SubHonorific
-            If String.IsNullOrWhiteSpace(FrmSettings.TBHonorific.Text) Then FrmSettings.TBHonorific.Text = "Mistress"
-
-            FrmSettings.CBHonorificInclude.Checked = My.Settings.CBUseHonor
-            FrmSettings.CBHonorificCapitalized.Checked = My.Settings.CBCapHonor
-
-            FrmSettings.NBBirthdayMonth.Value = My.Settings.SubBirthMonth
-            FrmSettings.NBBirthdayDay.Value = My.Settings.SubBirthDay
-            FrmSettings.TBSubHairColor.Text = My.Settings.SubHair
-            FrmSettings.TBSubEyeColor.Text = My.Settings.SubEyes
 
             splashScreen.UpdateText("Loading Range settings...")
             FrmSettings.SliderSTF.Value = My.Settings.TimerSTF

@@ -8,10 +8,6 @@ Imports TeaseAI.Common.Interfaces.Accessors
 Public Class SettingsAccessor
     Implements TeaseAI.Common.Interfaces.Accessors.ISettingsAccessor
 
-    Public Function GetGreetings() As List(Of String) Implements ISettingsAccessor.GetGreetings
-        Return MySettings.Default.SubGreeting.Split(","(0)).Select(Function(str) str.Trim()).ToList()
-    End Function
-
     Public Sub Save() Implements ISettingsAccessor.Save
         Settings.Save()
     End Sub

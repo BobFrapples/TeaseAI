@@ -22,8 +22,6 @@ namespace TeaseAI.Common.Interfaces.Accessors
         /// <returns></returns>
         Settings WriteSettings(Settings settings);
 
-        List<string> GetGreetings();
-   
         Dictionary<ImageGenre, string> ImageGenreFolder { get; }
         int BronzeTokens { get; set; }
         int SilverTokens { get; set; }
