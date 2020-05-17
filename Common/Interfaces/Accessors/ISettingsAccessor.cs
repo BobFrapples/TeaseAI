@@ -25,16 +25,12 @@ namespace TeaseAI.Common.Interfaces.Accessors
         List<string> GetGreetings();
         string SubName { get; set; }
 
-        #region Domme settings
         string DommeAvatarImageName { get; set; }
         string DommeName { get; set; }
-        #endregion
 
         Dictionary<ImageGenre, bool> ImageGenreIncludeSubDirectory { get; }
         Dictionary<ImageGenre, bool> IsImageGenreEnabled { get; }
         Dictionary<ImageGenre, string> ImageGenreFolder { get; }
-        bool DoesDommeTypeInstantly { get; set; }
-        bool WebTeaseModeEnabled { get; set; }
         int BronzeTokens { get; set; }
         int SilverTokens { get; set; }
         int GoldTokens { get; set; }

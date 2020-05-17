@@ -918,8 +918,8 @@ Partial Class FrmSettings
         Me.PictureBox8 = New System.Windows.Forms.PictureBox()
         Me.Label38 = New System.Windows.Forms.Label()
         Me.TabPage13 = New System.Windows.Forms.TabPage()
-        Me.TabControl2 = New System.Windows.Forms.TabControl()
-        Me.TabPage27 = New System.Windows.Forms.TabPage()
+        Me.ModSubTab = New System.Windows.Forms.TabControl()
+        Me.ModPlaylistTabPage = New System.Windows.Forms.TabPage()
         Me.TBPlaylistSave = New System.Windows.Forms.TextBox()
         Me.BTNPlaylistCtrlZ = New System.Windows.Forms.Button()
         Me.RadioPlaylistRegScripts = New System.Windows.Forms.RadioButton()
@@ -928,7 +928,7 @@ Partial Class FrmSettings
         Me.BTNPlaylistClearAll = New System.Windows.Forms.Button()
         Me.BTNPlaylistSave = New System.Windows.Forms.Button()
         Me.Button7 = New System.Windows.Forms.Button()
-        Me.WBPlaylist = New System.Windows.Forms.WebBrowser()
+        Me.ScriptPlayList = New System.Windows.Forms.WebBrowser()
         Me.Label80 = New System.Windows.Forms.Label()
         Me.LBLPlaylIstLink = New System.Windows.Forms.Label()
         Me.LBLPlaylistModule = New System.Windows.Forms.Label()
@@ -1321,8 +1321,8 @@ Partial Class FrmSettings
         CType(Me.OftenAllowsPercentNumberBox, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.PictureBox8, System.ComponentModel.ISupportInitialize).BeginInit
         Me.TabPage13.SuspendLayout
-        Me.TabControl2.SuspendLayout
-        Me.TabPage27.SuspendLayout
+        Me.ModSubTab.SuspendLayout
+        Me.ModPlaylistTabPage.SuspendLayout
         Me.TabPage14.SuspendLayout
         Me.TabPage24.SuspendLayout
         Me.TabPage8.SuspendLayout
@@ -3123,7 +3123,7 @@ Partial Class FrmSettings
         Me.limitcheckbox.Text = "Limit"
         Me.limitcheckbox.UseVisualStyleBackColor = True
         '
-        'orgasmsPerNumBox
+        'OrgasmsPerNumBox
         '
         Me.OrgasmsPerNumBox.BackColor = System.Drawing.Color.White
         Me.OrgasmsPerNumBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -3131,7 +3131,7 @@ Partial Class FrmSettings
         Me.OrgasmsPerNumBox.Location = New System.Drawing.Point(68, 134)
         Me.OrgasmsPerNumBox.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
         Me.OrgasmsPerNumBox.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.OrgasmsPerNumBox.Name = "orgasmsPerNumBox"
+        Me.OrgasmsPerNumBox.Name = "OrgasmsPerNumBox"
         Me.OrgasmsPerNumBox.Size = New System.Drawing.Size(41, 20)
         Me.OrgasmsPerNumBox.TabIndex = 41
         Me.OrgasmsPerNumBox.Value = New Decimal(New Integer() {3, 0, 0, 0})
@@ -12471,7 +12471,7 @@ Partial Class FrmSettings
         'TabPage13
         '
         Me.TabPage13.BackColor = System.Drawing.Color.Silver
-        Me.TabPage13.Controls.Add(Me.TabControl2)
+        Me.TabPage13.Controls.Add(Me.ModSubTab)
         Me.TabPage13.Location = New System.Drawing.Point(4, 22)
         Me.TabPage13.Name = "TabPage13"
         Me.TabPage13.Padding = New System.Windows.Forms.Padding(3)
@@ -12479,43 +12479,43 @@ Partial Class FrmSettings
         Me.TabPage13.TabIndex = 13
         Me.TabPage13.Text = "Modding"
         '
-        'TabControl2
+        'ModSubTab
         '
-        Me.TabControl2.Controls.Add(Me.TabPage27)
-        Me.TabControl2.Controls.Add(Me.TabPage14)
-        Me.TabControl2.Controls.Add(Me.TabPage24)
-        Me.TabControl2.Controls.Add(Me.TabPage8)
-        Me.TabControl2.Controls.Add(Me.TabPage15)
-        Me.TabControl2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TabControl2.Location = New System.Drawing.Point(3, 3)
-        Me.TabControl2.Name = "TabControl2"
-        Me.TabControl2.SelectedIndex = 0
-        Me.TabControl2.Size = New System.Drawing.Size(966, 625)
-        Me.TabControl2.TabIndex = 0
+        Me.ModSubTab.Controls.Add(Me.ModPlaylistTabPage)
+        Me.ModSubTab.Controls.Add(Me.TabPage14)
+        Me.ModSubTab.Controls.Add(Me.TabPage24)
+        Me.ModSubTab.Controls.Add(Me.TabPage8)
+        Me.ModSubTab.Controls.Add(Me.TabPage15)
+        Me.ModSubTab.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.ModSubTab.Location = New System.Drawing.Point(3, 3)
+        Me.ModSubTab.Name = "ModSubTab"
+        Me.ModSubTab.SelectedIndex = 0
+        Me.ModSubTab.Size = New System.Drawing.Size(966, 625)
+        Me.ModSubTab.TabIndex = 0
         '
-        'TabPage27
+        'ModPlaylistTabPage
         '
-        Me.TabPage27.BackColor = System.Drawing.Color.LightGray
-        Me.TabPage27.Controls.Add(Me.TBPlaylistSave)
-        Me.TabPage27.Controls.Add(Me.BTNPlaylistCtrlZ)
-        Me.TabPage27.Controls.Add(Me.RadioPlaylistRegScripts)
-        Me.TabPage27.Controls.Add(Me.RadioPlaylistScripts)
-        Me.TabPage27.Controls.Add(Me.BTNPlaylistEnd)
-        Me.TabPage27.Controls.Add(Me.BTNPlaylistClearAll)
-        Me.TabPage27.Controls.Add(Me.BTNPlaylistSave)
-        Me.TabPage27.Controls.Add(Me.Button7)
-        Me.TabPage27.Controls.Add(Me.WBPlaylist)
-        Me.TabPage27.Controls.Add(Me.Label80)
-        Me.TabPage27.Controls.Add(Me.LBLPlaylIstLink)
-        Me.TabPage27.Controls.Add(Me.LBLPlaylistModule)
-        Me.TabPage27.Controls.Add(Me.LBLPLaylistStart)
-        Me.TabPage27.Controls.Add(Me.LBPlaylist)
-        Me.TabPage27.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage27.Name = "TabPage27"
-        Me.TabPage27.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage27.Size = New System.Drawing.Size(958, 599)
-        Me.TabPage27.TabIndex = 5
-        Me.TabPage27.Text = "Playlists"
+        Me.ModPlaylistTabPage.BackColor = System.Drawing.Color.LightGray
+        Me.ModPlaylistTabPage.Controls.Add(Me.TBPlaylistSave)
+        Me.ModPlaylistTabPage.Controls.Add(Me.BTNPlaylistCtrlZ)
+        Me.ModPlaylistTabPage.Controls.Add(Me.RadioPlaylistRegScripts)
+        Me.ModPlaylistTabPage.Controls.Add(Me.RadioPlaylistScripts)
+        Me.ModPlaylistTabPage.Controls.Add(Me.BTNPlaylistEnd)
+        Me.ModPlaylistTabPage.Controls.Add(Me.BTNPlaylistClearAll)
+        Me.ModPlaylistTabPage.Controls.Add(Me.BTNPlaylistSave)
+        Me.ModPlaylistTabPage.Controls.Add(Me.Button7)
+        Me.ModPlaylistTabPage.Controls.Add(Me.ScriptPlayList)
+        Me.ModPlaylistTabPage.Controls.Add(Me.Label80)
+        Me.ModPlaylistTabPage.Controls.Add(Me.LBLPlaylIstLink)
+        Me.ModPlaylistTabPage.Controls.Add(Me.LBLPlaylistModule)
+        Me.ModPlaylistTabPage.Controls.Add(Me.LBLPLaylistStart)
+        Me.ModPlaylistTabPage.Controls.Add(Me.LBPlaylist)
+        Me.ModPlaylistTabPage.Location = New System.Drawing.Point(4, 22)
+        Me.ModPlaylistTabPage.Name = "ModPlaylistTabPage"
+        Me.ModPlaylistTabPage.Padding = New System.Windows.Forms.Padding(3)
+        Me.ModPlaylistTabPage.Size = New System.Drawing.Size(958, 599)
+        Me.ModPlaylistTabPage.TabIndex = 5
+        Me.ModPlaylistTabPage.Text = "Playlists"
         '
         'TBPlaylistSave
         '
@@ -12598,13 +12598,13 @@ Partial Class FrmSettings
         Me.Button7.Text = "Add Random"
         Me.Button7.UseVisualStyleBackColor = True
         '
-        'WBPlaylist
+        'ScriptPlayList
         '
-        Me.WBPlaylist.Location = New System.Drawing.Point(38, 54)
-        Me.WBPlaylist.MinimumSize = New System.Drawing.Size(20, 20)
-        Me.WBPlaylist.Name = "WBPlaylist"
-        Me.WBPlaylist.Size = New System.Drawing.Size(336, 292)
-        Me.WBPlaylist.TabIndex = 195
+        Me.ScriptPlayList.Location = New System.Drawing.Point(38, 54)
+        Me.ScriptPlayList.MinimumSize = New System.Drawing.Size(20, 20)
+        Me.ScriptPlayList.Name = "ScriptPlayList"
+        Me.ScriptPlayList.Size = New System.Drawing.Size(336, 292)
+        Me.ScriptPlayList.TabIndex = 195
         '
         'Label80
         '
@@ -13269,10 +13269,10 @@ Partial Class FrmSettings
         Me.Label140.Text = "OFFLINE MODE"
         Me.Label140.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'Button11
+        'ChastityModeButton
         '
         Me.ChastityModeButton.Location = New System.Drawing.Point(161, 33)
-        Me.ChastityModeButton.Name = "Button11"
+        Me.ChastityModeButton.Name = "ChastityModeButton"
         Me.ChastityModeButton.Size = New System.Drawing.Size(99, 23)
         Me.ChastityModeButton.TabIndex = 177
         Me.ChastityModeButton.Text = "Toggle"
@@ -14558,9 +14558,9 @@ Partial Class FrmSettings
         CType(Me.OftenAllowsPercentNumberBox, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.PictureBox8, System.ComponentModel.ISupportInitialize).EndInit
         Me.TabPage13.ResumeLayout(False)
-        Me.TabControl2.ResumeLayout(False)
-        Me.TabPage27.ResumeLayout(False)
-        Me.TabPage27.PerformLayout
+        Me.ModSubTab.ResumeLayout(False)
+        Me.ModPlaylistTabPage.ResumeLayout(False)
+        Me.ModPlaylistTabPage.PerformLayout
         Me.TabPage14.ResumeLayout(False)
         Me.TabPage14.PerformLayout
         Me.TabPage24.ResumeLayout(False)
@@ -14944,7 +14944,7 @@ Partial Class FrmSettings
     Friend WithEvents GroupBox34 As System.Windows.Forms.GroupBox
     Friend WithEvents Label52 As System.Windows.Forms.Label
     Friend WithEvents TabPage13 As System.Windows.Forms.TabPage
-    Friend WithEvents TabControl2 As System.Windows.Forms.TabControl
+    Friend WithEvents ModSubTab As System.Windows.Forms.TabControl
     Friend WithEvents TabPage14 As System.Windows.Forms.TabPage
     Friend WithEvents LBLKeywordPreview As System.Windows.Forms.Label
     Friend WithEvents TBKeywordPreview As System.Windows.Forms.TextBox
@@ -15232,7 +15232,7 @@ Partial Class FrmSettings
     Friend WithEvents PBCurrent As System.Windows.Forms.ProgressBar
     Friend WithEvents Label117 As System.Windows.Forms.Label
     Friend WithEvents BTNMaintenanceRefresh As System.Windows.Forms.Button
-    Friend WithEvents TabPage27 As System.Windows.Forms.TabPage
+    Friend WithEvents ModPlaylistTabPage As System.Windows.Forms.TabPage
     Friend WithEvents BTNMaintenanceScripts As System.Windows.Forms.Button
     Friend WithEvents Button3 As System.Windows.Forms.Button
     Friend WithEvents GroupBox27 As System.Windows.Forms.GroupBox
@@ -15252,7 +15252,7 @@ Partial Class FrmSettings
     Friend WithEvents Label126 As System.Windows.Forms.Label
     Friend WithEvents Label128 As System.Windows.Forms.Label
     Friend WithEvents LBLSubBdayFormat As System.Windows.Forms.Label
-    Friend WithEvents WBPlaylist As System.Windows.Forms.WebBrowser
+    Friend WithEvents ScriptPlayList As System.Windows.Forms.WebBrowser
     Friend WithEvents Label80 As System.Windows.Forms.Label
     Friend WithEvents LBLPlaylIstLink As System.Windows.Forms.Label
     Friend WithEvents LBLPlaylistModule As System.Windows.Forms.Label

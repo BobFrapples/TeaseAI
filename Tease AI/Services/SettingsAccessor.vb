@@ -116,24 +116,6 @@ Public Class SettingsAccessor
         End Get
     End Property
 
-    Public Property DoesDommeTypeInstantly As Boolean Implements ISettingsAccessor.DoesDommeTypeInstantly
-        Get
-            Return Settings.CBInstantType
-        End Get
-        Set(value As Boolean)
-            Settings.CBInstantType = value
-        End Set
-    End Property
-
-    Public Property WebTeaseModeEnabled As Boolean Implements ISettingsAccessor.WebTeaseModeEnabled
-        Get
-            Return Settings.CBWebtease
-        End Get
-        Set(value As Boolean)
-            Settings.CBWebtease = value
-        End Set
-    End Property
-
     Public Property BronzeTokens As Integer Implements ISettingsAccessor.BronzeTokens
         Get
             Return Settings.BronzeTokens

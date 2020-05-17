@@ -1172,18 +1172,6 @@ Namespace My
 
         <Global.System.Configuration.UserScopedSettingAttribute(),
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>
-        Public Property CBInstantType() As Boolean
-            Get
-                Return CType(Me("CBInstantType"), Boolean)
-            End Get
-            Set
-                Me("CBInstantType") = Value
-            End Set
-        End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
          Global.System.Configuration.DefaultSettingValueAttribute("True")>
         Public Property CBBlogImageMain() As Boolean
             Get
@@ -4092,18 +4080,6 @@ Namespace My
 
         <Global.System.Configuration.UserScopedSettingAttribute(),
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>
-        Public Property CBWebtease() As Boolean
-            Get
-                Return CType(Me("CBWebtease"), Boolean)
-            End Get
-            Set
-                Me("CBWebtease") = Value
-            End Set
-        End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
          Global.System.Configuration.DefaultSettingValueAttribute("-1")>
         Public Property SplitterDistance() As Integer
             Get
@@ -4149,7 +4125,6 @@ Namespace My
                 Me("MuteMedia") = Value
             End Set
         End Property
-
 
         <Global.System.Configuration.UserScopedSettingAttribute(),
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),

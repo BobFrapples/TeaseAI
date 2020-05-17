@@ -2641,9 +2641,10 @@ DommeSlideshowFallback:
         chatMessage.Message = HashTagReplace(chatMessage.Message, mySession.Session.Domme)
         UpdateChatWindow(chatMessage)
 
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
         Dim nextMessage As ChatMessage = myDommeMessages.FirstOrDefault()
         If nextMessage IsNot Nothing Then
-            SendTimer.Interval = GetTypingDelay(nextMessage, mySettingsAccessor.DoesDommeTypeInstantly)
+            SendTimer.Interval = GetTypingDelay(nextMessage, settings.General.DoesDommeTypeInstantly)
             SendTimer.Enabled = True
         End If
     End Sub
@@ -15161,9 +15162,10 @@ playLoop:
             e.ChatMessage.Message = ToBeMigrated(CreateDommePersonality(), e.ChatMessage.Message)
             If String.IsNullOrWhiteSpace(e.ChatMessage.Message) Then Return
             myDommeMessages.Enqueue(e.ChatMessage)
+            Dim settings As Settings = mySettingsAccessor.GetSettings()
             If myDommeMessages.Any() Then
                 SendTimer.Enabled = True
-                SendTimer.Interval = GetTypingDelay(myDommeMessages.Peek(), mySettingsAccessor.DoesDommeTypeInstantly)
+                SendTimer.Interval = GetTypingDelay(myDommeMessages.Peek(), settings.General.DoesDommeTypeInstantly)
             End If
         End If
     End Sub
@@ -15906,9 +15908,10 @@ NoPlaylistStartFile:
     End Sub
 
     Private Sub WebteaseModeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles WebteaseModeToolStripMenuItem.Click
-        FrmSettings.WebTeaseMode.Checked = Not FrmSettings.WebTeaseMode.Checked
-        WebteaseModeToolStripMenuItem.Checked = Not FrmSettings.WebTeaseMode.Checked
-        mySettingsAccessor.WebTeaseModeEnabled = FrmSettings.WebTeaseMode.Checked
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.General.IsWebTeaseModeEnabled = Not settings.General.IsWebTeaseModeEnabled
+        WebteaseModeToolStripMenuItem.Checked = settings.General.IsWebTeaseModeEnabled
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
     Private Sub DefaultImageSizeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DefaultImageSizeToolStripMenuItem.Click

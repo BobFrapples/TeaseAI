@@ -96,6 +96,8 @@ namespace TeaseAI.Services.Accessors
                     CanDommeDeleteFiles = false,
                     IsTimeStampEnabled = true,
                     ShowChatUserNames = true,
+                    DoesDommeTypeInstantly = false,
+                    IsWebTeaseModeEnabled = false,
                 },
                 Sub = new SubSettings
                 {
@@ -191,7 +193,6 @@ namespace TeaseAI.Services.Accessors
 
         public Dictionary<ImageGenre, string> ImageGenreFolder => throw new NotImplementedException();
 
-        public bool DoesDommeTypeInstantly { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool WebTeaseModeEnabled { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public int BronzeTokens { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public int SilverTokens { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }

@@ -203,8 +203,6 @@ Public Class FrmSettings
         SaveSettingsDialog.InitialDirectory = Application.StartupPath & "\System"
         OpenSettingsDialog.InitialDirectory = Application.StartupPath & "\System"
 
-        WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & settings.DommePersonality & "\Playlist\Start\")
-
         'For Each tmptbx As TextBox In New List(Of TextBox) From {TbxContact1ImageDir, TbxContact2ImageDir, TbxContact3ImageDir, TbxDomImageDir}
         '    If tmptbx.DataBindings("Text") Is Nothing Then
         '        Throw New Exception("There is no databinding set on """ & tmptbx.Name & """'s text-property. Set the databinding and recompile!")
@@ -270,9 +268,6 @@ Public Class FrmSettings
 
         FrmSplash.UpdateText("Loading Miscellaneous Settings...")
         LoadMiscTab(settings.Misc)
-
-
-        WebTeaseMode.Checked = mySettingsAccessor.WebTeaseModeEnabled
     End Sub
 
     Private Sub LoadMiscTab(misc As MiscSettings)
@@ -288,7 +283,8 @@ Public Class FrmSettings
         CBDomDel.Checked = generalSettings.CanDommeDeleteFiles
         TimeStampCheckBox.Checked = generalSettings.IsTimeStampEnabled
         ShowNamesCheckBox.Checked = generalSettings.ShowChatUserNames
-        TypeInstantlyCheckBox.Checked = mySettingsAccessor.DoesDommeTypeInstantly
+        TypeInstantlyCheckBox.Checked = generalSettings.DoesDommeTypeInstantly
+        WebTeaseMode.Checked = generalSettings.IsWebTeaseModeEnabled
     End Sub
 
     Private Sub LoadRangesTab(rangeSettings As RangeSettings)
@@ -1495,11 +1491,23 @@ Public Class FrmSettings
     End Sub
 
     Private Sub TypeInstantlyCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles TypeInstantlyCheckBox.CheckedChanged
-        mySettingsAccessor.DoesDommeTypeInstantly = TypeInstantlyCheckBox.Checked
+        If Not TypeInstantlyCheckBox.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.General.DoesDommeTypeInstantly = TypeInstantlyCheckBox.Checked
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
     Private Sub CBWebtease_CheckedChanged(sender As Object, e As EventArgs) Handles WebTeaseMode.CheckedChanged
-        mySettingsAccessor.WebTeaseModeEnabled = WebTeaseMode.Checked
+        If Not WebTeaseMode.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.General.IsWebTeaseModeEnabled = WebTeaseMode.Checked
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
     Private Sub CBBlogImageWindow_CheckedChanged(sender As Object, e As EventArgs) Handles CBBlogImageWindow.CheckedChanged
@@ -5249,6 +5257,13 @@ Public Class FrmSettings
 
 #End Region
 
+#Region "Modules tab"
+    Private Sub fa(sender As Object, e As EventArgs) Handles ModPlaylistTabPage.VisibleChanged
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & settings.DommePersonality & "\Playlist\Start\")
+    End Sub
+#End Region
+
     Private Sub ComboBox1_DrawItem(ByVal sender As Object, ByVal e As Windows.Forms.DrawItemEventArgs) Handles SubMessageFontCB.DrawItem
         e.DrawBackground()
         If (e.State And DrawItemState.Focus) <> 0 Then
@@ -6787,9 +6802,9 @@ Public Class FrmSettings
         If FrmSettingsLoading = True Or BTNPlaylistEnd.BackColor = Color.Blue Then Return
 
         If RadioPlaylistRegScripts.Checked Then
-            WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\End")
+            ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\End")
         Else
-            WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\End\")
+            ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\End\")
         End If
         LBLPlaylIstLink.Enabled = False
         LBLPlaylIstLink.ForeColor = Color.Black
@@ -6805,36 +6820,36 @@ Public Class FrmSettings
         Debug.Print("Radio CHanged accepted??")
         If LBLPLaylistStart.Enabled Then
             If RadioPlaylistRegScripts.Checked Then
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\Start\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\Start\")
             Else
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Start\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Start\")
             End If
             Return
         End If
 
         If BTNPlaylistEnd.BackColor = Color.Blue Then
             If RadioPlaylistRegScripts.Checked Then
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\End\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\End\")
             Else
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\End\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\End\")
             End If
             Return
         End If
 
         If LBLPlaylistModule.Enabled Then
             If RadioPlaylistRegScripts.Checked Then
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Modules\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Modules\")
             Else
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Modules\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Modules\")
             End If
             Return
         End If
 
         If LBLPlaylIstLink.Enabled Then
             If RadioPlaylistRegScripts.Checked Then
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\Link\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\Link\")
             Else
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Link\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Link\")
             End If
             Return
         End If
@@ -6873,9 +6888,9 @@ Public Class FrmSettings
             BTNPlaylistClearAll.Enabled = False
             If LBLPLaylistStart.Enabled Then
                 If RadioPlaylistRegScripts.Checked Then
-                    WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\Start\")
+                    ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\Start\")
                 Else
-                    WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Start\")
+                    ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Start\")
                 End If
             End If
         Catch
@@ -6904,9 +6919,9 @@ Public Class FrmSettings
         BTNPlaylistClearAll.Enabled = False
         If LBLPLaylistStart.Enabled Then
             If RadioPlaylistRegScripts.Checked Then
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\Start\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\Start\")
             Else
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Start\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Start\")
             End If
         End If
 
@@ -6945,7 +6960,7 @@ Public Class FrmSettings
     Public Sub ProcessPlaylist()
 
         If BTNPlaylistEnd.BackColor = Color.Blue Then
-            WBPlaylist.Navigate("about:blank")
+            ScriptPlayList.Navigate("about:blank")
             BTNPlaylistEnd.Enabled = False
             BTNPlaylistEnd.ForeColor = Color.Black
             BTNPlaylistEnd.BackColor = Color.LightGray
@@ -6955,9 +6970,9 @@ Public Class FrmSettings
 
         If LBLPLaylistStart.Enabled Then
             If RadioPlaylistRegScripts.Checked Then
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Modules\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Modules\")
             Else
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Modules\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Modules\")
             End If
 
             LBLPLaylistStart.Enabled = False
@@ -6973,9 +6988,9 @@ Public Class FrmSettings
 
         If LBLPlaylistModule.Enabled Then
             If RadioPlaylistRegScripts.Checked Then
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\Link")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\Link")
             Else
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Link\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Link\")
             End If
             LBLPlaylistModule.Enabled = False
             LBLPlaylIstLink.Enabled = True
@@ -6991,9 +7006,9 @@ Public Class FrmSettings
 
         If LBLPlaylIstLink.Enabled Then
             If RadioPlaylistRegScripts.Checked Then
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Modules\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Modules\")
             Else
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Modules\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Modules\")
             End If
             LBLPlaylIstLink.Enabled = False
             LBLPlaylistModule.Enabled = True
@@ -7029,9 +7044,9 @@ Public Class FrmSettings
             LBLPlaylistModule.ForeColor = Color.Black
             LBLPlaylistModule.BackColor = Color.LightGray
             If RadioPlaylistRegScripts.Checked Then
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\Link\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\Link\")
             Else
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Link\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Link\")
             End If
             Return
         End If
@@ -7048,9 +7063,9 @@ Public Class FrmSettings
             BTNPlaylistCtrlZ.Enabled = False
             BTNPlaylistClearAll.Enabled = False
             If RadioPlaylistRegScripts.Checked Then
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\Start\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\Start\")
             Else
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Start\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Start\")
             End If
             Return
         End If
@@ -7066,9 +7081,9 @@ Public Class FrmSettings
             LBLPlaylistModule.ForeColor = Color.Black
             LBLPlaylistModule.BackColor = Color.LightGray
             If RadioPlaylistRegScripts.Checked Then
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\Link\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\Link\")
             Else
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Link\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Link\")
             End If
             Return
         End If
@@ -7084,9 +7099,9 @@ Public Class FrmSettings
             LBLPlaylIstLink.ForeColor = Color.Black
             LBLPlaylIstLink.BackColor = Color.LightGray
             If RadioPlaylistRegScripts.Checked Then
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Modules\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Modules\")
             Else
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Modules\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Modules\")
             End If
             Return
         End If

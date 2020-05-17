@@ -1154,6 +1154,16 @@
             Show the username of chat message senders in the UI
             </summary>
         </member>
+        <member name="P:TeaseAI.Common.GeneralSettings.DoesDommeTypeInstantly">
+            <summary>
+            Control whether or not Domme messages are instant or have a "typing" delay
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.GeneralSettings.IsWebTeaseModeEnabled">
+            <summary>
+            Should the tease work like a web tease from milovana
+            </summary>
+        </member>
         <member name="T:TeaseAI.Common.ILoadFileData">
             <summary>
             Load a string of data from a file.
