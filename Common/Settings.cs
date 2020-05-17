@@ -27,15 +27,6 @@ namespace TeaseAI.Common
         public string DommePersonality { get; set; }
 
         /// <summary>
-        /// User Interface configuration
-        /// </summary>
-        public ChatSettings Chat
-        {
-            get { return _ui ?? (_ui = new ChatSettings()); }
-            set { _ui = value; }
-        }
-
-        /// <summary>
         /// Domme configuration ( Domme name, preferences, etc )
         /// </summary>
         public DommeSettings Domme
@@ -80,8 +71,6 @@ namespace TeaseAI.Common
             set { _misc = value; }
         }
         
-        
-        private ChatSettings _ui;
         private DommeSettings _domme;
         private SubSettings _sub;
         private RangeSettings _range;

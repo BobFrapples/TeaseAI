@@ -272,9 +272,6 @@ Public Class FrmSettings
         LoadMiscTab(settings.Misc)
 
 
-        TimeStampCheckBox.Checked = settings.Chat.IsTimeStampEnabled
-        ShowNamesCheckBox.Checked = settings.Chat.ShowChatUserNames
-        TypeInstantlyCheckBox.Checked = mySettingsAccessor.DoesDommeTypeInstantly
         WebTeaseMode.Checked = mySettingsAccessor.WebTeaseModeEnabled
     End Sub
 
@@ -289,6 +286,9 @@ Public Class FrmSettings
 
     Private Sub LoadGeneralSettings(generalSettings As GeneralSettings)
         CBDomDel.Checked = generalSettings.CanDommeDeleteFiles
+        TimeStampCheckBox.Checked = generalSettings.IsTimeStampEnabled
+        ShowNamesCheckBox.Checked = generalSettings.ShowChatUserNames
+        TypeInstantlyCheckBox.Checked = mySettingsAccessor.DoesDommeTypeInstantly
     End Sub
 
     Private Sub LoadRangesTab(rangeSettings As RangeSettings)
@@ -1480,7 +1480,7 @@ Public Class FrmSettings
         End If
 
         Dim settings As Settings = mySettingsAccessor.GetSettings()
-        settings.Chat.IsTimeStampEnabled = TimeStampCheckBox.Checked
+        settings.General.IsTimeStampEnabled = TimeStampCheckBox.Checked
         mySettingsAccessor.WriteSettings(settings)
     End Sub
 
@@ -1490,7 +1490,7 @@ Public Class FrmSettings
         End If
 
         Dim settings As Settings = mySettingsAccessor.GetSettings()
-        settings.Chat.ShowChatUserNames = ShowNamesCheckBox.Checked
+        settings.General.ShowChatUserNames = ShowNamesCheckBox.Checked
         mySettingsAccessor.WriteSettings(settings)
     End Sub
 

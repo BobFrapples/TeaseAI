@@ -44,11 +44,6 @@ namespace TeaseAI.Services.Accessors
         {
             return new Settings
             {
-                Chat = new ChatSettings
-                {
-                    IsTimeStampEnabled = true,
-                    ShowChatUserNames = true,
-                },
                 Domme = new DommeSettings
                 {
                     BirthDate = new DateTime(DateTime.Now.Year - 21, 1, 1),
@@ -95,6 +90,12 @@ namespace TeaseAI.Services.Accessors
                     AverageAgeSelfMaximum = 49,
                     AverageAgeSubMinimum = 28,
                     AverageAgeSubMaximum = 49,
+                },
+                General = new GeneralSettings
+                {
+                    CanDommeDeleteFiles = false,
+                    IsTimeStampEnabled = true,
+                    ShowChatUserNames = true,
                 },
                 Sub = new SubSettings
                 {

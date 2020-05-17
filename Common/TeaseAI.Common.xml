@@ -9,31 +9,6 @@
             preferences on how chat messagaes should display (timestamp, color, etc)
             </summary>
         </member>
-        <member name="T:TeaseAI.Common.ChatSettings">
-            <summary>
-            Settings which are specific to the UI in question
-            </summary>
-        </member>
-        <member name="M:TeaseAI.Common.ChatSettings.#ctor">
-            <summary>
-            Constructor
-            </summary>
-        </member>
-        <member name="P:TeaseAI.Common.ChatSettings.Version">
-            <summary>
-            used to manage serialization. Changes when the model breaks compatibility
-            </summary>
-        </member>
-        <member name="P:TeaseAI.Common.ChatSettings.IsTimeStampEnabled">
-            <summary>
-            Show the timestamp in chat window
-            </summary>
-        </member>
-        <member name="P:TeaseAI.Common.ChatSettings.ShowChatUserNames">
-            <summary>
-            Show the username of chat message senders in the UI
-            </summary>
-        </member>
         <member name="T:TeaseAI.Common.Constants.AllowsOrgasms">
             <summary>
             
@@ -1154,9 +1129,29 @@
             Did the video start, or did it fail, and why
             </summary>
         </member>
+        <member name="T:TeaseAI.Common.GeneralSettings">
+            <summary>
+            Settings on the general chat tab
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.GeneralSettings.Version">
+            <summary>
+            used to manage serialization. Changes when the model breaks compatibility
+            </summary>
+        </member>
         <member name="P:TeaseAI.Common.GeneralSettings.CanDommeDeleteFiles">
             <summary>
             Can the Domme actually delete files not owned by this program
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.GeneralSettings.IsTimeStampEnabled">
+            <summary>
+            Show the timestamp in chat window
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.GeneralSettings.ShowChatUserNames">
+            <summary>
+            Show the username of chat message senders in the UI
             </summary>
         </member>
         <member name="T:TeaseAI.Common.ILoadFileData">
@@ -1583,6 +1578,11 @@
             Settings on the Miscelaneous tab
             </summary>
         </member>
+        <member name="P:TeaseAI.Common.MiscSettings.Version">
+            <summary>
+            used to manage serialization. Changes when the model breaks compatibility
+            </summary>
+        </member>
         <member name="P:TeaseAI.Common.MiscSettings.IsInChastity">
             <summary>
             Is the sub in chastity
@@ -1774,11 +1774,6 @@
         <member name="P:TeaseAI.Common.Settings.DommePersonality">
             <summary>
             Name of the domme personality.
-            </summary>
-        </member>
-        <member name="P:TeaseAI.Common.Settings.Chat">
-            <summary>
-            User Interface configuration
             </summary>
         </member>
         <member name="P:TeaseAI.Common.Settings.Domme">
