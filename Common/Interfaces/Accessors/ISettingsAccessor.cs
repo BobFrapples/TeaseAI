@@ -25,9 +25,6 @@ namespace TeaseAI.Common.Interfaces.Accessors
         List<string> GetGreetings();
         string SubName { get; set; }
 
-        string DommeAvatarImageName { get; set; }
-        string DommeName { get; set; }
-
         Dictionary<ImageGenre, bool> ImageGenreIncludeSubDirectory { get; }
         Dictionary<ImageGenre, bool> IsImageGenreEnabled { get; }
         Dictionary<ImageGenre, string> ImageGenreFolder { get; }

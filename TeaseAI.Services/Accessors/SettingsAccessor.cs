@@ -44,8 +44,11 @@ namespace TeaseAI.Services.Accessors
         {
             return new Settings
             {
+                DommePersonality = "dev-wicked-tease",
                 Domme = new DommeSettings
                 {
+                    AvatarImageFile = string.Empty,
+                    Name = "Domme Name",
                     BirthDate = new DateTime(DateTime.Now.Year - 21, 1, 1),
                     AllowsOrgasms = AllowsOrgasms.Sometimes,
                     RuinsOrgasms = RuinsOrgasms.Sometimes,

@@ -334,7 +334,10 @@ retryStart:
             If Not personalities.Any() Then
                 MessageBox.Show(Me, "No domme Personalities were found! Many aspects of this program will not work correctly until at least one Personality is installed.", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Else
-                DommePersonalityComboBox.Text = If(personalities.Contains(settings.DommePersonality), settings.DommePersonality, personalities.First())
+                Dim selectedPersonality As String = If(personalities.Contains(settings.DommePersonality), settings.DommePersonality, personalities.First())
+                settings.DommePersonality = selectedPersonality
+                settings = mySettingsAccessor.WriteSettings(settings)
+                DommePersonalityComboBox.Text = selectedPersonality
             End If
 
             FrmSettings.FrmSettingsLoading = True
@@ -365,7 +368,7 @@ retryStart:
             IsTypingTimer.Start()
 
             splashScreen.UpdateText("Loading Domme and Sub avatar images...")
-            Dim avatar As String = mySettingsAccessor.DommeAvatarImageName
+            Dim avatar As String = settings.Domme.AvatarImageFile
             If File.Exists(avatar) Then
                 domAvatar.Image = Image.FromFile(avatar)
             End If
@@ -414,7 +417,7 @@ retryStart:
             End If
 
             splashScreen.UpdateText("Loading names...")
-            domName.Text = mySettingsAccessor.DommeName.Trim()
+            domName.Text = settings.Domme.Name
             SubName.Text = mySettingsAccessor.SubName.Trim()
 
             splashScreen.UpdateText("Loading General Settings...")
@@ -4178,10 +4181,12 @@ CensorConstant:
     End Sub
 
     Private Sub domName_Leave(sender As Object, e As EventArgs) Handles domName.Leave
-        mySettingsAccessor.DommeName = domName.Text
-        My.Settings.Save()
-        mySession.Session.Domme.Name = mySettingsAccessor.DommeName
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.Name = domName.Text.Trim()
+        mySettingsAccessor.WriteSettings(settings)
+        mySession.Session.Domme.Name = settings.Domme.Name
     End Sub
+
     Private Sub SubName_Leave(sender As Object, e As EventArgs) Handles SubName.Leave
         mySettingsAccessor.SubName = SubName.Text.Trim()
         My.Settings.Save()
@@ -4586,17 +4591,10 @@ StatusUpdateEnd:
 
     Private Sub domAvatar_Click(sender As Object, e As EventArgs) Handles domAvatar.Click
         If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
-
-            Try
-                domAvatar.Image.Dispose()
-            Catch
-            End Try
-            domAvatar.Image = Nothing
-            GC.Collect()
-
-
-            domAvatar.Image = Image.FromFile(OpenFileDialog1.FileName)
-            mySettingsAccessor.DommeAvatarImageName = OpenFileDialog1.FileName
+            Dim settings As Settings = mySettingsAccessor.GetSettings()
+            settings.Domme.AvatarImageFile = OpenFileDialog1.FileName
+            mySettingsAccessor.WriteSettings(settings)
+            domAvatar.Image = Image.FromFile(settings.Domme.AvatarImageFile)
         End If
     End Sub
 
@@ -13970,7 +13968,7 @@ restartInstantly:
             LBLWishListName.Text = ""
             WishlistPreview.Visible = False
             LBLWishlistCost.Text = ""
-            LBLWishListText.Text = "Thank you for your purchase! " & mySettingsAccessor.DommeName & " has been notified of your generous gift. Please check back again tomorrow for a new item!"
+            LBLWishListText.Text = "Thank you for your purchase! " & settings.Domme.Name & " has been notified of your generous gift. Please check back again tomorrow for a new item!"
             BTNWishlist.Enabled = False
             BTNWishlist.Text = ""
 
@@ -15583,13 +15581,14 @@ NoPlaylistStartFile:
         If PNLWishList.Visible Then
             Return
         End If
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
         If My.Settings.ClearWishlist Then
-            MessageBox.Show(Me, "You have already purchased " & mySettingsAccessor.DommeName & "'s Wishlist item for today!" & Environment.NewLine & Environment.NewLine &
+            MessageBox.Show(Me, "You have already purchased " & Settings.Domme.Name & "'s Wishlist item for today!" & Environment.NewLine & Environment.NewLine &
                                 "Please check back again tomorrow!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Return
         End If
 
-        LBLWishlistDom.Text = mySettingsAccessor.DommeName & "'s Wishlist"
+        LBLWishlistDom.Text = Settings.Domme.Name & "'s Wishlist"
         LBLWishlistDate.Text = Now.ToShortDateString()
         LBLWishlistBronze.Text = ssh.BronzeTokens
         LBLWishlistSilver.Text = ssh.SilverTokens

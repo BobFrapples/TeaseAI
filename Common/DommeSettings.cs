@@ -26,6 +26,16 @@ namespace TeaseAI.Common
         public int Version { get; private set; }
 
         /// <summary>
+        /// Full file to the Domme's avatar image 
+        /// </summary>
+        public string AvatarImageFile { get; set; }
+
+        /// <summary>
+        /// The name of the Domme
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
         /// What is the Domme's Birth date
         /// </summary>
         public DateTime BirthDate { get; set; }

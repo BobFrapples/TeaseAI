@@ -273,18 +273,6 @@ Namespace My
         <Global.System.Configuration.UserScopedSettingAttribute(),
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
          Global.System.Configuration.DefaultSettingValueAttribute("")>
-        Public Property DomAvatarSave() As String
-            Get
-                Return CType(Me("DomAvatarSave"), String)
-            End Get
-            Set
-                Me("DomAvatarSave") = Value
-            End Set
-        End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("")>
         Public Property SubAvatarSave() As String
             Get
                 Return CType(Me("SubAvatarSave"), String)
@@ -1095,18 +1083,6 @@ Namespace My
             End Get
             Set
                 Me("CB3Custom2") = Value
-            End Set
-        End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("Domme Name")>
-        Public Property DomName() As String
-            Get
-                Return CType(Me("DomName"), String)
-            End Get
-            Set
-                Me("DomName") = Value
             End Set
         End Property
 

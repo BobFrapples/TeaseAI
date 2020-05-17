@@ -24,15 +24,6 @@ Public Class SettingsAccessor
         Throw New NotImplementedException()
     End Function
 
-    Public Property DommeName As String Implements ISettingsAccessor.DommeName
-        Get
-            Return Settings.DomName
-        End Get
-        Set(value As String)
-            Settings.DomName = value
-        End Set
-    End Property
-
     Public Property SubName As String Implements ISettingsAccessor.SubName
         Get
             Return Settings.SubName
@@ -41,16 +32,6 @@ Public Class SettingsAccessor
             Settings.SubName = value
         End Set
     End Property
-
-    Friend Property DommeAvatarImageName As String Implements ISettingsAccessor.DommeAvatarImageName
-        Get
-            Return Settings.DomAvatarSave
-        End Get
-        Set(value As String)
-            Settings.DomAvatarSave = value
-        End Set
-    End Property
-
 
     Public ReadOnly Property IsImageGenreEnabled As Dictionary(Of ImageGenre, Boolean) Implements ISettingsAccessor.IsImageGenreEnabled
         Get

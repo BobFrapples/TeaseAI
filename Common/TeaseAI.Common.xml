@@ -945,6 +945,16 @@
             used to manage serialization. Changes when the model breaks compatibility
             </summary>
         </member>
+        <member name="P:TeaseAI.Common.DommeSettings.AvatarImageFile">
+            <summary>
+            Full file to the Domme's avatar image 
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.Name">
+            <summary>
+            The name of the Domme
+            </summary>
+        </member>
         <member name="P:TeaseAI.Common.DommeSettings.BirthDate">
             <summary>
             What is the Domme's Birth date
