@@ -24,50 +24,6 @@ Public Class SettingsAccessor
         Throw New NotImplementedException()
     End Function
 
-    Public ReadOnly Property IsImageGenreEnabled As Dictionary(Of ImageGenre, Boolean) Implements ISettingsAccessor.IsImageGenreEnabled
-        Get
-            Dim returnValue As Dictionary(Of ImageGenre, Boolean) = New Dictionary(Of ImageGenre, Boolean)()
-
-            returnValue(ImageGenre.Blowjob) = Settings.CBIBlowjob
-            returnValue(ImageGenre.Boobs) = Settings.CBIBoobs
-            returnValue(ImageGenre.Butt) = Settings.CBIButts
-            returnValue(ImageGenre.Captions) = Settings.CBICaptions
-            returnValue(ImageGenre.Femdom) = Settings.CBIFemdom
-            returnValue(ImageGenre.Gay) = Settings.CBIGay
-            returnValue(ImageGenre.General) = Settings.CBIGeneral
-            returnValue(ImageGenre.Hardcore) = Settings.CBIHardcore
-            returnValue(ImageGenre.Hentai) = Settings.CBIHentai
-            returnValue(ImageGenre.Softcore) = Settings.CBISoftcore
-            returnValue(ImageGenre.Lesbian) = Settings.CBILesbian
-            returnValue(ImageGenre.Lezdom) = Settings.CBILezdom
-            returnValue(ImageGenre.Maledom) = Settings.CBIMaledom
-
-            Return returnValue
-        End Get
-    End Property
-
-    Public ReadOnly Property ImageGenreIncludeSubDirectory As Dictionary(Of ImageGenre, Boolean) Implements ISettingsAccessor.ImageGenreIncludeSubDirectory
-        Get
-            Dim returnValue As Dictionary(Of ImageGenre, Boolean) = New Dictionary(Of ImageGenre, Boolean)()
-
-            returnValue(ImageGenre.Blowjob) = Settings.IBlowjobSD
-            returnValue(ImageGenre.Boobs) = Settings.CBBoobSubDir
-            returnValue(ImageGenre.Butt) = Settings.CBButtSubDir
-            returnValue(ImageGenre.Captions) = Settings.ICaptionsSD
-            returnValue(ImageGenre.Femdom) = Settings.IFemdomSD
-            returnValue(ImageGenre.Gay) = Settings.IGaySD
-            returnValue(ImageGenre.General) = Settings.IGeneralSD
-            returnValue(ImageGenre.Hardcore) = Settings.IHardcoreSD
-            returnValue(ImageGenre.Hentai) = Settings.IHentaiSD
-            returnValue(ImageGenre.Softcore) = Settings.ISoftcoreSD
-            returnValue(ImageGenre.Lesbian) = Settings.ILesbianSD
-            returnValue(ImageGenre.Lezdom) = Settings.ILezdomSD
-            returnValue(ImageGenre.Maledom) = Settings.IMaledomSD
-
-            Return returnValue
-        End Get
-    End Property
-
     Public ReadOnly Property ImageGenreFolder As Dictionary(Of ImageGenre, String) Implements ISettingsAccessor.ImageGenreFolder
         Get
             Dim returnValue As Dictionary(Of ImageGenre, String) = New Dictionary(Of ImageGenre, String)()

@@ -192,8 +192,6 @@ namespace TeaseAI.Services.Accessors
         public string DommeAvatarImageName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public string DommeName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public Dictionary<ImageGenre, bool> ImageGenreIncludeSubDirectory => throw new NotImplementedException();
-
         public Dictionary<ImageGenre, bool> IsImageGenreEnabled => throw new NotImplementedException();
 
         public Dictionary<ImageGenre, string> ImageGenreFolder => throw new NotImplementedException();

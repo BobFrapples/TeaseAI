@@ -24,8 +24,6 @@ namespace TeaseAI.Common.Interfaces.Accessors
 
         List<string> GetGreetings();
    
-        Dictionary<ImageGenre, bool> ImageGenreIncludeSubDirectory { get; }
-        Dictionary<ImageGenre, bool> IsImageGenreEnabled { get; }
         Dictionary<ImageGenre, string> ImageGenreFolder { get; }
         int BronzeTokens { get; set; }
         int SilverTokens { get; set; }
