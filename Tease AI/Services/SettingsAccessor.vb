@@ -24,15 +24,6 @@ Public Class SettingsAccessor
         Throw New NotImplementedException()
     End Function
 
-    Public Property SubName As String Implements ISettingsAccessor.SubName
-        Get
-            Return Settings.SubName
-        End Get
-        Set(value As String)
-            Settings.SubName = value
-        End Set
-    End Property
-
     Public ReadOnly Property IsImageGenreEnabled As Dictionary(Of ImageGenre, Boolean) Implements ISettingsAccessor.IsImageGenreEnabled
         Get
             Dim returnValue As Dictionary(Of ImageGenre, Boolean) = New Dictionary(Of ImageGenre, Boolean)()

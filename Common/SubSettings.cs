@@ -133,5 +133,7 @@ namespace TeaseAI.Common
         ///  Does the sub use female pronounce
         /// </summary>
         public bool IsSubFemale { get; set; }
+        public string AvatarImageFile { get; set; }
+        public string Name { get; set; }
     }
 }

@@ -23,8 +23,7 @@ namespace TeaseAI.Common.Interfaces.Accessors
         Settings WriteSettings(Settings settings);
 
         List<string> GetGreetings();
-        string SubName { get; set; }
-
+   
         Dictionary<ImageGenre, bool> ImageGenreIncludeSubDirectory { get; }
         Dictionary<ImageGenre, bool> IsImageGenreEnabled { get; }
         Dictionary<ImageGenre, string> ImageGenreFolder { get; }

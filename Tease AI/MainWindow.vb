@@ -418,7 +418,7 @@ retryStart:
 
             splashScreen.UpdateText("Loading names...")
             domName.Text = settings.Domme.Name
-            SubName.Text = mySettingsAccessor.SubName.Trim()
+            SubName.Text = settings.Sub.Name
 
             splashScreen.UpdateText("Loading General Settings...")
             If FrmSettings.WebTeaseMode.Checked = True _
@@ -4188,9 +4188,10 @@ CensorConstant:
     End Sub
 
     Private Sub SubName_Leave(sender As Object, e As EventArgs) Handles SubName.Leave
-        mySettingsAccessor.SubName = SubName.Text.Trim()
-        My.Settings.Save()
-        mySession.Session.Sub.Name = mySettingsAccessor.SubName
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.Name = SubName.Text.Trim()
+        mySettingsAccessor.WriteSettings(settings)
+        mySession.Session.Sub.Name = settings.Sub.Name
     End Sub
 
     Public Sub StatusUpdatePost()

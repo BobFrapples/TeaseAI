@@ -104,6 +104,8 @@ namespace TeaseAI.Services.Accessors
                 },
                 Sub = new SubSettings
                 {
+                    AvatarImageFile = string.Empty,
+                    Name = "sub name",
                     Safeword = "red",
                     CanInterruptLongEdge = true,
                     AllowLongEdgeInterrupts = true,

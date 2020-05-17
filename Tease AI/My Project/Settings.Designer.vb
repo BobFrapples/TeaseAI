@@ -272,18 +272,6 @@ Namespace My
 
         <Global.System.Configuration.UserScopedSettingAttribute(),
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("")>
-        Public Property SubAvatarSave() As String
-            Get
-                Return CType(Me("SubAvatarSave"), String)
-            End Get
-            Set
-                Me("SubAvatarSave") = Value
-            End Set
-        End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
          Global.System.Configuration.DefaultSettingValueAttribute("20")>
         Public Property NBCensorShowMin() As Decimal
             Get
@@ -1083,18 +1071,6 @@ Namespace My
             End Get
             Set
                 Me("CB3Custom2") = Value
-            End Set
-        End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("Sub Name")>
-        Public Property SubName() As String
-            Get
-                Return CType(Me("SubName"), String)
-            End Get
-            Set
-                Me("SubName") = Value
             End Set
         End Property
 
