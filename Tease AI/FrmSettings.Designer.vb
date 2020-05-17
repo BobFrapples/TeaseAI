@@ -992,7 +992,7 @@ Partial Class FrmSettings
         Me.BTNOfflineMode = New System.Windows.Forms.Button()
         Me.LBLOfflineMode = New System.Windows.Forms.Label()
         Me.Label140 = New System.Windows.Forms.Label()
-        Me.Button11 = New System.Windows.Forms.Button()
+        Me.ChastityModeButton = New System.Windows.Forms.Button()
         Me.InChastityLabel = New System.Windows.Forms.Label()
         Me.Label120 = New System.Windows.Forms.Label()
         Me.GroupBox27 = New System.Windows.Forms.GroupBox()
@@ -13225,7 +13225,7 @@ Partial Class FrmSettings
         Me.GroupBox33.Controls.Add(Me.BTNOfflineMode)
         Me.GroupBox33.Controls.Add(Me.LBLOfflineMode)
         Me.GroupBox33.Controls.Add(Me.Label140)
-        Me.GroupBox33.Controls.Add(Me.Button11)
+        Me.GroupBox33.Controls.Add(Me.ChastityModeButton)
         Me.GroupBox33.Controls.Add(Me.InChastityLabel)
         Me.GroupBox33.Controls.Add(Me.Label120)
         Me.GroupBox33.Location = New System.Drawing.Point(420, 268)
@@ -13271,12 +13271,12 @@ Partial Class FrmSettings
         '
         'Button11
         '
-        Me.Button11.Location = New System.Drawing.Point(161, 33)
-        Me.Button11.Name = "Button11"
-        Me.Button11.Size = New System.Drawing.Size(99, 23)
-        Me.Button11.TabIndex = 177
-        Me.Button11.Text = "Toggle"
-        Me.Button11.UseVisualStyleBackColor = True
+        Me.ChastityModeButton.Location = New System.Drawing.Point(161, 33)
+        Me.ChastityModeButton.Name = "Button11"
+        Me.ChastityModeButton.Size = New System.Drawing.Size(99, 23)
+        Me.ChastityModeButton.TabIndex = 177
+        Me.ChastityModeButton.Text = "Toggle"
+        Me.ChastityModeButton.UseVisualStyleBackColor = True
         '
         'InChastityLabel
         '
@@ -15276,7 +15276,7 @@ Partial Class FrmSettings
     Friend WithEvents CBGlitterFeedScripts As System.Windows.Forms.RadioButton
     Friend WithEvents CBGlitterFeed As System.Windows.Forms.RadioButton
     Friend WithEvents GroupBox33 As System.Windows.Forms.GroupBox
-    Friend WithEvents Button11 As System.Windows.Forms.Button
+    Friend WithEvents ChastityModeButton As System.Windows.Forms.Button
     Friend WithEvents InChastityLabel As System.Windows.Forms.Label
     Friend WithEvents Label120 As System.Windows.Forms.Label
     Friend WithEvents TTDir As System.Windows.Forms.ToolTip

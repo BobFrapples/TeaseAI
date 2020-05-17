@@ -115,14 +115,6 @@ Public Class SettingsAccessor
             Return returnValue
         End Get
     End Property
-    Public Property IsOffline As Boolean Implements ISettingsAccessor.IsOffline
-        Get
-            Return Settings.OfflineMode
-        End Get
-        Set(value As Boolean)
-            Settings.OfflineMode = value
-        End Set
-    End Property
 
     Public Property DoesDommeTypeInstantly As Boolean Implements ISettingsAccessor.DoesDommeTypeInstantly
         Get
@@ -139,15 +131,6 @@ Public Class SettingsAccessor
         End Get
         Set(value As Boolean)
             Settings.CBWebtease = value
-        End Set
-    End Property
-
-    Public Property InChastity As Boolean Implements ISettingsAccessor.InChastity
-        Get
-            Return Settings.Chastity
-        End Get
-        Set(value As Boolean)
-            Settings.Chastity = value
         End Set
     End Property
 

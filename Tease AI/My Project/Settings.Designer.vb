@@ -2214,18 +2214,6 @@ Namespace My
 
         <Global.System.Configuration.UserScopedSettingAttribute(),
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>
-        Public Property Chastity() As Boolean
-            Get
-                Return CType(Me("Chastity"), Boolean)
-            End Get
-            Set
-                Me("Chastity") = Value
-            End Set
-        End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
          Global.System.Configuration.DefaultSettingValueAttribute("0")>
         Public Property CaloriesConsumed() As Integer
             Get
@@ -4162,17 +4150,6 @@ Namespace My
             End Set
         End Property
 
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>
-        Public Property OfflineMode() As Boolean
-            Get
-                Return CType(Me("OfflineMode"), Boolean)
-            End Get
-            Set
-                Me("OfflineMode") = Value
-            End Set
-        End Property
 
         <Global.System.Configuration.UserScopedSettingAttribute(),
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),

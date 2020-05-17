@@ -268,18 +268,23 @@ Public Class FrmSettings
         FrmSplash.UpdateText("Loading Range Settings...")
         LoadRangesTab(settings.Range)
 
+        FrmSplash.UpdateText("Loading Miscellaneous Settings...")
+        LoadMiscTab(settings.Misc)
 
-        ' Miscellaneous Tab
-        LBLOfflineMode.Text = mySettingsAccessor.IsOffline.ToOnOff()
-        LBLOfflineMode.ForeColor = mySettingsAccessor.IsOffline.ToColor()
-
-        InChastityLabel.Text = mySettingsAccessor.InChastity.ToOnOff()
-        InChastityLabel.ForeColor = mySettingsAccessor.InChastity.ToColor()
 
         TimeStampCheckBox.Checked = settings.Chat.IsTimeStampEnabled
         ShowNamesCheckBox.Checked = settings.Chat.ShowChatUserNames
         TypeInstantlyCheckBox.Checked = mySettingsAccessor.DoesDommeTypeInstantly
         WebTeaseMode.Checked = mySettingsAccessor.WebTeaseModeEnabled
+    End Sub
+
+    Private Sub LoadMiscTab(misc As MiscSettings)
+        ' Miscellaneous Tab
+        LBLOfflineMode.Text = misc.IsOffline.ToOnOff()
+        LBLOfflineMode.ForeColor = misc.IsOffline.ToColor()
+
+        InChastityLabel.Text = misc.IsInChastity.ToOnOff()
+        InChastityLabel.ForeColor = misc.IsInChastity.ToColor()
     End Sub
 
     Private Sub LoadGeneralSettings(generalSettings As GeneralSettings)
@@ -5222,6 +5227,28 @@ Public Class FrmSettings
 #End Region
 #End Region
 
+#Region "Misc Tab"
+    Private Sub ChastityModeButton_Click(sender As Object, e As EventArgs) Handles ChastityModeButton.Click
+
+        If MsgBox("This will change the Chastity state of Tease AI. Depending on the Personality or Scripts used so far, this could cause unexpected behavior or break certain scripts." & Environment.NewLine _
+                  & Environment.NewLine & "It is recommended to only change this state if you are otherwise stuck. Are you sure you wish to change the Chastity state?", vbYesNo, "Warning!") = MsgBoxResult.Yes Then
+            Dim settings As Settings = mySettingsAccessor.GetSettings()
+            settings.Misc.IsInChastity = Not settings.Misc.IsInChastity
+            InChastityLabel.ForeColor = settings.Misc.IsInChastity.ToColor()
+            InChastityLabel.Text = settings.Misc.IsInChastity.ToOnOff()
+        End If
+    End Sub
+
+    Private Sub BTNOfflineMode_Click(sender As Object, e As EventArgs) Handles BTNOfflineMode.Click
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Misc.IsOffline = Not settings.Misc.IsOffline
+        mySettingsAccessor.WriteSettings(settings)
+        LBLOfflineMode.Text = settings.Misc.IsOffline.ToOnOff()
+        LBLOfflineMode.ForeColor = settings.Misc.IsOffline.ToColor()
+    End Sub
+
+#End Region
+
     Private Sub ComboBox1_DrawItem(ByVal sender As Object, ByVal e As Windows.Forms.DrawItemEventArgs) Handles SubMessageFontCB.DrawItem
         e.DrawBackground()
         If (e.State And DrawItemState.Focus) <> 0 Then
@@ -7068,15 +7095,6 @@ Public Class FrmSettings
 
     End Sub
 
-    Private Sub Button11_Click_1(sender As Object, e As EventArgs) Handles Button11.Click
-
-        If MsgBox("This will change the Chastity state of Tease AI. Depending on the Personality or Scripts used so far, this could cause unexpected behavior or break certain scripts." & Environment.NewLine _
-                  & Environment.NewLine & "It is recommended to only change this state if you are otherwise stuck. Are you sure you wish to change the Chastity state?", vbYesNo, "Warning!") = MsgBoxResult.Yes Then
-            mySettingsAccessor.InChastity = Not mySettingsAccessor.InChastity
-            InChastityLabel.ForeColor = mySettingsAccessor.InChastity.ToColor()
-            InChastityLabel.Text = mySettingsAccessor.InChastity.ToOnOff()
-        End If
-    End Sub
 
     Public Sub EnglishMenu()
 
@@ -7416,17 +7434,6 @@ Public Class FrmSettings
 
     Private Sub CBMuteMedia_LostFocus(sender As Object, e As EventArgs) Handles CBMuteMedia.LostFocus
         My.Settings.MuteMedia = CBMuteMedia.Checked
-    End Sub
-
-    Private Sub BTNOfflineMode_Click(sender As Object, e As EventArgs) Handles BTNOfflineMode.Click
-        mySettingsAccessor.IsOffline = Not mySettingsAccessor.IsOffline
-        If mySettingsAccessor.IsOffline Then
-            LBLOfflineMode.Text = "ON"
-            LBLOfflineMode.ForeColor = Color.Green
-        Else
-            LBLOfflineMode.Text = "OFF"
-            LBLOfflineMode.ForeColor = Color.Red
-        End If
     End Sub
 
     Private Sub CBNewSlideshow_LostFocus(sender As Object, e As EventArgs) Handles CBNewSlideshow.LostFocus

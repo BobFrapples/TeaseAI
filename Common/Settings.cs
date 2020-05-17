@@ -71,11 +71,21 @@ namespace TeaseAI.Common
             set { _sub = value; }
         }
         
+        /// <summary>
+        /// Misc configuration
+        /// </summary>
+        public MiscSettings Misc 
+        {
+            get { return _misc ?? (_misc = new MiscSettings()); }
+            set { _misc = value; }
+        }
+        
         
         private ChatSettings _ui;
         private DommeSettings _domme;
         private SubSettings _sub;
         private RangeSettings _range;
         private GeneralSettings _general;
+        private MiscSettings _misc;
     }
 }

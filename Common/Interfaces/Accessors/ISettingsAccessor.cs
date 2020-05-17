@@ -33,13 +33,8 @@ namespace TeaseAI.Common.Interfaces.Accessors
         Dictionary<ImageGenre, bool> ImageGenreIncludeSubDirectory { get; }
         Dictionary<ImageGenre, bool> IsImageGenreEnabled { get; }
         Dictionary<ImageGenre, string> ImageGenreFolder { get; }
-
-  
-        bool IsOffline { get; set; }
-
         bool DoesDommeTypeInstantly { get; set; }
         bool WebTeaseModeEnabled { get; set; }
-        bool InChastity { get; set; }
         int BronzeTokens { get; set; }
         int SilverTokens { get; set; }
         int GoldTokens { get; set; }

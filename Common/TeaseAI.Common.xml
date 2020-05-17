@@ -1578,6 +1578,21 @@
             any response the Domme is making to the message
             </summary>
         </member>
+        <member name="T:TeaseAI.Common.MiscSettings">
+            <summary>
+            Settings on the Miscelaneous tab
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.MiscSettings.IsInChastity">
+            <summary>
+            Is the sub in chastity
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.MiscSettings.IsOffline">
+            <summary>
+            Is the program in offline mode
+            </summary>
+        </member>
         <member name="P:TeaseAI.Common.RangeSettings.DoesDommeDecideOrgasmRange">
             <summary>
             Does the domme decide the range for <see cref="T:TeaseAI.Common.Constants.AllowsOrgasms"/>, or is it set custom
@@ -1784,6 +1799,11 @@
         <member name="P:TeaseAI.Common.Settings.Sub">
             <summary>
             Sub configuration
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Settings.Misc">
+            <summary>
+            Misc configuration
             </summary>
         </member>
         <member name="P:TeaseAI.Common.SubPersonality.IsStroking">

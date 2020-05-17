@@ -649,8 +649,8 @@ Public Class SessionState
     ''' Creates a new unactivaed instance.
     ''' </summary>
     Sub New()
-        InitializeComponent()
         mySettingsAccessor = ApplicationFactory.CreateSettingsAccessor()
+        InitializeComponent()
     End Sub
 
     ''' <summary>

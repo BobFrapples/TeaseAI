@@ -1093,7 +1093,7 @@ DebugAwareness:
     End Function
 
     Public Function ResponseClean(ByVal CleanResponse As String) As String
-
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
         'TODO: Add Errorhandling.
         Dim DomResponse As New StreamReader(ssh.ResponseFile)
         Dim DRLines As New List(Of String)
@@ -1106,7 +1106,7 @@ DebugAwareness:
         Dim AddResponse As Boolean
         AddResponse = False
 
-        If My.Settings.Chastity = True Then
+        If settings.Misc.IsInChastity Then
             SubState = "Chastity"
             GoTo FoundState
         End If
@@ -1582,6 +1582,7 @@ ReturnCalled:
     End Sub
 
     Public Sub HandleScripts()
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
 ModuleEnd:
 
         If ssh.ModuleEnd AndAlso Not ssh.AvoidTheEdgeGame Then
@@ -1672,12 +1673,10 @@ NonModuleEnd:
                 ssh.StrokeTauntVal = ssh.ReturnStrokeTauntVal
 
                 If ssh.ReturnSubState = "Stroking" Then
-                    If My.Settings.Chastity = True Then
-                        'DomTask = "Now as I was saying @StartTaunts"
+                    If settings.Misc.IsInChastity Then
                         ssh.DomTask = "#Return_Chastity"
                     Else
                         If ssh.SubStroking = False Then
-                            'DomTask = "Get back to stroking @StartStroking"
                             ssh.DomTask = "#Return_Stroking"
                         Else
                             StrokeTimer.Start()
@@ -3431,12 +3430,7 @@ DommeSlideshowFallback:
         If chatBox.Text <> "" And ssh.StrokeTauntTick < 6 Then Return
         If ChatBox2.Text <> "" And ssh.StrokeTauntTick < 6 Then Return
 
-
-
-
-
-
-
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
 
         ssh.StrokeTauntTick -= 1
 
@@ -3451,7 +3445,7 @@ DommeSlideshowFallback:
 
                 Dim TauntFile As String
                 TauntFile = "StrokeTaunts"
-                If My.Settings.Chastity = True Then TauntFile = "ChastityTaunts"
+                If Settings.Misc.IsInChastity Then TauntFile = "ChastityTaunts"
                 If ssh.GlitterTease = True Then TauntFile = "GlitterTaunts"
                 ' ### Debug
                 'TauntFile = "StrokeTaunts"
@@ -9813,14 +9807,8 @@ SkipTextedTags:
             End If
 
             If FilterString.Contains("@Info") Then Return False
-            '▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
-            ' Single word filters - End
-            '▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
             Return True
         Catch ex As Exception
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-            '                                            All Errors
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
             Log.WriteError(String.Format("Exceoption occured while checking line ""{0}"".", OrgFilterString),
                                          ex, "GetFilter(String, Boolean)")
             Return False
@@ -9829,7 +9817,7 @@ SkipTextedTags:
 
     Public Function GetFilter2(ByVal FilterString As String) As Boolean
 
-
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
         Dim __ConditionDic As New Dictionary(Of String, Boolean)(System.StringComparer.OrdinalIgnoreCase)
         Try
             '===============================================================================
@@ -9934,10 +9922,6 @@ SkipTextedTags:
                       Or (My.Settings.CBIHardcore = False And My.Settings.CBISoftcore = False And My.Settings.CBILesbian = False And My.Settings.CBIBlowjob = False _
                        And My.Settings.CBIFemdom = False And My.Settings.CBILezdom = False And My.Settings.CBIHentai = False And My.Settings.CBIGay = False _
                        And My.Settings.CBIMaledom = False And My.Settings.CBICaptions = False And My.Settings.CBIGeneral = False))
-                '.Add("@ShowButtImage", Not Directory.Exists(FrmSettings.LBLButtPath.Text) And Not File.Exists(FrmSettings.LBLButtURL.Text) Or myFlagAccessor.IsSet(CreateDommePersonality(), "SYS_NoPornAllowed") = True Or CustomSlideshow = True Or LockImage = True)
-                '.Add("@ShowButtsImage", __ConditionDic("@ShowButtImage")) ' duplicate Command, lets get the Value af the other one.
-                '.Add("@ShowBoobImage", Not Directory.Exists(FrmSettings.LBLBoobPath.Text) And Not File.Exists(FrmSettings.LBLBoobURL.Text) Or myFlagAccessor.IsSet(CreateDommePersonality(), "SYS_NoPornAllowed") = True Or CustomSlideshow = True Or LockImage = True)
-                '.Add("@ShowBoobsImage", __ConditionDic("@ShowBoobImage")) ' duplicate Command, lets get the Value af the other one.
                 .Add("@1MinuteHold", ssh.SubHoldingEdge = False Or ssh.HoldEdgeTime < 60 Or ssh.HoldEdgeTime > 119)
                 .Add("@2MinuteHold", ssh.SubHoldingEdge = False Or ssh.HoldEdgeTime < 120 Or ssh.HoldEdgeTime > 179)
                 .Add("@3MinuteHold", ssh.SubHoldingEdge = False Or ssh.HoldEdgeTime < 180 Or ssh.HoldEdgeTime > 239)
@@ -9967,8 +9951,8 @@ SkipTextedTags:
                 .Add("@ApathyLevel3", FrmSettings.NBEmpathy.Value <> 3)
                 .Add("@ApathyLevel4", FrmSettings.NBEmpathy.Value <> 4)
                 .Add("@ApathyLevel5", FrmSettings.NBEmpathy.Value <> 5)
-                .Add("@InChastity", My.Settings.Chastity = False)
-                .Add("@NotInChastity", My.Settings.Chastity = True)
+                .Add("@InChastity", Not Settings.Misc.IsInChastity)
+                .Add("@NotInChastity", Settings.Misc.IsInChastity)
                 .Add("@HasChastity", FrmSettings.CBOwnChastity.Checked = False)
                 .Add("@DoesNotHaveChastity", FrmSettings.CBOwnChastity.Checked = True)
                 .Add("@ChastityPA", FrmSettings.DoesChastityDeviceRequirePiercingCB.Checked = False)
@@ -10353,7 +10337,7 @@ SkipTextedTags:
     End Sub
 
     Public Sub RunModuleScript(IsEdging As Boolean)
-
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
         ssh.ShowModule = True
 
         ssh.TauntEdging = False
@@ -10363,7 +10347,7 @@ SkipTextedTags:
         ModuleList.Clear()
 
         Dim ChastityModuleCheck As String = "*.txt"
-        If My.Settings.Chastity = True And Not IsEdging Then
+        If settings.Misc.IsInChastity And Not IsEdging Then
             ssh.AskedToSpeedUp = False
             ssh.AskedToSlowDown = False
             ssh.SubStroking = False
@@ -10400,7 +10384,7 @@ NoPlaylistModuleFile:
                     End If
 
                     For x As Integer = 0 To FrmSettings.ModuleScripts.Items.Count - 1
-                        If My.Settings.Chastity = True Then
+                        If settings.Misc.IsInChastity Then
                             If FrmSettings.ModuleScripts.Items(x) = TempModule And FrmSettings.ModuleScripts.GetItemChecked(x) = True And Not foundFile.Contains("_EDGING") Then
                                 ModuleList.Add(foundFile)
                             End If
@@ -10417,7 +10401,7 @@ NoPlaylistModuleFile:
                 Next
 
                 If ModuleList.Count < 1 Then
-                    If My.Settings.Chastity = True Then
+                    If settings.Misc.IsInChastity Then
                         ssh.FileText = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Scripts\Module_CHASTITY.txt"
                     ElseIf IsEdging Then
                         ssh.FileText = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Scripts\Module_EDGING.txt"
@@ -10476,7 +10460,7 @@ NoPlaylistModuleFile:
     End Sub
 
     Public Sub RunLinkScript()
-
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
         ClearModes()
 
         If ssh.PlaylistFile.Count = 0 Then GoTo NoPlaylistLinkFile
@@ -10495,7 +10479,7 @@ NoPlaylistLinkFile:
 
 
                 Dim ChastityLinkCheck As String
-                If My.Settings.Chastity = True Then
+                If Settings.Misc.IsInChastity Then
                     ChastityLinkCheck = "*_CHASTITY.txt"
                 Else
                     ChastityLinkCheck = "*.txt"
@@ -10508,7 +10492,7 @@ NoPlaylistLinkFile:
                         TempLink = TempLink.Remove(0, 1)
                     Loop
                     For x As Integer = 0 To FrmSettings.LinkScripts.Items.Count - 1
-                        If My.Settings.Chastity = True Then
+                        If Settings.Misc.IsInChastity Then
                             If FrmSettings.LinkScripts.Items(x) = TempLink And FrmSettings.LinkScripts.GetItemChecked(x) = True Then
                                 LinkList.Add(foundFile)
                             End If
@@ -10522,7 +10506,7 @@ NoPlaylistLinkFile:
                 Next
 
                 If LinkList.Count < 1 Then
-                    If My.Settings.Chastity = True Then
+                    If Settings.Misc.IsInChastity Then
                         ssh.FileText = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Scripts\Link_CHASTITY.txt"
                     Else
                         ssh.FileText = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Scripts\Link.txt"
