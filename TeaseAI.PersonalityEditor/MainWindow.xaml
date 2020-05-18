@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TeaseAI.PersonalityEditor"
         xmlns:localViews="clr-namespace:TeaseAI.PersonalityEditor.Views"
+        xmlns:localControls="clr-namespace:TeaseAI.PersonalityEditor.Controls"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         mc:Ignorable="d"
         Title="MainWindow"
@@ -87,11 +88,15 @@
                             <Button Content="Save" Command="{Binding SaveScriptCommand}"/>
                             <Button Content="Test" Command="{Binding TestScriptCommand}"/>
                         </ToolBar>
-
-                        <TextBox Text="{Binding CurrentScriptText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                             TextWrapping="Wrap"
-                             AcceptsReturn="True">
-                        </TextBox>
+                        <localControls:BindableAvalonEditor x:Name="Script" 
+                                               HorizontalAlignment="Left" 
+                                               HorizontalScrollBarVisibility="Auto" 
+                                               VerticalScrollBarVisibility="Auto" 
+                                               IsReadOnly="True" 
+                                               Text="{Binding CurrentScriptText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                               ShowLineNumbers="True"
+                                               >
+                        </localControls:BindableAvalonEditor>
                     </DockPanel>
                 </DockPanel>
             </TabItem>

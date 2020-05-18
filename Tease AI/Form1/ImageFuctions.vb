@@ -1,9 +1,11 @@
 ﻿Imports System.ComponentModel
 Imports System.IO
 Imports System.Threading
+Imports TeaseAI.Common
 Imports TeaseAI.Common.Constants
 Imports TeaseAI.Common.Data
 Imports TeaseAI.Common.Events
+Imports TeaseAI.Common.Interfaces.Accessors
 
 Partial Class MainWindow
 
@@ -67,7 +69,6 @@ Partial Class MainWindow
 
         Public LocalDirectory As String = ""
         Public LocalSubDirectories As Boolean = False
-        Public OfflineMode As Boolean = My.Settings.OfflineMode
         Public SYS_NoPornAllowed As Boolean = False
 
         Public Function CountImages() As Integer
@@ -114,7 +115,9 @@ Partial Class MainWindow
                 rtnList.AddRange(ToList(ImageSourceType.Local))
 
                 ' Load only LocalFiles if Oflline-Mode is acivated.
-                If OfflineMode = False Then _
+                Dim settingsAccessor As ISettingsAccessor = ApplicationFactory.CreateSettingsAccessor()
+                Dim settings As Settings = settingsAccessor.GetSettings()
+                If Not settings.Misc.IsOffline Then _
                     rtnList.AddRange(ToList(ImageSourceType.Remote))
             Catch ex As Exception
                 '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
@@ -142,13 +145,15 @@ Partial Class MainWindow
                 If SYS_NoPornAllowed Then Return rtnList
 
                 ' If offline mode is activated then search only for local files.
-                If OfflineMode Then Type = ImageSourceType.Local
+                Dim settingsAccessor As ISettingsAccessor = ApplicationFactory.CreateSettingsAccessor()
+                Dim settings As Settings = settingsAccessor.GetSettings()
+                If settings.Misc.IsOffline Then Type = ImageSourceType.Local
 
                 If Name = ImageGenre.Blog Then
                     '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
                     '                                   Blog Images
                     '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
-                    If OfflineMode Or Type = ImageSourceType.Local Then GoTo exitEmpty
+                    If settings.Misc.IsOffline OrElse Type = ImageSourceType.Local Then GoTo exitEmpty
                     Dim tmpList As New List(Of String)
 
                     ' Load threadsafe all checked Items into List.
@@ -182,7 +187,7 @@ Partial Class MainWindow
                         Dim addlist As List(Of String) = Txt2List(myPathsAccessor.LikedImages)
 
                         ' Remove all URLs if Offline-Mode is activated
-                        If OfflineMode Or Type = ImageSourceType.Local Then
+                        If settings.Misc.IsOffline OrElse Type = ImageSourceType.Local Then
                             addlist.RemoveAll(Function(x) IsUrl(x))
                         End If
 
@@ -202,7 +207,7 @@ Partial Class MainWindow
                         Dim addlist As List(Of String) = Txt2List(myPathsAccessor.DislikedImages)
 
                         ' Remove all URLs if Offline-Mode is activated
-                        If OfflineMode Or Type = ImageSourceType.Local Then
+                        If settings.Misc.IsOffline OrElse Type = ImageSourceType.Local Then
                             addlist.RemoveAll(Function(x) IsUrl(x))
                         End If
 
@@ -304,8 +309,10 @@ NoneFound:
         ''' "NoLocalImagesFound-Image-Filepath is returned.</returns>
         Public Function Random(ByRef Type As ImageSourceType) As String
             Try
+                Dim settingsAccessor As ISettingsAccessor = ApplicationFactory.CreateSettingsAccessor()
+                Dim settings As Settings = settingsAccessor.GetSettings()
                 ' If offline mode is activated then search only for local files.
-                If OfflineMode Then Type = ImageSourceType.Local
+                If settings.Misc.IsOffline Then Type = ImageSourceType.Local
 
                 ' Get List of Files for Current Type
                 Dim tmpList As List(Of String) = ToList(Type)
@@ -329,12 +336,14 @@ NoneFound:
         End Function
 
         Public Overrides Function ToString() As String
+            Dim settingsAccessor As ISettingsAccessor = ApplicationFactory.CreateSettingsAccessor()
+            Dim settings As Settings = settingsAccessor.GetSettings()
             Return "ImageDataContainer containing:" & vbCrLf &
                     "	GenreName: " & Name.ToString & vbCrLf &
                     "	URLFile: " & UrlFile.ToString & vbCrLf &
                     "	LocalDirectory: " & LocalDirectory.ToString & vbCrLf &
                     "	LocalSubDirectories: " & LocalSubDirectories.ToString & vbCrLf &
-                    "	OfflineMode: " & OfflineMode.ToString
+                    "	OfflineMode: " & settings.Misc.IsOffline.ToOnOff()
             'Return MyBase.ToString()
         End Function
 
@@ -511,7 +520,7 @@ NoneFound:
         Next
 
         ' Check if there are images
-        If AllImages.Count = 0 Then Return myPathsAccessor.PathImageErrorNoLocalImages
+        If AllImages.Count = 0 Then Return myOldPathsAccessor.PathImageErrorNoLocalImages
 
         ' get an Random Image from the all available Locations
         Return AllImages(New Random().Next(0, AllImages.Count)).ToString
@@ -554,8 +563,8 @@ NoneFound:
 NoNeFound:
         ' Return an Error-Image FilePath
         If source = ImageSourceType.Local _
-        Then Return myPathsAccessor.PathImageErrorNoLocalImages _
-        Else Return myPathsAccessor.NoUrlFilesSelected
+        Then Return myOldPathsAccessor.PathImageErrorNoLocalImages _
+        Else Return myOldPathsAccessor.NoUrlFilesSelected
     End Function
 
     ''' <summary>
@@ -676,7 +685,7 @@ NoNeFound:
     Private Sub BWimageFetcher_DoWork(sender As Object, e As DoWorkEventArgs) Handles BWimageFetcher.DoWork
         mreImageanimator.Set()
 
-        Dim errorImagePath As String = myPathsAccessor.PathImageErrorOnLoading
+        Dim errorImagePath As String = myOldPathsAccessor.PathImageErrorOnLoading
 
 
         With CType(e.Argument, ImageFetchObject)
@@ -768,7 +777,7 @@ retryLocal: ' If an exception occures the function is restarted and the Errorima
             ssh.JustShowedBlogImage = True
 
             If e.Cancelled Then
-                MainPictureboxSetImage(New Bitmap(Image.FromFile(myPathsAccessor.PathImageErrorOnLoading)), "")
+                MainPictureboxSetImage(New Bitmap(Image.FromFile(myOldPathsAccessor.PathImageErrorOnLoading)), "")
                 Exit Sub
             End If
 
@@ -849,7 +858,7 @@ retryLocal: ' If an exception occures the function is restarted and the Errorima
             End If
 
             ' Updeate the pathimformations.
-            If ImagePath <> myPathsAccessor.PathImageErrorOnLoading Then
+            If ImagePath <> myOldPathsAccessor.PathImageErrorOnLoading Then
                 ssh.ImageLocation = ImagePath
                 LBLImageInfo.Text = ImagePath
                 mainPictureBox.ImageLocation = ImagePath
@@ -1063,7 +1072,7 @@ retryLocal: ' If an exception occures the function is restarted and the Errorima
     ''' <param name="path">The Path/Url to remove from the file.</param>
     ''' <return>The number of lines deleted.</return>
     Friend Function RemoveFromLikeList(ByVal path As String) As Integer
-        Return TxtRemoveLine(myPathsAccessor.LikedImages, path)
+        Return TxtRemoveLine(myOldPathsAccessor.LikedImages, path)
     End Function
 
     ''' =========================================================================================================
@@ -1073,7 +1082,7 @@ retryLocal: ' If an exception occures the function is restarted and the Errorima
     ''' <param name="path">The Path/Url to remove from the file.</param>
     ''' <return>The number of lines deleted.</return>
     Friend Function RemoveFromDislikeList(ByVal path As String) As Integer
-        Return TxtRemoveLine(myPathsAccessor.DislikedImages, path)
+        Return TxtRemoveLine(myOldPathsAccessor.DislikedImages, path)
     End Function
 
     ''' =========================================================================================================
@@ -1083,7 +1092,7 @@ retryLocal: ' If an exception occures the function is restarted and the Errorima
     ''' <param name="path">The Path/Url to remove from the file.</param>
     ''' <return>The number of lines deleted.</return>
     Friend Function RemoveFromLocalTagList(ByVal path As String) As Integer
-        Return TxtRemoveLine(myPathsAccessor.LocalImageTags, path)
+        Return TxtRemoveLine(myOldPathsAccessor.LocalImageTags, path)
     End Function
 
     ''' =========================================================================================================

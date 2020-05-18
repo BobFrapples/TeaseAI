@@ -21,14 +21,16 @@ namespace TeaseAI.Services.MessageProcessors
 
         public bool IsRelevant(Session session, ChatMessage chatMessage)
         {
-            var greetingUsed = _settingsAccessor.GetGreetings()
+            var settings = _settingsAccessor.GetSettings();
+            var greetingUsed = settings.Sub.Greetings
                .FirstOrDefault(greet => _stringService.WordExists(chatMessage.Message.ToLower(), greet.ToLower()));
             return (!session.Domme.WasGreeted && !string.IsNullOrWhiteSpace(greetingUsed));
         }
 
         public Result<MessageProcessedResult> ProcessMessage(Session session, ChatMessage chatMessage)
         {
-            var greetingUsed = _settingsAccessor.GetGreetings()
+            var settings = _settingsAccessor.GetSettings();
+            var greetingUsed = settings.Sub.Greetings
                .FirstOrDefault(greet => _stringService.WordExists(chatMessage.Message.ToLower(), greet.ToLower()));
 
             // Not being greeted, so bump out

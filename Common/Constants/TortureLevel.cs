@@ -1,13 +1,22 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace TeaseAI.Common.Constants
 {
     /// <summary>
     /// Acceptable level of physical pain for the sub
     /// </summary>
+    [DebuggerDisplay("Value = {_value}")]
     public struct TortureLevel : IEquatable<TortureLevel>
     {
+        /// <summary>
+        /// Maximum torture level
+        /// </summary>
         public const int MaxValue = 5;
+
+        /// <summary>
+        /// Maximum torture level
+        /// </summary>
         public const int MinValue = 1;
 
         public static Result<TortureLevel> Create(int value)

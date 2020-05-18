@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace TeaseAI.Common.Constants
 {
     /// <summary>
     /// How much the dom cares about the sub
     /// </summary>
+    [DebuggerDisplay("Value = {_value}")]
     public struct ApathyLevel : IEquatable<ApathyLevel>
     {
 

@@ -9,7 +9,6 @@ namespace TeaseAI.Services.CommandProcessor
     {
         public ChastityOn(LineService lineService, ISettingsAccessor settingsAccessor) : base(Keyword.ChastityOn, lineService)
         {
-            _lineService = lineService;
             _settingsAccessor = settingsAccessor;
         }
 
@@ -20,7 +19,9 @@ namespace TeaseAI.Services.CommandProcessor
 
             var workingSession = session.Clone();
             workingSession.Sub.InChastity = true;
-            _settingsAccessor.InChastity = true;
+            var settings = _settingsAccessor.GetSettings();
+            settings.Misc.IsInChastity = true;
+            _settingsAccessor.WriteSettings(settings);
 
             OnCommandProcessed(workingSession, null);
 
@@ -29,7 +30,6 @@ namespace TeaseAI.Services.CommandProcessor
 
         protected override Result ParseCommandSpecific(Script script, string personalityName, string line) => Result.Ok();
 
-        private readonly LineService _lineService;
         private readonly ISettingsAccessor _settingsAccessor;
     }
 }

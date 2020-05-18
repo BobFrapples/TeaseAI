@@ -45,7 +45,8 @@ Public Class MainWindow
     Dim mySettingsAccessor As ISettingsAccessor = ApplicationFactory.CreateSettingsAccessor()
     Dim myRandomNumberService As IRandomNumberService = New RandomNumberService()
     Dim mySlideShowNavigationService As ISlideShowNavigationService = New SlideShowNavigationService()
-    Dim myPathsAccessor As PathsAccessor = New PathsAccessor(ApplicationFactory.CreateConfigurationAccessor, ApplicationFactory.CreateSettingsAccessor())
+    Dim myOldPathsAccessor As PathsAccessor = New PathsAccessor(ApplicationFactory.CreateConfigurationAccessor, ApplicationFactory.CreateOldSettingsAccessor())
+    Dim myPathsAccessor As IPathsAccessor = ApplicationFactory.CreatePathsAccessor()
     Dim WithEvents mySession As SessionEngine
     Private myDisplayedImage As ImageMetaData
 
@@ -284,8 +285,9 @@ ByVal lpstrReturnString As String, ByVal uReturnLength As Integer, ByVal hwndCal
     End Sub
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles Me.Load
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
         ConvertImageMetaData()
-        ConvertScriptMetaData()
+        ConvertScriptMetaData(settings.DommePersonality)
 
         Dim imageAccessor = ApplicationFactory.CreateImageMetaDataService()
         Dim images = imageAccessor.Get(Nothing, Nothing)
@@ -327,13 +329,15 @@ retryStart:
 
             splashScreen.UpdateText("Checking installed personalities...")
 
-            Dim personalities As List(Of String) = GetDommePersonalities(Application.StartupPath & "\Scripts\")
+            Dim personalities As List(Of String) = GetDommePersonalities(myPathsAccessor.GetPersonalitiesFolder())
             DommePersonalityComboBox.Items.AddRange(personalities.ToArray())
             If Not personalities.Any() Then
                 MessageBox.Show(Me, "No domme Personalities were found! Many aspects of this program will not work correctly until at least one Personality is installed.", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Else
-                Dim domme As String = mySettingsAccessor.DommePersonality()
-                DommePersonalityComboBox.Text = If(personalities.Contains(domme), domme, personalities.First())
+                Dim selectedPersonality As String = If(personalities.Contains(settings.DommePersonality), settings.DommePersonality, personalities.First())
+                settings.DommePersonality = selectedPersonality
+                settings = mySettingsAccessor.WriteSettings(settings)
+                DommePersonalityComboBox.Text = selectedPersonality
             End If
 
             FrmSettings.FrmSettingsLoading = True
@@ -364,7 +368,7 @@ retryStart:
             IsTypingTimer.Start()
 
             splashScreen.UpdateText("Loading Domme and Sub avatar images...")
-            Dim avatar As String = mySettingsAccessor.DommeAvatarImageName
+            Dim avatar As String = settings.Domme.AvatarImageFile
             If File.Exists(avatar) Then
                 domAvatar.Image = Image.FromFile(avatar)
             End If
@@ -413,26 +417,12 @@ retryStart:
             End If
 
             splashScreen.UpdateText("Loading names...")
-            domName.Text = mySettingsAccessor.DommeName.Trim()
-            SubName.Text = mySettingsAccessor.SubName.Trim()
-
-            FrmSettings.PetNameBox1.Text = My.Settings.pnSetting1
-            FrmSettings.petnameBox2.Text = My.Settings.pnSetting2
-            FrmSettings.petnameBox3.Text = My.Settings.pnSetting3
-            FrmSettings.petnameBox4.Text = My.Settings.pnSetting4
-            FrmSettings.petnameBox5.Text = My.Settings.pnSetting5
-            FrmSettings.petnameBox6.Text = My.Settings.pnSetting6
-            FrmSettings.petnameBox7.Text = My.Settings.pnSetting7
-            FrmSettings.petnameBox8.Text = My.Settings.pnSetting8
+            domName.Text = settings.Domme.Name
+            SubName.Text = settings.Sub.Name
 
             splashScreen.UpdateText("Loading General Settings...")
-            FrmSettings.TimeStampCheckBox.Checked = mySettingsAccessor.IsTimeStampEnabled
-            FrmSettings.ShowNamesCheckBox.Checked = mySettingsAccessor.ShowNames
-            FrmSettings.TypeInstantlyCheckBox.Checked = mySettingsAccessor.DoesDommeTypeInstantly
-            FrmSettings.WebTeaseMode.Checked = mySettingsAccessor.WebTeaseModeEnabled
             If FrmSettings.WebTeaseMode.Checked = True _
                 Then WebteaseModeToolStripMenuItem.Checked = True
-
 
             FrmSettings.CBInputIcon.Checked = My.Settings.CBInputIcon
             FrmSettings.CBBlogImageWindow.Checked = My.Settings.CBBlogImageMain
@@ -446,56 +436,20 @@ retryStart:
             FrmSettings.CBImageInfo.Checked = My.Settings.CBImageInfo
 
             splashScreen.PBSplash.Value += 1
-            splashScreen.UpdateText("Loading Domme Settings...")
-            FrmSettings.domageNumBox.Value = My.Settings.DomAge
-            FrmSettings.DomLevelDescLabel.Text = mySettingsAccessor.DominationLevel.ToString()
-
-            FrmSettings.NBDomBirthdayMonth.Value = My.Settings.DomBirthMonth
-            FrmSettings.NBDomBirthdayDay.Value = My.Settings.DomBirthDay
-            FrmSettings.TBDomHairColor.Text = My.Settings.DomHair
-            FrmSettings.domhairlengthComboBox.Text = My.Settings.DomHairLength
-            FrmSettings.TBDomEyeColor.Text = My.Settings.DomEyes
-            FrmSettings.boobComboBox.Text = My.Settings.DomCup
-            FrmSettings.dompubichairComboBox.Text = My.Settings.DomPubicHair
-            FrmSettings.CBDomTattoos.Checked = My.Settings.DomTattoos
-            FrmSettings.CBDomFreckles.Checked = My.Settings.DomFreckles
-            FrmSettings.crazyCheckBox.Checked = My.Settings.DomCrazy
-            FrmSettings.vulgarCheckBox.Checked = My.Settings.DomVulgar
-            FrmSettings.supremacistCheckBox.Checked = My.Settings.DomSupremacist
-            FrmSettings.LCaseCheckBox.Checked = My.Settings.DomLowercase
-            FrmSettings.apostropheCheckBox.Checked = My.Settings.DomNoApostrophes
-            FrmSettings.commaCheckBox.Checked = My.Settings.DomNoCommas
-            FrmSettings.periodCheckBox.Checked = My.Settings.DomNoPeriods
-            FrmSettings.CBMeMyMine.Checked = My.Settings.DomMeMyMine
             FrmSettings.TBEmote.Text = My.Settings.TBEmote
             FrmSettings.TBEmoteEnd.Text = My.Settings.TBEmoteEnd
 
             If FrmSettings.TBEmote.Text = "" Then FrmSettings.TBEmote.Text = "*"
             If FrmSettings.TBEmoteEnd.Text = "" Then FrmSettings.TBEmoteEnd.Text = "*"
-            FrmSettings.alloworgasmComboBox.Text = My.Settings.OrgasmAllow
-            FrmSettings.ruinorgasmComboBox.Text = My.Settings.OrgasmRuin
-            FrmSettings.CBDomDenialEnds.Checked = My.Settings.DomDenialEnd
-            FrmSettings.CBDomOrgasmEnds.Checked = My.Settings.DomOrgasmEnd
-            FrmSettings.orgasmsPerNumBox.Value = My.Settings.DomOrgasmPer
-            FrmSettings.orgasmsperComboBox.Text = My.Settings.DomPerMonth
 
             If My.Settings.DomLock Then
                 FrmSettings.orgasmsperlockButton.Enabled = False
                 FrmSettings.orgasmlockrandombutton.Enabled = False
                 FrmSettings.limitcheckbox.Checked = True
                 FrmSettings.limitcheckbox.Enabled = False
-                FrmSettings.orgasmsPerNumBox.Enabled = False
-                FrmSettings.orgasmsperComboBox.Enabled = False
+                FrmSettings.OrgasmsPerNumBox.Enabled = False
+                FrmSettings.OrgasmsPerComboBox.Enabled = False
             End If
-
-            FrmSettings.NBDomMoodMin.Value = My.Settings.DomMoodMin
-            FrmSettings.NBDomMoodMax.Value = My.Settings.DomMoodMax
-            FrmSettings.NBAvgCockMin.Value = My.Settings.AvgCockMin
-            FrmSettings.NBAvgCockMax.Value = My.Settings.AvgCockMax
-            FrmSettings.NBSelfAgeMin.Value = My.Settings.SelfAgeMin
-            FrmSettings.NBSelfAgeMax.Value = My.Settings.SelfAgeMax
-            FrmSettings.NBSubAgeMin.Value = My.Settings.SubAgeMin
-            FrmSettings.NBSubAgeMax.Value = My.Settings.SubAgeMax
 
             splashScreen.UpdateText("Checking Glitter scripts...")
             Try
@@ -513,25 +467,6 @@ retryStart:
 
             FrmSettings.NBWritingTaskMin.Value = My.Settings.NBWritingTaskMin
             FrmSettings.NBWritingTaskMax.Value = My.Settings.NBWritingTaskMax
-
-            splashScreen.UpdateText("Loading Sub settings...")
-            FrmSettings.CockSizeNumBox.Value = My.Settings.SubCockSize
-            FrmSettings.subAgeNumBox.Value = My.Settings.SubAge
-
-            FrmSettings.TBGreeting.Text = My.Settings.SubGreeting
-            FrmSettings.TBYes.Text = My.Settings.SubYes
-            FrmSettings.TBNo.Text = My.Settings.SubNo
-
-            FrmSettings.TBHonorific.Text = My.Settings.SubHonorific
-            If String.IsNullOrWhiteSpace(FrmSettings.TBHonorific.Text) Then FrmSettings.TBHonorific.Text = "Mistress"
-
-            FrmSettings.CBHonorificInclude.Checked = My.Settings.CBUseHonor
-            FrmSettings.CBHonorificCapitalized.Checked = My.Settings.CBCapHonor
-
-            FrmSettings.NBBirthdayMonth.Value = My.Settings.SubBirthMonth
-            FrmSettings.NBBirthdayDay.Value = My.Settings.SubBirthDay
-            FrmSettings.TBSubHairColor.Text = My.Settings.SubHair
-            FrmSettings.TBSubEyeColor.Text = My.Settings.SubEyes
 
             splashScreen.UpdateText("Loading Range settings...")
             FrmSettings.SliderSTF.Value = My.Settings.TimerSTF
@@ -637,8 +572,7 @@ retryStart:
             End If
 
             splashScreen.UpdateText("Loading Domme Personality...")
-            ssh.DomPersonality = DommePersonalityComboBox.Text
-            mySettingsAccessor.DommePersonality = DommePersonalityComboBox.Text
+            settings.DommePersonality = DommePersonalityComboBox.Text
 
             Dim CheckSpace As String = chatBox.Text
             If CheckSpace = "" Then
@@ -1120,8 +1054,9 @@ DebugAwareness:
 
     End Sub
 
-    Private Function GetTeaseTick(mySession As Session, settings As My.MySettings) As Integer
-        If mySettingsAccessor.IsTeaseLengthDommeDetermined Then
+    Private Function GetTeaseTick(mySession As Session, mySettings As My.MySettings) As Integer
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        If settings.Range.IsTeaseLengthDommeDetermined Then
             If mySession.Domme.DomLevel = DomLevel.Gentle Then
                 Return ssh.randomizer.Next(10, 16) * 60
             End If
@@ -1138,11 +1073,11 @@ DebugAwareness:
                 Return ssh.randomizer.Next(45, 61) * 60
             End If
         End If
-        Return ssh.randomizer.Next(mySettingsAccessor.TeaseLengthMinimum * 60, mySettingsAccessor.TeaseLengthMaximum * 60)
+        Return ssh.randomizer.Next(settings.Range.TeaseLengthMinutesMinimum * 60, settings.Range.TeaseLengthMinutesMaximum * 60)
     End Function
 
     Public Function ResponseClean(ByVal CleanResponse As String) As String
-
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
         'TODO: Add Errorhandling.
         Dim DomResponse As New StreamReader(ssh.ResponseFile)
         Dim DRLines As New List(Of String)
@@ -1155,7 +1090,7 @@ DebugAwareness:
         Dim AddResponse As Boolean
         AddResponse = False
 
-        If My.Settings.Chastity = True Then
+        If settings.Misc.IsInChastity Then
             SubState = "Chastity"
             GoTo FoundState
         End If
@@ -1631,6 +1566,7 @@ ReturnCalled:
     End Sub
 
     Public Sub HandleScripts()
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
 ModuleEnd:
 
         If ssh.ModuleEnd AndAlso Not ssh.AvoidTheEdgeGame Then
@@ -1721,12 +1657,10 @@ NonModuleEnd:
                 ssh.StrokeTauntVal = ssh.ReturnStrokeTauntVal
 
                 If ssh.ReturnSubState = "Stroking" Then
-                    If My.Settings.Chastity = True Then
-                        'DomTask = "Now as I was saying @StartTaunts"
+                    If settings.Misc.IsInChastity Then
                         ssh.DomTask = "#Return_Chastity"
                     Else
                         If ssh.SubStroking = False Then
-                            'DomTask = "Get back to stroking @StartStroking"
                             ssh.DomTask = "#Return_Stroking"
                         Else
                             StrokeTimer.Start()
@@ -2691,9 +2625,10 @@ DommeSlideshowFallback:
         chatMessage.Message = HashTagReplace(chatMessage.Message, mySession.Session.Domme)
         UpdateChatWindow(chatMessage)
 
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
         Dim nextMessage As ChatMessage = myDommeMessages.FirstOrDefault()
         If nextMessage IsNot Nothing Then
-            SendTimer.Interval = GetTypingDelay(nextMessage, mySettingsAccessor.DoesDommeTypeInstantly)
+            SendTimer.Interval = GetTypingDelay(nextMessage, settings.General.DoesDommeTypeInstantly)
             SendTimer.Enabled = True
         End If
     End Sub
@@ -3480,12 +3415,7 @@ DommeSlideshowFallback:
         If chatBox.Text <> "" And ssh.StrokeTauntTick < 6 Then Return
         If ChatBox2.Text <> "" And ssh.StrokeTauntTick < 6 Then Return
 
-
-
-
-
-
-
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
 
         ssh.StrokeTauntTick -= 1
 
@@ -3500,7 +3430,7 @@ DommeSlideshowFallback:
 
                 Dim TauntFile As String
                 TauntFile = "StrokeTaunts"
-                If My.Settings.Chastity = True Then TauntFile = "ChastityTaunts"
+                If Settings.Misc.IsInChastity Then TauntFile = "ChastityTaunts"
                 If ssh.GlitterTease = True Then TauntFile = "GlitterTaunts"
                 ' ### Debug
                 'TauntFile = "StrokeTaunts"
@@ -4232,14 +4162,17 @@ CensorConstant:
     End Sub
 
     Private Sub domName_Leave(sender As Object, e As EventArgs) Handles domName.Leave
-        mySettingsAccessor.DommeName = domName.Text
-        My.Settings.Save()
-        mySession.Session.Domme.Name = mySettingsAccessor.DommeName
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.Name = domName.Text.Trim()
+        mySettingsAccessor.WriteSettings(settings)
+        mySession.Session.Domme.Name = settings.Domme.Name
     End Sub
+
     Private Sub SubName_Leave(sender As Object, e As EventArgs) Handles SubName.Leave
-        mySettingsAccessor.SubName = SubName.Text.Trim()
-        My.Settings.Save()
-        mySession.Session.Sub.Name = mySettingsAccessor.SubName
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.Name = SubName.Text.Trim()
+        mySettingsAccessor.WriteSettings(settings)
+        mySession.Session.Sub.Name = settings.Sub.Name
     End Sub
 
     Public Sub StatusUpdatePost()
@@ -4640,17 +4573,10 @@ StatusUpdateEnd:
 
     Private Sub domAvatar_Click(sender As Object, e As EventArgs) Handles domAvatar.Click
         If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
-
-            Try
-                domAvatar.Image.Dispose()
-            Catch
-            End Try
-            domAvatar.Image = Nothing
-            GC.Collect()
-
-
-            domAvatar.Image = Image.FromFile(OpenFileDialog1.FileName)
-            mySettingsAccessor.DommeAvatarImageName = OpenFileDialog1.FileName
+            Dim settings As Settings = mySettingsAccessor.GetSettings()
+            settings.Domme.AvatarImageFile = OpenFileDialog1.FileName
+            mySettingsAccessor.WriteSettings(settings)
+            domAvatar.Image = Image.FromFile(settings.Domme.AvatarImageFile)
         End If
     End Sub
 
@@ -5082,6 +5008,7 @@ SkipTextedTags:
     End Function
 
     Public Function CommandClean(ByVal StringClean As String, Optional ByVal TaskClean As Boolean = False) As String
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
         Dim domme As DommePersonality = CreateDommePersonality()
 
         If TaskClean = True Then
@@ -5104,7 +5031,7 @@ RinseLatherRepeat:
         ' LiskedList, DislikedList and LocalImageTagList,  if the  current Image is 
         ' not an image in the Domme- or Contacts-Image directory or their subdirectories.
         If StringClean.Contains("@DeleteLocalImage") Then
-            If mySettingsAccessor.CanDommeDeleteFiles Then
+            If settings.General.CanDommeDeleteFiles Then
                 Try
                     DeleteCurrentImage(True)
                 Catch ex As Exception
@@ -5122,7 +5049,7 @@ RinseLatherRepeat:
         ' DislikedList, LocalImageTagList and URL-Files, if the  current Image is 
         ' not an image in the Domme- or Contacts-Image directory or their subdirectories.
         If StringClean.Contains("@DeleteImage") Then
-            If mySettingsAccessor.CanDommeDeleteFiles Then
+            If settings.General.CanDommeDeleteFiles Then
                 Try
                     DeleteCurrentImage(False)
                 Catch ex As Exception
@@ -5287,7 +5214,7 @@ RinseLatherRepeat:
             Dim FoundString As String = GetLocalImage(Tags, Nothing)
 
             'TODO: @ShowTaggedImage - Add a dedicated ErrorImage when there are no tagged images.
-            If String.IsNullOrWhiteSpace(FoundString) Then FoundString = myPathsAccessor.PathImageErrorNoLocalImages
+            If String.IsNullOrWhiteSpace(FoundString) Then FoundString = myOldPathsAccessor.PathImageErrorNoLocalImages
 
             ssh.JustShowedBlogImage = True
             ShowImage(FoundString, False)
@@ -6090,30 +6017,6 @@ TaskCleanSet:
             StringClean = StringClean.Replace("@RestrictOrgasm", "")
         End If
 
-        If StringClean.Contains("@DecreaseRuinChance") Then
-
-            If FrmSettings.ruinorgasmComboBox.Text = "Rarely Ruins" Then FrmSettings.ruinorgasmComboBox.Text = "Never Ruins"
-            If FrmSettings.ruinorgasmComboBox.Text = "Sometimes Ruins" Then FrmSettings.ruinorgasmComboBox.Text = "Rarely Ruins"
-            If FrmSettings.ruinorgasmComboBox.Text = "Often Ruins" Then FrmSettings.ruinorgasmComboBox.Text = "Sometimes Ruins"
-            If FrmSettings.ruinorgasmComboBox.Text = "Always Ruins" Then FrmSettings.ruinorgasmComboBox.Text = "Often Ruins"
-
-            My.Settings.OrgasmRuin = FrmSettings.ruinorgasmComboBox.Text
-
-            StringClean = StringClean.Replace("@DecreaseRuinChance", "")
-        End If
-
-        If StringClean.Contains("@IncreaseRuinChance") Then
-
-            If FrmSettings.ruinorgasmComboBox.Text = "Often Ruins" Then FrmSettings.ruinorgasmComboBox.Text = "Always Ruins"
-            If FrmSettings.ruinorgasmComboBox.Text = "Sometimes Ruins" Then FrmSettings.ruinorgasmComboBox.Text = "Often Ruins"
-            If FrmSettings.ruinorgasmComboBox.Text = "Rarely Ruins" Then FrmSettings.ruinorgasmComboBox.Text = "Sometimes Ruins"
-            If FrmSettings.ruinorgasmComboBox.Text = "Never Ruins" Then FrmSettings.ruinorgasmComboBox.Text = "Rarely Ruins"
-
-            My.Settings.OrgasmRuin = FrmSettings.ruinorgasmComboBox.Text
-
-            StringClean = StringClean.Replace("@IncreaseRuinChance", "")
-        End If
-
         '@@@@@@@@@@@@@@@@@@@@@@ TASKCLEAN END
 
         If TaskClean = True Then Return StringClean
@@ -6802,14 +6705,14 @@ TaskCleanSet:
             If FrmSettings.alloworgasmComboBox.Text = "Never Allows" Then OrgasmThreshold = 0
             If FrmSettings.alloworgasmComboBox.Text = "Always Allows" Then OrgasmThreshold = 1000
 
-            If FrmSettings.DommeDecideOrgasmCB.Checked = True Then
+            If FrmSettings.DommeDecideOrgasmCheckBox.Checked = True Then
                 If FrmSettings.alloworgasmComboBox.Text = "Rarely Allows" Then OrgasmThreshold = 20
                 If FrmSettings.alloworgasmComboBox.Text = "Sometimes Allows" Then OrgasmThreshold = 50
                 If FrmSettings.alloworgasmComboBox.Text = "Often Allows" Then OrgasmThreshold = 75
             Else
-                If FrmSettings.alloworgasmComboBox.Text = "Rarely Allows" Then OrgasmThreshold = FrmSettings.NBAllowRarely.Value
-                If FrmSettings.alloworgasmComboBox.Text = "Sometimes Allows" Then OrgasmThreshold = FrmSettings.NBAllowSometimes.Value
-                If FrmSettings.alloworgasmComboBox.Text = "Often Allows" Then OrgasmThreshold = FrmSettings.AllowOrgasmOftenNB.Value
+                If FrmSettings.alloworgasmComboBox.Text = "Rarely Allows" Then OrgasmThreshold = FrmSettings.RarelyAllowsPercentNumberBox.Value
+                If FrmSettings.alloworgasmComboBox.Text = "Sometimes Allows" Then OrgasmThreshold = FrmSettings.SometimesAllowsPercentNumberBox.Value
+                If FrmSettings.alloworgasmComboBox.Text = "Often Allows" Then OrgasmThreshold = FrmSettings.OftenAllowsPercentNumberBox.Value
             End If
 
 
@@ -6826,7 +6729,7 @@ TaskCleanSet:
             If FrmSettings.ruinorgasmComboBox.Text = "Always Ruins" Then RuinThreshold = 1000
 
 
-            If FrmSettings.DommeDecideRuinCB.Checked = True Then
+            If FrmSettings.DommeDecideRuinCheckBox.Checked = True Then
                 If FrmSettings.ruinorgasmComboBox.Text = "Rarely Ruins" Then RuinThreshold = 20
                 If FrmSettings.ruinorgasmComboBox.Text = "Sometimes Ruins" Then RuinThreshold = 50
                 If FrmSettings.ruinorgasmComboBox.Text = "Often Ruins" Then RuinThreshold = 75
@@ -9885,14 +9788,8 @@ SkipTextedTags:
             End If
 
             If FilterString.Contains("@Info") Then Return False
-            '▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
-            ' Single word filters - End
-            '▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
             Return True
         Catch ex As Exception
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-            '                                            All Errors
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
             Log.WriteError(String.Format("Exceoption occured while checking line ""{0}"".", OrgFilterString),
                                          ex, "GetFilter(String, Boolean)")
             Return False
@@ -9901,7 +9798,7 @@ SkipTextedTags:
 
     Public Function GetFilter2(ByVal FilterString As String) As Boolean
 
-
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
         Dim __ConditionDic As New Dictionary(Of String, Boolean)(System.StringComparer.OrdinalIgnoreCase)
         Try
             '===============================================================================
@@ -10006,10 +9903,6 @@ SkipTextedTags:
                       Or (My.Settings.CBIHardcore = False And My.Settings.CBISoftcore = False And My.Settings.CBILesbian = False And My.Settings.CBIBlowjob = False _
                        And My.Settings.CBIFemdom = False And My.Settings.CBILezdom = False And My.Settings.CBIHentai = False And My.Settings.CBIGay = False _
                        And My.Settings.CBIMaledom = False And My.Settings.CBICaptions = False And My.Settings.CBIGeneral = False))
-                '.Add("@ShowButtImage", Not Directory.Exists(FrmSettings.LBLButtPath.Text) And Not File.Exists(FrmSettings.LBLButtURL.Text) Or myFlagAccessor.IsSet(CreateDommePersonality(), "SYS_NoPornAllowed") = True Or CustomSlideshow = True Or LockImage = True)
-                '.Add("@ShowButtsImage", __ConditionDic("@ShowButtImage")) ' duplicate Command, lets get the Value af the other one.
-                '.Add("@ShowBoobImage", Not Directory.Exists(FrmSettings.LBLBoobPath.Text) And Not File.Exists(FrmSettings.LBLBoobURL.Text) Or myFlagAccessor.IsSet(CreateDommePersonality(), "SYS_NoPornAllowed") = True Or CustomSlideshow = True Or LockImage = True)
-                '.Add("@ShowBoobsImage", __ConditionDic("@ShowBoobImage")) ' duplicate Command, lets get the Value af the other one.
                 .Add("@1MinuteHold", ssh.SubHoldingEdge = False Or ssh.HoldEdgeTime < 60 Or ssh.HoldEdgeTime > 119)
                 .Add("@2MinuteHold", ssh.SubHoldingEdge = False Or ssh.HoldEdgeTime < 120 Or ssh.HoldEdgeTime > 179)
                 .Add("@3MinuteHold", ssh.SubHoldingEdge = False Or ssh.HoldEdgeTime < 180 Or ssh.HoldEdgeTime > 239)
@@ -10039,8 +9932,8 @@ SkipTextedTags:
                 .Add("@ApathyLevel3", FrmSettings.NBEmpathy.Value <> 3)
                 .Add("@ApathyLevel4", FrmSettings.NBEmpathy.Value <> 4)
                 .Add("@ApathyLevel5", FrmSettings.NBEmpathy.Value <> 5)
-                .Add("@InChastity", My.Settings.Chastity = False)
-                .Add("@NotInChastity", My.Settings.Chastity = True)
+                .Add("@InChastity", Not Settings.Misc.IsInChastity)
+                .Add("@NotInChastity", Settings.Misc.IsInChastity)
                 .Add("@HasChastity", FrmSettings.CBOwnChastity.Checked = False)
                 .Add("@DoesNotHaveChastity", FrmSettings.CBOwnChastity.Checked = True)
                 .Add("@ChastityPA", FrmSettings.DoesChastityDeviceRequirePiercingCB.Checked = False)
@@ -10425,7 +10318,7 @@ SkipTextedTags:
     End Sub
 
     Public Sub RunModuleScript(IsEdging As Boolean)
-
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
         ssh.ShowModule = True
 
         ssh.TauntEdging = False
@@ -10435,7 +10328,7 @@ SkipTextedTags:
         ModuleList.Clear()
 
         Dim ChastityModuleCheck As String = "*.txt"
-        If My.Settings.Chastity = True And Not IsEdging Then
+        If settings.Misc.IsInChastity And Not IsEdging Then
             ssh.AskedToSpeedUp = False
             ssh.AskedToSlowDown = False
             ssh.SubStroking = False
@@ -10472,7 +10365,7 @@ NoPlaylistModuleFile:
                     End If
 
                     For x As Integer = 0 To FrmSettings.ModuleScripts.Items.Count - 1
-                        If My.Settings.Chastity = True Then
+                        If settings.Misc.IsInChastity Then
                             If FrmSettings.ModuleScripts.Items(x) = TempModule And FrmSettings.ModuleScripts.GetItemChecked(x) = True And Not foundFile.Contains("_EDGING") Then
                                 ModuleList.Add(foundFile)
                             End If
@@ -10489,7 +10382,7 @@ NoPlaylistModuleFile:
                 Next
 
                 If ModuleList.Count < 1 Then
-                    If My.Settings.Chastity = True Then
+                    If settings.Misc.IsInChastity Then
                         ssh.FileText = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Scripts\Module_CHASTITY.txt"
                     ElseIf IsEdging Then
                         ssh.FileText = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Scripts\Module_EDGING.txt"
@@ -10548,7 +10441,7 @@ NoPlaylistModuleFile:
     End Sub
 
     Public Sub RunLinkScript()
-
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
         ClearModes()
 
         If ssh.PlaylistFile.Count = 0 Then GoTo NoPlaylistLinkFile
@@ -10567,7 +10460,7 @@ NoPlaylistLinkFile:
 
 
                 Dim ChastityLinkCheck As String
-                If My.Settings.Chastity = True Then
+                If Settings.Misc.IsInChastity Then
                     ChastityLinkCheck = "*_CHASTITY.txt"
                 Else
                     ChastityLinkCheck = "*.txt"
@@ -10580,7 +10473,7 @@ NoPlaylistLinkFile:
                         TempLink = TempLink.Remove(0, 1)
                     Loop
                     For x As Integer = 0 To FrmSettings.LinkScripts.Items.Count - 1
-                        If My.Settings.Chastity = True Then
+                        If Settings.Misc.IsInChastity Then
                             If FrmSettings.LinkScripts.Items(x) = TempLink And FrmSettings.LinkScripts.GetItemChecked(x) = True Then
                                 LinkList.Add(foundFile)
                             End If
@@ -10594,7 +10487,7 @@ NoPlaylistLinkFile:
                 Next
 
                 If LinkList.Count < 1 Then
-                    If My.Settings.Chastity = True Then
+                    If Settings.Misc.IsInChastity Then
                         ssh.FileText = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Scripts\Link_CHASTITY.txt"
                     Else
                         ssh.FileText = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Scripts\Link.txt"
@@ -10892,7 +10785,7 @@ NoPlaylistLinkFile:
                 GoTo AllowedOrgasm
             End If
 
-            If ssh.OrgasmDenied = True Then
+            If ssh.OrgasmDenied Then
 
                 ssh.LastOrgasmType = "DENIED"
 
@@ -12133,10 +12026,10 @@ RestartFunction:
         PicStripTSMIdislikeImage.Enabled = True
         PicStripTSMIdislikeImage.Checked = False
 
-        Dim tmp As List(Of String) = Txt2List(myPathsAccessor.LikedImages)
+        Dim tmp As List(Of String) = Txt2List(myOldPathsAccessor.LikedImages)
         If tmp.Contains(ssh.ImageLocation) Then PicStripTSMIlikeImage.Checked = True
 
-        tmp = Txt2List(myPathsAccessor.DislikedImages)
+        tmp = Txt2List(myOldPathsAccessor.DislikedImages)
         If tmp.Contains(ssh.ImageLocation) Then PicStripTSMIdislikeImage.Checked = True
     End Sub
 
@@ -12178,8 +12071,8 @@ RestartFunction:
             End If
 
             Return fileName
-        ElseIf sender Is PicStripTSMIlikeImage Then : Return myPathsAccessor.LikedImages
-        ElseIf sender Is PicStripTSMIdislikeImage Then : Return myPathsAccessor.DislikedImages
+        ElseIf sender Is PicStripTSMIlikeImage Then : Return myOldPathsAccessor.LikedImages
+        ElseIf sender Is PicStripTSMIdislikeImage Then : Return myOldPathsAccessor.DislikedImages
         Else : Throw New NotImplementedException("Action for this button is not implemented.")
         End If
 
@@ -14043,6 +13936,7 @@ restartInstantly:
             Return
         End If
 
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
         If WishlistCostSilver.Visible AndAlso ssh.SilverTokens >= Val(LBLWishlistCost.Text) Then
             ssh.SilverTokens -= Val(LBLWishlistCost.Text)
             My.Settings.SilverTokens = ssh.SilverTokens
@@ -14056,11 +13950,11 @@ restartInstantly:
             LBLWishListName.Text = ""
             WishlistPreview.Visible = False
             LBLWishlistCost.Text = ""
-            LBLWishListText.Text = "Thank you for your purchase! " & mySettingsAccessor.DommeName & " has been notified of your generous gift. Please check back again tomorrow for a new item!"
+            LBLWishListText.Text = "Thank you for your purchase! " & settings.Domme.Name & " has been notified of your generous gift. Please check back again tomorrow for a new item!"
             BTNWishlist.Enabled = False
             BTNWishlist.Text = ""
 
-            Dim rewardsDir As String = Application.StartupPath & "\Scripts\" & mySettingsAccessor.DommePersonality & "\Apps\Wishlist\Silver Rewards\"
+            Dim rewardsDir As String = myOldPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Apps\Wishlist\Silver Rewards\"
             Dim silverList As List(Of String) = My.Computer.FileSystem.GetFiles(rewardsDir, FileIO.SearchOption.SearchTopLevelOnly, "*.txt").ToList()
             If Not silverList.Any() Then
                 MessageBox.Show(Me, "No Silver Reward scripts were found!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
@@ -14086,7 +13980,7 @@ restartInstantly:
             My.Settings.GoldTokens = ssh.GoldTokens
             My.Settings.ClearWishlist = True
 
-            Dim rewardsDir As String = Application.StartupPath & "\Scripts\" & mySettingsAccessor.DommePersonality & "\Apps\Wishlist\Gold Rewards\"
+            Dim rewardsDir As String = myOldPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Apps\Wishlist\Gold Rewards\"
             Dim goldList As List(Of String) = My.Computer.FileSystem.GetFiles(rewardsDir, FileIO.SearchOption.SearchTopLevelOnly, "*.txt").ToList()
             If Not goldList.Any() Then
                 MessageBox.Show(Me, "No Gold Reward scripts were found!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
@@ -14113,22 +14007,23 @@ restartInstantly:
 #Region "------------------------------------------------- Hypno-Guide App ----------------------------------------------------"
 
     Private Sub BTNHypnoGenStart_Click(sender As Object, e As EventArgs) Handles BTNHypnoGenStart.Click
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
         If Not ssh.HypnoGen Then
             If CBHypnoGenInduction.Checked Then
-                If File.Exists(Application.StartupPath & "\Scripts\" & mySettingsAccessor.DommePersonality & "\Apps\Hypnotic Guide\Inductions\" & LBHypnoGenInduction.SelectedItem & ".txt") Then
+                If File.Exists(myOldPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Apps\Hypnotic Guide\Inductions\" & LBHypnoGenInduction.SelectedItem & ".txt") Then
                     ssh.Induction = True
-                    ssh.FileText = Application.StartupPath & "\Scripts\" & mySettingsAccessor.DommePersonality & "\Apps\Hypnotic Guide\Inductions\" & LBHypnoGenInduction.SelectedItem & ".txt"
+                    ssh.FileText = myOldPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Apps\Hypnotic Guide\Inductions\" & LBHypnoGenInduction.SelectedItem & ".txt"
                 Else
                     MessageBox.Show(Me, "Please select a valid Hypno Induction File or deselect the Induction option!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
                     Return
                 End If
             End If
 
-            If File.Exists(Application.StartupPath & "\Scripts\" & mySettingsAccessor.DommePersonality & "\Apps\Hypnotic Guide\Hypno Files\" & LBHypnoGen.SelectedItem & ".txt") Then
+            If File.Exists(myOldPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Apps\Hypnotic Guide\Hypno Files\" & LBHypnoGen.SelectedItem & ".txt") Then
                 If ssh.Induction = False Then
-                    ssh.FileText = Application.StartupPath & "\Scripts\" & mySettingsAccessor.DommePersonality & "\Apps\Hypnotic Guide\Hypno Files\" & LBHypnoGen.SelectedItem & ".txt"
+                    ssh.FileText = myOldPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Apps\Hypnotic Guide\Hypno Files\" & LBHypnoGen.SelectedItem & ".txt"
                 Else
-                    ssh.TempHypno = Application.StartupPath & "\Scripts\" & mySettingsAccessor.DommePersonality & "\Apps\Hypnotic Guide\Hypno Files\" & LBHypnoGen.SelectedItem & ".txt"
+                    ssh.TempHypno = myOldPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Apps\Hypnotic Guide\Hypno Files\" & LBHypnoGen.SelectedItem & ".txt"
                 End If
             Else
                 MessageBox.Show(Me, "Please select a valid Hypno File!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
@@ -14138,7 +14033,7 @@ restartInstantly:
             ssh.StrokeTauntVal = -1
             ssh.ScriptTick = 1
             ScriptTimer.Start()
-            Dim HypnoTrack As String = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Apps\Hypnotic Guide\" & ComboBoxHypnoGenTrack.SelectedItem
+            Dim HypnoTrack As String = myOldPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Apps\Hypnotic Guide\" & ComboBoxHypnoGenTrack.SelectedItem
             If File.Exists(HypnoTrack) Then DomWMP.URL = HypnoTrack
             ssh.HypnoGen = True
             ssh.AFK = True
@@ -14761,8 +14656,8 @@ playLoop:
 #Region "data marshalling For services"
     Private Function CreateDommePersonality() As DommePersonality
         Dim returnValue As DommePersonality = New DommePersonality()
-
-        returnValue.PersonalityName = mySettingsAccessor.DommePersonality
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        returnValue.PersonalityName = settings.DommePersonality
 
         returnValue.IsCrazy = FrmSettings.crazyCheckBox.Checked
         returnValue.IsDegrading = FrmSettings.degradingCheckBox.Checked
@@ -14802,6 +14697,7 @@ playLoop:
     End Function
 
     Private Function CreateSubPersonality() As SubPersonality
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
         Dim returnValue As SubPersonality = New SubPersonality()
 
         returnValue.Age = Convert.ToUInt16(FrmSettings.subAgeNumBox.Value)
@@ -14817,7 +14713,7 @@ playLoop:
         'returnValue.CockTortureLevel = TortureLevel.Create(ssh.CBTCockCount).Value()
         returnValue.BallsTortureLevel = TortureLevel.Create(FrmSettings.CockAndBallTortureLevelSlider.Value).Value
         returnValue.CockTortureLevel = TortureLevel.Create(FrmSettings.CockAndBallTortureLevelSlider.Value).Value
-        returnValue.Safeword = mySettingsAccessor.SafeWord
+        returnValue.Safeword = settings.Sub.Safeword
 
 #Region "Setup Kinks"
         If FrmSettings.CockTortureEnabledCB.Checked Then
@@ -15150,18 +15046,18 @@ playLoop:
                     'Next
                 End If
             ElseIf container.SourceId = ImageSource.Remote Then
-                    Dim fileName As String = myPathUrlFileDir + container.Path.Replace("https://", String.Empty) & ".txt"
-                    For Each foundFile As String In File.ReadAllLines(fileName)
-                        returnValue.Add(New ImageMetaData() With
-                                        {
-                                            .ItemName = Path.GetFileNameWithoutExtension(foundFile),
-                                            .FullFileName = foundFile,
-                                            .MediaContainerId = container.Id,
-                                            .SourceId = container.SourceId,
-                                            .GenreId = container.GenreId
-                                        })
-                    Next
-                End If
+                Dim fileName As String = myPathUrlFileDir + container.Path.Replace("https://", String.Empty) & ".txt"
+                For Each foundFile As String In File.ReadAllLines(fileName)
+                    returnValue.Add(New ImageMetaData() With
+                                    {
+                                        .ItemName = Path.GetFileNameWithoutExtension(foundFile),
+                                        .FullFileName = foundFile,
+                                        .MediaContainerId = container.Id,
+                                        .SourceId = container.SourceId,
+                                        .GenreId = container.GenreId
+                                    })
+                Next
+            End If
         Next
         Dim local = returnValue.Where(Function(imd) imd.SourceId = ImageSource.Virtual).ToList()
         Return returnValue
@@ -15231,10 +15127,9 @@ playLoop:
         Return returnValue
     End Function
 
-    Private Sub ConvertScriptMetaData()
+    Private Sub ConvertScriptMetaData(dommePersonality As String)
         Dim scriptAccessor As ScriptAccessor = New ScriptAccessor(ApplicationFactory.CreateCldAccessor())
-        Dim scripts As List(Of ScriptMetaData) = scriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality)
-
+        Dim scripts As List(Of ScriptMetaData) = scriptAccessor.GetAllScripts(dommePersonality)
     End Sub
 #End Region
 
@@ -15247,9 +15142,10 @@ playLoop:
             e.ChatMessage.Message = ToBeMigrated(CreateDommePersonality(), e.ChatMessage.Message)
             If String.IsNullOrWhiteSpace(e.ChatMessage.Message) Then Return
             myDommeMessages.Enqueue(e.ChatMessage)
+            Dim settings As Settings = mySettingsAccessor.GetSettings()
             If myDommeMessages.Any() Then
                 SendTimer.Enabled = True
-                SendTimer.Interval = GetTypingDelay(myDommeMessages.Peek(), mySettingsAccessor.DoesDommeTypeInstantly)
+                SendTimer.Interval = GetTypingDelay(myDommeMessages.Peek(), settings.General.DoesDommeTypeInstantly)
             End If
         End If
     End Sub
@@ -15310,10 +15206,11 @@ playLoop:
     Private Sub Greeting_Spoken(sender As Object, e As MessageProcessedEventArgs)
         ssh.BeforeTease = True
         Dim sesh As Session = mySession.Session
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
         sesh.IsBeforeTease = True
         mySession.Session = sesh
 
-        If My.Settings.LockOrgasmChances Then FrmSettings.LockOrgasmChances(True)
+        If settings.Domme.IsOrgasmChanceLocked Then FrmSettings.LockOrgasmChances(True)
 
         If ssh.PlaylistFile.Count = 0 Then GoTo NoPlaylistStartFile
 
@@ -15399,25 +15296,21 @@ NoPlaylistStartFile:
 #Region "------------------------------------------------------ MenuStuff -----------------------------------------------------"
 
 #Region "-------------------------------------------------------- File --------------------------------------------------------"
-
-    Private Sub dompersonalitycombobox_LostFocus(sender As Object, e As EventArgs) Handles DommePersonalityComboBox.LostFocus
-        mySettingsAccessor.DommePersonality = DommePersonalityComboBox.Text
-    End Sub
-
     Private Sub dompersonalitycombobox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles DommePersonalityComboBox.SelectedIndexChanged
-        If FormLoading = True Then Exit Sub
+        If FormLoading Then
+            Return
+        End If
 
         Try
-            mySettingsAccessor.DommePersonality = DommePersonalityComboBox.Text
+            Dim settings As Settings = mySettingsAccessor.GetSettings()
+            settings.DommePersonality = DommePersonalityComboBox.Text
+            mySettingsAccessor.WriteSettings(settings)
             FrmSettings.LBLGlitModDomType.Text = DommePersonalityComboBox.Text
-
-            ssh.DomPersonality = DommePersonalityComboBox.Text
 
             FrmSettings.FrmSettingStartUp()
 
-            If File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Apps\Glitter\Contact_Descriptions.txt") Then
-                Dim ContactList As New List(Of String)
-                ContactList = Txt2List(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Apps\Glitter\Contact_Descriptions.txt")
+            If File.Exists(myOldPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Apps\Glitter\Contact_Descriptions.txt") Then
+                Dim ContactList As List(Of String) = File.ReadAllLines(myOldPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Apps\Glitter\Contact_Descriptions.txt").ToList()
                 FrmSettings.GBGlitter1.Text = PoundClean(ContactList(0))
                 FrmSettings.GBGlitter2.Text = PoundClean(ContactList(1))
                 FrmSettings.GBGlitter3.Text = PoundClean(ContactList(2))
@@ -15430,9 +15323,6 @@ NoPlaylistStartFile:
             Form9.LBLPersonality.Text = DommePersonalityComboBox.Text
 
         Catch ex As Exception
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-            '                                            All Errors
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
             Log.WriteError(ex.Message, ex, "Error on changing Personality")
             MessageBox.Show(ex.Message, "Error on changing Personality", MessageBoxButtons.OK, MessageBoxIcon.Hand)
         End Try
@@ -15446,13 +15336,13 @@ NoPlaylistStartFile:
                 Return
             End If
 
-            Dim filename As String = myPathsAccessor.SavedSessionDefaultPath
+            Dim filename As String = myOldPathsAccessor.SavedSessionDefaultPath
             '	 ===============================================================================
             '						 Custom Location if Control-Key pressed
             '	 ===============================================================================
             If My.Computer.Keyboard.CtrlKeyDown Then
-                Dim fsd As New SaveFileDialog With {.Filter = "Saved Session|*" & Path.GetExtension(myPathsAccessor.SavedSessionDefaultPath) & "",
-                                                    .InitialDirectory = Path.GetDirectoryName(myPathsAccessor.SavedSessionDefaultPath),
+                Dim fsd As New SaveFileDialog With {.Filter = "Saved Session|*" & Path.GetExtension(myOldPathsAccessor.SavedSessionDefaultPath) & "",
+                                                    .InitialDirectory = Path.GetDirectoryName(myOldPathsAccessor.SavedSessionDefaultPath),
                                                     .Title = "Select a destination to safe the sessin to.",
                                                     .FileName = Now.ToString("yy-MM-dd_HH-mm-ss") & "_" & DommePersonalityComboBox.Text,
                                                     .AddExtension = True,
@@ -15490,12 +15380,12 @@ NoPlaylistStartFile:
 
     Private Sub ResumeSessionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ResumeSessionToolStripMenuItem.Click
         Try
-            Dim filename As String = myPathsAccessor.SavedSessionDefaultPath
+            Dim filename As String = myOldPathsAccessor.SavedSessionDefaultPath
 
             '						 Custom Location if Control-Key pressed
             If My.Computer.Keyboard.CtrlKeyDown Then
-                Dim fsd As New OpenFileDialog With {.Filter = "Saved Session|*" & Path.GetExtension(myPathsAccessor.SavedSessionDefaultPath) & "",
-                                                    .InitialDirectory = Path.GetDirectoryName(myPathsAccessor.SavedSessionDefaultPath),
+                Dim fsd As New OpenFileDialog With {.Filter = "Saved Session|*" & Path.GetExtension(myOldPathsAccessor.SavedSessionDefaultPath) & "",
+                                                    .InitialDirectory = Path.GetDirectoryName(myOldPathsAccessor.SavedSessionDefaultPath),
                                                     .Title = "Select a saved session to resume.",
                                                     .CheckPathExists = True,
                                                     .CheckFileExists = True,
@@ -15504,11 +15394,8 @@ NoPlaylistStartFile:
                 If fsd.ShowDialog() = DialogResult.Cancel Then Exit Sub
 
                 filename = fsd.FileName
-                '===============================================================================
-                '						Check if default-File exists
-                '===============================================================================
             ElseIf Not File.Exists(filename) Then
-                MessageBox.Show(Me, Path.GetFileName(myPathsAccessor.SavedSessionDefaultPath) & " could not be found!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
+                MessageBox.Show(Me, Path.GetFileName(myOldPathsAccessor.SavedSessionDefaultPath) & " could not be found!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
                 Exit Sub
             End If
 
@@ -15522,13 +15409,11 @@ NoPlaylistStartFile:
 
             ssh.Load(filename, True)
 
-            If mySession.Session.Domme.WasGreeted And My.Settings.LockOrgasmChances Then _
+            Dim settings As Settings = mySettingsAccessor.GetSettings()
+            If mySession.Session.Domme.WasGreeted AndAlso settings.Domme.IsOrgasmChanceLocked Then _
                 FrmSettings.LockOrgasmChances(True)
 
         Catch ex As Exception
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-            '                                            All Errors
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
             MessageBox.Show(Me, "An error occurred and the state was not loaded correctly!" &
                             vbCrLf & vbCrLf & ex.Message,
                             "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
@@ -15678,20 +15563,21 @@ NoPlaylistStartFile:
         If PNLWishList.Visible Then
             Return
         End If
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
         If My.Settings.ClearWishlist Then
-            MessageBox.Show(Me, "You have already purchased " & mySettingsAccessor.DommeName & "'s Wishlist item for today!" & Environment.NewLine & Environment.NewLine &
+            MessageBox.Show(Me, "You have already purchased " & Settings.Domme.Name & "'s Wishlist item for today!" & Environment.NewLine & Environment.NewLine &
                                 "Please check back again tomorrow!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Return
         End If
 
-        LBLWishlistDom.Text = mySettingsAccessor.DommeName & "'s Wishlist"
+        LBLWishlistDom.Text = Settings.Domme.Name & "'s Wishlist"
         LBLWishlistDate.Text = Now.ToShortDateString()
         LBLWishlistBronze.Text = ssh.BronzeTokens
         LBLWishlistSilver.Text = ssh.SilverTokens
         LBLWishlistGold.Text = ssh.GoldTokens
 
         If Date.Compare(My.Settings.WishlistDate.Date, Now.Date) Then
-            Dim itemsPath As String = Application.StartupPath + "\Scripts\" + mySettingsAccessor.DommePersonality + "\Apps\Wishlist\Items"
+            Dim itemsPath As String = myOldPathsAccessor.GetPersonalityFolder(mySettingsAccessor.GetSettings().DommePersonality) + "\Apps\Wishlist\Items"
             Dim wishList As List(Of String) = My.Computer.FileSystem.GetFiles(itemsPath, FileIO.SearchOption.SearchTopLevelOnly, "*.txt").ToList()
 
             If Not wishList.Any() Then
@@ -16003,9 +15889,10 @@ NoPlaylistStartFile:
     End Sub
 
     Private Sub WebteaseModeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles WebteaseModeToolStripMenuItem.Click
-        FrmSettings.WebTeaseMode.Checked = Not FrmSettings.WebTeaseMode.Checked
-        WebteaseModeToolStripMenuItem.Checked = Not FrmSettings.WebTeaseMode.Checked
-        mySettingsAccessor.WebTeaseModeEnabled = FrmSettings.WebTeaseMode.Checked
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.General.IsWebTeaseModeEnabled = Not settings.General.IsWebTeaseModeEnabled
+        WebteaseModeToolStripMenuItem.Checked = settings.General.IsWebTeaseModeEnabled
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
     Private Sub DefaultImageSizeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DefaultImageSizeToolStripMenuItem.Click
@@ -16313,6 +16200,7 @@ NoPlaylistStartFile:
 
 RinseLatherRepeat:
 
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
         '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
         '									ImageCommands
         ' - Make sure you call all Display ImageFunctions before executing @LockImages.
@@ -16327,7 +16215,7 @@ RinseLatherRepeat:
         ' LiskedList, DislikedList and LocalImageTagList,  if the  current Image is 
         ' not an image in the Domme- or Contacts-Image directory or their subdirectories.
         If inputString.Contains("@DeleteLocalImage") Then
-            If mySettingsAccessor.CanDommeDeleteFiles Then
+            If settings.General.CanDommeDeleteFiles Then
                 Try
                     DeleteCurrentImage(True)
                 Catch ex As Exception
@@ -16345,7 +16233,7 @@ RinseLatherRepeat:
         ' DislikedList, LocalImageTagList and URL-Files, if the  current Image is 
         ' not an image in the Domme- or Contacts-Image directory or their subdirectories.
         If inputString.Contains("@DeleteImage") Then
-            If mySettingsAccessor.CanDommeDeleteFiles Then
+            If settings.General.CanDommeDeleteFiles Then
                 Try
                     DeleteCurrentImage(False)
                 Catch ex As Exception
@@ -16510,7 +16398,7 @@ RinseLatherRepeat:
             Dim foundString As String = GetLocalImage(Tags, Nothing)
 
             'TODO: @ShowTaggedImage - Add a dedicated ErrorImage when there are no tagged images.
-            If String.IsNullOrWhiteSpace(foundString) Then foundString = myPathsAccessor.PathImageErrorNoLocalImages
+            If String.IsNullOrWhiteSpace(foundString) Then foundString = myOldPathsAccessor.PathImageErrorNoLocalImages
 
             ssh.JustShowedBlogImage = True
             ShowImage(foundString, False)
@@ -17912,94 +17800,6 @@ TaskCleanSet:
             End If
 
             inputString = inputString.Replace("@CBT", "")
-        End If
-
-        If inputString.Contains("@DecideOrgasm") Then
-
-            ssh.OrgasmDenied = False
-            ssh.OrgasmAllowed = False
-            ssh.OrgasmRuined = False
-
-            Dim AllowGoto As String = "Orgasm Allow"
-            Dim RuinGoto As String = "Orgasm Ruin"
-            Dim DenyGoto As String = "Orgasm Deny"
-
-            If inputString.Contains("@DecideOrgasm(") Then
-
-                Dim OrgasmFlag As String = GetParentheses(inputString, "@DecideOrgasm(")
-                OrgasmFlag = FixCommas(OrgasmFlag)
-                Dim OrgasmArray As String() = OrgasmFlag.Split(",")
-
-                If OrgasmArray.Count = 3 Then
-                    AllowGoto = OrgasmArray(0)
-                    RuinGoto = OrgasmArray(1)
-                    DenyGoto = OrgasmArray(2)
-                End If
-
-            End If
-
-
-            If FrmSettings.alloworgasmComboBox.Text = "Always Allows" And FrmSettings.ruinorgasmComboBox.Text = "Always Ruins" Then
-                ssh.FileGoto = RuinGoto
-                ssh.OrgasmRuined = True
-                GoTo OrgasmDecided
-            End If
-
-            Dim OrgasmInt As Integer = ssh.randomizer.Next(1, 101)
-            Dim OrgasmThreshold As Integer
-
-            If FrmSettings.alloworgasmComboBox.Text = "Never Allows" Then OrgasmThreshold = 0
-            If FrmSettings.alloworgasmComboBox.Text = "Always Allows" Then OrgasmThreshold = 1000
-
-            If FrmSettings.DommeDecideOrgasmCB.Checked = True Then
-                If FrmSettings.alloworgasmComboBox.Text = "Rarely Allows" Then OrgasmThreshold = 20
-                If FrmSettings.alloworgasmComboBox.Text = "Sometimes Allows" Then OrgasmThreshold = 50
-                If FrmSettings.alloworgasmComboBox.Text = "Often Allows" Then OrgasmThreshold = 75
-            Else
-                If FrmSettings.alloworgasmComboBox.Text = "Rarely Allows" Then OrgasmThreshold = FrmSettings.NBAllowRarely.Value
-                If FrmSettings.alloworgasmComboBox.Text = "Sometimes Allows" Then OrgasmThreshold = FrmSettings.NBAllowSometimes.Value
-                If FrmSettings.alloworgasmComboBox.Text = "Often Allows" Then OrgasmThreshold = FrmSettings.AllowOrgasmOftenNB.Value
-            End If
-
-
-            If OrgasmInt > OrgasmThreshold Then
-                ssh.FileGoto = DenyGoto
-                ssh.OrgasmDenied = True
-                GoTo OrgasmDecided
-            End If
-
-            Dim RuinInt As Integer = ssh.randomizer.Next(1, 101)
-            Dim RuinThreshold As Integer
-
-            If FrmSettings.ruinorgasmComboBox.Text = "Never Ruins" Then RuinThreshold = 0
-            If FrmSettings.ruinorgasmComboBox.Text = "Always Ruins" Then RuinThreshold = 1000
-
-
-            If FrmSettings.DommeDecideRuinCB.Checked = True Then
-                If FrmSettings.ruinorgasmComboBox.Text = "Rarely Ruins" Then RuinThreshold = 20
-                If FrmSettings.ruinorgasmComboBox.Text = "Sometimes Ruins" Then RuinThreshold = 50
-                If FrmSettings.ruinorgasmComboBox.Text = "Often Ruins" Then RuinThreshold = 75
-            Else
-                If FrmSettings.ruinorgasmComboBox.Text = "Rarely Ruins" Then RuinThreshold = FrmSettings.NBRuinRarely.Value
-                If FrmSettings.ruinorgasmComboBox.Text = "Sometimes Ruins" Then RuinThreshold = FrmSettings.NBRuinSometimes.Value
-                If FrmSettings.ruinorgasmComboBox.Text = "Often Ruins" Then RuinThreshold = FrmSettings.NBRuinOften.Value
-            End If
-
-
-            If RuinInt > RuinThreshold Then
-                ssh.FileGoto = AllowGoto
-                ssh.OrgasmAllowed = True
-            Else
-                ssh.FileGoto = RuinGoto
-                ssh.OrgasmRuined = True
-            End If
-
-OrgasmDecided:
-
-            ssh.SkipGotoLine = True
-            GetGoto()
-
-            inputString = inputString.Replace("@DecideOrgasm", "")
         End If
 
         If inputString.Contains(Keyword.OrgasmRuin) Then

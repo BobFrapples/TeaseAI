@@ -17,6 +17,8 @@ Imports System.Drawing.Design
 Imports System.IO
 Imports System.Runtime.Serialization
 Imports TeaseAI
+Imports TeaseAI.Common
+Imports TeaseAI.Common.Interfaces.Accessors
 
 ''' <summary>
 ''' Class to store/serialize and deserialize all nessecary session(!) informations.
@@ -36,9 +38,6 @@ Public Class SessionState
 
 #Region "------------------------------------------- Data -----------------------------------------------"
     Const EditorGenericStringList As String = "System.Windows.Forms.Design.ListControlStringCollectionEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
-
-    <Obsolete("Use SettingsAccessor.DommePersonality instead")>
-    Public Property DomPersonality As String
 
     Public Property randomizer As New Random
     Public Property ScriptOperator As String
@@ -74,7 +73,6 @@ Public Class SessionState
             myStrokeTauntVal = value
         End Set
     End Property
-    Private myStrokeTauntVal As Integer = -1
     <Category("Taunts")> Public Property TempStrokeTauntVal As Integer
     <Category("Taunts")> Public Property TempFileText As String
     <Category("Taunts")> Public Property TauntText As String
@@ -85,7 +83,6 @@ Public Class SessionState
     Public Property TauntLines As New List(Of String)
     <Category("Taunts")> Public Property StrokeFilter As Boolean
     <Category("Taunts")> Public Property TauntTextCount As Integer
-    Private myScriptLineCount As Integer
     ''' <summary>
     ''' Name of the current script the domme is reading from
     ''' </summary>
@@ -99,7 +96,6 @@ Public Class SessionState
             myFileText = value
         End Set
     End Property
-    Private myFileText As String
     <Category("Script")> Public Property ScriptTick As Integer
     <Category("Script")> Public Property StringLength As Integer
     <Category("Script")> Public Property FileGoto As String
@@ -119,7 +115,6 @@ Public Class SessionState
             myDom = value
         End Set
     End Property
-    Private myDom As String
 
     ''' <summary>
     ''' used for responses
@@ -366,10 +361,6 @@ Public Class SessionState
 
     Public Property WaitTick As Integer
 
-
-
-
-
     Public Property OrgasmDenied As Boolean
     Public Property OrgasmAllowed As Boolean
     Public Property OrgasmRuined As Boolean
@@ -463,9 +454,6 @@ Public Class SessionState
 
 
     Public Property InputIcon As Boolean
-
-
-
 
     Public Property StrokePace As Integer = 0
 
@@ -661,8 +649,10 @@ Public Class SessionState
     ''' Creates a new unactivaed instance.
     ''' </summary>
     Sub New()
+        mySettingsAccessor = ApplicationFactory.CreateSettingsAccessor()
         InitializeComponent()
     End Sub
+
     ''' <summary>
     ''' Creates a new instance and activates it on the given Form.
     ''' </summary>
@@ -674,8 +664,6 @@ Public Class SessionState
 
     Private Sub InitializeComponent()
         randomizer = New Random()
-
-        DomPersonality = My.Settings.DomPersonality
 
         StrokeTimeTotal = My.Settings.StrokeTimeTotal
 
@@ -689,8 +677,8 @@ Public Class SessionState
         AvgEdgeNoTouch = My.Settings.AvgEdgeNoTouch
         AvgEdgeCount = My.Settings.AvgEdgeCount
         AvgEdgeCountRest = My.Settings.AvgEdgeCountRest
-
-        DommeMood = randomizer.Next(My.Settings.DomMoodMin, My.Settings.DomMoodMax + 1)
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        DommeMood = randomizer.Next(settings.Domme.BadMoodThreshold, settings.Domme.GoodMoodThreshold + 1)
 
         SlideshowMain = New ContactData(ContactType.Domme)
         SlideshowContact1 = New ContactData(ContactType.Contact1)
@@ -735,7 +723,7 @@ Public Class SessionState
     Sub onDeserialized_FixFields(sc As StreamingContext)
         ' Marked as <NonSerialized> <OptionalField> have to be initialized on every deserialization.
         If Files Is Nothing Then Files = New FileClass(Me)
-        If Folders Is Nothing Then Folders = New PathsAccessor(ApplicationFactory.CreateConfigurationAccessor(), ApplicationFactory.CreateSettingsAccessor())
+        If Folders Is Nothing Then Folders = New PathsAccessor(ApplicationFactory.CreateConfigurationAccessor(), ApplicationFactory.CreateOldSettingsAccessor())
     End Sub
 
 #End Region
@@ -760,11 +748,6 @@ Public Class SessionState
 
 
         With serializeForm
-            DomPersonality = .DommePersonalityComboBox.SelectedItem.ToString
-
-            '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
-            '							Get Timer EnableStates
-            '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
             AvoidTheEdge_enabled = .AvoidTheEdge.Enabled
             AvoidTheEdgeResume_enabled = .AvoidTheEdgeResume.Enabled
             AvoidTheEdgeTaunts_enabled = .AvoidTheEdgeTaunts.Enabled
@@ -933,19 +916,6 @@ Public Class SessionState
 
             If .ssh IsNot Nothing Then .ssh.Dispose()
             .ssh = Me
-
-            '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
-            '							Set Domme Personality
-            '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
-            If DomPersonality = String.Empty Then
-                DomPersonality = My.Settings.DomPersonality
-            End If
-
-            If .DommePersonalityComboBox.Items.Contains(DomPersonality) = False Then
-                Throw New Exception("The personality """ & DomPersonality & """ was not found.")
-            Else
-                .DommePersonalityComboBox.SelectedItem = DomPersonality
-            End If
 
             '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
             '							Restore Variables 
@@ -1199,5 +1169,10 @@ Public Class SessionState
         End If
     End Function
 
+    Private ReadOnly mySettingsAccessor As ISettingsAccessor
+    Private myDom As String
+    Private myFileText As String
+    Private myScriptLineCount As Integer
+    Private myStrokeTauntVal As Integer = -1
 End Class
 

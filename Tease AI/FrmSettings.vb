@@ -65,7 +65,7 @@ Public Class FrmSettings
         myScriptAccessor = ApplicationFactory.CreateScriptAccessor()
         myLoadFileData = ApplicationFactory.CreateLoadFileData()
         myParseTagDataService = New ParseOldTagDataService()
-        myPathsAccessor = New PathsAccessor(ApplicationFactory.CreateConfigurationAccessor, ApplicationFactory.CreateSettingsAccessor())
+        myPathsAccessor = New PathsAccessor(ApplicationFactory.CreateConfigurationAccessor, ApplicationFactory.CreateOldSettingsAccessor())
         myMediaContainerService = ApplicationFactory.CreateMediaContainerService()
         myImageMetaDataService = ApplicationFactory.CreateImageMetaDataService()
         myImageTagMapService = ApplicationFactory.CreateImageTagMapService()
@@ -87,105 +87,7 @@ Public Class FrmSettings
     End Sub
 
     Private Sub FrmSettings_Visible(sender As Object, e As EventArgs) Handles MyBase.VisibleChanged
-        LoadSettings()
-    End Sub
-
-    ''' <summary>
-    ''' Load all settings into the form
-    ''' </summary>
-    Private Sub LoadSettings()
-        ' Domme Tab
-        Dim domLevel As DomLevel = mySettingsAccessor.DominationLevel
-        DominationLevel.Value = domLevel
-        DomLevelDescLabel.Text = domLevel.ToString()
-
-        Dim apathyLevel As ApathyLevel = mySettingsAccessor.ApathyLevel
-        NBEmpathy.Value = apathyLevel
-        LBLEmpathy.Text = apathyLevel.ToString()
-
-        DommeDecideOrgasmCB.Checked = mySettingsAccessor.DoesDommeDecideOrgasmRange
-        AllowOrgasmOftenNB.Enabled = Not DommeDecideOrgasmCB.Checked
-        AllowOrgasmOftenNB.Value = mySettingsAccessor.AllowOrgasmOftenPercent
-        NBAllowSometimes.Enabled = Not DommeDecideOrgasmCB.Checked
-        NBAllowSometimes.Value = mySettingsAccessor.AllowOrgasmSometimesPercent
-        NBAllowRarely.Enabled = Not DommeDecideOrgasmCB.Checked
-        NBAllowRarely.Value = mySettingsAccessor.AllowOrgasmRarelyPercent
-
-        DommeDecideRuinCB.Checked = mySettingsAccessor.DoesDommeDecideRuinRange
-        NBRuinOften.Enabled = Not DommeDecideRuinCB.Checked
-        NBRuinOften.Value = mySettingsAccessor.RuinOrgasmOftenPercent
-        NBRuinSometimes.Enabled = Not DommeDecideRuinCB.Checked
-        NBRuinSometimes.Value = mySettingsAccessor.RuinOrgasmSometimesPercent
-        NBRuinRarely.Enabled = Not DommeDecideRuinCB.Checked
-        NBRuinRarely.Value = mySettingsAccessor.RuinOrgasmRarelyPercent
-
-        TBSafeword.Text = mySettingsAccessor.SafeWord
-
-        ' Sub Tab
-        AllowLongEdgeInterruptCB.Checked = mySettingsAccessor.CanInterruptLongEdge
-
-        HoldEdgeMaximum.Value = ConvertHoldTime(mySettingsAccessor.HoldEdgeMaximum)
-        LBLMaxHold.Text = ConvertHoldTimeUnits(mySettingsAccessor.HoldEdgeMaximum)
-        HoldEdgeMinimum.Value = ConvertHoldTime(mySettingsAccessor.HoldEdgeMinimum)
-        HoldEdgeMinimumUnits.Text = ConvertHoldTime(mySettingsAccessor.HoldEdgeMinimum)
-
-        LongEdgeHoldMaximum.Value = mySettingsAccessor.LongHoldEdgeMaximum
-        LongEdgeHoldMinimum.Value = mySettingsAccessor.LongHoldEdgeMinimum
-
-        ExtremeEdgeHoldMaximum.Value = mySettingsAccessor.ExtremeHoldEdgeMaximum
-        ExtremeEdgeHoldMinimum.Value = mySettingsAccessor.ExtremeHoldEdgeMinimum
-
-        CockAndBallTortureLevelSlider.Value = mySettingsAccessor.CockAndBallTortureLevel
-        CockAndBallTortureLevelLbl.Text = "CBT Level:  " & CockAndBallTortureLevelSlider.Value
-
-        CBSubCircumcised.Checked = mySettingsAccessor.IsSubCircumcised
-        CBSubPierced.Checked = mySettingsAccessor.IsSubPierced
-
-        CockTortureEnabledCB.Checked = mySettingsAccessor.IsCockTortureEnabled
-        BallTortureEnabledCB.Checked = mySettingsAccessor.IsBallTortureEnabled
-
-        CBOwnChastity.Checked = mySettingsAccessor.HasChastityDevice
-
-        DoesChastityDeviceRequirePiercingCB.Checked = mySettingsAccessor.DoesChastityDeviceRequirePiercing
-        DoesChastityDeviceRequirePiercingCB.Enabled = CBOwnChastity.Checked
-        ChastityDeviceContainsSpikesCB.Checked = mySettingsAccessor.DoesChastityDeviceContainSpikes
-        ChastityDeviceContainsSpikesCB.Enabled = CBOwnChastity.Checked
-
-        UseAverageEdgeThresholdCB.Checked = mySettingsAccessor.UseAverageEdgeTimeAsThreshold
-        AllowLongEdgeTauntCB.Checked = mySettingsAccessor.AllowsLongEdgeTaunts
-        AllowLongEdgeInterruptCB.Checked = mySettingsAccessor.AllowsLongEdgeInterrupts
-
-        TeaseLengthDommeDetermined.Checked = mySettingsAccessor.IsTeaseLengthDommeDetermined
-        CBTauntCycleDD.Checked = mySettingsAccessor.IsTauntCycleDommeDetermined
-
-        ' If orgasms are locked, then check the lock until date and possibly unlock them
-        If Not mySettingsAccessor.AreOrgasmsLocked Then
-            limitcheckbox.Checked = True
-            limitcheckbox.Enabled = False
-            orgasmsPerNumBox.Enabled = False
-            orgasmsperComboBox.Enabled = False
-            orgasmsperlockButton.Enabled = False
-            orgasmlockrandombutton.Enabled = False
-        End If
-
-        CBHimHer.Checked = mySettingsAccessor.IsSubFemale
-        CBCockToClit.Checked = mySettingsAccessor.CallCockAClit
-        CBBallsToPussy.Checked = mySettingsAccessor.CallBallsPussy
-
-        CBDomDel.Checked = mySettingsAccessor.CanDommeDeleteFiles
-
-        NBTeaseLengthMin.Value = mySettingsAccessor.TeaseLengthMinimum
-        NBTeaseLengthMax.Value = mySettingsAccessor.TeaseLengthMaximum
-
-        NBTauntCycleMin.Value = mySettingsAccessor.TauntCycleMinimum
-        NBTauntCycleMax.Value = mySettingsAccessor.TauntCycleMaximum
-
-        ' Miscellaneous Tab
-        LBLOfflineMode.Text = mySettingsAccessor.IsOffline.ToOnOff()
-        LBLOfflineMode.ForeColor = mySettingsAccessor.IsOffline.ToColor()
-
-        InChastityLabel.Text = mySettingsAccessor.InChastity.ToOnOff()
-        InChastityLabel.ForeColor = mySettingsAccessor.InChastity.ToColor()
+        LoadSettings(mySettingsAccessor.GetSettings())
     End Sub
 
     ''' <summary>
@@ -193,11 +95,10 @@ Public Class FrmSettings
     ''' </summary>
     Public Sub FrmSettingStartUp()
         FrmSettingsLoading = True
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
 
         FrmSplash.UpdateText("Loading Settings...")
-        LoadSettings()
-        ' Sub tab
-        NBLongEdge.Value = My.Settings.LongEdge
+        LoadSettings(settings)
 
         FrmSplash.UpdateText("Checking installed voices...")
         Dim oSpeech As New SpeechSynthesizer()
@@ -302,8 +203,6 @@ Public Class FrmSettings
         SaveSettingsDialog.InitialDirectory = Application.StartupPath & "\System"
         OpenSettingsDialog.InitialDirectory = Application.StartupPath & "\System"
 
-        WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & mySettingsAccessor.DommePersonality & "\Playlist\Start\")
-
         'For Each tmptbx As TextBox In New List(Of TextBox) From {TbxContact1ImageDir, TbxContact2ImageDir, TbxContact3ImageDir, TbxDomImageDir}
         '    If tmptbx.DataBindings("Text") Is Nothing Then
         '        Throw New Exception("There is no databinding set on """ & tmptbx.Name & """'s text-property. Set the databinding and recompile!")
@@ -347,6 +246,208 @@ Public Class FrmSettings
             languageCode = "de"
         End If
         SetToolTips(languageCode)
+    End Sub
+
+    ''' <summary>
+    ''' Load all settings into the form
+    ''' </summary>
+    Private Sub LoadSettings(settings As Settings)
+        MainWindow.DommePersonalityComboBox.Text = settings.DommePersonality
+
+        FrmSplash.UpdateText("Loading General Settings...")
+        LoadGeneralSettings(settings.General)
+
+        FrmSplash.UpdateText("Loading Domme Settings...")
+        LoadDommeSettings(settings.Domme)
+
+        FrmSplash.UpdateText("Loading Sub Settings...")
+        LoadSubSettingsTab(settings.Sub)
+
+        FrmSplash.UpdateText("Loading Range Settings...")
+        LoadRangesTab(settings.Range)
+
+        FrmSplash.UpdateText("Loading Miscellaneous Settings...")
+        LoadMiscTab(settings.Misc)
+    End Sub
+
+    Private Sub LoadMiscTab(misc As MiscSettings)
+        ' Miscellaneous Tab
+        LBLOfflineMode.Text = misc.IsOffline.ToOnOff()
+        LBLOfflineMode.ForeColor = misc.IsOffline.ToColor()
+
+        InChastityLabel.Text = misc.IsInChastity.ToOnOff()
+        InChastityLabel.ForeColor = misc.IsInChastity.ToColor()
+    End Sub
+
+    Private Sub LoadGeneralSettings(generalSettings As GeneralSettings)
+        CBDomDel.Checked = generalSettings.CanDommeDeleteFiles
+        TimeStampCheckBox.Checked = generalSettings.IsTimeStampEnabled
+        ShowNamesCheckBox.Checked = generalSettings.ShowChatUserNames
+        TypeInstantlyCheckBox.Checked = generalSettings.DoesDommeTypeInstantly
+        WebTeaseMode.Checked = generalSettings.IsWebTeaseModeEnabled
+    End Sub
+
+    Private Sub LoadRangesTab(rangeSettings As RangeSettings)
+        TeaseLengthDommeDetermined.Checked = rangeSettings.IsTeaseLengthDommeDetermined
+        CBTauntCycleDD.Checked = rangeSettings.IsTauntCycleDommeDetermined
+        DommeDecideOrgasmCheckBox.Checked = rangeSettings.DoesDommeDecideOrgasmRange
+        OftenAllowsPercentNumberBox.Enabled = Not DommeDecideOrgasmCheckBox.Checked
+        OftenAllowsPercentNumberBox.Value = rangeSettings.AllowOrgasmOftenPercent
+        SometimesAllowsPercentNumberBox.Enabled = Not DommeDecideOrgasmCheckBox.Checked
+        SometimesAllowsPercentNumberBox.Value = rangeSettings.AllowOrgasmSometimesPercent
+        RarelyAllowsPercentNumberBox.Enabled = Not DommeDecideOrgasmCheckBox.Checked
+        RarelyAllowsPercentNumberBox.Value = rangeSettings.AllowOrgasmRarelyPercent
+
+        DommeDecideRuinCheckBox.Checked = rangeSettings.DoesDommeDecideRuinRange
+        NBRuinOften.Enabled = Not DommeDecideRuinCheckBox.Checked
+        NBRuinOften.Value = rangeSettings.RuinOrgasmOftenPercent
+        NBRuinSometimes.Enabled = Not DommeDecideRuinCheckBox.Checked
+        NBRuinSometimes.Value = rangeSettings.RuinOrgasmSometimesPercent
+        NBRuinRarely.Enabled = Not DommeDecideRuinCheckBox.Checked
+        NBRuinRarely.Value = rangeSettings.RuinOrgasmRarelyPercent
+
+        NBTeaseLengthMin.Value = rangeSettings.TeaseLengthMinutesMinimum
+        NBTeaseLengthMax.Value = rangeSettings.TeaseLengthMinutesMaximum
+
+        NBTauntCycleMin.Value = rangeSettings.TauntCycleMinutesMinimum
+        NBTauntCycleMax.Value = rangeSettings.TauntCycleMinutesMaximum
+
+    End Sub
+
+    ''' <summary>
+    ''' Load the subsettings data into the subsettings tab
+    ''' </summary>
+    ''' <param name="subSettings"></param>
+    Private Sub LoadSubSettingsTab(subSettings As SubSettings)
+        TBSafeword.Text = subSettings.Safeword
+
+        ' Sub Tab
+        AllowLongEdgeInterruptCB.Checked = subSettings.CanInterruptLongEdge
+
+        HoldEdgeMaximum.Value = ConvertHoldTime(subSettings.HoldEdgeSecondsMaximum)
+        LBLMaxHold.Text = ConvertHoldTimeUnits(subSettings.HoldEdgeSecondsMaximum)
+        HoldEdgeMinimum.Value = ConvertHoldTime(subSettings.HoldEdgeSecondsMinimum)
+        HoldEdgeMinimumUnits.Text = ConvertHoldTime(subSettings.HoldEdgeSecondsMinimum)
+
+        LongEdgeHoldMaximum.Value = subSettings.LongEdgeHoldMaximum
+        LongEdgeHoldMinimum.Value = subSettings.LongEdgeHoldMinimum
+
+        ExtremeEdgeHoldMaximum.Value = subSettings.ExtremeEdgeHoldMaximum
+        ExtremeEdgeHoldMinimum.Value = subSettings.ExtremeEdgeHoldMinimum
+
+        CockAndBallTortureLevelSlider.Value = subSettings.CockAndBallTortureLevel
+        CockAndBallTortureLevelLbl.Text = "CBT Level:  " & CockAndBallTortureLevelSlider.Value
+
+        CBSubCircumcised.Checked = subSettings.IsSubCircumcised
+        CBSubPierced.Checked = subSettings.IsSubPierced
+
+        CockTortureEnabledCB.Checked = subSettings.IsCockTortureEnabled
+        BallTortureEnabledCB.Checked = subSettings.IsBallTortureEnabled
+
+        CBOwnChastity.Checked = subSettings.HasChastityDevice
+
+        DoesChastityDeviceRequirePiercingCB.Checked = subSettings.DoesChastityDeviceRequirePiercing
+        DoesChastityDeviceRequirePiercingCB.Enabled = CBOwnChastity.Checked
+        ChastityDeviceContainsSpikesCB.Checked = subSettings.DoesChastityDeviceContainSpikes
+        ChastityDeviceContainsSpikesCB.Enabled = CBOwnChastity.Checked
+
+        AllowLongEdgeTauntCB.Checked = subSettings.AllowLongEdgeTaunts
+        AllowLongEdgeInterruptCB.Checked = subSettings.AllowLongEdgeInterrupts
+        NBLongEdge.Value = subSettings.LongEdgeThreshold
+        UseAverageEdgeThresholdCB.Checked = subSettings.UseAverageEdgeTimeAsThreshold
+
+        CBHimHer.Checked = subSettings.IsSubFemale
+        CBCockToClit.Checked = subSettings.CallCockAClit
+        CBBallsToPussy.Checked = subSettings.CallBallsPussy
+
+        CockSizeNumBox.Value = My.Settings.SubCockSize
+        subAgeNumBox.Value = My.Settings.SubAge
+
+        TBGreeting.Text = String.Join(",", subSettings.Greetings)
+        TBYes.Text = My.Settings.SubYes
+        TBNo.Text = My.Settings.SubNo
+
+        TBHonorific.Text = My.Settings.SubHonorific
+
+        If String.IsNullOrWhiteSpace(TBHonorific.Text) Then TBHonorific.Text = "Mistress"
+
+        CBHonorificInclude.Checked = My.Settings.CBUseHonor
+        CBHonorificCapitalized.Checked = My.Settings.CBCapHonor
+
+        NBBirthdayMonth.Value = My.Settings.SubBirthMonth
+        NBBirthdayDay.Value = My.Settings.SubBirthDay
+        TBSubHairColor.Text = My.Settings.SubHair
+        TBSubEyeColor.Text = My.Settings.SubEyes
+
+    End Sub
+
+    Public Sub LoadDommeSettings(dommeSettings As DommeSettings)
+        domageNumBox.Value = dommeSettings.Age
+        NBDomBirthdayMonth.Value = dommeSettings.BirthDate.Month
+        NBDomBirthdayDay.Value = dommeSettings.BirthDate.Day
+
+        TBDomHairColor.Text = dommeSettings.HairColor
+        domhairlengthComboBox.Text = dommeSettings.HairLength
+        TBDomEyeColor.Text = dommeSettings.EyeColor
+        boobComboBox.Text = dommeSettings.CupSize
+        dompubichairComboBox.Text = dommeSettings.PubicHair
+        CBDomTattoos.Checked = dommeSettings.HasTattoos
+        CBDomFreckles.Checked = dommeSettings.HasFreckles
+        crazyCheckBox.Checked = dommeSettings.IsCrazy
+        vulgarCheckBox.Checked = dommeSettings.IsVulgar
+        supremacistCheckBox.Checked = dommeSettings.IsSupremacist
+        LCaseCheckBox.Checked = dommeSettings.UseLowercase
+        apostropheCheckBox.Checked = dommeSettings.UseNoApostrophes
+        commaCheckBox.Checked = dommeSettings.UseNoCommas
+        periodCheckBox.Checked = dommeSettings.UseNoPeriods
+        CBMeMyMine.Checked = dommeSettings.CapitalizeSelfPronouns
+
+        Dim domLevel As DomLevel = dommeSettings.DominationLevel
+        DominationLevel.Value = domLevel
+        DomLevelDescLabel.Text = domLevel.ToString()
+
+        Dim apathyLevel As ApathyLevel = dommeSettings.ApathyLevel
+        NBEmpathy.Value = apathyLevel
+        LBLEmpathy.Text = apathyLevel.ToString()
+
+        ' If orgasms are locked, then check the lock until date and possibly unlock them
+        If Not dommeSettings.AreOrgasmsLocked Then
+            limitcheckbox.Checked = True
+            limitcheckbox.Enabled = False
+            OrgasmsPerNumBox.Enabled = False
+            OrgasmsPerComboBox.Enabled = False
+            orgasmsperlockButton.Enabled = False
+            orgasmlockrandombutton.Enabled = False
+        End If
+
+        DominationLevel.Value = dommeSettings.DominationLevel
+        NBEmpathy.Value = dommeSettings.ApathyLevel
+
+        PetNameBox1.Text = dommeSettings.PetNames(0)
+        petnameBox2.Text = dommeSettings.PetNames(1)
+        petnameBox3.Text = dommeSettings.PetNames(2)
+        petnameBox4.Text = dommeSettings.PetNames(3)
+        petnameBox5.Text = dommeSettings.PetNames(4)
+        petnameBox6.Text = dommeSettings.PetNames(5)
+        petnameBox7.Text = dommeSettings.PetNames(6)
+        petnameBox8.Text = dommeSettings.PetNames(7)
+
+        alloworgasmComboBox.Text = dommeSettings.AllowsOrgasms
+        ruinorgasmComboBox.Text = dommeSettings.RuinsOrgasms
+        CBLockOrgasmChances.Checked = dommeSettings.IsOrgasmChanceLocked
+        CBDomDenialEnds.Checked = dommeSettings.DoesDenialEndTease
+        CBDomOrgasmEnds.Checked = dommeSettings.DoesOrgasmEndTease
+
+        OrgasmsPerNumBox.Value = dommeSettings.OrgasmsPerTimePeriod
+        OrgasmsPerComboBox.SelectedValue = dommeSettings.OrgasmsTimePeriodDays
+        NBDomMoodMin.Value = dommeSettings.BadMoodThreshold
+        NBDomMoodMax.Value = dommeSettings.GoodMoodThreshold
+        NBAvgCockMin.Value = dommeSettings.AveragePenisMinimum
+        NBAvgCockMax.Value = dommeSettings.AveragePenisMaximum
+        NBSelfAgeMin.Value = dommeSettings.AverageAgeSelfMinimum
+        NBSelfAgeMax.Value = dommeSettings.AverageAgeSelfMaximum
+        NBSubAgeMin.Value = dommeSettings.AverageAgeSubMinimum
+        NBSubAgeMax.Value = dommeSettings.AverageAgeSubMaximum
     End Sub
 
 #Region "set tooltips"
@@ -775,14 +876,6 @@ Public Class FrmSettings
         '   "of the slideshow model's eyes to enhance immersion."
     End Sub
 
-    Private Sub dompubichairComboBox_MouseHover(sender As Object, e As EventArgs) Handles dompubichairComboBox.MouseHover
-
-        TTDir.SetToolTip(dompubichairComboBox, "Sets description of the Domme's pubic hair.")
-
-        'LblDommeSettingsDescription.Text = "Sets description of the Domme's pubic hair." & Environment.NewLine & Environment.NewLine & "The domme may sometimes refer to her pubic hair over the course of the tease. Set this value to a description " & _
-        '  "of the slideshow model's pubic hair to enhance immersion."
-    End Sub
-
     Private Sub crazyCheckBox_MouseHover(sender As Object, e As EventArgs) Handles crazyCheckBox.MouseHover
 
         TTDir.SetToolTip(crazyCheckBox, "Gives the Domme the Crazy trait." & Environment.NewLine & Environment.NewLine &
@@ -911,15 +1004,15 @@ Public Class FrmSettings
                                                 "Once an orgasm limit has been finalized, it cannot be undone until the period of time is up!")
     End Sub
 
-    Private Sub orgasmsPerNumBox_MouseHover(sender As Object, e As EventArgs) Handles orgasmsPerNumBox.MouseHover
-        TTDir.SetToolTip(orgasmsPerNumBox, "When this arrangement is selected, the domme will limit the number of" & Environment.NewLine &
+    Private Sub orgasmsPerNumBox_MouseHover(sender As Object, e As EventArgs) Handles OrgasmsPerNumBox.MouseHover
+        TTDir.SetToolTip(OrgasmsPerNumBox, "When this arrangement is selected, the domme will limit the number of" & Environment.NewLine &
                                                 "orgasms she allows you to have according to the parameters you set." & Environment.NewLine & Environment.NewLine &
                                                 "This will not be finalized until the Limit box is checked and you click ""Lock Selected""." & Environment.NewLine &
                                                 "Once an orgasm limit has been finalized, it cannot be undone until the period of time is up!")
     End Sub
 
-    Private Sub orgasmsperComboBox_MouseHover(sender As Object, e As EventArgs) Handles orgasmsperComboBox.MouseHover
-        TTDir.SetToolTip(orgasmsperComboBox, "When this arrangement is selected, the domme will limit the number of" & Environment.NewLine &
+    Private Sub orgasmsperComboBox_MouseHover(sender As Object, e As EventArgs) Handles OrgasmsPerComboBox.MouseHover
+        TTDir.SetToolTip(OrgasmsPerComboBox, "When this arrangement is selected, the domme will limit the number of" & Environment.NewLine &
                                                 "orgasms she allows you to have according to the parameters you set." & Environment.NewLine & Environment.NewLine &
                                                 "This will not be finalized until the Limit box is checked and you click ""Lock Selected""." & Environment.NewLine &
                                                 "Once an orgasm limit has been finalized, it cannot be undone until the period of time is up!")
@@ -927,7 +1020,7 @@ Public Class FrmSettings
 
     Private Sub LockRandomOrgasm_MouseHover(sender As Object, e As EventArgs) Handles orgasmlockrandombutton.MouseHover
 
-        TTDir.SetToolTip(orgasmsperComboBox, "When this arrangement is selected, the domme will randomly limit the" & Environment.NewLine &
+        TTDir.SetToolTip(OrgasmsPerComboBox, "When this arrangement is selected, the domme will randomly limit the" & Environment.NewLine &
                                               "number of orgasms she allows you to have for a random period of time." & Environment.NewLine & Environment.NewLine &
                                               "Once you confirm this choice, it cannot be undone until the period of time is up!")
 
@@ -1391,26 +1484,50 @@ Public Class FrmSettings
 
 #End Region
 
-#Region "------------------------------------- GeneralTab -----------------------------------------------"
+#Region "General Tab"
 
     Private Sub BtnImportSettings_Click(sender As Object, e As EventArgs) Handles BtnImportSettings.Click
         My.MySettings.importOnRestart()
     End Sub
 
     Private Sub TimeStampCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles TimeStampCheckBox.CheckedChanged
-        mySettingsAccessor.IsTimeStampEnabled = TimeStampCheckBox.Checked
+        If Not DommeDecideOrgasmCheckBox.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.General.IsTimeStampEnabled = TimeStampCheckBox.Checked
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
     Private Sub ShowNamesCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles ShowNamesCheckBox.CheckedChanged
-        mySettingsAccessor.ShowNames = ShowNamesCheckBox.Checked
+        If Not DommeDecideOrgasmCheckBox.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.General.ShowChatUserNames = ShowNamesCheckBox.Checked
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
     Private Sub TypeInstantlyCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles TypeInstantlyCheckBox.CheckedChanged
-        mySettingsAccessor.DoesDommeTypeInstantly = TypeInstantlyCheckBox.Checked
+        If Not TypeInstantlyCheckBox.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.General.DoesDommeTypeInstantly = TypeInstantlyCheckBox.Checked
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
     Private Sub CBWebtease_CheckedChanged(sender As Object, e As EventArgs) Handles WebTeaseMode.CheckedChanged
-        mySettingsAccessor.WebTeaseModeEnabled = WebTeaseMode.Checked
+        If Not WebTeaseMode.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.General.IsWebTeaseModeEnabled = WebTeaseMode.Checked
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
     Private Sub CBBlogImageWindow_CheckedChanged(sender As Object, e As EventArgs) Handles CBBlogImageWindow.CheckedChanged
@@ -1507,30 +1624,33 @@ Public Class FrmSettings
         My.Settings.CBImageInfo = Not CBImageInfo.Checked
     End Sub
 
+    Private Sub CBDomDel_CheckedChanged(sender As Object, e As EventArgs) Handles CBDomDel.CheckedChanged
+        If Not CBDomDel.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.General.CanDommeDeleteFiles = CBDomDel.Checked
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
 #End Region ' General
 
-#Region "-------------------------------------- Domme Tab -----------------------------------------------"
+#Region "Domme Tab"
     Private Sub PetNameBox1_LostFocus(sender As Object, e As EventArgs) Handles petnameBox8.LostFocus, petnameBox7.LostFocus, petnameBox6.LostFocus, petnameBox5.LostFocus, petnameBox4.LostFocus, petnameBox3.LostFocus, petnameBox2.LostFocus, PetNameBox1.LostFocus
-        Dim defaultPetNames As List(Of String) = New List(Of String)
-        defaultPetNames.Add("stroker")
-        defaultPetNames.Add("loser")
-        defaultPetNames.Add("slave")
-        defaultPetNames.Add("bitch boy")
-        defaultPetNames.Add("wanker")
-
         Dim workingPetNameBox As TextBox
         workingPetNameBox = CType(sender, TextBox)
 
-        If String.IsNullOrWhiteSpace(workingPetNameBox.Text) Then workingPetNameBox.Text = defaultPetNames(MainWindow.ssh.randomizer.Next(0, 5))
-
-        My.Settings.pnSetting1 = PetNameBox1.Text
-        My.Settings.pnSetting2 = petnameBox2.Text
-        My.Settings.pnSetting3 = petnameBox3.Text
-        My.Settings.pnSetting4 = petnameBox4.Text
-        My.Settings.pnSetting5 = petnameBox5.Text
-        My.Settings.pnSetting6 = petnameBox6.Text
-        My.Settings.pnSetting7 = petnameBox7.Text
-        My.Settings.pnSetting8 = petnameBox8.Text
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.PetNames(0) = PetNameBox1.Text
+        settings.Domme.PetNames(1) = petnameBox2.Text
+        settings.Domme.PetNames(2) = petnameBox3.Text
+        settings.Domme.PetNames(3) = petnameBox4.Text
+        settings.Domme.PetNames(4) = petnameBox5.Text
+        settings.Domme.PetNames(5) = petnameBox6.Text
+        settings.Domme.PetNames(6) = petnameBox7.Text
+        settings.Domme.PetNames(7) = petnameBox8.Text
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
     ''' <summary>
@@ -1548,75 +1668,204 @@ Public Class FrmSettings
     End Sub
 
     Private Sub DominationLevel_ValueChanged(sender As Object, e As EventArgs) Handles DominationLevel.ValueChanged
-        mySettingsAccessor.DominationLevel = DomLevel.Create(Convert.ToInt32(DominationLevel.Value)).Value
+        If Not DominationLevel.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.DominationLevel = DomLevel.Create(CType(DominationLevel.Value, Integer)).Value
+        mySettingsAccessor.WriteSettings(settings)
+        DomLevelDescLabel.Text = settings.Domme.DominationLevel.ToString()
     End Sub
 
-    Private Sub alloworgasmComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles alloworgasmComboBox.SelectedIndexChanged
-        My.Settings.OrgasmAllow = alloworgasmComboBox.Text
+    Private Sub AllowOrgasmComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles alloworgasmComboBox.SelectedIndexChanged
+        If Not DominationLevel.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.AllowsOrgasms = AllowsOrgasms.Create(alloworgasmComboBox.Text).Value
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
-    Private Sub ruinorgasmComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ruinorgasmComboBox.SelectedIndexChanged
-        My.Settings.OrgasmRuin = ruinorgasmComboBox.Text
+    Private Sub RuinOrgasmComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ruinorgasmComboBox.SelectedIndexChanged
+        If Not DominationLevel.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.RuinsOrgasms = RuinsOrgasms.Create(ruinorgasmComboBox.Text).Value
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
     Private Sub DomAgeNumBox_ValueChanged(sender As Object, e As EventArgs) Handles domageNumBox.ValueChanged
-        My.Settings.DomAge = domageNumBox.Value
+        If Not TBSafeword.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.BirthDate = New DateTime(Convert.ToInt32(DateTime.Now.Year - domageNumBox.Value), settings.Domme.BirthDate.Month, settings.Domme.BirthDate.Day)
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub NBDomBirthdayMonth_LostFocus(sender As Object, e As EventArgs) Handles NBDomBirthdayMonth.ValueChanged
+        If Not TBSafeword.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.BirthDate = New DateTime(settings.Domme.BirthDate.Year, NBDomBirthdayMonth.Value, settings.Domme.BirthDate.Day)
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub NBDomBirthdayDay_LostFocus(sender As Object, e As EventArgs) Handles NBDomBirthdayDay.ValueChanged
+        If Not TBSafeword.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.BirthDate = New DateTime(settings.Domme.BirthDate.Year, settings.Domme.BirthDate.Month, NBDomBirthdayDay.Value)
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
     Private Sub TBDomHairColor_LostFocus(sender As Object, e As EventArgs) Handles TBDomHairColor.LostFocus
-        My.Settings.DomHair = TBDomHairColor.Text
+        If Not TBSafeword.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.HairColor = TBDomHairColor.Text
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
-    Private Sub domhairlengthComboBox_LostFocus(sender As Object, e As EventArgs) Handles domhairlengthComboBox.LostFocus
-        My.Settings.DomHairLength = domhairlengthComboBox.Text
+    Private Sub domhairlengthComboBox_LostFocus(sender As Object, e As EventArgs) Handles domhairlengthComboBox.SelectedValueChanged
+        If Not domhairlengthComboBox.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.HairLength = domhairlengthComboBox.Text
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
     Private Sub TBDomEyeColor_LostFocus(sender As Object, e As EventArgs) Handles TBDomEyeColor.LostFocus
-        My.Settings.DomEyes = TBDomEyeColor.Text
+        If Not TBDomEyeColor.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.EyeColor = domhairlengthComboBox.Text
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
     Private Sub boobComboBox_LostFocus(sender As Object, e As EventArgs) Handles boobComboBox.LostFocus
-        My.Settings.DomCup = boobComboBox.Text
+        If Not boobComboBox.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.CupSize = CupSize.Create(boobComboBox.Text).Value
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
-    Private Sub dompubichairComboBox_LostFocus(sender As Object, e As EventArgs) Handles dompubichairComboBox.LostFocus
-        My.Settings.DomPubicHair = dompubichairComboBox.Text
+    Private Sub domPubicHairComboBox_SelectedValueChanged(sender As Object, e As EventArgs) Handles dompubichairComboBox.SelectedValueChanged
+        If Not dompubichairComboBox.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.PubicHair = dompubichairComboBox.Text
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
-    Private Sub crazyCheckBox_LostFocus(sender As Object, e As EventArgs) Handles crazyCheckBox.LostFocus
-        My.Settings.DomCrazy = crazyCheckBox.Checked
+    Private Sub crazyCheckBox_LostFocus(sender As Object, e As EventArgs) Handles crazyCheckBox.CheckedChanged
+        If Not crazyCheckBox.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.IsCrazy = crazyCheckBox.Checked
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
-    Private Sub CBDomTattoos_LostFocus(sender As Object, e As EventArgs) Handles CBDomTattoos.LostFocus
-        My.Settings.DomTattoos = CBDomTattoos.Checked
+    Private Sub CBDomTattoos_LostFocus(sender As Object, e As EventArgs) Handles CBDomTattoos.CheckedChanged
+        If Not CBDomTattoos.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.HasTattoos = CBDomTattoos.Checked
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
-    Private Sub CBDomFreckles_LostFocus(sender As Object, e As EventArgs) Handles CBDomFreckles.LostFocus
-        My.Settings.DomFreckles = CBDomFreckles.Checked
+    Private Sub CBDomFreckles_LostFocus(sender As Object, e As EventArgs) Handles CBDomFreckles.CheckedChanged
+        If Not CBDomFreckles.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.HasFreckles = CBDomFreckles.Checked
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
-    Private Sub vulgarCheckBox_LostFocus(sender As Object, e As EventArgs) Handles vulgarCheckBox.LostFocus
-        My.Settings.DomVulgar = vulgarCheckBox.Checked
+    Private Sub vulgarCheckBox_LostFocus(sender As Object, e As EventArgs) Handles vulgarCheckBox.CheckedChanged
+        If Not vulgarCheckBox.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.IsVulgar = vulgarCheckBox.Checked
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
-    Private Sub supremacistCheckBox_LostFocus(sender As Object, e As EventArgs) Handles supremacistCheckBox.LostFocus
-        My.Settings.DomSupremacist = supremacistCheckBox.Checked
+    Private Sub supremacistCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles supremacistCheckBox.CheckedChanged
+        If Not supremacistCheckBox.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.IsSupremacist = supremacistCheckBox.Checked
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
-    Private Sub LCaseCheckBoxCheckBox_LostFocus(sender As Object, e As EventArgs) Handles LCaseCheckBox.LostFocus
-        My.Settings.DomLowercase = LCaseCheckBox.Checked
+    Private Sub LCaseCheckBoxCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles LCaseCheckBox.CheckedChanged
+        If Not LCaseCheckBox.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.UseLowercase = LCaseCheckBox.Checked
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
-    Private Sub apostropheCheckBox_LostFocus(sender As Object, e As EventArgs) Handles apostropheCheckBox.LostFocus
-        My.Settings.DomNoApostrophes = apostropheCheckBox.Checked
+    Private Sub apostropheCheckBox_LostFocus(sender As Object, e As EventArgs) Handles apostropheCheckBox.CheckedChanged
+        If Not apostropheCheckBox.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.UseNoApostrophes = apostropheCheckBox.Checked
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
-    Private Sub commaCheckBox_LostFocus(sender As Object, e As EventArgs) Handles commaCheckBox.LostFocus
-        My.Settings.DomNoCommas = commaCheckBox.Checked
+    Private Sub commaCheckBox_LostFocus(sender As Object, e As EventArgs) Handles commaCheckBox.CheckedChanged
+        If Not commaCheckBox.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.UseNoCommas = commaCheckBox.Checked
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
     Private Sub periodCheckBox_LostFocus(sender As Object, e As EventArgs) Handles periodCheckBox.LostFocus
-        My.Settings.DomNoPeriods = periodCheckBox.Checked
+        If Not periodCheckBox.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.UseNoPeriods = periodCheckBox.Checked
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
     Private Sub TBEmote_LostFocus(sender As Object, e As EventArgs) Handles TBEmote.LostFocus
@@ -1627,123 +1876,499 @@ Public Class FrmSettings
         My.Settings.TBEmoteEnd = TBEmoteEnd.Text
     End Sub
 
-    Private Sub CBMeMyMine_LostFocus(sender As Object, e As EventArgs) Handles CBMeMyMine.LostFocus
-        My.Settings.DomMeMyMine = CBMeMyMine.Checked
+    Private Sub CBMeMyMine_LostFocus(sender As Object, e As EventArgs) Handles CBMeMyMine.CheckedChanged
+        If Not CBMeMyMine.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.CapitalizeSelfPronouns = CBMeMyMine.Checked
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
-    Private Sub CBDomDenialEnds_LostFocus(sender As Object, e As EventArgs) Handles CBDomDenialEnds.LostFocus
-        My.Settings.DomDenialEnd = CBDomDenialEnds.Checked
+    Private Sub CBDomDenialEnds_CheckedChanged(sender As Object, e As EventArgs) Handles CBDomDenialEnds.CheckedChanged
+        If Not CBDomDenialEnds.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.DoesDenialEndTease = CBDomDenialEnds.Checked
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
-    Private Sub CBDomOrgasmEnds_LostFocus(sender As Object, e As EventArgs) Handles CBDomOrgasmEnds.LostFocus
-        My.Settings.DomOrgasmEnd = CBDomOrgasmEnds.Checked
-    End Sub
+    Private Sub CBDomOrgasmEnds_CheckedChanged(sender As Object, e As EventArgs) Handles CBDomOrgasmEnds.CheckedChanged
+        If Not CBDomOrgasmEnds.Visible Then
+            Return
+        End If
 
-    Private Sub NBDomMoodMin_LostFocus(sender As Object, e As EventArgs) Handles NBDomMoodMin.LostFocus
-        My.Settings.DomMoodMin = NBDomMoodMin.Value
-    End Sub
-
-    Private Sub NBDomMoodMax_LostFocus(sender As Object, e As EventArgs) Handles NBDomMoodMax.LostFocus
-        My.Settings.DomMoodMax = NBDomMoodMax.Value
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.DoesOrgasmEndTease = CBDomOrgasmEnds.Checked
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
     Private Sub NBDomMoodMin_ValueChanged(sender As Object, e As EventArgs) Handles NBDomMoodMin.ValueChanged
-        If NBDomMoodMin.Value > NBDomMoodMax.Value Then NBDomMoodMin.Value = NBDomMoodMax.Value
+        If Not NBDomMoodMin.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.BadMoodThreshold = Convert.ToInt32(NBDomMoodMin.Value)
+        mySettingsAccessor.WriteSettings(settings)
+        NBDomMoodMax.Minimum = settings.Domme.BadMoodThreshold
     End Sub
 
     Private Sub NBDomMoodMax_ValueChanged(sender As Object, e As EventArgs) Handles NBDomMoodMax.ValueChanged
-        If NBDomMoodMax.Value < NBDomMoodMin.Value Then NBDomMoodMax.Value = NBDomMoodMin.Value
-    End Sub
+        If Not NBDomMoodMax.Visible Then
+            Return
+        End If
 
-    Private Sub NBAvgCockMin_LostFocus(sender As Object, e As EventArgs) Handles NBAvgCockMin.LostFocus
-        My.Settings.AvgCockMin = NBAvgCockMin.Value
-    End Sub
-
-    Private Sub NBAvgCockMax_LostFocus(sender As Object, e As EventArgs) Handles NBAvgCockMax.LostFocus
-        My.Settings.AvgCockMax = NBAvgCockMax.Value
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.GoodMoodThreshold = Convert.ToInt32(NBDomMoodMax.Value)
+        mySettingsAccessor.WriteSettings(settings)
+        NBDomMoodMin.Maximum = settings.Domme.GoodMoodThreshold
     End Sub
 
     Private Sub NBAvgCockMin_ValueChanged(sender As Object, e As EventArgs) Handles NBAvgCockMin.ValueChanged
-        If NBAvgCockMin.Value > NBAvgCockMax.Value Then NBAvgCockMin.Value = NBAvgCockMax.Value
+        If Not NBAvgCockMin.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.AveragePenisMinimum = NBAvgCockMin.Value
+        mySettingsAccessor.WriteSettings(settings)
+        NBAvgCockMax.Minimum = settings.Domme.AveragePenisMinimum
     End Sub
 
     Private Sub NBAvgCockMax_ValueChanged(sender As Object, e As EventArgs) Handles NBAvgCockMax.ValueChanged
-        If NBAvgCockMax.Value < NBAvgCockMin.Value Then NBAvgCockMax.Value = NBAvgCockMin.Value
-    End Sub
+        If Not NBAvgCockMax.Visible Then
+            Return
+        End If
 
-    Private Sub NBSelfAgeMin_LostFocus(sender As Object, e As EventArgs) Handles NBSelfAgeMin.LostFocus
-        My.Settings.SelfAgeMin = NBSelfAgeMin.Value
-    End Sub
-
-    Private Sub NBSelfAgeMax_LostFocus(sender As Object, e As EventArgs) Handles NBSelfAgeMax.LostFocus
-        My.Settings.SelfAgeMax = NBSelfAgeMax.Value
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.AveragePenisMaximum = NBAvgCockMax.Value
+        mySettingsAccessor.WriteSettings(settings)
+        NBAvgCockMin.Maximum = settings.Domme.AveragePenisMinimum
     End Sub
 
     Private Sub NBSelfAgeMin_ValueChanged(sender As Object, e As EventArgs) Handles NBSelfAgeMin.ValueChanged
-        If NBSelfAgeMin.Value > NBSelfAgeMax.Value Then NBSelfAgeMin.Value = NBSelfAgeMax.Value
+        If Not NBSelfAgeMin.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.AverageAgeSelfMinimum = NBSelfAgeMin.Value
+        mySettingsAccessor.WriteSettings(settings)
+        NBSelfAgeMax.Minimum = settings.Domme.AverageAgeSelfMinimum
     End Sub
 
     Private Sub NBSelfAgeMax_ValueChanged(sender As Object, e As EventArgs) Handles NBSelfAgeMax.ValueChanged
-        If NBSelfAgeMax.Value < NBSelfAgeMin.Value Then NBSelfAgeMax.Value = NBSelfAgeMin.Value
-    End Sub
+        If Not NBSelfAgeMax.Visible Then
+            Return
+        End If
 
-    Private Sub NBSubAgeMin_LostFocus(sender As Object, e As EventArgs) Handles NBSubAgeMin.LostFocus
-        My.Settings.SubAgeMin = NBSubAgeMin.Value
-    End Sub
-
-    Private Sub NBSubAgeMax_LostFocus(sender As Object, e As EventArgs) Handles NBSubAgeMax.LostFocus
-        My.Settings.SubAgeMax = NBSubAgeMax.Value
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.AverageAgeSelfMaximum = NBSelfAgeMax.Value
+        mySettingsAccessor.WriteSettings(settings)
+        NBSelfAgeMin.Maximum = settings.Domme.AverageAgeSelfMaximum
     End Sub
 
     Private Sub NBSubAgeMin_ValueChanged(sender As Object, e As EventArgs) Handles NBSubAgeMin.ValueChanged
-        If NBSubAgeMin.Value > NBSubAgeMax.Value Then NBSubAgeMin.Value = NBSubAgeMax.Value
+        If Not NBSubAgeMin.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.AverageAgeSubMinimum = NBSubAgeMin.Value
+        mySettingsAccessor.WriteSettings(settings)
+        NBSubAgeMax.Minimum = settings.Domme.AverageAgeSubMinimum
     End Sub
 
     Private Sub NBSubAgeMax_ValueChanged(sender As Object, e As EventArgs) Handles NBSubAgeMax.ValueChanged
-        If NBSubAgeMax.Value < NBSubAgeMin.Value Then NBSubAgeMax.Value = NBSubAgeMin.Value
-    End Sub
+        If Not NBSubAgeMax.Visible Then
+            Return
+        End If
 
-    Private Sub NBEmpathy_LostFocus(sender As Object, e As EventArgs) Handles NBEmpathy.LostFocus
-        mySettingsAccessor.ApathyLevel = ApathyLevel.Create(CType(NBEmpathy.Value, Integer)).Value
-    End Sub
-
-    Private Sub domlevelNumBox_ValueChanged(sender As Object, e As EventArgs) Handles DominationLevel.ValueChanged
-        DomLevelDescLabel.Text = mySettingsAccessor.DominationLevel.ToString()
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.AverageAgeSubMaximum = NBSubAgeMax.Value
+        mySettingsAccessor.WriteSettings(settings)
+        NBSubAgeMax.Maximum = settings.Domme.AverageAgeSubMaximum
     End Sub
 
     Private Sub NBEmpathy_ValueChanged(sender As Object, e As EventArgs) Handles NBEmpathy.ValueChanged
-        LBLEmpathy.Text = mySettingsAccessor.ApathyLevel.ToString()
+        If Not NBEmpathy.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Domme.ApathyLevel = ApathyLevel.Create(CType(NBEmpathy.Value, Integer)).Value
+        mySettingsAccessor.WriteSettings(settings)
+        LBLEmpathy.Text = settings.Domme.ApathyLevel.ToString()
     End Sub
 
+    Private Sub TBSafeword_LostFocus(sender As Object, e As EventArgs) Handles TBSafeword.LostFocus
+        If Not TBSafeword.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.Safeword = TBSafeword.Text
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+#Region "tooltips and descriptios"
+    Private Sub dompubichairComboBox_MouseHover(sender As Object, e As EventArgs) Handles dompubichairComboBox.MouseHover
+        TTDir.SetToolTip(dompubichairComboBox, "Sets description of the Domme's pubic hair.")
+    End Sub
+
+#End Region
 #End Region ' Domme
+
+#Region "Sub Tab"
+    Private Sub NBHoldTheEdgeMax_LostFocus(sender As Object, e As EventArgs) Handles HoldEdgeMaximum.LostFocus
+        If Not HoldEdgeMaximum.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.HoldEdgeSecondsMaximum = ConvertHoldTime(HoldEdgeMaximum.Value, LBLMaxHold.Text)
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub HoldEdgeMaximumValueChanged(sender As Object, e As EventArgs) Handles HoldEdgeMaximum.ValueChanged
+        If FrmSettingsLoading = False Then
+
+            If HoldEdgeMaximum.Value = 0 And LBLMaxHold.Text = "minutes" Then
+                HoldEdgeMaximum.Value = 59
+                LBLMaxHold.Text = "seconds"
+                Return
+            End If
+
+            If HoldEdgeMaximum.Value = 60 And LBLMaxHold.Text = "seconds" Then
+                HoldEdgeMaximum.Value = 1
+                LBLMaxHold.Text = "minutes"
+                Return
+            End If
+        End If
+    End Sub
+
+    Private Sub HoldEdgeMinimum_LostFocus(sender As Object, e As EventArgs) Handles HoldEdgeMinimum.LostFocus
+        If Not HoldEdgeMinimum.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.HoldEdgeSecondsMinimum = ConvertHoldTime(HoldEdgeMinimum.Value, HoldEdgeMinimumUnits.Text)
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub HoldEdgeMinimum_ValueChanged(sender As Object, e As EventArgs) Handles HoldEdgeMinimum.ValueChanged
+        If FrmSettingsLoading = False Then
+            If HoldEdgeMinimum.Value = 0 And HoldEdgeMinimumUnits.Text = "minutes" Then
+                HoldEdgeMinimum.Value = 59
+                HoldEdgeMinimumUnits.Text = "seconds"
+                Return
+            End If
+
+            If HoldEdgeMinimum.Value = 60 And HoldEdgeMinimumUnits.Text = "seconds" Then
+                HoldEdgeMinimum.Value = 1
+                HoldEdgeMinimumUnits.Text = "minutes"
+                Return
+            End If
+        End If
+    End Sub
+
+    Private Sub AllowLongEdgeInterruptCB_CheckedChanged(sender As Object, e As EventArgs) Handles AllowLongEdgeInterruptCB.CheckedChanged
+        If Not AllowLongEdgeInterruptCB.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.AllowLongEdgeInterrupts = AllowLongEdgeInterruptCB.Checked
+
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub AllowLongEdgeTauntCB_LostFocus(sender As Object, e As EventArgs) Handles AllowLongEdgeTauntCB.CheckedChanged
+        If Not AllowLongEdgeTauntCB.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.AllowLongEdgeInterrupts = AllowLongEdgeTauntCB.Checked
+
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub CBBallsToPussy_LostFocus(sender As Object, e As EventArgs) Handles CBBallsToPussy.CheckedChanged
+        If Not CBBallsToPussy.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.CallBallsPussy = CBBallsToPussy.Checked
+
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub CBCockToClit_CheckedChanged(sender As Object, e As EventArgs) Handles CBCockToClit.CheckedChanged
+        If Not CBCockToClit.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.CallCockAClit = CBCockToClit.Checked
+
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub CockAndBallTortureLevelSlider_Scroll(sender As Object, e As EventArgs) Handles CockAndBallTortureLevelSlider.Scroll
+        If Not CockAndBallTortureLevelSlider.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.CockAndBallTortureLevel = TortureLevel.Create(CockAndBallTortureLevelSlider.Value).Value
+
+        mySettingsAccessor.WriteSettings(settings)
+
+        CockAndBallTortureLevelLbl.Text = "CBT Level: " & CockAndBallTortureLevelSlider.Value.ToString()
+    End Sub
+
+    Private Sub ChastityDeviceContainsSpikesCB_CheckedChanged(sender As Object, e As EventArgs) Handles ChastityDeviceContainsSpikesCB.CheckedChanged
+        If Not ChastityDeviceContainsSpikesCB.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.DoesChastityDeviceContainSpikes = ChastityDeviceContainsSpikesCB.Checked
+
+        mySettingsAccessor.WriteSettings(settings)
+
+    End Sub
+
+    Private Sub CBOwnChastity_CheckedChanged(sender As Object, e As EventArgs) Handles CBOwnChastity.CheckedChanged
+        If Not CBOwnChastity.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.HasChastityDevice = CBOwnChastity.Checked
+
+        mySettingsAccessor.WriteSettings(settings)
+
+        DoesChastityDeviceRequirePiercingCB.Enabled = CBOwnChastity.Checked
+        ChastityDeviceContainsSpikesCB.Enabled = CBOwnChastity.Checked
+    End Sub
+
+    Private Sub DoesChastityDeviceRequirePiercingCB_CheckedChanged(sender As Object, e As EventArgs) Handles DoesChastityDeviceRequirePiercingCB.CheckedChanged
+        If Not DoesChastityDeviceRequirePiercingCB.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.DoesChastityDeviceRequirePiercing = DoesChastityDeviceRequirePiercingCB.Checked
+
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub CockTortureEnabledCB_CheckedChanged(sender As Object, e As EventArgs) Handles CockTortureEnabledCB.CheckedChanged
+        If Not CockTortureEnabledCB.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.IsCockTortureEnabled = CockTortureEnabledCB.Checked
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub BallTortureEnabledCB_CheckedChanged(sender As Object, e As EventArgs) Handles BallTortureEnabledCB.CheckedChanged
+        If Not BallTortureEnabledCB.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.IsBallTortureEnabled = BallTortureEnabledCB.Checked
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub NBLongEdge_ValueChanged(sender As Object, e As EventArgs) Handles NBLongEdge.LostFocus
+        If Not NBLongEdge.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.LongEdgeThreshold = Convert.ToInt32(NBLongEdge.Value)
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub LongEdgeHoldMaximum_LostFocus(sender As Object, e As EventArgs) Handles LongEdgeHoldMaximum.LostFocus
+        If Not LongEdgeHoldMaximum.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.LongEdgeHoldMaximum = Convert.ToInt32(LongEdgeHoldMaximum.Value)
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub LongEdgeHoldMinimum_LostFocus(sender As Object, e As EventArgs) Handles LongEdgeHoldMinimum.LostFocus
+        If Not LongEdgeHoldMinimum.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.LongEdgeHoldMinimum = Convert.ToInt32(LongEdgeHoldMinimum.Value)
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub LongEdgeHoldMaximum_ValueChanged(sender As Object, e As EventArgs) Handles LongEdgeHoldMaximum.ValueChanged
+        If FrmSettingsLoading = False Then
+            If LongEdgeHoldMaximum.Value = 1 Then
+                LBLMaxLongHold.Text = "minute"
+            Else
+                LBLMaxLongHold.Text = "minutes"
+            End If
+        End If
+    End Sub
+
+    Private Sub LongEdgeHoldMinimum_ValueChanged(sender As Object, e As EventArgs) Handles LongEdgeHoldMinimum.ValueChanged
+        If FrmSettingsLoading = False Then
+            If LongEdgeHoldMinimum.Value = 1 Then
+                LBLMinLongHold.Text = "minute"
+            Else
+                LBLMinLongHold.Text = "minutes"
+            End If
+        End If
+    End Sub
+
+    Private Sub ExtremeEdgeHoldMaximum_LostFocus(sender As Object, e As EventArgs) Handles ExtremeEdgeHoldMaximum.LostFocus
+        If Not ExtremeEdgeHoldMaximum.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.ExtremeEdgeHoldMaximum = Convert.ToInt32(ExtremeEdgeHoldMaximum.Value)
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub ExtremeEdgeHoldMinimum_LostFocus(sender As Object, e As EventArgs) Handles ExtremeEdgeHoldMinimum.LostFocus
+        If Not ExtremeEdgeHoldMinimum.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.ExtremeEdgeHoldMinimum = Convert.ToInt32(ExtremeEdgeHoldMinimum.Value)
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub NBExtremeHoldMax_ValueChanged(sender As Object, e As EventArgs) Handles ExtremeEdgeHoldMaximum.ValueChanged
+        If FrmSettingsLoading = False Then
+            If ExtremeEdgeHoldMaximum.Value = 1 Then
+                LBLMaxExtremeHold.Text = "minute"
+            Else
+                LBLMaxExtremeHold.Text = "minutes"
+            End If
+        End If
+    End Sub
+
+    Private Sub NBExtremeHoldMin_ValueChanged(sender As Object, e As EventArgs) Handles ExtremeEdgeHoldMinimum.ValueChanged
+        If FrmSettingsLoading = False Then
+            If ExtremeEdgeHoldMinimum.Value = 1 Then
+                LBLMinExtremeHold.Text = "minute"
+            Else
+                LBLMinExtremeHold.Text = "minutes"
+            End If
+        End If
+    End Sub
+
+    Private Sub CBSubCircumcised_CheckedChanged(sender As Object, e As EventArgs) Handles CBSubCircumcised.CheckedChanged
+        If Not CBSubCircumcised.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.IsSubCircumcised = CBSubCircumcised.Checked
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub CBSubPierced_CheckedChanged(sender As Object, e As EventArgs) Handles CBSubPierced.CheckedChanged
+        If Not CBSubPierced.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.IsSubPierced = CBSubPierced.Checked
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub CBHimHer_LostFocus(sender As Object, e As EventArgs) Handles CBHimHer.LostFocus
+        If Not CBHimHer.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.IsSubFemale = CBHimHer.Checked
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub UseAverageEdgeThresholdCB_CheckedChanged(sender As Object, e As EventArgs) Handles UseAverageEdgeThresholdCB.CheckedChanged
+        If Not UseAverageEdgeThresholdCB.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.UseAverageEdgeTimeAsThreshold = UseAverageEdgeThresholdCB.Checked
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub subAgeNumBox_LostFocus(sender As Object, e As EventArgs) Handles subAgeNumBox.ValueChanged
+        My.Settings.SubAge = subAgeNumBox.Value
+    End Sub
+
+    Private Sub TBGreeting_LostFocus(sender As Object, e As EventArgs) Handles TBGreeting.LostFocus
+        If Not TBGreeting.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.Greetings = TBGreeting.Text.Trim().Split(",").ToList()
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+#Region "tooltips and descriptions"
+    Private Sub CBHimHer_MouseHover(sender As Object, e As EventArgs) Handles CBHimHer.MouseEnter
+        LBLSubSettingsDescription.Text = "When this is checked, Glitter will automatically replace any instance of He/Him/His with She/Her/Her."
+    End Sub
+#End Region
+#End Region
 
 #Region "Scripts Tab"
     Public Sub ScriptsStartTab_VisibleChanged() Handles ScriptsStartTab.VisibleChanged
         If (Not ScriptsStartTab.Visible) Then
             Return
         End If
-        LoadScriptMetaData(StartScripts, mySettingsAccessor.DommePersonality, "Stroke", SessionPhase.Start, False)
+        LoadScriptMetaData(StartScripts, mySettingsAccessor.GetSettings().DommePersonality, "Stroke", SessionPhase.Start, False)
     End Sub
 
     Public Sub ScriptsModuleTab_VisibleChanged() Handles ScriptsModuleTab.VisibleChanged
         If (Not ScriptsModuleTab.Visible) Then
             Return
         End If
-        LoadScriptMetaData(ModuleScripts, mySettingsAccessor.DommePersonality, "Modules", SessionPhase.Modules, False)
+        LoadScriptMetaData(ModuleScripts, mySettingsAccessor.GetSettings().DommePersonality, "Modules", SessionPhase.Modules, False)
     End Sub
 
     Public Sub ScriptsLinkTab_VisibleChanged() Handles ScriptsLinkTab.VisibleChanged
         If (Not ScriptsLinkTab.Visible) Then
             Return
         End If
-        LoadScriptMetaData(LinkScripts, mySettingsAccessor.DommePersonality, "Stroke", Constants.SessionPhase.Link, False)
+        LoadScriptMetaData(LinkScripts, mySettingsAccessor.GetSettings().DommePersonality, "Stroke", Constants.SessionPhase.Link, False)
     End Sub
 
     Public Sub ScriptsEndTab_VisibleChanged() Handles ScriptsEndTab.VisibleChanged
         If (Not ScriptsEndTab.Visible) Then
             Return
         End If
-        LoadScriptMetaData(EndScripts, mySettingsAccessor.DommePersonality, "Stroke", Constants.SessionPhase.End, False)
+        LoadScriptMetaData(EndScripts, mySettingsAccessor.GetSettings().DommePersonality, "Stroke", Constants.SessionPhase.End, False)
     End Sub
 
     Public Shared Sub saveCheckedListBox(target As CheckedListBox, filePath As String)
@@ -1794,7 +2419,7 @@ Public Class FrmSettings
             Throw New NotImplementedException("The starting control is not implemented in this method.")
         End If
 
-        Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality, sessionPhase)
+        Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(mySettingsAccessor.GetSettings().DommePersonality, sessionPhase)
         Dim script = scripts.First(Function(smd) smd.Name = target.SelectedItem.ToString())
         ScriptInfoTextArea.Text = script.Info
         GetScriptStatus(script)
@@ -1820,7 +2445,7 @@ Public Class FrmSettings
     Private Sub BtnScriptsOpen_Click(sender As Object, e As EventArgs) Handles BTNScriptOpen.Click
         Dim sessionPhase As SessionPhase = GetSessionPhase(TCScripts.SelectedTab)
         Dim checkedListBox As CheckedListBox = GetScriptsCheckedListBox(sessionPhase)
-        Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality, sessionPhase)
+        Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(mySettingsAccessor.GetSettings().DommePersonality, sessionPhase)
 
         Dim clickedScript = scripts.First(Function(smd) smd.Name = checkedListBox.SelectedItem.ToString())
         MainWindow.ShellExecute(clickedScript.Key)
@@ -1860,7 +2485,7 @@ Public Class FrmSettings
                 End If
 
                 Dim scriptType As String = "Stroke"
-                Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(mySettingsAccessor.DommePersonality, sessionPhase)
+                Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(mySettingsAccessor.GetSettings().DommePersonality, sessionPhase)
 
                 For i As Integer = 0 To target.Items.Count - 1
                     Dim item = target.Items(i)
@@ -1928,7 +2553,7 @@ Public Class FrmSettings
             Dim workingLine As String = line
             For Each scriptCommand In commandProcessors.Keys
                 If (commandProcessors(scriptCommand).IsRelevant(workingLine)) Then
-                    Dim parseCommand = commandProcessors(scriptCommand).ParseCommand(script, mySettingsAccessor.DommePersonality, workingLine)
+                    Dim parseCommand = commandProcessors(scriptCommand).ParseCommand(script, mySettingsAccessor.GetSettings().DommePersonality, workingLine)
                     areScriptRequirementsMet = areScriptRequirementsMet AndAlso parseCommand.IsSuccess
                     Dim requirement As String = GetCommandRequirement(scriptCommand)
                     If (parseCommand.IsFailure) Then
@@ -2161,7 +2786,7 @@ Public Class FrmSettings
     End Function
 #End Region ' Scripts
 
-#Region "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Apps ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+#Region "Apps"
 
 #Region "----------------------------------------- Glitter ----------------------------------------------"
 
@@ -4499,6 +5124,176 @@ Public Class FrmSettings
 
 #End Region
 
+#Region "Ranges Tab"
+    Private Sub CBRangeOrgasm_CheckedChanged(sender As Object, e As EventArgs) Handles DommeDecideOrgasmCheckBox.CheckedChanged
+        If Not DommeDecideOrgasmCheckBox.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Range.DoesDommeDecideOrgasmRange = DommeDecideOrgasmCheckBox.Checked
+        mySettingsAccessor.WriteSettings(settings)
+
+        OftenAllowsPercentNumberBox.Enabled = Not DommeDecideOrgasmCheckBox.Checked
+        SometimesAllowsPercentNumberBox.Enabled = Not DommeDecideOrgasmCheckBox.Checked
+        RarelyAllowsPercentNumberBox.Enabled = Not DommeDecideOrgasmCheckBox.Checked
+    End Sub
+
+    Private Sub OftenAllowsPercentNumberBox_ValueChanged(sender As Object, e As EventArgs) Handles OftenAllowsPercentNumberBox.ValueChanged
+        If Not OftenAllowsPercentNumberBox.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Range.AllowOrgasmOftenPercent = Convert.ToInt32(OftenAllowsPercentNumberBox.Value)
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub SometimesAllowsPercentNumberBox_ValueChanged(sender As Object, e As EventArgs) Handles SometimesAllowsPercentNumberBox.ValueChanged
+        If Not SometimesAllowsPercentNumberBox.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Range.AllowOrgasmSometimesPercent = Convert.ToInt32(SometimesAllowsPercentNumberBox.Value)
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub RarelyAllowsPercentNumberBox_ValueChanged(sender As Object, e As EventArgs) Handles RarelyAllowsPercentNumberBox.ValueChanged
+        If Not RarelyAllowsPercentNumberBox.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Range.AllowOrgasmRarelyPercent = Convert.ToInt32(RarelyAllowsPercentNumberBox.Value)
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub DommeDecideRuinCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles DommeDecideRuinCheckBox.CheckedChanged
+        If Not DommeDecideRuinCheckBox.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Range.DoesDommeDecideRuinRange = DommeDecideRuinCheckBox.Checked
+        mySettingsAccessor.WriteSettings(settings)
+
+        NBRuinOften.Enabled = Not DommeDecideRuinCheckBox.Checked
+        NBRuinSometimes.Enabled = Not DommeDecideRuinCheckBox.Checked
+        NBRuinRarely.Enabled = Not DommeDecideRuinCheckBox.Checked
+    End Sub
+
+    Private Sub NBRuinOften_ValueChanged(sender As Object, e As EventArgs) Handles NBRuinOften.ValueChanged
+        If Not NBRuinOften.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Range.RuinOrgasmOftenPercent = Convert.ToInt32(NBRuinOften.Value)
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub NBRuinSometimes_ValueChanged(sender As Object, e As EventArgs) Handles NBRuinSometimes.ValueChanged
+        If Not NBRuinSometimes.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Range.RuinOrgasmSometimesPercent = Convert.ToInt32(NBRuinSometimes.Value)
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub NBRuinRarely_ValueChanged(sender As Object, e As EventArgs) Handles NBRuinRarely.ValueChanged
+        If Not NBRuinRarely.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Range.RuinOrgasmRarelyPercent = Convert.ToInt32(NBRuinRarely.Value)
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub TeaseLengthDommeDetermined_CheckedChanged(sender As Object, e As EventArgs) Handles TeaseLengthDommeDetermined.CheckedChanged
+        If Not TeaseLengthDommeDetermined.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Range.IsTeaseLengthDommeDetermined = TeaseLengthDommeDetermined.Checked
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub CBTauntCycleDD_LostFocus(sender As Object, e As EventArgs) Handles CBTauntCycleDD.LostFocus
+        If Not CBTauntCycleDD.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Range.IsTauntCycleDommeDetermined = CBTauntCycleDD.Checked
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub NBTeaseLengthMin_ValueChanged(sender As Object, e As EventArgs) Handles NBTeaseLengthMin.ValueChanged
+        If Not NBTeaseLengthMin.Visible Then
+            Return
+        End If
+
+        NBTeaseLengthMax.Minimum = NBTeaseLengthMin.Value
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Range.IsTauntCycleDommeDetermined = Convert.ToInt32(NBTeaseLengthMin.Value)
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub NBTeaseLengthMax_ValueChanged(sender As Object, e As EventArgs) Handles NBTeaseLengthMax.ValueChanged
+        If Not NBTeaseLengthMax.Visible Then
+            Return
+        End If
+        NBTeaseLengthMin.Maximum = NBTeaseLengthMax.Value
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Range.TeaseLengthMinutesMinimum = Convert.ToInt32(NBTeaseLengthMax.Value)
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+#Region "tooltips and descriptions"
+    Private Sub CBTeaseLengthDD_MouseHover(sender As Object, e As EventArgs) Handles TeaseLengthDommeDetermined.MouseEnter
+        LBLRangeSettingsDescription.Text = "This allows the domme to decide the length of the tease based on her level." & Environment.NewLine & Environment.NewLine &
+            "A level 1 domme may tease you for 15-20 minutes, while a level 5 domme may tease you as long as an hour." & Environment.NewLine & Environment.NewLine &
+            "The domme will not move to an End script until the first @End point of a Module that occurs after tease time expires."
+    End Sub
+
+#End Region
+#End Region
+
+#Region "Misc Tab"
+    Private Sub ChastityModeButton_Click(sender As Object, e As EventArgs) Handles ChastityModeButton.Click
+
+        If MsgBox("This will change the Chastity state of Tease AI. Depending on the Personality or Scripts used so far, this could cause unexpected behavior or break certain scripts." & Environment.NewLine _
+                  & Environment.NewLine & "It is recommended to only change this state if you are otherwise stuck. Are you sure you wish to change the Chastity state?", vbYesNo, "Warning!") = MsgBoxResult.Yes Then
+            Dim settings As Settings = mySettingsAccessor.GetSettings()
+            settings.Misc.IsInChastity = Not settings.Misc.IsInChastity
+            InChastityLabel.ForeColor = settings.Misc.IsInChastity.ToColor()
+            InChastityLabel.Text = settings.Misc.IsInChastity.ToOnOff()
+        End If
+    End Sub
+
+    Private Sub BTNOfflineMode_Click(sender As Object, e As EventArgs) Handles BTNOfflineMode.Click
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Misc.IsOffline = Not settings.Misc.IsOffline
+        mySettingsAccessor.WriteSettings(settings)
+        LBLOfflineMode.Text = settings.Misc.IsOffline.ToOnOff()
+        LBLOfflineMode.ForeColor = settings.Misc.IsOffline.ToColor()
+    End Sub
+
+#End Region
+
+#Region "Modules tab"
+    Private Sub fa(sender As Object, e As EventArgs) Handles ModPlaylistTabPage.VisibleChanged
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & settings.DommePersonality & "\Playlist\Start\")
+    End Sub
+#End Region
+
     Private Sub ComboBox1_DrawItem(ByVal sender As Object, ByVal e As Windows.Forms.DrawItemEventArgs) Handles SubMessageFontCB.DrawItem
         e.DrawBackground()
         If (e.State And DrawItemState.Focus) <> 0 Then
@@ -4578,22 +5373,6 @@ Public Class FrmSettings
         If NBCensorShowMax.Value < NBCensorShowMin.Value Then NBCensorShowMax.Value = NBCensorShowMin.Value
     End Sub
 
-    Private Sub NBTeaseLengthMin_LostFocus(sender As Object, e As EventArgs) Handles NBTeaseLengthMin.LostFocus
-        mySettingsAccessor.TeaseLengthMinimum = NBTeaseLengthMin.Value
-    End Sub
-
-    Private Sub NBTeaseLengthMax_LostFocus(sender As Object, e As EventArgs) Handles NBTeaseLengthMax.LostFocus
-        mySettingsAccessor.TeaseLengthMaximum = NBTeaseLengthMax.Value
-    End Sub
-
-    Private Sub NBTauntCycleMin_LostFocus(sender As Object, e As EventArgs) Handles NBTauntCycleMin.LostFocus
-        mySettingsAccessor.TauntCycleMinimum = NBTauntCycleMin.Value
-    End Sub
-
-    Private Sub NBTauntCycleMax_LostFocus(sender As Object, e As EventArgs) Handles NBTauntCycleMax.LostFocus
-        mySettingsAccessor.TauntCycleMaximum = NBTauntCycleMax.Value
-    End Sub
-
     Private Sub NBRedLightMin_LostFocus(sender As Object, e As EventArgs) Handles NBRedLightMin.LostFocus
         My.Settings.RedLightMin = NBRedLightMin.Value
     End Sub
@@ -4608,14 +5387,6 @@ Public Class FrmSettings
 
     Private Sub NBGreenLightMax_LostFocus(sender As Object, e As EventArgs) Handles NBGreenLightMax.LostFocus
         My.Settings.GreenLightMax = NBGreenLightMax.Value
-    End Sub
-
-    Private Sub NBTeaseLengthMin_ValueChanged(sender As Object, e As EventArgs) Handles NBTeaseLengthMin.ValueChanged
-        If NBTeaseLengthMin.Value > NBTeaseLengthMax.Value Then NBTeaseLengthMin.Value = NBTeaseLengthMax.Value
-    End Sub
-
-    Private Sub NBTeaseLengthMax_ValueChanged(sender As Object, e As EventArgs) Handles NBTeaseLengthMax.ValueChanged
-        If NBTeaseLengthMax.Value < NBTeaseLengthMin.Value Then NBTeaseLengthMax.Value = NBTeaseLengthMin.Value
     End Sub
 
     Private Sub NBTauntCycleMin_ValueChanged(sender As Object, e As EventArgs) Handles NBTauntCycleMin.ValueChanged
@@ -4991,10 +5762,6 @@ Public Class FrmSettings
 
     End Sub
 
-    Private Sub TBGreeting_LostFocus(sender As Object, e As EventArgs) Handles TBGreeting.LostFocus
-        My.Settings.SubGreeting = TBGreeting.Text
-    End Sub
-
     Private Sub TBYes_LostFocus(sender As Object, e As EventArgs) Handles TBYes.LostFocus
         My.Settings.SubYes = TBYes.Text
     End Sub
@@ -5022,18 +5789,6 @@ Public Class FrmSettings
         Else
             My.Settings.CBCapHonor = False
         End If
-    End Sub
-
-    Private Sub subAgeNumBox_LostFocus(sender As Object, e As EventArgs) Handles subAgeNumBox.LostFocus
-        My.Settings.SubAge = subAgeNumBox.Value
-    End Sub
-
-    Private Sub NBDomBirthdayMonth_LostFocus(sender As Object, e As EventArgs) Handles NBDomBirthdayMonth.LostFocus
-        My.Settings.DomBirthMonth = NBDomBirthdayMonth.Value
-    End Sub
-
-    Private Sub NBDomBirthdayDay_LostFocus(sender As Object, e As EventArgs) Handles NBDomBirthdayDay.LostFocus
-        My.Settings.DomBirthDay = NBDomBirthdayDay.Value
     End Sub
 
     Private Sub NBBirthdayMonth_LostFocus(sender As Object, e As EventArgs) Handles NBBirthdayMonth.LostFocus
@@ -5121,129 +5876,6 @@ Public Class FrmSettings
         TBWIDirectory.SelectionLength = Len(TBWIDirectory.Text)
     End Sub
 
-    Private Sub CBCBTCock_CheckedChanged(sender As Object, e As EventArgs) Handles CockTortureEnabledCB.LostFocus
-        mySettingsAccessor.IsCockTortureEnabled = CockTortureEnabledCB.Checked
-    End Sub
-
-    Private Sub CBCBTBalls_CheckedChanged(sender As Object, e As EventArgs) Handles BallTortureEnabledCB.LostFocus
-        mySettingsAccessor.IsBallTortureEnabled = BallTortureEnabledCB.Checked
-    End Sub
-
-    Private Sub NBLongEdge_ValueChanged(sender As Object, e As EventArgs) Handles NBLongEdge.LostFocus
-        My.Settings.LongEdge = NBLongEdge.Value
-    End Sub
-
-    Private Sub NBHoldTheEdgeMax_LostFocus(sender As Object, e As EventArgs) Handles HoldEdgeMaximum.LostFocus
-        mySettingsAccessor.HoldEdgeMaximum = ConvertHoldTime(HoldEdgeMaximum.Value, LBLMaxHold.Text)
-    End Sub
-
-    Private Sub NBHoldTheEdgeMin_LostFocus(sender As Object, e As EventArgs) Handles HoldEdgeMinimum.LostFocus
-        mySettingsAccessor.HoldEdgeMaximum = ConvertHoldTime(HoldEdgeMinimum.Value, HoldEdgeMinimumUnits.Text)
-    End Sub
-
-    Private Sub NBHoldTheEdgeMax_ValueChanged(sender As Object, e As EventArgs) Handles HoldEdgeMaximum.ValueChanged
-        If FrmSettingsLoading = False Then
-
-            If HoldEdgeMaximum.Value = 0 And LBLMaxHold.Text = "minutes" Then
-                HoldEdgeMaximum.Value = 59
-                LBLMaxHold.Text = "seconds"
-                Return
-            End If
-
-            If HoldEdgeMaximum.Value = 60 And LBLMaxHold.Text = "seconds" Then
-                HoldEdgeMaximum.Value = 1
-                LBLMaxHold.Text = "minutes"
-                Return
-            End If
-        End If
-    End Sub
-
-    Private Sub NBHoldTheEdgeMin_ValueChanged(sender As Object, e As EventArgs) Handles HoldEdgeMinimum.ValueChanged
-        If FrmSettingsLoading = False Then
-
-            If HoldEdgeMinimum.Value = 0 And HoldEdgeMinimumUnits.Text = "minutes" Then
-                HoldEdgeMinimum.Value = 59
-                HoldEdgeMinimumUnits.Text = "seconds"
-                Return
-            End If
-
-            If HoldEdgeMinimum.Value = 60 And HoldEdgeMinimumUnits.Text = "seconds" Then
-                HoldEdgeMinimum.Value = 1
-                HoldEdgeMinimumUnits.Text = "minutes"
-                Return
-            End If
-        End If
-    End Sub
-
-    Private Sub NBLongHoldMax_LostFocus(sender As Object, e As EventArgs) Handles LongEdgeHoldMaximum.LostFocus
-        mySettingsAccessor.LongHoldEdgeMaximum = LongEdgeHoldMaximum.Value
-    End Sub
-
-    Private Sub NBLongHoldMin_LostFocus(sender As Object, e As EventArgs) Handles LongEdgeHoldMinimum.LostFocus
-        mySettingsAccessor.LongHoldEdgeMinimum = LongEdgeHoldMinimum.Value
-    End Sub
-
-    Private Sub NBLongHoldMax_ValueChanged(sender As Object, e As EventArgs) Handles LongEdgeHoldMaximum.ValueChanged
-        If FrmSettingsLoading = False Then
-            If LongEdgeHoldMaximum.Value = 1 Then
-                LBLMaxLongHold.Text = "minute"
-            Else
-                LBLMaxLongHold.Text = "minutes"
-            End If
-        End If
-    End Sub
-
-    Private Sub NBLongHoldMin_ValueChanged(sender As Object, e As EventArgs) Handles LongEdgeHoldMinimum.ValueChanged
-        If FrmSettingsLoading = False Then
-            If LongEdgeHoldMinimum.Value = 1 Then
-                LBLMinLongHold.Text = "minute"
-            Else
-                LBLMinLongHold.Text = "minutes"
-            End If
-        End If
-    End Sub
-
-    Private Sub NBExtremeHoldMax_LostFocus(sender As Object, e As EventArgs) Handles ExtremeEdgeHoldMaximum.LostFocus
-        mySettingsAccessor.ExtremeHoldEdgeMaximum = ExtremeEdgeHoldMaximum.Value
-    End Sub
-
-    Private Sub NBExtremeHoldMin_LostFocus(sender As Object, e As EventArgs) Handles ExtremeEdgeHoldMinimum.LostFocus
-        mySettingsAccessor.ExtremeHoldEdgeMinimum = ExtremeEdgeHoldMinimum.Value
-    End Sub
-
-    Private Sub NBExtremeHoldMax_ValueChanged(sender As Object, e As EventArgs) Handles ExtremeEdgeHoldMaximum.ValueChanged
-        If FrmSettingsLoading = False Then
-            If ExtremeEdgeHoldMaximum.Value = 1 Then
-                LBLMaxExtremeHold.Text = "minute"
-            Else
-                LBLMaxExtremeHold.Text = "minutes"
-            End If
-        End If
-    End Sub
-
-    Private Sub NBExtremeHoldMin_ValueChanged(sender As Object, e As EventArgs) Handles ExtremeEdgeHoldMinimum.ValueChanged
-        If FrmSettingsLoading = False Then
-            If ExtremeEdgeHoldMinimum.Value = 1 Then
-                LBLMinExtremeHold.Text = "minute"
-            Else
-                LBLMinExtremeHold.Text = "minutes"
-            End If
-        End If
-    End Sub
-
-    Private Sub CBTSlider_Scroll(sender As Object, e As EventArgs) Handles CockAndBallTortureLevelSlider.Scroll
-        mySettingsAccessor.CockAndBallTortureLevel = TortureLevel.Create(CockAndBallTortureLevelSlider.Value).Value
-        CockAndBallTortureLevelLbl.Text = "CBT Level: " & CockAndBallTortureLevelSlider.Value.ToString()
-    End Sub
-
-    Private Sub CBSubCircumcised_CheckedChanged(sender As Object, e As EventArgs) Handles CBSubCircumcised.CheckedChanged
-        mySettingsAccessor.IsSubCircumcised = CBSubCircumcised.Checked
-    End Sub
-
-    Private Sub CBSubPierced_CheckedChanged(sender As Object, e As EventArgs) Handles CBSubPierced.CheckedChanged
-        mySettingsAccessor.IsSubPierced = CBSubPierced.Checked
-    End Sub
-
     Private Sub Button14_Click(sender As Object, e As EventArgs) Handles BTNSaveDomSet.Click
 
         SaveSettingsDialog.Title = "Select a location to save current Domme settings"
@@ -5322,8 +5954,8 @@ Public Class FrmSettings
 
     End Sub
 
-    Private Sub Button12_Click(sender As Object, e As EventArgs) Handles BTNLoadDomSet.Click
-
+    Private Sub BTNLoadDomSet_Click(sender As Object, e As EventArgs) Handles BTNLoadDomSet.Click
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
         OpenSettingsDialog.Title = "Select a Domme settings file"
         OpenSettingsDialog.InitialDirectory = Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\System\"
 
@@ -5399,178 +6031,11 @@ Public Class FrmSettings
                 degradingCheckBox.Checked = SettingsList(46).Replace("Degrading: ", "")
 
                 NBTypoChance.Value = SettingsList(47).Replace("Typo Chance: ", "")
-
-
-                SaveDommeSettings()
             Catch
                 MessageBox.Show(Me, "This settings file is invalid or has been edited incorrectly!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
-                LoadDommeSettings()
+                LoadDommeSettings(settings.Domme)
             End Try
-
-
-
-
         End If
-    End Sub
-
-    Public Sub SaveDommeSettings()
-        mySettingsAccessor.DominationLevel = DomLevel.Create(Convert.ToInt32(DominationLevel.Value)).Value
-        mySettingsAccessor.ApathyLevel = ApathyLevel.Create(Convert.ToInt32(NBEmpathy.Value)).Value
-        My.Settings.DomAge = domageNumBox.Value
-        My.Settings.DomBirthMonth = NBDomBirthdayMonth.Value
-        My.Settings.DomBirthDay = NBDomBirthdayDay.Value
-        My.Settings.DomHair = TBDomHairColor.Text
-        My.Settings.DomHairLength = domhairlengthComboBox.Text
-        My.Settings.DomEyes = TBDomEyeColor.Text
-        My.Settings.DomCup = boobComboBox.Text
-        My.Settings.DomPubicHair = dompubichairComboBox.Text
-        My.Settings.DomTattoos = CBDomTattoos.Checked
-        My.Settings.DomFreckles = CBDomFreckles.Checked
-
-        mySettingsAccessor.DommePersonality = MainWindow.DommePersonalityComboBox.Text
-        My.Settings.DomCrazy = crazyCheckBox.Checked
-        My.Settings.DomVulgar = vulgarCheckBox.Checked
-        My.Settings.DomSupremacist = supremacistCheckBox.Checked
-        My.Settings.DomSadistic = sadisticCheckBox.Checked
-        My.Settings.DomDegrading = degradingCheckBox.Checked
-        My.Settings.pnSetting1 = PetNameBox1.Text
-        My.Settings.pnSetting2 = petnameBox2.Text
-        My.Settings.pnSetting3 = petnameBox3.Text
-        My.Settings.pnSetting4 = petnameBox4.Text
-        My.Settings.pnSetting5 = petnameBox5.Text
-        My.Settings.pnSetting6 = petnameBox6.Text
-        My.Settings.pnSetting7 = petnameBox7.Text
-        My.Settings.pnSetting8 = petnameBox8.Text
-
-        My.Settings.OrgasmAllow = alloworgasmComboBox.Text
-        My.Settings.OrgasmRuin = ruinorgasmComboBox.Text
-        My.Settings.LockOrgasmChances = CBLockOrgasmChances.Checked
-        My.Settings.DomDenialEnd = CBDomDenialEnds.Checked
-        My.Settings.DomOrgasmEnd = CBDomOrgasmEnds.Checked
-        ' My.Settings.DomPOT = CBDomPOT.Checked
-        My.Settings.DomLowercase = LCaseCheckBox.Checked
-        My.Settings.DomNoApostrophes = apostropheCheckBox.Checked
-        My.Settings.DomNoCommas = commaCheckBox.Checked
-        My.Settings.DomNoPeriods = periodCheckBox.Checked
-        My.Settings.DomMeMyMine = CBMeMyMine.Checked
-        My.Settings.DomEmotes = "NULL"
-
-        My.Settings.DomMoodMin = NBDomMoodMin.Value
-        My.Settings.DomMoodMax = NBDomMoodMax.Value
-        My.Settings.AvgCockMin = NBAvgCockMin.Value
-        My.Settings.AvgCockMax = NBAvgCockMax.Value
-        My.Settings.SelfAgeMin = NBSelfAgeMin.Value
-        My.Settings.SelfAgeMax = NBSelfAgeMax.Value
-        My.Settings.SubAgeMin = NBSubAgeMin.Value
-        My.Settings.SubAgeMax = NBSubAgeMax.Value
-    End Sub
-
-    Public Sub LoadDommeSettings()
-
-        DominationLevel.Value = mySettingsAccessor.DominationLevel
-        NBEmpathy.Value = mySettingsAccessor.ApathyLevel
-        domageNumBox.Value = My.Settings.DomAge
-        NBDomBirthdayMonth.Value = My.Settings.DomBirthMonth
-        NBDomBirthdayDay.Value = My.Settings.DomBirthDay
-        TBDomHairColor.Text = My.Settings.DomHair
-        domhairlengthComboBox.Text = My.Settings.DomHairLength
-        TBDomEyeColor.Text = My.Settings.DomEyes
-        boobComboBox.Text = My.Settings.DomCup
-        dompubichairComboBox.Text = My.Settings.DomPubicHair
-        CBDomTattoos.Checked = My.Settings.DomTattoos
-        CBDomFreckles.Checked = My.Settings.DomFreckles
-
-        MainWindow.DommePersonalityComboBox.Text = mySettingsAccessor.DommePersonality
-        crazyCheckBox.Checked = My.Settings.DomCrazy
-        vulgarCheckBox.Checked = My.Settings.DomVulgar
-        supremacistCheckBox.Checked = My.Settings.DomSupremacist
-        sadisticCheckBox.Checked = My.Settings.DomSadistic
-        degradingCheckBox.Checked = My.Settings.DomDegrading
-        PetNameBox1.Text = My.Settings.pnSetting1
-        petnameBox2.Text = My.Settings.pnSetting2
-        petnameBox3.Text = My.Settings.pnSetting3
-        petnameBox4.Text = My.Settings.pnSetting4
-        petnameBox5.Text = My.Settings.pnSetting5
-        petnameBox6.Text = My.Settings.pnSetting6
-        petnameBox7.Text = My.Settings.pnSetting7
-        petnameBox8.Text = My.Settings.pnSetting8
-
-        alloworgasmComboBox.Text = My.Settings.OrgasmAllow
-        ruinorgasmComboBox.Text = My.Settings.OrgasmRuin
-        CBLockOrgasmChances.Checked = My.Settings.LockOrgasmChances
-        CBDomDenialEnds.Checked = My.Settings.DomDenialEnd
-        CBDomOrgasmEnds.Checked = My.Settings.DomOrgasmEnd
-        'CBDomPOT.Checked = My.Settings.DomPOT
-        LCaseCheckBox.Checked = My.Settings.DomLowercase
-        apostropheCheckBox.Checked = My.Settings.DomNoApostrophes
-        commaCheckBox.Checked = My.Settings.DomNoCommas
-        periodCheckBox.Checked = My.Settings.DomNoPeriods
-        CBMeMyMine.Checked = My.Settings.DomMeMyMine
-        'domemoteComboBox.Text = My.Settings.DomEmotes
-
-        NBDomMoodMin.Value = My.Settings.DomMoodMin
-        NBDomMoodMax.Value = My.Settings.DomMoodMax
-        NBAvgCockMin.Value = My.Settings.AvgCockMin
-        NBAvgCockMax.Value = My.Settings.AvgCockMax
-        NBSelfAgeMin.Value = My.Settings.SelfAgeMin
-        NBSelfAgeMax.Value = My.Settings.SelfAgeMax
-        NBSubAgeMin.Value = My.Settings.SubAgeMin
-        NBSubAgeMax.Value = My.Settings.SubAgeMax
-
-    End Sub
-
-    Private Sub CBRangeOrgasm_CheckedChanged(sender As Object, e As EventArgs) Handles DommeDecideOrgasmCB.CheckedChanged
-        AllowOrgasmOftenNB.Enabled = Not DommeDecideOrgasmCB.Checked
-        NBAllowSometimes.Enabled = Not DommeDecideOrgasmCB.Checked
-        NBAllowRarely.Enabled = Not DommeDecideOrgasmCB.Checked
-    End Sub
-
-    Private Sub CBRangeRuin_CheckedChanged(sender As Object, e As EventArgs) Handles DommeDecideRuinCB.CheckedChanged
-        If DommeDecideRuinCB.Checked = False Then
-            NBRuinOften.Enabled = True
-            NBRuinSometimes.Enabled = True
-            NBRuinRarely.Enabled = True
-        Else
-            NBRuinOften.Enabled = False
-            NBRuinSometimes.Enabled = False
-            NBRuinRarely.Enabled = False
-        End If
-    End Sub
-
-    Private Sub CBRangeOrgasm_LostFocus(sender As Object, e As EventArgs) Handles DommeDecideOrgasmCB.LostFocus
-        mySettingsAccessor.DoesDommeDecideOrgasmRange = DommeDecideOrgasmCB.Checked
-    End Sub
-
-    Private Sub CBRangeRuin_LostFocus(sender As Object, e As EventArgs) Handles DommeDecideRuinCB.LostFocus
-        mySettingsAccessor.DoesDommeDecideRuinRange = DommeDecideRuinCB.Checked
-    End Sub
-
-    Private Sub NBAllowOften_ValueChanged(sender As Object, e As EventArgs) Handles AllowOrgasmOftenNB.LostFocus
-        mySettingsAccessor.AllowOrgasmOftenPercent = AllowOrgasmOftenNB.Value
-    End Sub
-
-    Private Sub NBAllowSometimes_ValueChanged(sender As Object, e As EventArgs) Handles NBAllowSometimes.LostFocus
-        mySettingsAccessor.AllowOrgasmSometimesPercent = NBAllowSometimes.Value
-    End Sub
-
-    Private Sub NBAllowRarely_ValueChanged(sender As Object, e As EventArgs) Handles NBAllowRarely.LostFocus
-        mySettingsAccessor.AllowOrgasmRarelyPercent = NBAllowRarely.Value
-    End Sub
-
-    Private Sub NBRuinOften_ValueChanged(sender As Object, e As EventArgs) Handles NBRuinOften.LostFocus
-        mySettingsAccessor.RuinOrgasmOftenPercent = NBRuinOften.Value
-    End Sub
-
-    Private Sub NBRuinSometimes_ValueChanged(sender As Object, e As EventArgs) Handles NBRuinSometimes.LostFocus
-        mySettingsAccessor.RuinOrgasmSometimesPercent = NBRuinSometimes.Value
-    End Sub
-
-    Private Sub NBRuinRarely_ValueChanged(sender As Object, e As EventArgs) Handles NBRuinRarely.LostFocus
-        mySettingsAccessor.RuinOrgasmRarelyPercent = NBRuinRarely.Value
-    End Sub
-
-    Private Sub TBSafeword_LostFocus(sender As Object, e As EventArgs) Handles TBSafeword.LostFocus
-        mySettingsAccessor.SafeWord = TBSafeword.Text
     End Sub
 
     Private Sub Button4_Click_5(sender As Object, e As EventArgs) Handles Button4.Click
@@ -5753,17 +6218,6 @@ Public Class FrmSettings
 
     End Sub
 
-    Private Sub CBEdgeUseAvg_LostFocus(sender As Object, e As EventArgs) Handles UseAverageEdgeThresholdCB.LostFocus
-        mySettingsAccessor.UseAverageEdgeTimeAsThreshold = UseAverageEdgeThresholdCB.Checked
-    End Sub
-    Private Sub CBLongEdgeTaunts_LostFocus(sender As Object, e As EventArgs) Handles AllowLongEdgeTauntCB.LostFocus
-        mySettingsAccessor.AllowsLongEdgeTaunts = AllowLongEdgeTauntCB.Checked
-    End Sub
-
-    Private Sub CBLongEdgeInterrupts_LostFocus(sender As Object, e As EventArgs) Handles AllowLongEdgeInterruptCB.LostFocus
-        mySettingsAccessor.AllowsLongEdgeInterrupts = AllowLongEdgeInterruptCB.Checked
-    End Sub
-
     Private Sub CBLongEdgeInterrupts_MouseHover(sender As Object, e As EventArgs) Handles AllowLongEdgeInterruptCB.MouseEnter
         LBLSubSettingsDescription.Text = "When this box is checked, the domme will include edge taunts that call special Interrupt scripts when the Long Edge threshold has been passed."
     End Sub
@@ -5784,34 +6238,31 @@ Public Class FrmSettings
     Private Sub NBWritinGTaskMin_MouseHover(sender As Object, e As EventArgs) Handles NBWritingTaskMin.MouseEnter
         LBLSubSettingsDescription.Text = "Sets the minimum amount of lines the domme will assign you for writing tasks."
     End Sub
+
     Private Sub NBWritinGTaskMax_MouseHover(sender As Object, e As EventArgs) Handles NBWritingTaskMax.MouseEnter
         LBLSubSettingsDescription.Text = "Sets the maximum amount of lines the domme will assign you for writing tasks."
     End Sub
+
     'Private Sub SubDescText_MouseHover(sender As Object, e As EventArgs) Handles Panel2.MouseEnter, GroupBox32.MouseEnter, GroupBox45.MouseEnter, GroupBox35.MouseEnter, GroupBox7.MouseEnter, GroupBox12.MouseEnter
     '   LBLSubSettingsDescription.Text = "Hover over any setting in the menu for a more detailed description of its function."
     'End Sub
-    Private Sub CBHimHer_MouseHover(sender As Object, e As EventArgs) Handles CBHimHer.MouseEnter
-        LBLSubSettingsDescription.Text = "When this is checked, Glitter will automatically replace any instance of He/Him/His with She/Her/Her."
-    End Sub
 
     Private Sub NBNextImageChance_LostFocus(sender As Object, e As EventArgs) Handles NBNextImageChance.LostFocus
         My.Settings.NextImageChance = NBNextImageChance.Value
     End Sub
 
     Private Sub orgasmsperlockButton_Click(sender As Object, e As EventArgs) Handles orgasmsperlockButton.Click
-
         If Not limitcheckbox.Checked Then
             MessageBox.Show(Me, "The Limit box must be checked before clicking this button!", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Return
         End If
 
         Dim result As DialogResult
-
-        If orgasmsPerNumBox.Value = 1 Then
-            result = MessageBox.Show("This will limit you to 1 orgasm for the next " & LCase(orgasmsperComboBox.Text) & "." & Environment.NewLine & Environment.NewLine &
+        If OrgasmsPerNumBox.Value = 1 Then
+            result = MessageBox.Show("This will limit you to 1 orgasm for the next " & LCase(OrgasmsPerComboBox.Text) & "." & Environment.NewLine & Environment.NewLine &
                                                "Are you absolutely sure you wish to continue?", "Warning!", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation)
         Else
-            result = MessageBox.Show("This will limit you to " & orgasmsPerNumBox.Value & " orgasms for the next " & LCase(orgasmsperComboBox.Text) & "." & Environment.NewLine & Environment.NewLine &
+            result = MessageBox.Show("This will limit you to " & OrgasmsPerNumBox.Value & " orgasms for the next " & LCase(OrgasmsPerComboBox.Text) & "." & Environment.NewLine & Environment.NewLine &
                                                            "Are you absolutely sure you wish to continue?", "Warning!", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation)
         End If
 
@@ -5819,17 +6270,19 @@ Public Class FrmSettings
             Return
         End If
 
-        My.Settings.OrgasmsRemaining = orgasmsPerNumBox.Value
-        My.Settings.DomOrgasmPer = orgasmsPerNumBox.Value
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        My.Settings.OrgasmsRemaining = OrgasmsPerNumBox.Value
+        settings.Domme.OrgasmsPerTimePeriod = OrgasmsPerNumBox.Value
+        Dim timePeriodDays As Integer = GetDaysForTimePeriod(OrgasmsPerComboBox.Text)
+        settings.Domme.OrgasmsTimePeriodDays = timePeriodDays
 
-        My.Settings.DomPerMonth = orgasmsperComboBox.Text
-
-        Dim releaseDate As Date = GetOrgasmReleaseDate(orgasmsperComboBox.Text, DateTime.Now.Date).Date
-        mySettingsAccessor.OrgasmLockDate = releaseDate
+        Dim releaseDate As Date = DateTime.Now.Date.AddDays(timePeriodDays)
+        settings.Domme.OrgasmReleaseDate = releaseDate
+        mySettingsAccessor.WriteSettings(settings)
 
         limitcheckbox.Enabled = False
-        orgasmsPerNumBox.Enabled = False
-        orgasmsperComboBox.Enabled = False
+        OrgasmsPerNumBox.Enabled = False
+        OrgasmsPerComboBox.Enabled = False
         orgasmsperlockButton.Enabled = False
         orgasmlockrandombutton.Enabled = False
     End Sub
@@ -5847,23 +6300,25 @@ Public Class FrmSettings
             Return
         End If
 
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
         Dim randomOrgasms As Integer = MainWindow.ssh.randomizer.Next(1, 6)
-
         My.Settings.OrgasmsRemaining = randomOrgasms
-        My.Settings.DomOrgasmPer = randomOrgasms
+        settings.Domme.OrgasmsPerTimePeriod = randomOrgasms
+        OrgasmsPerNumBox.Value = randomOrgasms
 
-        orgasmsPerNumBox.Value = randomOrgasms
+        Dim orgasmInterval As String = GetOrgasmInterval(settings.Domme.DominationLevel)
+        settings.Domme.OrgasmsTimePeriodDays = GetDaysForTimePeriod(orgasmInterval)
+        OrgasmsPerComboBox.Text = orgasmInterval
 
-        Dim orgasmInterval As String = GetOrgasmInterval(mySettingsAccessor.DominationLevel)
-        My.Settings.DomPerMonth = orgasmInterval
-        orgasmsperComboBox.Text = My.Settings.DomPerMonth
+        Dim timePeriodDays As Integer = GetDaysForTimePeriod(OrgasmsPerComboBox.Text)
+        settings.Domme.OrgasmsTimePeriodDays = timePeriodDays
 
-        Dim releaseDate As Date = GetOrgasmReleaseDate(orgasmsperComboBox.Text, DateTime.Now.Date).Date
-        mySettingsAccessor.OrgasmLockDate = releaseDate
+        Dim releaseDate As Date = DateTime.Now.Date.AddDays(timePeriodDays)
+        settings.Domme.OrgasmReleaseDate = releaseDate
 
         limitcheckbox.Enabled = False
-        orgasmsPerNumBox.Enabled = False
-        orgasmsperComboBox.Enabled = False
+        OrgasmsPerNumBox.Enabled = False
+        OrgasmsPerComboBox.Enabled = False
         orgasmsperlockButton.Enabled = False
         orgasmlockrandombutton.Enabled = False
     End Sub
@@ -5903,20 +6358,6 @@ Public Class FrmSettings
             "If the domme decides to tease you again, the tease time will be reset to a new amount based Tease Length settings."
     End Sub
 
-    Private Sub CBTeaseLengthDD_LostFocus(sender As Object, e As EventArgs) Handles TeaseLengthDommeDetermined.LostFocus
-        mySettingsAccessor.IsTeaseLengthDommeDetermined = TeaseLengthDommeDetermined.Checked
-    End Sub
-
-    Private Sub CBTauntCycleDD_LostFocus(sender As Object, e As EventArgs) Handles CBTauntCycleDD.LostFocus
-        mySettingsAccessor.IsTauntCycleDommeDetermined = CBTauntCycleDD.Checked
-    End Sub
-
-    Private Sub CBTeaseLengthDD_MouseHover(sender As Object, e As EventArgs) Handles TeaseLengthDommeDetermined.MouseEnter
-        LBLRangeSettingsDescription.Text = "This allows the domme to decide the length of the tease based on her level." & Environment.NewLine & Environment.NewLine &
-            "A level 1 domme may tease you for 15-20 minutes, while a level 5 domme may tease you as long as an hour." & Environment.NewLine & Environment.NewLine &
-            "The domme will not move to an End script until the first @End point of a Module that occurs after tease time expires."
-    End Sub
-
     Private Sub NBTauntCycleMin_MouseHover(sender As Object, e As EventArgs) Handles NBTauntCycleMin.MouseEnter
         LBLRangeSettingsDescription.Text = "Set the minimum amount of time the domme will make you stroke during Taunt cycles."
     End Sub
@@ -5940,24 +6381,24 @@ Public Class FrmSettings
             "A middle value creates a fairly common use of Taunts. Use a higher value to make the domme extremely engaged. Use a lower value to focus on the Video Tease with minimal interaction from the domme."
     End Sub
 
-    Private Sub CBRangeOrgasm_MouseHover(sender As Object, e As EventArgs) Handles DommeDecideOrgasmCB.MouseEnter
+    Private Sub CBRangeOrgasm_MouseHover(sender As Object, e As EventArgs) Handles DommeDecideOrgasmCheckBox.MouseEnter
         LBLRangeSettingsDescription.Text = "This allows the domme to decide what chance she will allow an orgasm based on her settings." & Environment.NewLine & Environment.NewLine &
             "Default settings are: Often Allows: 75% - Sometimes Allows: 50% - Rarely Allows: 20%"
     End Sub
 
-    Private Sub NBAllowOften_MouseHover(sender As Object, e As EventArgs) Handles AllowOrgasmOftenNB.MouseEnter
+    Private Sub NBAllowOften_MouseHover(sender As Object, e As EventArgs) Handles OftenAllowsPercentNumberBox.MouseEnter
         LBLRangeSettingsDescription.Text = "When ""Domme Decide"" is not checked, this allows you to set what chance the domme will allow orgasm when she is set to ""Often Allows""."
     End Sub
 
-    Private Sub NBAllowSometimes_MouseHover(sender As Object, e As EventArgs) Handles NBAllowSometimes.MouseEnter
+    Private Sub NBAllowSometimes_MouseHover(sender As Object, e As EventArgs) Handles SometimesAllowsPercentNumberBox.MouseEnter
         LBLRangeSettingsDescription.Text = "When ""Domme Decide"" is not checked, this allows you to set what chance the domme will allow orgasm when she is set to ""Sometimes Allows""."
     End Sub
 
-    Private Sub NBAllowRarely_MouseHover(sender As Object, e As EventArgs) Handles NBAllowRarely.MouseEnter
+    Private Sub NBAllowRarely_MouseHover(sender As Object, e As EventArgs) Handles RarelyAllowsPercentNumberBox.MouseEnter
         LBLRangeSettingsDescription.Text = "When ""Domme Decide"" is not checked, this allows you to set what chance the domme will allow orgasm when she is set to ""Rarely Allows""."
     End Sub
 
-    Private Sub CBRangeRuin_MouseHover(sender As Object, e As EventArgs) Handles DommeDecideRuinCB.MouseEnter
+    Private Sub CBRangeRuin_MouseHover(sender As Object, e As EventArgs) Handles DommeDecideRuinCheckBox.MouseEnter
         LBLRangeSettingsDescription.Text = "This allows the domme to decide what chance she will ruin an orgasm based on her settings." & Environment.NewLine & Environment.NewLine &
             "Default settings are: Often Ruins: 75% - Sometimes Ruins: 50% - Rarely Ruins: 20%"
     End Sub
@@ -6107,33 +6548,6 @@ Public Class FrmSettings
             MessageBox.Show(Me, "There was a problem saving this file.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
         End Try
 
-    End Sub
-
-    Private Sub CBOwnChastity_CheckedChanged(sender As Object, e As EventArgs) Handles CBOwnChastity.CheckedChanged
-
-        DoesChastityDeviceRequirePiercingCB.Enabled = CBOwnChastity.Checked
-        ChastityDeviceContainsSpikesCB.Enabled = CBOwnChastity.Checked
-
-    End Sub
-
-    Private Sub CBOwnChastity_LostFocus(sender As Object, e As EventArgs) Handles CBOwnChastity.LostFocus
-        mySettingsAccessor.HasChastityDevice = CBOwnChastity.Checked
-    End Sub
-
-    Private Sub CBChastityPA_LostFocus(sender As Object, e As EventArgs) Handles DoesChastityDeviceRequirePiercingCB.LostFocus
-        mySettingsAccessor.DoesChastityDeviceRequirePiercing = DoesChastityDeviceRequirePiercingCB.Checked
-    End Sub
-
-    Private Sub CBChastitySpikes_LostFocus(sender As Object, e As EventArgs) Handles ChastityDeviceContainsSpikesCB.LostFocus
-        mySettingsAccessor.DoesChastityDeviceContainSpikes = ChastityDeviceContainsSpikesCB.Checked
-    End Sub
-
-    Private Sub CBHimHer_LostFocus(sender As Object, e As EventArgs) Handles CBHimHer.LostFocus
-        mySettingsAccessor.IsSubFemale = CBHimHer.Checked
-    End Sub
-
-    Private Sub CBDomDel_LostFocus(sender As Object, e As EventArgs) Handles CBDomDel.LostFocus
-        mySettingsAccessor.CanDommeDeleteFiles = CBDomDel.Checked
     End Sub
 
     Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles BTNMaintenanceCancel.Click
@@ -6367,14 +6781,6 @@ Public Class FrmSettings
         End If
     End Sub
 
-    Private Sub CBCockToClit_LostFocus(sender As Object, e As EventArgs) Handles CBCockToClit.LostFocus
-        mySettingsAccessor.CallCockAClit = CBCockToClit.Checked
-    End Sub
-
-    Private Sub CBBallsToPussy_LostFocus(sender As Object, e As EventArgs) Handles CBBallsToPussy.LostFocus
-        mySettingsAccessor.CallBallsPussy = CBBallsToPussy.Checked
-    End Sub
-
     Private Sub CBCockToClit_MouseHover(sender As Object, e As EventArgs) Handles CBCockToClit.MouseEnter
         LBLSubSettingsDescription.Text = "When this box is checked, the domme will replace #Cock with a Keyword for ""clit"" when it appears in a script" & Environment.NewLine & Environment.NewLine &
             "She will also replace the word ""stroking"" with words like ""rubbing, fingering, teasing"" etc."
@@ -6422,9 +6828,9 @@ Public Class FrmSettings
         If FrmSettingsLoading = True Or BTNPlaylistEnd.BackColor = Color.Blue Then Return
 
         If RadioPlaylistRegScripts.Checked Then
-            WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\End")
+            ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\End")
         Else
-            WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\End\")
+            ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\End\")
         End If
         LBLPlaylIstLink.Enabled = False
         LBLPlaylIstLink.ForeColor = Color.Black
@@ -6440,36 +6846,36 @@ Public Class FrmSettings
         Debug.Print("Radio CHanged accepted??")
         If LBLPLaylistStart.Enabled Then
             If RadioPlaylistRegScripts.Checked Then
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\Start\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\Start\")
             Else
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Start\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Start\")
             End If
             Return
         End If
 
         If BTNPlaylistEnd.BackColor = Color.Blue Then
             If RadioPlaylistRegScripts.Checked Then
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\End\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\End\")
             Else
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\End\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\End\")
             End If
             Return
         End If
 
         If LBLPlaylistModule.Enabled Then
             If RadioPlaylistRegScripts.Checked Then
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Modules\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Modules\")
             Else
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Modules\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Modules\")
             End If
             Return
         End If
 
         If LBLPlaylIstLink.Enabled Then
             If RadioPlaylistRegScripts.Checked Then
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\Link\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\Link\")
             Else
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Link\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Link\")
             End If
             Return
         End If
@@ -6508,9 +6914,9 @@ Public Class FrmSettings
             BTNPlaylistClearAll.Enabled = False
             If LBLPLaylistStart.Enabled Then
                 If RadioPlaylistRegScripts.Checked Then
-                    WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\Start\")
+                    ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\Start\")
                 Else
-                    WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Start\")
+                    ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Start\")
                 End If
             End If
         Catch
@@ -6539,9 +6945,9 @@ Public Class FrmSettings
         BTNPlaylistClearAll.Enabled = False
         If LBLPLaylistStart.Enabled Then
             If RadioPlaylistRegScripts.Checked Then
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\Start\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\Start\")
             Else
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Start\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Start\")
             End If
         End If
 
@@ -6580,7 +6986,7 @@ Public Class FrmSettings
     Public Sub ProcessPlaylist()
 
         If BTNPlaylistEnd.BackColor = Color.Blue Then
-            WBPlaylist.Navigate("about:blank")
+            ScriptPlayList.Navigate("about:blank")
             BTNPlaylistEnd.Enabled = False
             BTNPlaylistEnd.ForeColor = Color.Black
             BTNPlaylistEnd.BackColor = Color.LightGray
@@ -6590,9 +6996,9 @@ Public Class FrmSettings
 
         If LBLPLaylistStart.Enabled Then
             If RadioPlaylistRegScripts.Checked Then
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Modules\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Modules\")
             Else
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Modules\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Modules\")
             End If
 
             LBLPLaylistStart.Enabled = False
@@ -6608,9 +7014,9 @@ Public Class FrmSettings
 
         If LBLPlaylistModule.Enabled Then
             If RadioPlaylistRegScripts.Checked Then
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\Link")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\Link")
             Else
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Link\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Link\")
             End If
             LBLPlaylistModule.Enabled = False
             LBLPlaylIstLink.Enabled = True
@@ -6626,9 +7032,9 @@ Public Class FrmSettings
 
         If LBLPlaylIstLink.Enabled Then
             If RadioPlaylistRegScripts.Checked Then
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Modules\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Modules\")
             Else
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Modules\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Modules\")
             End If
             LBLPlaylIstLink.Enabled = False
             LBLPlaylistModule.Enabled = True
@@ -6664,9 +7070,9 @@ Public Class FrmSettings
             LBLPlaylistModule.ForeColor = Color.Black
             LBLPlaylistModule.BackColor = Color.LightGray
             If RadioPlaylistRegScripts.Checked Then
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\Link\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\Link\")
             Else
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Link\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Link\")
             End If
             Return
         End If
@@ -6683,9 +7089,9 @@ Public Class FrmSettings
             BTNPlaylistCtrlZ.Enabled = False
             BTNPlaylistClearAll.Enabled = False
             If RadioPlaylistRegScripts.Checked Then
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\Start\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\Start\")
             Else
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Start\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Start\")
             End If
             Return
         End If
@@ -6701,9 +7107,9 @@ Public Class FrmSettings
             LBLPlaylistModule.ForeColor = Color.Black
             LBLPlaylistModule.BackColor = Color.LightGray
             If RadioPlaylistRegScripts.Checked Then
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\Link\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\Link\")
             Else
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Link\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Link\")
             End If
             Return
         End If
@@ -6719,9 +7125,9 @@ Public Class FrmSettings
             LBLPlaylIstLink.ForeColor = Color.Black
             LBLPlaylIstLink.BackColor = Color.LightGray
             If RadioPlaylistRegScripts.Checked Then
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Modules\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Modules\")
             Else
-                WBPlaylist.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Modules\")
+                ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Playlist\Modules\")
             End If
             Return
         End If
@@ -6730,15 +7136,6 @@ Public Class FrmSettings
 
     End Sub
 
-    Private Sub Button11_Click_1(sender As Object, e As EventArgs) Handles Button11.Click
-
-        If MsgBox("This will change the Chastity state of Tease AI. Depending on the Personality or Scripts used so far, this could cause unexpected behavior or break certain scripts." & Environment.NewLine _
-                  & Environment.NewLine & "It is recommended to only change this state if you are otherwise stuck. Are you sure you wish to change the Chastity state?", vbYesNo, "Warning!") = MsgBoxResult.Yes Then
-            mySettingsAccessor.InChastity = Not mySettingsAccessor.InChastity
-            InChastityLabel.ForeColor = mySettingsAccessor.InChastity.ToColor()
-            InChastityLabel.Text = mySettingsAccessor.InChastity.ToOnOff()
-        End If
-    End Sub
 
     Public Sub EnglishMenu()
 
@@ -7080,17 +7477,6 @@ Public Class FrmSettings
         My.Settings.MuteMedia = CBMuteMedia.Checked
     End Sub
 
-    Private Sub BTNOfflineMode_Click(sender As Object, e As EventArgs) Handles BTNOfflineMode.Click
-        mySettingsAccessor.IsOffline = Not mySettingsAccessor.IsOffline
-        If mySettingsAccessor.IsOffline Then
-            LBLOfflineMode.Text = "ON"
-            LBLOfflineMode.ForeColor = Color.Green
-        Else
-            LBLOfflineMode.Text = "OFF"
-            LBLOfflineMode.ForeColor = Color.Red
-        End If
-    End Sub
-
     Private Sub CBNewSlideshow_LostFocus(sender As Object, e As EventArgs) Handles CBNewSlideshow.LostFocus
         If CBNewSlideshow.Checked Then
             My.Settings.CBNewSlideshow = True
@@ -7179,14 +7565,14 @@ Public Class FrmSettings
         TypesSpeedVal.Text = TypeSpeedSlider.Value
     End Sub
 
-    Private Function ConvertHoldTime(holdTimeSeconds As Int16) As Int16
+    Private Function ConvertHoldTime(holdTimeSeconds As Integer) As Integer
         If (ConvertHoldTimeUnits(holdTimeSeconds) = "minutes") Then
             Return holdTimeSeconds / 60
         End If
         Return holdTimeSeconds
     End Function
 
-    Private Function ConvertHoldTime(holdTime As Int16, holdTimeUnits As String) As Int16
+    Private Function ConvertHoldTime(holdTime As Integer, holdTimeUnits As String) As Int16
         If (holdTimeUnits = "minutes") Then
             Return holdTime * 60
         End If
@@ -7294,25 +7680,6 @@ Public Class FrmSettings
         Return Result.Ok(images)
     End Function
 
-    Private Function GetOrgasmReleaseDate(lockTimeDuration As String, startDate As Date) As Date
-        If lockTimeDuration = "Week" Then startDate = DateAdd(DateInterval.Day, 7, startDate)
-        If lockTimeDuration = "2 Weeks" Then startDate = DateAdd(DateInterval.Day, 14, startDate)
-        If lockTimeDuration = "Month" Then startDate = DateAdd(DateInterval.Month, 1, startDate)
-        If lockTimeDuration = "2 Months" Then startDate = DateAdd(DateInterval.Month, 2, startDate)
-        If lockTimeDuration = "3 Months" Then startDate = DateAdd(DateInterval.Month, 3, startDate)
-        If lockTimeDuration = "6 Months" Then startDate = DateAdd(DateInterval.Month, 6, startDate)
-        If lockTimeDuration = "9 Months" Then startDate = DateAdd(DateInterval.Month, 9, startDate)
-        If lockTimeDuration = "Year" Then startDate = DateAdd(DateInterval.Year, 1, startDate)
-        If lockTimeDuration = "2 Years" Then startDate = DateAdd(DateInterval.Year, 2, startDate)
-        If lockTimeDuration = "3 Years" Then startDate = DateAdd(DateInterval.Year, 3, startDate)
-        If lockTimeDuration = "5 Years" Then startDate = DateAdd(DateInterval.Year, 5, startDate)
-        If lockTimeDuration = "10 Years" Then startDate = DateAdd(DateInterval.Year, 10, startDate)
-        If lockTimeDuration = "25 Years" Then startDate = DateAdd(DateInterval.Year, 25, startDate)
-        If lockTimeDuration = "Lifetime" Then startDate = DateAdd(DateInterval.Year, 100, startDate)
-
-        Return startDate
-    End Function
-
     Private Function GetOrgasmInterval(dominationLevel As DomLevel) As String
         Dim randomTime As Integer = MainWindow.ssh.randomizer.Next(1, 4)
 
@@ -7369,6 +7736,45 @@ Public Class FrmSettings
         End If
         Return child
     End Function
+
+    Private Function GetDaysForTimePeriod(text As String) As Integer
+        Select Case (text)
+            Case "Week"
+                Return Convert.ToInt32(365 / 7)
+            Case "2 Weeks"
+                Return Convert.ToInt32(365 / 14)
+            Case "Month"
+                Return 30
+            Case "2 Months"
+                Return Convert.ToInt32(365 / 6)
+            Case "3 Months"
+                Return Convert.ToInt32(365 / 4)
+            Case "6 Months"
+                Return Convert.ToInt32(365 / 2)
+            Case "9 Months"
+                Return Convert.ToInt32(365 * 0.75)
+            Case "Year"
+                Return 365
+            Case "2 Years"
+                Return 365 * 2
+            Case "3 Years"
+                Return 365 * 3
+            Case "5 Years"
+                Return 365 * 5
+            Case "10 Years"
+                Return 365 * 10
+            Case "25 Years"
+                Return 365 * 25
+            Case "Lifetime"
+                Return 365 * 100
+            Case Else
+                Return 0
+        End Select
+    End Function
+
+    Private Sub Label89_Click(sender As Object, e As EventArgs) Handles RarelyAllowsPercentLabel.Click
+
+    End Sub
 
     Private ReadOnly mySettingsAccessor As ISettingsAccessor
     Private ReadOnly myConfigurationAccessor As IConfigurationAccessor
