@@ -3430,7 +3430,7 @@ DommeSlideshowFallback:
 
                 Dim TauntFile As String
                 TauntFile = "StrokeTaunts"
-                If Settings.Misc.IsInChastity Then TauntFile = "ChastityTaunts"
+                If settings.Misc.IsInChastity Then TauntFile = "ChastityTaunts"
                 If ssh.GlitterTease = True Then TauntFile = "GlitterTaunts"
                 ' ### Debug
                 'TauntFile = "StrokeTaunts"
@@ -9820,8 +9820,8 @@ SkipTextedTags:
                 .Add("@DommeLevel3", FrmSettings.DominationLevel.Value <> 3)
                 .Add("@DommeLevel4", FrmSettings.DominationLevel.Value <> 4)
                 .Add("@DommeLevel5", FrmSettings.DominationLevel.Value <> 5)
-                .Add("@SelfYoung", FrmSettings.domageNumBox.Value > FrmSettings.NBSelfAgeMin.Value - 1)
-                .Add("@SelfOld", FrmSettings.domageNumBox.Value < FrmSettings.NBSelfAgeMax.Value + 1)
+                .Add("@SelfYoung", FrmSettings.DomAgeNumberBox.Value > FrmSettings.NBSelfAgeMin.Value - 1)
+                .Add("@SelfOld", FrmSettings.DomAgeNumberBox.Value < FrmSettings.NBSelfAgeMax.Value + 1)
                 .Add("@ACup", FrmSettings.boobComboBox.Text <> "A" Or ssh.JustShowedBlogImage = True)
                 .Add("@BCup", FrmSettings.boobComboBox.Text <> "B" Or ssh.JustShowedBlogImage = True)
                 .Add("@CCup", FrmSettings.boobComboBox.Text <> "C" Or ssh.JustShowedBlogImage = True)
@@ -9932,8 +9932,8 @@ SkipTextedTags:
                 .Add("@ApathyLevel3", FrmSettings.NBEmpathy.Value <> 3)
                 .Add("@ApathyLevel4", FrmSettings.NBEmpathy.Value <> 4)
                 .Add("@ApathyLevel5", FrmSettings.NBEmpathy.Value <> 5)
-                .Add("@InChastity", Not Settings.Misc.IsInChastity)
-                .Add("@NotInChastity", Settings.Misc.IsInChastity)
+                .Add("@InChastity", Not settings.Misc.IsInChastity)
+                .Add("@NotInChastity", settings.Misc.IsInChastity)
                 .Add("@HasChastity", FrmSettings.CBOwnChastity.Checked = False)
                 .Add("@DoesNotHaveChastity", FrmSettings.CBOwnChastity.Checked = True)
                 .Add("@ChastityPA", FrmSettings.DoesChastityDeviceRequirePiercingCB.Checked = False)
@@ -10460,7 +10460,7 @@ NoPlaylistLinkFile:
 
 
                 Dim ChastityLinkCheck As String
-                If Settings.Misc.IsInChastity Then
+                If settings.Misc.IsInChastity Then
                     ChastityLinkCheck = "*_CHASTITY.txt"
                 Else
                     ChastityLinkCheck = "*.txt"
@@ -10473,7 +10473,7 @@ NoPlaylistLinkFile:
                         TempLink = TempLink.Remove(0, 1)
                     Loop
                     For x As Integer = 0 To FrmSettings.LinkScripts.Items.Count - 1
-                        If Settings.Misc.IsInChastity Then
+                        If settings.Misc.IsInChastity Then
                             If FrmSettings.LinkScripts.Items(x) = TempLink And FrmSettings.LinkScripts.GetItemChecked(x) = True Then
                                 LinkList.Add(foundFile)
                             End If
@@ -10487,7 +10487,7 @@ NoPlaylistLinkFile:
                 Next
 
                 If LinkList.Count < 1 Then
-                    If Settings.Misc.IsInChastity Then
+                    If settings.Misc.IsInChastity Then
                         ssh.FileText = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Scripts\Link_CHASTITY.txt"
                     Else
                         ssh.FileText = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Scripts\Link.txt"
@@ -14665,7 +14665,7 @@ playLoop:
         returnValue.IsSupremacist = FrmSettings.supremacistCheckBox.Checked
         returnValue.IsVulgar = FrmSettings.vulgarCheckBox.Checked
 
-        returnValue.Age = Convert.ToUInt16(FrmSettings.domageNumBox.Value)
+        returnValue.Age = Convert.ToUInt16(FrmSettings.DomAgeNumberBox.Value)
         returnValue.AgeOldLimit = Convert.ToUInt16(FrmSettings.NBSelfAgeMin.Value)
         returnValue.AgeYoungLimit = Convert.ToUInt16(FrmSettings.NBSelfAgeMax.Value)
         returnValue.Name = domName.Text
@@ -14684,7 +14684,7 @@ playLoop:
         returnValue.DomLevel = DomLevel.Create(Convert.ToInt32(FrmSettings.DominationLevel.Value)).Value
 
         returnValue.CupSize = CupSize.Create(FrmSettings.boobComboBox.SelectedItem.ToString()).Value
-        returnValue.BirthDay = New DateTime(DateTime.Now.Year, FrmSettings.NBDomBirthdayMonth.Value, FrmSettings.NBDomBirthdayDay.Value)
+        returnValue.BirthDay = New DateTime(DateTime.Now.Year, settings.Domme.BirthDate.Month, settings.Domme.BirthDate.Day)
 
         returnValue.MoodLevel = MoodLevel.Create(Convert.ToInt32(ssh.DommeMood)).Value
         returnValue.MoodAngry = MoodLevel.Create(Convert.ToInt32(FrmSettings.NBDomMoodMin.Value)).Value
@@ -14701,7 +14701,7 @@ playLoop:
         Dim returnValue As SubPersonality = New SubPersonality()
 
         returnValue.Age = Convert.ToUInt16(FrmSettings.subAgeNumBox.Value)
-        returnValue.Birthday = New DateTime(DateTime.Now.Year, My.Settings.SubBirthMonth, My.Settings.SubBirthDay)
+        returnValue.Birthday = New DateTime(DateTime.Now.Year, settings.Sub.BirthDate.Month, settings.Sub.BirthDate.Day)
         returnValue.CockSize = Convert.ToInt32(FrmSettings.CockSizeNumBox.Value)
         returnValue.Name = SubName.Text
         returnValue.IsCircumsized = FrmSettings.CBSubCircumcised.Checked
@@ -15565,12 +15565,12 @@ NoPlaylistStartFile:
         End If
         Dim settings As Settings = mySettingsAccessor.GetSettings()
         If My.Settings.ClearWishlist Then
-            MessageBox.Show(Me, "You have already purchased " & Settings.Domme.Name & "'s Wishlist item for today!" & Environment.NewLine & Environment.NewLine &
+            MessageBox.Show(Me, "You have already purchased " & settings.Domme.Name & "'s Wishlist item for today!" & Environment.NewLine & Environment.NewLine &
                                 "Please check back again tomorrow!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Return
         End If
 
-        LBLWishlistDom.Text = Settings.Domme.Name & "'s Wishlist"
+        LBLWishlistDom.Text = settings.Domme.Name & "'s Wishlist"
         LBLWishlistDate.Text = Now.ToShortDateString()
         LBLWishlistBronze.Text = ssh.BronzeTokens
         LBLWishlistSilver.Text = ssh.SilverTokens

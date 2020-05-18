@@ -1470,30 +1470,6 @@ Namespace My
 
         <Global.System.Configuration.UserScopedSettingAttribute(),
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("yes, yeah, yep, yup, sure, of course, absolutely, you know it, definitely")>
-        Public Property SubYes() As String
-            Get
-                Return CType(Me("SubYes"), String)
-            End Get
-            Set
-                Me("SubYes") = Value
-            End Set
-        End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("no, nah, nope, not")>
-        Public Property SubNo() As String
-            Get
-                Return CType(Me("SubNo"), String)
-            End Get
-            Set
-                Me("SubNo") = Value
-            End Set
-        End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
          Global.System.Configuration.DefaultSettingValueAttribute("Mistress")>
         Public Property SubHonorific() As String
             Get
@@ -1530,30 +1506,6 @@ Namespace My
 
         <Global.System.Configuration.UserScopedSettingAttribute(),
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("6")>
-        Public Property SubCockSize() As Integer
-            Get
-                Return CType(Me("SubCockSize"), Integer)
-            End Get
-            Set
-                Me("SubCockSize") = Value
-            End Set
-        End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("28")>
-        Public Property SubAge() As Integer
-            Get
-                Return CType(Me("SubAge"), Integer)
-            End Get
-            Set
-                Me("SubAge") = Value
-            End Set
-        End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
          Global.System.Configuration.DefaultSettingValueAttribute("False")>
         Public Property TCAgreed() As Boolean
             Get
@@ -1573,54 +1525,6 @@ Namespace My
             End Get
             Set
                 Me("TimerSTF") = Value
-            End Set
-        End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("1")>
-        Public Property SubBirthMonth() As Integer
-            Get
-                Return CType(Me("SubBirthMonth"), Integer)
-            End Get
-            Set
-                Me("SubBirthMonth") = Value
-            End Set
-        End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("1")>
-        Public Property SubBirthDay() As Integer
-            Get
-                Return CType(Me("SubBirthDay"), Integer)
-            End Get
-            Set
-                Me("SubBirthDay") = Value
-            End Set
-        End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("brown")>
-        Public Property SubHair() As String
-            Get
-                Return CType(Me("SubHair"), String)
-            End Get
-            Set
-                Me("SubHair") = Value
-            End Set
-        End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("green")>
-        Public Property SubEyes() As String
-            Get
-                Return CType(Me("SubEyes"), String)
-            End Get
-            Set
-                Me("SubEyes") = Value
             End Set
         End Property
 

@@ -1986,6 +1986,31 @@
             list of greetings the sub may use
             </summary>
         </member>
+        <member name="P:TeaseAI.Common.SubSettings.CockLength">
+            <summary>
+            how long is the sub's cock
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubSettings.BirthDate">
+            <summary>
+            When is the sub's birthdate
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubSettings.Age">
+            <summary>
+            how old is the sub. current date - birthdate
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubSettings.YesPhrases">
+            <summary>
+            List of phrases the sub can use to indicate yes
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubSettings.NoPhrases">
+            <summary>
+            List of phrases the sub can use to indicate no
+            </summary>
+        </member>
         <member name="T:TeaseAI.Common.TaggedItem">
             <summary>
             An item and its associated Tags

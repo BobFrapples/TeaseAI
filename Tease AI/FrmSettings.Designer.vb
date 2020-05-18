@@ -128,7 +128,7 @@ Partial Class FrmSettings
         Me.NBDomBirthdayDay = New System.Windows.Forms.NumericUpDown()
         Me.TBDomEyeColor = New System.Windows.Forms.TextBox()
         Me.TBDomHairColor = New System.Windows.Forms.TextBox()
-        Me.domageNumBox = New System.Windows.Forms.NumericUpDown()
+        Me.DomAgeNumberBox = New System.Windows.Forms.NumericUpDown()
         Me.Label47 = New System.Windows.Forms.Label()
         Me.Label76 = New System.Windows.Forms.Label()
         Me.NBDomBirthdayMonth = New System.Windows.Forms.NumericUpDown()
@@ -1129,7 +1129,7 @@ Partial Class FrmSettings
         Me.GBDomStats.SuspendLayout
         CType(Me.NBEmpathy, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NBDomBirthdayDay, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.domageNumBox, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.DomAgeNumberBox, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NBDomBirthdayMonth, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.DominationLevel, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GBDomPersonality.SuspendLayout
@@ -2577,7 +2577,7 @@ Partial Class FrmSettings
         Me.GBDomStats.Controls.Add(Me.NBDomBirthdayDay)
         Me.GBDomStats.Controls.Add(Me.TBDomEyeColor)
         Me.GBDomStats.Controls.Add(Me.TBDomHairColor)
-        Me.GBDomStats.Controls.Add(Me.domageNumBox)
+        Me.GBDomStats.Controls.Add(Me.DomAgeNumberBox)
         Me.GBDomStats.Controls.Add(Me.Label47)
         Me.GBDomStats.Controls.Add(Me.Label76)
         Me.GBDomStats.Controls.Add(Me.NBDomBirthdayMonth)
@@ -2685,17 +2685,17 @@ Partial Class FrmSettings
         '
         'domageNumBox
         '
-        Me.domageNumBox.BackColor = System.Drawing.Color.White
-        Me.domageNumBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.domageNumBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.domageNumBox.ForeColor = System.Drawing.Color.Black
-        Me.domageNumBox.Location = New System.Drawing.Point(73, 61)
-        Me.domageNumBox.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
-        Me.domageNumBox.Minimum = New Decimal(New Integer() {18, 0, 0, 0})
-        Me.domageNumBox.Name = "domageNumBox"
-        Me.domageNumBox.Size = New System.Drawing.Size(38, 20)
-        Me.domageNumBox.TabIndex = 27
-        Me.domageNumBox.Value = New Decimal(New Integer() {21, 0, 0, 0})
+        Me.DomAgeNumberBox.BackColor = System.Drawing.Color.White
+        Me.DomAgeNumberBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.DomAgeNumberBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.DomAgeNumberBox.ForeColor = System.Drawing.Color.Black
+        Me.DomAgeNumberBox.Location = New System.Drawing.Point(73, 61)
+        Me.DomAgeNumberBox.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
+        Me.DomAgeNumberBox.Minimum = New Decimal(New Integer() {18, 0, 0, 0})
+        Me.DomAgeNumberBox.Name = "domageNumBox"
+        Me.DomAgeNumberBox.Size = New System.Drawing.Size(38, 20)
+        Me.DomAgeNumberBox.TabIndex = 27
+        Me.DomAgeNumberBox.Value = New Decimal(New Integer() {21, 0, 0, 0})
         '
         'Label47
         '
@@ -14320,7 +14320,7 @@ Partial Class FrmSettings
         Me.GBDomStats.PerformLayout
         CType(Me.NBEmpathy, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NBDomBirthdayDay, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.domageNumBox, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.DomAgeNumberBox, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NBDomBirthdayMonth, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.DominationLevel, System.ComponentModel.ISupportInitialize).EndInit
         Me.GBDomPersonality.ResumeLayout(False)
@@ -14649,7 +14649,7 @@ Partial Class FrmSettings
     Friend WithEvents GBDomStats As System.Windows.Forms.GroupBox
     Friend WithEvents boobComboBox As System.Windows.Forms.ComboBox
     Friend WithEvents DomLevelDescLabel As System.Windows.Forms.Label
-    Friend WithEvents domageNumBox As System.Windows.Forms.NumericUpDown
+    Friend WithEvents DomAgeNumberBox As System.Windows.Forms.NumericUpDown
     Friend WithEvents DominationLevel As System.Windows.Forms.NumericUpDown
     Friend WithEvents Label43 As System.Windows.Forms.Label
     Friend WithEvents Label44 As System.Windows.Forms.Label

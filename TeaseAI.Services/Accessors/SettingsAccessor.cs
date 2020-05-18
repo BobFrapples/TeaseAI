@@ -104,6 +104,7 @@ namespace TeaseAI.Services.Accessors
                 },
                 Sub = new SubSettings
                 {
+                    BirthDate = new DateTime(DateTime.Now.Year - 28, 1, 1),
                     AvatarImageFile = string.Empty,
                     Name = "sub name",
                     Safeword = "red",
@@ -130,6 +131,11 @@ namespace TeaseAI.Services.Accessors
                     LongEdgeThreshold = 45,
                     UseAverageEdgeTimeAsThreshold = false,
                     Greetings = new List<string> { "hello", "hi", "hey", "heya", "good morning", "good afternoon", "good evening" },
+                    YesPhrases = new List<string> { "yes", "yeah", "yep", "yup", "sure", "of course", "absolutely", "you know it", "definitely" },
+                    NoPhrases = new List<string> { "no", "nah", "nope", "not" },
+                    CockLength = 6,
+                    EyeColor = "brown",
+                    HairColor = "brown",
                 },
                 Range = new RangeSettings
                 {

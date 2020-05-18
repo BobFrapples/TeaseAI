@@ -14,7 +14,6 @@ namespace TeaseAI.Common
             Version = 1;
         }
 
-
         /// <summary>
         /// used to manage serialization. Changes when the model breaks compatibility
         /// </summary>
@@ -146,6 +145,44 @@ namespace TeaseAI.Common
             set { _greetings = value; }
         }
 
+        /// <summary>
+        /// how long is the sub's cock
+        /// </summary>
+        public int CockLength { get; set; }
+
+        /// <summary>
+        /// When is the sub's birthdate
+        /// </summary>
+        public DateTime BirthDate { get; set; }
+
+        /// <summary>
+        /// how old is the sub. current date - birthdate
+        /// </summary>
+        public int Age => DateTime.Now.Year - BirthDate.Year;
+
+        /// <summary>
+        /// List of phrases the sub can use to indicate yes
+        /// </summary>
+        public List<string> YesPhrases 
+        {
+            get { return _yesPhrases ?? (_yesPhrases = new List<string>()); }
+            set { _yesPhrases = value; }
+        }
+
+        /// <summary>
+        /// List of phrases the sub can use to indicate no
+        /// </summary>
+        public List<string> NoPhrases 
+        {
+            get { return _noPhrases ?? (_noPhrases = new List<string>()); }
+            set { _noPhrases = value; }
+        }
+
+        public string HairColor { get; set; }
+        public string EyeColor { get; set; }
+
         private List<string> _greetings;
+        private List<string> _yesPhrases;
+        private List<string> _noPhrases;
     }
 }
