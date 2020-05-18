@@ -14659,36 +14659,36 @@ playLoop:
         Dim settings As Settings = mySettingsAccessor.GetSettings()
         returnValue.PersonalityName = settings.DommePersonality
 
-        returnValue.IsCrazy = FrmSettings.crazyCheckBox.Checked
+        returnValue.IsCrazy = settings.Domme.IsCrazy
         returnValue.IsDegrading = FrmSettings.degradingCheckBox.Checked
         returnValue.IsSadistic = FrmSettings.sadisticCheckBox.Checked
-        returnValue.IsSupremacist = FrmSettings.supremacistCheckBox.Checked
+        returnValue.IsSupremacist = settings.Domme.IsSupremacist
         returnValue.IsVulgar = FrmSettings.vulgarCheckBox.Checked
 
-        returnValue.Age = Convert.ToUInt16(FrmSettings.DomAgeNumberBox.Value)
-        returnValue.AgeOldLimit = Convert.ToUInt16(FrmSettings.NBSelfAgeMin.Value)
-        returnValue.AgeYoungLimit = Convert.ToUInt16(FrmSettings.NBSelfAgeMax.Value)
-        returnValue.Name = domName.Text
+        returnValue.Age = settings.Domme.Age
+        returnValue.AgeOldLimit = settings.Domme.AverageAgeSelfMaximum
+        returnValue.AgeYoungLimit = settings.Domme.AverageAgeSelfMinimum
+        returnValue.Name = settings.Domme.Name
         returnValue.Honorific = FrmSettings.TBHonorific.Text
 
-        returnValue.SubAgeOldLimit = Convert.ToUInt16(FrmSettings.NBSubAgeMin.Value)
-        returnValue.SubAgeYoungLimit = Convert.ToUInt16(FrmSettings.NBSubAgeMax.Value)
+        returnValue.SubAgeOldLimit = settings.Domme.AverageAgeSubMaximum
+        returnValue.SubAgeYoungLimit = settings.Domme.AverageAgeSubMinimum
 
-        returnValue.CockBigLimit = Convert.ToUInt16(FrmSettings.NBAvgCockMin.Value)
-        returnValue.CockSmallLimit = Convert.ToUInt16(FrmSettings.NBAvgCockMin.Value)
+        returnValue.CockBigLimit = settings.Domme.AveragePenisMaximum
+        returnValue.CockSmallLimit = settings.Domme.AveragePenisMinimum
 
-        returnValue.AllowsOrgasms = MapToAllowsOrgasms(FrmSettings.alloworgasmComboBox.SelectedItem.ToString())
-        returnValue.RuinsOrgasms = MapToRuinsOrgasms(FrmSettings.ruinorgasmComboBox.SelectedItem.ToString())
+        returnValue.AllowsOrgasms = settings.Domme.AllowsOrgasms
+        returnValue.RuinsOrgasms = settings.Domme.RuinsOrgasms
 
-        returnValue.ApathyLevel = ApathyLevel.Create(Convert.ToInt32(FrmSettings.NBEmpathy.Value)).Value
-        returnValue.DomLevel = DomLevel.Create(Convert.ToInt32(FrmSettings.DominationLevel.Value)).Value
+        returnValue.ApathyLevel = settings.Domme.ApathyLevel
+        returnValue.DomLevel = settings.Domme.DominationLevel
 
-        returnValue.CupSize = CupSize.Create(FrmSettings.boobComboBox.SelectedItem.ToString()).Value
+        returnValue.CupSize = settings.Domme.CupSize
         returnValue.BirthDay = New DateTime(DateTime.Now.Year, settings.Domme.BirthDate.Month, settings.Domme.BirthDate.Day)
 
         returnValue.MoodLevel = MoodLevel.Create(Convert.ToInt32(ssh.DommeMood)).Value
-        returnValue.MoodAngry = MoodLevel.Create(Convert.ToInt32(FrmSettings.NBDomMoodMin.Value)).Value
-        returnValue.MoodHappy = MoodLevel.Create(Convert.ToInt32(FrmSettings.NBDomMoodMax.Value)).Value
+        returnValue.MoodAngry = MoodLevel.Create(settings.Domme.BadMoodThreshold).Value
+        returnValue.MoodHappy = MoodLevel.Create(settings.Domme.GoodMoodThreshold).Value
 
         returnValue.RequiresHonorific = FrmSettings.CBHonorificInclude.Checked
         returnValue.RequiresHonorificCapitalized = FrmSettings.CBHonorificCapitalized.Checked
