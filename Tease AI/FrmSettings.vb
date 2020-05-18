@@ -260,6 +260,10 @@ Public Class FrmSettings
         FrmSplash.UpdateText("Loading Domme Settings...")
         LoadDommeSettings(settings.Domme)
 
+        ' This needs moved into domme settings
+        TBHonorific.Text = My.Settings.SubHonorific
+        If String.IsNullOrWhiteSpace(TBHonorific.Text) Then TBHonorific.Text = "Mistress"
+
         FrmSplash.UpdateText("Loading Sub Settings...")
         LoadSubSettingsTab(settings.Sub)
 
@@ -360,29 +364,25 @@ Public Class FrmSettings
         CBCockToClit.Checked = subSettings.CallCockAClit
         CBBallsToPussy.Checked = subSettings.CallBallsPussy
 
-        CockSizeNumBox.Value = My.Settings.SubCockSize
-        subAgeNumBox.Value = My.Settings.SubAge
+        CockSizeNumBox.Value = subSettings.CockLength
 
         TBGreeting.Text = String.Join(",", subSettings.Greetings)
-        TBYes.Text = My.Settings.SubYes
-        TBNo.Text = My.Settings.SubNo
-
-        TBHonorific.Text = My.Settings.SubHonorific
-
-        If String.IsNullOrWhiteSpace(TBHonorific.Text) Then TBHonorific.Text = "Mistress"
+        TBYes.Text = String.Join(",", subSettings.YesPhrases)
+        TBNo.Text = String.Join(",", subSettings.NoPhrases)
 
         CBHonorificInclude.Checked = My.Settings.CBUseHonor
         CBHonorificCapitalized.Checked = My.Settings.CBCapHonor
 
-        NBBirthdayMonth.Value = My.Settings.SubBirthMonth
-        NBBirthdayDay.Value = My.Settings.SubBirthDay
-        TBSubHairColor.Text = My.Settings.SubHair
-        TBSubEyeColor.Text = My.Settings.SubEyes
+        subAgeNumBox.Value = subSettings.Age
+        NBBirthdayMonth.Value = subSettings.BirthDate.Month
+        NBBirthdayDay.Value = subSettings.BirthDate.Day
 
+        TBSubHairColor.Text = subSettings.HairColor
+        TBSubEyeColor.Text = subSettings.EyeColor
     End Sub
 
     Public Sub LoadDommeSettings(dommeSettings As DommeSettings)
-        domageNumBox.Value = dommeSettings.Age
+        DomAgeNumberBox.Value = dommeSettings.Age
         NBDomBirthdayMonth.Value = dommeSettings.BirthDate.Month
         NBDomBirthdayDay.Value = dommeSettings.BirthDate.Day
 
@@ -836,9 +836,9 @@ Public Class FrmSettings
         'LblDommeSettingsDescription.Text = "Sets the day the domme was born."
     End Sub
 
-    Private Sub domageNumBox_MouseHover(sender As Object, e As EventArgs) Handles domageNumBox.MouseHover
+    Private Sub domageNumBox_MouseHover(sender As Object, e As EventArgs) Handles DomAgeNumberBox.MouseHover
 
-        TTDir.SetToolTip(domageNumBox, "Sets the Domme's age (18-99 years old).")
+        TTDir.SetToolTip(DomAgeNumberBox, "Sets the Domme's age (18-99 years old).")
 
         'LblDommeSettingsDescription.Text = "Sets the Domme's age (18-99 years old)." & Environment.NewLine & Environment.NewLine & "This setting mainly affects how the domme describes herself in random conversation. For example, a younger domme might refer to her skin " _
         ' & "as tight or smooth, while an older domme might choose words like sensuous. Scripts may also contain keywords and variables that will limit certain paths to certain age groups."
@@ -1679,7 +1679,7 @@ Public Class FrmSettings
     End Sub
 
     Private Sub AllowOrgasmComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles alloworgasmComboBox.SelectedIndexChanged
-        If Not DominationLevel.Visible Then
+        If Not alloworgasmComboBox.Visible Then
             Return
         End If
 
@@ -1689,7 +1689,7 @@ Public Class FrmSettings
     End Sub
 
     Private Sub RuinOrgasmComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ruinorgasmComboBox.SelectedIndexChanged
-        If Not DominationLevel.Visible Then
+        If Not ruinorgasmComboBox.Visible Then
             Return
         End If
 
@@ -1698,18 +1698,18 @@ Public Class FrmSettings
         mySettingsAccessor.WriteSettings(settings)
     End Sub
 
-    Private Sub DomAgeNumBox_ValueChanged(sender As Object, e As EventArgs) Handles domageNumBox.ValueChanged
-        If Not TBSafeword.Visible Then
+    Private Sub DomAgeNumBox_ValueChanged(sender As Object, e As EventArgs) Handles DomAgeNumberBox.ValueChanged
+        If Not DomAgeNumberBox.Visible Then
             Return
         End If
 
         Dim settings As Settings = mySettingsAccessor.GetSettings()
-        settings.Domme.BirthDate = New DateTime(Convert.ToInt32(DateTime.Now.Year - domageNumBox.Value), settings.Domme.BirthDate.Month, settings.Domme.BirthDate.Day)
+        settings.Domme.BirthDate = New DateTime(Convert.ToInt32(DateTime.Now.Year - DomAgeNumberBox.Value), settings.Domme.BirthDate.Month, settings.Domme.BirthDate.Day)
         mySettingsAccessor.WriteSettings(settings)
     End Sub
 
     Private Sub NBDomBirthdayMonth_LostFocus(sender As Object, e As EventArgs) Handles NBDomBirthdayMonth.ValueChanged
-        If Not TBSafeword.Visible Then
+        If Not NBDomBirthdayMonth.Visible Then
             Return
         End If
 
@@ -1719,7 +1719,7 @@ Public Class FrmSettings
     End Sub
 
     Private Sub NBDomBirthdayDay_LostFocus(sender As Object, e As EventArgs) Handles NBDomBirthdayDay.ValueChanged
-        If Not TBSafeword.Visible Then
+        If Not NBDomBirthdayDay.Visible Then
             Return
         End If
 
@@ -2322,7 +2322,13 @@ Public Class FrmSettings
     End Sub
 
     Private Sub subAgeNumBox_LostFocus(sender As Object, e As EventArgs) Handles subAgeNumBox.ValueChanged
-        My.Settings.SubAge = subAgeNumBox.Value
+        If Not subAgeNumBox.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.BirthDate = New DateTime(Convert.ToInt32(DateTime.Now.Year - subAgeNumBox.Value), settings.Sub.BirthDate.Month, settings.Sub.BirthDate.Day)
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
     Private Sub TBGreeting_LostFocus(sender As Object, e As EventArgs) Handles TBGreeting.LostFocus
@@ -2332,6 +2338,76 @@ Public Class FrmSettings
 
         Dim settings As Settings = mySettingsAccessor.GetSettings()
         settings.Sub.Greetings = TBGreeting.Text.Trim().Split(",").ToList()
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub CockSizeNumBox_ValueChanged(sender As Object, e As EventArgs) Handles CockSizeNumBox.ValueChanged
+        If Not CockSizeNumBox.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.CockLength = CockSizeNumBox.Value
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub TBYes_LostFocus(sender As Object, e As EventArgs) Handles TBYes.LostFocus
+        If Not TBYes.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.YesPhrases = TBYes.Text.Split(",").ToList()
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub TBNo_LostFocus(sender As Object, e As EventArgs) Handles TBNo.LostFocus
+        If Not TBNo.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.NoPhrases = TBNo.Text.Split(",").ToList()
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub NBBirthdayMonth_LostFocus(sender As Object, e As EventArgs) Handles NBBirthdayMonth.LostFocus
+        If Not NBBirthdayMonth.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.BirthDate = New DateTime(settings.Sub.BirthDate.Year, NBBirthdayMonth.Value, settings.Sub.BirthDate.Day)
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub NBBirthdayDay_LostFocus(sender As Object, e As EventArgs) Handles NBBirthdayDay.LostFocus
+        If Not NBBirthdayDay.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.BirthDate = New DateTime(settings.Sub.BirthDate.Year, settings.Sub.BirthDate.Month, NBBirthdayDay.Value)
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub TBSubHairColor_LostFocus(sender As Object, e As EventArgs) Handles TBSubHairColor.LostFocus
+        If Not TBNo.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.HairColor = TBSubHairColor.Text.Trim()
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub TBSubEyeColor_LostFocus(sender As Object, e As EventArgs) Handles TBSubEyeColor.LostFocus
+        If Not TBNo.Visible Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.EyeColor = TBSubEyeColor.Text.Trim()
         mySettingsAccessor.WriteSettings(settings)
     End Sub
 
@@ -5341,10 +5417,6 @@ Public Class FrmSettings
         End Using
     End Sub
 
-    Private Sub CockSizeNumBox_ValueChanged(sender As Object, e As EventArgs) Handles CockSizeNumBox.ValueChanged
-        My.Settings.SubCockSize = CockSizeNumBox.Value
-    End Sub
-
     Private Sub NBCensorShowMin_Leave(sender As Object, e As EventArgs) Handles NBCensorShowMin.Leave
         My.Settings.NBCensorShowMin = NBCensorShowMin.Value
     End Sub
@@ -5762,14 +5834,6 @@ Public Class FrmSettings
 
     End Sub
 
-    Private Sub TBYes_LostFocus(sender As Object, e As EventArgs) Handles TBYes.LostFocus
-        My.Settings.SubYes = TBYes.Text
-    End Sub
-
-    Private Sub TBNo_LostFocus(sender As Object, e As EventArgs) Handles TBNo.LostFocus
-        My.Settings.SubNo = TBNo.Text
-    End Sub
-
     Private Sub TBHonorific_LostFocus(sender As Object, e As EventArgs) Handles TBHonorific.LostFocus
         If TBHonorific.Text = "" Or TBHonorific.Text Is Nothing Then TBHonorific.Text = "Mistress"
         My.Settings.SubHonorific = TBHonorific.Text
@@ -5791,21 +5855,7 @@ Public Class FrmSettings
         End If
     End Sub
 
-    Private Sub NBBirthdayMonth_LostFocus(sender As Object, e As EventArgs) Handles NBBirthdayMonth.LostFocus
-        My.Settings.SubBirthMonth = NBBirthdayMonth.Value
-    End Sub
 
-    Private Sub NBBirthdayDay_LostFocus(sender As Object, e As EventArgs) Handles NBBirthdayDay.LostFocus
-        My.Settings.SubBirthDay = NBBirthdayDay.Value
-    End Sub
-
-    Private Sub TBSubHairColor_LostFocus(sender As Object, e As EventArgs) Handles TBSubHairColor.LostFocus
-        My.Settings.SubHair = TBSubHairColor.Text
-    End Sub
-
-    Private Sub TBSubEyeColor_LostFocus(sender As Object, e As EventArgs) Handles TBSubEyeColor.LostFocus
-        My.Settings.SubEyes = TBSubEyeColor.Text
-    End Sub
 #End Region
 
     Private Sub Button37_Click_1(sender As Object, e As EventArgs) Handles Button37.Click
@@ -5889,7 +5939,7 @@ Public Class FrmSettings
 
             SettingsList.Add("Level: " & DominationLevel.Value)
             SettingsList.Add("Empathy: " & NBEmpathy.Value)
-            SettingsList.Add("Age: " & domageNumBox.Value)
+            SettingsList.Add("Age: " & DomAgeNumberBox.Value)
             SettingsList.Add("Birth Month: " & NBDomBirthdayMonth.Value)
             SettingsList.Add("Birth Day: " & NBDomBirthdayDay.Value)
             SettingsList.Add("Hair Color: " & TBDomHairColor.Text)
@@ -5978,7 +6028,7 @@ Public Class FrmSettings
             Try
                 DominationLevel.Value = SettingsList(0).Replace("Level: ", "")
                 NBEmpathy.Value = SettingsList(1).Replace("Empathy: ", "")
-                domageNumBox.Value = SettingsList(2).Replace("Age: ", "")
+                DomAgeNumberBox.Value = SettingsList(2).Replace("Age: ", "")
                 NBDomBirthdayMonth.Value = SettingsList(3).Replace("Birth Month: ", "")
                 NBDomBirthdayDay.Value = SettingsList(4).Replace("Birth Day: ", "")
                 TBDomHairColor.Text = SettingsList(5).Replace("Hair Color: ", "")
