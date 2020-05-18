@@ -468,7 +468,6 @@ retryStart:
             FrmSettings.NBWritingTaskMin.Value = My.Settings.NBWritingTaskMin
             FrmSettings.NBWritingTaskMax.Value = My.Settings.NBWritingTaskMax
 
-
             splashScreen.UpdateText("Loading Range settings...")
             FrmSettings.SliderSTF.Value = My.Settings.TimerSTF
             If FrmSettings.SliderSTF.Value = 1 Then FrmSettings.LBLStf.Text = "Preoccupied"

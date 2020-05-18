@@ -1981,6 +1981,11 @@
              Does the sub use female pronounce
             </summary>
         </member>
+        <member name="P:TeaseAI.Common.SubSettings.Greetings">
+            <summary>
+            list of greetings the sub may use
+            </summary>
+        </member>
         <member name="T:TeaseAI.Common.TaggedItem">
             <summary>
             An item and its associated Tags
