@@ -20,5 +20,6 @@ namespace TeaseAI.Common
         /// Filename this letter should be written to
         /// </summary>
         public string FileName { get; set; }
+        public string Sender { get; set; }
     }
 }

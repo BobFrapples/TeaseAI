@@ -279,4 +279,10 @@
     "Description": "description",
     "Example": "@example"
   },
+  {
+    "Command": "@SendDailyTasks",
+    "Description": "description",
+    "Example": "@SendDailyTasks"
+
+  }
 ]

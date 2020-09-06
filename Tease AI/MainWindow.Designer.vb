@@ -87,12 +87,12 @@ Partial Class MainWindow
         Me.GetColor = New System.Windows.Forms.ColorDialog()
         Me.SendButton = New System.Windows.Forms.Button()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
-        Me.PNLFileTransfer = New System.Windows.Forms.Panel()
+        Me.FileTransferPanel = New System.Windows.Forms.Panel()
         Me.PictureBox11 = New System.Windows.Forms.PictureBox()
-        Me.BTNFileTransferOpen = New System.Windows.Forms.Button()
-        Me.BTNFIleTransferDismiss = New System.Windows.Forms.Button()
-        Me.LBLFileTransfer = New System.Windows.Forms.Label()
-        Me.PBFileTransfer = New System.Windows.Forms.ProgressBar()
+        Me.FileTransferOpenButton = New System.Windows.Forms.Button()
+        Me.FileTransferDismissButton = New System.Windows.Forms.Button()
+        Me.FileTransferLabel = New System.Windows.Forms.Label()
+        Me.FileTransferProgressBar = New System.Windows.Forms.ProgressBar()
         Me.PictureStrip = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.PicStripTSMIcopyImageLocation = New System.Windows.Forms.ToolStripMenuItem()
         Me.PicStripTmsiDisableAnimation = New System.Windows.Forms.ToolStripMenuItem()
@@ -393,7 +393,7 @@ Partial Class MainWindow
         Me.StrokeTimeTotalTimer = New Tease_AI.teaseAI_Timer()
         Me.TnASlides = New Tease_AI.teaseAI_Timer()
         Me.WaitTimer = New Tease_AI.teaseAI_Timer()
-        Me.StupidTimer = New Tease_AI.teaseAI_Timer()
+        Me.ReceiveFileTimer = New Tease_AI.teaseAI_Timer()
         Me.VideoTauntTimer = New Tease_AI.teaseAI_Timer()
         Me.TeaseTimer = New Tease_AI.teaseAI_Timer()
         Me.RLGLTauntTimer = New Tease_AI.teaseAI_Timer()
@@ -420,7 +420,7 @@ Partial Class MainWindow
         Me.PNLMediaBar.SuspendLayout()
         Me.PnlChatBoxLayout.SuspendLayout()
         Me.PNLDomTagBTN.SuspendLayout()
-        Me.PNLFileTransfer.SuspendLayout()
+        Me.FileTransferPanel.SuspendLayout()
         CType(Me.PictureBox11, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PictureStrip.SuspendLayout()
         Me.TeaseAIMenu.SuspendLayout()
@@ -1362,19 +1362,19 @@ Partial Class MainWindow
         '
         'PNLFileTransfer
         '
-        Me.PNLFileTransfer.BackColor = System.Drawing.Color.White
-        Me.PNLFileTransfer.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
-        Me.PNLFileTransfer.Controls.Add(Me.PictureBox11)
-        Me.PNLFileTransfer.Controls.Add(Me.BTNFileTransferOpen)
-        Me.PNLFileTransfer.Controls.Add(Me.BTNFIleTransferDismiss)
-        Me.PNLFileTransfer.Controls.Add(Me.LBLFileTransfer)
-        Me.PNLFileTransfer.Controls.Add(Me.PBFileTransfer)
-        Me.PNLFileTransfer.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.PNLFileTransfer.Location = New System.Drawing.Point(2, 2)
-        Me.PNLFileTransfer.Name = "PNLFileTransfer"
-        Me.PNLFileTransfer.Padding = New System.Windows.Forms.Padding(5)
-        Me.PNLFileTransfer.Size = New System.Drawing.Size(234, 237)
-        Me.PNLFileTransfer.TabIndex = 157
+        Me.FileTransferPanel.BackColor = System.Drawing.Color.White
+        Me.FileTransferPanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
+        Me.FileTransferPanel.Controls.Add(Me.PictureBox11)
+        Me.FileTransferPanel.Controls.Add(Me.FileTransferOpenButton)
+        Me.FileTransferPanel.Controls.Add(Me.FileTransferDismissButton)
+        Me.FileTransferPanel.Controls.Add(Me.FileTransferLabel)
+        Me.FileTransferPanel.Controls.Add(Me.FileTransferProgressBar)
+        Me.FileTransferPanel.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.FileTransferPanel.Location = New System.Drawing.Point(2, 2)
+        Me.FileTransferPanel.Name = "PNLFileTransfer"
+        Me.FileTransferPanel.Padding = New System.Windows.Forms.Padding(5)
+        Me.FileTransferPanel.Size = New System.Drawing.Size(234, 237)
+        Me.FileTransferPanel.TabIndex = 157
         '
         'PictureBox11
         '
@@ -1392,41 +1392,41 @@ Partial Class MainWindow
         '
         'BTNFileTransferOpen
         '
-        Me.BTNFileTransferOpen.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.BTNFileTransferOpen.Location = New System.Drawing.Point(22, 206)
-        Me.BTNFileTransferOpen.Name = "BTNFileTransferOpen"
-        Me.BTNFileTransferOpen.Size = New System.Drawing.Size(95, 23)
-        Me.BTNFileTransferOpen.TabIndex = 127
-        Me.BTNFileTransferOpen.Text = "Open File"
-        Me.BTNFileTransferOpen.UseVisualStyleBackColor = True
+        Me.FileTransferOpenButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.FileTransferOpenButton.Location = New System.Drawing.Point(22, 206)
+        Me.FileTransferOpenButton.Name = "BTNFileTransferOpen"
+        Me.FileTransferOpenButton.Size = New System.Drawing.Size(95, 23)
+        Me.FileTransferOpenButton.TabIndex = 127
+        Me.FileTransferOpenButton.Text = "Open File"
+        Me.FileTransferOpenButton.UseVisualStyleBackColor = True
         '
         'BTNFIleTransferDismiss
         '
-        Me.BTNFIleTransferDismiss.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.BTNFIleTransferDismiss.Location = New System.Drawing.Point(128, 206)
-        Me.BTNFIleTransferDismiss.Name = "BTNFIleTransferDismiss"
-        Me.BTNFIleTransferDismiss.Size = New System.Drawing.Size(95, 23)
-        Me.BTNFIleTransferDismiss.TabIndex = 126
-        Me.BTNFIleTransferDismiss.Text = "Dismiss"
-        Me.BTNFIleTransferDismiss.UseVisualStyleBackColor = True
+        Me.FileTransferDismissButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.FileTransferDismissButton.Location = New System.Drawing.Point(128, 206)
+        Me.FileTransferDismissButton.Name = "BTNFIleTransferDismiss"
+        Me.FileTransferDismissButton.Size = New System.Drawing.Size(95, 23)
+        Me.FileTransferDismissButton.TabIndex = 126
+        Me.FileTransferDismissButton.Text = "Dismiss"
+        Me.FileTransferDismissButton.UseVisualStyleBackColor = True
         '
         'LBLFileTransfer
         '
-        Me.LBLFileTransfer.Location = New System.Drawing.Point(9, 2)
-        Me.LBLFileTransfer.Name = "LBLFileTransfer"
-        Me.LBLFileTransfer.Size = New System.Drawing.Size(227, 24)
-        Me.LBLFileTransfer.TabIndex = 125
-        Me.LBLFileTransfer.Text = "Mistress Name is sending you a file!"
-        Me.LBLFileTransfer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.FileTransferLabel.Location = New System.Drawing.Point(9, 2)
+        Me.FileTransferLabel.Name = "LBLFileTransfer"
+        Me.FileTransferLabel.Size = New System.Drawing.Size(227, 24)
+        Me.FileTransferLabel.TabIndex = 125
+        Me.FileTransferLabel.Text = "Mistress Name is sending you a file!"
+        Me.FileTransferLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'PBFileTransfer
         '
-        Me.PBFileTransfer.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.PBFileTransfer.Location = New System.Drawing.Point(22, 184)
-        Me.PBFileTransfer.Maximum = 10
-        Me.PBFileTransfer.Name = "PBFileTransfer"
-        Me.PBFileTransfer.Size = New System.Drawing.Size(200, 13)
-        Me.PBFileTransfer.TabIndex = 0
+        Me.FileTransferProgressBar.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.FileTransferProgressBar.Location = New System.Drawing.Point(22, 184)
+        Me.FileTransferProgressBar.Maximum = 10
+        Me.FileTransferProgressBar.Name = "PBFileTransfer"
+        Me.FileTransferProgressBar.Size = New System.Drawing.Size(200, 13)
+        Me.FileTransferProgressBar.TabIndex = 0
         '
         'PictureStrip
         '
@@ -3968,7 +3968,7 @@ Partial Class MainWindow
         '
         Me.PnlAvatarBackground.BackColor = System.Drawing.Color.Black
         Me.PnlAvatarBackground.Controls.Add(Me.PnlAvatarInner)
-        Me.PnlAvatarBackground.Controls.Add(Me.PNLFileTransfer)
+        Me.PnlAvatarBackground.Controls.Add(Me.FileTransferPanel)
         Me.PnlAvatarBackground.Controls.Add(Me.PNLLazySubAV)
         Me.PnlAvatarBackground.Dock = System.Windows.Forms.DockStyle.Fill
         Me.PnlAvatarBackground.Location = New System.Drawing.Point(1, 1)
@@ -4313,7 +4313,7 @@ Partial Class MainWindow
         '
         'StupidTimer
         '
-        Me.StupidTimer.Interval = 300
+        Me.ReceiveFileTimer.Interval = 300
         '
         'VideoTauntTimer
         '
@@ -4407,7 +4407,7 @@ Partial Class MainWindow
         Me.PnlChatBoxLayout.PerformLayout()
         Me.PNLDomTagBTN.ResumeLayout(False)
         Me.PNLDomTagBTN.PerformLayout()
-        Me.PNLFileTransfer.ResumeLayout(False)
+        Me.FileTransferPanel.ResumeLayout(False)
         CType(Me.PictureBox11, System.ComponentModel.ISupportInitialize).EndInit()
         Me.PictureStrip.ResumeLayout(False)
         Me.TeaseAIMenu.ResumeLayout(False)
@@ -4498,12 +4498,12 @@ Partial Class MainWindow
 	Friend WithEvents EdgeTauntTimer As Tease_AI.teaseAI_Timer
 	Friend WithEvents HoldEdgeTimer As Tease_AI.teaseAI_Timer
 	Friend WithEvents HoldEdgeTauntTimer As Tease_AI.teaseAI_Timer
-	Friend WithEvents PNLFileTransfer As System.Windows.Forms.Panel
-	Friend WithEvents LBLFileTransfer As System.Windows.Forms.Label
-	Friend WithEvents PBFileTransfer As System.Windows.Forms.ProgressBar
+	Friend WithEvents FileTransferPanel As System.Windows.Forms.Panel
+	Friend WithEvents FileTransferLabel As System.Windows.Forms.Label
+	Friend WithEvents FileTransferProgressBar As System.Windows.Forms.ProgressBar
 	Friend WithEvents PictureBox11 As System.Windows.Forms.PictureBox
-	Friend WithEvents BTNFileTransferOpen As System.Windows.Forms.Button
-	Friend WithEvents BTNFIleTransferDismiss As System.Windows.Forms.Button
+	Friend WithEvents FileTransferOpenButton As System.Windows.Forms.Button
+	Friend WithEvents FileTransferDismissButton As System.Windows.Forms.Button
 	Friend WithEvents SlideshowTimer As Tease_AI.teaseAI_Timer
 	Friend WithEvents EdgeCountTimer As Tease_AI.teaseAI_Timer
 	Friend WithEvents StrokeTimeTotalTimer As Tease_AI.teaseAI_Timer
@@ -4512,7 +4512,7 @@ Partial Class MainWindow
 	Friend WithEvents LBLImageInfo As System.Windows.Forms.Label
 	Friend WithEvents DomWMP As AxWMPLib.AxWindowsMediaPlayer
 	Friend WithEvents WaitTimer As Tease_AI.teaseAI_Timer
-	Friend WithEvents StupidTimer As Tease_AI.teaseAI_Timer
+	Friend WithEvents ReceiveFileTimer As Tease_AI.teaseAI_Timer
 	Friend WithEvents VideoTauntTimer As Tease_AI.teaseAI_Timer
 	Friend WithEvents TeaseTimer As Tease_AI.teaseAI_Timer
 	Friend WithEvents RLGLTauntTimer As Tease_AI.teaseAI_Timer

@@ -231,7 +231,7 @@ namespace TeaseAI.Common.Constants
         /// <summary>
         /// Plays a random video *not* in JOI or CH genre
         /// </summary>
-        public static string PlayVideo = @"@PlayVideo";
+        public const string PlayVideo = @"@PlayVideo";
 
         /// <summary>
         /// specifically play a Jerk Off Instruction Video
@@ -365,49 +365,58 @@ namespace TeaseAI.Common.Constants
         /// <summary>
         /// Pauses the script until all risky pick boxes have been chosen for the current round
         /// </summary>
-        public static string RiskyPickWaitForCase => @"@ChooseRiskyPick";
+        public const string RiskyPickWaitForCase = @"@ChooseRiskyPick";
+
         /// <summary>
         /// State the number of edges and trigger the next round of risky pick
         /// </summary>
         [Obsolete("This is not a command and needs to be moved to vocabulary")]
-        public static string RiskyPickRespondCase => @"#RP_RespondCase";
+        public const string RiskyPickRespondCase = @"#RP_RespondCase";
 
         /// <summary>
         /// <para>Make an offer from the Domme at the end of the round</para>
         /// <para>Requires Risky pick be running and the sub has at least chosen their case</para>
         /// </summary>
-        public static string RiskyPickCheck => @"@CheckRiskyPick";
+        public const string RiskyPickCheck = @"@CheckRiskyPick";
 
         /// <summary>
         /// <para>Usage: @SelectCaseRiskyPick(CaseNumber)</para>
         /// <para>Select the next case for Risky Pick</para>
         /// </summary>
-        public static string RiskyPickSelectCase => @"@SelectCaseRiskyPick(";
+        public const string RiskyPickSelectCase = @"@SelectCaseRiskyPick(";
 
         /// <summary>
         /// Pauses script execution. Used for code 
         /// </summary>
-        public static string Unpause => @"@Unpause";
+        public const string Unpause = @"@Unpause";
 
         /// <summary>
         /// Unpauses script execution. Used for code 
         /// </summary>
-        public static string Pause => @"@Unpause";
+        public const string Pause = @"@Unpause";
 
         /// <summary>
         /// Provides a description of the script, does nothing in the script
         /// </summary>
-        public static string Info => @"@Info";
+        public const string Info = @"@Info";
 
         /// <summary>
         /// flag whatever image is being displaed as liked.
         /// </summary>
-        public static string LikeImage => @"@LikeBlogImage";
+        public const string LikeImage = @"@LikeBlogImage";
 
         /// <summary>
         /// Flag whatever image is being displayed as disliked
         /// </summary>
-        public static string DislikeImage => @"@DislikeBlogImage";
+        public const string DislikeImage = @"@DislikeBlogImage";
 
+        public const string SendDailyTasks = @"@SendDailyTasks";
+
+        #region Filters
+        /// <summary>
+        /// Filter flag used to mark a line for inclusion only if the sub is denied an orgasm
+        /// </summary>
+        public const string OrgasmDenied = @"@OrgasmDenied";
+        #endregion
     }
 }

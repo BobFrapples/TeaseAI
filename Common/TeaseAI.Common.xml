@@ -386,51 +386,56 @@
             Start a new game of Risky Pick
             </summary>
         </member>
-        <member name="P:TeaseAI.Common.Constants.Keyword.RiskyPickWaitForCase">
+        <member name="F:TeaseAI.Common.Constants.Keyword.RiskyPickWaitForCase">
             <summary>
             Pauses the script until all risky pick boxes have been chosen for the current round
             </summary>
         </member>
-        <member name="P:TeaseAI.Common.Constants.Keyword.RiskyPickRespondCase">
+        <member name="F:TeaseAI.Common.Constants.Keyword.RiskyPickRespondCase">
             <summary>
             State the number of edges and trigger the next round of risky pick
             </summary>
         </member>
-        <member name="P:TeaseAI.Common.Constants.Keyword.RiskyPickCheck">
+        <member name="F:TeaseAI.Common.Constants.Keyword.RiskyPickCheck">
             <summary>
             <para>Make an offer from the Domme at the end of the round</para>
             <para>Requires Risky pick be running and the sub has at least chosen their case</para>
             </summary>
         </member>
-        <member name="P:TeaseAI.Common.Constants.Keyword.RiskyPickSelectCase">
+        <member name="F:TeaseAI.Common.Constants.Keyword.RiskyPickSelectCase">
             <summary>
             <para>Usage: @SelectCaseRiskyPick(CaseNumber)</para>
             <para>Select the next case for Risky Pick</para>
             </summary>
         </member>
-        <member name="P:TeaseAI.Common.Constants.Keyword.Unpause">
+        <member name="F:TeaseAI.Common.Constants.Keyword.Unpause">
             <summary>
             Pauses script execution. Used for code 
             </summary>
         </member>
-        <member name="P:TeaseAI.Common.Constants.Keyword.Pause">
+        <member name="F:TeaseAI.Common.Constants.Keyword.Pause">
             <summary>
             Unpauses script execution. Used for code 
             </summary>
         </member>
-        <member name="P:TeaseAI.Common.Constants.Keyword.Info">
+        <member name="F:TeaseAI.Common.Constants.Keyword.Info">
             <summary>
             Provides a description of the script, does nothing in the script
             </summary>
         </member>
-        <member name="P:TeaseAI.Common.Constants.Keyword.LikeImage">
+        <member name="F:TeaseAI.Common.Constants.Keyword.LikeImage">
             <summary>
             flag whatever image is being displaed as liked.
             </summary>
         </member>
-        <member name="P:TeaseAI.Common.Constants.Keyword.DislikeImage">
+        <member name="F:TeaseAI.Common.Constants.Keyword.DislikeImage">
             <summary>
             Flag whatever image is being displayed as disliked
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.OrgasmDenied">
+            <summary>
+            Filter flag used to mark a line for inclusion only if the sub is denied an orgasm
             </summary>
         </member>
         <member name="T:TeaseAI.Common.Constants.Kink">
@@ -1519,6 +1524,20 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:TeaseAI.Common.Interfaces.IRandomNumberService.RollPercent">
+            <summary>
+            Roll a number between 1 and 100
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.IRandomNumberService.Roll(System.Int32,System.Int32)">
+            <summary>
+            Generate a random number starting at <paramref name="minimum"/> (inclusive) and ending at <paramref name="maximum"/> (exclusive)
+            </summary>
+            <param name="minimum"></param>
+            <param name="maximum"></param>
+            <returns></returns>
+        </member>
         <member name="M:TeaseAI.Common.Interfaces.ISlideShowNavigationService.AdvanceSlideShow(TeaseAI.Common.Data.ImageSlideShow)">
             <summary>
             Advance the slide show to the next image. 
@@ -1545,6 +1564,23 @@
             rewind the slideshow to the previous image
             </summary>
             <param name="imageSlideShow"></param>
+            <returns></returns>
+        </member>
+        <member name="T:TeaseAI.Common.Interfaces.ITimeService">
+            <summary>
+            service dealing with time
+            </summary>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.ITimeService.GetGeneralTime">
+            <summary>
+            Get the general time of day based on when the sub wakes up: morning, afternoon, evening,  etc
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.ITimeService.GetTime">
+            <summary>
+            Get the current actual time
+            </summary>
             <returns></returns>
         </member>
         <member name="T:TeaseAI.Common.Interfaces.Timers.ITimer">

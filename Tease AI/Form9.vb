@@ -827,7 +827,7 @@ FoundScriptType:
 			RTBAIBox.Text = ""
 			CLBAIBox.Items.Clear()
 
-			If CBOpenText.Checked = True Then MainWindow.ShellExecute(SaveFileDialog1.FileName)
+			If CBOpenText.Checked = True Then MainWindow.OpenFile(SaveFileDialog1.FileName)
 
 		End If
 

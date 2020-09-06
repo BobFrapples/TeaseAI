@@ -22,6 +22,8 @@ namespace TeaseAI.Services
         private readonly IPathsAccessor _pathsAccessor;
         private readonly IBookmarkService _bookmarkService;
         private readonly IMediaContainerService _mediaContainerService;
+        private readonly ITimeService _timeService;
+        private readonly ILineCollectionFilter _lineCollectionFilter;
 
         public GetCommandProcessorsService(IScriptAccessor scriptAccessor
             , IFlagAccessor flagAccessor
@@ -37,6 +39,8 @@ namespace TeaseAI.Services
             , IPathsAccessor pathsAccessor
             , IBookmarkService bookmarkService
             , IMediaContainerService mediaContainerService
+            , ITimeService timeService
+            , ILineCollectionFilter lineCollectionFilter
             )
         {
             _scriptAccessor = scriptAccessor;
@@ -53,6 +57,8 @@ namespace TeaseAI.Services
             _pathsAccessor = pathsAccessor;
             _bookmarkService = bookmarkService;
             _mediaContainerService = mediaContainerService;
+            _timeService = timeService;
+            _lineCollectionFilter = lineCollectionFilter;
         }
 
         public Dictionary<string, ICommandProcessor> CreateCommandProcessors()
@@ -129,6 +135,7 @@ namespace TeaseAI.Services
 
             rVal.Add(Keyword.AddTokens, new AddTokensCommandProcessor(_lineService, _settingsAccessor, _notifyUser));
 
+            // Risky pick commands
             rVal.Add(Keyword.RiskyPickStart, new RiskyPickStartCommandProcessor(_lineService, _pathsAccessor, _settingsAccessor));
             rVal.Add(Keyword.RiskyPickWaitForCase, new RiskyPickWaitForCaseCommandProcessor(_lineService));
             rVal.Add(Keyword.RiskyPickSelectCase, new RiskyPickSelectCaseCommandProcessor(_lineService));
@@ -142,6 +149,7 @@ namespace TeaseAI.Services
             rVal.Add(Keyword.LikeImage, new LikeImageCommandProcessor(_lineService, _imageAccessor, _mediaContainerService));
             rVal.Add(Keyword.DislikeImage, new DislikeImageCommandProcessor(_lineService, _imageAccessor, _mediaContainerService));
             rVal.Add(Keyword.DecideOrgasm, new DecideOrgasmCommandProcessor(_lineService, _randomNumberService, _bookmarkService, _settingsAccessor));
+            rVal.Add(Keyword.SendDailyTasks, new RequestTaskCommandProcessor(_lineService, _timeService, _pathsAccessor, _lineCollectionFilter, _randomNumberService));
 
             return rVal;
         }

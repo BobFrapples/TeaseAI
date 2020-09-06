@@ -55,7 +55,17 @@ Public Class ApplicationFactory
             , CreateOldSettingsAccessor() _
             , CreatePathsAccessor() _
             , New BookmarkService() _
-            , CreateMediaContainerService())
+            , CreateMediaContainerService() _
+            , CreateTimeService() _
+            , CreateLineCollectionFilter())
+    End Function
+
+    Private Shared Function CreateLineCollectionFilter() As ILineCollectionFilter
+        Return New LineCollectionFilter()
+    End Function
+
+    Private Shared Function CreateTimeService() As ITimeService
+        Return New TimeService(CreateSettingsAccessor())
     End Function
 
     Public Shared Function CreateImageMetaDataService() As IImageAccessor

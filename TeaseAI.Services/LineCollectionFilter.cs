@@ -12,6 +12,7 @@ namespace TeaseAI.Services
         {
             var filteredLines = lines.ToList();
 
+
             filteredLines = filteredLines.Select(line => FilterLine(Keyword.LongEdgeFilter, line, session.IsLongEdge))
                 .Select(line => FilterLine(Keyword.SmallCockFilter, line, session.Sub.CockSize < session.Domme.CockSmallLimit))
                 .Select(line => FilterLine(Keyword.BigCockFilter, line, session.Sub.CockSize > session.Domme.CockBigLimit))
@@ -29,6 +30,18 @@ namespace TeaseAI.Services
                 .Select(line => FilterLine(Keyword.CupSizeD, line, session.Domme.CupSize == CupSize.DCup))
                 .Select(line => FilterLine(Keyword.CupSizeDD, line, session.Domme.CupSize == CupSize.DdCup))
                 .Select(line => FilterLine(Keyword.CupSizeDDD, line, session.Domme.CupSize == CupSize.DddCup))
+                .Select(line => FilterLine("@BeforeTease", line, session.Phase == SessionPhase.BeforeSession))
+                .Select(line => FilterLine(Keyword.AllowsOrgasm + AllowsOrgasms.Always.ToString() + ")", line, session.Domme.AllowsOrgasms == AllowsOrgasms.Always))
+                .Select(line => FilterLine("@AlwaysAllowsOrgasm", line, session.Domme.AllowsOrgasms == AllowsOrgasms.Always))
+                .Select(line => FilterLine(Keyword.AllowsOrgasm + AllowsOrgasms.Often.ToString() + ")", line, session.Domme.AllowsOrgasms == AllowsOrgasms.Often))
+                .Select(line => FilterLine("@OftenAllowsOrgasm", line, session.Domme.AllowsOrgasms == AllowsOrgasms.Often))
+                .Select(line => FilterLine(Keyword.AllowsOrgasm + AllowsOrgasms.Sometimes.ToString() + ")", line, session.Domme.AllowsOrgasms == AllowsOrgasms.Sometimes))
+                .Select(line => FilterLine("@SometimesAllowsOrgasm", line, session.Domme.AllowsOrgasms == AllowsOrgasms.Sometimes))
+                .Select(line => FilterLine(Keyword.AllowsOrgasm + AllowsOrgasms.Rarely.ToString() + ")", line, session.Domme.AllowsOrgasms == AllowsOrgasms.Rarely))
+                .Select(line => FilterLine("@RarelyAllowsOrgasm", line, session.Domme.AllowsOrgasms == AllowsOrgasms.Rarely))
+                .Select(line => FilterLine(Keyword.AllowsOrgasm + AllowsOrgasms.Never.ToString() + ")", line, session.Domme.AllowsOrgasms == AllowsOrgasms.Never))
+                .Select(line => FilterLine("@NeverAllowsOrgasm", line, session.Domme.AllowsOrgasms == AllowsOrgasms.Never))
+                .Select(line => FilterLine(Keyword.OrgasmDenied, line, !session.Sub.WillBeAllowedToOrgasm.GetValueOrDefault(true)))
                 .Where(line => !string.IsNullOrWhiteSpace(line)).ToList();
             return filteredLines;
         }

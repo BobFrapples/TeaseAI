@@ -11,6 +11,7 @@ using TeaseAI.Services.CommandProcessor;
 using TeaseAI.Services.MessageProcessors;
 using TeaseAI.Common.Data;
 using System.Diagnostics;
+using System.IO;
 
 namespace TeaseAI.Services
 {
@@ -77,6 +78,8 @@ namespace TeaseAI.Services
             CommandProcessors[Keyword.PlayVideo].CommandProcessed += PlayVideoCommandProcessed;
             CommandProcessors[Keyword.PlayJoiVideo].CommandProcessed += PlayVideoCommandProcessed;
 
+            CommandProcessors[Keyword.SendDailyTasks].CommandProcessed += RequestTaskCommandProcessed;
+
             MessageProcessors = CreateMessageProcessors(settingsAccessor, stringService, new LineService(), systemVocabularyAccessor, variableAccessor, new RandomNumberService());
 
             MessageProcessors[MessageProcessor.ScriptResponse].MessageProcessed += ScriptResponse_MessageProcessed;
@@ -88,7 +91,7 @@ namespace TeaseAI.Services
 
             _scriptAccessor = scriptAccessor;
             _variableAccessor = variableAccessor;
-
+            _configurationAccessor = configurationAccessor;
             _scriptTimer = timerFactory.Create();
             _scriptTimer.Elapsed += _scriptTimer_Elapsed;
 
@@ -150,6 +153,12 @@ namespace TeaseAI.Services
         private void OnPlayVideo(PlayVideoEventArgs eventArgs)
         {
             PlayVideo?.Invoke(this, eventArgs);
+        }
+
+        public event EventHandler<SendFileEventArgs> SendFile;
+        private void OnSendFile(SendFileEventArgs eventArgs)
+        {
+            SendFile?.Invoke(this, eventArgs);
         }
         #endregion
 
@@ -265,10 +274,10 @@ namespace TeaseAI.Services
             , LineService lineService
             , ISystemVocabularyAccessor systemVocabularyAccessor
             , IVariableAccessor variableAccessor
-            , IRandomNumberService randomPercentService)
+            , IRandomNumberService randomPercentService
+            )
         {
             var rval = new Dictionary<MessageProcessor, IMessageProcessor>();
-            rval.Add(MessageProcessor.RequestTask, new RequestTaskMessageProcessor());
             rval.Add(MessageProcessor.Greeting, new GreetingMessageProcessor(settingsService, stringService));
             rval.Add(MessageProcessor.Safeword, new SafewordMessageProcessor());
             rval.Add(MessageProcessor.ScriptResponse, new ScriptResponseMessageProcessor(lineService));
@@ -551,12 +560,38 @@ namespace TeaseAI.Services
             OnQueryImage(eventArgs);
         }
 
+        private void RequestTaskCommandProcessed(object sender, CommandProcessedEventArgs e)
+        {
+            var taskLetter = ((TaskLetter) e.Parameter).Body;
+            taskLetter = _vocabularyProcesser.ReplaceVocabulary(e.Session, taskLetter);
+
+            var title = "Tasks for " + DateTime.Now.ToString("M dd");
+            var fileName = _configurationAccessor.GetBaseFolder() + Path.DirectorySeparatorChar + title.ToLower().Replace(' ', '-') + ".txt";
+
+            File.WriteAllText(fileName, taskLetter);
+
+            foreach (var processor in CommandProcessors.Values)
+            {
+                taskLetter = processor.DeleteCommandFrom(taskLetter);
+            }
+
+            taskLetter = _vocabularyProcesser.ReplaceVocabulary(Session, taskLetter);
+            
+            var sendFileArgs = new SendFileEventArgs
+            {
+                FileName = fileName,
+                Title = title,
+                Sender = e.Session.Domme.Name,
+            };
+            OnSendFile(sendFileArgs);
+        }
         #endregion
 
         #region Services
         private readonly IScriptAccessor _scriptAccessor;
         private readonly IVariableAccessor _variableAccessor;
         private readonly VocabularyProcessor _vocabularyProcesser;
+        private readonly IConfigurationAccessor _configurationAccessor;
         #endregion
 
         #region Timers

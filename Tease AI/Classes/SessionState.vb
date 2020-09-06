@@ -132,7 +132,6 @@ Public Class SessionState
 
     Public Property TaskFile As String
     Public Property TaskText As String
-    Public Property TaskTextDir As String
 
 
     Public Property ResponseFile As String
@@ -768,7 +767,7 @@ Public Class SessionState
             StrokeTauntTimer_enabled = .StrokeTauntTimer.Enabled
             StrokeTimer_enabled = .StrokeTimer.Enabled
             StrokeTimeTotalTimer_enabled = .StrokeTimeTotalTimer.Enabled
-            StupidTimer_enabled = .StupidTimer.Enabled
+            StupidTimer_enabled = .ReceiveFileTimer.Enabled
             TeaseTimer_enabled = .TeaseTimer.Enabled
             Timer1_enabled = .Timer1.Enabled
             TnASlides_enabled = .TnASlides.Enabled
@@ -800,7 +799,7 @@ Public Class SessionState
             StrokeTauntTimer_Interval = .StrokeTauntTimer.Interval
             StrokeTimer_Interval = .StrokeTimer.Interval
             StrokeTimeTotalTimer_Interval = .StrokeTimeTotalTimer.Interval
-            StupidTimer_Interval = .StupidTimer.Interval
+            StupidTimer_Interval = .ReceiveFileTimer.Interval
             TeaseTimer_Interval = .TeaseTimer.Interval
             Timer1_Interval = .Timer1.Interval
             TnASlides_Interval = .TnASlides.Interval
@@ -904,7 +903,7 @@ Public Class SessionState
             .StrokeTauntTimer.Enabled = False
             .StrokeTimer.Enabled = False
             .StrokeTimeTotalTimer.Enabled = False
-            .StupidTimer.Enabled = False
+            .ReceiveFileTimer.Enabled = False
             .TeaseTimer.Enabled = False
             .Timer1.Enabled = False
             .TnASlides.Enabled = False
@@ -1044,7 +1043,7 @@ Public Class SessionState
             .StrokeTauntTimer.Interval = StrokeTauntTimer_Interval
             .StrokeTimer.Interval = StrokeTimer_Interval
             .StrokeTimeTotalTimer.Interval = StrokeTimeTotalTimer_Interval
-            .StupidTimer.Interval = StupidTimer_Interval
+            .ReceiveFileTimer.Interval = StupidTimer_Interval
             .TeaseTimer.Interval = TeaseTimer_Interval
             .Timer1.Interval = Timer1_Interval
             .TnASlides.Interval = TnASlides_Interval
@@ -1077,7 +1076,7 @@ Public Class SessionState
             .StrokeTauntTimer.Enabled = StrokeTauntTimer_enabled
             .StrokeTimer.Enabled = StrokeTimer_enabled
             .StrokeTimeTotalTimer.Enabled = StrokeTimeTotalTimer_enabled
-            .StupidTimer.Enabled = StupidTimer_enabled
+            .ReceiveFileTimer.Enabled = StupidTimer_enabled
             .TeaseTimer.Enabled = TeaseTimer_enabled
             .Timer1.Enabled = Timer1_enabled
             .TnASlides.Enabled = TnASlides_enabled

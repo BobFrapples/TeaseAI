@@ -47,6 +47,8 @@ Public Class MainWindow
     Dim mySlideShowNavigationService As ISlideShowNavigationService = New SlideShowNavigationService()
     Dim myOldPathsAccessor As PathsAccessor = New PathsAccessor(ApplicationFactory.CreateConfigurationAccessor, ApplicationFactory.CreateOldSettingsAccessor())
     Dim myPathsAccessor As IPathsAccessor = ApplicationFactory.CreatePathsAccessor()
+
+    Private myReceivedFile As String
     Dim WithEvents mySession As SessionEngine
     Private myDisplayedImage As ImageMetaData
 
@@ -298,7 +300,8 @@ ByVal lpstrReturnString As String, ByVal uReturnLength As Integer, ByVal hwndCal
             AddHandler mySession.ShowImage, AddressOf mySession_ShowImage
             AddHandler mySession.QueryImage, AddressOf mySession_QueryImage
             AddHandler mySession.PlayVideo, AddressOf mySession_PlayVideo
-            AddHandler mySession.MessageProcessors(MessageProcessor.RequestTask).MessageProcessed, AddressOf Task_Requested
+            AddHandler mySession.SendFile, AddressOf mySession_SendFile
+            'AddHandler mySession.MessageProcessors(MessageProcessor.RequestTask).MessageProcessed, AddressOf Task_Requested
             AddHandler mySession.MessageProcessors(MessageProcessor.Greeting).MessageProcessed, AddressOf Greeting_Spoken
             AddHandler mySession.MessageProcessors(MessageProcessor.Safeword).MessageProcessed, AddressOf Safeword_Spoken
             AddHandler mySession.CommandProcessors(Keyword.RiskyPickWaitForCase).CommandProcessed, AddressOf RiskyPickWaitForCase
@@ -494,8 +497,8 @@ retryStart:
             DomWMP.Height = SplitContainer1.Panel1.Height + 60
             If Not My.Settings.DomAVStretch Then domAvatar.SizeMode = PictureBoxSizeMode.Zoom
 
-            BTNFileTransferOpen.Visible = False
-            BTNFIleTransferDismiss.Visible = False
+            FileTransferOpenButton.Visible = False
+            FileTransferDismissButton.Visible = False
 
             splashScreen.UpdateText("Initializing Games window...")
             RefreshCards()
@@ -831,7 +834,15 @@ retryStart:
         End If
 
         UpdateChatWindow(chatMessage)
+
+        'COMPILE_ERROR
+        ' IMPLEMENT "task"
+        ' Start at line 1448 in main branch
         mySession.Say(chatMessage)
+
+        If (Not mySession.Session.Domme.WasGreeted AndAlso chatMessage.Message.ToLower().Contains("task")) Then
+            mySession.SendCommand(Keyword.SendDailyTasks)
+        End If
         Return
 
         If ssh.WritingTaskFlag Then GoTo WritingTaskLine
@@ -7170,13 +7181,6 @@ OrgasmDecided:
 
         End If
 
-
-
-        If StringClean.Contains("@SendDailyTasks") Then
-            CreateTaskLetter()
-            StringClean = StringClean.Replace("@SendDailyTasks", "")
-        End If
-
         If StringClean.Contains("@EdgingHold") Then
 
             ssh.DomTypeCheck = True
@@ -11098,72 +11102,6 @@ NoRepeatOFiles:
 
 #End Region ' Hold the Edge
 
-    Public Sub CreateTaskLetter()
-        ' This doesn't matter in this method, but it used to set the value, so blanking it for compatibility
-        ssh.TaskText = String.Empty
-        Dim domme As DommePersonality = CreateDommePersonality()
-        Dim submissive As SubPersonality = CreateSubPersonality()
-
-        Dim signedBy As String = domme.Name
-        If FrmSettings.CBHonorificInclude.Checked = True Then
-            signedBy = domme.Honorific + " " + domme.Name
-        End If
-
-        Dim taskLetter As TaskLetter = CreateTaskLetter(Application.StartupPath, domme, submissive, ssh.GeneralTime, signedBy)
-
-        ssh.TaskTextDir = taskLetter.FileName
-
-        My.Computer.FileSystem.WriteAllText(ssh.TaskTextDir, taskLetter.Body, False)
-
-
-        LBLFileTransfer.Text = signedBy + " is sending you a file!"
-        PNLFileTransfer.Visible = True
-        PNLFileTransfer.BringToFront()
-
-        StupidTimer.Start()
-
-    End Sub
-
-    Public Function CreateTaskLetter(basePath As String, personality As DommePersonality, submissive As SubPersonality, generalTime As String, signedBy As String) As TaskLetter
-        Dim returnValue As TaskLetter = New TaskLetter()
-        Dim filePath As String = basePath + "\Scripts\" + personality.PersonalityName
-
-        returnValue.Body = CleanTaskLines(filePath + "\Tasks\Greeting.txt") + " " + Environment.NewLine + Environment.NewLine
-        returnValue.Body += CleanTaskLines(filePath + "\Tasks\Intro.txt") + " " + Environment.NewLine + Environment.NewLine
-
-        If generalTime = "Afternoon" Then
-            GoTo Afternoon
-        End If
-        If generalTime = "Night" Then
-            GoTo Night
-        End If
-
-        returnValue.Body += CleanTaskLines(filePath + "\Tasks\Task_1.txt") + " " + Environment.NewLine + Environment.NewLine
-        returnValue.Body += CleanTaskLines(filePath + "\Tasks\Link_1-2.txt") + " " + Environment.NewLine + Environment.NewLine
-
-Afternoon:
-        returnValue.Body += CleanTaskLines(filePath + "\Tasks\Task_2.txt") + " " + Environment.NewLine + Environment.NewLine
-        returnValue.Body += CleanTaskLines(filePath + "\Tasks\Link_2-3.txt") + " " + Environment.NewLine + Environment.NewLine
-
-Night:
-        returnValue.Body += CleanTaskLines(filePath + "\Tasks\Task_3.txt") + " " + Environment.NewLine + Environment.NewLine
-        returnValue.Body += CleanTaskLines(filePath + "\Tasks\Outro.txt") + " " + Environment.NewLine + Environment.NewLine
-
-        returnValue.Body += CleanTaskLines(filePath + "\Tasks\Signature.txt") + " " + Environment.NewLine
-        returnValue.Body += signedBy
-
-        returnValue.Body = Regex.Replace(returnValue.Body, "[ ]{2,}", " ")
-
-        Dim TempDate As String
-        Dim TempDateNow As DateTime = DateTime.Now
-
-        TempDate = TempDateNow.ToString("M dd")
-
-        returnValue.FileName = filePath + "\Received Files\Tasks for " + TempDate + ".txt"
-
-        Return returnValue
-    End Function
-
     Public Function CleanTaskLines(ByVal dir As String) As String
         Try
             Dim taskLines As List(Of String) = Txt2List(dir)
@@ -11338,35 +11276,25 @@ PoundLoop:
         End Try
     End Function
 
-    Private Sub BTNFIleTransferDismiss_Click(sender As Object, e As EventArgs) Handles BTNFIleTransferDismiss.Click
+    Private Sub BTNFIleTransferDismiss_Click(sender As Object, e As EventArgs) Handles FileTransferDismissButton.Click
 
-        PNLFileTransfer.Visible = False
-        BTNFileTransferOpen.Visible = False
-        BTNFIleTransferDismiss.Visible = False
-        LBLFileTransfer.Text = domName.Text & " is sending you a file!"
-        PBFileTransfer.Value = 0
+        FileTransferPanel.Visible = False
+        FileTransferOpenButton.Visible = False
+        FileTransferDismissButton.Visible = False
+        FileTransferLabel.Text = domName.Text & " is sending you a file!"
+        FileTransferProgressBar.Value = 0
 
     End Sub
 
-    Public Function ShellExecute(ByVal File As String) As Boolean
-        Dim myProcess As New Process
-        myProcess.StartInfo.FileName = File
-        myProcess.StartInfo.UseShellExecute = True
-        myProcess.StartInfo.RedirectStandardOutput = False
-        myProcess.Start()
-        myProcess.Dispose()
-    End Function
 
-    Public Sub BTNFileTransferOpen_Click(sender As Object, e As EventArgs) Handles BTNFileTransferOpen.Click
+    Public Sub BTNFileTransferOpen_Click(sender As Object, e As EventArgs) Handles FileTransferOpenButton.Click
+        OpenFile(myReceivedFile)
 
-        ShellExecute(ssh.TaskTextDir)
-
-        PNLFileTransfer.Visible = False
-        BTNFileTransferOpen.Visible = False
-        BTNFIleTransferDismiss.Visible = False
-        LBLFileTransfer.Text = domName.Text & " is sending you a file!"
-        PBFileTransfer.Value = 0
-
+        FileTransferPanel.Visible = False
+        FileTransferOpenButton.Visible = False
+        FileTransferDismissButton.Visible = False
+        FileTransferLabel.Text = domName.Text & " is sending you a file!"
+        FileTransferProgressBar.Value = 0
     End Sub
 
     Private Sub SlideshowTimer_Tick(sender As Object, e As EventArgs) Handles SlideshowTimer.Tick
@@ -11734,19 +11662,16 @@ RestartFunction:
 
     End Sub
 
-    Private Sub StupidTimer_Tick(sender As Object, e As EventArgs) Handles StupidTimer.Tick
-
-        If PBFileTransfer.Value = PBFileTransfer.Maximum Then
-            StupidTimer.Enabled = False
-
-            LBLFileTransfer.Text = "Download complete!"
-            BTNFileTransferOpen.Visible = True
-            BTNFIleTransferDismiss.Visible = True
-            Exit Sub
+    Private Sub ReceiveFileTimer_Tick(sender As Object, e As EventArgs) Handles ReceiveFileTimer.Tick
+        If FileTransferProgressBar.Value = FileTransferProgressBar.Maximum Then
+            ReceiveFileTimer.Enabled = False
+            FileTransferLabel.Text = "Download complete!"
+            FileTransferOpenButton.Visible = True
+            FileTransferDismissButton.Visible = True
+            Return
         End If
 
-        PBFileTransfer.Value += 1
-
+        FileTransferProgressBar.Value += 1
     End Sub
 
     Public Sub SaveExercise()
@@ -11875,9 +11800,6 @@ RestartFunction:
         ssh.TeaseTick -= 1
 
         If ssh.TeaseTick < 1 Then TeaseTimer.Stop()
-
-
-
     End Sub
 
     Public Sub RLGLTauntTimer_Tick(sender As Object, e As EventArgs) Handles RLGLTauntTimer.Tick
@@ -14652,6 +14574,14 @@ playLoop:
         Return Len(StringClean) - Len(Replace(StringClean, Character, ""))
     End Function
 
+    Private Sub ReceiveFile(title As String, fileName As String, signedBy As String)
+        FileTransferLabel.Text = signedBy + " is sending you a file!"
+        myReceivedFile = fileName
+        FileTransferPanel.Visible = True
+        FileTransferPanel.BringToFront()
+        ReceiveFileTimer.Start()
+    End Sub
+
 
 #Region "data marshalling For services"
     Private Function CreateDommePersonality() As DommePersonality
@@ -14791,7 +14721,6 @@ playLoop:
         returnValue.Sub.IsStroking = ssh.SubStroking
         returnValue.Sub.IsEdging = ssh.SubEdging
         returnValue.IsFirstRound = ssh.FirstRound
-        returnValue.IsOrgasmAllowed = ssh.OrgasmAllowed
         returnValue.IsOrgasmRuined = ssh.OrgasmRuined
         returnValue.IsBeforeTease = ssh.BeforeTease
         returnValue.MinimumTaskTime = FrmSettings.TaskWaitMinimum.Value
@@ -14855,6 +14784,16 @@ playLoop:
         End If
         Throw New Exception(data + " is an unknown frequency")
     End Function
+
+    Public Sub OpenFile(fileName As String)
+        Dim myProcess As New Process()
+        myProcess.StartInfo.FileName = fileName
+        myProcess.StartInfo.UseShellExecute = True
+        myProcess.StartInfo.RedirectStandardOutput = False
+        myProcess.Start()
+        myProcess.Dispose()
+    End Sub
+
 #End Region
 
 #Region "conversion methods"
@@ -15175,6 +15114,15 @@ playLoop:
             e.Result = PlayVideo(e.VideoMetaData, e.ShouldRandomizeStart)
         End If
     End Sub
+
+    Private Sub mySession_SendFile(sender As Object, e As SendFileEventArgs)
+        If (InvokeRequired) Then
+            Invoke(New MethodInvoker(Sub() mySession_SendFile(sender, e)))
+        Else
+            ReceiveFile(e.Title, e.FileName, e.Sender)
+        End If
+    End Sub
+
 
     Private Sub Safeword_Spoken(sender As Object, e As MessageProcessedEventArgs)
 
@@ -18182,11 +18130,6 @@ TaskCleanSet:
             ssh.BookmarkLinkFile = ssh.FileText
             ssh.BookmarkLinkLine = ssh.StrokeTauntVal + 1
             inputString = inputString.Replace("@BookmarkLink", "")
-        End If
-
-        If inputString.Contains("@SendDailyTasks") Then
-            CreateTaskLetter()
-            inputString = inputString.Replace("@SendDailyTasks", "")
         End If
 
         If inputString.Contains("@EdgingHold") Then

@@ -25,10 +25,11 @@ namespace TeaseAI.Services.MessageProcessors
 
         public bool IsRelevant(Session session, ChatMessage chatMessage)
         {
-            var data = _systemVocabularyAccessor.GetData(session, "EdgeKEY")
-                .OnSuccess(list => list.Any(line => line.ToLower() == Normalize(chatMessage.Message)));
+            var data = _systemVocabularyAccessor.GetData(session, "EdgeKEY");
+            if(data.IsSuccess)
+                return data.Value.Any(line => line.ToLower() == Normalize(chatMessage.Message));
 
-            return data.Value;
+            return false;
         }
 
         public Result<MessageProcessedResult> ProcessMessage(Session session, ChatMessage chatMessage)

@@ -2524,7 +2524,7 @@ Public Class FrmSettings
         Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(mySettingsAccessor.GetSettings().DommePersonality, sessionPhase)
 
         Dim clickedScript = scripts.First(Function(smd) smd.Name = checkedListBox.SelectedItem.ToString())
-        MainWindow.ShellExecute(clickedScript.Key)
+        MainWindow.OpenFile(clickedScript.Key)
     End Sub
 
     Private Sub BtnScriptsSelectAutomated_Click(sender As Object, e As EventArgs) Handles SelectNoScriptsButton.Click, SelectAvailableScriptsButton.Click, SelectAllScriptsButton.Click

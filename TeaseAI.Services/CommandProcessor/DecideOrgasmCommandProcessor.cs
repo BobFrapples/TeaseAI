@@ -30,17 +30,17 @@ namespace TeaseAI.Services.CommandProcessor
         public override Result<Session> PerformCommand(Session session, string line)
         {
             var workingSession = session.Clone();
-            workingSession.IsOrgasmAllowed = false;
+            workingSession.Sub.WillBeAllowedToOrgasm = null;
             workingSession.IsOrgasmRuined = false;
 
             // TODO: Allow custom orgasm percentages
             var orgasmChance = _randomNumberService.RollPercent();
-            workingSession.IsOrgasmAllowed = orgasmChance < workingSession.Domme.AllowsOrgasms;
+            workingSession.Sub.WillBeAllowedToOrgasm = orgasmChance < workingSession.Domme.AllowsOrgasms;
 
             var ruinChance = _randomNumberService.RollPercent();
-            workingSession.IsOrgasmRuined = workingSession.IsOrgasmAllowed && ruinChance < workingSession.Domme.RuinsOrgasms;
+            workingSession.IsOrgasmRuined = workingSession.Sub.WillBeAllowedToOrgasm.Value && ruinChance < workingSession.Domme.RuinsOrgasms;
 
-            var decisionBookmark = GetDecisionBookmark(workingSession.IsOrgasmAllowed, workingSession.IsOrgasmRuined);
+            var decisionBookmark = GetDecisionBookmark(workingSession.Sub.WillBeAllowedToOrgasm.Value, workingSession.IsOrgasmRuined);
 
             var result =  _bookmarkService.FindBookmark(workingSession.CurrentScript.Lines, decisionBookmark)
                  .OnSuccess(ln => workingSession.CurrentScript.LineNumber = ln)

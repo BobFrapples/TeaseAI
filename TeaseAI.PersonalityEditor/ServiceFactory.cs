@@ -36,9 +36,15 @@ namespace TeaseAI.PersonalityEditor
                 CreateSettingsAccessor(),
                 CreatePathsAccessor(),
                 CreateBookmarkService(),
-                CreateMediaContainerService()
+                CreateMediaContainerService(),
+                CreateTimeService(),
+                CreateLineCollectionFilter()
             );
         }
+
+        private static ILineCollectionFilter CreateLineCollectionFilter() => new LineCollectionFilter();
+
+        private static ITimeService CreateTimeService() => new TimeService(CreateSettingsAccessor());
 
         internal static IGetCommandInformationAccessor CreateGetCommandInformationService() => new GetCommandInformationAccessor();
 
