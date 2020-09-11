@@ -80,8 +80,15 @@ namespace TeaseAI.Common
         public bool AreBallsBeingTortured { get; set; }
         public int BallsTortureCount { get; set; }
 
-        private List<string> _toyBox;
-        private List<string> _petNames;
+        /// <summary>
+        /// How many tokens of what denomination does the sub have
+        /// </summary>
+        public Dictionary<TokenDenomination, int> Purse => _purse ?? (_purse = new Dictionary<TokenDenomination, int>
+        {
+            {TokenDenomination.Bronze , 0 },
+            {TokenDenomination.Silver , 0 },
+            {TokenDenomination.Gold , 0 },
+        });
 
         internal SubPersonality Clone()
         {
@@ -120,15 +127,8 @@ namespace TeaseAI.Common
             };
         }
 
-        /// <summary>
-        /// How many tokens of what denomination does the sub have
-        /// </summary>
-        public Dictionary<TokenDenomination, int> Purse => _purse ?? (_purse = new Dictionary<TokenDenomination, int>
-        {
-            {TokenDenomination.Bronze , 0 },
-            {TokenDenomination.Silver , 0 },
-            {TokenDenomination.Gold , 0 },
-        });
         private Dictionary<TokenDenomination, int> _purse;
+        private List<string> _toyBox;
+        private List<string> _petNames;
     }
 }

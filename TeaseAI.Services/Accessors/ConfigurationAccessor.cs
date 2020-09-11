@@ -19,7 +19,7 @@ namespace TeaseAI.Services.Accessors
             return JsonConvert.DeserializeObject<ApplicationConfiguration>(data);
         }
 
-        public string GetBaseFolder() => GetApplicationConfiguration().BaseDataFolder;
+        public string GetBaseFolder() => GetApplicationConfiguration().BaseDataFolder + Path.DirectorySeparatorChar;
 
         public Result SaveApplicationConfiguration(ApplicationConfiguration applicationConfiguration)
         {

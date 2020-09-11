@@ -417,6 +417,11 @@ namespace TeaseAI.Common.Constants
         /// Filter flag used to mark a line for inclusion only if the sub is denied an orgasm
         /// </summary>
         public const string OrgasmDenied = @"@OrgasmDenied";
+
+        /// <summary>
+        /// Domme wishes to assign a vital sub task
+        /// </summary>
+        public const  string VitalSubAssignment =@"@VitalSubAssignment";
         #endregion
     }
 }

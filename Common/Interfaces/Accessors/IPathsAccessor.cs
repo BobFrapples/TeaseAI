@@ -34,5 +34,19 @@ namespace TeaseAI.Common.Interfaces.Accessors
         /// </summary>
         /// <returns></returns>
         string GetSystemImages();
+
+        /// <summary>
+        /// Get the path where vitalsub data is located
+        /// </summary>
+        /// <returns></returns>
+        string GetVitalSubDir();
+
+        /// <summary>
+        /// Get path for Domme specific vital sub data
+        /// </summary>
+        /// <param name="dommePersonalityName"></param>
+        /// <returns></returns>
+        string GetVitalSubDir(string dommePersonalityName)
+
     }
 }

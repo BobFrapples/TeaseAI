@@ -83,8 +83,7 @@ namespace TeaseAI.Services.CommandProcessor
         private string GetLine(Session session, string file)
         {
             var basePath = _pathsAccessor.GetPersonalityFolder(session.Domme.PersonalityName);
-            var lines = File.ReadAllLines(basePath + file);
-            var filteredLines = _lineCollectionFilter.FilterLines(session, lines);
+            var filteredLines = _lineCollectionFilter.FilterLines(session, basePath + file);
             var selectedLine = _randomNumberService.Roll(0, filteredLines.Count);
             return filteredLines[selectedLine];
         }

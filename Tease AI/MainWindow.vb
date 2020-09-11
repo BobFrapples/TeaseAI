@@ -47,6 +47,7 @@ Public Class MainWindow
     Dim mySlideShowNavigationService As ISlideShowNavigationService = New SlideShowNavigationService()
     Dim myOldPathsAccessor As PathsAccessor = New PathsAccessor(ApplicationFactory.CreateConfigurationAccessor, ApplicationFactory.CreateOldSettingsAccessor())
     Dim myPathsAccessor As IPathsAccessor = ApplicationFactory.CreatePathsAccessor()
+    Dim myVitalSubService As IVitalSubService = ApplicationFactory.CreateVitalSubService()
 
     Private myReceivedFile As String
     Dim WithEvents mySession As SessionEngine
@@ -138,7 +139,6 @@ Public Class MainWindow
 
     Public synth As New SpeechSynthesizer
     Public synth2 As New SpeechSynthesizer
-
 
     Public LazyEdit1 As Boolean
     Public LazyEdit2 As Boolean
@@ -301,6 +301,7 @@ ByVal lpstrReturnString As String, ByVal uReturnLength As Integer, ByVal hwndCal
             AddHandler mySession.QueryImage, AddressOf mySession_QueryImage
             AddHandler mySession.PlayVideo, AddressOf mySession_PlayVideo
             AddHandler mySession.SendFile, AddressOf mySession_SendFile
+            AddHandler mySession.VitalSubUpdated, AddressOf mySession_VitalSubUpdated
             'AddHandler mySession.MessageProcessors(MessageProcessor.RequestTask).MessageProcessed, AddressOf Task_Requested
             AddHandler mySession.MessageProcessors(MessageProcessor.Greeting).MessageProcessed, AddressOf Greeting_Spoken
             AddHandler mySession.MessageProcessors(MessageProcessor.Safeword).MessageProcessed, AddressOf Safeword_Spoken
@@ -641,44 +642,6 @@ retryStart:
 
             TeaseAIClock.Start()
 
-            splashScreen.UpdateText("Loading VitalSub...")
-            LBLCalorie.Text = My.Settings.CaloriesConsumed
-
-            Dim vsubDir As String = Application.StartupPath & "\System\VitalSub"
-
-            If Not Directory.Exists(vsubDir) Then Directory.CreateDirectory(vsubDir)
-
-            If File.Exists(Application.StartupPath & "\System\VitalSub\ExerciseList.cld") Then
-                LoadExercise()
-            End If
-
-            ssh.CaloriesConsumed = My.Settings.CaloriesConsumed
-
-            If File.Exists(Application.StartupPath & "\System\VitalSub\CalorieList.txt") Then
-                For Each str As String In Txt2List(Application.StartupPath & "\System\VitalSub\CalorieList.txt")
-                    ComboBoxCalorie.Items.Add(str)
-                Next
-            End If
-
-            If File.Exists(Application.StartupPath & "\System\VitalSub\CalorieItems.txt") Then
-                LBCalorie.Items.AddRange(Txt2List(Application.StartupPath & "\System\VitalSub\CalorieItems.txt").ToArray)
-                LBLCalorie.Text = ssh.CaloriesConsumed
-            Else
-                ssh.CaloriesConsumed = 0
-                My.Settings.CaloriesConsumed = 0
-                LBLCalorie.Text = ssh.CaloriesConsumed
-            End If
-
-            CBVitalSub.Checked = My.Settings.VitalSub
-            If CBVitalSub.Checked Then
-                CBVitalSub.ForeColor = Color.LightGreen
-                CBVitalSub.Text = "VitalSub Active"
-            Else
-                CBVitalSub.ForeColor = Color.Red
-                CBVitalSub.Text = "VitalSub Inactive"
-            End If
-
-            CBVitalSubDomTask.Checked = My.Settings.VitalSubAssignments
             NBMinPace.Value = My.Settings.MinPace
             NBMaxPace.Value = My.Settings.MaxPace
             CBMetronome.Checked = My.Settings.MetroOn
@@ -7350,33 +7313,6 @@ OrgasmDecided:
             StringClean = StringClean.Replace("@PlayCensorshipSucks", "")
         End If
 
-        If StringClean.Contains("@VitalSubAssignment") Then
-            ' Read all lines of the given file.
-            Dim AssignList As List(Of String) = Txt2List(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Apps\VitalSub\Assignments.txt")
-
-            Dim TempAssign As String
-
-            Try
-                AssignList = FilterList(AssignList)
-                TempAssign = AssignList(ssh.randomizer.Next(0, AssignList.Count))
-            Catch
-                TempAssign = "ERROR: VitalSub Assign"
-            End Try
-
-            Dim TempArray As String() = Split(TempAssign)
-
-            For i As Integer = TempArray.Count - 1 To 0 Step -1
-                If TempArray(i).Contains("@") Then TempArray(i) = ""
-            Next
-
-
-            CLBExercise.Items.Add(TempAssign)
-            SaveExercise()
-            CBVitalSubDomTask.Checked = False
-            My.Settings.VitalSubAssignments = False
-            StringClean = StringClean.Replace("@VitalSubAssignment", "")
-        End If
-
         If StringClean.Contains("@PlayAvoidTheEdge") Then
             ' #### Reboot
 
@@ -9742,11 +9678,6 @@ SkipTextedTags:
             If FilterString.Contains("@CBTLevel5") And FrmSettings.CockAndBallTortureLevelSlider.Value <> 5 Then Return False
             If FilterString.Contains("@BeforeTease") And ssh.BeforeTease = False Then Return False
 
-            If FilterString.Contains("@VitalSub") And CBVitalSub.Checked = False Then Return False
-            If FilterString.Contains("@VitalSubAssignment") Then
-                If CBVitalSub.Checked = False Or CBVitalSubDomTask.Checked = False Then Return False
-            End If
-
             If FilterString.Contains("@RuinTaunt") Then
                 If ssh.EdgeToRuin = False Or ssh.EdgeToRuinSecret = True Then Return False
             End If
@@ -9942,8 +9873,6 @@ SkipTextedTags:
                 .Add("@DoesNotHaveChastity", FrmSettings.CBOwnChastity.Checked = True)
                 .Add("@ChastityPA", FrmSettings.DoesChastityDeviceRequirePiercingCB.Checked = False)
                 .Add("@ChastitySpikes", FrmSettings.ChastityDeviceContainsSpikesCB.Checked = False)
-                .Add("@VitalSub", CBVitalSub.Checked = False)
-                .Add("@VitalSubAssignment", CBVitalSub.Checked = False Or CBVitalSubDomTask.Checked = False)
                 .Add("@RuinTaunt", ssh.EdgeToRuin = False Or ssh.EdgeToRuinSecret = True)
                 .Add("@ShowLikedImage", Not File.Exists(Application.StartupPath & "\Images\System\LikedImageURLs.txt"))
                 .Add("@ShowDislikedImage", Not File.Exists(Application.StartupPath & "\Images\System\DislikedImageURLs.txt"))
@@ -11674,32 +11603,6 @@ RestartFunction:
         FileTransferProgressBar.Value += 1
     End Sub
 
-    Public Sub SaveExercise()
-        If FormLoading Then Return
-        Dim fileStream As New FileStream(Application.StartupPath & "\System\VitalSub\ExerciseList.cld", FileMode.Create)
-        Dim binaryWriter As New BinaryWriter(fileStream)
-        For i = 0 To CLBExercise.Items.Count - 1
-            binaryWriter.Write(CLBExercise.Items(i).ToString())
-            binaryWriter.Write(CLBExercise.GetItemChecked(i))
-        Next
-        binaryWriter.Close()
-        fileStream.Dispose()
-    End Sub
-
-    Public Sub LoadExercise()
-        CLBExercise.Items.Clear()
-        Dim fileStream As New FileStream(Application.StartupPath & "\System\VitalSub\ExerciseList.cld", FileMode.Open)
-        Dim binaryReader As New BinaryReader(fileStream)
-        CLBExercise.BeginUpdate()
-        Do While fileStream.Position < fileStream.Length
-            CLBExercise.Items.Add(binaryReader.ReadString)
-            CLBExercise.SetItemChecked(CLBExercise.Items.Count - 1, binaryReader.ReadBoolean)
-        Loop
-        CLBExercise.EndUpdate()
-        binaryReader.Close()
-        fileStream.Dispose()
-    End Sub
-
     Public Sub RefreshCards()
         Try
             GamesWindow.GoldN1.Text = FrmSettings.GN1.Text
@@ -12142,8 +12045,6 @@ RestartFunction:
             ssh.SlideshowTimerTick = FrmSettings.SlideShowNumBox.Value
             SlideshowTimer.Start()
         End If
-
-
     End Sub
 
     ''' <summary>
@@ -13993,121 +13894,148 @@ restartInstantly:
 
 #Region "--------------------------------------------------- VitalSub APP -----------------------------------------------------"
 
+    Private Sub VitalSubPanel_VisibleChanged(sender As Object, e As EventArgs) Handles VitalSubPanel.VisibleChanged
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        Dim healthGoals As HealthGoals = settings.Sub.HealthGoals
+        Dim vitalSubDir As String = myPathsAccessor.GetVitalSubDir()
+        If Not Directory.Exists(vitalSubDir) Then
+            Directory.CreateDirectory(vitalSubDir)
+        End If
+
+        If Not healthGoals.IsActive OrElse Not VitalSubPanel.Visible Then
+            Return
+        End If
+
+        Dim exerciseAssignments As List(Of ExerciseAssignment) = myVitalSubService.GetAssignedExercises()
+        LoadExercisesIntoUi(exerciseAssignments)
+
+        Dim calorieSelectData As List(Of String) = myVitalSubService.GetKnownFoodItems()
+
+        VitalSubCalorieComboBox.Items.Clear()
+        VitalSubCalorieComboBox.Items.AddRange(calorieSelectData.ToArray())
+
+        Dim foodItemsEaten As List(Of String) = myVitalSubService.GetEatenFood()
+
+        VitalSubCaloriesListBox.Items.Clear()
+        VitalSubCaloriesListBox.Items.AddRange(foodItemsEaten.ToArray())
+
+        If Not foodItemsEaten.Any() Then
+            healthGoals.CaloriesConsumed = 0
+            healthGoals = mySettingsAccessor.WriteSettings(settings).Sub.HealthGoals
+        End If
+
+        VitalSubCaloriesConsumedLabel.Text = healthGoals.CaloriesConsumed.ToString()
+
+        VitalSubEnabledCheckBox.Checked = healthGoals.IsActive
+        VitalSubEnabledCheckBox.ForeColor = BooleanToOnOffColor(healthGoals.IsActive)
+        VitalSubEnabledCheckBox.Text = IIf(healthGoals.IsActive, "VitalSub Active", "VitalSub Inactive")
+
+        VitalSubDommeAssignmentsCheckBox.Checked = healthGoals.CanDommeAddAssignments
+    End Sub
+
     Private Sub BTNExercise_Click(sender As Object, e As EventArgs) Handles BTNExercise.Click
         If TBExercise.Text <> "" Then
-            CLBExercise.Items.Add(TBExercise.Text)
+            VitalSubExerciseAssignmentsCheckBoxList.Items.Add(TBExercise.Text)
             TBExercise.Text = ""
-            SaveExercise()
+            myVitalSubService.SaveAssignedExercises(GetExercisesFromUi())
         End If
     End Sub
 
-    Private Sub BTNCalorie_Click(sender As Object, e As EventArgs) Handles BTNCalorie.Click
-        If TBCalorieItem.Text <> "" And TBCalorieAmount.Text <> "" Then
-            Dim CalorieString As String
-            CalorieString = TBCalorieItem.Text & " " & TBCalorieAmount.Text & " Calories"
-            Dim Dupecheck As Boolean = False
-            For i As Integer = 0 To ComboBoxCalorie.Items.Count - 1
-                If CalorieString = ComboBoxCalorie.Items(i) Then Dupecheck = True
-            Next
-            ComboBoxCalorie.Items.Add(CalorieString)
-            LBCalorie.Items.Add(CalorieString)
+    Private Sub VitalSubAddCaloriesButton_Click(sender As Object, e As EventArgs) Handles VitalSubAddCaloriesButton.Click
 
-            If File.Exists(Application.StartupPath & "\System\VitalSub\CalorieItems.txt") Then My.Computer.FileSystem.DeleteFile(Application.StartupPath & "\System\VitalSub\CalorieItems.txt")
-            For i As Integer = 0 To LBCalorie.Items.Count - 1
-                If Not File.Exists(Application.StartupPath & "\System\VitalSub\CalorieItems.txt") Then
-                    My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\System\VitalSub\CalorieItems.txt", LBCalorie.Items(i), False)
-                Else
-                    My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\System\VitalSub\CalorieItems.txt", Environment.NewLine & LBCalorie.Items(i), True)
-                End If
-            Next
+        Dim itemCalories As Integer
 
-            If Dupecheck = False Then
-                If File.Exists(Application.StartupPath & "\System\VitalSub\CalorieList.txt") Then
-                    My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\System\VitalSub\CalorieList.txt", Environment.NewLine & CalorieString, True)
-                Else
-                    My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\System\VitalSub\CalorieList.txt", CalorieString, False)
-                End If
-            End If
-            Dupecheck = False
-            ssh.CaloriesConsumed += TBCalorieAmount.Text
-            LBLCalorie.Text = ssh.CaloriesConsumed
-            My.Settings.CaloriesConsumed = ssh.CaloriesConsumed
-            TBCalorieItem.Text = ""
-            TBCalorieAmount.Text = ""
+        If String.IsNullOrWhiteSpace(foodItemTextBox.Text) _
+            OrElse String.IsNullOrWhiteSpace(FoodItemCaloriesAmountTextBox.Text _
+            OrElse Not Integer.TryParse(FoodItemCaloriesAmountTextBox.Text, itemCalories)) Then
+            Return
         End If
-    End Sub
+        Dim calorieString As String = foodItemTextBox.Text.Trim() & " " & FoodItemCaloriesAmountTextBox.Text.Trim() & " Calories"
+        Dim dupeCheck As Boolean = False
 
-    Private Sub ComboBoxCalorie_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBoxCalorie.SelectedIndexChanged
+        For i As Integer = 0 To VitalSubCalorieComboBox.Items.Count - 1
+            If calorieString = VitalSubCalorieComboBox.Items(i) Then dupeCheck = True
+        Next
+        VitalSubCaloriesListBox.Items.Add(calorieString)
 
-    End Sub
+        Dim foodItemsEaten As List(Of String) = myVitalSubService.GetEatenFood()
+        foodItemsEaten.Add(calorieString)
+        myVitalSubService.SaveEatenFood(foodItemsEaten)
 
-    Private Sub ComboBoxCalorie_SelectionChangeCommitted(sender As Object, e As EventArgs) Handles ComboBoxCalorie.SelectionChangeCommitted
-        If Not ComboBoxCalorie.SelectedItem Is Nothing Then
-            Dim CalorieString As String = ComboBoxCalorie.SelectedItem
-            LBCalorie.Items.Add(CalorieString)
-            CalorieString = CalorieString.Replace(" Calories", "")
-            Dim CalorieSplit As String() = Split(CalorieString)
-            Dim TempCal As Integer = Val(CalorieSplit(CalorieSplit.Count - 1))
-            ssh.CaloriesConsumed += TempCal
-            LBLCalorie.Text = ssh.CaloriesConsumed
-            My.Settings.CaloriesConsumed = ssh.CaloriesConsumed
-            If File.Exists(Application.StartupPath & "\System\VitalSub\CalorieItems.txt") Then My.Computer.FileSystem.DeleteFile(Application.StartupPath & "\System\VitalSub\CalorieItems.txt")
-            For i As Integer = 0 To LBCalorie.Items.Count - 1
-                If Not File.Exists(Application.StartupPath & "\System\VitalSub\CalorieItems.txt") Then
-                    My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\System\VitalSub\CalorieItems.txt", LBCalorie.Items(i), False)
-                Else
-                    My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\System\VitalSub\CalorieItems.txt", Environment.NewLine & LBCalorie.Items(i), True)
-                End If
-            Next
+        If Not dupeCheck Then
+            Dim foodKnown As List(Of String) = myVitalSubService.GetKnownFoodItems()
+            foodKnown.Add(calorieString)
+            myVitalSubService.SaveKnownFoodItems(foodKnown)
+            VitalSubCalorieComboBox.Items.Add(calorieString)
         End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.HealthGoals.CaloriesConsumed += itemCalories
+        mySettingsAccessor.WriteSettings(settings)
+        VitalSubCaloriesConsumedLabel.Text = settings.Sub.HealthGoals.CaloriesConsumed
+        foodItemTextBox.Text = ""
+        FoodItemCaloriesAmountTextBox.Text = ""
     End Sub
 
-    Private Sub CLBExercise_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CLBExercise.SelectedIndexChanged, CLBExercise.LostFocus
-        SaveExercise()
+    Private Sub ComboBoxCalorie_SelectionChangeCommitted(sender As Object, e As EventArgs) Handles VitalSubCalorieComboBox.SelectionChangeCommitted
+        If VitalSubCalorieComboBox.SelectedItem Is Nothing Then
+            Return
+        End If
+
+        Dim calorieString As String = VitalSubCalorieComboBox.SelectedItem
+        Dim foodEaten As List(Of String) = myVitalSubService.GetEatenFood()
+        foodEaten.Add(calorieString)
+        myVitalSubService.SaveEatenFood(foodEaten)
+        VitalSubCaloriesListBox.Items.Add(calorieString)
+
+        calorieString = calorieString.Replace(" Calories", "")
+        Dim calorieSplit As String() = Split(calorieString)
+        Dim itemCalories As Integer = Integer.Parse(calorieSplit(calorieSplit.Count - 1))
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.HealthGoals.CaloriesConsumed += itemCalories
+        mySettingsAccessor.WriteSettings(settings)
+        VitalSubCaloriesConsumedLabel.Text = settings.Sub.HealthGoals.CaloriesConsumed
     End Sub
 
-    Private Sub CBVitalSub_CheckedChanged(sender As Object, e As EventArgs) Handles CBVitalSub.CheckedChanged
-        If CBVitalSub.Checked = True Then
-            CBVitalSub.ForeColor = Color.LightGreen
-            CBVitalSub.Text = "VitalSub Active"
+    Private Sub CLBExercise_SelectedIndexChanged(sender As Object, e As EventArgs) Handles VitalSubExerciseAssignmentsCheckBoxList.SelectedIndexChanged, VitalSubExerciseAssignmentsCheckBoxList.LostFocus
+        myVitalSubService.SaveAssignedExercises(GetExercisesFromUi())
+    End Sub
+
+    Private Sub CBVitalSub_CheckedChanged(sender As Object, e As EventArgs) Handles VitalSubEnabledCheckBox.CheckedChanged
+        If VitalSubEnabledCheckBox.Checked = True Then
+            VitalSubEnabledCheckBox.ForeColor = Color.LightGreen
+            VitalSubEnabledCheckBox.Text = "VitalSub Active"
         Else
-            CBVitalSub.ForeColor = Color.Red
-            CBVitalSub.Text = "VitalSub Inactive"
+            VitalSubEnabledCheckBox.ForeColor = Color.Red
+            VitalSubEnabledCheckBox.Text = "VitalSub Inactive"
         End If
     End Sub
 
-    Private Sub CBVitalSub_LostFocus(sender As Object, e As EventArgs) Handles CBVitalSub.LostFocus
-        If CBVitalSub.Checked = True Then
-            My.Settings.VitalSub = True
-        Else
-            My.Settings.VitalSub = False
-        End If
+    Private Sub CBVitalSub_LostFocus(sender As Object, e As EventArgs) Handles VitalSubEnabledCheckBox.LostFocus
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.HealthGoals.IsActive = VitalSubEnabledCheckBox.Checked
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
-    Private Sub LBCalorie_DoubleClick(sender As Object, e As EventArgs) Handles LBCalorie.DoubleClick
+    Private Sub LBCalorie_DoubleClick(sender As Object, e As EventArgs) Handles VitalSubCaloriesListBox.DoubleClick
+        Dim calorieString As String = VitalSubCalorieComboBox.SelectedItem
+        Dim foodEaten As List(Of String) = myVitalSubService.GetEatenFood()
+        foodEaten.Add(calorieString)
+        myVitalSubService.SaveEatenFood(foodEaten)
+        VitalSubCaloriesListBox.Items.Add(calorieString)
 
+        calorieString = calorieString.Replace(" Calories", "")
+        Dim calorieSplit As String() = Split(calorieString)
+        Dim itemCalories As Integer = Integer.Parse(calorieSplit(calorieSplit.Count - 1))
 
-        Dim CalorieString As String = LBCalorie.SelectedItem
-        CalorieString = CalorieString.Replace(" Calories", "")
-        Dim CalorieSplit As String() = Split(CalorieString)
-        Dim TempCal As Integer = Val(CalorieSplit(CalorieSplit.Count - 1))
-        ssh.CaloriesConsumed -= TempCal
-        LBLCalorie.Text = ssh.CaloriesConsumed
-        My.Settings.CaloriesConsumed = ssh.CaloriesConsumed
-        LBCalorie.Items.Remove(LBCalorie.SelectedItem)
-        If File.Exists(Application.StartupPath & "\System\VitalSub\CalorieItems.txt") Then My.Computer.FileSystem.DeleteFile(Application.StartupPath & "\System\VitalSub\CalorieItems.txt")
-        If LBCalorie.Items.Count > 0 Then
-            For i As Integer = 0 To LBCalorie.Items.Count - 1
-                If Not File.Exists(Application.StartupPath & "\System\VitalSub\CalorieItems.txt") Then
-                    My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\System\VitalSub\CalorieItems.txt", LBCalorie.Items(i), False)
-                Else
-                    My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\System\VitalSub\CalorieItems.txt", Environment.NewLine & LBCalorie.Items(i), True)
-                End If
-            Next
-        End If
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.HealthGoals.CaloriesConsumed += itemCalories
+        mySettingsAccessor.WriteSettings(settings)
+        VitalSubCaloriesConsumedLabel.Text = settings.Sub.HealthGoals.CaloriesConsumed
     End Sub
 
-    Private Sub BTNVitalSub_Click(sender As Object, e As EventArgs) Handles BTNVitalSub.Click
+    Private Sub VitalSubSubmitReportButton_Click(sender As Object, e As EventArgs) Handles VitalSubSubmitReportButton.Click
         If mySession.Session.Domme.WasGreeted = True Then
             MessageBox.Show(Me, "Please wait until you are not engaged with the domme to make VitalSub reports!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Return
@@ -14115,77 +14043,77 @@ restartInstantly:
 
         mySession.Session.Domme.WasGreeted = True
 
-        Dim vitalSubFail As Boolean = False
+        Dim didVitalSubFail As Boolean = False
 
-        If CLBExercise.Items.Count > 0 Then
-            For i As Integer = 0 To CLBExercise.Items.Count - 1
-                If Not CLBExercise.GetItemChecked(i) Then vitalSubFail = True
+        If VitalSubExerciseAssignmentsCheckBoxList.Items.Count > 0 Then
+            For i As Integer = 0 To VitalSubExerciseAssignmentsCheckBoxList.Items.Count - 1
+                If Not VitalSubExerciseAssignmentsCheckBoxList.GetItemChecked(i) Then didVitalSubFail = True
             Next
         End If
 
-        If Val(LBLCalorie.Text) > Val(TBCalorie.Text) Then vitalSubFail = True
-
-        Dim vitalSubState As String
-
-        If vitalSubFail Then
-            vitalSubState = "Punishments"
-        Else
-            vitalSubState = "Rewards"
+        If Convert.ToDecimal(VitalSubCaloriesConsumedLabel.Text) > Convert.ToDecimal(TBCalorie.Text) Then
+            didVitalSubFail = True
         End If
-        vitalSubFail = False
-        Dim VitalList As New List(Of String)
 
-        For Each foundFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Apps\VitalSub\" & vitalSubState & "\", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
-            VitalList.Add(foundFile)
-        Next
-
-        If VitalList.Count > 0 Then
-
-            ' github patch begin
-            ' For i As Integer = 0 To CLBExercise.Items.Count - 1
-            'CLBExercise.SetItemChecked(i, False)
-            'Next
-            'SaveExercise()
-            ' github patch end
-
-            CLBExercise.Items.Clear()
-            SaveExercise()
-
-
-            LBCalorie.Items.Clear()
-            If File.Exists(Application.StartupPath & "\System\VitalSub\CalorieItems.txt") Then My.Computer.FileSystem.DeleteFile(Application.StartupPath & "\System\VitalSub\CalorieItems.txt")
-            LBLCalorie.Text = 0
-            ssh.CaloriesConsumed = 0
-            My.Settings.CaloriesConsumed = 0
-
-            ssh.FileText = VitalList(ssh.randomizer.Next(0, VitalList.Count))
-
-            If Directory.Exists(My.Settings.DomImageDir) And ssh.SlideshowLoaded = False Then
-                LoadDommeImageFolder()
-            End If
-
-            ssh.StrokeTauntVal = -1
-            ssh.ScriptTick = 3
-            ScriptTimer.Start()
-
-        Else
-
-            MessageBox.Show(Me, "No " & vitalSubState & " were found! Please make sure you have files in the VitaSub directory for this personality type!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        Dim getDommeResponses As Result(Of List(Of String)) = myVitalSubService.GetVitalSubResponses(mySession.Session.Domme, didVitalSubFail)
+        If (getDommeResponses.IsFailure) Then
+            MessageBox.Show(Me, getDommeResponses.Error.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Return
         End If
+
+        Dim responseList As List(Of String) = getDommeResponses.Value
+        LoadExercisesIntoUi(New List(Of ExerciseAssignment)())
+        myVitalSubService.SaveAssignedExercises(New List(Of ExerciseAssignment)())
+
+        VitalSubCaloriesListBox.Items.Clear()
+        myVitalSubService.SaveEatenFood(New List(Of String))
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Sub.HealthGoals.CaloriesConsumed = 0
+        mySettingsAccessor.WriteSettings(settings)
+        VitalSubCaloriesConsumedLabel.Text = settings.Sub.HealthGoals.CaloriesConsumed
+
+        ' TODO: Move this to use sesssion engine script
+        ssh.FileText = responseList(myRandomNumberService.Roll(0, responseList.Count))
+        If Directory.Exists(My.Settings.DomImageDir) AndAlso Not ssh.SlideshowLoaded Then
+            LoadDommeImageFolder()
+        End If
+        ssh.StrokeTauntVal = -1
+        ssh.ScriptTick = 3
+        ScriptTimer.Start()
     End Sub
 
-    Private Sub CLBExercise_DragLeave(sender As Object, e As EventArgs) Handles CLBExercise.DragLeave
-
-        CLBExercise.Items.Remove(CLBExercise.SelectedItem)
+    Private Sub CLBExercise_DragLeave(sender As Object, e As EventArgs) Handles VitalSubExerciseAssignmentsCheckBoxList.DragLeave
+        VitalSubExerciseAssignmentsCheckBoxList.Items.Remove(VitalSubExerciseAssignmentsCheckBoxList.SelectedItem)
     End Sub
 
-    Private Sub CBVitalSubDomTask_CheckedChanged(sender As Object, e As EventArgs) Handles CBVitalSubDomTask.CheckedChanged
-        If FormLoading = False Then
-            My.Settings.VitalSubAssignments = CBVitalSubDomTask.Checked
+    Private Sub CBVitalSubDomTask_CheckedChanged(sender As Object, e As EventArgs) Handles VitalSubDommeAssignmentsCheckBox.CheckedChanged
+        If Not FormLoading Then
+            Dim settings As Settings = mySettingsAccessor.GetSettings()
+            settings.Sub.HealthGoals.CanDommeAddAssignments = VitalSubDommeAssignmentsCheckBox.Checked
+            mySettingsAccessor.WriteSettings(settings)
         End If
     End Sub
 
+    Public Function GetExercisesFromUi() As List(Of ExerciseAssignment)
+        If FormLoading Then Return New List(Of ExerciseAssignment)()
+        Dim assignedExercises As List(Of ExerciseAssignment) = New List(Of ExerciseAssignment)()
+
+        For i = 0 To VitalSubExerciseAssignmentsCheckBoxList.Items.Count - 1
+            Dim newExercise As ExerciseAssignment = New ExerciseAssignment()
+            newExercise.Description = VitalSubExerciseAssignmentsCheckBoxList.Items(i).ToString()
+            newExercise.IsComplete = VitalSubExerciseAssignmentsCheckBoxList.GetItemChecked(i)
+        Next
+        Return assignedExercises
+    End Function
+
+    Public Sub LoadExercisesIntoUi(exercises As IEnumerable(Of ExerciseAssignment))
+        VitalSubExerciseAssignmentsCheckBoxList.Items.Clear()
+        For Each ea As ExerciseAssignment In exercises
+            VitalSubExerciseAssignmentsCheckBoxList.Items.Add(ea.Description)
+            VitalSubExerciseAssignmentsCheckBoxList.SetItemChecked(VitalSubExerciseAssignmentsCheckBoxList.Items.Count - 1, ea.IsComplete)
+        Next
+    End Sub
 #End Region ' Vital Sub
 
     Public Sub MetronomeTick()
@@ -14581,7 +14509,6 @@ playLoop:
         FileTransferPanel.BringToFront()
         ReceiveFileTimer.Start()
     End Sub
-
 
 #Region "data marshalling For services"
     Private Function CreateDommePersonality() As DommePersonality
@@ -15123,6 +15050,9 @@ playLoop:
         End If
     End Sub
 
+    Private Sub mySession_VitalSubUpdated(sender As Object, e As EventArgs)
+        ' update vitalsub UI here
+    End Sub
 
     Private Sub Safeword_Spoken(sender As Object, e As MessageProcessedEventArgs)
 
@@ -15467,7 +15397,7 @@ NoPlaylistStartFile:
 
 #End Region ' Settings
 
-#Region "-------------------------------------------------------- APPs --------------------------------------------------------"
+#Region "Apps menu"
 
     Private Sub CloseAppPanelToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CloseAppPanelToolStripMenuItem.Click
         ToggleAppVisibility(Nothing)
@@ -15659,20 +15589,7 @@ NoPlaylistStartFile:
     End Sub
 
     Private Sub VitalSubToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles VitalSubToolStripMenuItem.Click
-        ToggleAppVisibility(AppPanelVitalSub)
-        If AppPanelVitalSub.Visible = False Then
-
-            If File.Exists(Application.StartupPath & "\System\VitalSub\CalorieList.txt") And ComboBoxCalorie.Items.Count = 0 Then
-                'Read all lines of the given file.
-                Dim CalList As List(Of String) = Txt2List(Application.StartupPath & "\System\VitalSub\CalorieList.txt")
-
-                For i As Integer = 0 To CalList.Count - 1
-                    ComboBoxCalorie.Items.Add(CalList(i))
-                Next
-            End If
-
-        End If
-
+        ToggleAppVisibility(VitalSubPanel)
     End Sub
 
 #End Region ' APPs
@@ -18298,33 +18215,6 @@ TaskCleanSet:
             End If
 
             inputString = inputString.Replace("@PlayCensorshipSucks", "")
-        End If
-
-        If inputString.Contains("@VitalSubAssignment") Then
-            ' Read all lines of the given file.
-            Dim AssignList As List(Of String) = Txt2List(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Apps\VitalSub\Assignments.txt")
-
-            Dim TempAssign As String
-
-            Try
-                AssignList = FilterList(AssignList)
-                TempAssign = AssignList(ssh.randomizer.Next(0, AssignList.Count))
-            Catch
-                TempAssign = "ERROR: VitalSub Assign"
-            End Try
-
-            Dim TempArray As String() = Split(TempAssign)
-
-            For i As Integer = TempArray.Count - 1 To 0 Step -1
-                If TempArray(i).Contains("@") Then TempArray(i) = ""
-            Next
-
-
-            CLBExercise.Items.Add(TempAssign)
-            SaveExercise()
-            CBVitalSubDomTask.Checked = False
-            My.Settings.VitalSubAssignments = False
-            inputString = inputString.Replace("@VitalSubAssignment", "")
         End If
 
         If inputString.Contains("@PlayAvoidTheEdge") Then

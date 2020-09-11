@@ -2046,30 +2046,6 @@ Namespace My
 
         <Global.System.Configuration.UserScopedSettingAttribute(),
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("0")>
-        Public Property CaloriesConsumed() As Integer
-            Get
-                Return CType(Me("CaloriesConsumed"), Integer)
-            End Get
-            Set
-                Me("CaloriesConsumed") = Value
-            End Set
-        End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("2000")>
-        Public Property CaloriesGoal() As Integer
-            Get
-                Return CType(Me("CaloriesGoal"), Integer)
-            End Get
-            Set
-                Me("CaloriesGoal") = Value
-            End Set
-        End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
          Global.System.Configuration.DefaultSettingValueAttribute("False")>
         Public Property VitalSubDisclaimer() As Boolean
             Get
@@ -2077,30 +2053,6 @@ Namespace My
             End Get
             Set
                 Me("VitalSubDisclaimer") = Value
-            End Set
-        End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>
-        Public Property VitalSub() As Boolean
-            Get
-                Return CType(Me("VitalSub"), Boolean)
-            End Get
-            Set
-                Me("VitalSub") = Value
-            End Set
-        End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>
-        Public Property VitalSubAssignments() As Boolean
-            Get
-                Return CType(Me("VitalSubAssignments"), Boolean)
-            End Get
-            Set
-                Me("VitalSubAssignments") = Value
             End Set
         End Property
 

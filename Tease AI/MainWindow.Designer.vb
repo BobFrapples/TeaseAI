@@ -253,26 +253,26 @@ Partial Class MainWindow
         Me.CBHypnoGenInduction = New System.Windows.Forms.CheckBox()
         Me.CBHypnoGenPhase = New System.Windows.Forms.CheckBox()
         Me.BTNHypnoGenStart = New System.Windows.Forms.Button()
-        Me.AppPanelVitalSub = New System.Windows.Forms.Panel()
+        Me.VitalSubPanel = New System.Windows.Forms.Panel()
         Me.GBGoals = New System.Windows.Forms.GroupBox()
         Me.BTNExercise = New System.Windows.Forms.Button()
         Me.TBExercise = New System.Windows.Forms.TextBox()
-        Me.CLBExercise = New System.Windows.Forms.CheckedListBox()
-        Me.CBVitalSubDomTask = New System.Windows.Forms.CheckBox()
-        Me.BTNVitalSub = New System.Windows.Forms.Button()
+        Me.VitalSubExerciseAssignmentsCheckBoxList = New System.Windows.Forms.CheckedListBox()
+        Me.VitalSubDommeAssignmentsCheckBox = New System.Windows.Forms.CheckBox()
+        Me.VitalSubSubmitReportButton = New System.Windows.Forms.Button()
         Me.GBCalories = New System.Windows.Forms.GroupBox()
-        Me.TBCalorieAmount = New System.Windows.Forms.TextBox()
-        Me.TBCalorieItem = New System.Windows.Forms.TextBox()
-        Me.BTNCalorie = New System.Windows.Forms.Button()
+        Me.FoodItemCaloriesAmountTextBox = New System.Windows.Forms.TextBox()
+        Me.foodItemTextBox = New System.Windows.Forms.TextBox()
+        Me.VitalSubAddCaloriesButton = New System.Windows.Forms.Button()
         Me.Label14 = New System.Windows.Forms.Label()
         Me.Label12 = New System.Windows.Forms.Label()
-        Me.LBCalorie = New System.Windows.Forms.ListBox()
-        Me.ComboBoxCalorie = New System.Windows.Forms.ComboBox()
+        Me.VitalSubCaloriesListBox = New System.Windows.Forms.ListBox()
+        Me.VitalSubCalorieComboBox = New System.Windows.Forms.ComboBox()
         Me.TBCalorie = New System.Windows.Forms.TextBox()
         Me.LBLGoal = New System.Windows.Forms.Label()
-        Me.LBLCalorie = New System.Windows.Forms.Label()
+        Me.VitalSubCaloriesConsumedLabel = New System.Windows.Forms.Label()
         Me.LBLConsumed = New System.Windows.Forms.Label()
-        Me.CBVitalSub = New System.Windows.Forms.CheckBox()
+        Me.VitalSubEnabledCheckBox = New System.Windows.Forms.CheckBox()
         Me.PNLMetronome = New System.Windows.Forms.Panel()
         Me.BTNMetroStop2 = New System.Windows.Forms.Button()
         Me.BTNMetroStop1 = New System.Windows.Forms.Button()
@@ -437,7 +437,7 @@ Partial Class MainWindow
         Me.PNLWishlistHeader.SuspendLayout()
         CType(Me.WishlistPreview, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PNLHypnoGen.SuspendLayout()
-        Me.AppPanelVitalSub.SuspendLayout()
+        Me.VitalSubPanel.SuspendLayout()
         Me.GBGoals.SuspendLayout()
         Me.GBCalories.SuspendLayout()
         Me.PNLMetronome.SuspendLayout()
@@ -496,7 +496,7 @@ Partial Class MainWindow
         Me.mainPictureBox.Image = CType(resources.GetObject("mainPictureBox.Image"), System.Drawing.Image)
         Me.mainPictureBox.Location = New System.Drawing.Point(0, 0)
         Me.mainPictureBox.Name = "mainPictureBox"
-        Me.mainPictureBox.Size = New System.Drawing.Size(1326, 176)
+        Me.mainPictureBox.Size = New System.Drawing.Size(1326, 210)
         Me.mainPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
         Me.mainPictureBox.TabIndex = 3
         Me.mainPictureBox.TabStop = False
@@ -555,14 +555,14 @@ Partial Class MainWindow
         Me.DomWMP.Location = New System.Drawing.Point(0, 0)
         Me.DomWMP.Name = "DomWMP"
         Me.DomWMP.OcxState = CType(resources.GetObject("DomWMP.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.DomWMP.Size = New System.Drawing.Size(1326, 718)
+        Me.DomWMP.Size = New System.Drawing.Size(1326, 712)
         Me.DomWMP.TabIndex = 96
         Me.DomWMP.Visible = False
         '
         'ProgressBar_BGW_Images
         '
         Me.ProgressBar_BGW_Images.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.ProgressBar_BGW_Images.Location = New System.Drawing.Point(0, 170)
+        Me.ProgressBar_BGW_Images.Location = New System.Drawing.Point(0, 204)
         Me.ProgressBar_BGW_Images.MarqueeAnimationSpeed = 10000
         Me.ProgressBar_BGW_Images.Name = "ProgressBar_BGW_Images"
         Me.ProgressBar_BGW_Images.Size = New System.Drawing.Size(1326, 6)
@@ -601,7 +601,7 @@ Partial Class MainWindow
         Me.PnlChatTextLayout.Location = New System.Drawing.Point(0, 32)
         Me.PnlChatTextLayout.Name = "PnlChatTextLayout"
         Me.PnlChatTextLayout.Padding = New System.Windows.Forms.Padding(1)
-        Me.PnlChatTextLayout.Size = New System.Drawing.Size(1326, 741)
+        Me.PnlChatTextLayout.Size = New System.Drawing.Size(1326, 545)
         Me.PnlChatTextLayout.TabIndex = 783
         '
         'ChatText
@@ -610,7 +610,7 @@ Partial Class MainWindow
         Me.ChatText.Location = New System.Drawing.Point(1, 1)
         Me.ChatText.MinimumSize = New System.Drawing.Size(2, 20)
         Me.ChatText.Name = "ChatText"
-        Me.ChatText.Size = New System.Drawing.Size(1324, 739)
+        Me.ChatText.Size = New System.Drawing.Size(1324, 543)
         Me.ChatText.TabIndex = 1
         '
         'PNLMediaBar
@@ -1305,7 +1305,7 @@ Partial Class MainWindow
         Me.Piercing.TextAlign = System.Drawing.ContentAlignment.TopCenter
         Me.Piercing.UseVisualStyleBackColor = False
         '
-        'subName
+        'SubName
         '
         Me.SubName.BackColor = Global.Tease_AI.My.MySettings.Default.BackgroundColor
         Me.SubName.BorderStyle = System.Windows.Forms.BorderStyle.None
@@ -1316,7 +1316,7 @@ Partial Class MainWindow
         Me.SubName.ForeColor = Global.Tease_AI.My.MySettings.Default.TextColor
         Me.SubName.Location = New System.Drawing.Point(1, 4)
         Me.SubName.Margin = New System.Windows.Forms.Padding(1)
-        Me.SubName.Name = "subName"
+        Me.SubName.Name = "SubName"
         Me.SubName.ShortcutsEnabled = False
         Me.SubName.Size = New System.Drawing.Size(242, 16)
         Me.SubName.TabIndex = 3
@@ -1345,7 +1345,7 @@ Partial Class MainWindow
         '
         Me.GetColor.Color = System.Drawing.Color.SteelBlue
         '
-        'sendButton
+        'SendButton
         '
         Me.SendButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.SendButton.BackColor = Global.Tease_AI.My.MySettings.Default.BackgroundColor
@@ -1354,13 +1354,13 @@ Partial Class MainWindow
         Me.SendButton.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.SendButton.ForeColor = Global.Tease_AI.My.MySettings.Default.TextColor
         Me.SendButton.Location = New System.Drawing.Point(757, -45)
-        Me.SendButton.Name = "sendButton"
+        Me.SendButton.Name = "SendButton"
         Me.SendButton.Size = New System.Drawing.Size(50, 24)
         Me.SendButton.TabIndex = 147
         Me.SendButton.Text = "SEND"
         Me.SendButton.UseVisualStyleBackColor = False
         '
-        'PNLFileTransfer
+        'FileTransferPanel
         '
         Me.FileTransferPanel.BackColor = System.Drawing.Color.White
         Me.FileTransferPanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
@@ -1371,7 +1371,7 @@ Partial Class MainWindow
         Me.FileTransferPanel.Controls.Add(Me.FileTransferProgressBar)
         Me.FileTransferPanel.Dock = System.Windows.Forms.DockStyle.Fill
         Me.FileTransferPanel.Location = New System.Drawing.Point(2, 2)
-        Me.FileTransferPanel.Name = "PNLFileTransfer"
+        Me.FileTransferPanel.Name = "FileTransferPanel"
         Me.FileTransferPanel.Padding = New System.Windows.Forms.Padding(5)
         Me.FileTransferPanel.Size = New System.Drawing.Size(234, 237)
         Me.FileTransferPanel.TabIndex = 157
@@ -1390,41 +1390,41 @@ Partial Class MainWindow
         Me.PictureBox11.TabIndex = 128
         Me.PictureBox11.TabStop = False
         '
-        'BTNFileTransferOpen
+        'FileTransferOpenButton
         '
         Me.FileTransferOpenButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.FileTransferOpenButton.Location = New System.Drawing.Point(22, 206)
-        Me.FileTransferOpenButton.Name = "BTNFileTransferOpen"
+        Me.FileTransferOpenButton.Name = "FileTransferOpenButton"
         Me.FileTransferOpenButton.Size = New System.Drawing.Size(95, 23)
         Me.FileTransferOpenButton.TabIndex = 127
         Me.FileTransferOpenButton.Text = "Open File"
         Me.FileTransferOpenButton.UseVisualStyleBackColor = True
         '
-        'BTNFIleTransferDismiss
+        'FileTransferDismissButton
         '
         Me.FileTransferDismissButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.FileTransferDismissButton.Location = New System.Drawing.Point(128, 206)
-        Me.FileTransferDismissButton.Name = "BTNFIleTransferDismiss"
+        Me.FileTransferDismissButton.Name = "FileTransferDismissButton"
         Me.FileTransferDismissButton.Size = New System.Drawing.Size(95, 23)
         Me.FileTransferDismissButton.TabIndex = 126
         Me.FileTransferDismissButton.Text = "Dismiss"
         Me.FileTransferDismissButton.UseVisualStyleBackColor = True
         '
-        'LBLFileTransfer
+        'FileTransferLabel
         '
         Me.FileTransferLabel.Location = New System.Drawing.Point(9, 2)
-        Me.FileTransferLabel.Name = "LBLFileTransfer"
+        Me.FileTransferLabel.Name = "FileTransferLabel"
         Me.FileTransferLabel.Size = New System.Drawing.Size(227, 24)
         Me.FileTransferLabel.TabIndex = 125
         Me.FileTransferLabel.Text = "Mistress Name is sending you a file!"
         Me.FileTransferLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'PBFileTransfer
+        'FileTransferProgressBar
         '
         Me.FileTransferProgressBar.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.FileTransferProgressBar.Location = New System.Drawing.Point(22, 184)
         Me.FileTransferProgressBar.Maximum = 10
-        Me.FileTransferProgressBar.Name = "PBFileTransfer"
+        Me.FileTransferProgressBar.Name = "FileTransferProgressBar"
         Me.FileTransferProgressBar.Size = New System.Drawing.Size(200, 13)
         Me.FileTransferProgressBar.TabIndex = 0
         '
@@ -1901,72 +1901,72 @@ Partial Class MainWindow
         'CloseAppPanelToolStripMenuItem
         '
         Me.CloseAppPanelToolStripMenuItem.Name = "CloseAppPanelToolStripMenuItem"
-        Me.CloseAppPanelToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
+        Me.CloseAppPanelToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.CloseAppPanelToolStripMenuItem.Text = "Close Apps"
         '
         'ToolStripSeparator4
         '
         Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
-        Me.ToolStripSeparator4.Size = New System.Drawing.Size(154, 6)
+        Me.ToolStripSeparator4.Size = New System.Drawing.Size(177, 6)
         '
         'MetronomeToolStripMenuItem
         '
         Me.MetronomeToolStripMenuItem.Name = "MetronomeToolStripMenuItem"
-        Me.MetronomeToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
+        Me.MetronomeToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.MetronomeToolStripMenuItem.Text = "Metronome"
         '
         'GlitterToolStripMenuItem
         '
         Me.GlitterToolStripMenuItem.Name = "GlitterToolStripMenuItem"
-        Me.GlitterToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
+        Me.GlitterToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.GlitterToolStripMenuItem.Text = "Glitter"
         '
         'DommeTagsToolStripMenuItem2
         '
         Me.DommeTagsToolStripMenuItem2.Name = "DommeTagsToolStripMenuItem2"
-        Me.DommeTagsToolStripMenuItem2.Size = New System.Drawing.Size(157, 22)
+        Me.DommeTagsToolStripMenuItem2.Size = New System.Drawing.Size(180, 22)
         Me.DommeTagsToolStripMenuItem2.Text = "Domme Tags"
         '
         'LazySubToolStripMenuItem
         '
         Me.LazySubToolStripMenuItem.Name = "LazySubToolStripMenuItem"
-        Me.LazySubToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
+        Me.LazySubToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.LazySubToolStripMenuItem.Text = "Lazy Sub"
         '
         'RandomizerToolStripMenuItem
         '
         Me.RandomizerToolStripMenuItem.Name = "RandomizerToolStripMenuItem"
-        Me.RandomizerToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
+        Me.RandomizerToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.RandomizerToolStripMenuItem.Text = "Randomizer"
         '
         'PlaylistToolStripMenuItem
         '
         Me.PlaylistToolStripMenuItem.Name = "PlaylistToolStripMenuItem"
-        Me.PlaylistToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
+        Me.PlaylistToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.PlaylistToolStripMenuItem.Text = "Playlist"
         '
         'WritingTasksToolStripMenuItem
         '
         Me.WritingTasksToolStripMenuItem.Name = "WritingTasksToolStripMenuItem"
-        Me.WritingTasksToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
+        Me.WritingTasksToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.WritingTasksToolStripMenuItem.Text = "Writing Tasks"
         '
         'WishlistToolStripMenuItem
         '
         Me.WishlistToolStripMenuItem.Name = "WishlistToolStripMenuItem"
-        Me.WishlistToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
+        Me.WishlistToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.WishlistToolStripMenuItem.Text = "Wishlist"
         '
         'HypnoticGuideToolStripMenuItem
         '
         Me.HypnoticGuideToolStripMenuItem.Name = "HypnoticGuideToolStripMenuItem"
-        Me.HypnoticGuideToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
+        Me.HypnoticGuideToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.HypnoticGuideToolStripMenuItem.Text = "Hypnotic Guide"
         '
         'VitalSubToolStripMenuItem
         '
         Me.VitalSubToolStripMenuItem.Name = "VitalSubToolStripMenuItem"
-        Me.VitalSubToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
+        Me.VitalSubToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.VitalSubToolStripMenuItem.Text = "VitalSub"
         '
         'GamesToolStripMenuItem1
@@ -2254,7 +2254,7 @@ Partial Class MainWindow
         Me.PNLTabs.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.PNLTabs.Controls.Add(Me.PNLWishList)
         Me.PNLTabs.Controls.Add(Me.PNLHypnoGen)
-        Me.PNLTabs.Controls.Add(Me.AppPanelVitalSub)
+        Me.PNLTabs.Controls.Add(Me.VitalSubPanel)
         Me.PNLTabs.Controls.Add(Me.PNLMetronome)
         Me.PNLTabs.Controls.Add(Me.PNLLazySub)
         Me.PNLTabs.Controls.Add(Me.PnlGlitter)
@@ -2656,25 +2656,25 @@ Partial Class MainWindow
         Me.BTNHypnoGenStart.Text = "Guide Me!"
         Me.BTNHypnoGenStart.UseVisualStyleBackColor = False
         '
-        'AppPanelVitalSub
+        'VitalSubPanel
         '
-        Me.AppPanelVitalSub.BackColor = System.Drawing.Color.Transparent
-        Me.AppPanelVitalSub.Controls.Add(Me.GBGoals)
-        Me.AppPanelVitalSub.Controls.Add(Me.CBVitalSubDomTask)
-        Me.AppPanelVitalSub.Controls.Add(Me.BTNVitalSub)
-        Me.AppPanelVitalSub.Controls.Add(Me.GBCalories)
-        Me.AppPanelVitalSub.Controls.Add(Me.CBVitalSub)
-        Me.AppPanelVitalSub.Location = New System.Drawing.Point(2, 2)
-        Me.AppPanelVitalSub.Name = "AppPanelVitalSub"
-        Me.AppPanelVitalSub.Size = New System.Drawing.Size(245, 422)
-        Me.AppPanelVitalSub.TabIndex = 777
-        Me.AppPanelVitalSub.Visible = False
+        Me.VitalSubPanel.BackColor = System.Drawing.Color.Transparent
+        Me.VitalSubPanel.Controls.Add(Me.GBGoals)
+        Me.VitalSubPanel.Controls.Add(Me.VitalSubDommeAssignmentsCheckBox)
+        Me.VitalSubPanel.Controls.Add(Me.VitalSubSubmitReportButton)
+        Me.VitalSubPanel.Controls.Add(Me.GBCalories)
+        Me.VitalSubPanel.Controls.Add(Me.VitalSubEnabledCheckBox)
+        Me.VitalSubPanel.Location = New System.Drawing.Point(2, 2)
+        Me.VitalSubPanel.Name = "VitalSubPanel"
+        Me.VitalSubPanel.Size = New System.Drawing.Size(245, 422)
+        Me.VitalSubPanel.TabIndex = 777
+        Me.VitalSubPanel.Visible = False
         '
         'GBGoals
         '
         Me.GBGoals.Controls.Add(Me.BTNExercise)
         Me.GBGoals.Controls.Add(Me.TBExercise)
-        Me.GBGoals.Controls.Add(Me.CLBExercise)
+        Me.GBGoals.Controls.Add(Me.VitalSubExerciseAssignmentsCheckBoxList)
         Me.GBGoals.DataBindings.Add(New System.Windows.Forms.Binding("ForeColor", Global.Tease_AI.My.MySettings.Default, "TextColor", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
         Me.GBGoals.ForeColor = Global.Tease_AI.My.MySettings.Default.TextColor
         Me.GBGoals.Location = New System.Drawing.Point(7, 21)
@@ -2707,50 +2707,50 @@ Partial Class MainWindow
         '
         'CLBExercise
         '
-        Me.CLBExercise.CheckOnClick = True
-        Me.CLBExercise.FormattingEnabled = True
-        Me.CLBExercise.Location = New System.Drawing.Point(7, 46)
-        Me.CLBExercise.Name = "CLBExercise"
-        Me.CLBExercise.Size = New System.Drawing.Size(213, 94)
-        Me.CLBExercise.TabIndex = 0
+        Me.VitalSubExerciseAssignmentsCheckBoxList.CheckOnClick = True
+        Me.VitalSubExerciseAssignmentsCheckBoxList.FormattingEnabled = True
+        Me.VitalSubExerciseAssignmentsCheckBoxList.Location = New System.Drawing.Point(7, 46)
+        Me.VitalSubExerciseAssignmentsCheckBoxList.Name = "CLBExercise"
+        Me.VitalSubExerciseAssignmentsCheckBoxList.Size = New System.Drawing.Size(213, 94)
+        Me.VitalSubExerciseAssignmentsCheckBoxList.TabIndex = 0
         '
         'CBVitalSubDomTask
         '
-        Me.CBVitalSubDomTask.DataBindings.Add(New System.Windows.Forms.Binding("ForeColor", Global.Tease_AI.My.MySettings.Default, "TextColor", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.CBVitalSubDomTask.ForeColor = Global.Tease_AI.My.MySettings.Default.TextColor
-        Me.CBVitalSubDomTask.Location = New System.Drawing.Point(114, 0)
-        Me.CBVitalSubDomTask.Name = "CBVitalSubDomTask"
-        Me.CBVitalSubDomTask.Size = New System.Drawing.Size(126, 24)
-        Me.CBVitalSubDomTask.TabIndex = 6
-        Me.CBVitalSubDomTask.Text = "Domme Assignments"
-        Me.CBVitalSubDomTask.UseVisualStyleBackColor = True
+        Me.VitalSubDommeAssignmentsCheckBox.DataBindings.Add(New System.Windows.Forms.Binding("ForeColor", Global.Tease_AI.My.MySettings.Default, "TextColor", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.VitalSubDommeAssignmentsCheckBox.ForeColor = Global.Tease_AI.My.MySettings.Default.TextColor
+        Me.VitalSubDommeAssignmentsCheckBox.Location = New System.Drawing.Point(114, 0)
+        Me.VitalSubDommeAssignmentsCheckBox.Name = "CBVitalSubDomTask"
+        Me.VitalSubDommeAssignmentsCheckBox.Size = New System.Drawing.Size(126, 24)
+        Me.VitalSubDommeAssignmentsCheckBox.TabIndex = 6
+        Me.VitalSubDommeAssignmentsCheckBox.Text = "Domme Assignments"
+        Me.VitalSubDommeAssignmentsCheckBox.UseVisualStyleBackColor = True
         '
         'BTNVitalSub
         '
-        Me.BTNVitalSub.BackColor = Global.Tease_AI.My.MySettings.Default.ButtonColor
-        Me.BTNVitalSub.DataBindings.Add(New System.Windows.Forms.Binding("ForeColor", Global.Tease_AI.My.MySettings.Default, "TextColor", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.BTNVitalSub.DataBindings.Add(New System.Windows.Forms.Binding("BackColor", Global.Tease_AI.My.MySettings.Default, "ButtonColor", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.BTNVitalSub.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BTNVitalSub.ForeColor = Global.Tease_AI.My.MySettings.Default.TextColor
-        Me.BTNVitalSub.Location = New System.Drawing.Point(7, 383)
-        Me.BTNVitalSub.Name = "BTNVitalSub"
-        Me.BTNVitalSub.Size = New System.Drawing.Size(227, 29)
-        Me.BTNVitalSub.TabIndex = 5
-        Me.BTNVitalSub.Text = "Report End-of-Day Result to Domme"
-        Me.BTNVitalSub.UseVisualStyleBackColor = False
+        Me.VitalSubSubmitReportButton.BackColor = Global.Tease_AI.My.MySettings.Default.ButtonColor
+        Me.VitalSubSubmitReportButton.DataBindings.Add(New System.Windows.Forms.Binding("ForeColor", Global.Tease_AI.My.MySettings.Default, "TextColor", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.VitalSubSubmitReportButton.DataBindings.Add(New System.Windows.Forms.Binding("BackColor", Global.Tease_AI.My.MySettings.Default, "ButtonColor", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.VitalSubSubmitReportButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.VitalSubSubmitReportButton.ForeColor = Global.Tease_AI.My.MySettings.Default.TextColor
+        Me.VitalSubSubmitReportButton.Location = New System.Drawing.Point(7, 383)
+        Me.VitalSubSubmitReportButton.Name = "BTNVitalSub"
+        Me.VitalSubSubmitReportButton.Size = New System.Drawing.Size(227, 29)
+        Me.VitalSubSubmitReportButton.TabIndex = 5
+        Me.VitalSubSubmitReportButton.Text = "Report End-of-Day Result to Domme"
+        Me.VitalSubSubmitReportButton.UseVisualStyleBackColor = False
         '
         'GBCalories
         '
-        Me.GBCalories.Controls.Add(Me.TBCalorieAmount)
-        Me.GBCalories.Controls.Add(Me.TBCalorieItem)
-        Me.GBCalories.Controls.Add(Me.BTNCalorie)
+        Me.GBCalories.Controls.Add(Me.FoodItemCaloriesAmountTextBox)
+        Me.GBCalories.Controls.Add(Me.foodItemTextBox)
+        Me.GBCalories.Controls.Add(Me.VitalSubAddCaloriesButton)
         Me.GBCalories.Controls.Add(Me.Label14)
         Me.GBCalories.Controls.Add(Me.Label12)
-        Me.GBCalories.Controls.Add(Me.LBCalorie)
-        Me.GBCalories.Controls.Add(Me.ComboBoxCalorie)
+        Me.GBCalories.Controls.Add(Me.VitalSubCaloriesListBox)
+        Me.GBCalories.Controls.Add(Me.VitalSubCalorieComboBox)
         Me.GBCalories.Controls.Add(Me.TBCalorie)
         Me.GBCalories.Controls.Add(Me.LBLGoal)
-        Me.GBCalories.Controls.Add(Me.LBLCalorie)
+        Me.GBCalories.Controls.Add(Me.VitalSubCaloriesConsumedLabel)
         Me.GBCalories.Controls.Add(Me.LBLConsumed)
         Me.GBCalories.DataBindings.Add(New System.Windows.Forms.Binding("ForeColor", Global.Tease_AI.My.MySettings.Default, "TextColor", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
         Me.GBCalories.ForeColor = Global.Tease_AI.My.MySettings.Default.TextColor
@@ -2763,31 +2763,31 @@ Partial Class MainWindow
         '
         'TBCalorieAmount
         '
-        Me.TBCalorieAmount.Location = New System.Drawing.Point(115, 28)
-        Me.TBCalorieAmount.Name = "TBCalorieAmount"
-        Me.TBCalorieAmount.Size = New System.Drawing.Size(54, 20)
-        Me.TBCalorieAmount.TabIndex = 10
+        Me.FoodItemCaloriesAmountTextBox.Location = New System.Drawing.Point(115, 28)
+        Me.FoodItemCaloriesAmountTextBox.Name = "TBCalorieAmount"
+        Me.FoodItemCaloriesAmountTextBox.Size = New System.Drawing.Size(54, 20)
+        Me.FoodItemCaloriesAmountTextBox.TabIndex = 10
         '
         'TBCalorieItem
         '
-        Me.TBCalorieItem.Location = New System.Drawing.Point(8, 28)
-        Me.TBCalorieItem.Name = "TBCalorieItem"
-        Me.TBCalorieItem.Size = New System.Drawing.Size(100, 20)
-        Me.TBCalorieItem.TabIndex = 9
+        Me.foodItemTextBox.Location = New System.Drawing.Point(8, 28)
+        Me.foodItemTextBox.Name = "TBCalorieItem"
+        Me.foodItemTextBox.Size = New System.Drawing.Size(100, 20)
+        Me.foodItemTextBox.TabIndex = 9
         '
         'BTNCalorie
         '
-        Me.BTNCalorie.BackColor = Global.Tease_AI.My.MySettings.Default.ButtonColor
-        Me.BTNCalorie.DataBindings.Add(New System.Windows.Forms.Binding("BackColor", Global.Tease_AI.My.MySettings.Default, "ButtonColor", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.BTNCalorie.DataBindings.Add(New System.Windows.Forms.Binding("ForeColor", Global.Tease_AI.My.MySettings.Default, "TextColor", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.BTNCalorie.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BTNCalorie.ForeColor = Global.Tease_AI.My.MySettings.Default.TextColor
-        Me.BTNCalorie.Location = New System.Drawing.Point(174, 26)
-        Me.BTNCalorie.Name = "BTNCalorie"
-        Me.BTNCalorie.Size = New System.Drawing.Size(46, 24)
-        Me.BTNCalorie.TabIndex = 8
-        Me.BTNCalorie.Text = "Add"
-        Me.BTNCalorie.UseVisualStyleBackColor = False
+        Me.VitalSubAddCaloriesButton.BackColor = Global.Tease_AI.My.MySettings.Default.ButtonColor
+        Me.VitalSubAddCaloriesButton.DataBindings.Add(New System.Windows.Forms.Binding("BackColor", Global.Tease_AI.My.MySettings.Default, "ButtonColor", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.VitalSubAddCaloriesButton.DataBindings.Add(New System.Windows.Forms.Binding("ForeColor", Global.Tease_AI.My.MySettings.Default, "TextColor", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.VitalSubAddCaloriesButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.VitalSubAddCaloriesButton.ForeColor = Global.Tease_AI.My.MySettings.Default.TextColor
+        Me.VitalSubAddCaloriesButton.Location = New System.Drawing.Point(174, 26)
+        Me.VitalSubAddCaloriesButton.Name = "BTNCalorie"
+        Me.VitalSubAddCaloriesButton.Size = New System.Drawing.Size(46, 24)
+        Me.VitalSubAddCaloriesButton.TabIndex = 8
+        Me.VitalSubAddCaloriesButton.Text = "Add"
+        Me.VitalSubAddCaloriesButton.UseVisualStyleBackColor = False
         '
         'Label14
         '
@@ -2815,20 +2815,20 @@ Partial Class MainWindow
         '
         'LBCalorie
         '
-        Me.LBCalorie.FormattingEnabled = True
-        Me.LBCalorie.Location = New System.Drawing.Point(7, 80)
-        Me.LBCalorie.Name = "LBCalorie"
-        Me.LBCalorie.Size = New System.Drawing.Size(213, 82)
-        Me.LBCalorie.TabIndex = 5
+        Me.VitalSubCaloriesListBox.FormattingEnabled = True
+        Me.VitalSubCaloriesListBox.Location = New System.Drawing.Point(7, 80)
+        Me.VitalSubCaloriesListBox.Name = "LBCalorie"
+        Me.VitalSubCaloriesListBox.Size = New System.Drawing.Size(213, 82)
+        Me.VitalSubCaloriesListBox.TabIndex = 5
         '
         'ComboBoxCalorie
         '
-        Me.ComboBoxCalorie.FormattingEnabled = True
-        Me.ComboBoxCalorie.Location = New System.Drawing.Point(7, 54)
-        Me.ComboBoxCalorie.Name = "ComboBoxCalorie"
-        Me.ComboBoxCalorie.Size = New System.Drawing.Size(213, 21)
-        Me.ComboBoxCalorie.Sorted = True
-        Me.ComboBoxCalorie.TabIndex = 4
+        Me.VitalSubCalorieComboBox.FormattingEnabled = True
+        Me.VitalSubCalorieComboBox.Location = New System.Drawing.Point(7, 54)
+        Me.VitalSubCalorieComboBox.Name = "ComboBoxCalorie"
+        Me.VitalSubCalorieComboBox.Size = New System.Drawing.Size(213, 21)
+        Me.VitalSubCalorieComboBox.Sorted = True
+        Me.VitalSubCalorieComboBox.TabIndex = 4
         '
         'TBCalorie
         '
@@ -2857,18 +2857,18 @@ Partial Class MainWindow
         '
         'LBLCalorie
         '
-        Me.LBLCalorie.BackColor = Global.Tease_AI.My.MySettings.Default.BackgroundColor
-        Me.LBLCalorie.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.LBLCalorie.DataBindings.Add(New System.Windows.Forms.Binding("ForeColor", Global.Tease_AI.My.MySettings.Default, "TextColor", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.LBLCalorie.DataBindings.Add(New System.Windows.Forms.Binding("BackColor", Global.Tease_AI.My.MySettings.Default, "BackgroundColor", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.LBLCalorie.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LBLCalorie.ForeColor = Global.Tease_AI.My.MySettings.Default.TextColor
-        Me.LBLCalorie.Location = New System.Drawing.Point(23, 180)
-        Me.LBLCalorie.Name = "LBLCalorie"
-        Me.LBLCalorie.Size = New System.Drawing.Size(74, 23)
-        Me.LBLCalorie.TabIndex = 1
-        Me.LBLCalorie.Text = "0"
-        Me.LBLCalorie.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.VitalSubCaloriesConsumedLabel.BackColor = Global.Tease_AI.My.MySettings.Default.BackgroundColor
+        Me.VitalSubCaloriesConsumedLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.VitalSubCaloriesConsumedLabel.DataBindings.Add(New System.Windows.Forms.Binding("ForeColor", Global.Tease_AI.My.MySettings.Default, "TextColor", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.VitalSubCaloriesConsumedLabel.DataBindings.Add(New System.Windows.Forms.Binding("BackColor", Global.Tease_AI.My.MySettings.Default, "BackgroundColor", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.VitalSubCaloriesConsumedLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.VitalSubCaloriesConsumedLabel.ForeColor = Global.Tease_AI.My.MySettings.Default.TextColor
+        Me.VitalSubCaloriesConsumedLabel.Location = New System.Drawing.Point(23, 180)
+        Me.VitalSubCaloriesConsumedLabel.Name = "LBLCalorie"
+        Me.VitalSubCaloriesConsumedLabel.Size = New System.Drawing.Size(74, 23)
+        Me.VitalSubCaloriesConsumedLabel.TabIndex = 1
+        Me.VitalSubCaloriesConsumedLabel.Text = "0"
+        Me.VitalSubCaloriesConsumedLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'LBLConsumed
         '
@@ -2884,13 +2884,13 @@ Partial Class MainWindow
         '
         'CBVitalSub
         '
-        Me.CBVitalSub.ForeColor = System.Drawing.Color.Red
-        Me.CBVitalSub.Location = New System.Drawing.Point(7, 0)
-        Me.CBVitalSub.Name = "CBVitalSub"
-        Me.CBVitalSub.Size = New System.Drawing.Size(107, 24)
-        Me.CBVitalSub.TabIndex = 2
-        Me.CBVitalSub.Text = "VitalSub Inactive"
-        Me.CBVitalSub.UseVisualStyleBackColor = True
+        Me.VitalSubEnabledCheckBox.ForeColor = System.Drawing.Color.Red
+        Me.VitalSubEnabledCheckBox.Location = New System.Drawing.Point(7, 0)
+        Me.VitalSubEnabledCheckBox.Name = "CBVitalSub"
+        Me.VitalSubEnabledCheckBox.Size = New System.Drawing.Size(107, 24)
+        Me.VitalSubEnabledCheckBox.TabIndex = 2
+        Me.VitalSubEnabledCheckBox.Text = "VitalSub Inactive"
+        Me.VitalSubEnabledCheckBox.UseVisualStyleBackColor = True
         '
         'PNLMetronome
         '
@@ -4311,7 +4311,7 @@ Partial Class MainWindow
         '
         Me.WaitTimer.Interval = 1000
         '
-        'StupidTimer
+        'ReceiveFileTimer
         '
         Me.ReceiveFileTimer.Interval = 300
         '
@@ -4426,7 +4426,7 @@ Partial Class MainWindow
         CType(Me.WishlistPreview, System.ComponentModel.ISupportInitialize).EndInit()
         Me.PNLHypnoGen.ResumeLayout(False)
         Me.PNLHypnoGen.PerformLayout()
-        Me.AppPanelVitalSub.ResumeLayout(False)
+        Me.VitalSubPanel.ResumeLayout(False)
         Me.GBGoals.ResumeLayout(False)
         Me.GBGoals.PerformLayout()
         Me.GBCalories.ResumeLayout(False)
@@ -4723,26 +4723,26 @@ Partial Class MainWindow
 	Friend WithEvents CBHypnoGenPhase As System.Windows.Forms.CheckBox
 	Friend WithEvents BTNHypnoGenStart As System.Windows.Forms.Button
 	Friend WithEvents HypnoticGuideToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents AppPanelVitalSub As System.Windows.Forms.Panel
+	Friend WithEvents VitalSubPanel As System.Windows.Forms.Panel
 	Friend WithEvents GBGoals As System.Windows.Forms.GroupBox
 	Friend WithEvents BTNExercise As System.Windows.Forms.Button
 	Friend WithEvents TBExercise As System.Windows.Forms.TextBox
-	Friend WithEvents CLBExercise As System.Windows.Forms.CheckedListBox
-	Friend WithEvents CBVitalSubDomTask As System.Windows.Forms.CheckBox
-	Friend WithEvents BTNVitalSub As System.Windows.Forms.Button
+	Friend WithEvents VitalSubExerciseAssignmentsCheckBoxList As System.Windows.Forms.CheckedListBox
+	Friend WithEvents VitalSubDommeAssignmentsCheckBox As System.Windows.Forms.CheckBox
+	Friend WithEvents VitalSubSubmitReportButton As System.Windows.Forms.Button
 	Friend WithEvents GBCalories As System.Windows.Forms.GroupBox
-	Friend WithEvents TBCalorieAmount As System.Windows.Forms.TextBox
-	Friend WithEvents TBCalorieItem As System.Windows.Forms.TextBox
-	Friend WithEvents BTNCalorie As System.Windows.Forms.Button
+	Friend WithEvents FoodItemCaloriesAmountTextBox As System.Windows.Forms.TextBox
+	Friend WithEvents foodItemTextBox As System.Windows.Forms.TextBox
+	Friend WithEvents VitalSubAddCaloriesButton As System.Windows.Forms.Button
 	Friend WithEvents Label14 As System.Windows.Forms.Label
 	Friend WithEvents Label12 As System.Windows.Forms.Label
-	Friend WithEvents LBCalorie As System.Windows.Forms.ListBox
-	Friend WithEvents ComboBoxCalorie As System.Windows.Forms.ComboBox
+	Friend WithEvents VitalSubCaloriesListBox As System.Windows.Forms.ListBox
+	Friend WithEvents VitalSubCalorieComboBox As System.Windows.Forms.ComboBox
 	Friend WithEvents TBCalorie As System.Windows.Forms.TextBox
 	Friend WithEvents LBLGoal As System.Windows.Forms.Label
-	Friend WithEvents LBLCalorie As System.Windows.Forms.Label
+	Friend WithEvents VitalSubCaloriesConsumedLabel As System.Windows.Forms.Label
 	Friend WithEvents LBLConsumed As System.Windows.Forms.Label
-	Friend WithEvents CBVitalSub As System.Windows.Forms.CheckBox
+	Friend WithEvents VitalSubEnabledCheckBox As System.Windows.Forms.CheckBox
 	Friend WithEvents VitalSubToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 	Friend WithEvents PNLMetronome As System.Windows.Forms.Panel
 	Friend WithEvents LBLLow As System.Windows.Forms.Label

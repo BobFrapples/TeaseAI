@@ -12,11 +12,6 @@ namespace TeaseAI.Services
             _stringService = new StringService();
         }
 
-        internal string DeleteCommand(string line, object afkOn)
-        {
-            throw new NotImplementedException();
-        }
-
         /// <summary>
         /// Get the data inside the parentheses of a command string.
         /// i.e. calling GetParentheseData("foo(BAR)", "foo(") succeeds with a value of BAR

@@ -24,6 +24,7 @@ namespace TeaseAI.Services
         private readonly IMediaContainerService _mediaContainerService;
         private readonly ITimeService _timeService;
         private readonly ILineCollectionFilter _lineCollectionFilter;
+        private readonly IVitalSubService _vitalSubService;
 
         public GetCommandProcessorsService(IScriptAccessor scriptAccessor
             , IFlagAccessor flagAccessor
@@ -41,6 +42,7 @@ namespace TeaseAI.Services
             , IMediaContainerService mediaContainerService
             , ITimeService timeService
             , ILineCollectionFilter lineCollectionFilter
+            , IVitalSubService vitalSubService
             )
         {
             _scriptAccessor = scriptAccessor;
@@ -59,6 +61,7 @@ namespace TeaseAI.Services
             _mediaContainerService = mediaContainerService;
             _timeService = timeService;
             _lineCollectionFilter = lineCollectionFilter;
+            _vitalSubService = vitalSubService;
         }
 
         public Dictionary<string, ICommandProcessor> CreateCommandProcessors()
@@ -150,6 +153,7 @@ namespace TeaseAI.Services
             rVal.Add(Keyword.DislikeImage, new DislikeImageCommandProcessor(_lineService, _imageAccessor, _mediaContainerService));
             rVal.Add(Keyword.DecideOrgasm, new DecideOrgasmCommandProcessor(_lineService, _randomNumberService, _bookmarkService, _settingsAccessor));
             rVal.Add(Keyword.SendDailyTasks, new RequestTaskCommandProcessor(_lineService, _timeService, _pathsAccessor, _lineCollectionFilter, _randomNumberService));
+            rVal.Add(Keyword.VitalSubAssignment, new VitalSubAssignmentCommandProcessor(_lineService, _settingsAccessor, _lineCollectionFilter, _randomNumberService, _pathsAccessor, _vitalSubService));
 
             return rVal;
         }

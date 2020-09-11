@@ -438,6 +438,11 @@
             Filter flag used to mark a line for inclusion only if the sub is denied an orgasm
             </summary>
         </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.VitalSubAssignment">
+            <summary>
+            Domme wishes to assign a vital sub task
+            </summary>
+        </member>
         <member name="T:TeaseAI.Common.Constants.Kink">
             <summary>
             Possible things to be enjoyed by the sub
@@ -1179,6 +1184,31 @@
             Should the tease work like a web tease from milovana
             </summary>
         </member>
+        <member name="T:TeaseAI.Common.HealthGoals">
+            <summary>
+            Configuration for "VitalSub" feature
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.HealthGoals.Version">
+            <summary>
+            used to manage serialization. Changes when the model breaks compatibility
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.HealthGoals.IsActive">
+            <summary>
+            Is VitalSub active
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.HealthGoals.CaloriesConsumed">
+            <summary>
+            Calories eaten since the last reporting
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.HealthGoals.CaloriesGoal">
+            <summary>
+            Target number of calories per day
+            </summary>
+        </member>
         <member name="T:TeaseAI.Common.ILoadFileData">
             <summary>
             Load a string of data from a file.
@@ -1333,6 +1363,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:TeaseAI.Common.Interfaces.Accessors.IPathsAccessor.GetVitalSubDir">
+            <summary>
+            Get the path where vitalsub data is located
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:TeaseAI.Common.Interfaces.Accessors.ISettingsAccessor">
             <summary>
             User configurable settings.
@@ -1455,6 +1491,14 @@
             <summary>
             remove lines from a collection that aren't relevant to the session
             </summary>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.ILineCollectionFilter.FilterLines(TeaseAI.Common.Session,System.String)">
+            <summary>
+            read all lines from <paramref name="file"/> that aren't relevent to the session
+            </summary>
+            <param name="session"></param>
+            <param name="file"></param>
+            <returns></returns>
         </member>
         <member name="M:TeaseAI.Common.Interfaces.ILineCollectionFilter.FilterLines(TeaseAI.Common.Session,System.Collections.Generic.IEnumerable{System.String})">
             <summary>
@@ -2045,6 +2089,11 @@
         <member name="P:TeaseAI.Common.SubSettings.NoPhrases">
             <summary>
             List of phrases the sub can use to indicate no
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubSettings.HealthGoals">
+            <summary>
+            Configuration for the "VitalSub" feature
             </summary>
         </member>
         <member name="T:TeaseAI.Common.TaggedItem">

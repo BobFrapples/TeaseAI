@@ -157,6 +157,10 @@ Public Class PathsAccessor
         Return myConfigurationAccessor.GetBaseFolder() + IO.Path.DirectorySeparatorChar + "Images" + IO.Path.DirectorySeparatorChar + "System"
     End Function
 
+    Public Function GetVitalSubDir() As String Implements IPathsAccessor.GetVitalSubDir
+        Throw New NotImplementedException()
+    End Function
+
     Private mySettingsAccessor As ISettingsAccessor
     Private myConfigurationAccessor As IConfigurationAccessor
 End Class

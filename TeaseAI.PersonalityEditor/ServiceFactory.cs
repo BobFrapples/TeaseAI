@@ -38,9 +38,12 @@ namespace TeaseAI.PersonalityEditor
                 CreateBookmarkService(),
                 CreateMediaContainerService(),
                 CreateTimeService(),
-                CreateLineCollectionFilter()
+                CreateLineCollectionFilter(),
+                CreateVitalSubService()
             );
         }
+
+        public static IVitalSubService CreateVitalSubService() => new VitalSubService(CreatePathsAccessor(), CreateLineCollectionFilter(), CreateRandomNumberService());
 
         private static ILineCollectionFilter CreateLineCollectionFilter() => new LineCollectionFilter();
 

@@ -50,14 +50,15 @@ Public Class ApplicationFactory
             , New VariableAccessor _
             , New TauntAccessor() _
             , CreateConfigurationAccessor() _
-            , New RandomNumberService() _
+            , CreateRandomNumberService() _
             , New NotifyUser() _
             , CreateOldSettingsAccessor() _
             , CreatePathsAccessor() _
             , New BookmarkService() _
             , CreateMediaContainerService() _
             , CreateTimeService() _
-            , CreateLineCollectionFilter())
+            , CreateLineCollectionFilter() _
+            , CreateVitalSubService())
     End Function
 
     Private Shared Function CreateLineCollectionFilter() As ILineCollectionFilter
@@ -73,6 +74,14 @@ Public Class ApplicationFactory
                                            , CreatePathsAccessor() _
                                            , CreateImageMetaDataRepository() _
                                            , CreateMediaContainerService())
+    End Function
+
+    Public Shared Function CreateVitalSubService() As IVitalSubService
+        Return New VitalSubService(CreatePathsAccessor(), CreateLineCollectionFilter(), CreateRandomNumberService())
+    End Function
+
+    Public Shared Function CreateRandomNumberService() As IRandomNumberService
+        Return New RandomNumberService()
     End Function
 
     Public Shared Function CreateImageMetaDataRepository() As IImageMetaDataRepository

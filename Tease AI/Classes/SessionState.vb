@@ -365,7 +365,6 @@ Public Class SessionState
     Public Property OrgasmRuined As Boolean
     Public Property LastOrgasmType As String = ""
 
-    Public Property CaloriesConsumed As Integer
     Public Property CaloriesGoal As Integer
 
     <Category("Tokens")> <[ReadOnly](True)> Public Property GoldTokens As Integer
@@ -683,9 +682,6 @@ Public Class SessionState
         SlideshowContact1 = New ContactData(ContactType.Contact1)
         SlideshowContact2 = New ContactData(ContactType.Contact2)
         SlideshowContact3 = New ContactData(ContactType.Contact3)
-
-        CaloriesConsumed = My.Settings.CaloriesConsumed
-
     End Sub
 
 #End Region ' Constructors

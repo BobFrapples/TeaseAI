@@ -79,6 +79,7 @@ namespace TeaseAI.Services
             CommandProcessors[Keyword.PlayJoiVideo].CommandProcessed += PlayVideoCommandProcessed;
 
             CommandProcessors[Keyword.SendDailyTasks].CommandProcessed += RequestTaskCommandProcessed;
+            CommandProcessors[Keyword.VitalSubAssignment].CommandProcessed += VitalSubAssignmentCommandProcessed;
 
             MessageProcessors = CreateMessageProcessors(settingsAccessor, stringService, new LineService(), systemVocabularyAccessor, variableAccessor, new RandomNumberService());
 
@@ -103,6 +104,8 @@ namespace TeaseAI.Services
 
             _vocabularyProcesser = new VocabularyProcessor(lineCollectionFilter, new LineService(), vocabularyAccessor, imageAccessor, randomNumberService);
         }
+
+
 
         private void EdgeCommandProcessed(object sender, CommandProcessedEventArgs e)
         {
@@ -159,6 +162,12 @@ namespace TeaseAI.Services
         private void OnSendFile(SendFileEventArgs eventArgs)
         {
             SendFile?.Invoke(this, eventArgs);
+        }
+
+        public event EventHandler<EventArgs> VitalSubUpdated;
+        private void OnVitalSubUpdated(EventArgs eventArgs)
+        {
+            VitalSubUpdated?.Invoke(this, eventArgs);
         }
         #endregion
 
@@ -584,6 +593,11 @@ namespace TeaseAI.Services
                 Sender = e.Session.Domme.Name,
             };
             OnSendFile(sendFileArgs);
+        }
+
+        private void VitalSubAssignmentCommandProcessed(object sender, CommandProcessedEventArgs e)
+        {
+            OnVitalSubUpdated(new EventArgs());
         }
         #endregion
 

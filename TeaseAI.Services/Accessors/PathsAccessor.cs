@@ -41,11 +41,29 @@ namespace TeaseAI.Services.Accessors
             return baseDir;
         }
 
-        public string GetSystemImages() 
+        public string GetSystemImages()
         {
-            return _configurationAccessor.GetBaseFolder() 
-                + Path.DirectorySeparatorChar + "Images"
-                + Path.DirectorySeparatorChar + "System";
+            return _configurationAccessor.GetBaseFolder() + Path.DirectorySeparatorChar
+                + "Images" + Path.DirectorySeparatorChar
+                + "System" + Path.DirectorySeparatorChar;
+        }
+
+        public string GetVitalSubDir()
+        {
+            var path = _configurationAccessor.GetBaseFolder() + Path.DirectorySeparatorChar
+            + "System" + Path.DirectorySeparatorChar
+            + "VitalSub" + Path.DirectorySeparatorChar;
+            Directory.CreateDirectory(path);
+            return path;
+        }
+
+        public string GetVitalSubDir(string dommePersonalityName)
+        {
+            var path = GetPersonalityFolder(dommePersonalityName)
+            + "Apps" + Path.DirectorySeparatorChar
+            + "VitalSub" + Path.DirectorySeparatorChar;
+            Directory.CreateDirectory(path);
+            return path;
         }
     }
 }

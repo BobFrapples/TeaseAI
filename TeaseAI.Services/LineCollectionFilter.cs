@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using TeaseAI.Common;
 using TeaseAI.Common.Constants;
@@ -8,6 +9,12 @@ namespace TeaseAI.Services
 {
     public class LineCollectionFilter : ILineCollectionFilter
     {
+        public List<string> FilterLines(Session session, string file)
+        {
+            var lines = File.ReadAllLines(file);
+            return FilterLines(session, lines);
+        }
+
         public List<string> FilterLines(Session session, IEnumerable<string> lines)
         {
             var filteredLines = lines.ToList();

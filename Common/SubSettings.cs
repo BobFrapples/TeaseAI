@@ -163,7 +163,7 @@ namespace TeaseAI.Common
         /// <summary>
         /// List of phrases the sub can use to indicate yes
         /// </summary>
-        public List<string> YesPhrases 
+        public List<string> YesPhrases
         {
             get { return _yesPhrases ?? (_yesPhrases = new List<string>()); }
             set { _yesPhrases = value; }
@@ -172,7 +172,7 @@ namespace TeaseAI.Common
         /// <summary>
         /// List of phrases the sub can use to indicate no
         /// </summary>
-        public List<string> NoPhrases 
+        public List<string> NoPhrases
         {
             get { return _noPhrases ?? (_noPhrases = new List<string>()); }
             set { _noPhrases = value; }
@@ -181,8 +181,18 @@ namespace TeaseAI.Common
         public string HairColor { get; set; }
         public string EyeColor { get; set; }
 
+        /// <summary>
+        /// Configuration for the "VitalSub" feature
+        /// </summary>
+        public HealthGoals HealthGoals
+        {
+            get => _healthGoals ?? (new HealthGoals());
+            set => _healthGoals = value;
+        }
+
         private List<string> _greetings;
         private List<string> _yesPhrases;
         private List<string> _noPhrases;
+        private HealthGoals _healthGoals;
     }
 }
