@@ -14043,44 +14043,26 @@ restartInstantly:
 
         mySession.Session.Domme.WasGreeted = True
 
-        Dim didVitalSubFail As Boolean = False
-
-        If VitalSubExerciseAssignmentsCheckBoxList.Items.Count > 0 Then
-            For i As Integer = 0 To VitalSubExerciseAssignmentsCheckBoxList.Items.Count - 1
-                If Not VitalSubExerciseAssignmentsCheckBoxList.GetItemChecked(i) Then didVitalSubFail = True
-            Next
-        End If
-
-        If Convert.ToDecimal(VitalSubCaloriesConsumedLabel.Text) > Convert.ToDecimal(TBCalorie.Text) Then
-            didVitalSubFail = True
-        End If
-
-        Dim getDommeResponses As Result(Of List(Of String)) = myVitalSubService.GetVitalSubResponses(mySession.Session.Domme, didVitalSubFail)
-        If (getDommeResponses.IsFailure) Then
-            MessageBox.Show(Me, getDommeResponses.Error.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        Dim getDommeResponse As Result(Of Script) = myVitalSubService.SubmitData(mySession.Session.Domme)
+        If (getDommeResponse.IsFailure) Then
+            MessageBox.Show(Me, getDommeResponse.Error.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Return
         End If
+        mySession.BeginSession(getDommeResponse.Value)
 
-        Dim responseList As List(Of String) = getDommeResponses.Value
-        LoadExercisesIntoUi(New List(Of ExerciseAssignment)())
-        myVitalSubService.SaveAssignedExercises(New List(Of ExerciseAssignment)())
+        LoadExercisesIntoUi(myVitalSubService.GetAssignedExercises())
 
         VitalSubCaloriesListBox.Items.Clear()
-        myVitalSubService.SaveEatenFood(New List(Of String))
+        VitalSubCaloriesListBox.Items.AddRange(myVitalSubService.GetEatenFood().ToArray())
 
         Dim settings As Settings = mySettingsAccessor.GetSettings()
         settings.Sub.HealthGoals.CaloriesConsumed = 0
         mySettingsAccessor.WriteSettings(settings)
-        VitalSubCaloriesConsumedLabel.Text = settings.Sub.HealthGoals.CaloriesConsumed
+        VitalSubCaloriesConsumedLabel.Text = 0
 
-        ' TODO: Move this to use sesssion engine script
-        ssh.FileText = responseList(myRandomNumberService.Roll(0, responseList.Count))
         If Directory.Exists(My.Settings.DomImageDir) AndAlso Not ssh.SlideshowLoaded Then
             LoadDommeImageFolder()
         End If
-        ssh.StrokeTauntVal = -1
-        ssh.ScriptTick = 3
-        ScriptTimer.Start()
     End Sub
 
     Private Sub CLBExercise_DragLeave(sender As Object, e As EventArgs) Handles VitalSubExerciseAssignmentsCheckBoxList.DragLeave

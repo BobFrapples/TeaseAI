@@ -77,7 +77,7 @@ Public Class ApplicationFactory
     End Function
 
     Public Shared Function CreateVitalSubService() As IVitalSubService
-        Return New VitalSubService(CreatePathsAccessor(), CreateLineCollectionFilter(), CreateRandomNumberService())
+        Return New VitalSubService(CreatePathsAccessor(), CreateLineCollectionFilter(), CreateRandomNumberService(), CreateSettingsAccessor(), CreateScriptAccessor())
     End Function
 
     Public Shared Function CreateRandomNumberService() As IRandomNumberService

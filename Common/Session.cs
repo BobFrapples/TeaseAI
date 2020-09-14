@@ -73,11 +73,13 @@ namespace TeaseAI.Common
         }
 
         #region deprecated
+        [Obsolete("Use Phase instead")]
         public bool IsFirstRound { get; set; }
         [Obsolete("Use Sub.WillBeAllowedToOrgasm instead")]
         public bool IsOrgasmAllowed => Sub.WillBeAllowedToOrgasm.GetValueOrDefault();
 
         public bool IsOrgasmRuined { get; set; }
+        [Obsolete("Use Phase instead")]
         public bool IsBeforeTease { get; set; }
 
         /// <summary>

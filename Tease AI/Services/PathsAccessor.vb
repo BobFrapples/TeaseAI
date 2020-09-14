@@ -161,6 +161,10 @@ Public Class PathsAccessor
         Throw New NotImplementedException()
     End Function
 
+    Public Function GetVitalSubDir(dommePersonalityName As String) As String Implements IPathsAccessor.GetVitalSubDir
+        Throw New NotImplementedException()
+    End Function
+
     Private mySettingsAccessor As ISettingsAccessor
     Private myConfigurationAccessor As IConfigurationAccessor
 End Class

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using TeaseAI.Common;
+using TeaseAI.Common.Constants;
 using TeaseAI.Common.Data;
 using TeaseAI.Common.Interfaces;
 using TeaseAI.Common.Interfaces.Accessors;
@@ -28,11 +29,15 @@ namespace TeaseAI.Services
         public VitalSubService(IPathsAccessor pathsAccessor
             , ILineCollectionFilter lineCollectionFilter
             , IRandomNumberService randomNumberService
+            , ISettingsAccessor settingsAccessor
+            , IScriptAccessor scriptAccessor
             )
         {
             _pathsAccessor = pathsAccessor;
             _lineCollectionFilter = lineCollectionFilter;
             _randomNumberService = randomNumberService;
+            _settingsAccessor = settingsAccessor;
+            _scriptAccessor = scriptAccessor;
         }
 
         public ExerciseAssignment GetExerciseFromDomme(Session session, string file)
@@ -106,6 +111,29 @@ namespace TeaseAI.Services
             File.WriteAllLines(dataFile, foodknown);
         }
 
+        public Result<Script> SubmitData(DommePersonality domme)
+        {
+            var healthGoals = _settingsAccessor.GetSettings().Sub.HealthGoals;
+            var didMissExercises = GetAssignedExercises().Any(ae => !ae.IsComplete);
+            var didOverEat = (healthGoals.CaloriesGoal - healthGoals.CaloriesConsumed) < 0;
+            var didSubFail = didMissExercises || didOverEat;
+            return GetVitalSubResponses(domme, didSubFail)
+                .OnSuccess(sl => sl[_randomNumberService.Roll(0, sl.Count())])
+                .OnSuccess(scr => new ScriptMetaData()
+                {
+                    Info = "VitalSub Submit Response",
+                    IsBeg = false,
+                    IsChastity = false,
+                    IsEdge = false,
+                    IsEnabled = true,
+                    IsRestricted = false,
+                    Key = scr,
+                    Name = "VitalSub Submit Response",
+                    SessionPhase = SessionPhase.End,
+                })
+                .OnSuccess(smd => _scriptAccessor.GetScript(smd));
+        }
+
         public Result<List<string>> GetVitalSubResponses(DommePersonality domme, bool didVitalSubFail)
         {
             var vitalList = new List<string>();
@@ -124,5 +152,7 @@ namespace TeaseAI.Services
         private readonly IPathsAccessor _pathsAccessor;
         private readonly ILineCollectionFilter _lineCollectionFilter;
         private readonly IRandomNumberService _randomNumberService;
+        private readonly ISettingsAccessor _settingsAccessor;
+        private readonly IScriptAccessor _scriptAccessor;
     }
 }

@@ -421,7 +421,12 @@ namespace TeaseAI.Common.Constants
         /// <summary>
         /// Domme wishes to assign a vital sub task
         /// </summary>
-        public const  string VitalSubAssignment =@"@VitalSubAssignment";
+        public const string VitalSubAssignment = @"@VitalSubAssignment";
+
+        /// <summary>
+        /// Submit the daily vital sub report to the domme
+        /// </summary>
+        public const string VitalSubSubmitDailyReport = @"@VitalSubSubmitDailyReport";
         #endregion
     }
 }

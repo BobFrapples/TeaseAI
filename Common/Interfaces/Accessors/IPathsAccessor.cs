@@ -46,7 +46,6 @@ namespace TeaseAI.Common.Interfaces.Accessors
         /// </summary>
         /// <param name="dommePersonalityName"></param>
         /// <returns></returns>
-        string GetVitalSubDir(string dommePersonalityName)
-
+        string GetVitalSubDir(string dommePersonalityName);
     }
 }

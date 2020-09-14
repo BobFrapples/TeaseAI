@@ -19,7 +19,7 @@ namespace TeaseAI.Services.Accessors
             _configurationAccessor.GetBaseFolder() + Path.DirectorySeparatorChar + "Scripts";
 
         public string GetPersonalityFolder(string dommePersonalityName) =>
-            GetPersonalitiesFolder() + Path.DirectorySeparatorChar + dommePersonalityName;
+            GetPersonalitiesFolder() + Path.DirectorySeparatorChar + dommePersonalityName + Path.DirectorySeparatorChar;
 
         public string GetScriptCld(string dommePersonalityName, SessionPhase sessionPhase)
         {

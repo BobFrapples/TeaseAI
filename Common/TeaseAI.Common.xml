@@ -443,6 +443,11 @@
             Domme wishes to assign a vital sub task
             </summary>
         </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.VitalSubSubmitDailyReport">
+            <summary>
+            Submit the daily vital sub report to the domme
+            </summary>
+        </member>
         <member name="T:TeaseAI.Common.Constants.Kink">
             <summary>
             Possible things to be enjoyed by the sub
@@ -1369,6 +1374,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:TeaseAI.Common.Interfaces.Accessors.IPathsAccessor.GetVitalSubDir(System.String)">
+            <summary>
+            Get path for Domme specific vital sub data
+            </summary>
+            <param name="dommePersonalityName"></param>
+            <returns></returns>
+        </member>
         <member name="T:TeaseAI.Common.Interfaces.Accessors.ISettingsAccessor">
             <summary>
             User configurable settings.
@@ -1625,6 +1637,14 @@
             <summary>
             Get the current actual time
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.IVitalSubService.SubmitData(TeaseAI.Common.DommePersonality)">
+            <summary>
+            Submit the daily report, get back a response.
+            On success, will clear daily exercises / calories
+            </summary>
+            <param name="domme"></param>
             <returns></returns>
         </member>
         <member name="T:TeaseAI.Common.Interfaces.Timers.ITimer">

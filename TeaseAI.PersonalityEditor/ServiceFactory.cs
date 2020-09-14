@@ -43,7 +43,7 @@ namespace TeaseAI.PersonalityEditor
             );
         }
 
-        public static IVitalSubService CreateVitalSubService() => new VitalSubService(CreatePathsAccessor(), CreateLineCollectionFilter(), CreateRandomNumberService());
+        public static IVitalSubService CreateVitalSubService() => new VitalSubService(CreatePathsAccessor(), CreateLineCollectionFilter(), CreateRandomNumberService(), CreateSettingsAccessor());
 
         private static ILineCollectionFilter CreateLineCollectionFilter() => new LineCollectionFilter();
 
