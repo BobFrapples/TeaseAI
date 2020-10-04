@@ -5213,7 +5213,6 @@ Public Class FrmSettings
         If Not DommeDecideOrgasmCheckBox.Visible Then
             Return
         End If
-
         Dim settings As Settings = mySettingsAccessor.GetSettings()
         settings.Range.DoesDommeDecideOrgasmRange = DommeDecideOrgasmCheckBox.Checked
         mySettingsAccessor.WriteSettings(settings)
@@ -5341,7 +5340,7 @@ Public Class FrmSettings
 
 #Region "tooltips and descriptions"
     Private Sub CBTeaseLengthDD_MouseHover(sender As Object, e As EventArgs) Handles TeaseLengthDommeDetermined.MouseEnter
-        LBLRangeSettingsDescription.Text = "This allows the domme to decide the length of the tease based on her level." & Environment.NewLine & Environment.NewLine &
+        RangeSettingsDescriptionLabel.Text = "This allows the domme to decide the length of the tease based on her level." & Environment.NewLine & Environment.NewLine &
             "A level 1 domme may tease you for 15-20 minutes, while a level 5 domme may tease you as long as an hour." & Environment.NewLine & Environment.NewLine &
             "The domme will not move to an End script until the first @End point of a Module that occurs after tease time expires."
     End Sub
@@ -6405,116 +6404,116 @@ Public Class FrmSettings
     End Sub
 
     Private Sub NBTeaseLengthMin_MouseHover(sender As Object, e As EventArgs) Handles NBTeaseLengthMin.MouseEnter
-        LBLRangeSettingsDescription.Text = "Set the minimum amount of time the program will run before the domme decides if you can have an orgasm." & Environment.NewLine & Environment.NewLine &
+        RangeSettingsDescriptionLabel.Text = "Set the minimum amount of time the program will run before the domme decides if you can have an orgasm." & Environment.NewLine & Environment.NewLine &
             "The domme will not move to an End script until the first @End point of a Module that occurs after tease time expires." & Environment.NewLine & Environment.NewLine &
             "If the domme decides to tease you again, the tease time will be reset to a new amount based Tease Length settings."
     End Sub
 
     Private Sub NBTeaseLengthMax_MouseHover(sender As Object, e As EventArgs) Handles NBTeaseLengthMax.MouseEnter
-        LBLRangeSettingsDescription.Text = "Set the maximum amount of time the program will run before the domme decides if you can have an orgasm." & Environment.NewLine & Environment.NewLine &
+        RangeSettingsDescriptionLabel.Text = "Set the maximum amount of time the program will run before the domme decides if you can have an orgasm." & Environment.NewLine & Environment.NewLine &
             "The domme will not move to an End script until the first @End point of a Module that occurs after tease time expires." & Environment.NewLine & Environment.NewLine &
             "If the domme decides to tease you again, the tease time will be reset to a new amount based Tease Length settings."
     End Sub
 
     Private Sub NBTauntCycleMin_MouseHover(sender As Object, e As EventArgs) Handles NBTauntCycleMin.MouseEnter
-        LBLRangeSettingsDescription.Text = "Set the minimum amount of time the domme will make you stroke during Taunt cycles."
+        RangeSettingsDescriptionLabel.Text = "Set the minimum amount of time the domme will make you stroke during Taunt cycles."
     End Sub
 
     Private Sub NBTauntCycleMax_MouseHover(sender As Object, e As EventArgs) Handles NBTauntCycleMax.MouseEnter
-        LBLRangeSettingsDescription.Text = "Set the maximum amount of time the domme will make you stroke during Taunt cycles"
+        RangeSettingsDescriptionLabel.Text = "Set the maximum amount of time the domme will make you stroke during Taunt cycles"
     End Sub
 
     Private Sub CBTauntCycleDD_MouseHover(sender As Object, e As EventArgs) Handles CBTauntCycleDD.MouseEnter
-        LBLRangeSettingsDescription.Text = "This allows the domme to decide how long she makes you stroke during Taunt cycles based on her level." & Environment.NewLine & Environment.NewLine &
+        RangeSettingsDescriptionLabel.Text = "This allows the domme to decide how long she makes you stroke during Taunt cycles based on her level." & Environment.NewLine & Environment.NewLine &
             "A level 1 domme may have you stroke for a couple minutes at a time, while a level 5 domme may have you stroke up to 10 minutes during each Taunt cycle."
     End Sub
 
     Private Sub SliderSTF_MouseHover(sender As Object, e As EventArgs) Handles SliderSTF.MouseEnter
-        LBLRangeSettingsDescription.Text = "This allows you to set the frequency of the domme's Stroke Taunts." & Environment.NewLine & Environment.NewLine &
+        RangeSettingsDescriptionLabel.Text = "This allows you to set the frequency of the domme's Stroke Taunts." & Environment.NewLine & Environment.NewLine &
             "A middle value tries to emulate an online experience as closely as possible. Use a higher value to increase the frequency of Taunts to something you would expect in a webtease. Use a lower value to simulate the domme being preoccupied or not that interested in engaging you."
     End Sub
 
     Private Sub TauntSlider_MouseHover(sender As Object, e As EventArgs) Handles TauntSlider.MouseEnter
-        LBLRangeSettingsDescription.Text = "This allows you to set the frequency of the domme's Taunts during Video Teases." & Environment.NewLine & Environment.NewLine &
+        RangeSettingsDescriptionLabel.Text = "This allows you to set the frequency of the domme's Taunts during Video Teases." & Environment.NewLine & Environment.NewLine &
             "A middle value creates a fairly common use of Taunts. Use a higher value to make the domme extremely engaged. Use a lower value to focus on the Video Tease with minimal interaction from the domme."
     End Sub
 
     Private Sub CBRangeOrgasm_MouseHover(sender As Object, e As EventArgs) Handles DommeDecideOrgasmCheckBox.MouseEnter
-        LBLRangeSettingsDescription.Text = "This allows the domme to decide what chance she will allow an orgasm based on her settings." & Environment.NewLine & Environment.NewLine &
+        RangeSettingsDescriptionLabel.Text = "This allows the domme to decide what chance she will allow an orgasm based on her settings." & Environment.NewLine & Environment.NewLine &
             "Default settings are: Often Allows: 75% - Sometimes Allows: 50% - Rarely Allows: 20%"
     End Sub
 
     Private Sub NBAllowOften_MouseHover(sender As Object, e As EventArgs) Handles OftenAllowsPercentNumberBox.MouseEnter
-        LBLRangeSettingsDescription.Text = "When ""Domme Decide"" is not checked, this allows you to set what chance the domme will allow orgasm when she is set to ""Often Allows""."
+        RangeSettingsDescriptionLabel.Text = "When ""Domme Decide"" is not checked, this allows you to set what chance the domme will allow orgasm when she is set to ""Often Allows""."
     End Sub
 
     Private Sub NBAllowSometimes_MouseHover(sender As Object, e As EventArgs) Handles SometimesAllowsPercentNumberBox.MouseEnter
-        LBLRangeSettingsDescription.Text = "When ""Domme Decide"" is not checked, this allows you to set what chance the domme will allow orgasm when she is set to ""Sometimes Allows""."
+        RangeSettingsDescriptionLabel.Text = "When ""Domme Decide"" is not checked, this allows you to set what chance the domme will allow orgasm when she is set to ""Sometimes Allows""."
     End Sub
 
     Private Sub NBAllowRarely_MouseHover(sender As Object, e As EventArgs) Handles RarelyAllowsPercentNumberBox.MouseEnter
-        LBLRangeSettingsDescription.Text = "When ""Domme Decide"" is not checked, this allows you to set what chance the domme will allow orgasm when she is set to ""Rarely Allows""."
+        RangeSettingsDescriptionLabel.Text = "When ""Domme Decide"" is not checked, this allows you to set what chance the domme will allow orgasm when she is set to ""Rarely Allows""."
     End Sub
 
     Private Sub CBRangeRuin_MouseHover(sender As Object, e As EventArgs) Handles DommeDecideRuinCheckBox.MouseEnter
-        LBLRangeSettingsDescription.Text = "This allows the domme to decide what chance she will ruin an orgasm based on her settings." & Environment.NewLine & Environment.NewLine &
+        RangeSettingsDescriptionLabel.Text = "This allows the domme to decide what chance she will ruin an orgasm based on her settings." & Environment.NewLine & Environment.NewLine &
             "Default settings are: Often Ruins: 75% - Sometimes Ruins: 50% - Rarely Ruins: 20%"
     End Sub
 
     Private Sub NBRuinOften_MouseHover(sender As Object, e As EventArgs) Handles NBRuinOften.MouseEnter
-        LBLRangeSettingsDescription.Text = "When ""Domme Decide"" is not checked, this allows you to set what chance the domme will ruin an orgasm when she is set to ""Often Ruins""."
+        RangeSettingsDescriptionLabel.Text = "When ""Domme Decide"" is not checked, this allows you to set what chance the domme will ruin an orgasm when she is set to ""Often Ruins""."
     End Sub
 
     Private Sub NBRuinSometimes_MouseHover(sender As Object, e As EventArgs) Handles NBRuinSometimes.MouseEnter
-        LBLRangeSettingsDescription.Text = "When ""Domme Decide"" is not checked, this allows you to set what chance the domme will ruin an orgasm when she is set to ""Sometimes Ruins""."
+        RangeSettingsDescriptionLabel.Text = "When ""Domme Decide"" is not checked, this allows you to set what chance the domme will ruin an orgasm when she is set to ""Sometimes Ruins""."
     End Sub
 
     Private Sub NBRuinRarely_MouseHover(sender As Object, e As EventArgs) Handles NBRuinRarely.MouseEnter
-        LBLRangeSettingsDescription.Text = "When ""Domme Decide"" is not checked, this allows you to set what chance the domme will ruin an orgasm when she is set to ""Rarely Ruins""."
+        RangeSettingsDescriptionLabel.Text = "When ""Domme Decide"" is not checked, this allows you to set what chance the domme will ruin an orgasm when she is set to ""Rarely Ruins""."
     End Sub
 
     Private Sub NBNextImageChance_MouseHover(sender As Object, e As EventArgs) Handles NBNextImageChance.MouseEnter
-        LBLRangeSettingsDescription.Text = "When running a slideshow with the ""Tease"" option selected, this value determines what chance the slideshow will move forward instead of backward."
+        RangeSettingsDescriptionLabel.Text = "When running a slideshow with the ""Tease"" option selected, this value determines what chance the slideshow will move forward instead of backward."
     End Sub
 
     Private Sub nbcensorshowmin_MouseHover(sender As Object, e As EventArgs) Handles NBCensorShowMin.MouseEnter
-        LBLRangeSettingsDescription.Text = "This determines the minimum amount of time the censor bar will be on the screen at a time while playing Censorship Sucks."
+        RangeSettingsDescriptionLabel.Text = "This determines the minimum amount of time the censor bar will be on the screen at a time while playing Censorship Sucks."
     End Sub
 
     Private Sub nbcensorshowmax_MouseHover(sender As Object, e As EventArgs) Handles NBCensorShowMax.MouseEnter
-        LBLRangeSettingsDescription.Text = "This determines the maximum amount of time the censor bar will be on the screen at a time while playing Censorship Sucks."
+        RangeSettingsDescriptionLabel.Text = "This determines the maximum amount of time the censor bar will be on the screen at a time while playing Censorship Sucks."
     End Sub
 
     Private Sub nbcensorhidemin_MouseHover(sender As Object, e As EventArgs) Handles NBCensorHideMin.MouseEnter
-        LBLRangeSettingsDescription.Text = "This determines the minimum amount of time the censor bar will be invisible while playing Censorship Sucks."
+        RangeSettingsDescriptionLabel.Text = "This determines the minimum amount of time the censor bar will be invisible while playing Censorship Sucks."
     End Sub
 
     Private Sub nbcensorhidemax_MouseHover(sender As Object, e As EventArgs) Handles NBCensorHideMax.MouseEnter
-        LBLRangeSettingsDescription.Text = "This determines the maximum amount of time the censor bar will be invisible while playing Censorship Sucks."
+        RangeSettingsDescriptionLabel.Text = "This determines the maximum amount of time the censor bar will be invisible while playing Censorship Sucks."
     End Sub
 
     Private Sub cbcensorconstant_MouseHover(sender As Object, e As EventArgs) Handles CBCensorConstant.MouseEnter
-        LBLRangeSettingsDescription.Text = "When this is checked, the censor bar will always be visible while playing Censorship Sucks. Its position on the screen will still change in time with Show Censor Bar settings."
+        RangeSettingsDescriptionLabel.Text = "When this is checked, the censor bar will always be visible while playing Censorship Sucks. Its position on the screen will still change in time with Show Censor Bar settings."
     End Sub
 
     Private Sub nbredlightmin_MouseHover(sender As Object, e As EventArgs) Handles NBRedLightMin.MouseEnter
-        LBLRangeSettingsDescription.Text = "This determines the minimum amount of time the domme will keep the video paused while playing Red Light Green Light."
+        RangeSettingsDescriptionLabel.Text = "This determines the minimum amount of time the domme will keep the video paused while playing Red Light Green Light."
     End Sub
 
     Private Sub nbredlightmax_MouseHover(sender As Object, e As EventArgs) Handles NBRedLightMax.MouseEnter
-        LBLRangeSettingsDescription.Text = "This determines the maximum amount of time the domme will keep the video paused while playing Red Light Green Light."
+        RangeSettingsDescriptionLabel.Text = "This determines the maximum amount of time the domme will keep the video paused while playing Red Light Green Light."
     End Sub
 
     Private Sub nbgreenlightmin_MouseHover(sender As Object, e As EventArgs) Handles NBGreenLightMin.MouseEnter
-        LBLRangeSettingsDescription.Text = "This determines the minimum amount of time the domme will keep the video playing while playing Red Light Green Light."
+        RangeSettingsDescriptionLabel.Text = "This determines the minimum amount of time the domme will keep the video playing while playing Red Light Green Light."
     End Sub
 
     Private Sub nbgreenlightmax_MouseHover(sender As Object, e As EventArgs) Handles NBGreenLightMax.MouseEnter
-        LBLRangeSettingsDescription.Text = "This determines the maximum amount of time the domme will keep the video playing while playing Red Light Green Light."
+        RangeSettingsDescriptionLabel.Text = "This determines the maximum amount of time the domme will keep the video playing while playing Red Light Green Light."
     End Sub
 
-    Private Sub RangeSet_MouseHover(sender As Object, e As EventArgs) Handles Panel6.MouseEnter, GroupBox57.MouseEnter, GroupBox21.MouseEnter, GroupBox19.MouseEnter, GroupBox18.MouseEnter, GroupBox10.MouseEnter, GBRangeRuinChance.MouseEnter, GBRangeOrgasmChance.MouseEnter
-        LBLRangeSettingsDescription.Text = "Hover over any setting in the menu for a more detailed description of its function."
+    Private Sub RangeSet_MouseHover(sender As Object, e As EventArgs) Handles RangeSettingsBody.MouseEnter, RangeSettingsTeaseGroupBox.MouseEnter, RangeSettingsDescriptionGroupBox.MouseEnter, GroupBox19.MouseEnter, GroupBox18.MouseEnter, GroupBox10.MouseEnter, GBRangeRuinChance.MouseEnter, GBRangeOrgasmChance.MouseEnter
+        RangeSettingsDescriptionLabel.Text = "Hover over any setting in the menu for a more detailed description of its function."
     End Sub
 
     Private Sub TextBox2_TextChanged(sender As Object, e As EventArgs) Handles TBWishlistURL.TextChanged

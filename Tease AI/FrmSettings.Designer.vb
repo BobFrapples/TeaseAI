@@ -813,19 +813,15 @@ Partial Class FrmSettings
         Me.CBStretchBack = New System.Windows.Forms.CheckBox()
         Me.Button18 = New System.Windows.Forms.Button()
         Me.Label164 = New System.Windows.Forms.Label()
-        Me.TabPage4 = New System.Windows.Forms.TabPage()
-        Me.Panel6 = New System.Windows.Forms.Panel()
-        Me.GroupBox69 = New System.Windows.Forms.GroupBox()
-        Me.TypesSpeedVal = New System.Windows.Forms.Label()
-        Me.TypeSpeedLabel = New System.Windows.Forms.Label()
-        Me.TimedWriting = New System.Windows.Forms.CheckBox()
-        Me.TypeSpeedSlider = New System.Windows.Forms.TrackBar()
-        Me.GroupBox68 = New System.Windows.Forms.GroupBox()
-        Me.TaskWaitMaximum = New System.Windows.Forms.NumericUpDown()
-        Me.TaskWaitMinimum = New System.Windows.Forms.NumericUpDown()
-        Me.Label165 = New System.Windows.Forms.Label()
-        Me.Label166 = New System.Windows.Forms.Label()
-        Me.GroupBox67 = New System.Windows.Forms.GroupBox()
+        Me.RangeSettingsTabPage = New System.Windows.Forms.TabPage()
+        Me.RangeSettingsBody = New System.Windows.Forms.Panel()
+        Me.RangeSettingsBodyTablePanel = New System.Windows.Forms.TableLayoutPanel()
+        Me.RangeSettingsBodyRightColumnPanel = New System.Windows.Forms.Panel()
+        Me.GroupBox10 = New System.Windows.Forms.GroupBox()
+        Me.Label112 = New System.Windows.Forms.Label()
+        Me.NBNextImageChance = New System.Windows.Forms.NumericUpDown()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.RangeSettingsGlitterTasksGroupBox = New System.Windows.Forms.GroupBox()
         Me.Label161 = New System.Windows.Forms.Label()
         Me.NBTaskCBTTimeMax = New System.Windows.Forms.NumericUpDown()
         Me.NBTaskCBTTimeMin = New System.Windows.Forms.NumericUpDown()
@@ -849,42 +845,6 @@ Partial Class FrmSettings
         Me.NBTaskStrokesMin = New System.Windows.Forms.NumericUpDown()
         Me.Label146 = New System.Windows.Forms.Label()
         Me.Label149 = New System.Windows.Forms.Label()
-        Me.GroupBox10 = New System.Windows.Forms.GroupBox()
-        Me.Label112 = New System.Windows.Forms.Label()
-        Me.NBNextImageChance = New System.Windows.Forms.NumericUpDown()
-        Me.Label6 = New System.Windows.Forms.Label()
-        Me.GroupBox57 = New System.Windows.Forms.GroupBox()
-        Me.Label139 = New System.Windows.Forms.Label()
-        Me.NBTauntEdging = New System.Windows.Forms.NumericUpDown()
-        Me.LBLVtf = New System.Windows.Forms.Label()
-        Me.LBLStf = New System.Windows.Forms.Label()
-        Me.SliderSTF = New System.Windows.Forms.TrackBar()
-        Me.TauntSlider = New System.Windows.Forms.TrackBar()
-        Me.Label106 = New System.Windows.Forms.Label()
-        Me.CBTauntCycleDD = New System.Windows.Forms.CheckBox()
-        Me.TeaseLengthDommeDetermined = New System.Windows.Forms.CheckBox()
-        Me.Label103 = New System.Windows.Forms.Label()
-        Me.NBTauntCycleMax = New System.Windows.Forms.NumericUpDown()
-        Me.Label105 = New System.Windows.Forms.Label()
-        Me.Label101 = New System.Windows.Forms.Label()
-        Me.NBTauntCycleMin = New System.Windows.Forms.NumericUpDown()
-        Me.Label102 = New System.Windows.Forms.Label()
-        Me.Label97 = New System.Windows.Forms.Label()
-        Me.NBTeaseLengthMax = New System.Windows.Forms.NumericUpDown()
-        Me.Label99 = New System.Windows.Forms.Label()
-        Me.Label96 = New System.Windows.Forms.Label()
-        Me.NBTeaseLengthMin = New System.Windows.Forms.NumericUpDown()
-        Me.Label95 = New System.Windows.Forms.Label()
-        Me.Label49 = New System.Windows.Forms.Label()
-        Me.Label141 = New System.Windows.Forms.Label()
-        Me.GBRangeRuinChance = New System.Windows.Forms.GroupBox()
-        Me.Label90 = New System.Windows.Forms.Label()
-        Me.NBRuinSometimes = New System.Windows.Forms.NumericUpDown()
-        Me.Label91 = New System.Windows.Forms.Label()
-        Me.Label92 = New System.Windows.Forms.Label()
-        Me.NBRuinRarely = New System.Windows.Forms.NumericUpDown()
-        Me.NBRuinOften = New System.Windows.Forms.NumericUpDown()
-        Me.DommeDecideRuinCheckBox = New System.Windows.Forms.CheckBox()
         Me.GroupBox17 = New System.Windows.Forms.GroupBox()
         Me.GroupBox19 = New System.Windows.Forms.GroupBox()
         Me.Label110 = New System.Windows.Forms.Label()
@@ -909,8 +869,7 @@ Partial Class FrmSettings
         Me.Label19 = New System.Windows.Forms.Label()
         Me.Label24 = New System.Windows.Forms.Label()
         Me.NBCensorShowMax = New System.Windows.Forms.NumericUpDown()
-        Me.GroupBox21 = New System.Windows.Forms.GroupBox()
-        Me.LBLRangeSettingsDescription = New System.Windows.Forms.Label()
+        Me.RangeSettingsBodyMiddleColumnPanel = New System.Windows.Forms.Panel()
         Me.GBRangeOrgasmChance = New System.Windows.Forms.GroupBox()
         Me.RarelyAllowsPercentLabel = New System.Windows.Forms.Label()
         Me.SometimesAllowsPercentNumberBox = New System.Windows.Forms.NumericUpDown()
@@ -919,8 +878,54 @@ Partial Class FrmSettings
         Me.RarelyAllowsPercentNumberBox = New System.Windows.Forms.NumericUpDown()
         Me.OftenAllowsPercentNumberBox = New System.Windows.Forms.NumericUpDown()
         Me.DommeDecideOrgasmCheckBox = New System.Windows.Forms.CheckBox()
-        Me.PictureBox8 = New System.Windows.Forms.PictureBox()
-        Me.Label38 = New System.Windows.Forms.Label()
+        Me.GroupBox69 = New System.Windows.Forms.GroupBox()
+        Me.TypesSpeedVal = New System.Windows.Forms.Label()
+        Me.TypeSpeedLabel = New System.Windows.Forms.Label()
+        Me.TimedWriting = New System.Windows.Forms.CheckBox()
+        Me.TypeSpeedSlider = New System.Windows.Forms.TrackBar()
+        Me.GBRangeRuinChance = New System.Windows.Forms.GroupBox()
+        Me.Label90 = New System.Windows.Forms.Label()
+        Me.NBRuinSometimes = New System.Windows.Forms.NumericUpDown()
+        Me.Label91 = New System.Windows.Forms.Label()
+        Me.Label92 = New System.Windows.Forms.Label()
+        Me.NBRuinRarely = New System.Windows.Forms.NumericUpDown()
+        Me.NBRuinOften = New System.Windows.Forms.NumericUpDown()
+        Me.DommeDecideRuinCheckBox = New System.Windows.Forms.CheckBox()
+        Me.RangeSettingsBodyLeftColumnPanel = New System.Windows.Forms.Panel()
+        Me.RangeSettingsTeaseGroupBox = New System.Windows.Forms.GroupBox()
+        Me.Label139 = New System.Windows.Forms.Label()
+        Me.NBTauntEdging = New System.Windows.Forms.NumericUpDown()
+        Me.LBLVtf = New System.Windows.Forms.Label()
+        Me.LBLStf = New System.Windows.Forms.Label()
+        Me.SliderSTF = New System.Windows.Forms.TrackBar()
+        Me.TauntSlider = New System.Windows.Forms.TrackBar()
+        Me.Label106 = New System.Windows.Forms.Label()
+        Me.CBTauntCycleDD = New System.Windows.Forms.CheckBox()
+        Me.TeaseLengthDommeDetermined = New System.Windows.Forms.CheckBox()
+        Me.Label103 = New System.Windows.Forms.Label()
+        Me.NBTauntCycleMax = New System.Windows.Forms.NumericUpDown()
+        Me.Label105 = New System.Windows.Forms.Label()
+        Me.Label101 = New System.Windows.Forms.Label()
+        Me.NBTauntCycleMin = New System.Windows.Forms.NumericUpDown()
+        Me.Label102 = New System.Windows.Forms.Label()
+        Me.Label97 = New System.Windows.Forms.Label()
+        Me.NBTeaseLengthMax = New System.Windows.Forms.NumericUpDown()
+        Me.Label99 = New System.Windows.Forms.Label()
+        Me.Label96 = New System.Windows.Forms.Label()
+        Me.NBTeaseLengthMin = New System.Windows.Forms.NumericUpDown()
+        Me.Label95 = New System.Windows.Forms.Label()
+        Me.Label49 = New System.Windows.Forms.Label()
+        Me.Label141 = New System.Windows.Forms.Label()
+        Me.RangeSettingsSessionTasksGroupBox = New System.Windows.Forms.GroupBox()
+        Me.TaskWaitMaximum = New System.Windows.Forms.NumericUpDown()
+        Me.TaskWaitMinimum = New System.Windows.Forms.NumericUpDown()
+        Me.Label165 = New System.Windows.Forms.Label()
+        Me.Label166 = New System.Windows.Forms.Label()
+        Me.RangeSettingsHeaderPanel = New System.Windows.Forms.Panel()
+        Me.RangeSettingsLogo = New System.Windows.Forms.PictureBox()
+        Me.RangeSettingsHeaderLabel = New System.Windows.Forms.Label()
+        Me.RangeSettingsDescriptionGroupBox = New System.Windows.Forms.GroupBox()
+        Me.RangeSettingsDescriptionLabel = New System.Windows.Forms.Label()
         Me.TabPage13 = New System.Windows.Forms.TabPage()
         Me.ModSubTab = New System.Windows.Forms.TabControl()
         Me.ModPlaylistTabPage = New System.Windows.Forms.TabPage()
@@ -1278,14 +1283,13 @@ Partial Class FrmSettings
         Me.GroupBox11.SuspendLayout
         Me.GroupBox1.SuspendLayout
         CType(Me.PBBackgroundPreview, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.TabPage4.SuspendLayout
-        Me.Panel6.SuspendLayout
-        Me.GroupBox69.SuspendLayout
-        CType(Me.TypeSpeedSlider, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.GroupBox68.SuspendLayout
-        CType(Me.TaskWaitMaximum, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TaskWaitMinimum, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.GroupBox67.SuspendLayout
+        Me.RangeSettingsTabPage.SuspendLayout
+        Me.RangeSettingsBody.SuspendLayout
+        Me.RangeSettingsBodyTablePanel.SuspendLayout
+        Me.RangeSettingsBodyRightColumnPanel.SuspendLayout
+        Me.GroupBox10.SuspendLayout
+        CType(Me.NBNextImageChance, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.RangeSettingsGlitterTasksGroupBox.SuspendLayout
         CType(Me.NBTaskCBTTimeMax, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NBTaskCBTTimeMin, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NBTaskEdgeHoldTimeMax, System.ComponentModel.ISupportInitialize).BeginInit
@@ -1296,20 +1300,6 @@ Partial Class FrmSettings
         CType(Me.NBTaskStrokingTimeMin, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NBTaskStrokesMax, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NBTaskStrokesMin, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.GroupBox10.SuspendLayout
-        CType(Me.NBNextImageChance, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.GroupBox57.SuspendLayout
-        CType(Me.NBTauntEdging, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.SliderSTF, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TauntSlider, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.NBTauntCycleMax, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.NBTauntCycleMin, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.NBTeaseLengthMax, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.NBTeaseLengthMin, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.GBRangeRuinChance.SuspendLayout
-        CType(Me.NBRuinSometimes, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.NBRuinRarely, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.NBRuinOften, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GroupBox17.SuspendLayout
         Me.GroupBox19.SuspendLayout
         CType(Me.NBGreenLightMax, System.ComponentModel.ISupportInitialize).BeginInit
@@ -1321,12 +1311,32 @@ Partial Class FrmSettings
         CType(Me.NBCensorHideMax, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NBCensorHideMin, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NBCensorShowMax, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.GroupBox21.SuspendLayout
+        Me.RangeSettingsBodyMiddleColumnPanel.SuspendLayout
         Me.GBRangeOrgasmChance.SuspendLayout
         CType(Me.SometimesAllowsPercentNumberBox, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RarelyAllowsPercentNumberBox, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.OftenAllowsPercentNumberBox, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.PictureBox8, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GroupBox69.SuspendLayout
+        CType(Me.TypeSpeedSlider, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GBRangeRuinChance.SuspendLayout
+        CType(Me.NBRuinSometimes, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBRuinRarely, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBRuinOften, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.RangeSettingsBodyLeftColumnPanel.SuspendLayout
+        Me.RangeSettingsTeaseGroupBox.SuspendLayout
+        CType(Me.NBTauntEdging, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.SliderSTF, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TauntSlider, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBTauntCycleMax, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBTauntCycleMin, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBTeaseLengthMax, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBTeaseLengthMin, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.RangeSettingsSessionTasksGroupBox.SuspendLayout
+        CType(Me.TaskWaitMaximum, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TaskWaitMinimum, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.RangeSettingsHeaderPanel.SuspendLayout
+        CType(Me.RangeSettingsLogo, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.RangeSettingsDescriptionGroupBox.SuspendLayout
         Me.TabPage13.SuspendLayout
         Me.ModSubTab.SuspendLayout
         Me.ModPlaylistTabPage.SuspendLayout
@@ -1369,7 +1379,7 @@ Partial Class FrmSettings
         Me.SettingsTabs.Controls.Add(Me.TpVideoSettings)
         Me.SettingsTabs.Controls.Add(Me.TabPage20)
         Me.SettingsTabs.Controls.Add(Me.TabPage26)
-        Me.SettingsTabs.Controls.Add(Me.TabPage4)
+        Me.SettingsTabs.Controls.Add(Me.RangeSettingsTabPage)
         Me.SettingsTabs.Controls.Add(Me.TabPage13)
         Me.SettingsTabs.Controls.Add(Me.TabPage25)
         Me.SettingsTabs.Controls.Add(Me.TabPage28)
@@ -11268,442 +11278,68 @@ Partial Class FrmSettings
         Me.Label164.Text = "Theme Settings"
         Me.Label164.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'TabPage4
-        '
-        Me.TabPage4.BackColor = System.Drawing.Color.Silver
-        Me.TabPage4.Controls.Add(Me.Panel6)
-        Me.TabPage4.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage4.Name = "TabPage4"
-        Me.TabPage4.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage4.Size = New System.Drawing.Size(972, 631)
-        Me.TabPage4.TabIndex = 3
-        Me.TabPage4.Text = "Ranges"
-        '
-        'Panel6
-        '
-        Me.Panel6.BackColor = System.Drawing.Color.LightGray
-        Me.Panel6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Panel6.Controls.Add(Me.GroupBox69)
-        Me.Panel6.Controls.Add(Me.GroupBox68)
-        Me.Panel6.Controls.Add(Me.GroupBox67)
-        Me.Panel6.Controls.Add(Me.GroupBox10)
-        Me.Panel6.Controls.Add(Me.GroupBox57)
-        Me.Panel6.Controls.Add(Me.GBRangeRuinChance)
-        Me.Panel6.Controls.Add(Me.GroupBox17)
-        Me.Panel6.Controls.Add(Me.GroupBox21)
-        Me.Panel6.Controls.Add(Me.GBRangeOrgasmChance)
-        Me.Panel6.Controls.Add(Me.PictureBox8)
-        Me.Panel6.Controls.Add(Me.Label38)
-        Me.Panel6.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Panel6.Location = New System.Drawing.Point(3, 3)
-        Me.Panel6.Name = "Panel6"
-        Me.Panel6.Size = New System.Drawing.Size(966, 625)
-        Me.Panel6.TabIndex = 91
-        '
-        'GroupBox69
-        '
-        Me.GroupBox69.Controls.Add(Me.TypesSpeedVal)
-        Me.GroupBox69.Controls.Add(Me.TypeSpeedLabel)
-        Me.GroupBox69.Controls.Add(Me.TimedWriting)
-        Me.GroupBox69.Controls.Add(Me.TypeSpeedSlider)
-        Me.GroupBox69.Location = New System.Drawing.Point(236, 344)
-        Me.GroupBox69.Name = "GroupBox69"
-        Me.GroupBox69.Size = New System.Drawing.Size(166, 83)
-        Me.GroupBox69.TabIndex = 173
-        Me.GroupBox69.TabStop = False
-        Me.GroupBox69.Text = "Writing Tasks"
-        '
-        'TypesSpeedVal
-        '
-        Me.TypesSpeedVal.AutoSize = True
-        Me.TypesSpeedVal.Location = New System.Drawing.Point(132, 64)
-        Me.TypesSpeedVal.Name = "TypesSpeedVal"
-        Me.TypesSpeedVal.Size = New System.Drawing.Size(19, 13)
-        Me.TypesSpeedVal.TabIndex = 0
-        Me.TypesSpeedVal.Text = "10"
-        Me.TypesSpeedVal.TextAlign = System.Drawing.ContentAlignment.TopRight
-        '
-        'TypeSpeedLabel
-        '
-        Me.TypeSpeedLabel.AutoSize = True
-        Me.TypeSpeedLabel.Location = New System.Drawing.Point(6, 64)
-        Me.TypeSpeedLabel.Name = "TypeSpeedLabel"
-        Me.TypeSpeedLabel.Size = New System.Drawing.Size(76, 13)
-        Me.TypeSpeedLabel.TabIndex = 2
-        Me.TypeSpeedLabel.Text = "Typing Speed:"
-        '
-        'TimedWriting
-        '
-        Me.TimedWriting.AutoSize = True
-        Me.TimedWriting.Location = New System.Drawing.Point(9, 19)
-        Me.TimedWriting.Name = "TimedWriting"
-        Me.TimedWriting.Size = New System.Drawing.Size(123, 17)
-        Me.TimedWriting.TabIndex = 1
-        Me.TimedWriting.Text = "Timed Writing Tasks"
-        Me.TimedWriting.UseVisualStyleBackColor = True
-        '
-        'TypeSpeedSlider
-        '
-        Me.TypeSpeedSlider.Location = New System.Drawing.Point(9, 35)
-        Me.TypeSpeedSlider.Maximum = 100
-        Me.TypeSpeedSlider.Minimum = 33
-        Me.TypeSpeedSlider.Name = "TypeSpeedSlider"
-        Me.TypeSpeedSlider.Size = New System.Drawing.Size(148, 45)
-        Me.TypeSpeedSlider.TabIndex = 3
-        Me.TypeSpeedSlider.Value = 33
-        '
-        'GroupBox68
-        '
-        Me.GroupBox68.Controls.Add(Me.TaskWaitMaximum)
-        Me.GroupBox68.Controls.Add(Me.TaskWaitMinimum)
-        Me.GroupBox68.Controls.Add(Me.Label165)
-        Me.GroupBox68.Controls.Add(Me.Label166)
-        Me.GroupBox68.Location = New System.Drawing.Point(236, 287)
-        Me.GroupBox68.Name = "GroupBox68"
-        Me.GroupBox68.Size = New System.Drawing.Size(166, 51)
-        Me.GroupBox68.TabIndex = 172
-        Me.GroupBox68.TabStop = False
-        Me.GroupBox68.Text = "Session Tasks"
-        '
-        'TaskWaitMaximum
-        '
-        Me.TaskWaitMaximum.Location = New System.Drawing.Point(113, 20)
-        Me.TaskWaitMaximum.Maximum = New Decimal(New Integer() {500, 0, 0, 0})
-        Me.TaskWaitMaximum.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
-        Me.TaskWaitMaximum.Name = "TaskWaitMaximum"
-        Me.TaskWaitMaximum.Size = New System.Drawing.Size(44, 20)
-        Me.TaskWaitMaximum.TabIndex = 187
-        Me.TaskWaitMaximum.Value = New Decimal(New Integer() {6, 0, 0, 0})
-        '
-        'TaskWaitMinimum
-        '
-        Me.TaskWaitMinimum.Location = New System.Drawing.Point(54, 21)
-        Me.TaskWaitMinimum.Minimum = New Decimal(New Integer() {3, 0, 0, 0})
-        Me.TaskWaitMinimum.Name = "TaskWaitMinimum"
-        Me.TaskWaitMinimum.Size = New System.Drawing.Size(44, 20)
-        Me.TaskWaitMinimum.TabIndex = 186
-        Me.TaskWaitMinimum.Value = New Decimal(New Integer() {3, 0, 0, 0})
-        '
-        'Label165
-        '
-        Me.Label165.BackColor = System.Drawing.Color.Transparent
-        Me.Label165.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label165.ForeColor = System.Drawing.Color.Black
-        Me.Label165.Location = New System.Drawing.Point(100, 20)
-        Me.Label165.Name = "Label165"
-        Me.Label165.Size = New System.Drawing.Size(10, 17)
-        Me.Label165.TabIndex = 185
-        Me.Label165.Text = "-"
-        Me.Label165.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label166
-        '
-        Me.Label166.BackColor = System.Drawing.Color.Transparent
-        Me.Label166.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label166.ForeColor = System.Drawing.Color.Black
-        Me.Label166.Location = New System.Drawing.Point(6, 21)
-        Me.Label166.Name = "Label166"
-        Me.Label166.Size = New System.Drawing.Size(49, 17)
-        Me.Label166.TabIndex = 188
-        Me.Label166.Text = "Amount:"
-        Me.Label166.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'GroupBox67
-        '
-        Me.GroupBox67.Controls.Add(Me.Label161)
-        Me.GroupBox67.Controls.Add(Me.NBTaskCBTTimeMax)
-        Me.GroupBox67.Controls.Add(Me.NBTaskCBTTimeMin)
-        Me.GroupBox67.Controls.Add(Me.Label162)
-        Me.GroupBox67.Controls.Add(Me.Label163)
-        Me.GroupBox67.Controls.Add(Me.Label158)
-        Me.GroupBox67.Controls.Add(Me.NBTaskEdgeHoldTimeMax)
-        Me.GroupBox67.Controls.Add(Me.NBTaskEdgeHoldTimeMin)
-        Me.GroupBox67.Controls.Add(Me.Label159)
-        Me.GroupBox67.Controls.Add(Me.Label160)
-        Me.GroupBox67.Controls.Add(Me.NBTaskEdgesMax)
-        Me.GroupBox67.Controls.Add(Me.NBTaskEdgesMin)
-        Me.GroupBox67.Controls.Add(Me.Label119)
-        Me.GroupBox67.Controls.Add(Me.Label157)
-        Me.GroupBox67.Controls.Add(Me.Label151)
-        Me.GroupBox67.Controls.Add(Me.NBTaskStrokingTimeMax)
-        Me.GroupBox67.Controls.Add(Me.NBTaskStrokingTimeMin)
-        Me.GroupBox67.Controls.Add(Me.Label154)
-        Me.GroupBox67.Controls.Add(Me.Label155)
-        Me.GroupBox67.Controls.Add(Me.NBTaskStrokesMax)
-        Me.GroupBox67.Controls.Add(Me.NBTaskStrokesMin)
-        Me.GroupBox67.Controls.Add(Me.Label146)
-        Me.GroupBox67.Controls.Add(Me.Label149)
-        Me.GroupBox67.Location = New System.Drawing.Point(408, 288)
-        Me.GroupBox67.Name = "GroupBox67"
-        Me.GroupBox67.Size = New System.Drawing.Size(291, 139)
-        Me.GroupBox67.TabIndex = 171
-        Me.GroupBox67.TabStop = False
-        Me.GroupBox67.Text = "Letter Tasks"
-        '
-        'Label161
-        '
-        Me.Label161.BackColor = System.Drawing.Color.Transparent
-        Me.Label161.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label161.ForeColor = System.Drawing.Color.Black
-        Me.Label161.Location = New System.Drawing.Point(233, 110)
-        Me.Label161.Name = "Label161"
-        Me.Label161.Size = New System.Drawing.Size(50, 17)
-        Me.Label161.TabIndex = 204
-        Me.Label161.Text = "minutes"
-        Me.Label161.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'NBTaskCBTTimeMax
-        '
-        Me.NBTaskCBTTimeMax.Location = New System.Drawing.Point(183, 110)
-        Me.NBTaskCBTTimeMax.Maximum = New Decimal(New Integer() {600, 0, 0, 0})
-        Me.NBTaskCBTTimeMax.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NBTaskCBTTimeMax.Name = "NBTaskCBTTimeMax"
-        Me.NBTaskCBTTimeMax.Size = New System.Drawing.Size(44, 20)
-        Me.NBTaskCBTTimeMax.TabIndex = 203
-        Me.NBTaskCBTTimeMax.Value = New Decimal(New Integer() {1, 0, 0, 0})
-        '
-        'NBTaskCBTTimeMin
-        '
-        Me.NBTaskCBTTimeMin.Location = New System.Drawing.Point(117, 111)
-        Me.NBTaskCBTTimeMin.Maximum = New Decimal(New Integer() {9999, 0, 0, 0})
-        Me.NBTaskCBTTimeMin.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NBTaskCBTTimeMin.Name = "NBTaskCBTTimeMin"
-        Me.NBTaskCBTTimeMin.Size = New System.Drawing.Size(44, 20)
-        Me.NBTaskCBTTimeMin.TabIndex = 202
-        Me.NBTaskCBTTimeMin.Value = New Decimal(New Integer() {1, 0, 0, 0})
-        '
-        'Label162
-        '
-        Me.Label162.BackColor = System.Drawing.Color.Transparent
-        Me.Label162.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label162.ForeColor = System.Drawing.Color.Black
-        Me.Label162.Location = New System.Drawing.Point(167, 110)
-        Me.Label162.Name = "Label162"
-        Me.Label162.Size = New System.Drawing.Size(10, 17)
-        Me.Label162.TabIndex = 201
-        Me.Label162.Text = "-"
-        Me.Label162.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label163
-        '
-        Me.Label163.BackColor = System.Drawing.Color.Transparent
-        Me.Label163.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label163.ForeColor = System.Drawing.Color.Black
-        Me.Label163.Location = New System.Drawing.Point(12, 111)
-        Me.Label163.Name = "Label163"
-        Me.Label163.Size = New System.Drawing.Size(151, 17)
-        Me.Label163.TabIndex = 200
-        Me.Label163.Text = "CBT Time:"
-        Me.Label163.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label158
-        '
-        Me.Label158.BackColor = System.Drawing.Color.Transparent
-        Me.Label158.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label158.ForeColor = System.Drawing.Color.Black
-        Me.Label158.Location = New System.Drawing.Point(233, 87)
-        Me.Label158.Name = "Label158"
-        Me.Label158.Size = New System.Drawing.Size(50, 17)
-        Me.Label158.TabIndex = 199
-        Me.Label158.Text = "minutes"
-        Me.Label158.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'NBTaskEdgeHoldTimeMax
-        '
-        Me.NBTaskEdgeHoldTimeMax.Location = New System.Drawing.Point(183, 87)
-        Me.NBTaskEdgeHoldTimeMax.Maximum = New Decimal(New Integer() {600, 0, 0, 0})
-        Me.NBTaskEdgeHoldTimeMax.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NBTaskEdgeHoldTimeMax.Name = "NBTaskEdgeHoldTimeMax"
-        Me.NBTaskEdgeHoldTimeMax.Size = New System.Drawing.Size(44, 20)
-        Me.NBTaskEdgeHoldTimeMax.TabIndex = 198
-        Me.NBTaskEdgeHoldTimeMax.Value = New Decimal(New Integer() {1, 0, 0, 0})
-        '
-        'NBTaskEdgeHoldTimeMin
-        '
-        Me.NBTaskEdgeHoldTimeMin.Location = New System.Drawing.Point(117, 88)
-        Me.NBTaskEdgeHoldTimeMin.Maximum = New Decimal(New Integer() {9999, 0, 0, 0})
-        Me.NBTaskEdgeHoldTimeMin.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NBTaskEdgeHoldTimeMin.Name = "NBTaskEdgeHoldTimeMin"
-        Me.NBTaskEdgeHoldTimeMin.Size = New System.Drawing.Size(44, 20)
-        Me.NBTaskEdgeHoldTimeMin.TabIndex = 197
-        Me.NBTaskEdgeHoldTimeMin.Value = New Decimal(New Integer() {1, 0, 0, 0})
-        '
-        'Label159
-        '
-        Me.Label159.BackColor = System.Drawing.Color.Transparent
-        Me.Label159.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label159.ForeColor = System.Drawing.Color.Black
-        Me.Label159.Location = New System.Drawing.Point(167, 87)
-        Me.Label159.Name = "Label159"
-        Me.Label159.Size = New System.Drawing.Size(10, 17)
-        Me.Label159.TabIndex = 196
-        Me.Label159.Text = "-"
-        Me.Label159.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label160
-        '
-        Me.Label160.BackColor = System.Drawing.Color.Transparent
-        Me.Label160.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label160.ForeColor = System.Drawing.Color.Black
-        Me.Label160.Location = New System.Drawing.Point(12, 88)
-        Me.Label160.Name = "Label160"
-        Me.Label160.Size = New System.Drawing.Size(151, 17)
-        Me.Label160.TabIndex = 195
-        Me.Label160.Text = "Edge Hold Time:"
-        Me.Label160.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'NBTaskEdgesMax
-        '
-        Me.NBTaskEdgesMax.Location = New System.Drawing.Point(183, 64)
-        Me.NBTaskEdgesMax.Maximum = New Decimal(New Integer() {1000, 0, 0, 0})
-        Me.NBTaskEdgesMax.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NBTaskEdgesMax.Name = "NBTaskEdgesMax"
-        Me.NBTaskEdgesMax.Size = New System.Drawing.Size(44, 20)
-        Me.NBTaskEdgesMax.TabIndex = 194
-        Me.NBTaskEdgesMax.Value = New Decimal(New Integer() {1, 0, 0, 0})
-        '
-        'NBTaskEdgesMin
-        '
-        Me.NBTaskEdgesMin.Location = New System.Drawing.Point(117, 65)
-        Me.NBTaskEdgesMin.Maximum = New Decimal(New Integer() {9999, 0, 0, 0})
-        Me.NBTaskEdgesMin.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NBTaskEdgesMin.Name = "NBTaskEdgesMin"
-        Me.NBTaskEdgesMin.Size = New System.Drawing.Size(44, 20)
-        Me.NBTaskEdgesMin.TabIndex = 193
-        Me.NBTaskEdgesMin.Value = New Decimal(New Integer() {1, 0, 0, 0})
-        '
-        'Label119
-        '
-        Me.Label119.BackColor = System.Drawing.Color.Transparent
-        Me.Label119.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label119.ForeColor = System.Drawing.Color.Black
-        Me.Label119.Location = New System.Drawing.Point(167, 64)
-        Me.Label119.Name = "Label119"
-        Me.Label119.Size = New System.Drawing.Size(10, 17)
-        Me.Label119.TabIndex = 192
-        Me.Label119.Text = "-"
-        Me.Label119.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label157
-        '
-        Me.Label157.BackColor = System.Drawing.Color.Transparent
-        Me.Label157.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label157.ForeColor = System.Drawing.Color.Black
-        Me.Label157.Location = New System.Drawing.Point(12, 65)
-        Me.Label157.Name = "Label157"
-        Me.Label157.Size = New System.Drawing.Size(151, 17)
-        Me.Label157.TabIndex = 191
-        Me.Label157.Text = "Edges:"
-        Me.Label157.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label151
-        '
-        Me.Label151.BackColor = System.Drawing.Color.Transparent
-        Me.Label151.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label151.ForeColor = System.Drawing.Color.Black
-        Me.Label151.Location = New System.Drawing.Point(233, 41)
-        Me.Label151.Name = "Label151"
-        Me.Label151.Size = New System.Drawing.Size(50, 17)
-        Me.Label151.TabIndex = 190
-        Me.Label151.Text = "minutes"
-        Me.Label151.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'NBTaskStrokingTimeMax
-        '
-        Me.NBTaskStrokingTimeMax.Location = New System.Drawing.Point(183, 41)
-        Me.NBTaskStrokingTimeMax.Maximum = New Decimal(New Integer() {9999, 0, 0, 0})
-        Me.NBTaskStrokingTimeMax.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NBTaskStrokingTimeMax.Name = "NBTaskStrokingTimeMax"
-        Me.NBTaskStrokingTimeMax.Size = New System.Drawing.Size(44, 20)
-        Me.NBTaskStrokingTimeMax.TabIndex = 189
-        Me.NBTaskStrokingTimeMax.Value = New Decimal(New Integer() {1, 0, 0, 0})
-        '
-        'NBTaskStrokingTimeMin
-        '
-        Me.NBTaskStrokingTimeMin.Location = New System.Drawing.Point(117, 42)
-        Me.NBTaskStrokingTimeMin.Maximum = New Decimal(New Integer() {9999, 0, 0, 0})
-        Me.NBTaskStrokingTimeMin.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NBTaskStrokingTimeMin.Name = "NBTaskStrokingTimeMin"
-        Me.NBTaskStrokingTimeMin.Size = New System.Drawing.Size(44, 20)
-        Me.NBTaskStrokingTimeMin.TabIndex = 188
-        Me.NBTaskStrokingTimeMin.Value = New Decimal(New Integer() {1, 0, 0, 0})
-        '
-        'Label154
-        '
-        Me.Label154.BackColor = System.Drawing.Color.Transparent
-        Me.Label154.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label154.ForeColor = System.Drawing.Color.Black
-        Me.Label154.Location = New System.Drawing.Point(167, 41)
-        Me.Label154.Name = "Label154"
-        Me.Label154.Size = New System.Drawing.Size(10, 17)
-        Me.Label154.TabIndex = 187
-        Me.Label154.Text = "-"
-        Me.Label154.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label155
-        '
-        Me.Label155.BackColor = System.Drawing.Color.Transparent
-        Me.Label155.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label155.ForeColor = System.Drawing.Color.Black
-        Me.Label155.Location = New System.Drawing.Point(12, 42)
-        Me.Label155.Name = "Label155"
-        Me.Label155.Size = New System.Drawing.Size(151, 17)
-        Me.Label155.TabIndex = 186
-        Me.Label155.Text = "Stroking Time:"
-        Me.Label155.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'NBTaskStrokesMax
-        '
-        Me.NBTaskStrokesMax.Location = New System.Drawing.Point(183, 18)
-        Me.NBTaskStrokesMax.Maximum = New Decimal(New Integer() {9999, 0, 0, 0})
-        Me.NBTaskStrokesMax.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NBTaskStrokesMax.Name = "NBTaskStrokesMax"
-        Me.NBTaskStrokesMax.Size = New System.Drawing.Size(44, 20)
-        Me.NBTaskStrokesMax.TabIndex = 184
-        Me.NBTaskStrokesMax.Value = New Decimal(New Integer() {1, 0, 0, 0})
-        '
-        'NBTaskStrokesMin
-        '
-        Me.NBTaskStrokesMin.Location = New System.Drawing.Point(117, 19)
-        Me.NBTaskStrokesMin.Maximum = New Decimal(New Integer() {9999, 0, 0, 0})
-        Me.NBTaskStrokesMin.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NBTaskStrokesMin.Name = "NBTaskStrokesMin"
-        Me.NBTaskStrokesMin.Size = New System.Drawing.Size(44, 20)
-        Me.NBTaskStrokesMin.TabIndex = 183
-        Me.NBTaskStrokesMin.Value = New Decimal(New Integer() {1, 0, 0, 0})
-        '
-        'Label146
-        '
-        Me.Label146.BackColor = System.Drawing.Color.Transparent
-        Me.Label146.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label146.ForeColor = System.Drawing.Color.Black
-        Me.Label146.Location = New System.Drawing.Point(167, 18)
-        Me.Label146.Name = "Label146"
-        Me.Label146.Size = New System.Drawing.Size(10, 17)
-        Me.Label146.TabIndex = 182
-        Me.Label146.Text = "-"
-        Me.Label146.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label149
-        '
-        Me.Label149.BackColor = System.Drawing.Color.Transparent
-        Me.Label149.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label149.ForeColor = System.Drawing.Color.Black
-        Me.Label149.Location = New System.Drawing.Point(12, 19)
-        Me.Label149.Name = "Label149"
-        Me.Label149.Size = New System.Drawing.Size(151, 17)
-        Me.Label149.TabIndex = 181
-        Me.Label149.Text = "Strokes:"
-        Me.Label149.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        'RangeSettingsTabPage
+        '
+        Me.RangeSettingsTabPage.BackColor = System.Drawing.Color.Silver
+        Me.RangeSettingsTabPage.Controls.Add(Me.RangeSettingsBody)
+        Me.RangeSettingsTabPage.Controls.Add(Me.RangeSettingsHeaderPanel)
+        Me.RangeSettingsTabPage.Controls.Add(Me.RangeSettingsDescriptionGroupBox)
+        Me.RangeSettingsTabPage.Location = New System.Drawing.Point(4, 22)
+        Me.RangeSettingsTabPage.Name = "RangeSettingsTabPage"
+        Me.RangeSettingsTabPage.Padding = New System.Windows.Forms.Padding(3)
+        Me.RangeSettingsTabPage.Size = New System.Drawing.Size(972, 631)
+        Me.RangeSettingsTabPage.TabIndex = 3
+        Me.RangeSettingsTabPage.Text = "Ranges"
+        '
+        'RangeSettingsBody
+        '
+        Me.RangeSettingsBody.BackColor = System.Drawing.Color.Transparent
+        Me.RangeSettingsBody.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.RangeSettingsBody.Controls.Add(Me.RangeSettingsBodyTablePanel)
+        Me.RangeSettingsBody.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.RangeSettingsBody.Location = New System.Drawing.Point(3, 49)
+        Me.RangeSettingsBody.Name = "RangeSettingsBody"
+        Me.RangeSettingsBody.Size = New System.Drawing.Size(966, 502)
+        Me.RangeSettingsBody.TabIndex = 91
+        '
+        'RangeSettingsBodyTablePanel
+        '
+        Me.RangeSettingsBodyTablePanel.BackColor = System.Drawing.Color.Transparent
+        Me.RangeSettingsBodyTablePanel.ColumnCount = 3
+        Me.RangeSettingsBodyTablePanel.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 48.97959!))
+        Me.RangeSettingsBodyTablePanel.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 51.02041!))
+        Me.RangeSettingsBodyTablePanel.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 425.0!))
+        Me.RangeSettingsBodyTablePanel.Controls.Add(Me.RangeSettingsBodyRightColumnPanel, 2, 0)
+        Me.RangeSettingsBodyTablePanel.Controls.Add(Me.RangeSettingsBodyMiddleColumnPanel, 1, 0)
+        Me.RangeSettingsBodyTablePanel.Controls.Add(Me.RangeSettingsBodyLeftColumnPanel, 0, 0)
+        Me.RangeSettingsBodyTablePanel.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.RangeSettingsBodyTablePanel.Location = New System.Drawing.Point(0, 0)
+        Me.RangeSettingsBodyTablePanel.Name = "RangeSettingsBodyTablePanel"
+        Me.RangeSettingsBodyTablePanel.RowCount = 1
+        Me.RangeSettingsBodyTablePanel.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.RangeSettingsBodyTablePanel.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.RangeSettingsBodyTablePanel.Size = New System.Drawing.Size(964, 500)
+        Me.RangeSettingsBodyTablePanel.TabIndex = 174
+        '
+        'RangeSettingsBodyRightColumnPanel
+        '
+        Me.RangeSettingsBodyRightColumnPanel.Controls.Add(Me.GroupBox10)
+        Me.RangeSettingsBodyRightColumnPanel.Controls.Add(Me.RangeSettingsGlitterTasksGroupBox)
+        Me.RangeSettingsBodyRightColumnPanel.Controls.Add(Me.GroupBox17)
+        Me.RangeSettingsBodyRightColumnPanel.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.RangeSettingsBodyRightColumnPanel.Location = New System.Drawing.Point(541, 3)
+        Me.RangeSettingsBodyRightColumnPanel.Name = "RangeSettingsBodyRightColumnPanel"
+        Me.RangeSettingsBodyRightColumnPanel.Size = New System.Drawing.Size(420, 494)
+        Me.RangeSettingsBodyRightColumnPanel.TabIndex = 0
         '
         'GroupBox10
         '
         Me.GroupBox10.Controls.Add(Me.Label112)
         Me.GroupBox10.Controls.Add(Me.NBNextImageChance)
         Me.GroupBox10.Controls.Add(Me.Label6)
-        Me.GroupBox10.Location = New System.Drawing.Point(408, 31)
+        Me.GroupBox10.Location = New System.Drawing.Point(3, 9)
         Me.GroupBox10.Name = "GroupBox10"
-        Me.GroupBox10.Size = New System.Drawing.Size(291, 54)
+        Me.GroupBox10.Size = New System.Drawing.Size(413, 54)
         Me.GroupBox10.TabIndex = 170
         Me.GroupBox10.TabStop = False
         Me.GroupBox10.Text = "Tease Slideshow"
@@ -11741,37 +11377,926 @@ Partial Class FrmSettings
         Me.Label6.Text = "Image Next/Previous Chance:"
         Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'GroupBox57
+        'RangeSettingsGlitterTasksGroupBox
         '
-        Me.GroupBox57.Controls.Add(Me.Label139)
-        Me.GroupBox57.Controls.Add(Me.NBTauntEdging)
-        Me.GroupBox57.Controls.Add(Me.LBLVtf)
-        Me.GroupBox57.Controls.Add(Me.LBLStf)
-        Me.GroupBox57.Controls.Add(Me.SliderSTF)
-        Me.GroupBox57.Controls.Add(Me.TauntSlider)
-        Me.GroupBox57.Controls.Add(Me.Label106)
-        Me.GroupBox57.Controls.Add(Me.CBTauntCycleDD)
-        Me.GroupBox57.Controls.Add(Me.TeaseLengthDommeDetermined)
-        Me.GroupBox57.Controls.Add(Me.Label103)
-        Me.GroupBox57.Controls.Add(Me.NBTauntCycleMax)
-        Me.GroupBox57.Controls.Add(Me.Label105)
-        Me.GroupBox57.Controls.Add(Me.Label101)
-        Me.GroupBox57.Controls.Add(Me.NBTauntCycleMin)
-        Me.GroupBox57.Controls.Add(Me.Label102)
-        Me.GroupBox57.Controls.Add(Me.Label97)
-        Me.GroupBox57.Controls.Add(Me.NBTeaseLengthMax)
-        Me.GroupBox57.Controls.Add(Me.Label99)
-        Me.GroupBox57.Controls.Add(Me.Label96)
-        Me.GroupBox57.Controls.Add(Me.NBTeaseLengthMin)
-        Me.GroupBox57.Controls.Add(Me.Label95)
-        Me.GroupBox57.Controls.Add(Me.Label49)
-        Me.GroupBox57.Controls.Add(Me.Label141)
-        Me.GroupBox57.Location = New System.Drawing.Point(7, 30)
-        Me.GroupBox57.Name = "GroupBox57"
-        Me.GroupBox57.Size = New System.Drawing.Size(223, 308)
-        Me.GroupBox57.TabIndex = 169
-        Me.GroupBox57.TabStop = False
-        Me.GroupBox57.Text = "Tease"
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.Label161)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.NBTaskCBTTimeMax)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.NBTaskCBTTimeMin)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.Label162)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.Label163)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.Label158)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.NBTaskEdgeHoldTimeMax)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.NBTaskEdgeHoldTimeMin)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.Label159)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.Label160)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.NBTaskEdgesMax)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.NBTaskEdgesMin)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.Label119)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.Label157)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.Label151)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.NBTaskStrokingTimeMax)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.NBTaskStrokingTimeMin)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.Label154)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.Label155)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.NBTaskStrokesMax)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.NBTaskStrokesMin)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.Label146)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.Label149)
+        Me.RangeSettingsGlitterTasksGroupBox.Location = New System.Drawing.Point(3, 265)
+        Me.RangeSettingsGlitterTasksGroupBox.Name = "RangeSettingsGlitterTasksGroupBox"
+        Me.RangeSettingsGlitterTasksGroupBox.Size = New System.Drawing.Size(413, 139)
+        Me.RangeSettingsGlitterTasksGroupBox.TabIndex = 171
+        Me.RangeSettingsGlitterTasksGroupBox.TabStop = False
+        Me.RangeSettingsGlitterTasksGroupBox.Text = "Letter Tasks"
+        '
+        'Label161
+        '
+        Me.Label161.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label161.BackColor = System.Drawing.Color.Transparent
+        Me.Label161.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label161.ForeColor = System.Drawing.Color.Black
+        Me.Label161.Location = New System.Drawing.Point(355, 110)
+        Me.Label161.Name = "Label161"
+        Me.Label161.Size = New System.Drawing.Size(50, 17)
+        Me.Label161.TabIndex = 204
+        Me.Label161.Text = "minutes"
+        Me.Label161.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'NBTaskCBTTimeMax
+        '
+        Me.NBTaskCBTTimeMax.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBTaskCBTTimeMax.Location = New System.Drawing.Point(305, 110)
+        Me.NBTaskCBTTimeMax.Maximum = New Decimal(New Integer() {600, 0, 0, 0})
+        Me.NBTaskCBTTimeMax.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NBTaskCBTTimeMax.Name = "NBTaskCBTTimeMax"
+        Me.NBTaskCBTTimeMax.Size = New System.Drawing.Size(44, 20)
+        Me.NBTaskCBTTimeMax.TabIndex = 203
+        Me.NBTaskCBTTimeMax.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'NBTaskCBTTimeMin
+        '
+        Me.NBTaskCBTTimeMin.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBTaskCBTTimeMin.Location = New System.Drawing.Point(239, 111)
+        Me.NBTaskCBTTimeMin.Maximum = New Decimal(New Integer() {9999, 0, 0, 0})
+        Me.NBTaskCBTTimeMin.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NBTaskCBTTimeMin.Name = "NBTaskCBTTimeMin"
+        Me.NBTaskCBTTimeMin.Size = New System.Drawing.Size(44, 20)
+        Me.NBTaskCBTTimeMin.TabIndex = 202
+        Me.NBTaskCBTTimeMin.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'Label162
+        '
+        Me.Label162.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label162.BackColor = System.Drawing.Color.Transparent
+        Me.Label162.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label162.ForeColor = System.Drawing.Color.Black
+        Me.Label162.Location = New System.Drawing.Point(289, 110)
+        Me.Label162.Name = "Label162"
+        Me.Label162.Size = New System.Drawing.Size(10, 17)
+        Me.Label162.TabIndex = 201
+        Me.Label162.Text = "-"
+        Me.Label162.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label163
+        '
+        Me.Label163.BackColor = System.Drawing.Color.Transparent
+        Me.Label163.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label163.ForeColor = System.Drawing.Color.Black
+        Me.Label163.Location = New System.Drawing.Point(12, 111)
+        Me.Label163.Name = "Label163"
+        Me.Label163.Size = New System.Drawing.Size(151, 17)
+        Me.Label163.TabIndex = 200
+        Me.Label163.Text = "CBT Time:"
+        Me.Label163.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label158
+        '
+        Me.Label158.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label158.BackColor = System.Drawing.Color.Transparent
+        Me.Label158.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label158.ForeColor = System.Drawing.Color.Black
+        Me.Label158.Location = New System.Drawing.Point(355, 87)
+        Me.Label158.Name = "Label158"
+        Me.Label158.Size = New System.Drawing.Size(50, 17)
+        Me.Label158.TabIndex = 199
+        Me.Label158.Text = "minutes"
+        Me.Label158.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'NBTaskEdgeHoldTimeMax
+        '
+        Me.NBTaskEdgeHoldTimeMax.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBTaskEdgeHoldTimeMax.Location = New System.Drawing.Point(305, 87)
+        Me.NBTaskEdgeHoldTimeMax.Maximum = New Decimal(New Integer() {600, 0, 0, 0})
+        Me.NBTaskEdgeHoldTimeMax.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NBTaskEdgeHoldTimeMax.Name = "NBTaskEdgeHoldTimeMax"
+        Me.NBTaskEdgeHoldTimeMax.Size = New System.Drawing.Size(44, 20)
+        Me.NBTaskEdgeHoldTimeMax.TabIndex = 198
+        Me.NBTaskEdgeHoldTimeMax.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'NBTaskEdgeHoldTimeMin
+        '
+        Me.NBTaskEdgeHoldTimeMin.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBTaskEdgeHoldTimeMin.Location = New System.Drawing.Point(239, 88)
+        Me.NBTaskEdgeHoldTimeMin.Maximum = New Decimal(New Integer() {9999, 0, 0, 0})
+        Me.NBTaskEdgeHoldTimeMin.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NBTaskEdgeHoldTimeMin.Name = "NBTaskEdgeHoldTimeMin"
+        Me.NBTaskEdgeHoldTimeMin.Size = New System.Drawing.Size(44, 20)
+        Me.NBTaskEdgeHoldTimeMin.TabIndex = 197
+        Me.NBTaskEdgeHoldTimeMin.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'Label159
+        '
+        Me.Label159.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label159.BackColor = System.Drawing.Color.Transparent
+        Me.Label159.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label159.ForeColor = System.Drawing.Color.Black
+        Me.Label159.Location = New System.Drawing.Point(289, 87)
+        Me.Label159.Name = "Label159"
+        Me.Label159.Size = New System.Drawing.Size(10, 17)
+        Me.Label159.TabIndex = 196
+        Me.Label159.Text = "-"
+        Me.Label159.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label160
+        '
+        Me.Label160.BackColor = System.Drawing.Color.Transparent
+        Me.Label160.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label160.ForeColor = System.Drawing.Color.Black
+        Me.Label160.Location = New System.Drawing.Point(12, 88)
+        Me.Label160.Name = "Label160"
+        Me.Label160.Size = New System.Drawing.Size(151, 17)
+        Me.Label160.TabIndex = 195
+        Me.Label160.Text = "Edge Hold Time:"
+        Me.Label160.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'NBTaskEdgesMax
+        '
+        Me.NBTaskEdgesMax.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBTaskEdgesMax.Location = New System.Drawing.Point(305, 64)
+        Me.NBTaskEdgesMax.Maximum = New Decimal(New Integer() {1000, 0, 0, 0})
+        Me.NBTaskEdgesMax.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NBTaskEdgesMax.Name = "NBTaskEdgesMax"
+        Me.NBTaskEdgesMax.Size = New System.Drawing.Size(44, 20)
+        Me.NBTaskEdgesMax.TabIndex = 194
+        Me.NBTaskEdgesMax.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'NBTaskEdgesMin
+        '
+        Me.NBTaskEdgesMin.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBTaskEdgesMin.Location = New System.Drawing.Point(239, 65)
+        Me.NBTaskEdgesMin.Maximum = New Decimal(New Integer() {9999, 0, 0, 0})
+        Me.NBTaskEdgesMin.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NBTaskEdgesMin.Name = "NBTaskEdgesMin"
+        Me.NBTaskEdgesMin.Size = New System.Drawing.Size(44, 20)
+        Me.NBTaskEdgesMin.TabIndex = 193
+        Me.NBTaskEdgesMin.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'Label119
+        '
+        Me.Label119.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label119.BackColor = System.Drawing.Color.Transparent
+        Me.Label119.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label119.ForeColor = System.Drawing.Color.Black
+        Me.Label119.Location = New System.Drawing.Point(289, 64)
+        Me.Label119.Name = "Label119"
+        Me.Label119.Size = New System.Drawing.Size(10, 17)
+        Me.Label119.TabIndex = 192
+        Me.Label119.Text = "-"
+        Me.Label119.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label157
+        '
+        Me.Label157.BackColor = System.Drawing.Color.Transparent
+        Me.Label157.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label157.ForeColor = System.Drawing.Color.Black
+        Me.Label157.Location = New System.Drawing.Point(12, 65)
+        Me.Label157.Name = "Label157"
+        Me.Label157.Size = New System.Drawing.Size(151, 17)
+        Me.Label157.TabIndex = 191
+        Me.Label157.Text = "Edges:"
+        Me.Label157.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label151
+        '
+        Me.Label151.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label151.BackColor = System.Drawing.Color.Transparent
+        Me.Label151.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label151.ForeColor = System.Drawing.Color.Black
+        Me.Label151.Location = New System.Drawing.Point(355, 41)
+        Me.Label151.Name = "Label151"
+        Me.Label151.Size = New System.Drawing.Size(50, 17)
+        Me.Label151.TabIndex = 190
+        Me.Label151.Text = "minutes"
+        Me.Label151.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'NBTaskStrokingTimeMax
+        '
+        Me.NBTaskStrokingTimeMax.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBTaskStrokingTimeMax.Location = New System.Drawing.Point(305, 41)
+        Me.NBTaskStrokingTimeMax.Maximum = New Decimal(New Integer() {9999, 0, 0, 0})
+        Me.NBTaskStrokingTimeMax.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NBTaskStrokingTimeMax.Name = "NBTaskStrokingTimeMax"
+        Me.NBTaskStrokingTimeMax.Size = New System.Drawing.Size(44, 20)
+        Me.NBTaskStrokingTimeMax.TabIndex = 189
+        Me.NBTaskStrokingTimeMax.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'NBTaskStrokingTimeMin
+        '
+        Me.NBTaskStrokingTimeMin.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBTaskStrokingTimeMin.Location = New System.Drawing.Point(239, 42)
+        Me.NBTaskStrokingTimeMin.Maximum = New Decimal(New Integer() {9999, 0, 0, 0})
+        Me.NBTaskStrokingTimeMin.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NBTaskStrokingTimeMin.Name = "NBTaskStrokingTimeMin"
+        Me.NBTaskStrokingTimeMin.Size = New System.Drawing.Size(44, 20)
+        Me.NBTaskStrokingTimeMin.TabIndex = 188
+        Me.NBTaskStrokingTimeMin.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'Label154
+        '
+        Me.Label154.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label154.BackColor = System.Drawing.Color.Transparent
+        Me.Label154.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label154.ForeColor = System.Drawing.Color.Black
+        Me.Label154.Location = New System.Drawing.Point(289, 41)
+        Me.Label154.Name = "Label154"
+        Me.Label154.Size = New System.Drawing.Size(10, 17)
+        Me.Label154.TabIndex = 187
+        Me.Label154.Text = "-"
+        Me.Label154.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label155
+        '
+        Me.Label155.BackColor = System.Drawing.Color.Transparent
+        Me.Label155.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label155.ForeColor = System.Drawing.Color.Black
+        Me.Label155.Location = New System.Drawing.Point(12, 42)
+        Me.Label155.Name = "Label155"
+        Me.Label155.Size = New System.Drawing.Size(151, 17)
+        Me.Label155.TabIndex = 186
+        Me.Label155.Text = "Stroking Time:"
+        Me.Label155.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'NBTaskStrokesMax
+        '
+        Me.NBTaskStrokesMax.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBTaskStrokesMax.Location = New System.Drawing.Point(305, 18)
+        Me.NBTaskStrokesMax.Maximum = New Decimal(New Integer() {9999, 0, 0, 0})
+        Me.NBTaskStrokesMax.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NBTaskStrokesMax.Name = "NBTaskStrokesMax"
+        Me.NBTaskStrokesMax.Size = New System.Drawing.Size(44, 20)
+        Me.NBTaskStrokesMax.TabIndex = 184
+        Me.NBTaskStrokesMax.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'NBTaskStrokesMin
+        '
+        Me.NBTaskStrokesMin.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBTaskStrokesMin.Location = New System.Drawing.Point(239, 19)
+        Me.NBTaskStrokesMin.Maximum = New Decimal(New Integer() {9999, 0, 0, 0})
+        Me.NBTaskStrokesMin.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NBTaskStrokesMin.Name = "NBTaskStrokesMin"
+        Me.NBTaskStrokesMin.Size = New System.Drawing.Size(44, 20)
+        Me.NBTaskStrokesMin.TabIndex = 183
+        Me.NBTaskStrokesMin.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'Label146
+        '
+        Me.Label146.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label146.BackColor = System.Drawing.Color.Transparent
+        Me.Label146.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label146.ForeColor = System.Drawing.Color.Black
+        Me.Label146.Location = New System.Drawing.Point(289, 18)
+        Me.Label146.Name = "Label146"
+        Me.Label146.Size = New System.Drawing.Size(10, 17)
+        Me.Label146.TabIndex = 182
+        Me.Label146.Text = "-"
+        Me.Label146.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label149
+        '
+        Me.Label149.BackColor = System.Drawing.Color.Transparent
+        Me.Label149.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label149.ForeColor = System.Drawing.Color.Black
+        Me.Label149.Location = New System.Drawing.Point(12, 19)
+        Me.Label149.Name = "Label149"
+        Me.Label149.Size = New System.Drawing.Size(151, 17)
+        Me.Label149.TabIndex = 181
+        Me.Label149.Text = "Strokes:"
+        Me.Label149.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'GroupBox17
+        '
+        Me.GroupBox17.Controls.Add(Me.GroupBox19)
+        Me.GroupBox17.Controls.Add(Me.GroupBox18)
+        Me.GroupBox17.Location = New System.Drawing.Point(3, 69)
+        Me.GroupBox17.Name = "GroupBox17"
+        Me.GroupBox17.Size = New System.Drawing.Size(413, 190)
+        Me.GroupBox17.TabIndex = 0
+        Me.GroupBox17.TabStop = False
+        Me.GroupBox17.Text = "Video Teases"
+        '
+        'GroupBox19
+        '
+        Me.GroupBox19.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox19.Controls.Add(Me.Label110)
+        Me.GroupBox19.Controls.Add(Me.Label111)
+        Me.GroupBox19.Controls.Add(Me.NBGreenLightMax)
+        Me.GroupBox19.Controls.Add(Me.NBGreenLightMin)
+        Me.GroupBox19.Controls.Add(Me.NBRedLightMax)
+        Me.GroupBox19.Controls.Add(Me.Label26)
+        Me.GroupBox19.Controls.Add(Me.NBRedLightMin)
+        Me.GroupBox19.Controls.Add(Me.Label28)
+        Me.GroupBox19.Controls.Add(Me.Label27)
+        Me.GroupBox19.Controls.Add(Me.Label29)
+        Me.GroupBox19.Location = New System.Drawing.Point(6, 110)
+        Me.GroupBox19.Name = "GroupBox19"
+        Me.GroupBox19.Size = New System.Drawing.Size(401, 66)
+        Me.GroupBox19.TabIndex = 2
+        Me.GroupBox19.TabStop = False
+        Me.GroupBox19.Text = "Red Light, Green Light"
+        '
+        'Label110
+        '
+        Me.Label110.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label110.BackColor = System.Drawing.Color.Transparent
+        Me.Label110.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label110.ForeColor = System.Drawing.Color.Black
+        Me.Label110.Location = New System.Drawing.Point(349, 39)
+        Me.Label110.Name = "Label110"
+        Me.Label110.Size = New System.Drawing.Size(50, 17)
+        Me.Label110.TabIndex = 181
+        Me.Label110.Text = "seconds"
+        Me.Label110.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label111
+        '
+        Me.Label111.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label111.BackColor = System.Drawing.Color.Transparent
+        Me.Label111.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label111.ForeColor = System.Drawing.Color.Black
+        Me.Label111.Location = New System.Drawing.Point(349, 16)
+        Me.Label111.Name = "Label111"
+        Me.Label111.Size = New System.Drawing.Size(50, 17)
+        Me.Label111.TabIndex = 180
+        Me.Label111.Text = "seconds"
+        Me.Label111.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'NBGreenLightMax
+        '
+        Me.NBGreenLightMax.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBGreenLightMax.Location = New System.Drawing.Point(299, 38)
+        Me.NBGreenLightMax.Name = "NBGreenLightMax"
+        Me.NBGreenLightMax.Size = New System.Drawing.Size(44, 20)
+        Me.NBGreenLightMax.TabIndex = 156
+        Me.NBGreenLightMax.Value = New Decimal(New Integer() {60, 0, 0, 0})
+        '
+        'NBGreenLightMin
+        '
+        Me.NBGreenLightMin.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBGreenLightMin.Location = New System.Drawing.Point(233, 38)
+        Me.NBGreenLightMin.Name = "NBGreenLightMin"
+        Me.NBGreenLightMin.Size = New System.Drawing.Size(44, 20)
+        Me.NBGreenLightMin.TabIndex = 155
+        Me.NBGreenLightMin.Value = New Decimal(New Integer() {10, 0, 0, 0})
+        '
+        'NBRedLightMax
+        '
+        Me.NBRedLightMax.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBRedLightMax.Location = New System.Drawing.Point(299, 15)
+        Me.NBRedLightMax.Name = "NBRedLightMax"
+        Me.NBRedLightMax.Size = New System.Drawing.Size(44, 20)
+        Me.NBRedLightMax.TabIndex = 152
+        Me.NBRedLightMax.Value = New Decimal(New Integer() {30, 0, 0, 0})
+        '
+        'Label26
+        '
+        Me.Label26.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label26.BackColor = System.Drawing.Color.Transparent
+        Me.Label26.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label26.ForeColor = System.Drawing.Color.Black
+        Me.Label26.Location = New System.Drawing.Point(283, 38)
+        Me.Label26.Name = "Label26"
+        Me.Label26.Size = New System.Drawing.Size(10, 17)
+        Me.Label26.TabIndex = 154
+        Me.Label26.Text = "-"
+        Me.Label26.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'NBRedLightMin
+        '
+        Me.NBRedLightMin.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBRedLightMin.Location = New System.Drawing.Point(233, 15)
+        Me.NBRedLightMin.Name = "NBRedLightMin"
+        Me.NBRedLightMin.Size = New System.Drawing.Size(44, 20)
+        Me.NBRedLightMin.TabIndex = 151
+        Me.NBRedLightMin.Value = New Decimal(New Integer() {5, 0, 0, 0})
+        '
+        'Label28
+        '
+        Me.Label28.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label28.BackColor = System.Drawing.Color.Transparent
+        Me.Label28.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label28.ForeColor = System.Drawing.Color.Black
+        Me.Label28.Location = New System.Drawing.Point(283, 15)
+        Me.Label28.Name = "Label28"
+        Me.Label28.Size = New System.Drawing.Size(10, 17)
+        Me.Label28.TabIndex = 150
+        Me.Label28.Text = "-"
+        Me.Label28.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label27
+        '
+        Me.Label27.BackColor = System.Drawing.Color.Transparent
+        Me.Label27.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label27.ForeColor = System.Drawing.Color.Black
+        Me.Label27.Location = New System.Drawing.Point(6, 39)
+        Me.Label27.Name = "Label27"
+        Me.Label27.Size = New System.Drawing.Size(151, 17)
+        Me.Label27.TabIndex = 153
+        Me.Label27.Text = "Green Light Time:"
+        Me.Label27.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label29
+        '
+        Me.Label29.BackColor = System.Drawing.Color.Transparent
+        Me.Label29.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label29.ForeColor = System.Drawing.Color.Black
+        Me.Label29.Location = New System.Drawing.Point(6, 16)
+        Me.Label29.Name = "Label29"
+        Me.Label29.Size = New System.Drawing.Size(151, 17)
+        Me.Label29.TabIndex = 149
+        Me.Label29.Text = "Red Light Time:"
+        Me.Label29.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'GroupBox18
+        '
+        Me.GroupBox18.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox18.Controls.Add(Me.Label108)
+        Me.GroupBox18.Controls.Add(Me.Label109)
+        Me.GroupBox18.Controls.Add(Me.NBCensorShowMin)
+        Me.GroupBox18.Controls.Add(Me.NBCensorHideMax)
+        Me.GroupBox18.Controls.Add(Me.NBCensorHideMin)
+        Me.GroupBox18.Controls.Add(Me.CBCensorConstant)
+        Me.GroupBox18.Controls.Add(Me.Label25)
+        Me.GroupBox18.Controls.Add(Me.Label20)
+        Me.GroupBox18.Controls.Add(Me.Label19)
+        Me.GroupBox18.Controls.Add(Me.Label24)
+        Me.GroupBox18.Controls.Add(Me.NBCensorShowMax)
+        Me.GroupBox18.Location = New System.Drawing.Point(6, 16)
+        Me.GroupBox18.Name = "GroupBox18"
+        Me.GroupBox18.Size = New System.Drawing.Size(401, 88)
+        Me.GroupBox18.TabIndex = 1
+        Me.GroupBox18.TabStop = False
+        Me.GroupBox18.Text = "Censorship Sucks"
+        '
+        'Label108
+        '
+        Me.Label108.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label108.BackColor = System.Drawing.Color.Transparent
+        Me.Label108.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label108.ForeColor = System.Drawing.Color.Black
+        Me.Label108.Location = New System.Drawing.Point(349, 39)
+        Me.Label108.Name = "Label108"
+        Me.Label108.Size = New System.Drawing.Size(50, 17)
+        Me.Label108.TabIndex = 179
+        Me.Label108.Text = "seconds"
+        Me.Label108.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label109
+        '
+        Me.Label109.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label109.BackColor = System.Drawing.Color.Transparent
+        Me.Label109.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label109.ForeColor = System.Drawing.Color.Black
+        Me.Label109.Location = New System.Drawing.Point(349, 16)
+        Me.Label109.Name = "Label109"
+        Me.Label109.Size = New System.Drawing.Size(50, 17)
+        Me.Label109.TabIndex = 178
+        Me.Label109.Text = "seconds"
+        Me.Label109.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'NBCensorShowMin
+        '
+        Me.NBCensorShowMin.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBCensorShowMin.Location = New System.Drawing.Point(233, 15)
+        Me.NBCensorShowMin.Maximum = New Decimal(New Integer() {180, 0, 0, 0})
+        Me.NBCensorShowMin.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.NBCensorShowMin.Name = "NBCensorShowMin"
+        Me.NBCensorShowMin.Size = New System.Drawing.Size(44, 20)
+        Me.NBCensorShowMin.TabIndex = 151
+        Me.NBCensorShowMin.Value = New Decimal(New Integer() {5, 0, 0, 0})
+        '
+        'NBCensorHideMax
+        '
+        Me.NBCensorHideMax.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBCensorHideMax.Location = New System.Drawing.Point(299, 38)
+        Me.NBCensorHideMax.Maximum = New Decimal(New Integer() {300, 0, 0, 0})
+        Me.NBCensorHideMax.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.NBCensorHideMax.Name = "NBCensorHideMax"
+        Me.NBCensorHideMax.Size = New System.Drawing.Size(44, 20)
+        Me.NBCensorHideMax.TabIndex = 156
+        Me.NBCensorHideMax.Value = New Decimal(New Integer() {5, 0, 0, 0})
+        '
+        'NBCensorHideMin
+        '
+        Me.NBCensorHideMin.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBCensorHideMin.Location = New System.Drawing.Point(233, 38)
+        Me.NBCensorHideMin.Maximum = New Decimal(New Integer() {180, 0, 0, 0})
+        Me.NBCensorHideMin.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.NBCensorHideMin.Name = "NBCensorHideMin"
+        Me.NBCensorHideMin.Size = New System.Drawing.Size(44, 20)
+        Me.NBCensorHideMin.TabIndex = 155
+        Me.NBCensorHideMin.Value = New Decimal(New Integer() {5, 0, 0, 0})
+        '
+        'CBCensorConstant
+        '
+        Me.CBCensorConstant.AutoSize = True
+        Me.CBCensorConstant.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CBCensorConstant.ForeColor = System.Drawing.Color.Black
+        Me.CBCensorConstant.Location = New System.Drawing.Point(6, 65)
+        Me.CBCensorConstant.Name = "CBCensorConstant"
+        Me.CBCensorConstant.Size = New System.Drawing.Size(263, 17)
+        Me.CBCensorConstant.TabIndex = 157
+        Me.CBCensorConstant.Text = "Censorship Bar Always Visible During Video Tease"
+        Me.CBCensorConstant.UseVisualStyleBackColor = True
+        '
+        'Label25
+        '
+        Me.Label25.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label25.BackColor = System.Drawing.Color.Transparent
+        Me.Label25.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label25.ForeColor = System.Drawing.Color.Black
+        Me.Label25.Location = New System.Drawing.Point(283, 15)
+        Me.Label25.Name = "Label25"
+        Me.Label25.Size = New System.Drawing.Size(10, 17)
+        Me.Label25.TabIndex = 150
+        Me.Label25.Text = "-"
+        Me.Label25.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label20
+        '
+        Me.Label20.BackColor = System.Drawing.Color.Transparent
+        Me.Label20.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label20.ForeColor = System.Drawing.Color.Black
+        Me.Label20.Location = New System.Drawing.Point(6, 39)
+        Me.Label20.Name = "Label20"
+        Me.Label20.Size = New System.Drawing.Size(110, 17)
+        Me.Label20.TabIndex = 153
+        Me.Label20.Text = "Censor Bar Hidden:"
+        Me.Label20.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label19
+        '
+        Me.Label19.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label19.BackColor = System.Drawing.Color.Transparent
+        Me.Label19.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label19.ForeColor = System.Drawing.Color.Black
+        Me.Label19.Location = New System.Drawing.Point(283, 38)
+        Me.Label19.Name = "Label19"
+        Me.Label19.Size = New System.Drawing.Size(10, 17)
+        Me.Label19.TabIndex = 154
+        Me.Label19.Text = "-"
+        Me.Label19.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label24
+        '
+        Me.Label24.BackColor = System.Drawing.Color.Transparent
+        Me.Label24.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label24.ForeColor = System.Drawing.Color.Black
+        Me.Label24.Location = New System.Drawing.Point(6, 16)
+        Me.Label24.Name = "Label24"
+        Me.Label24.Size = New System.Drawing.Size(110, 17)
+        Me.Label24.TabIndex = 149
+        Me.Label24.Text = "Censor Bar Shown:"
+        Me.Label24.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'NBCensorShowMax
+        '
+        Me.NBCensorShowMax.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBCensorShowMax.Location = New System.Drawing.Point(299, 15)
+        Me.NBCensorShowMax.Maximum = New Decimal(New Integer() {300, 0, 0, 0})
+        Me.NBCensorShowMax.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.NBCensorShowMax.Name = "NBCensorShowMax"
+        Me.NBCensorShowMax.Size = New System.Drawing.Size(44, 20)
+        Me.NBCensorShowMax.TabIndex = 152
+        Me.NBCensorShowMax.Value = New Decimal(New Integer() {5, 0, 0, 0})
+        '
+        'RangeSettingsBodyMiddleColumnPanel
+        '
+        Me.RangeSettingsBodyMiddleColumnPanel.Controls.Add(Me.GBRangeOrgasmChance)
+        Me.RangeSettingsBodyMiddleColumnPanel.Controls.Add(Me.GroupBox69)
+        Me.RangeSettingsBodyMiddleColumnPanel.Controls.Add(Me.GBRangeRuinChance)
+        Me.RangeSettingsBodyMiddleColumnPanel.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.RangeSettingsBodyMiddleColumnPanel.Location = New System.Drawing.Point(266, 3)
+        Me.RangeSettingsBodyMiddleColumnPanel.Name = "RangeSettingsBodyMiddleColumnPanel"
+        Me.RangeSettingsBodyMiddleColumnPanel.Size = New System.Drawing.Size(269, 494)
+        Me.RangeSettingsBodyMiddleColumnPanel.TabIndex = 170
+        '
+        'GBRangeOrgasmChance
+        '
+        Me.GBRangeOrgasmChance.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GBRangeOrgasmChance.BackColor = System.Drawing.Color.Transparent
+        Me.GBRangeOrgasmChance.Controls.Add(Me.RarelyAllowsPercentLabel)
+        Me.GBRangeOrgasmChance.Controls.Add(Me.SometimesAllowsPercentNumberBox)
+        Me.GBRangeOrgasmChance.Controls.Add(Me.SometimesAllowsPercentLabel)
+        Me.GBRangeOrgasmChance.Controls.Add(Me.OftenAllowsPercentLabel)
+        Me.GBRangeOrgasmChance.Controls.Add(Me.RarelyAllowsPercentNumberBox)
+        Me.GBRangeOrgasmChance.Controls.Add(Me.OftenAllowsPercentNumberBox)
+        Me.GBRangeOrgasmChance.Controls.Add(Me.DommeDecideOrgasmCheckBox)
+        Me.GBRangeOrgasmChance.Location = New System.Drawing.Point(3, 4)
+        Me.GBRangeOrgasmChance.Name = "GBRangeOrgasmChance"
+        Me.GBRangeOrgasmChance.Size = New System.Drawing.Size(263, 122)
+        Me.GBRangeOrgasmChance.TabIndex = 167
+        Me.GBRangeOrgasmChance.TabStop = False
+        Me.GBRangeOrgasmChance.Text = "Orgasm Chance"
+        '
+        'RarelyAllowsPercentLabel
+        '
+        Me.RarelyAllowsPercentLabel.BackColor = System.Drawing.Color.Transparent
+        Me.RarelyAllowsPercentLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RarelyAllowsPercentLabel.ForeColor = System.Drawing.Color.Black
+        Me.RarelyAllowsPercentLabel.Location = New System.Drawing.Point(6, 94)
+        Me.RarelyAllowsPercentLabel.Name = "RarelyAllowsPercentLabel"
+        Me.RarelyAllowsPercentLabel.Size = New System.Drawing.Size(83, 17)
+        Me.RarelyAllowsPercentLabel.TabIndex = 173
+        Me.RarelyAllowsPercentLabel.Text = "Rarely Allows:"
+        Me.RarelyAllowsPercentLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'SometimesAllowsPercentNumberBox
+        '
+        Me.SometimesAllowsPercentNumberBox.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.SometimesAllowsPercentNumberBox.Enabled = False
+        Me.SometimesAllowsPercentNumberBox.Location = New System.Drawing.Point(213, 65)
+        Me.SometimesAllowsPercentNumberBox.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
+        Me.SometimesAllowsPercentNumberBox.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.SometimesAllowsPercentNumberBox.Name = "SometimesAllowsPercentNumberBox"
+        Me.SometimesAllowsPercentNumberBox.Size = New System.Drawing.Size(44, 20)
+        Me.SometimesAllowsPercentNumberBox.TabIndex = 169
+        Me.SometimesAllowsPercentNumberBox.Value = New Decimal(New Integer() {50, 0, 0, 0})
+        '
+        'SometimesAllowsPercentLabel
+        '
+        Me.SometimesAllowsPercentLabel.BackColor = System.Drawing.Color.Transparent
+        Me.SometimesAllowsPercentLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SometimesAllowsPercentLabel.ForeColor = System.Drawing.Color.Black
+        Me.SometimesAllowsPercentLabel.Location = New System.Drawing.Point(6, 68)
+        Me.SometimesAllowsPercentLabel.Name = "SometimesAllowsPercentLabel"
+        Me.SometimesAllowsPercentLabel.Size = New System.Drawing.Size(102, 17)
+        Me.SometimesAllowsPercentLabel.TabIndex = 172
+        Me.SometimesAllowsPercentLabel.Text = "Sometimes Allows:"
+        Me.SometimesAllowsPercentLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'OftenAllowsPercentLabel
+        '
+        Me.OftenAllowsPercentLabel.BackColor = System.Drawing.Color.Transparent
+        Me.OftenAllowsPercentLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.OftenAllowsPercentLabel.ForeColor = System.Drawing.Color.Black
+        Me.OftenAllowsPercentLabel.Location = New System.Drawing.Point(6, 42)
+        Me.OftenAllowsPercentLabel.Name = "OftenAllowsPercentLabel"
+        Me.OftenAllowsPercentLabel.Size = New System.Drawing.Size(83, 17)
+        Me.OftenAllowsPercentLabel.TabIndex = 171
+        Me.OftenAllowsPercentLabel.Text = "Often Allows:"
+        Me.OftenAllowsPercentLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'RarelyAllowsPercentNumberBox
+        '
+        Me.RarelyAllowsPercentNumberBox.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RarelyAllowsPercentNumberBox.Enabled = False
+        Me.RarelyAllowsPercentNumberBox.Location = New System.Drawing.Point(213, 91)
+        Me.RarelyAllowsPercentNumberBox.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
+        Me.RarelyAllowsPercentNumberBox.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.RarelyAllowsPercentNumberBox.Name = "RarelyAllowsPercentNumberBox"
+        Me.RarelyAllowsPercentNumberBox.Size = New System.Drawing.Size(44, 20)
+        Me.RarelyAllowsPercentNumberBox.TabIndex = 170
+        Me.RarelyAllowsPercentNumberBox.Value = New Decimal(New Integer() {20, 0, 0, 0})
+        '
+        'OftenAllowsPercentNumberBox
+        '
+        Me.OftenAllowsPercentNumberBox.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.OftenAllowsPercentNumberBox.Enabled = False
+        Me.OftenAllowsPercentNumberBox.Location = New System.Drawing.Point(213, 39)
+        Me.OftenAllowsPercentNumberBox.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
+        Me.OftenAllowsPercentNumberBox.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.OftenAllowsPercentNumberBox.Name = "OftenAllowsPercentNumberBox"
+        Me.OftenAllowsPercentNumberBox.Size = New System.Drawing.Size(44, 20)
+        Me.OftenAllowsPercentNumberBox.TabIndex = 168
+        Me.OftenAllowsPercentNumberBox.Value = New Decimal(New Integer() {75, 0, 0, 0})
+        '
+        'DommeDecideOrgasmCheckBox
+        '
+        Me.DommeDecideOrgasmCheckBox.AutoSize = True
+        Me.DommeDecideOrgasmCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.DommeDecideOrgasmCheckBox.Location = New System.Drawing.Point(9, 19)
+        Me.DommeDecideOrgasmCheckBox.Name = "DommeDecideOrgasmCheckBox"
+        Me.DommeDecideOrgasmCheckBox.Size = New System.Drawing.Size(99, 17)
+        Me.DommeDecideOrgasmCheckBox.TabIndex = 159
+        Me.DommeDecideOrgasmCheckBox.Text = "Domme Decide"
+        Me.DommeDecideOrgasmCheckBox.UseVisualStyleBackColor = True
+        '
+        'GroupBox69
+        '
+        Me.GroupBox69.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox69.BackColor = System.Drawing.Color.Transparent
+        Me.GroupBox69.Controls.Add(Me.TypesSpeedVal)
+        Me.GroupBox69.Controls.Add(Me.TypeSpeedLabel)
+        Me.GroupBox69.Controls.Add(Me.TimedWriting)
+        Me.GroupBox69.Controls.Add(Me.TypeSpeedSlider)
+        Me.GroupBox69.Location = New System.Drawing.Point(3, 260)
+        Me.GroupBox69.Name = "GroupBox69"
+        Me.GroupBox69.Size = New System.Drawing.Size(263, 109)
+        Me.GroupBox69.TabIndex = 173
+        Me.GroupBox69.TabStop = False
+        Me.GroupBox69.Text = "Writing Tasks"
+        '
+        'TypesSpeedVal
+        '
+        Me.TypesSpeedVal.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TypesSpeedVal.AutoSize = True
+        Me.TypesSpeedVal.Location = New System.Drawing.Point(238, 83)
+        Me.TypesSpeedVal.Name = "TypesSpeedVal"
+        Me.TypesSpeedVal.Size = New System.Drawing.Size(19, 13)
+        Me.TypesSpeedVal.TabIndex = 0
+        Me.TypesSpeedVal.Text = "10"
+        Me.TypesSpeedVal.TextAlign = System.Drawing.ContentAlignment.TopRight
+        '
+        'TypeSpeedLabel
+        '
+        Me.TypeSpeedLabel.AutoSize = True
+        Me.TypeSpeedLabel.Location = New System.Drawing.Point(6, 83)
+        Me.TypeSpeedLabel.Name = "TypeSpeedLabel"
+        Me.TypeSpeedLabel.Size = New System.Drawing.Size(76, 13)
+        Me.TypeSpeedLabel.TabIndex = 2
+        Me.TypeSpeedLabel.Text = "Typing Speed:"
+        '
+        'TimedWriting
+        '
+        Me.TimedWriting.AutoSize = True
+        Me.TimedWriting.Location = New System.Drawing.Point(9, 19)
+        Me.TimedWriting.Name = "TimedWriting"
+        Me.TimedWriting.Size = New System.Drawing.Size(123, 17)
+        Me.TimedWriting.TabIndex = 1
+        Me.TimedWriting.Text = "Timed Writing Tasks"
+        Me.TimedWriting.UseVisualStyleBackColor = True
+        '
+        'TypeSpeedSlider
+        '
+        Me.TypeSpeedSlider.BackColor = System.Drawing.SystemColors.Control
+        Me.TypeSpeedSlider.Location = New System.Drawing.Point(6, 35)
+        Me.TypeSpeedSlider.Maximum = 100
+        Me.TypeSpeedSlider.Minimum = 33
+        Me.TypeSpeedSlider.Name = "TypeSpeedSlider"
+        Me.TypeSpeedSlider.Size = New System.Drawing.Size(251, 45)
+        Me.TypeSpeedSlider.TabIndex = 3
+        Me.TypeSpeedSlider.Value = 33
+        '
+        'GBRangeRuinChance
+        '
+        Me.GBRangeRuinChance.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GBRangeRuinChance.BackColor = System.Drawing.Color.Transparent
+        Me.GBRangeRuinChance.Controls.Add(Me.Label90)
+        Me.GBRangeRuinChance.Controls.Add(Me.NBRuinSometimes)
+        Me.GBRangeRuinChance.Controls.Add(Me.Label91)
+        Me.GBRangeRuinChance.Controls.Add(Me.Label92)
+        Me.GBRangeRuinChance.Controls.Add(Me.NBRuinRarely)
+        Me.GBRangeRuinChance.Controls.Add(Me.NBRuinOften)
+        Me.GBRangeRuinChance.Controls.Add(Me.DommeDecideRuinCheckBox)
+        Me.GBRangeRuinChance.Location = New System.Drawing.Point(3, 132)
+        Me.GBRangeRuinChance.Name = "GBRangeRuinChance"
+        Me.GBRangeRuinChance.Size = New System.Drawing.Size(263, 122)
+        Me.GBRangeRuinChance.TabIndex = 168
+        Me.GBRangeRuinChance.TabStop = False
+        Me.GBRangeRuinChance.Text = "Ruin Chance"
+        '
+        'Label90
+        '
+        Me.Label90.BackColor = System.Drawing.Color.Transparent
+        Me.Label90.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label90.ForeColor = System.Drawing.Color.Black
+        Me.Label90.Location = New System.Drawing.Point(6, 94)
+        Me.Label90.Name = "Label90"
+        Me.Label90.Size = New System.Drawing.Size(83, 17)
+        Me.Label90.TabIndex = 173
+        Me.Label90.Text = "Rarely Ruins:"
+        Me.Label90.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'NBRuinSometimes
+        '
+        Me.NBRuinSometimes.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBRuinSometimes.Enabled = False
+        Me.NBRuinSometimes.Location = New System.Drawing.Point(213, 65)
+        Me.NBRuinSometimes.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
+        Me.NBRuinSometimes.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NBRuinSometimes.Name = "NBRuinSometimes"
+        Me.NBRuinSometimes.Size = New System.Drawing.Size(44, 20)
+        Me.NBRuinSometimes.TabIndex = 169
+        Me.NBRuinSometimes.Value = New Decimal(New Integer() {50, 0, 0, 0})
+        '
+        'Label91
+        '
+        Me.Label91.BackColor = System.Drawing.Color.Transparent
+        Me.Label91.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label91.ForeColor = System.Drawing.Color.Black
+        Me.Label91.Location = New System.Drawing.Point(6, 68)
+        Me.Label91.Name = "Label91"
+        Me.Label91.Size = New System.Drawing.Size(102, 17)
+        Me.Label91.TabIndex = 172
+        Me.Label91.Text = "Sometimes Ruins:"
+        Me.Label91.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label92
+        '
+        Me.Label92.BackColor = System.Drawing.Color.Transparent
+        Me.Label92.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label92.ForeColor = System.Drawing.Color.Black
+        Me.Label92.Location = New System.Drawing.Point(6, 42)
+        Me.Label92.Name = "Label92"
+        Me.Label92.Size = New System.Drawing.Size(72, 17)
+        Me.Label92.TabIndex = 171
+        Me.Label92.Text = "Often Ruins:"
+        Me.Label92.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'NBRuinRarely
+        '
+        Me.NBRuinRarely.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBRuinRarely.Enabled = False
+        Me.NBRuinRarely.Location = New System.Drawing.Point(213, 91)
+        Me.NBRuinRarely.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
+        Me.NBRuinRarely.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NBRuinRarely.Name = "NBRuinRarely"
+        Me.NBRuinRarely.Size = New System.Drawing.Size(44, 20)
+        Me.NBRuinRarely.TabIndex = 170
+        Me.NBRuinRarely.Value = New Decimal(New Integer() {20, 0, 0, 0})
+        '
+        'NBRuinOften
+        '
+        Me.NBRuinOften.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBRuinOften.Enabled = False
+        Me.NBRuinOften.Location = New System.Drawing.Point(213, 39)
+        Me.NBRuinOften.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
+        Me.NBRuinOften.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NBRuinOften.Name = "NBRuinOften"
+        Me.NBRuinOften.Size = New System.Drawing.Size(44, 20)
+        Me.NBRuinOften.TabIndex = 168
+        Me.NBRuinOften.Value = New Decimal(New Integer() {75, 0, 0, 0})
+        '
+        'DommeDecideRuinCheckBox
+        '
+        Me.DommeDecideRuinCheckBox.AutoSize = True
+        Me.DommeDecideRuinCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.DommeDecideRuinCheckBox.Location = New System.Drawing.Point(9, 19)
+        Me.DommeDecideRuinCheckBox.Name = "DommeDecideRuinCheckBox"
+        Me.DommeDecideRuinCheckBox.Size = New System.Drawing.Size(99, 17)
+        Me.DommeDecideRuinCheckBox.TabIndex = 159
+        Me.DommeDecideRuinCheckBox.Text = "Domme Decide"
+        Me.DommeDecideRuinCheckBox.UseVisualStyleBackColor = True
+        '
+        'RangeSettingsBodyLeftColumnPanel
+        '
+        Me.RangeSettingsBodyLeftColumnPanel.Controls.Add(Me.RangeSettingsTeaseGroupBox)
+        Me.RangeSettingsBodyLeftColumnPanel.Controls.Add(Me.RangeSettingsSessionTasksGroupBox)
+        Me.RangeSettingsBodyLeftColumnPanel.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.RangeSettingsBodyLeftColumnPanel.Location = New System.Drawing.Point(3, 3)
+        Me.RangeSettingsBodyLeftColumnPanel.Name = "RangeSettingsBodyLeftColumnPanel"
+        Me.RangeSettingsBodyLeftColumnPanel.Size = New System.Drawing.Size(257, 494)
+        Me.RangeSettingsBodyLeftColumnPanel.TabIndex = 171
+        '
+        'RangeSettingsTeaseGroupBox
+        '
+        Me.RangeSettingsTeaseGroupBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RangeSettingsTeaseGroupBox.BackColor = System.Drawing.Color.Transparent
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.Label139)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.NBTauntEdging)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.LBLVtf)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.LBLStf)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.SliderSTF)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.TauntSlider)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.Label106)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.CBTauntCycleDD)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.TeaseLengthDommeDetermined)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.Label103)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.NBTauntCycleMax)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.Label105)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.Label101)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.NBTauntCycleMin)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.Label102)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.Label97)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.NBTeaseLengthMax)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.Label99)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.Label96)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.NBTeaseLengthMin)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.Label95)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.Label49)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.Label141)
+        Me.RangeSettingsTeaseGroupBox.Location = New System.Drawing.Point(3, 4)
+        Me.RangeSettingsTeaseGroupBox.Name = "RangeSettingsTeaseGroupBox"
+        Me.RangeSettingsTeaseGroupBox.Size = New System.Drawing.Size(251, 308)
+        Me.RangeSettingsTeaseGroupBox.TabIndex = 169
+        Me.RangeSettingsTeaseGroupBox.TabStop = False
+        Me.RangeSettingsTeaseGroupBox.Text = "Tease"
         '
         'Label139
         '
@@ -11820,6 +12345,7 @@ Partial Class FrmSettings
         'SliderSTF
         '
         Me.SliderSTF.AutoSize = False
+        Me.SliderSTF.BackColor = System.Drawing.SystemColors.Control
         Me.SliderSTF.LargeChange = 1
         Me.SliderSTF.Location = New System.Drawing.Point(130, 199)
         Me.SliderSTF.Maximum = 5
@@ -11832,6 +12358,7 @@ Partial Class FrmSettings
         'TauntSlider
         '
         Me.TauntSlider.AutoSize = False
+        Me.TauntSlider.BackColor = System.Drawing.SystemColors.Control
         Me.TauntSlider.LargeChange = 1
         Me.TauntSlider.Location = New System.Drawing.Point(130, 240)
         Me.TauntSlider.Maximum = 9
@@ -12035,526 +12562,128 @@ Partial Class FrmSettings
         Me.Label141.Text = "Edging Ends Taunts:"
         Me.Label141.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'GBRangeRuinChance
-        '
-        Me.GBRangeRuinChance.Controls.Add(Me.Label90)
-        Me.GBRangeRuinChance.Controls.Add(Me.NBRuinSometimes)
-        Me.GBRangeRuinChance.Controls.Add(Me.Label91)
-        Me.GBRangeRuinChance.Controls.Add(Me.Label92)
-        Me.GBRangeRuinChance.Controls.Add(Me.NBRuinRarely)
-        Me.GBRangeRuinChance.Controls.Add(Me.NBRuinOften)
-        Me.GBRangeRuinChance.Controls.Add(Me.DommeDecideRuinCheckBox)
-        Me.GBRangeRuinChance.Location = New System.Drawing.Point(236, 159)
-        Me.GBRangeRuinChance.Name = "GBRangeRuinChance"
-        Me.GBRangeRuinChance.Size = New System.Drawing.Size(166, 122)
-        Me.GBRangeRuinChance.TabIndex = 168
-        Me.GBRangeRuinChance.TabStop = False
-        Me.GBRangeRuinChance.Text = "Ruin Chance"
-        '
-        'Label90
-        '
-        Me.Label90.BackColor = System.Drawing.Color.Transparent
-        Me.Label90.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label90.ForeColor = System.Drawing.Color.Black
-        Me.Label90.Location = New System.Drawing.Point(6, 94)
-        Me.Label90.Name = "Label90"
-        Me.Label90.Size = New System.Drawing.Size(83, 17)
-        Me.Label90.TabIndex = 173
-        Me.Label90.Text = "Rarely Ruins:"
-        Me.Label90.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'NBRuinSometimes
-        '
-        Me.NBRuinSometimes.Enabled = False
-        Me.NBRuinSometimes.Location = New System.Drawing.Point(113, 68)
-        Me.NBRuinSometimes.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
-        Me.NBRuinSometimes.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NBRuinSometimes.Name = "NBRuinSometimes"
-        Me.NBRuinSometimes.Size = New System.Drawing.Size(44, 20)
-        Me.NBRuinSometimes.TabIndex = 169
-        Me.NBRuinSometimes.Value = New Decimal(New Integer() {50, 0, 0, 0})
-        '
-        'Label91
-        '
-        Me.Label91.BackColor = System.Drawing.Color.Transparent
-        Me.Label91.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label91.ForeColor = System.Drawing.Color.Black
-        Me.Label91.Location = New System.Drawing.Point(6, 68)
-        Me.Label91.Name = "Label91"
-        Me.Label91.Size = New System.Drawing.Size(102, 17)
-        Me.Label91.TabIndex = 172
-        Me.Label91.Text = "Sometimes Ruins:"
-        Me.Label91.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label92
-        '
-        Me.Label92.BackColor = System.Drawing.Color.Transparent
-        Me.Label92.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label92.ForeColor = System.Drawing.Color.Black
-        Me.Label92.Location = New System.Drawing.Point(6, 42)
-        Me.Label92.Name = "Label92"
-        Me.Label92.Size = New System.Drawing.Size(72, 17)
-        Me.Label92.TabIndex = 171
-        Me.Label92.Text = "Often Ruins:"
-        Me.Label92.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'NBRuinRarely
-        '
-        Me.NBRuinRarely.Enabled = False
-        Me.NBRuinRarely.Location = New System.Drawing.Point(113, 94)
-        Me.NBRuinRarely.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
-        Me.NBRuinRarely.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NBRuinRarely.Name = "NBRuinRarely"
-        Me.NBRuinRarely.Size = New System.Drawing.Size(44, 20)
-        Me.NBRuinRarely.TabIndex = 170
-        Me.NBRuinRarely.Value = New Decimal(New Integer() {20, 0, 0, 0})
-        '
-        'NBRuinOften
-        '
-        Me.NBRuinOften.Enabled = False
-        Me.NBRuinOften.Location = New System.Drawing.Point(113, 42)
-        Me.NBRuinOften.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
-        Me.NBRuinOften.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NBRuinOften.Name = "NBRuinOften"
-        Me.NBRuinOften.Size = New System.Drawing.Size(44, 20)
-        Me.NBRuinOften.TabIndex = 168
-        Me.NBRuinOften.Value = New Decimal(New Integer() {75, 0, 0, 0})
-        '
-        'DommeDecideRuinCheckBox
-        '
-        Me.DommeDecideRuinCheckBox.AutoSize = True
-        Me.DommeDecideRuinCheckBox.ForeColor = System.Drawing.Color.Black
-        Me.DommeDecideRuinCheckBox.Location = New System.Drawing.Point(9, 19)
-        Me.DommeDecideRuinCheckBox.Name = "DommeDecideRuinCheckBox"
-        Me.DommeDecideRuinCheckBox.Size = New System.Drawing.Size(99, 17)
-        Me.DommeDecideRuinCheckBox.TabIndex = 159
-        Me.DommeDecideRuinCheckBox.Text = "Domme Decide"
-        Me.DommeDecideRuinCheckBox.UseVisualStyleBackColor = True
-        '
-        'GroupBox17
-        '
-        Me.GroupBox17.Controls.Add(Me.GroupBox19)
-        Me.GroupBox17.Controls.Add(Me.GroupBox18)
-        Me.GroupBox17.Location = New System.Drawing.Point(408, 91)
-        Me.GroupBox17.Name = "GroupBox17"
-        Me.GroupBox17.Size = New System.Drawing.Size(291, 190)
-        Me.GroupBox17.TabIndex = 0
-        Me.GroupBox17.TabStop = False
-        Me.GroupBox17.Text = "Video Teases"
-        '
-        'GroupBox19
-        '
-        Me.GroupBox19.Controls.Add(Me.Label110)
-        Me.GroupBox19.Controls.Add(Me.Label111)
-        Me.GroupBox19.Controls.Add(Me.NBGreenLightMax)
-        Me.GroupBox19.Controls.Add(Me.NBGreenLightMin)
-        Me.GroupBox19.Controls.Add(Me.NBRedLightMax)
-        Me.GroupBox19.Controls.Add(Me.Label26)
-        Me.GroupBox19.Controls.Add(Me.NBRedLightMin)
-        Me.GroupBox19.Controls.Add(Me.Label28)
-        Me.GroupBox19.Controls.Add(Me.Label27)
-        Me.GroupBox19.Controls.Add(Me.Label29)
-        Me.GroupBox19.Location = New System.Drawing.Point(6, 110)
-        Me.GroupBox19.Name = "GroupBox19"
-        Me.GroupBox19.Size = New System.Drawing.Size(279, 66)
-        Me.GroupBox19.TabIndex = 2
-        Me.GroupBox19.TabStop = False
-        Me.GroupBox19.Text = "Red Light, Green Light"
-        '
-        'Label110
-        '
-        Me.Label110.BackColor = System.Drawing.Color.Transparent
-        Me.Label110.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label110.ForeColor = System.Drawing.Color.Black
-        Me.Label110.Location = New System.Drawing.Point(227, 39)
-        Me.Label110.Name = "Label110"
-        Me.Label110.Size = New System.Drawing.Size(50, 17)
-        Me.Label110.TabIndex = 181
-        Me.Label110.Text = "seconds"
-        Me.Label110.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label111
-        '
-        Me.Label111.BackColor = System.Drawing.Color.Transparent
-        Me.Label111.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label111.ForeColor = System.Drawing.Color.Black
-        Me.Label111.Location = New System.Drawing.Point(227, 16)
-        Me.Label111.Name = "Label111"
-        Me.Label111.Size = New System.Drawing.Size(50, 17)
-        Me.Label111.TabIndex = 180
-        Me.Label111.Text = "seconds"
-        Me.Label111.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'NBGreenLightMax
-        '
-        Me.NBGreenLightMax.Location = New System.Drawing.Point(177, 38)
-        Me.NBGreenLightMax.Name = "NBGreenLightMax"
-        Me.NBGreenLightMax.Size = New System.Drawing.Size(44, 20)
-        Me.NBGreenLightMax.TabIndex = 156
-        Me.NBGreenLightMax.Value = New Decimal(New Integer() {60, 0, 0, 0})
-        '
-        'NBGreenLightMin
-        '
-        Me.NBGreenLightMin.Location = New System.Drawing.Point(111, 38)
-        Me.NBGreenLightMin.Name = "NBGreenLightMin"
-        Me.NBGreenLightMin.Size = New System.Drawing.Size(44, 20)
-        Me.NBGreenLightMin.TabIndex = 155
-        Me.NBGreenLightMin.Value = New Decimal(New Integer() {10, 0, 0, 0})
-        '
-        'NBRedLightMax
-        '
-        Me.NBRedLightMax.Location = New System.Drawing.Point(177, 15)
-        Me.NBRedLightMax.Name = "NBRedLightMax"
-        Me.NBRedLightMax.Size = New System.Drawing.Size(44, 20)
-        Me.NBRedLightMax.TabIndex = 152
-        Me.NBRedLightMax.Value = New Decimal(New Integer() {30, 0, 0, 0})
-        '
-        'Label26
-        '
-        Me.Label26.BackColor = System.Drawing.Color.Transparent
-        Me.Label26.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label26.ForeColor = System.Drawing.Color.Black
-        Me.Label26.Location = New System.Drawing.Point(161, 38)
-        Me.Label26.Name = "Label26"
-        Me.Label26.Size = New System.Drawing.Size(10, 17)
-        Me.Label26.TabIndex = 154
-        Me.Label26.Text = "-"
-        Me.Label26.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'NBRedLightMin
-        '
-        Me.NBRedLightMin.Location = New System.Drawing.Point(111, 15)
-        Me.NBRedLightMin.Name = "NBRedLightMin"
-        Me.NBRedLightMin.Size = New System.Drawing.Size(44, 20)
-        Me.NBRedLightMin.TabIndex = 151
-        Me.NBRedLightMin.Value = New Decimal(New Integer() {5, 0, 0, 0})
-        '
-        'Label28
-        '
-        Me.Label28.BackColor = System.Drawing.Color.Transparent
-        Me.Label28.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label28.ForeColor = System.Drawing.Color.Black
-        Me.Label28.Location = New System.Drawing.Point(161, 15)
-        Me.Label28.Name = "Label28"
-        Me.Label28.Size = New System.Drawing.Size(10, 17)
-        Me.Label28.TabIndex = 150
-        Me.Label28.Text = "-"
-        Me.Label28.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label27
-        '
-        Me.Label27.BackColor = System.Drawing.Color.Transparent
-        Me.Label27.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label27.ForeColor = System.Drawing.Color.Black
-        Me.Label27.Location = New System.Drawing.Point(6, 39)
-        Me.Label27.Name = "Label27"
-        Me.Label27.Size = New System.Drawing.Size(151, 17)
-        Me.Label27.TabIndex = 153
-        Me.Label27.Text = "Green Light Time:"
-        Me.Label27.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label29
-        '
-        Me.Label29.BackColor = System.Drawing.Color.Transparent
-        Me.Label29.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label29.ForeColor = System.Drawing.Color.Black
-        Me.Label29.Location = New System.Drawing.Point(6, 16)
-        Me.Label29.Name = "Label29"
-        Me.Label29.Size = New System.Drawing.Size(151, 17)
-        Me.Label29.TabIndex = 149
-        Me.Label29.Text = "Red Light Time:"
-        Me.Label29.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'GroupBox18
-        '
-        Me.GroupBox18.Controls.Add(Me.Label108)
-        Me.GroupBox18.Controls.Add(Me.Label109)
-        Me.GroupBox18.Controls.Add(Me.NBCensorShowMin)
-        Me.GroupBox18.Controls.Add(Me.NBCensorHideMax)
-        Me.GroupBox18.Controls.Add(Me.NBCensorHideMin)
-        Me.GroupBox18.Controls.Add(Me.CBCensorConstant)
-        Me.GroupBox18.Controls.Add(Me.Label25)
-        Me.GroupBox18.Controls.Add(Me.Label20)
-        Me.GroupBox18.Controls.Add(Me.Label19)
-        Me.GroupBox18.Controls.Add(Me.Label24)
-        Me.GroupBox18.Controls.Add(Me.NBCensorShowMax)
-        Me.GroupBox18.Location = New System.Drawing.Point(6, 16)
-        Me.GroupBox18.Name = "GroupBox18"
-        Me.GroupBox18.Size = New System.Drawing.Size(279, 88)
-        Me.GroupBox18.TabIndex = 1
-        Me.GroupBox18.TabStop = False
-        Me.GroupBox18.Text = "Censorship Sucks"
-        '
-        'Label108
-        '
-        Me.Label108.BackColor = System.Drawing.Color.Transparent
-        Me.Label108.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label108.ForeColor = System.Drawing.Color.Black
-        Me.Label108.Location = New System.Drawing.Point(227, 39)
-        Me.Label108.Name = "Label108"
-        Me.Label108.Size = New System.Drawing.Size(50, 17)
-        Me.Label108.TabIndex = 179
-        Me.Label108.Text = "seconds"
-        Me.Label108.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label109
-        '
-        Me.Label109.BackColor = System.Drawing.Color.Transparent
-        Me.Label109.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label109.ForeColor = System.Drawing.Color.Black
-        Me.Label109.Location = New System.Drawing.Point(227, 16)
-        Me.Label109.Name = "Label109"
-        Me.Label109.Size = New System.Drawing.Size(50, 17)
-        Me.Label109.TabIndex = 178
-        Me.Label109.Text = "seconds"
-        Me.Label109.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'NBCensorShowMin
-        '
-        Me.NBCensorShowMin.Location = New System.Drawing.Point(111, 15)
-        Me.NBCensorShowMin.Maximum = New Decimal(New Integer() {180, 0, 0, 0})
-        Me.NBCensorShowMin.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
-        Me.NBCensorShowMin.Name = "NBCensorShowMin"
-        Me.NBCensorShowMin.Size = New System.Drawing.Size(44, 20)
-        Me.NBCensorShowMin.TabIndex = 151
-        Me.NBCensorShowMin.Value = New Decimal(New Integer() {5, 0, 0, 0})
-        '
-        'NBCensorHideMax
-        '
-        Me.NBCensorHideMax.Location = New System.Drawing.Point(177, 38)
-        Me.NBCensorHideMax.Maximum = New Decimal(New Integer() {300, 0, 0, 0})
-        Me.NBCensorHideMax.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
-        Me.NBCensorHideMax.Name = "NBCensorHideMax"
-        Me.NBCensorHideMax.Size = New System.Drawing.Size(44, 20)
-        Me.NBCensorHideMax.TabIndex = 156
-        Me.NBCensorHideMax.Value = New Decimal(New Integer() {5, 0, 0, 0})
-        '
-        'NBCensorHideMin
-        '
-        Me.NBCensorHideMin.Location = New System.Drawing.Point(111, 38)
-        Me.NBCensorHideMin.Maximum = New Decimal(New Integer() {180, 0, 0, 0})
-        Me.NBCensorHideMin.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
-        Me.NBCensorHideMin.Name = "NBCensorHideMin"
-        Me.NBCensorHideMin.Size = New System.Drawing.Size(44, 20)
-        Me.NBCensorHideMin.TabIndex = 155
-        Me.NBCensorHideMin.Value = New Decimal(New Integer() {5, 0, 0, 0})
-        '
-        'CBCensorConstant
-        '
-        Me.CBCensorConstant.AutoSize = True
-        Me.CBCensorConstant.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CBCensorConstant.ForeColor = System.Drawing.Color.Black
-        Me.CBCensorConstant.Location = New System.Drawing.Point(6, 65)
-        Me.CBCensorConstant.Name = "CBCensorConstant"
-        Me.CBCensorConstant.Size = New System.Drawing.Size(263, 17)
-        Me.CBCensorConstant.TabIndex = 157
-        Me.CBCensorConstant.Text = "Censorship Bar Always Visible During Video Tease"
-        Me.CBCensorConstant.UseVisualStyleBackColor = True
-        '
-        'Label25
-        '
-        Me.Label25.BackColor = System.Drawing.Color.Transparent
-        Me.Label25.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label25.ForeColor = System.Drawing.Color.Black
-        Me.Label25.Location = New System.Drawing.Point(161, 15)
-        Me.Label25.Name = "Label25"
-        Me.Label25.Size = New System.Drawing.Size(10, 17)
-        Me.Label25.TabIndex = 150
-        Me.Label25.Text = "-"
-        Me.Label25.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label20
-        '
-        Me.Label20.BackColor = System.Drawing.Color.Transparent
-        Me.Label20.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label20.ForeColor = System.Drawing.Color.Black
-        Me.Label20.Location = New System.Drawing.Point(6, 39)
-        Me.Label20.Name = "Label20"
-        Me.Label20.Size = New System.Drawing.Size(110, 17)
-        Me.Label20.TabIndex = 153
-        Me.Label20.Text = "Censor Bar Hidden:"
-        Me.Label20.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label19
-        '
-        Me.Label19.BackColor = System.Drawing.Color.Transparent
-        Me.Label19.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label19.ForeColor = System.Drawing.Color.Black
-        Me.Label19.Location = New System.Drawing.Point(161, 38)
-        Me.Label19.Name = "Label19"
-        Me.Label19.Size = New System.Drawing.Size(10, 17)
-        Me.Label19.TabIndex = 154
-        Me.Label19.Text = "-"
-        Me.Label19.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label24
-        '
-        Me.Label24.BackColor = System.Drawing.Color.Transparent
-        Me.Label24.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label24.ForeColor = System.Drawing.Color.Black
-        Me.Label24.Location = New System.Drawing.Point(6, 16)
-        Me.Label24.Name = "Label24"
-        Me.Label24.Size = New System.Drawing.Size(110, 17)
-        Me.Label24.TabIndex = 149
-        Me.Label24.Text = "Censor Bar Shown:"
-        Me.Label24.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'NBCensorShowMax
-        '
-        Me.NBCensorShowMax.Location = New System.Drawing.Point(177, 15)
-        Me.NBCensorShowMax.Maximum = New Decimal(New Integer() {300, 0, 0, 0})
-        Me.NBCensorShowMax.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
-        Me.NBCensorShowMax.Name = "NBCensorShowMax"
-        Me.NBCensorShowMax.Size = New System.Drawing.Size(44, 20)
-        Me.NBCensorShowMax.TabIndex = 152
-        Me.NBCensorShowMax.Value = New Decimal(New Integer() {5, 0, 0, 0})
-        '
-        'GroupBox21
-        '
-        Me.GroupBox21.BackColor = System.Drawing.Color.LightGray
-        Me.GroupBox21.Controls.Add(Me.LBLRangeSettingsDescription)
-        Me.GroupBox21.ForeColor = System.Drawing.Color.Black
-        Me.GroupBox21.Location = New System.Drawing.Point(7, 344)
-        Me.GroupBox21.Name = "GroupBox21"
-        Me.GroupBox21.Size = New System.Drawing.Size(225, 83)
-        Me.GroupBox21.TabIndex = 66
-        Me.GroupBox21.TabStop = False
-        Me.GroupBox21.Text = "Description"
-        '
-        'LBLRangeSettingsDescription
-        '
-        Me.LBLRangeSettingsDescription.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+        'RangeSettingsSessionTasksGroupBox
+        '
+        Me.RangeSettingsSessionTasksGroupBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RangeSettingsSessionTasksGroupBox.Controls.Add(Me.TaskWaitMaximum)
+        Me.RangeSettingsSessionTasksGroupBox.Controls.Add(Me.TaskWaitMinimum)
+        Me.RangeSettingsSessionTasksGroupBox.Controls.Add(Me.Label165)
+        Me.RangeSettingsSessionTasksGroupBox.Controls.Add(Me.Label166)
+        Me.RangeSettingsSessionTasksGroupBox.Location = New System.Drawing.Point(3, 318)
+        Me.RangeSettingsSessionTasksGroupBox.Name = "RangeSettingsSessionTasksGroupBox"
+        Me.RangeSettingsSessionTasksGroupBox.Size = New System.Drawing.Size(251, 51)
+        Me.RangeSettingsSessionTasksGroupBox.TabIndex = 172
+        Me.RangeSettingsSessionTasksGroupBox.TabStop = False
+        Me.RangeSettingsSessionTasksGroupBox.Text = "Session Tasks"
+        '
+        'TaskWaitMaximum
+        '
+        Me.TaskWaitMaximum.Location = New System.Drawing.Point(113, 20)
+        Me.TaskWaitMaximum.Maximum = New Decimal(New Integer() {500, 0, 0, 0})
+        Me.TaskWaitMaximum.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.TaskWaitMaximum.Name = "TaskWaitMaximum"
+        Me.TaskWaitMaximum.Size = New System.Drawing.Size(44, 20)
+        Me.TaskWaitMaximum.TabIndex = 187
+        Me.TaskWaitMaximum.Value = New Decimal(New Integer() {6, 0, 0, 0})
+        '
+        'TaskWaitMinimum
+        '
+        Me.TaskWaitMinimum.Location = New System.Drawing.Point(54, 21)
+        Me.TaskWaitMinimum.Minimum = New Decimal(New Integer() {3, 0, 0, 0})
+        Me.TaskWaitMinimum.Name = "TaskWaitMinimum"
+        Me.TaskWaitMinimum.Size = New System.Drawing.Size(44, 20)
+        Me.TaskWaitMinimum.TabIndex = 186
+        Me.TaskWaitMinimum.Value = New Decimal(New Integer() {3, 0, 0, 0})
+        '
+        'Label165
+        '
+        Me.Label165.BackColor = System.Drawing.Color.Transparent
+        Me.Label165.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label165.ForeColor = System.Drawing.Color.Black
+        Me.Label165.Location = New System.Drawing.Point(100, 20)
+        Me.Label165.Name = "Label165"
+        Me.Label165.Size = New System.Drawing.Size(10, 17)
+        Me.Label165.TabIndex = 185
+        Me.Label165.Text = "-"
+        Me.Label165.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label166
+        '
+        Me.Label166.BackColor = System.Drawing.Color.Transparent
+        Me.Label166.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label166.ForeColor = System.Drawing.Color.Black
+        Me.Label166.Location = New System.Drawing.Point(6, 21)
+        Me.Label166.Name = "Label166"
+        Me.Label166.Size = New System.Drawing.Size(49, 17)
+        Me.Label166.TabIndex = 188
+        Me.Label166.Text = "Amount:"
+        Me.Label166.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'RangeSettingsHeaderPanel
+        '
+        Me.RangeSettingsHeaderPanel.BackColor = System.Drawing.Color.Transparent
+        Me.RangeSettingsHeaderPanel.Controls.Add(Me.RangeSettingsLogo)
+        Me.RangeSettingsHeaderPanel.Controls.Add(Me.RangeSettingsHeaderLabel)
+        Me.RangeSettingsHeaderPanel.Dock = System.Windows.Forms.DockStyle.Top
+        Me.RangeSettingsHeaderPanel.Location = New System.Drawing.Point(3, 3)
+        Me.RangeSettingsHeaderPanel.Name = "RangeSettingsHeaderPanel"
+        Me.RangeSettingsHeaderPanel.Size = New System.Drawing.Size(966, 46)
+        Me.RangeSettingsHeaderPanel.TabIndex = 174
+        '
+        'RangeSettingsLogo
+        '
+        Me.RangeSettingsLogo.BackColor = System.Drawing.Color.Transparent
+        Me.RangeSettingsLogo.Dock = System.Windows.Forms.DockStyle.Left
+        Me.RangeSettingsLogo.Image = Global.Tease_AI.My.Resources.Resources.TAI_Banner_small
+        Me.RangeSettingsLogo.Location = New System.Drawing.Point(0, 0)
+        Me.RangeSettingsLogo.Name = "RangeSettingsLogo"
+        Me.RangeSettingsLogo.Size = New System.Drawing.Size(160, 46)
+        Me.RangeSettingsLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
+        Me.RangeSettingsLogo.TabIndex = 166
+        Me.RangeSettingsLogo.TabStop = False
+        '
+        'RangeSettingsHeaderLabel
+        '
+        Me.RangeSettingsHeaderLabel.BackColor = System.Drawing.Color.Transparent
+        Me.RangeSettingsHeaderLabel.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.RangeSettingsHeaderLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RangeSettingsHeaderLabel.ForeColor = System.Drawing.Color.Black
+        Me.RangeSettingsHeaderLabel.Location = New System.Drawing.Point(0, 0)
+        Me.RangeSettingsHeaderLabel.Name = "RangeSettingsHeaderLabel"
+        Me.RangeSettingsHeaderLabel.Size = New System.Drawing.Size(966, 46)
+        Me.RangeSettingsHeaderLabel.TabIndex = 48
+        Me.RangeSettingsHeaderLabel.Text = "Range Settings"
+        Me.RangeSettingsHeaderLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'RangeSettingsDescriptionGroupBox
+        '
+        Me.RangeSettingsDescriptionGroupBox.BackColor = System.Drawing.Color.Transparent
+        Me.RangeSettingsDescriptionGroupBox.Controls.Add(Me.RangeSettingsDescriptionLabel)
+        Me.RangeSettingsDescriptionGroupBox.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.RangeSettingsDescriptionGroupBox.ForeColor = System.Drawing.Color.Black
+        Me.RangeSettingsDescriptionGroupBox.Location = New System.Drawing.Point(3, 551)
+        Me.RangeSettingsDescriptionGroupBox.Name = "RangeSettingsDescriptionGroupBox"
+        Me.RangeSettingsDescriptionGroupBox.Size = New System.Drawing.Size(966, 77)
+        Me.RangeSettingsDescriptionGroupBox.TabIndex = 66
+        Me.RangeSettingsDescriptionGroupBox.TabStop = False
+        Me.RangeSettingsDescriptionGroupBox.Text = "Description"
+        '
+        'RangeSettingsDescriptionLabel
+        '
+        Me.RangeSettingsDescriptionLabel.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.LBLRangeSettingsDescription.BackColor = System.Drawing.Color.Transparent
-        Me.LBLRangeSettingsDescription.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LBLRangeSettingsDescription.ForeColor = System.Drawing.Color.Black
-        Me.LBLRangeSettingsDescription.Location = New System.Drawing.Point(9, 16)
-        Me.LBLRangeSettingsDescription.Name = "LBLRangeSettingsDescription"
-        Me.LBLRangeSettingsDescription.Size = New System.Drawing.Size(209, 62)
-        Me.LBLRangeSettingsDescription.TabIndex = 62
-        Me.LBLRangeSettingsDescription.Text = "Hover over any setting in the menu for a more detailed description of its functio" &
+        Me.RangeSettingsDescriptionLabel.BackColor = System.Drawing.Color.Transparent
+        Me.RangeSettingsDescriptionLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RangeSettingsDescriptionLabel.ForeColor = System.Drawing.Color.Black
+        Me.RangeSettingsDescriptionLabel.Location = New System.Drawing.Point(9, 16)
+        Me.RangeSettingsDescriptionLabel.Name = "RangeSettingsDescriptionLabel"
+        Me.RangeSettingsDescriptionLabel.Size = New System.Drawing.Size(950, 56)
+        Me.RangeSettingsDescriptionLabel.TabIndex = 62
+        Me.RangeSettingsDescriptionLabel.Text = "Hover over any setting in the menu for a more detailed description of its functio" &
     "n."
-        Me.LBLRangeSettingsDescription.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'GBRangeOrgasmChance
-        '
-        Me.GBRangeOrgasmChance.Controls.Add(Me.RarelyAllowsPercentLabel)
-        Me.GBRangeOrgasmChance.Controls.Add(Me.SometimesAllowsPercentNumberBox)
-        Me.GBRangeOrgasmChance.Controls.Add(Me.SometimesAllowsPercentLabel)
-        Me.GBRangeOrgasmChance.Controls.Add(Me.OftenAllowsPercentLabel)
-        Me.GBRangeOrgasmChance.Controls.Add(Me.RarelyAllowsPercentNumberBox)
-        Me.GBRangeOrgasmChance.Controls.Add(Me.OftenAllowsPercentNumberBox)
-        Me.GBRangeOrgasmChance.Controls.Add(Me.DommeDecideOrgasmCheckBox)
-        Me.GBRangeOrgasmChance.Location = New System.Drawing.Point(236, 31)
-        Me.GBRangeOrgasmChance.Name = "GBRangeOrgasmChance"
-        Me.GBRangeOrgasmChance.Size = New System.Drawing.Size(166, 122)
-        Me.GBRangeOrgasmChance.TabIndex = 167
-        Me.GBRangeOrgasmChance.TabStop = False
-        Me.GBRangeOrgasmChance.Text = "Orgasm Chance"
-        '
-        'RarelyAllowsPercentLabel
-        '
-        Me.RarelyAllowsPercentLabel.BackColor = System.Drawing.Color.Transparent
-        Me.RarelyAllowsPercentLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RarelyAllowsPercentLabel.ForeColor = System.Drawing.Color.Black
-        Me.RarelyAllowsPercentLabel.Location = New System.Drawing.Point(6, 94)
-        Me.RarelyAllowsPercentLabel.Name = "RarelyAllowsPercentLabel"
-        Me.RarelyAllowsPercentLabel.Size = New System.Drawing.Size(83, 17)
-        Me.RarelyAllowsPercentLabel.TabIndex = 173
-        Me.RarelyAllowsPercentLabel.Text = "Rarely Allows:"
-        Me.RarelyAllowsPercentLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'SometimesAllowsPercentNumberBox
-        '
-        Me.SometimesAllowsPercentNumberBox.Enabled = False
-        Me.SometimesAllowsPercentNumberBox.Location = New System.Drawing.Point(113, 68)
-        Me.SometimesAllowsPercentNumberBox.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
-        Me.SometimesAllowsPercentNumberBox.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.SometimesAllowsPercentNumberBox.Name = "SometimesAllowsPercentNumberBox"
-        Me.SometimesAllowsPercentNumberBox.Size = New System.Drawing.Size(44, 20)
-        Me.SometimesAllowsPercentNumberBox.TabIndex = 169
-        Me.SometimesAllowsPercentNumberBox.Value = New Decimal(New Integer() {50, 0, 0, 0})
-        '
-        'SometimesAllowsPercentLabel
-        '
-        Me.SometimesAllowsPercentLabel.BackColor = System.Drawing.Color.Transparent
-        Me.SometimesAllowsPercentLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.SometimesAllowsPercentLabel.ForeColor = System.Drawing.Color.Black
-        Me.SometimesAllowsPercentLabel.Location = New System.Drawing.Point(6, 68)
-        Me.SometimesAllowsPercentLabel.Name = "SometimesAllowsPercentLabel"
-        Me.SometimesAllowsPercentLabel.Size = New System.Drawing.Size(102, 17)
-        Me.SometimesAllowsPercentLabel.TabIndex = 172
-        Me.SometimesAllowsPercentLabel.Text = "Sometimes Allows:"
-        Me.SometimesAllowsPercentLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'OftenAllowsPercentLabel
-        '
-        Me.OftenAllowsPercentLabel.BackColor = System.Drawing.Color.Transparent
-        Me.OftenAllowsPercentLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.OftenAllowsPercentLabel.ForeColor = System.Drawing.Color.Black
-        Me.OftenAllowsPercentLabel.Location = New System.Drawing.Point(6, 42)
-        Me.OftenAllowsPercentLabel.Name = "OftenAllowsPercentLabel"
-        Me.OftenAllowsPercentLabel.Size = New System.Drawing.Size(83, 17)
-        Me.OftenAllowsPercentLabel.TabIndex = 171
-        Me.OftenAllowsPercentLabel.Text = "Often Allows:"
-        Me.OftenAllowsPercentLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'RarelyAllowsPercentNumberBox
-        '
-        Me.RarelyAllowsPercentNumberBox.Enabled = False
-        Me.RarelyAllowsPercentNumberBox.Location = New System.Drawing.Point(113, 94)
-        Me.RarelyAllowsPercentNumberBox.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
-        Me.RarelyAllowsPercentNumberBox.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.RarelyAllowsPercentNumberBox.Name = "RarelyAllowsPercentNumberBox"
-        Me.RarelyAllowsPercentNumberBox.Size = New System.Drawing.Size(44, 20)
-        Me.RarelyAllowsPercentNumberBox.TabIndex = 170
-        Me.RarelyAllowsPercentNumberBox.Value = New Decimal(New Integer() {20, 0, 0, 0})
-        '
-        'OftenAllowsPercentNumberBox
-        '
-        Me.OftenAllowsPercentNumberBox.Enabled = False
-        Me.OftenAllowsPercentNumberBox.Location = New System.Drawing.Point(113, 42)
-        Me.OftenAllowsPercentNumberBox.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
-        Me.OftenAllowsPercentNumberBox.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.OftenAllowsPercentNumberBox.Name = "OftenAllowsPercentNumberBox"
-        Me.OftenAllowsPercentNumberBox.Size = New System.Drawing.Size(44, 20)
-        Me.OftenAllowsPercentNumberBox.TabIndex = 168
-        Me.OftenAllowsPercentNumberBox.Value = New Decimal(New Integer() {75, 0, 0, 0})
-        '
-        'DommeDecideOrgasmCheckBox
-        '
-        Me.DommeDecideOrgasmCheckBox.AutoSize = True
-        Me.DommeDecideOrgasmCheckBox.ForeColor = System.Drawing.Color.Black
-        Me.DommeDecideOrgasmCheckBox.Location = New System.Drawing.Point(9, 19)
-        Me.DommeDecideOrgasmCheckBox.Name = "DommeDecideOrgasmCheckBox"
-        Me.DommeDecideOrgasmCheckBox.Size = New System.Drawing.Size(99, 17)
-        Me.DommeDecideOrgasmCheckBox.TabIndex = 159
-        Me.DommeDecideOrgasmCheckBox.Text = "Domme Decide"
-        Me.DommeDecideOrgasmCheckBox.UseVisualStyleBackColor = True
-        '
-        'PictureBox8
-        '
-        Me.PictureBox8.BackColor = System.Drawing.Color.LightGray
-        Me.PictureBox8.Image = Global.Tease_AI.My.Resources.Resources.TAI_Banner_small
-        Me.PictureBox8.Location = New System.Drawing.Point(9, 6)
-        Me.PictureBox8.Name = "PictureBox8"
-        Me.PictureBox8.Size = New System.Drawing.Size(160, 19)
-        Me.PictureBox8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
-        Me.PictureBox8.TabIndex = 166
-        Me.PictureBox8.TabStop = False
-        '
-        'Label38
-        '
-        Me.Label38.BackColor = System.Drawing.Color.Transparent
-        Me.Label38.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label38.ForeColor = System.Drawing.Color.Black
-        Me.Label38.Location = New System.Drawing.Point(7, 6)
-        Me.Label38.Name = "Label38"
-        Me.Label38.Size = New System.Drawing.Size(692, 21)
-        Me.Label38.TabIndex = 48
-        Me.Label38.Text = "Range Settings"
-        Me.Label38.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.RangeSettingsDescriptionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'TabPage13
         '
@@ -14595,15 +14724,13 @@ Partial Class FrmSettings
         Me.GroupBox11.ResumeLayout(False)
         Me.GroupBox1.ResumeLayout(False)
         CType(Me.PBBackgroundPreview, System.ComponentModel.ISupportInitialize).EndInit
-        Me.TabPage4.ResumeLayout(False)
-        Me.Panel6.ResumeLayout(False)
-        Me.GroupBox69.ResumeLayout(False)
-        Me.GroupBox69.PerformLayout
-        CType(Me.TypeSpeedSlider, System.ComponentModel.ISupportInitialize).EndInit
-        Me.GroupBox68.ResumeLayout(False)
-        CType(Me.TaskWaitMaximum, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TaskWaitMinimum, System.ComponentModel.ISupportInitialize).EndInit
-        Me.GroupBox67.ResumeLayout(False)
+        Me.RangeSettingsTabPage.ResumeLayout(False)
+        Me.RangeSettingsBody.ResumeLayout(False)
+        Me.RangeSettingsBodyTablePanel.ResumeLayout(False)
+        Me.RangeSettingsBodyRightColumnPanel.ResumeLayout(False)
+        Me.GroupBox10.ResumeLayout(False)
+        CType(Me.NBNextImageChance, System.ComponentModel.ISupportInitialize).EndInit
+        Me.RangeSettingsGlitterTasksGroupBox.ResumeLayout(False)
         CType(Me.NBTaskCBTTimeMax, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NBTaskCBTTimeMin, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NBTaskEdgeHoldTimeMax, System.ComponentModel.ISupportInitialize).EndInit
@@ -14614,22 +14741,6 @@ Partial Class FrmSettings
         CType(Me.NBTaskStrokingTimeMin, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NBTaskStrokesMax, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NBTaskStrokesMin, System.ComponentModel.ISupportInitialize).EndInit
-        Me.GroupBox10.ResumeLayout(False)
-        CType(Me.NBNextImageChance, System.ComponentModel.ISupportInitialize).EndInit
-        Me.GroupBox57.ResumeLayout(False)
-        Me.GroupBox57.PerformLayout
-        CType(Me.NBTauntEdging, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.SliderSTF, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TauntSlider, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.NBTauntCycleMax, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.NBTauntCycleMin, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.NBTeaseLengthMax, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.NBTeaseLengthMin, System.ComponentModel.ISupportInitialize).EndInit
-        Me.GBRangeRuinChance.ResumeLayout(False)
-        Me.GBRangeRuinChance.PerformLayout
-        CType(Me.NBRuinSometimes, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.NBRuinRarely, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.NBRuinOften, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox17.ResumeLayout(False)
         Me.GroupBox19.ResumeLayout(False)
         CType(Me.NBGreenLightMax, System.ComponentModel.ISupportInitialize).EndInit
@@ -14642,13 +14753,36 @@ Partial Class FrmSettings
         CType(Me.NBCensorHideMax, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NBCensorHideMin, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NBCensorShowMax, System.ComponentModel.ISupportInitialize).EndInit
-        Me.GroupBox21.ResumeLayout(False)
+        Me.RangeSettingsBodyMiddleColumnPanel.ResumeLayout(False)
         Me.GBRangeOrgasmChance.ResumeLayout(False)
         Me.GBRangeOrgasmChance.PerformLayout
         CType(Me.SometimesAllowsPercentNumberBox, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RarelyAllowsPercentNumberBox, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.OftenAllowsPercentNumberBox, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.PictureBox8, System.ComponentModel.ISupportInitialize).EndInit
+        Me.GroupBox69.ResumeLayout(False)
+        Me.GroupBox69.PerformLayout
+        CType(Me.TypeSpeedSlider, System.ComponentModel.ISupportInitialize).EndInit
+        Me.GBRangeRuinChance.ResumeLayout(False)
+        Me.GBRangeRuinChance.PerformLayout
+        CType(Me.NBRuinSometimes, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBRuinRarely, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBRuinOften, System.ComponentModel.ISupportInitialize).EndInit
+        Me.RangeSettingsBodyLeftColumnPanel.ResumeLayout(False)
+        Me.RangeSettingsTeaseGroupBox.ResumeLayout(False)
+        Me.RangeSettingsTeaseGroupBox.PerformLayout
+        CType(Me.NBTauntEdging, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.SliderSTF, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TauntSlider, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBTauntCycleMax, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBTauntCycleMin, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBTeaseLengthMax, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBTeaseLengthMin, System.ComponentModel.ISupportInitialize).EndInit
+        Me.RangeSettingsSessionTasksGroupBox.ResumeLayout(False)
+        CType(Me.TaskWaitMaximum, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TaskWaitMinimum, System.ComponentModel.ISupportInitialize).EndInit
+        Me.RangeSettingsHeaderPanel.ResumeLayout(False)
+        CType(Me.RangeSettingsLogo, System.ComponentModel.ISupportInitialize).EndInit
+        Me.RangeSettingsDescriptionGroupBox.ResumeLayout(False)
         Me.TabPage13.ResumeLayout(False)
         Me.ModSubTab.ResumeLayout(False)
         Me.ModPlaylistTabPage.ResumeLayout(False)
@@ -14865,14 +14999,14 @@ Partial Class FrmSettings
     Friend WithEvents CBVTType As System.Windows.Forms.ComboBox
     Friend WithEvents GroupBox29 As System.Windows.Forms.GroupBox
     Friend WithEvents Label51 As System.Windows.Forms.Label
-    Friend WithEvents TabPage4 As System.Windows.Forms.TabPage
-    Friend WithEvents Panel6 As System.Windows.Forms.Panel
-    Friend WithEvents PictureBox8 As System.Windows.Forms.PictureBox
+    Friend WithEvents RangeSettingsTabPage As System.Windows.Forms.TabPage
+    Friend WithEvents RangeSettingsBody As System.Windows.Forms.Panel
+    Friend WithEvents RangeSettingsLogo As System.Windows.Forms.PictureBox
     Friend WithEvents LBLStf As System.Windows.Forms.Label
     Friend WithEvents Label49 As System.Windows.Forms.Label
     Friend WithEvents SliderSTF As System.Windows.Forms.TrackBar
-    Friend WithEvents GroupBox21 As System.Windows.Forms.GroupBox
-    Friend WithEvents LBLRangeSettingsDescription As System.Windows.Forms.Label
+    Friend WithEvents RangeSettingsDescriptionGroupBox As System.Windows.Forms.GroupBox
+    Friend WithEvents RangeSettingsDescriptionLabel As System.Windows.Forms.Label
     Friend WithEvents GroupBox17 As System.Windows.Forms.GroupBox
     Friend WithEvents GroupBox19 As System.Windows.Forms.GroupBox
     Friend WithEvents NBGreenLightMax As System.Windows.Forms.NumericUpDown
@@ -14893,7 +15027,7 @@ Partial Class FrmSettings
     Friend WithEvents NBCensorShowMin As System.Windows.Forms.NumericUpDown
     Friend WithEvents Label25 As System.Windows.Forms.Label
     Friend WithEvents Label24 As System.Windows.Forms.Label
-    Friend WithEvents Label38 As System.Windows.Forms.Label
+    Friend WithEvents RangeSettingsHeaderLabel As System.Windows.Forms.Label
     Friend WithEvents PNLGlitter As System.Windows.Forms.Panel
     Friend WithEvents GBGlitterD As System.Windows.Forms.GroupBox
     Friend WithEvents BTNGlitterD As System.Windows.Forms.Button
@@ -15107,7 +15241,7 @@ Partial Class FrmSettings
     Friend WithEvents NBRuinRarely As System.Windows.Forms.NumericUpDown
     Friend WithEvents NBRuinOften As System.Windows.Forms.NumericUpDown
     Friend WithEvents DommeDecideRuinCheckBox As System.Windows.Forms.CheckBox
-    Friend WithEvents GroupBox57 As System.Windows.Forms.GroupBox
+    Friend WithEvents RangeSettingsTeaseGroupBox As System.Windows.Forms.GroupBox
     Friend WithEvents LBLSafeword As System.Windows.Forms.Label
     Friend WithEvents TBSafeword As System.Windows.Forms.TextBox
     Friend WithEvents TabPage20 As System.Windows.Forms.TabPage
@@ -15456,7 +15590,7 @@ Partial Class FrmSettings
     Friend WithEvents GroupBox66 As System.Windows.Forms.GroupBox
     Friend WithEvents PBURLPreview As System.Windows.Forms.PictureBox
     Friend WithEvents PreviewRemoteImagesCheckBox As System.Windows.Forms.CheckBox
-    Friend WithEvents GroupBox67 As System.Windows.Forms.GroupBox
+    Friend WithEvents RangeSettingsGlitterTasksGroupBox As System.Windows.Forms.GroupBox
     Friend WithEvents Label151 As System.Windows.Forms.Label
     Friend WithEvents NBTaskStrokingTimeMax As System.Windows.Forms.NumericUpDown
     Friend WithEvents NBTaskStrokingTimeMin As System.Windows.Forms.NumericUpDown
@@ -15482,7 +15616,7 @@ Partial Class FrmSettings
     Friend WithEvents Label160 As System.Windows.Forms.Label
     Friend WithEvents BtnImportSettings As Button
     Friend WithEvents LblImportSettings As Label
-    Friend WithEvents GroupBox68 As System.Windows.Forms.GroupBox
+    Friend WithEvents RangeSettingsSessionTasksGroupBox As System.Windows.Forms.GroupBox
     Friend WithEvents TaskWaitMaximum As System.Windows.Forms.NumericUpDown
     Friend WithEvents TaskWaitMinimum As System.Windows.Forms.NumericUpDown
     Friend WithEvents Label165 As System.Windows.Forms.Label
@@ -15763,4 +15897,9 @@ Partial Class FrmSettings
     Friend WithEvents VideoLayoutTable As TableLayoutPanel
     Friend WithEvents VideoGeneralPanel As Panel
     Friend WithEvents VideoDommePanel As Panel
+    Friend WithEvents RangeSettingsHeaderPanel As Panel
+    Friend WithEvents RangeSettingsBodyTablePanel As TableLayoutPanel
+    Friend WithEvents RangeSettingsBodyRightColumnPanel As Panel
+    Friend WithEvents RangeSettingsBodyMiddleColumnPanel As Panel
+    Friend WithEvents RangeSettingsBodyLeftColumnPanel As Panel
 End Class
