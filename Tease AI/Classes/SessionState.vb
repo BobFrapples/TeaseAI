@@ -237,6 +237,7 @@ Public Class SessionState
     <Category("Video")> Public Property DommeVideo As Boolean
     <Category("Video")> Public Property JumpVideo As Boolean
     <Category("Video")> Public Property NoSpecialVideo As Boolean
+    <Obsolete("STOP", True)>
     <Category("Video")> Public Property RandomizerVideo As Boolean
     <Category("Video")> Public Property RandomizerVideoTease As Boolean
     <Category("Video")> Public Property ScriptVideoTease As String

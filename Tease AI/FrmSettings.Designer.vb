@@ -569,12 +569,52 @@ Partial Class FrmSettings
         Me.WebPictureBox = New System.Windows.Forms.PictureBox()
         Me.ImageBlogs = New System.Windows.Forms.Label()
         Me.TpVideoSettings = New System.Windows.Forms.TabPage()
-        Me.PnlVideoSettings = New System.Windows.Forms.Panel()
-        Me.PbBannerVideoSettings = New System.Windows.Forms.PictureBox()
-        Me.BTNRefreshVideos = New System.Windows.Forms.Button()
-        Me.GbxVideoGeneralD = New System.Windows.Forms.GroupBox()
-        Me.LblVideoGeneralTotalD = New System.Windows.Forms.Label()
-        Me.TxbVideoGeneralD = New System.Windows.Forms.TextBox()
+        Me.VideoSettingsPanel = New System.Windows.Forms.Panel()
+        Me.VideoLayoutTable = New System.Windows.Forms.TableLayoutPanel()
+        Me.VideoGeneralPanel = New System.Windows.Forms.Panel()
+        Me.VideoGeneralGroupBox = New System.Windows.Forms.GroupBox()
+        Me.LblVideoGeneralTotal = New System.Windows.Forms.Label()
+        Me.TxbVideoGeneral = New System.Windows.Forms.TextBox()
+        Me.BTNVideoGeneral = New System.Windows.Forms.Button()
+        Me.CBVideoGeneral = New System.Windows.Forms.CheckBox()
+        Me.VideoSpecialGroupBox = New System.Windows.Forms.GroupBox()
+        Me.LblVideoCHTotal = New System.Windows.Forms.Label()
+        Me.LblVideoJOITotal = New System.Windows.Forms.Label()
+        Me.TxbVideoCH = New System.Windows.Forms.TextBox()
+        Me.TxbVideoJOI = New System.Windows.Forms.TextBox()
+        Me.BTNVideoCH = New System.Windows.Forms.Button()
+        Me.BTNVideoJOI = New System.Windows.Forms.Button()
+        Me.CBVideoJOI = New System.Windows.Forms.CheckBox()
+        Me.CBVideoCH = New System.Windows.Forms.CheckBox()
+        Me.VideoGenreGroupBox = New System.Windows.Forms.GroupBox()
+        Me.LblVideoFemsubTotal = New System.Windows.Forms.Label()
+        Me.TxbVideoFemsub = New System.Windows.Forms.TextBox()
+        Me.LblVideoFemdomTotal = New System.Windows.Forms.Label()
+        Me.TxbVideoFemdom = New System.Windows.Forms.TextBox()
+        Me.TxbVideoBlowjob = New System.Windows.Forms.TextBox()
+        Me.LblVideoBlowjobTotal = New System.Windows.Forms.Label()
+        Me.TxbVideoLesbian = New System.Windows.Forms.TextBox()
+        Me.TxbVideoSoftCore = New System.Windows.Forms.TextBox()
+        Me.LblVideoLesbianTotal = New System.Windows.Forms.Label()
+        Me.VideoHardCorePathTextBox = New System.Windows.Forms.TextBox()
+        Me.BTNVideoFemSub = New System.Windows.Forms.Button()
+        Me.LblVideoSoftCoreTotal = New System.Windows.Forms.Label()
+        Me.BTNVideoFemDom = New System.Windows.Forms.Button()
+        Me.BTNVideoBlowjob = New System.Windows.Forms.Button()
+        Me.LblVideoHardCoreTotal = New System.Windows.Forms.Label()
+        Me.BTNVideoLesbian = New System.Windows.Forms.Button()
+        Me.BTNVideoSoftCore = New System.Windows.Forms.Button()
+        Me.VideoSetHardcorePathButton = New System.Windows.Forms.Button()
+        Me.VideoEnableHardcoreCheckBox = New System.Windows.Forms.CheckBox()
+        Me.VideoEnableSoftcoreCheckBox = New System.Windows.Forms.CheckBox()
+        Me.CBVideoLesbian = New System.Windows.Forms.CheckBox()
+        Me.CBVideoBlowjob = New System.Windows.Forms.CheckBox()
+        Me.CBVideoFemsub = New System.Windows.Forms.CheckBox()
+        Me.CBVideoFemdom = New System.Windows.Forms.CheckBox()
+        Me.VideoDommePanel = New System.Windows.Forms.Panel()
+        Me.VideoDommeGeneralGroupBox = New System.Windows.Forms.GroupBox()
+        Me.VideoTotalDommeGeneral = New System.Windows.Forms.Label()
+        Me.VideoDommeGeneralPathTextBox = New System.Windows.Forms.TextBox()
         Me.BTNVideoGeneralD = New System.Windows.Forms.Button()
         Me.CBVideoGeneralD = New System.Windows.Forms.CheckBox()
         Me.GbxVideoSpecialD = New System.Windows.Forms.GroupBox()
@@ -611,48 +651,12 @@ Partial Class FrmSettings
         Me.CBVideoBlowjobD = New System.Windows.Forms.CheckBox()
         Me.CBVideoFemsubD = New System.Windows.Forms.CheckBox()
         Me.CBVideoFemdomD = New System.Windows.Forms.CheckBox()
-        Me.GbxVideoDescription = New System.Windows.Forms.GroupBox()
+        Me.VideoHeaderPanel = New System.Windows.Forms.Panel()
+        Me.VideoHeaderLabel = New System.Windows.Forms.Label()
+        Me.VideoRefreshButton = New System.Windows.Forms.Button()
+        Me.VideoLogo = New System.Windows.Forms.PictureBox()
+        Me.VideoDescriptionGroupBox = New System.Windows.Forms.GroupBox()
         Me.VideoDescriptionLabel = New System.Windows.Forms.Label()
-        Me.GbxVideoGeneral = New System.Windows.Forms.GroupBox()
-        Me.LblVideoGeneralTotal = New System.Windows.Forms.Label()
-        Me.TxbVideoGeneral = New System.Windows.Forms.TextBox()
-        Me.BTNVideoGeneral = New System.Windows.Forms.Button()
-        Me.CBVideoGeneral = New System.Windows.Forms.CheckBox()
-        Me.GbxVideoSpecial = New System.Windows.Forms.GroupBox()
-        Me.LblVideoCHTotal = New System.Windows.Forms.Label()
-        Me.LblVideoJOITotal = New System.Windows.Forms.Label()
-        Me.TxbVideoCH = New System.Windows.Forms.TextBox()
-        Me.TxbVideoJOI = New System.Windows.Forms.TextBox()
-        Me.BTNVideoCH = New System.Windows.Forms.Button()
-        Me.BTNVideoJOI = New System.Windows.Forms.Button()
-        Me.CBVideoJOI = New System.Windows.Forms.CheckBox()
-        Me.CBVideoCH = New System.Windows.Forms.CheckBox()
-        Me.GbxVideoGenre = New System.Windows.Forms.GroupBox()
-        Me.LblVideoFemsubTotal = New System.Windows.Forms.Label()
-        Me.TxbVideoFemsub = New System.Windows.Forms.TextBox()
-        Me.LblVideoFemdomTotal = New System.Windows.Forms.Label()
-        Me.TxbVideoFemdom = New System.Windows.Forms.TextBox()
-        Me.TxbVideoBlowjob = New System.Windows.Forms.TextBox()
-        Me.LblVideoBlowjobTotal = New System.Windows.Forms.Label()
-        Me.TxbVideoLesbian = New System.Windows.Forms.TextBox()
-        Me.TxbVideoSoftCore = New System.Windows.Forms.TextBox()
-        Me.LblVideoLesbianTotal = New System.Windows.Forms.Label()
-        Me.TxbVideoHardCore = New System.Windows.Forms.TextBox()
-        Me.BTNVideoFemSub = New System.Windows.Forms.Button()
-        Me.LblVideoSoftCoreTotal = New System.Windows.Forms.Label()
-        Me.BTNVideoFemDom = New System.Windows.Forms.Button()
-        Me.BTNVideoBlowjob = New System.Windows.Forms.Button()
-        Me.LblVideoHardCoreTotal = New System.Windows.Forms.Label()
-        Me.BTNVideoLesbian = New System.Windows.Forms.Button()
-        Me.BTNVideoSoftCore = New System.Windows.Forms.Button()
-        Me.BTNVideoHardCore = New System.Windows.Forms.Button()
-        Me.CBVideoHardcore = New System.Windows.Forms.CheckBox()
-        Me.CBVideoSoftCore = New System.Windows.Forms.CheckBox()
-        Me.CBVideoLesbian = New System.Windows.Forms.CheckBox()
-        Me.CBVideoBlowjob = New System.Windows.Forms.CheckBox()
-        Me.CBVideoFemsub = New System.Windows.Forms.CheckBox()
-        Me.CBVideoFemdom = New System.Windows.Forms.CheckBox()
-        Me.LblVideoHeader = New System.Windows.Forms.Label()
         Me.TabPage20 = New System.Windows.Forms.TabPage()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage22 = New System.Windows.Forms.TabPage()
@@ -1083,7 +1087,6 @@ Partial Class FrmSettings
         Me.Label41 = New System.Windows.Forms.Label()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.GetColor = New System.Windows.Forms.ColorDialog()
-        Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.WebImageFileDialog = New System.Windows.Forms.OpenFileDialog()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.OpenScriptDialog = New System.Windows.Forms.OpenFileDialog()
@@ -1206,15 +1209,19 @@ Partial Class FrmSettings
         CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.WebPictureBox, System.ComponentModel.ISupportInitialize).BeginInit
         Me.TpVideoSettings.SuspendLayout
-        Me.PnlVideoSettings.SuspendLayout
-        CType(Me.PbBannerVideoSettings, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.GbxVideoGeneralD.SuspendLayout
+        Me.VideoSettingsPanel.SuspendLayout
+        Me.VideoLayoutTable.SuspendLayout
+        Me.VideoGeneralPanel.SuspendLayout
+        Me.VideoGeneralGroupBox.SuspendLayout
+        Me.VideoSpecialGroupBox.SuspendLayout
+        Me.VideoGenreGroupBox.SuspendLayout
+        Me.VideoDommePanel.SuspendLayout
+        Me.VideoDommeGeneralGroupBox.SuspendLayout
         Me.GbxVideoSpecialD.SuspendLayout
         Me.GbxVideoGenreD.SuspendLayout
-        Me.GbxVideoDescription.SuspendLayout
-        Me.GbxVideoGeneral.SuspendLayout
-        Me.GbxVideoSpecial.SuspendLayout
-        Me.GbxVideoGenre.SuspendLayout
+        Me.VideoHeaderPanel.SuspendLayout
+        CType(Me.VideoLogo, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.VideoDescriptionGroupBox.SuspendLayout
         Me.TabPage20.SuspendLayout
         Me.TabControl1.SuspendLayout
         Me.TabPage22.SuspendLayout
@@ -2683,7 +2690,7 @@ Partial Class FrmSettings
         Me.TBDomHairColor.TabIndex = 153
         Me.TBDomHairColor.Text = "brown"
         '
-        'domageNumBox
+        'DomAgeNumberBox
         '
         Me.DomAgeNumberBox.BackColor = System.Drawing.Color.White
         Me.DomAgeNumberBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
@@ -2692,7 +2699,7 @@ Partial Class FrmSettings
         Me.DomAgeNumberBox.Location = New System.Drawing.Point(73, 61)
         Me.DomAgeNumberBox.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
         Me.DomAgeNumberBox.Minimum = New Decimal(New Integer() {18, 0, 0, 0})
-        Me.DomAgeNumberBox.Name = "domageNumBox"
+        Me.DomAgeNumberBox.Name = "DomAgeNumberBox"
         Me.DomAgeNumberBox.Size = New System.Drawing.Size(38, 20)
         Me.DomAgeNumberBox.TabIndex = 27
         Me.DomAgeNumberBox.Value = New Decimal(New Integer() {21, 0, 0, 0})
@@ -8255,7 +8262,7 @@ Partial Class FrmSettings
         'TpVideoSettings
         '
         Me.TpVideoSettings.BackColor = System.Drawing.Color.Silver
-        Me.TpVideoSettings.Controls.Add(Me.PnlVideoSettings)
+        Me.TpVideoSettings.Controls.Add(Me.VideoSettingsPanel)
         Me.TpVideoSettings.Location = New System.Drawing.Point(4, 22)
         Me.TpVideoSettings.Name = "TpVideoSettings"
         Me.TpVideoSettings.Padding = New System.Windows.Forms.Padding(6)
@@ -8263,95 +8270,629 @@ Partial Class FrmSettings
         Me.TpVideoSettings.TabIndex = 2
         Me.TpVideoSettings.Text = "Video"
         '
-        'PnlVideoSettings
+        'VideoSettingsPanel
         '
-        Me.PnlVideoSettings.BackColor = System.Drawing.Color.LightGray
-        Me.PnlVideoSettings.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PnlVideoSettings.Controls.Add(Me.PbBannerVideoSettings)
-        Me.PnlVideoSettings.Controls.Add(Me.BTNRefreshVideos)
-        Me.PnlVideoSettings.Controls.Add(Me.GbxVideoGeneralD)
-        Me.PnlVideoSettings.Controls.Add(Me.GbxVideoSpecialD)
-        Me.PnlVideoSettings.Controls.Add(Me.GbxVideoGenreD)
-        Me.PnlVideoSettings.Controls.Add(Me.GbxVideoDescription)
-        Me.PnlVideoSettings.Controls.Add(Me.GbxVideoGeneral)
-        Me.PnlVideoSettings.Controls.Add(Me.GbxVideoSpecial)
-        Me.PnlVideoSettings.Controls.Add(Me.GbxVideoGenre)
-        Me.PnlVideoSettings.Controls.Add(Me.LblVideoHeader)
-        Me.PnlVideoSettings.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.PnlVideoSettings.Location = New System.Drawing.Point(6, 6)
-        Me.PnlVideoSettings.Margin = New System.Windows.Forms.Padding(6)
-        Me.PnlVideoSettings.Name = "PnlVideoSettings"
-        Me.PnlVideoSettings.Size = New System.Drawing.Size(960, 619)
-        Me.PnlVideoSettings.TabIndex = 92
+        Me.VideoSettingsPanel.BackColor = System.Drawing.Color.LightGray
+        Me.VideoSettingsPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.VideoSettingsPanel.Controls.Add(Me.VideoLayoutTable)
+        Me.VideoSettingsPanel.Controls.Add(Me.VideoHeaderPanel)
+        Me.VideoSettingsPanel.Controls.Add(Me.VideoDescriptionGroupBox)
+        Me.VideoSettingsPanel.Location = New System.Drawing.Point(6, 6)
+        Me.VideoSettingsPanel.Margin = New System.Windows.Forms.Padding(6)
+        Me.VideoSettingsPanel.Name = "VideoSettingsPanel"
+        Me.VideoSettingsPanel.Size = New System.Drawing.Size(960, 619)
+        Me.VideoSettingsPanel.TabIndex = 92
         '
-        'PbBannerVideoSettings
+        'VideoLayoutTable
         '
-        Me.PbBannerVideoSettings.BackColor = System.Drawing.Color.LightGray
-        Me.PbBannerVideoSettings.Image = Global.Tease_AI.My.Resources.Resources.TAI_Banner_small
-        Me.PbBannerVideoSettings.Location = New System.Drawing.Point(9, 6)
-        Me.PbBannerVideoSettings.Name = "PbBannerVideoSettings"
-        Me.PbBannerVideoSettings.Size = New System.Drawing.Size(160, 19)
-        Me.PbBannerVideoSettings.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
-        Me.PbBannerVideoSettings.TabIndex = 151
-        Me.PbBannerVideoSettings.TabStop = False
+        Me.VideoLayoutTable.BackColor = System.Drawing.Color.Transparent
+        Me.VideoLayoutTable.ColumnCount = 2
+        Me.VideoLayoutTable.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.VideoLayoutTable.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.VideoLayoutTable.Controls.Add(Me.VideoGeneralPanel, 0, 0)
+        Me.VideoLayoutTable.Controls.Add(Me.VideoDommePanel, 1, 0)
+        Me.VideoLayoutTable.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.VideoLayoutTable.Location = New System.Drawing.Point(0, 46)
+        Me.VideoLayoutTable.Name = "VideoLayoutTable"
+        Me.VideoLayoutTable.RowCount = 1
+        Me.VideoLayoutTable.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.VideoLayoutTable.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.VideoLayoutTable.Size = New System.Drawing.Size(958, 479)
+        Me.VideoLayoutTable.TabIndex = 153
         '
-        'BTNRefreshVideos
+        'VideoGeneralPanel
         '
-        Me.BTNRefreshVideos.BackColor = System.Drawing.Color.LightGray
-        Me.BTNRefreshVideos.BackgroundImage = Global.Tease_AI.My.Resources.Resources.Button_Refresh
-        Me.BTNRefreshVideos.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
-        Me.BTNRefreshVideos.FlatAppearance.BorderSize = 0
-        Me.BTNRefreshVideos.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray
-        Me.BTNRefreshVideos.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver
-        Me.BTNRefreshVideos.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BTNRefreshVideos.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BTNRefreshVideos.ForeColor = System.Drawing.Color.Black
-        Me.BTNRefreshVideos.Location = New System.Drawing.Point(671, 6)
-        Me.BTNRefreshVideos.Name = "BTNRefreshVideos"
-        Me.BTNRefreshVideos.Size = New System.Drawing.Size(30, 26)
-        Me.BTNRefreshVideos.TabIndex = 149
-        Me.BTNRefreshVideos.UseVisualStyleBackColor = False
+        Me.VideoGeneralPanel.BackColor = System.Drawing.Color.Transparent
+        Me.VideoGeneralPanel.Controls.Add(Me.VideoGeneralGroupBox)
+        Me.VideoGeneralPanel.Controls.Add(Me.VideoSpecialGroupBox)
+        Me.VideoGeneralPanel.Controls.Add(Me.VideoGenreGroupBox)
+        Me.VideoGeneralPanel.Dock = System.Windows.Forms.DockStyle.Top
+        Me.VideoGeneralPanel.Location = New System.Drawing.Point(3, 3)
+        Me.VideoGeneralPanel.Name = "VideoGeneralPanel"
+        Me.VideoGeneralPanel.Size = New System.Drawing.Size(473, 307)
+        Me.VideoGeneralPanel.TabIndex = 0
         '
-        'GbxVideoGeneralD
+        'VideoGeneralGroupBox
         '
-        Me.GbxVideoGeneralD.BackColor = System.Drawing.Color.LightGray
-        Me.GbxVideoGeneralD.Controls.Add(Me.LblVideoGeneralTotalD)
-        Me.GbxVideoGeneralD.Controls.Add(Me.TxbVideoGeneralD)
-        Me.GbxVideoGeneralD.Controls.Add(Me.BTNVideoGeneralD)
-        Me.GbxVideoGeneralD.Controls.Add(Me.CBVideoGeneralD)
-        Me.GbxVideoGeneralD.ForeColor = System.Drawing.Color.Black
-        Me.GbxVideoGeneralD.Location = New System.Drawing.Point(359, 277)
-        Me.GbxVideoGeneralD.Name = "GbxVideoGeneralD"
-        Me.GbxVideoGeneralD.Size = New System.Drawing.Size(340, 48)
-        Me.GbxVideoGeneralD.TabIndex = 5
-        Me.GbxVideoGeneralD.TabStop = False
-        Me.GbxVideoGeneralD.Text = "Domme General"
+        Me.VideoGeneralGroupBox.BackColor = System.Drawing.Color.Transparent
+        Me.VideoGeneralGroupBox.Controls.Add(Me.LblVideoGeneralTotal)
+        Me.VideoGeneralGroupBox.Controls.Add(Me.TxbVideoGeneral)
+        Me.VideoGeneralGroupBox.Controls.Add(Me.BTNVideoGeneral)
+        Me.VideoGeneralGroupBox.Controls.Add(Me.CBVideoGeneral)
+        Me.VideoGeneralGroupBox.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.VideoGeneralGroupBox.ForeColor = System.Drawing.Color.Black
+        Me.VideoGeneralGroupBox.Location = New System.Drawing.Point(0, 235)
+        Me.VideoGeneralGroupBox.Name = "VideoGeneralGroupBox"
+        Me.VideoGeneralGroupBox.Size = New System.Drawing.Size(473, 72)
+        Me.VideoGeneralGroupBox.TabIndex = 2
+        Me.VideoGeneralGroupBox.TabStop = False
+        Me.VideoGeneralGroupBox.Text = "General"
         '
-        'LblVideoGeneralTotalD
+        'LblVideoGeneralTotal
         '
-        Me.LblVideoGeneralTotalD.BackColor = System.Drawing.Color.Transparent
-        Me.LblVideoGeneralTotalD.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblVideoGeneralTotalD.ForeColor = System.Drawing.Color.Black
-        Me.LblVideoGeneralTotalD.Location = New System.Drawing.Point(299, 19)
-        Me.LblVideoGeneralTotalD.Name = "LblVideoGeneralTotalD"
-        Me.LblVideoGeneralTotalD.Size = New System.Drawing.Size(34, 17)
-        Me.LblVideoGeneralTotalD.TabIndex = 3
-        Me.LblVideoGeneralTotalD.Text = "0"
-        Me.LblVideoGeneralTotalD.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.LblVideoGeneralTotal.BackColor = System.Drawing.Color.Transparent
+        Me.LblVideoGeneralTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblVideoGeneralTotal.ForeColor = System.Drawing.Color.Black
+        Me.LblVideoGeneralTotal.Location = New System.Drawing.Point(424, 22)
+        Me.LblVideoGeneralTotal.Name = "LblVideoGeneralTotal"
+        Me.LblVideoGeneralTotal.Size = New System.Drawing.Size(34, 17)
+        Me.LblVideoGeneralTotal.TabIndex = 3
+        Me.LblVideoGeneralTotal.Text = "0"
+        Me.LblVideoGeneralTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'TxbVideoGeneralD
+        'TxbVideoGeneral
         '
-        Me.TxbVideoGeneralD.BackColor = System.Drawing.Color.LightGray
-        Me.TxbVideoGeneralD.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxbVideoGeneralD.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxbVideoGeneralD.ForeColor = System.Drawing.Color.Black
-        Me.TxbVideoGeneralD.Location = New System.Drawing.Point(113, 18)
-        Me.TxbVideoGeneralD.MaximumSize = New System.Drawing.Size(2, 17)
-        Me.TxbVideoGeneralD.MinimumSize = New System.Drawing.Size(180, 17)
-        Me.TxbVideoGeneralD.Name = "TxbVideoGeneralD"
-        Me.TxbVideoGeneralD.ReadOnly = True
-        Me.TxbVideoGeneralD.Size = New System.Drawing.Size(180, 17)
-        Me.TxbVideoGeneralD.TabIndex = 2
+        Me.TxbVideoGeneral.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TxbVideoGeneral.BackColor = System.Drawing.Color.LightGray
+        Me.TxbVideoGeneral.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxbVideoGeneral.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxbVideoGeneral.ForeColor = System.Drawing.Color.Black
+        Me.TxbVideoGeneral.Location = New System.Drawing.Point(113, 19)
+        Me.TxbVideoGeneral.MinimumSize = New System.Drawing.Size(180, 17)
+        Me.TxbVideoGeneral.Name = "TxbVideoGeneral"
+        Me.TxbVideoGeneral.ReadOnly = True
+        Me.TxbVideoGeneral.Size = New System.Drawing.Size(305, 20)
+        Me.TxbVideoGeneral.TabIndex = 2
+        '
+        'BTNVideoGeneral
+        '
+        Me.BTNVideoGeneral.BackColor = System.Drawing.Color.LightGray
+        Me.BTNVideoGeneral.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
+        Me.BTNVideoGeneral.ForeColor = System.Drawing.Color.Black
+        Me.BTNVideoGeneral.Location = New System.Drawing.Point(73, 13)
+        Me.BTNVideoGeneral.Name = "BTNVideoGeneral"
+        Me.BTNVideoGeneral.Size = New System.Drawing.Size(34, 28)
+        Me.BTNVideoGeneral.TabIndex = 1
+        Me.BTNVideoGeneral.Text = "1"
+        Me.BTNVideoGeneral.UseVisualStyleBackColor = False
+        '
+        'CBVideoGeneral
+        '
+        Me.CBVideoGeneral.AutoSize = True
+        Me.CBVideoGeneral.ForeColor = System.Drawing.Color.Black
+        Me.CBVideoGeneral.Location = New System.Drawing.Point(6, 19)
+        Me.CBVideoGeneral.Name = "CBVideoGeneral"
+        Me.CBVideoGeneral.Size = New System.Drawing.Size(63, 17)
+        Me.CBVideoGeneral.TabIndex = 0
+        Me.CBVideoGeneral.Text = "General"
+        Me.CBVideoGeneral.UseVisualStyleBackColor = True
+        '
+        'VideoSpecialGroupBox
+        '
+        Me.VideoSpecialGroupBox.BackColor = System.Drawing.Color.Transparent
+        Me.VideoSpecialGroupBox.Controls.Add(Me.LblVideoCHTotal)
+        Me.VideoSpecialGroupBox.Controls.Add(Me.LblVideoJOITotal)
+        Me.VideoSpecialGroupBox.Controls.Add(Me.TxbVideoCH)
+        Me.VideoSpecialGroupBox.Controls.Add(Me.TxbVideoJOI)
+        Me.VideoSpecialGroupBox.Controls.Add(Me.BTNVideoCH)
+        Me.VideoSpecialGroupBox.Controls.Add(Me.BTNVideoJOI)
+        Me.VideoSpecialGroupBox.Controls.Add(Me.CBVideoJOI)
+        Me.VideoSpecialGroupBox.Controls.Add(Me.CBVideoCH)
+        Me.VideoSpecialGroupBox.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.VideoSpecialGroupBox.ForeColor = System.Drawing.Color.Black
+        Me.VideoSpecialGroupBox.Location = New System.Drawing.Point(0, 165)
+        Me.VideoSpecialGroupBox.Name = "VideoSpecialGroupBox"
+        Me.VideoSpecialGroupBox.Size = New System.Drawing.Size(473, 142)
+        Me.VideoSpecialGroupBox.TabIndex = 1
+        Me.VideoSpecialGroupBox.TabStop = False
+        Me.VideoSpecialGroupBox.Text = "Special"
+        '
+        'LblVideoCHTotal
+        '
+        Me.LblVideoCHTotal.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.LblVideoCHTotal.BackColor = System.Drawing.Color.Transparent
+        Me.LblVideoCHTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblVideoCHTotal.ForeColor = System.Drawing.Color.Black
+        Me.LblVideoCHTotal.Location = New System.Drawing.Point(424, 35)
+        Me.LblVideoCHTotal.Name = "LblVideoCHTotal"
+        Me.LblVideoCHTotal.Size = New System.Drawing.Size(34, 17)
+        Me.LblVideoCHTotal.TabIndex = 7
+        Me.LblVideoCHTotal.Text = "0"
+        Me.LblVideoCHTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'LblVideoJOITotal
+        '
+        Me.LblVideoJOITotal.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.LblVideoJOITotal.BackColor = System.Drawing.Color.Transparent
+        Me.LblVideoJOITotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblVideoJOITotal.ForeColor = System.Drawing.Color.Black
+        Me.LblVideoJOITotal.Location = New System.Drawing.Point(424, 12)
+        Me.LblVideoJOITotal.Name = "LblVideoJOITotal"
+        Me.LblVideoJOITotal.Size = New System.Drawing.Size(34, 17)
+        Me.LblVideoJOITotal.TabIndex = 3
+        Me.LblVideoJOITotal.Text = "0"
+        Me.LblVideoJOITotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'TxbVideoCH
+        '
+        Me.TxbVideoCH.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TxbVideoCH.BackColor = System.Drawing.Color.LightGray
+        Me.TxbVideoCH.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxbVideoCH.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxbVideoCH.ForeColor = System.Drawing.Color.Black
+        Me.TxbVideoCH.Location = New System.Drawing.Point(113, 32)
+        Me.TxbVideoCH.MinimumSize = New System.Drawing.Size(180, 17)
+        Me.TxbVideoCH.Name = "TxbVideoCH"
+        Me.TxbVideoCH.ReadOnly = True
+        Me.TxbVideoCH.Size = New System.Drawing.Size(307, 20)
+        Me.TxbVideoCH.TabIndex = 6
+        '
+        'TxbVideoJOI
+        '
+        Me.TxbVideoJOI.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TxbVideoJOI.BackColor = System.Drawing.Color.LightGray
+        Me.TxbVideoJOI.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxbVideoJOI.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxbVideoJOI.ForeColor = System.Drawing.Color.Black
+        Me.TxbVideoJOI.Location = New System.Drawing.Point(113, 9)
+        Me.TxbVideoJOI.MinimumSize = New System.Drawing.Size(180, 17)
+        Me.TxbVideoJOI.Name = "TxbVideoJOI"
+        Me.TxbVideoJOI.ReadOnly = True
+        Me.TxbVideoJOI.Size = New System.Drawing.Size(307, 20)
+        Me.TxbVideoJOI.TabIndex = 2
+        '
+        'BTNVideoCH
+        '
+        Me.BTNVideoCH.BackColor = System.Drawing.Color.LightGray
+        Me.BTNVideoCH.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
+        Me.BTNVideoCH.ForeColor = System.Drawing.Color.Black
+        Me.BTNVideoCH.Location = New System.Drawing.Point(67, 29)
+        Me.BTNVideoCH.Name = "BTNVideoCH"
+        Me.BTNVideoCH.Size = New System.Drawing.Size(34, 28)
+        Me.BTNVideoCH.TabIndex = 5
+        Me.BTNVideoCH.Text = "1"
+        Me.BTNVideoCH.UseVisualStyleBackColor = False
+        '
+        'BTNVideoJOI
+        '
+        Me.BTNVideoJOI.BackColor = System.Drawing.Color.LightGray
+        Me.BTNVideoJOI.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
+        Me.BTNVideoJOI.ForeColor = System.Drawing.Color.Black
+        Me.BTNVideoJOI.Location = New System.Drawing.Point(67, 6)
+        Me.BTNVideoJOI.Name = "BTNVideoJOI"
+        Me.BTNVideoJOI.Size = New System.Drawing.Size(34, 28)
+        Me.BTNVideoJOI.TabIndex = 1
+        Me.BTNVideoJOI.Text = "1"
+        Me.BTNVideoJOI.UseVisualStyleBackColor = False
+        '
+        'CBVideoJOI
+        '
+        Me.CBVideoJOI.AutoSize = True
+        Me.CBVideoJOI.ForeColor = System.Drawing.Color.Black
+        Me.CBVideoJOI.Location = New System.Drawing.Point(6, 13)
+        Me.CBVideoJOI.Name = "CBVideoJOI"
+        Me.CBVideoJOI.Size = New System.Drawing.Size(42, 17)
+        Me.CBVideoJOI.TabIndex = 0
+        Me.CBVideoJOI.Text = "JOI"
+        Me.TTDir.SetToolTip(Me.CBVideoJOI, "Jerk Off Instructions")
+        Me.CBVideoJOI.UseVisualStyleBackColor = True
+        '
+        'CBVideoCH
+        '
+        Me.CBVideoCH.AutoSize = True
+        Me.CBVideoCH.ForeColor = System.Drawing.Color.Black
+        Me.CBVideoCH.Location = New System.Drawing.Point(6, 37)
+        Me.CBVideoCH.Name = "CBVideoCH"
+        Me.CBVideoCH.Size = New System.Drawing.Size(41, 17)
+        Me.CBVideoCH.TabIndex = 4
+        Me.CBVideoCH.Text = "CH"
+        Me.TTDir.SetToolTip(Me.CBVideoCH, "Cock Hero")
+        Me.CBVideoCH.UseVisualStyleBackColor = True
+        '
+        'VideoGenreGroupBox
+        '
+        Me.VideoGenreGroupBox.BackColor = System.Drawing.Color.Transparent
+        Me.VideoGenreGroupBox.Controls.Add(Me.LblVideoFemsubTotal)
+        Me.VideoGenreGroupBox.Controls.Add(Me.TxbVideoFemsub)
+        Me.VideoGenreGroupBox.Controls.Add(Me.LblVideoFemdomTotal)
+        Me.VideoGenreGroupBox.Controls.Add(Me.TxbVideoFemdom)
+        Me.VideoGenreGroupBox.Controls.Add(Me.TxbVideoBlowjob)
+        Me.VideoGenreGroupBox.Controls.Add(Me.LblVideoBlowjobTotal)
+        Me.VideoGenreGroupBox.Controls.Add(Me.TxbVideoLesbian)
+        Me.VideoGenreGroupBox.Controls.Add(Me.TxbVideoSoftCore)
+        Me.VideoGenreGroupBox.Controls.Add(Me.LblVideoLesbianTotal)
+        Me.VideoGenreGroupBox.Controls.Add(Me.VideoHardCorePathTextBox)
+        Me.VideoGenreGroupBox.Controls.Add(Me.BTNVideoFemSub)
+        Me.VideoGenreGroupBox.Controls.Add(Me.LblVideoSoftCoreTotal)
+        Me.VideoGenreGroupBox.Controls.Add(Me.BTNVideoFemDom)
+        Me.VideoGenreGroupBox.Controls.Add(Me.BTNVideoBlowjob)
+        Me.VideoGenreGroupBox.Controls.Add(Me.LblVideoHardCoreTotal)
+        Me.VideoGenreGroupBox.Controls.Add(Me.BTNVideoLesbian)
+        Me.VideoGenreGroupBox.Controls.Add(Me.BTNVideoSoftCore)
+        Me.VideoGenreGroupBox.Controls.Add(Me.VideoSetHardcorePathButton)
+        Me.VideoGenreGroupBox.Controls.Add(Me.VideoEnableHardcoreCheckBox)
+        Me.VideoGenreGroupBox.Controls.Add(Me.VideoEnableSoftcoreCheckBox)
+        Me.VideoGenreGroupBox.Controls.Add(Me.CBVideoLesbian)
+        Me.VideoGenreGroupBox.Controls.Add(Me.CBVideoBlowjob)
+        Me.VideoGenreGroupBox.Controls.Add(Me.CBVideoFemsub)
+        Me.VideoGenreGroupBox.Controls.Add(Me.CBVideoFemdom)
+        Me.VideoGenreGroupBox.Dock = System.Windows.Forms.DockStyle.Top
+        Me.VideoGenreGroupBox.ForeColor = System.Drawing.Color.Black
+        Me.VideoGenreGroupBox.Location = New System.Drawing.Point(0, 0)
+        Me.VideoGenreGroupBox.Name = "VideoGenreGroupBox"
+        Me.VideoGenreGroupBox.Size = New System.Drawing.Size(473, 165)
+        Me.VideoGenreGroupBox.TabIndex = 0
+        Me.VideoGenreGroupBox.TabStop = False
+        Me.VideoGenreGroupBox.Text = "Genre"
+        '
+        'LblVideoFemsubTotal
+        '
+        Me.LblVideoFemsubTotal.Anchor = System.Windows.Forms.AnchorStyles.Right
+        Me.LblVideoFemsubTotal.BackColor = System.Drawing.Color.Transparent
+        Me.LblVideoFemsubTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblVideoFemsubTotal.ForeColor = System.Drawing.Color.Black
+        Me.LblVideoFemsubTotal.Location = New System.Drawing.Point(424, 136)
+        Me.LblVideoFemsubTotal.Name = "LblVideoFemsubTotal"
+        Me.LblVideoFemsubTotal.Size = New System.Drawing.Size(34, 17)
+        Me.LblVideoFemsubTotal.TabIndex = 23
+        Me.LblVideoFemsubTotal.Text = "0"
+        Me.LblVideoFemsubTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'TxbVideoFemsub
+        '
+        Me.TxbVideoFemsub.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TxbVideoFemsub.BackColor = System.Drawing.Color.LightGray
+        Me.TxbVideoFemsub.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxbVideoFemsub.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxbVideoFemsub.ForeColor = System.Drawing.Color.Black
+        Me.TxbVideoFemsub.Location = New System.Drawing.Point(107, 134)
+        Me.TxbVideoFemsub.MinimumSize = New System.Drawing.Size(180, 17)
+        Me.TxbVideoFemsub.Name = "TxbVideoFemsub"
+        Me.TxbVideoFemsub.ReadOnly = True
+        Me.TxbVideoFemsub.Size = New System.Drawing.Size(313, 20)
+        Me.TxbVideoFemsub.TabIndex = 22
+        '
+        'LblVideoFemdomTotal
+        '
+        Me.LblVideoFemdomTotal.Anchor = System.Windows.Forms.AnchorStyles.Right
+        Me.LblVideoFemdomTotal.BackColor = System.Drawing.Color.Transparent
+        Me.LblVideoFemdomTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblVideoFemdomTotal.ForeColor = System.Drawing.Color.Black
+        Me.LblVideoFemdomTotal.Location = New System.Drawing.Point(424, 112)
+        Me.LblVideoFemdomTotal.Name = "LblVideoFemdomTotal"
+        Me.LblVideoFemdomTotal.Size = New System.Drawing.Size(34, 17)
+        Me.LblVideoFemdomTotal.TabIndex = 19
+        Me.LblVideoFemdomTotal.Text = "0"
+        Me.LblVideoFemdomTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'TxbVideoFemdom
+        '
+        Me.TxbVideoFemdom.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TxbVideoFemdom.BackColor = System.Drawing.Color.LightGray
+        Me.TxbVideoFemdom.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxbVideoFemdom.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxbVideoFemdom.ForeColor = System.Drawing.Color.Black
+        Me.TxbVideoFemdom.Location = New System.Drawing.Point(107, 110)
+        Me.TxbVideoFemdom.MinimumSize = New System.Drawing.Size(180, 17)
+        Me.TxbVideoFemdom.Name = "TxbVideoFemdom"
+        Me.TxbVideoFemdom.ReadOnly = True
+        Me.TxbVideoFemdom.Size = New System.Drawing.Size(313, 20)
+        Me.TxbVideoFemdom.TabIndex = 18
+        '
+        'TxbVideoBlowjob
+        '
+        Me.TxbVideoBlowjob.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TxbVideoBlowjob.BackColor = System.Drawing.Color.LightGray
+        Me.TxbVideoBlowjob.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxbVideoBlowjob.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxbVideoBlowjob.ForeColor = System.Drawing.Color.Black
+        Me.TxbVideoBlowjob.Location = New System.Drawing.Point(107, 86)
+        Me.TxbVideoBlowjob.MinimumSize = New System.Drawing.Size(180, 17)
+        Me.TxbVideoBlowjob.Name = "TxbVideoBlowjob"
+        Me.TxbVideoBlowjob.ReadOnly = True
+        Me.TxbVideoBlowjob.Size = New System.Drawing.Size(313, 20)
+        Me.TxbVideoBlowjob.TabIndex = 14
+        '
+        'LblVideoBlowjobTotal
+        '
+        Me.LblVideoBlowjobTotal.Anchor = System.Windows.Forms.AnchorStyles.Right
+        Me.LblVideoBlowjobTotal.BackColor = System.Drawing.Color.Transparent
+        Me.LblVideoBlowjobTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblVideoBlowjobTotal.ForeColor = System.Drawing.Color.Black
+        Me.LblVideoBlowjobTotal.Location = New System.Drawing.Point(424, 88)
+        Me.LblVideoBlowjobTotal.Name = "LblVideoBlowjobTotal"
+        Me.LblVideoBlowjobTotal.Size = New System.Drawing.Size(34, 17)
+        Me.LblVideoBlowjobTotal.TabIndex = 15
+        Me.LblVideoBlowjobTotal.Text = "0"
+        Me.LblVideoBlowjobTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'TxbVideoLesbian
+        '
+        Me.TxbVideoLesbian.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TxbVideoLesbian.BackColor = System.Drawing.Color.LightGray
+        Me.TxbVideoLesbian.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxbVideoLesbian.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxbVideoLesbian.ForeColor = System.Drawing.Color.Black
+        Me.TxbVideoLesbian.Location = New System.Drawing.Point(107, 63)
+        Me.TxbVideoLesbian.MinimumSize = New System.Drawing.Size(180, 17)
+        Me.TxbVideoLesbian.Name = "TxbVideoLesbian"
+        Me.TxbVideoLesbian.ReadOnly = True
+        Me.TxbVideoLesbian.Size = New System.Drawing.Size(313, 20)
+        Me.TxbVideoLesbian.TabIndex = 10
+        '
+        'TxbVideoSoftCore
+        '
+        Me.TxbVideoSoftCore.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TxbVideoSoftCore.BackColor = System.Drawing.Color.LightGray
+        Me.TxbVideoSoftCore.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxbVideoSoftCore.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxbVideoSoftCore.ForeColor = System.Drawing.Color.Black
+        Me.TxbVideoSoftCore.Location = New System.Drawing.Point(107, 40)
+        Me.TxbVideoSoftCore.MinimumSize = New System.Drawing.Size(180, 17)
+        Me.TxbVideoSoftCore.Name = "TxbVideoSoftCore"
+        Me.TxbVideoSoftCore.ReadOnly = True
+        Me.TxbVideoSoftCore.Size = New System.Drawing.Size(313, 20)
+        Me.TxbVideoSoftCore.TabIndex = 6
+        '
+        'LblVideoLesbianTotal
+        '
+        Me.LblVideoLesbianTotal.Anchor = System.Windows.Forms.AnchorStyles.Right
+        Me.LblVideoLesbianTotal.BackColor = System.Drawing.Color.Transparent
+        Me.LblVideoLesbianTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblVideoLesbianTotal.ForeColor = System.Drawing.Color.Black
+        Me.LblVideoLesbianTotal.Location = New System.Drawing.Point(424, 66)
+        Me.LblVideoLesbianTotal.Name = "LblVideoLesbianTotal"
+        Me.LblVideoLesbianTotal.Size = New System.Drawing.Size(34, 17)
+        Me.LblVideoLesbianTotal.TabIndex = 11
+        Me.LblVideoLesbianTotal.Text = "0"
+        Me.LblVideoLesbianTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'VideoHardCorePathTextBox
+        '
+        Me.VideoHardCorePathTextBox.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.VideoHardCorePathTextBox.BackColor = System.Drawing.Color.LightGray
+        Me.VideoHardCorePathTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.VideoHardCorePathTextBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.VideoHardCorePathTextBox.ForeColor = System.Drawing.Color.Black
+        Me.VideoHardCorePathTextBox.Location = New System.Drawing.Point(107, 17)
+        Me.VideoHardCorePathTextBox.MinimumSize = New System.Drawing.Size(180, 17)
+        Me.VideoHardCorePathTextBox.Name = "VideoHardCorePathTextBox"
+        Me.VideoHardCorePathTextBox.ReadOnly = True
+        Me.VideoHardCorePathTextBox.Size = New System.Drawing.Size(313, 20)
+        Me.VideoHardCorePathTextBox.TabIndex = 2
+        '
+        'BTNVideoFemSub
+        '
+        Me.BTNVideoFemSub.BackColor = System.Drawing.Color.LightGray
+        Me.BTNVideoFemSub.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
+        Me.BTNVideoFemSub.ForeColor = System.Drawing.Color.Black
+        Me.BTNVideoFemSub.Location = New System.Drawing.Point(73, 130)
+        Me.BTNVideoFemSub.Name = "BTNVideoFemSub"
+        Me.BTNVideoFemSub.Size = New System.Drawing.Size(34, 28)
+        Me.BTNVideoFemSub.TabIndex = 21
+        Me.BTNVideoFemSub.Text = "1"
+        Me.BTNVideoFemSub.UseVisualStyleBackColor = False
+        '
+        'LblVideoSoftCoreTotal
+        '
+        Me.LblVideoSoftCoreTotal.Anchor = System.Windows.Forms.AnchorStyles.Right
+        Me.LblVideoSoftCoreTotal.BackColor = System.Drawing.Color.Transparent
+        Me.LblVideoSoftCoreTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblVideoSoftCoreTotal.ForeColor = System.Drawing.Color.Black
+        Me.LblVideoSoftCoreTotal.Location = New System.Drawing.Point(424, 43)
+        Me.LblVideoSoftCoreTotal.Name = "LblVideoSoftCoreTotal"
+        Me.LblVideoSoftCoreTotal.Size = New System.Drawing.Size(34, 17)
+        Me.LblVideoSoftCoreTotal.TabIndex = 7
+        Me.LblVideoSoftCoreTotal.Text = "0"
+        Me.LblVideoSoftCoreTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'BTNVideoFemDom
+        '
+        Me.BTNVideoFemDom.BackColor = System.Drawing.Color.LightGray
+        Me.BTNVideoFemDom.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
+        Me.BTNVideoFemDom.ForeColor = System.Drawing.Color.Black
+        Me.BTNVideoFemDom.Location = New System.Drawing.Point(73, 106)
+        Me.BTNVideoFemDom.Name = "BTNVideoFemDom"
+        Me.BTNVideoFemDom.Size = New System.Drawing.Size(34, 28)
+        Me.BTNVideoFemDom.TabIndex = 17
+        Me.BTNVideoFemDom.Text = "1"
+        Me.BTNVideoFemDom.UseVisualStyleBackColor = False
+        '
+        'BTNVideoBlowjob
+        '
+        Me.BTNVideoBlowjob.BackColor = System.Drawing.Color.LightGray
+        Me.BTNVideoBlowjob.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
+        Me.BTNVideoBlowjob.ForeColor = System.Drawing.Color.Black
+        Me.BTNVideoBlowjob.Location = New System.Drawing.Point(73, 82)
+        Me.BTNVideoBlowjob.Name = "BTNVideoBlowjob"
+        Me.BTNVideoBlowjob.Size = New System.Drawing.Size(34, 28)
+        Me.BTNVideoBlowjob.TabIndex = 13
+        Me.BTNVideoBlowjob.Text = "1"
+        Me.BTNVideoBlowjob.UseVisualStyleBackColor = False
+        '
+        'LblVideoHardCoreTotal
+        '
+        Me.LblVideoHardCoreTotal.Anchor = System.Windows.Forms.AnchorStyles.Right
+        Me.LblVideoHardCoreTotal.BackColor = System.Drawing.Color.Transparent
+        Me.LblVideoHardCoreTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblVideoHardCoreTotal.ForeColor = System.Drawing.Color.Black
+        Me.LblVideoHardCoreTotal.Location = New System.Drawing.Point(424, 19)
+        Me.LblVideoHardCoreTotal.Name = "LblVideoHardCoreTotal"
+        Me.LblVideoHardCoreTotal.Size = New System.Drawing.Size(34, 17)
+        Me.LblVideoHardCoreTotal.TabIndex = 3
+        Me.LblVideoHardCoreTotal.Text = "0"
+        Me.LblVideoHardCoreTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'BTNVideoLesbian
+        '
+        Me.BTNVideoLesbian.BackColor = System.Drawing.Color.LightGray
+        Me.BTNVideoLesbian.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
+        Me.BTNVideoLesbian.ForeColor = System.Drawing.Color.Black
+        Me.BTNVideoLesbian.Location = New System.Drawing.Point(73, 59)
+        Me.BTNVideoLesbian.Name = "BTNVideoLesbian"
+        Me.BTNVideoLesbian.Size = New System.Drawing.Size(34, 28)
+        Me.BTNVideoLesbian.TabIndex = 9
+        Me.BTNVideoLesbian.Text = "1"
+        Me.BTNVideoLesbian.UseVisualStyleBackColor = False
+        '
+        'BTNVideoSoftCore
+        '
+        Me.BTNVideoSoftCore.BackColor = System.Drawing.Color.LightGray
+        Me.BTNVideoSoftCore.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
+        Me.BTNVideoSoftCore.ForeColor = System.Drawing.Color.Black
+        Me.BTNVideoSoftCore.Location = New System.Drawing.Point(73, 36)
+        Me.BTNVideoSoftCore.Name = "BTNVideoSoftCore"
+        Me.BTNVideoSoftCore.Size = New System.Drawing.Size(34, 28)
+        Me.BTNVideoSoftCore.TabIndex = 5
+        Me.BTNVideoSoftCore.Text = "1"
+        Me.BTNVideoSoftCore.UseVisualStyleBackColor = False
+        '
+        'VideoSetHardcorePathButton
+        '
+        Me.VideoSetHardcorePathButton.BackColor = System.Drawing.Color.LightGray
+        Me.VideoSetHardcorePathButton.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
+        Me.VideoSetHardcorePathButton.ForeColor = System.Drawing.Color.Black
+        Me.VideoSetHardcorePathButton.Location = New System.Drawing.Point(73, 12)
+        Me.VideoSetHardcorePathButton.Name = "VideoSetHardcorePathButton"
+        Me.VideoSetHardcorePathButton.Size = New System.Drawing.Size(34, 28)
+        Me.VideoSetHardcorePathButton.TabIndex = 1
+        Me.VideoSetHardcorePathButton.Text = "1"
+        Me.VideoSetHardcorePathButton.UseVisualStyleBackColor = False
+        '
+        'VideoEnableHardcoreCheckBox
+        '
+        Me.VideoEnableHardcoreCheckBox.AutoSize = True
+        Me.VideoEnableHardcoreCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.VideoEnableHardcoreCheckBox.Location = New System.Drawing.Point(6, 19)
+        Me.VideoEnableHardcoreCheckBox.Name = "VideoEnableHardcoreCheckBox"
+        Me.VideoEnableHardcoreCheckBox.Size = New System.Drawing.Size(70, 17)
+        Me.VideoEnableHardcoreCheckBox.TabIndex = 0
+        Me.VideoEnableHardcoreCheckBox.Text = "Hardcore"
+        Me.VideoEnableHardcoreCheckBox.UseVisualStyleBackColor = True
+        '
+        'VideoEnableSoftcoreCheckBox
+        '
+        Me.VideoEnableSoftcoreCheckBox.AutoSize = True
+        Me.VideoEnableSoftcoreCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.VideoEnableSoftcoreCheckBox.Location = New System.Drawing.Point(6, 43)
+        Me.VideoEnableSoftcoreCheckBox.Name = "VideoEnableSoftcoreCheckBox"
+        Me.VideoEnableSoftcoreCheckBox.Size = New System.Drawing.Size(66, 17)
+        Me.VideoEnableSoftcoreCheckBox.TabIndex = 4
+        Me.VideoEnableSoftcoreCheckBox.Text = "Softcore"
+        Me.VideoEnableSoftcoreCheckBox.UseVisualStyleBackColor = True
+        '
+        'CBVideoLesbian
+        '
+        Me.CBVideoLesbian.AutoSize = True
+        Me.CBVideoLesbian.ForeColor = System.Drawing.Color.Black
+        Me.CBVideoLesbian.Location = New System.Drawing.Point(6, 66)
+        Me.CBVideoLesbian.Name = "CBVideoLesbian"
+        Me.CBVideoLesbian.Size = New System.Drawing.Size(63, 17)
+        Me.CBVideoLesbian.TabIndex = 8
+        Me.CBVideoLesbian.Text = "Lesbian"
+        Me.CBVideoLesbian.UseVisualStyleBackColor = True
+        '
+        'CBVideoBlowjob
+        '
+        Me.CBVideoBlowjob.AutoSize = True
+        Me.CBVideoBlowjob.ForeColor = System.Drawing.Color.Black
+        Me.CBVideoBlowjob.Location = New System.Drawing.Point(6, 89)
+        Me.CBVideoBlowjob.Name = "CBVideoBlowjob"
+        Me.CBVideoBlowjob.Size = New System.Drawing.Size(63, 17)
+        Me.CBVideoBlowjob.TabIndex = 12
+        Me.CBVideoBlowjob.Text = "Blowjob"
+        Me.CBVideoBlowjob.UseVisualStyleBackColor = True
+        '
+        'CBVideoFemsub
+        '
+        Me.CBVideoFemsub.AutoSize = True
+        Me.CBVideoFemsub.ForeColor = System.Drawing.Color.Black
+        Me.CBVideoFemsub.Location = New System.Drawing.Point(6, 137)
+        Me.CBVideoFemsub.Name = "CBVideoFemsub"
+        Me.CBVideoFemsub.Size = New System.Drawing.Size(63, 17)
+        Me.CBVideoFemsub.TabIndex = 20
+        Me.CBVideoFemsub.Text = "Femsub"
+        Me.CBVideoFemsub.UseVisualStyleBackColor = True
+        '
+        'CBVideoFemdom
+        '
+        Me.CBVideoFemdom.AutoSize = True
+        Me.CBVideoFemdom.ForeColor = System.Drawing.Color.Black
+        Me.CBVideoFemdom.Location = New System.Drawing.Point(6, 113)
+        Me.CBVideoFemdom.Name = "CBVideoFemdom"
+        Me.CBVideoFemdom.Size = New System.Drawing.Size(66, 17)
+        Me.CBVideoFemdom.TabIndex = 16
+        Me.CBVideoFemdom.Text = "Femdom"
+        Me.CBVideoFemdom.UseVisualStyleBackColor = True
+        '
+        'VideoDommePanel
+        '
+        Me.VideoDommePanel.BackColor = System.Drawing.Color.Transparent
+        Me.VideoDommePanel.Controls.Add(Me.VideoDommeGeneralGroupBox)
+        Me.VideoDommePanel.Controls.Add(Me.GbxVideoSpecialD)
+        Me.VideoDommePanel.Controls.Add(Me.GbxVideoGenreD)
+        Me.VideoDommePanel.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.VideoDommePanel.Location = New System.Drawing.Point(482, 3)
+        Me.VideoDommePanel.Name = "VideoDommePanel"
+        Me.VideoDommePanel.Size = New System.Drawing.Size(473, 473)
+        Me.VideoDommePanel.TabIndex = 1
+        '
+        'VideoDommeGeneralGroupBox
+        '
+        Me.VideoDommeGeneralGroupBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.VideoDommeGeneralGroupBox.BackColor = System.Drawing.Color.Transparent
+        Me.VideoDommeGeneralGroupBox.Controls.Add(Me.VideoTotalDommeGeneral)
+        Me.VideoDommeGeneralGroupBox.Controls.Add(Me.VideoDommeGeneralPathTextBox)
+        Me.VideoDommeGeneralGroupBox.Controls.Add(Me.BTNVideoGeneralD)
+        Me.VideoDommeGeneralGroupBox.Controls.Add(Me.CBVideoGeneralD)
+        Me.VideoDommeGeneralGroupBox.ForeColor = System.Drawing.Color.Black
+        Me.VideoDommeGeneralGroupBox.Location = New System.Drawing.Point(0, 235)
+        Me.VideoDommeGeneralGroupBox.Name = "VideoDommeGeneralGroupBox"
+        Me.VideoDommeGeneralGroupBox.Size = New System.Drawing.Size(473, 72)
+        Me.VideoDommeGeneralGroupBox.TabIndex = 5
+        Me.VideoDommeGeneralGroupBox.TabStop = False
+        Me.VideoDommeGeneralGroupBox.Text = "Domme General"
+        '
+        'VideoTotalDommeGeneral
+        '
+        Me.VideoTotalDommeGeneral.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.VideoTotalDommeGeneral.BackColor = System.Drawing.Color.Transparent
+        Me.VideoTotalDommeGeneral.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.VideoTotalDommeGeneral.ForeColor = System.Drawing.Color.Black
+        Me.VideoTotalDommeGeneral.Location = New System.Drawing.Point(432, 19)
+        Me.VideoTotalDommeGeneral.Name = "VideoTotalDommeGeneral"
+        Me.VideoTotalDommeGeneral.Size = New System.Drawing.Size(34, 17)
+        Me.VideoTotalDommeGeneral.TabIndex = 3
+        Me.VideoTotalDommeGeneral.Text = "0"
+        Me.VideoTotalDommeGeneral.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'VideoDommeGeneralPathTextBox
+        '
+        Me.VideoDommeGeneralPathTextBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.VideoDommeGeneralPathTextBox.BackColor = System.Drawing.Color.LightGray
+        Me.VideoDommeGeneralPathTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.VideoDommeGeneralPathTextBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.VideoDommeGeneralPathTextBox.ForeColor = System.Drawing.Color.Black
+        Me.VideoDommeGeneralPathTextBox.Location = New System.Drawing.Point(113, 18)
+        Me.VideoDommeGeneralPathTextBox.MinimumSize = New System.Drawing.Size(180, 17)
+        Me.VideoDommeGeneralPathTextBox.Name = "VideoDommeGeneralPathTextBox"
+        Me.VideoDommeGeneralPathTextBox.ReadOnly = True
+        Me.VideoDommeGeneralPathTextBox.Size = New System.Drawing.Size(313, 20)
+        Me.VideoDommeGeneralPathTextBox.TabIndex = 2
         '
         'BTNVideoGeneralD
         '
@@ -8387,10 +8928,11 @@ Partial Class FrmSettings
         Me.GbxVideoSpecialD.Controls.Add(Me.BTNVideoJOID)
         Me.GbxVideoSpecialD.Controls.Add(Me.CBVideoJOID)
         Me.GbxVideoSpecialD.Controls.Add(Me.CBVideoCHD)
+        Me.GbxVideoSpecialD.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GbxVideoSpecialD.ForeColor = System.Drawing.Color.Black
-        Me.GbxVideoSpecialD.Location = New System.Drawing.Point(359, 201)
+        Me.GbxVideoSpecialD.Location = New System.Drawing.Point(0, 165)
         Me.GbxVideoSpecialD.Name = "GbxVideoSpecialD"
-        Me.GbxVideoSpecialD.Size = New System.Drawing.Size(340, 70)
+        Me.GbxVideoSpecialD.Size = New System.Drawing.Size(473, 308)
         Me.GbxVideoSpecialD.TabIndex = 4
         Me.GbxVideoSpecialD.TabStop = False
         Me.GbxVideoSpecialD.Text = "Domme Special"
@@ -8400,7 +8942,7 @@ Partial Class FrmSettings
         Me.LblVideoCHTotalD.BackColor = System.Drawing.Color.Transparent
         Me.LblVideoCHTotalD.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblVideoCHTotalD.ForeColor = System.Drawing.Color.Black
-        Me.LblVideoCHTotalD.Location = New System.Drawing.Point(299, 42)
+        Me.LblVideoCHTotalD.Location = New System.Drawing.Point(432, 42)
         Me.LblVideoCHTotalD.Name = "LblVideoCHTotalD"
         Me.LblVideoCHTotalD.Size = New System.Drawing.Size(34, 17)
         Me.LblVideoCHTotalD.TabIndex = 7
@@ -8412,7 +8954,7 @@ Partial Class FrmSettings
         Me.LblVideoJOITotalD.BackColor = System.Drawing.Color.Transparent
         Me.LblVideoJOITotalD.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblVideoJOITotalD.ForeColor = System.Drawing.Color.Black
-        Me.LblVideoJOITotalD.Location = New System.Drawing.Point(299, 19)
+        Me.LblVideoJOITotalD.Location = New System.Drawing.Point(432, 19)
         Me.LblVideoJOITotalD.Name = "LblVideoJOITotalD"
         Me.LblVideoJOITotalD.Size = New System.Drawing.Size(34, 17)
         Me.LblVideoJOITotalD.TabIndex = 3
@@ -8421,30 +8963,32 @@ Partial Class FrmSettings
         '
         'TxbVideoCHD
         '
+        Me.TxbVideoCHD.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TxbVideoCHD.BackColor = System.Drawing.Color.LightGray
         Me.TxbVideoCHD.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxbVideoCHD.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxbVideoCHD.ForeColor = System.Drawing.Color.Black
         Me.TxbVideoCHD.Location = New System.Drawing.Point(113, 41)
-        Me.TxbVideoCHD.MaximumSize = New System.Drawing.Size(2, 17)
         Me.TxbVideoCHD.MinimumSize = New System.Drawing.Size(180, 17)
         Me.TxbVideoCHD.Name = "TxbVideoCHD"
         Me.TxbVideoCHD.ReadOnly = True
-        Me.TxbVideoCHD.Size = New System.Drawing.Size(180, 17)
+        Me.TxbVideoCHD.Size = New System.Drawing.Size(313, 20)
         Me.TxbVideoCHD.TabIndex = 6
         '
         'TxbVideoJOID
         '
+        Me.TxbVideoJOID.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TxbVideoJOID.BackColor = System.Drawing.Color.LightGray
         Me.TxbVideoJOID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxbVideoJOID.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxbVideoJOID.ForeColor = System.Drawing.Color.Black
         Me.TxbVideoJOID.Location = New System.Drawing.Point(113, 18)
-        Me.TxbVideoJOID.MaximumSize = New System.Drawing.Size(2, 17)
         Me.TxbVideoJOID.MinimumSize = New System.Drawing.Size(180, 17)
         Me.TxbVideoJOID.Name = "TxbVideoJOID"
         Me.TxbVideoJOID.ReadOnly = True
-        Me.TxbVideoJOID.Size = New System.Drawing.Size(180, 17)
+        Me.TxbVideoJOID.Size = New System.Drawing.Size(313, 20)
         Me.TxbVideoJOID.TabIndex = 2
         '
         'BTNVideoCHD
@@ -8520,20 +9064,22 @@ Partial Class FrmSettings
         Me.GbxVideoGenreD.Controls.Add(Me.CBVideoBlowjobD)
         Me.GbxVideoGenreD.Controls.Add(Me.CBVideoFemsubD)
         Me.GbxVideoGenreD.Controls.Add(Me.CBVideoFemdomD)
+        Me.GbxVideoGenreD.Dock = System.Windows.Forms.DockStyle.Top
         Me.GbxVideoGenreD.ForeColor = System.Drawing.Color.Black
-        Me.GbxVideoGenreD.Location = New System.Drawing.Point(359, 30)
+        Me.GbxVideoGenreD.Location = New System.Drawing.Point(0, 0)
         Me.GbxVideoGenreD.Name = "GbxVideoGenreD"
-        Me.GbxVideoGenreD.Size = New System.Drawing.Size(340, 165)
+        Me.GbxVideoGenreD.Size = New System.Drawing.Size(473, 165)
         Me.GbxVideoGenreD.TabIndex = 3
         Me.GbxVideoGenreD.TabStop = False
         Me.GbxVideoGenreD.Text = "Domme Genre"
         '
         'LblVideoFemsubTotalD
         '
+        Me.LblVideoFemsubTotalD.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.LblVideoFemsubTotalD.BackColor = System.Drawing.Color.Transparent
         Me.LblVideoFemsubTotalD.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblVideoFemsubTotalD.ForeColor = System.Drawing.Color.Black
-        Me.LblVideoFemsubTotalD.Location = New System.Drawing.Point(299, 136)
+        Me.LblVideoFemsubTotalD.Location = New System.Drawing.Point(432, 129)
         Me.LblVideoFemsubTotalD.Name = "LblVideoFemsubTotalD"
         Me.LblVideoFemsubTotalD.Size = New System.Drawing.Size(34, 17)
         Me.LblVideoFemsubTotalD.TabIndex = 23
@@ -8542,24 +9088,25 @@ Partial Class FrmSettings
         '
         'TxbVideoFemsubD
         '
+        Me.TxbVideoFemsubD.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TxbVideoFemsubD.BackColor = System.Drawing.Color.LightGray
         Me.TxbVideoFemsubD.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxbVideoFemsubD.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxbVideoFemsubD.ForeColor = System.Drawing.Color.Black
         Me.TxbVideoFemsubD.Location = New System.Drawing.Point(113, 136)
-        Me.TxbVideoFemsubD.MaximumSize = New System.Drawing.Size(2, 17)
         Me.TxbVideoFemsubD.MinimumSize = New System.Drawing.Size(180, 17)
         Me.TxbVideoFemsubD.Name = "TxbVideoFemsubD"
         Me.TxbVideoFemsubD.ReadOnly = True
-        Me.TxbVideoFemsubD.Size = New System.Drawing.Size(180, 17)
+        Me.TxbVideoFemsubD.Size = New System.Drawing.Size(313, 20)
         Me.TxbVideoFemsubD.TabIndex = 22
         '
         'LblVideoFemdomTotalD
         '
+        Me.LblVideoFemdomTotalD.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.LblVideoFemdomTotalD.BackColor = System.Drawing.Color.Transparent
         Me.LblVideoFemdomTotalD.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblVideoFemdomTotalD.ForeColor = System.Drawing.Color.Black
-        Me.LblVideoFemdomTotalD.Location = New System.Drawing.Point(299, 112)
+        Me.LblVideoFemdomTotalD.Location = New System.Drawing.Point(432, 105)
         Me.LblVideoFemdomTotalD.Name = "LblVideoFemdomTotalD"
         Me.LblVideoFemdomTotalD.Size = New System.Drawing.Size(34, 17)
         Me.LblVideoFemdomTotalD.TabIndex = 19
@@ -8568,38 +9115,39 @@ Partial Class FrmSettings
         '
         'TxbVideoFemdomD
         '
+        Me.TxbVideoFemdomD.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TxbVideoFemdomD.BackColor = System.Drawing.Color.LightGray
         Me.TxbVideoFemdomD.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxbVideoFemdomD.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxbVideoFemdomD.ForeColor = System.Drawing.Color.Black
         Me.TxbVideoFemdomD.Location = New System.Drawing.Point(113, 112)
-        Me.TxbVideoFemdomD.MaximumSize = New System.Drawing.Size(2, 17)
         Me.TxbVideoFemdomD.MinimumSize = New System.Drawing.Size(180, 17)
         Me.TxbVideoFemdomD.Name = "TxbVideoFemdomD"
         Me.TxbVideoFemdomD.ReadOnly = True
-        Me.TxbVideoFemdomD.Size = New System.Drawing.Size(180, 17)
+        Me.TxbVideoFemdomD.Size = New System.Drawing.Size(313, 20)
         Me.TxbVideoFemdomD.TabIndex = 18
         '
         'TxbVideoBlowjobD
         '
+        Me.TxbVideoBlowjobD.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TxbVideoBlowjobD.BackColor = System.Drawing.Color.LightGray
         Me.TxbVideoBlowjobD.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxbVideoBlowjobD.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxbVideoBlowjobD.ForeColor = System.Drawing.Color.Black
         Me.TxbVideoBlowjobD.Location = New System.Drawing.Point(113, 88)
-        Me.TxbVideoBlowjobD.MaximumSize = New System.Drawing.Size(2, 17)
         Me.TxbVideoBlowjobD.MinimumSize = New System.Drawing.Size(180, 17)
         Me.TxbVideoBlowjobD.Name = "TxbVideoBlowjobD"
         Me.TxbVideoBlowjobD.ReadOnly = True
-        Me.TxbVideoBlowjobD.Size = New System.Drawing.Size(180, 17)
+        Me.TxbVideoBlowjobD.Size = New System.Drawing.Size(313, 20)
         Me.TxbVideoBlowjobD.TabIndex = 14
         '
         'LblVideoBlowjobTotalD
         '
+        Me.LblVideoBlowjobTotalD.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.LblVideoBlowjobTotalD.BackColor = System.Drawing.Color.Transparent
         Me.LblVideoBlowjobTotalD.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblVideoBlowjobTotalD.ForeColor = System.Drawing.Color.Black
-        Me.LblVideoBlowjobTotalD.Location = New System.Drawing.Point(299, 88)
+        Me.LblVideoBlowjobTotalD.Location = New System.Drawing.Point(432, 81)
         Me.LblVideoBlowjobTotalD.Name = "LblVideoBlowjobTotalD"
         Me.LblVideoBlowjobTotalD.Size = New System.Drawing.Size(34, 17)
         Me.LblVideoBlowjobTotalD.TabIndex = 15
@@ -8608,38 +9156,39 @@ Partial Class FrmSettings
         '
         'TxbVideoLesbianD
         '
+        Me.TxbVideoLesbianD.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TxbVideoLesbianD.BackColor = System.Drawing.Color.LightGray
         Me.TxbVideoLesbianD.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxbVideoLesbianD.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxbVideoLesbianD.ForeColor = System.Drawing.Color.Black
         Me.TxbVideoLesbianD.Location = New System.Drawing.Point(113, 65)
-        Me.TxbVideoLesbianD.MaximumSize = New System.Drawing.Size(2, 17)
         Me.TxbVideoLesbianD.MinimumSize = New System.Drawing.Size(180, 17)
         Me.TxbVideoLesbianD.Name = "TxbVideoLesbianD"
         Me.TxbVideoLesbianD.ReadOnly = True
-        Me.TxbVideoLesbianD.Size = New System.Drawing.Size(180, 17)
+        Me.TxbVideoLesbianD.Size = New System.Drawing.Size(313, 20)
         Me.TxbVideoLesbianD.TabIndex = 10
         '
         'TxbVideoSoftCoreD
         '
+        Me.TxbVideoSoftCoreD.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TxbVideoSoftCoreD.BackColor = System.Drawing.Color.LightGray
         Me.TxbVideoSoftCoreD.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxbVideoSoftCoreD.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxbVideoSoftCoreD.ForeColor = System.Drawing.Color.Black
         Me.TxbVideoSoftCoreD.Location = New System.Drawing.Point(113, 42)
-        Me.TxbVideoSoftCoreD.MaximumSize = New System.Drawing.Size(2, 17)
         Me.TxbVideoSoftCoreD.MinimumSize = New System.Drawing.Size(180, 17)
         Me.TxbVideoSoftCoreD.Name = "TxbVideoSoftCoreD"
         Me.TxbVideoSoftCoreD.ReadOnly = True
-        Me.TxbVideoSoftCoreD.Size = New System.Drawing.Size(180, 17)
+        Me.TxbVideoSoftCoreD.Size = New System.Drawing.Size(313, 20)
         Me.TxbVideoSoftCoreD.TabIndex = 6
         '
         'LblVideoLesbianTotalD
         '
+        Me.LblVideoLesbianTotalD.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.LblVideoLesbianTotalD.BackColor = System.Drawing.Color.Transparent
         Me.LblVideoLesbianTotalD.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblVideoLesbianTotalD.ForeColor = System.Drawing.Color.Black
-        Me.LblVideoLesbianTotalD.Location = New System.Drawing.Point(299, 66)
+        Me.LblVideoLesbianTotalD.Location = New System.Drawing.Point(432, 59)
         Me.LblVideoLesbianTotalD.Name = "LblVideoLesbianTotalD"
         Me.LblVideoLesbianTotalD.Size = New System.Drawing.Size(34, 17)
         Me.LblVideoLesbianTotalD.TabIndex = 11
@@ -8648,16 +9197,16 @@ Partial Class FrmSettings
         '
         'TxbVideoHardCoreD
         '
+        Me.TxbVideoHardCoreD.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TxbVideoHardCoreD.BackColor = System.Drawing.Color.LightGray
         Me.TxbVideoHardCoreD.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxbVideoHardCoreD.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxbVideoHardCoreD.ForeColor = System.Drawing.Color.Black
         Me.TxbVideoHardCoreD.Location = New System.Drawing.Point(113, 19)
-        Me.TxbVideoHardCoreD.MaximumSize = New System.Drawing.Size(2, 17)
         Me.TxbVideoHardCoreD.MinimumSize = New System.Drawing.Size(180, 17)
         Me.TxbVideoHardCoreD.Name = "TxbVideoHardCoreD"
         Me.TxbVideoHardCoreD.ReadOnly = True
-        Me.TxbVideoHardCoreD.Size = New System.Drawing.Size(180, 17)
+        Me.TxbVideoHardCoreD.Size = New System.Drawing.Size(313, 20)
         Me.TxbVideoHardCoreD.TabIndex = 2
         '
         'BTNVideoFemSubD
@@ -8674,10 +9223,11 @@ Partial Class FrmSettings
         '
         'LblVideoSoftCoreTotalD
         '
+        Me.LblVideoSoftCoreTotalD.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.LblVideoSoftCoreTotalD.BackColor = System.Drawing.Color.Transparent
         Me.LblVideoSoftCoreTotalD.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblVideoSoftCoreTotalD.ForeColor = System.Drawing.Color.Black
-        Me.LblVideoSoftCoreTotalD.Location = New System.Drawing.Point(299, 43)
+        Me.LblVideoSoftCoreTotalD.Location = New System.Drawing.Point(432, 36)
         Me.LblVideoSoftCoreTotalD.Name = "LblVideoSoftCoreTotalD"
         Me.LblVideoSoftCoreTotalD.Size = New System.Drawing.Size(34, 17)
         Me.LblVideoSoftCoreTotalD.TabIndex = 7
@@ -8710,10 +9260,11 @@ Partial Class FrmSettings
         '
         'LblVideoHardCoreTotalD
         '
+        Me.LblVideoHardCoreTotalD.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.LblVideoHardCoreTotalD.BackColor = System.Drawing.Color.Transparent
         Me.LblVideoHardCoreTotalD.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblVideoHardCoreTotalD.ForeColor = System.Drawing.Color.Black
-        Me.LblVideoHardCoreTotalD.Location = New System.Drawing.Point(299, 19)
+        Me.LblVideoHardCoreTotalD.Location = New System.Drawing.Point(432, 12)
         Me.LblVideoHardCoreTotalD.Name = "LblVideoHardCoreTotalD"
         Me.LblVideoHardCoreTotalD.Size = New System.Drawing.Size(34, 17)
         Me.LblVideoHardCoreTotalD.TabIndex = 3
@@ -8822,553 +9373,90 @@ Partial Class FrmSettings
         Me.CBVideoFemdomD.Text = "Femdom"
         Me.CBVideoFemdomD.UseVisualStyleBackColor = True
         '
-        'GbxVideoDescription
+        'VideoHeaderPanel
         '
-        Me.GbxVideoDescription.BackColor = System.Drawing.Color.LightGray
-        Me.GbxVideoDescription.Controls.Add(Me.VideoDescriptionLabel)
-        Me.GbxVideoDescription.ForeColor = System.Drawing.Color.Black
-        Me.GbxVideoDescription.Location = New System.Drawing.Point(7, 331)
-        Me.GbxVideoDescription.Name = "GbxVideoDescription"
-        Me.GbxVideoDescription.Size = New System.Drawing.Size(692, 92)
-        Me.GbxVideoDescription.TabIndex = 6
-        Me.GbxVideoDescription.TabStop = False
-        Me.GbxVideoDescription.Text = "Description"
+        Me.VideoHeaderPanel.BackColor = System.Drawing.Color.Transparent
+        Me.VideoHeaderPanel.Controls.Add(Me.VideoHeaderLabel)
+        Me.VideoHeaderPanel.Controls.Add(Me.VideoRefreshButton)
+        Me.VideoHeaderPanel.Controls.Add(Me.VideoLogo)
+        Me.VideoHeaderPanel.Dock = System.Windows.Forms.DockStyle.Top
+        Me.VideoHeaderPanel.Location = New System.Drawing.Point(0, 0)
+        Me.VideoHeaderPanel.Name = "VideoHeaderPanel"
+        Me.VideoHeaderPanel.Size = New System.Drawing.Size(958, 46)
+        Me.VideoHeaderPanel.TabIndex = 152
+        '
+        'VideoHeaderLabel
+        '
+        Me.VideoHeaderLabel.BackColor = System.Drawing.Color.Transparent
+        Me.VideoHeaderLabel.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.VideoHeaderLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.VideoHeaderLabel.ForeColor = System.Drawing.Color.Black
+        Me.VideoHeaderLabel.Location = New System.Drawing.Point(160, 0)
+        Me.VideoHeaderLabel.Name = "VideoHeaderLabel"
+        Me.VideoHeaderLabel.Size = New System.Drawing.Size(638, 46)
+        Me.VideoHeaderLabel.TabIndex = 49
+        Me.VideoHeaderLabel.Text = "Video Settings"
+        Me.VideoHeaderLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'VideoRefreshButton
+        '
+        Me.VideoRefreshButton.BackColor = System.Drawing.Color.Transparent
+        Me.VideoRefreshButton.BackgroundImage = Global.Tease_AI.My.Resources.Resources.Button_Refresh
+        Me.VideoRefreshButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
+        Me.VideoRefreshButton.Dock = System.Windows.Forms.DockStyle.Right
+        Me.VideoRefreshButton.FlatAppearance.BorderSize = 0
+        Me.VideoRefreshButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray
+        Me.VideoRefreshButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver
+        Me.VideoRefreshButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.VideoRefreshButton.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.VideoRefreshButton.ForeColor = System.Drawing.Color.Black
+        Me.VideoRefreshButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.VideoRefreshButton.Location = New System.Drawing.Point(798, 0)
+        Me.VideoRefreshButton.Name = "VideoRefreshButton"
+        Me.VideoRefreshButton.Size = New System.Drawing.Size(160, 46)
+        Me.VideoRefreshButton.TabIndex = 149
+        Me.VideoRefreshButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.VideoRefreshButton.UseVisualStyleBackColor = False
+        '
+        'VideoLogo
+        '
+        Me.VideoLogo.BackColor = System.Drawing.Color.Transparent
+        Me.VideoLogo.Dock = System.Windows.Forms.DockStyle.Left
+        Me.VideoLogo.Image = Global.Tease_AI.My.Resources.Resources.TAI_Banner_small
+        Me.VideoLogo.Location = New System.Drawing.Point(0, 0)
+        Me.VideoLogo.Name = "VideoLogo"
+        Me.VideoLogo.Size = New System.Drawing.Size(160, 46)
+        Me.VideoLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
+        Me.VideoLogo.TabIndex = 151
+        Me.VideoLogo.TabStop = False
+        '
+        'VideoDescriptionGroupBox
+        '
+        Me.VideoDescriptionGroupBox.BackColor = System.Drawing.Color.LightGray
+        Me.VideoDescriptionGroupBox.Controls.Add(Me.VideoDescriptionLabel)
+        Me.VideoDescriptionGroupBox.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.VideoDescriptionGroupBox.ForeColor = System.Drawing.Color.Black
+        Me.VideoDescriptionGroupBox.Location = New System.Drawing.Point(0, 525)
+        Me.VideoDescriptionGroupBox.Name = "VideoDescriptionGroupBox"
+        Me.VideoDescriptionGroupBox.Size = New System.Drawing.Size(958, 92)
+        Me.VideoDescriptionGroupBox.TabIndex = 6
+        Me.VideoDescriptionGroupBox.TabStop = False
+        Me.VideoDescriptionGroupBox.Text = "Description"
         '
         'VideoDescriptionLabel
         '
         Me.VideoDescriptionLabel.BackColor = System.Drawing.Color.Transparent
+        Me.VideoDescriptionLabel.Dock = System.Windows.Forms.DockStyle.Fill
         Me.VideoDescriptionLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.VideoDescriptionLabel.ForeColor = System.Drawing.Color.Black
-        Me.VideoDescriptionLabel.Location = New System.Drawing.Point(6, 16)
+        Me.VideoDescriptionLabel.Location = New System.Drawing.Point(3, 16)
         Me.VideoDescriptionLabel.Name = "VideoDescriptionLabel"
-        Me.VideoDescriptionLabel.Size = New System.Drawing.Size(680, 73)
+        Me.VideoDescriptionLabel.Size = New System.Drawing.Size(952, 73)
         Me.VideoDescriptionLabel.TabIndex = 62
         Me.VideoDescriptionLabel.Text = "Use this page to select the videos you would like the program to use and set thei" &
     "r paths." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "The Domme Genre paths are for videos that feature the model you are " &
     "using as your domme."
         Me.VideoDescriptionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'GbxVideoGeneral
-        '
-        Me.GbxVideoGeneral.BackColor = System.Drawing.Color.LightGray
-        Me.GbxVideoGeneral.Controls.Add(Me.LblVideoGeneralTotal)
-        Me.GbxVideoGeneral.Controls.Add(Me.TxbVideoGeneral)
-        Me.GbxVideoGeneral.Controls.Add(Me.BTNVideoGeneral)
-        Me.GbxVideoGeneral.Controls.Add(Me.CBVideoGeneral)
-        Me.GbxVideoGeneral.ForeColor = System.Drawing.Color.Black
-        Me.GbxVideoGeneral.Location = New System.Drawing.Point(7, 277)
-        Me.GbxVideoGeneral.Name = "GbxVideoGeneral"
-        Me.GbxVideoGeneral.Size = New System.Drawing.Size(340, 48)
-        Me.GbxVideoGeneral.TabIndex = 2
-        Me.GbxVideoGeneral.TabStop = False
-        Me.GbxVideoGeneral.Text = "General"
-        '
-        'LblVideoGeneralTotal
-        '
-        Me.LblVideoGeneralTotal.BackColor = System.Drawing.Color.Transparent
-        Me.LblVideoGeneralTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblVideoGeneralTotal.ForeColor = System.Drawing.Color.Black
-        Me.LblVideoGeneralTotal.Location = New System.Drawing.Point(299, 19)
-        Me.LblVideoGeneralTotal.Name = "LblVideoGeneralTotal"
-        Me.LblVideoGeneralTotal.Size = New System.Drawing.Size(34, 17)
-        Me.LblVideoGeneralTotal.TabIndex = 3
-        Me.LblVideoGeneralTotal.Text = "0"
-        Me.LblVideoGeneralTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'TxbVideoGeneral
-        '
-        Me.TxbVideoGeneral.BackColor = System.Drawing.Color.LightGray
-        Me.TxbVideoGeneral.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxbVideoGeneral.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxbVideoGeneral.ForeColor = System.Drawing.Color.Black
-        Me.TxbVideoGeneral.Location = New System.Drawing.Point(113, 18)
-        Me.TxbVideoGeneral.MaximumSize = New System.Drawing.Size(2, 17)
-        Me.TxbVideoGeneral.MinimumSize = New System.Drawing.Size(180, 17)
-        Me.TxbVideoGeneral.Name = "TxbVideoGeneral"
-        Me.TxbVideoGeneral.ReadOnly = True
-        Me.TxbVideoGeneral.Size = New System.Drawing.Size(180, 17)
-        Me.TxbVideoGeneral.TabIndex = 2
-        '
-        'BTNVideoGeneral
-        '
-        Me.BTNVideoGeneral.BackColor = System.Drawing.Color.LightGray
-        Me.BTNVideoGeneral.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
-        Me.BTNVideoGeneral.ForeColor = System.Drawing.Color.Black
-        Me.BTNVideoGeneral.Location = New System.Drawing.Point(73, 13)
-        Me.BTNVideoGeneral.Name = "BTNVideoGeneral"
-        Me.BTNVideoGeneral.Size = New System.Drawing.Size(34, 28)
-        Me.BTNVideoGeneral.TabIndex = 1
-        Me.BTNVideoGeneral.Text = "1"
-        Me.BTNVideoGeneral.UseVisualStyleBackColor = False
-        '
-        'CBVideoGeneral
-        '
-        Me.CBVideoGeneral.AutoSize = True
-        Me.CBVideoGeneral.ForeColor = System.Drawing.Color.Black
-        Me.CBVideoGeneral.Location = New System.Drawing.Point(6, 19)
-        Me.CBVideoGeneral.Name = "CBVideoGeneral"
-        Me.CBVideoGeneral.Size = New System.Drawing.Size(63, 17)
-        Me.CBVideoGeneral.TabIndex = 0
-        Me.CBVideoGeneral.Text = "General"
-        Me.CBVideoGeneral.UseVisualStyleBackColor = True
-        '
-        'GbxVideoSpecial
-        '
-        Me.GbxVideoSpecial.BackColor = System.Drawing.Color.LightGray
-        Me.GbxVideoSpecial.Controls.Add(Me.LblVideoCHTotal)
-        Me.GbxVideoSpecial.Controls.Add(Me.LblVideoJOITotal)
-        Me.GbxVideoSpecial.Controls.Add(Me.TxbVideoCH)
-        Me.GbxVideoSpecial.Controls.Add(Me.TxbVideoJOI)
-        Me.GbxVideoSpecial.Controls.Add(Me.BTNVideoCH)
-        Me.GbxVideoSpecial.Controls.Add(Me.BTNVideoJOI)
-        Me.GbxVideoSpecial.Controls.Add(Me.CBVideoJOI)
-        Me.GbxVideoSpecial.Controls.Add(Me.CBVideoCH)
-        Me.GbxVideoSpecial.ForeColor = System.Drawing.Color.Black
-        Me.GbxVideoSpecial.Location = New System.Drawing.Point(7, 201)
-        Me.GbxVideoSpecial.Name = "GbxVideoSpecial"
-        Me.GbxVideoSpecial.Size = New System.Drawing.Size(340, 70)
-        Me.GbxVideoSpecial.TabIndex = 1
-        Me.GbxVideoSpecial.TabStop = False
-        Me.GbxVideoSpecial.Text = "Special"
-        '
-        'LblVideoCHTotal
-        '
-        Me.LblVideoCHTotal.BackColor = System.Drawing.Color.Transparent
-        Me.LblVideoCHTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblVideoCHTotal.ForeColor = System.Drawing.Color.Black
-        Me.LblVideoCHTotal.Location = New System.Drawing.Point(299, 41)
-        Me.LblVideoCHTotal.Name = "LblVideoCHTotal"
-        Me.LblVideoCHTotal.Size = New System.Drawing.Size(34, 17)
-        Me.LblVideoCHTotal.TabIndex = 7
-        Me.LblVideoCHTotal.Text = "0"
-        Me.LblVideoCHTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'LblVideoJOITotal
-        '
-        Me.LblVideoJOITotal.BackColor = System.Drawing.Color.Transparent
-        Me.LblVideoJOITotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblVideoJOITotal.ForeColor = System.Drawing.Color.Black
-        Me.LblVideoJOITotal.Location = New System.Drawing.Point(299, 18)
-        Me.LblVideoJOITotal.Name = "LblVideoJOITotal"
-        Me.LblVideoJOITotal.Size = New System.Drawing.Size(34, 17)
-        Me.LblVideoJOITotal.TabIndex = 3
-        Me.LblVideoJOITotal.Text = "0"
-        Me.LblVideoJOITotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'TxbVideoCH
-        '
-        Me.TxbVideoCH.BackColor = System.Drawing.Color.LightGray
-        Me.TxbVideoCH.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxbVideoCH.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxbVideoCH.ForeColor = System.Drawing.Color.Black
-        Me.TxbVideoCH.Location = New System.Drawing.Point(113, 41)
-        Me.TxbVideoCH.MaximumSize = New System.Drawing.Size(2, 17)
-        Me.TxbVideoCH.MinimumSize = New System.Drawing.Size(180, 17)
-        Me.TxbVideoCH.Name = "TxbVideoCH"
-        Me.TxbVideoCH.ReadOnly = True
-        Me.TxbVideoCH.Size = New System.Drawing.Size(180, 17)
-        Me.TxbVideoCH.TabIndex = 6
-        '
-        'TxbVideoJOI
-        '
-        Me.TxbVideoJOI.BackColor = System.Drawing.Color.LightGray
-        Me.TxbVideoJOI.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxbVideoJOI.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxbVideoJOI.ForeColor = System.Drawing.Color.Black
-        Me.TxbVideoJOI.Location = New System.Drawing.Point(113, 18)
-        Me.TxbVideoJOI.MaximumSize = New System.Drawing.Size(2, 17)
-        Me.TxbVideoJOI.MinimumSize = New System.Drawing.Size(180, 17)
-        Me.TxbVideoJOI.Name = "TxbVideoJOI"
-        Me.TxbVideoJOI.ReadOnly = True
-        Me.TxbVideoJOI.Size = New System.Drawing.Size(180, 17)
-        Me.TxbVideoJOI.TabIndex = 2
-        '
-        'BTNVideoCH
-        '
-        Me.BTNVideoCH.BackColor = System.Drawing.Color.LightGray
-        Me.BTNVideoCH.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
-        Me.BTNVideoCH.ForeColor = System.Drawing.Color.Black
-        Me.BTNVideoCH.Location = New System.Drawing.Point(73, 36)
-        Me.BTNVideoCH.Name = "BTNVideoCH"
-        Me.BTNVideoCH.Size = New System.Drawing.Size(34, 28)
-        Me.BTNVideoCH.TabIndex = 5
-        Me.BTNVideoCH.Text = "1"
-        Me.BTNVideoCH.UseVisualStyleBackColor = False
-        '
-        'BTNVideoJOI
-        '
-        Me.BTNVideoJOI.BackColor = System.Drawing.Color.LightGray
-        Me.BTNVideoJOI.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
-        Me.BTNVideoJOI.ForeColor = System.Drawing.Color.Black
-        Me.BTNVideoJOI.Location = New System.Drawing.Point(73, 13)
-        Me.BTNVideoJOI.Name = "BTNVideoJOI"
-        Me.BTNVideoJOI.Size = New System.Drawing.Size(34, 28)
-        Me.BTNVideoJOI.TabIndex = 1
-        Me.BTNVideoJOI.Text = "1"
-        Me.BTNVideoJOI.UseVisualStyleBackColor = False
-        '
-        'CBVideoJOI
-        '
-        Me.CBVideoJOI.AutoSize = True
-        Me.CBVideoJOI.ForeColor = System.Drawing.Color.Black
-        Me.CBVideoJOI.Location = New System.Drawing.Point(6, 19)
-        Me.CBVideoJOI.Name = "CBVideoJOI"
-        Me.CBVideoJOI.Size = New System.Drawing.Size(42, 17)
-        Me.CBVideoJOI.TabIndex = 0
-        Me.CBVideoJOI.Text = "JOI"
-        Me.CBVideoJOI.UseVisualStyleBackColor = True
-        '
-        'CBVideoCH
-        '
-        Me.CBVideoCH.AutoSize = True
-        Me.CBVideoCH.ForeColor = System.Drawing.Color.Black
-        Me.CBVideoCH.Location = New System.Drawing.Point(6, 43)
-        Me.CBVideoCH.Name = "CBVideoCH"
-        Me.CBVideoCH.Size = New System.Drawing.Size(41, 17)
-        Me.CBVideoCH.TabIndex = 4
-        Me.CBVideoCH.Text = "CH"
-        Me.CBVideoCH.UseVisualStyleBackColor = True
-        '
-        'GbxVideoGenre
-        '
-        Me.GbxVideoGenre.BackColor = System.Drawing.Color.LightGray
-        Me.GbxVideoGenre.Controls.Add(Me.LblVideoFemsubTotal)
-        Me.GbxVideoGenre.Controls.Add(Me.TxbVideoFemsub)
-        Me.GbxVideoGenre.Controls.Add(Me.LblVideoFemdomTotal)
-        Me.GbxVideoGenre.Controls.Add(Me.TxbVideoFemdom)
-        Me.GbxVideoGenre.Controls.Add(Me.TxbVideoBlowjob)
-        Me.GbxVideoGenre.Controls.Add(Me.LblVideoBlowjobTotal)
-        Me.GbxVideoGenre.Controls.Add(Me.TxbVideoLesbian)
-        Me.GbxVideoGenre.Controls.Add(Me.TxbVideoSoftCore)
-        Me.GbxVideoGenre.Controls.Add(Me.LblVideoLesbianTotal)
-        Me.GbxVideoGenre.Controls.Add(Me.TxbVideoHardCore)
-        Me.GbxVideoGenre.Controls.Add(Me.BTNVideoFemSub)
-        Me.GbxVideoGenre.Controls.Add(Me.LblVideoSoftCoreTotal)
-        Me.GbxVideoGenre.Controls.Add(Me.BTNVideoFemDom)
-        Me.GbxVideoGenre.Controls.Add(Me.BTNVideoBlowjob)
-        Me.GbxVideoGenre.Controls.Add(Me.LblVideoHardCoreTotal)
-        Me.GbxVideoGenre.Controls.Add(Me.BTNVideoLesbian)
-        Me.GbxVideoGenre.Controls.Add(Me.BTNVideoSoftCore)
-        Me.GbxVideoGenre.Controls.Add(Me.BTNVideoHardCore)
-        Me.GbxVideoGenre.Controls.Add(Me.CBVideoHardcore)
-        Me.GbxVideoGenre.Controls.Add(Me.CBVideoSoftCore)
-        Me.GbxVideoGenre.Controls.Add(Me.CBVideoLesbian)
-        Me.GbxVideoGenre.Controls.Add(Me.CBVideoBlowjob)
-        Me.GbxVideoGenre.Controls.Add(Me.CBVideoFemsub)
-        Me.GbxVideoGenre.Controls.Add(Me.CBVideoFemdom)
-        Me.GbxVideoGenre.ForeColor = System.Drawing.Color.Black
-        Me.GbxVideoGenre.Location = New System.Drawing.Point(7, 30)
-        Me.GbxVideoGenre.Name = "GbxVideoGenre"
-        Me.GbxVideoGenre.Size = New System.Drawing.Size(340, 165)
-        Me.GbxVideoGenre.TabIndex = 0
-        Me.GbxVideoGenre.TabStop = False
-        Me.GbxVideoGenre.Text = "Genre"
-        '
-        'LblVideoFemsubTotal
-        '
-        Me.LblVideoFemsubTotal.BackColor = System.Drawing.Color.Transparent
-        Me.LblVideoFemsubTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblVideoFemsubTotal.ForeColor = System.Drawing.Color.Black
-        Me.LblVideoFemsubTotal.Location = New System.Drawing.Point(299, 136)
-        Me.LblVideoFemsubTotal.Name = "LblVideoFemsubTotal"
-        Me.LblVideoFemsubTotal.Size = New System.Drawing.Size(34, 17)
-        Me.LblVideoFemsubTotal.TabIndex = 23
-        Me.LblVideoFemsubTotal.Text = "0"
-        Me.LblVideoFemsubTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'TxbVideoFemsub
-        '
-        Me.TxbVideoFemsub.BackColor = System.Drawing.Color.LightGray
-        Me.TxbVideoFemsub.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxbVideoFemsub.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxbVideoFemsub.ForeColor = System.Drawing.Color.Black
-        Me.TxbVideoFemsub.Location = New System.Drawing.Point(113, 136)
-        Me.TxbVideoFemsub.MaximumSize = New System.Drawing.Size(2, 17)
-        Me.TxbVideoFemsub.MinimumSize = New System.Drawing.Size(180, 17)
-        Me.TxbVideoFemsub.Name = "TxbVideoFemsub"
-        Me.TxbVideoFemsub.ReadOnly = True
-        Me.TxbVideoFemsub.Size = New System.Drawing.Size(180, 17)
-        Me.TxbVideoFemsub.TabIndex = 22
-        '
-        'LblVideoFemdomTotal
-        '
-        Me.LblVideoFemdomTotal.BackColor = System.Drawing.Color.Transparent
-        Me.LblVideoFemdomTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblVideoFemdomTotal.ForeColor = System.Drawing.Color.Black
-        Me.LblVideoFemdomTotal.Location = New System.Drawing.Point(299, 112)
-        Me.LblVideoFemdomTotal.Name = "LblVideoFemdomTotal"
-        Me.LblVideoFemdomTotal.Size = New System.Drawing.Size(34, 17)
-        Me.LblVideoFemdomTotal.TabIndex = 19
-        Me.LblVideoFemdomTotal.Text = "0"
-        Me.LblVideoFemdomTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'TxbVideoFemdom
-        '
-        Me.TxbVideoFemdom.BackColor = System.Drawing.Color.LightGray
-        Me.TxbVideoFemdom.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxbVideoFemdom.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxbVideoFemdom.ForeColor = System.Drawing.Color.Black
-        Me.TxbVideoFemdom.Location = New System.Drawing.Point(113, 112)
-        Me.TxbVideoFemdom.MaximumSize = New System.Drawing.Size(2, 17)
-        Me.TxbVideoFemdom.MinimumSize = New System.Drawing.Size(180, 17)
-        Me.TxbVideoFemdom.Name = "TxbVideoFemdom"
-        Me.TxbVideoFemdom.ReadOnly = True
-        Me.TxbVideoFemdom.Size = New System.Drawing.Size(180, 17)
-        Me.TxbVideoFemdom.TabIndex = 18
-        '
-        'TxbVideoBlowjob
-        '
-        Me.TxbVideoBlowjob.BackColor = System.Drawing.Color.LightGray
-        Me.TxbVideoBlowjob.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxbVideoBlowjob.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxbVideoBlowjob.ForeColor = System.Drawing.Color.Black
-        Me.TxbVideoBlowjob.Location = New System.Drawing.Point(113, 88)
-        Me.TxbVideoBlowjob.MaximumSize = New System.Drawing.Size(2, 17)
-        Me.TxbVideoBlowjob.MinimumSize = New System.Drawing.Size(180, 17)
-        Me.TxbVideoBlowjob.Name = "TxbVideoBlowjob"
-        Me.TxbVideoBlowjob.ReadOnly = True
-        Me.TxbVideoBlowjob.Size = New System.Drawing.Size(180, 17)
-        Me.TxbVideoBlowjob.TabIndex = 14
-        '
-        'LblVideoBlowjobTotal
-        '
-        Me.LblVideoBlowjobTotal.BackColor = System.Drawing.Color.Transparent
-        Me.LblVideoBlowjobTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblVideoBlowjobTotal.ForeColor = System.Drawing.Color.Black
-        Me.LblVideoBlowjobTotal.Location = New System.Drawing.Point(299, 88)
-        Me.LblVideoBlowjobTotal.Name = "LblVideoBlowjobTotal"
-        Me.LblVideoBlowjobTotal.Size = New System.Drawing.Size(34, 17)
-        Me.LblVideoBlowjobTotal.TabIndex = 15
-        Me.LblVideoBlowjobTotal.Text = "0"
-        Me.LblVideoBlowjobTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'TxbVideoLesbian
-        '
-        Me.TxbVideoLesbian.BackColor = System.Drawing.Color.LightGray
-        Me.TxbVideoLesbian.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxbVideoLesbian.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxbVideoLesbian.ForeColor = System.Drawing.Color.Black
-        Me.TxbVideoLesbian.Location = New System.Drawing.Point(113, 65)
-        Me.TxbVideoLesbian.MaximumSize = New System.Drawing.Size(2, 17)
-        Me.TxbVideoLesbian.MinimumSize = New System.Drawing.Size(180, 17)
-        Me.TxbVideoLesbian.Name = "TxbVideoLesbian"
-        Me.TxbVideoLesbian.ReadOnly = True
-        Me.TxbVideoLesbian.Size = New System.Drawing.Size(180, 17)
-        Me.TxbVideoLesbian.TabIndex = 10
-        '
-        'TxbVideoSoftCore
-        '
-        Me.TxbVideoSoftCore.BackColor = System.Drawing.Color.LightGray
-        Me.TxbVideoSoftCore.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxbVideoSoftCore.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxbVideoSoftCore.ForeColor = System.Drawing.Color.Black
-        Me.TxbVideoSoftCore.Location = New System.Drawing.Point(113, 42)
-        Me.TxbVideoSoftCore.MaximumSize = New System.Drawing.Size(2, 17)
-        Me.TxbVideoSoftCore.MinimumSize = New System.Drawing.Size(180, 17)
-        Me.TxbVideoSoftCore.Name = "TxbVideoSoftCore"
-        Me.TxbVideoSoftCore.ReadOnly = True
-        Me.TxbVideoSoftCore.Size = New System.Drawing.Size(180, 17)
-        Me.TxbVideoSoftCore.TabIndex = 6
-        '
-        'LblVideoLesbianTotal
-        '
-        Me.LblVideoLesbianTotal.BackColor = System.Drawing.Color.Transparent
-        Me.LblVideoLesbianTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblVideoLesbianTotal.ForeColor = System.Drawing.Color.Black
-        Me.LblVideoLesbianTotal.Location = New System.Drawing.Point(299, 66)
-        Me.LblVideoLesbianTotal.Name = "LblVideoLesbianTotal"
-        Me.LblVideoLesbianTotal.Size = New System.Drawing.Size(34, 17)
-        Me.LblVideoLesbianTotal.TabIndex = 11
-        Me.LblVideoLesbianTotal.Text = "0"
-        Me.LblVideoLesbianTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'TxbVideoHardCore
-        '
-        Me.TxbVideoHardCore.BackColor = System.Drawing.Color.LightGray
-        Me.TxbVideoHardCore.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxbVideoHardCore.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxbVideoHardCore.ForeColor = System.Drawing.Color.Black
-        Me.TxbVideoHardCore.Location = New System.Drawing.Point(113, 19)
-        Me.TxbVideoHardCore.MaximumSize = New System.Drawing.Size(2, 17)
-        Me.TxbVideoHardCore.MinimumSize = New System.Drawing.Size(180, 17)
-        Me.TxbVideoHardCore.Name = "TxbVideoHardCore"
-        Me.TxbVideoHardCore.ReadOnly = True
-        Me.TxbVideoHardCore.Size = New System.Drawing.Size(180, 17)
-        Me.TxbVideoHardCore.TabIndex = 2
-        '
-        'BTNVideoFemSub
-        '
-        Me.BTNVideoFemSub.BackColor = System.Drawing.Color.LightGray
-        Me.BTNVideoFemSub.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
-        Me.BTNVideoFemSub.ForeColor = System.Drawing.Color.Black
-        Me.BTNVideoFemSub.Location = New System.Drawing.Point(73, 130)
-        Me.BTNVideoFemSub.Name = "BTNVideoFemSub"
-        Me.BTNVideoFemSub.Size = New System.Drawing.Size(34, 28)
-        Me.BTNVideoFemSub.TabIndex = 21
-        Me.BTNVideoFemSub.Text = "1"
-        Me.BTNVideoFemSub.UseVisualStyleBackColor = False
-        '
-        'LblVideoSoftCoreTotal
-        '
-        Me.LblVideoSoftCoreTotal.BackColor = System.Drawing.Color.Transparent
-        Me.LblVideoSoftCoreTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblVideoSoftCoreTotal.ForeColor = System.Drawing.Color.Black
-        Me.LblVideoSoftCoreTotal.Location = New System.Drawing.Point(299, 43)
-        Me.LblVideoSoftCoreTotal.Name = "LblVideoSoftCoreTotal"
-        Me.LblVideoSoftCoreTotal.Size = New System.Drawing.Size(34, 17)
-        Me.LblVideoSoftCoreTotal.TabIndex = 7
-        Me.LblVideoSoftCoreTotal.Text = "0"
-        Me.LblVideoSoftCoreTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'BTNVideoFemDom
-        '
-        Me.BTNVideoFemDom.BackColor = System.Drawing.Color.LightGray
-        Me.BTNVideoFemDom.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
-        Me.BTNVideoFemDom.ForeColor = System.Drawing.Color.Black
-        Me.BTNVideoFemDom.Location = New System.Drawing.Point(73, 106)
-        Me.BTNVideoFemDom.Name = "BTNVideoFemDom"
-        Me.BTNVideoFemDom.Size = New System.Drawing.Size(34, 28)
-        Me.BTNVideoFemDom.TabIndex = 17
-        Me.BTNVideoFemDom.Text = "1"
-        Me.BTNVideoFemDom.UseVisualStyleBackColor = False
-        '
-        'BTNVideoBlowjob
-        '
-        Me.BTNVideoBlowjob.BackColor = System.Drawing.Color.LightGray
-        Me.BTNVideoBlowjob.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
-        Me.BTNVideoBlowjob.ForeColor = System.Drawing.Color.Black
-        Me.BTNVideoBlowjob.Location = New System.Drawing.Point(73, 82)
-        Me.BTNVideoBlowjob.Name = "BTNVideoBlowjob"
-        Me.BTNVideoBlowjob.Size = New System.Drawing.Size(34, 28)
-        Me.BTNVideoBlowjob.TabIndex = 13
-        Me.BTNVideoBlowjob.Text = "1"
-        Me.BTNVideoBlowjob.UseVisualStyleBackColor = False
-        '
-        'LblVideoHardCoreTotal
-        '
-        Me.LblVideoHardCoreTotal.BackColor = System.Drawing.Color.Transparent
-        Me.LblVideoHardCoreTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblVideoHardCoreTotal.ForeColor = System.Drawing.Color.Black
-        Me.LblVideoHardCoreTotal.Location = New System.Drawing.Point(299, 19)
-        Me.LblVideoHardCoreTotal.Name = "LblVideoHardCoreTotal"
-        Me.LblVideoHardCoreTotal.Size = New System.Drawing.Size(34, 17)
-        Me.LblVideoHardCoreTotal.TabIndex = 3
-        Me.LblVideoHardCoreTotal.Text = "0"
-        Me.LblVideoHardCoreTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'BTNVideoLesbian
-        '
-        Me.BTNVideoLesbian.BackColor = System.Drawing.Color.LightGray
-        Me.BTNVideoLesbian.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
-        Me.BTNVideoLesbian.ForeColor = System.Drawing.Color.Black
-        Me.BTNVideoLesbian.Location = New System.Drawing.Point(73, 59)
-        Me.BTNVideoLesbian.Name = "BTNVideoLesbian"
-        Me.BTNVideoLesbian.Size = New System.Drawing.Size(34, 28)
-        Me.BTNVideoLesbian.TabIndex = 9
-        Me.BTNVideoLesbian.Text = "1"
-        Me.BTNVideoLesbian.UseVisualStyleBackColor = False
-        '
-        'BTNVideoSoftCore
-        '
-        Me.BTNVideoSoftCore.BackColor = System.Drawing.Color.LightGray
-        Me.BTNVideoSoftCore.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
-        Me.BTNVideoSoftCore.ForeColor = System.Drawing.Color.Black
-        Me.BTNVideoSoftCore.Location = New System.Drawing.Point(73, 36)
-        Me.BTNVideoSoftCore.Name = "BTNVideoSoftCore"
-        Me.BTNVideoSoftCore.Size = New System.Drawing.Size(34, 28)
-        Me.BTNVideoSoftCore.TabIndex = 5
-        Me.BTNVideoSoftCore.Text = "1"
-        Me.BTNVideoSoftCore.UseVisualStyleBackColor = False
-        '
-        'BTNVideoHardCore
-        '
-        Me.BTNVideoHardCore.BackColor = System.Drawing.Color.LightGray
-        Me.BTNVideoHardCore.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
-        Me.BTNVideoHardCore.ForeColor = System.Drawing.Color.Black
-        Me.BTNVideoHardCore.Location = New System.Drawing.Point(73, 12)
-        Me.BTNVideoHardCore.Name = "BTNVideoHardCore"
-        Me.BTNVideoHardCore.Size = New System.Drawing.Size(34, 28)
-        Me.BTNVideoHardCore.TabIndex = 1
-        Me.BTNVideoHardCore.Text = "1"
-        Me.BTNVideoHardCore.UseVisualStyleBackColor = False
-        '
-        'CBVideoHardcore
-        '
-        Me.CBVideoHardcore.AutoSize = True
-        Me.CBVideoHardcore.ForeColor = System.Drawing.Color.Black
-        Me.CBVideoHardcore.Location = New System.Drawing.Point(6, 19)
-        Me.CBVideoHardcore.Name = "CBVideoHardcore"
-        Me.CBVideoHardcore.Size = New System.Drawing.Size(70, 17)
-        Me.CBVideoHardcore.TabIndex = 0
-        Me.CBVideoHardcore.Text = "Hardcore"
-        Me.CBVideoHardcore.UseVisualStyleBackColor = True
-        '
-        'CBVideoSoftCore
-        '
-        Me.CBVideoSoftCore.AutoSize = True
-        Me.CBVideoSoftCore.ForeColor = System.Drawing.Color.Black
-        Me.CBVideoSoftCore.Location = New System.Drawing.Point(6, 43)
-        Me.CBVideoSoftCore.Name = "CBVideoSoftCore"
-        Me.CBVideoSoftCore.Size = New System.Drawing.Size(66, 17)
-        Me.CBVideoSoftCore.TabIndex = 4
-        Me.CBVideoSoftCore.Text = "Softcore"
-        Me.CBVideoSoftCore.UseVisualStyleBackColor = True
-        '
-        'CBVideoLesbian
-        '
-        Me.CBVideoLesbian.AutoSize = True
-        Me.CBVideoLesbian.ForeColor = System.Drawing.Color.Black
-        Me.CBVideoLesbian.Location = New System.Drawing.Point(6, 66)
-        Me.CBVideoLesbian.Name = "CBVideoLesbian"
-        Me.CBVideoLesbian.Size = New System.Drawing.Size(63, 17)
-        Me.CBVideoLesbian.TabIndex = 8
-        Me.CBVideoLesbian.Text = "Lesbian"
-        Me.CBVideoLesbian.UseVisualStyleBackColor = True
-        '
-        'CBVideoBlowjob
-        '
-        Me.CBVideoBlowjob.AutoSize = True
-        Me.CBVideoBlowjob.ForeColor = System.Drawing.Color.Black
-        Me.CBVideoBlowjob.Location = New System.Drawing.Point(6, 89)
-        Me.CBVideoBlowjob.Name = "CBVideoBlowjob"
-        Me.CBVideoBlowjob.Size = New System.Drawing.Size(63, 17)
-        Me.CBVideoBlowjob.TabIndex = 12
-        Me.CBVideoBlowjob.Text = "Blowjob"
-        Me.CBVideoBlowjob.UseVisualStyleBackColor = True
-        '
-        'CBVideoFemsub
-        '
-        Me.CBVideoFemsub.AutoSize = True
-        Me.CBVideoFemsub.ForeColor = System.Drawing.Color.Black
-        Me.CBVideoFemsub.Location = New System.Drawing.Point(6, 137)
-        Me.CBVideoFemsub.Name = "CBVideoFemsub"
-        Me.CBVideoFemsub.Size = New System.Drawing.Size(63, 17)
-        Me.CBVideoFemsub.TabIndex = 20
-        Me.CBVideoFemsub.Text = "Femsub"
-        Me.CBVideoFemsub.UseVisualStyleBackColor = True
-        '
-        'CBVideoFemdom
-        '
-        Me.CBVideoFemdom.AutoSize = True
-        Me.CBVideoFemdom.ForeColor = System.Drawing.Color.Black
-        Me.CBVideoFemdom.Location = New System.Drawing.Point(6, 113)
-        Me.CBVideoFemdom.Name = "CBVideoFemdom"
-        Me.CBVideoFemdom.Size = New System.Drawing.Size(66, 17)
-        Me.CBVideoFemdom.TabIndex = 16
-        Me.CBVideoFemdom.Text = "Femdom"
-        Me.CBVideoFemdom.UseVisualStyleBackColor = True
-        '
-        'LblVideoHeader
-        '
-        Me.LblVideoHeader.BackColor = System.Drawing.Color.Transparent
-        Me.LblVideoHeader.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblVideoHeader.ForeColor = System.Drawing.Color.Black
-        Me.LblVideoHeader.Location = New System.Drawing.Point(7, 6)
-        Me.LblVideoHeader.Name = "LblVideoHeader"
-        Me.LblVideoHeader.Size = New System.Drawing.Size(692, 21)
-        Me.LblVideoHeader.TabIndex = 49
-        Me.LblVideoHeader.Text = "Video Settings"
-        Me.LblVideoHeader.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'TabPage20
         '
@@ -14420,21 +14508,25 @@ Partial Class FrmSettings
         CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.WebPictureBox, System.ComponentModel.ISupportInitialize).EndInit
         Me.TpVideoSettings.ResumeLayout(False)
-        Me.PnlVideoSettings.ResumeLayout(False)
-        CType(Me.PbBannerVideoSettings, System.ComponentModel.ISupportInitialize).EndInit
-        Me.GbxVideoGeneralD.ResumeLayout(False)
-        Me.GbxVideoGeneralD.PerformLayout
+        Me.VideoSettingsPanel.ResumeLayout(False)
+        Me.VideoLayoutTable.ResumeLayout(False)
+        Me.VideoGeneralPanel.ResumeLayout(False)
+        Me.VideoGeneralGroupBox.ResumeLayout(False)
+        Me.VideoGeneralGroupBox.PerformLayout
+        Me.VideoSpecialGroupBox.ResumeLayout(False)
+        Me.VideoSpecialGroupBox.PerformLayout
+        Me.VideoGenreGroupBox.ResumeLayout(False)
+        Me.VideoGenreGroupBox.PerformLayout
+        Me.VideoDommePanel.ResumeLayout(False)
+        Me.VideoDommeGeneralGroupBox.ResumeLayout(False)
+        Me.VideoDommeGeneralGroupBox.PerformLayout
         Me.GbxVideoSpecialD.ResumeLayout(False)
         Me.GbxVideoSpecialD.PerformLayout
         Me.GbxVideoGenreD.ResumeLayout(False)
         Me.GbxVideoGenreD.PerformLayout
-        Me.GbxVideoDescription.ResumeLayout(False)
-        Me.GbxVideoGeneral.ResumeLayout(False)
-        Me.GbxVideoGeneral.PerformLayout
-        Me.GbxVideoSpecial.ResumeLayout(False)
-        Me.GbxVideoSpecial.PerformLayout
-        Me.GbxVideoGenre.ResumeLayout(False)
-        Me.GbxVideoGenre.PerformLayout
+        Me.VideoHeaderPanel.ResumeLayout(False)
+        CType(Me.VideoLogo, System.ComponentModel.ISupportInitialize).EndInit
+        Me.VideoDescriptionGroupBox.ResumeLayout(False)
         Me.TabPage20.ResumeLayout(False)
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage22.ResumeLayout(False)
@@ -14764,90 +14856,6 @@ Partial Class FrmSettings
     Friend WithEvents WebPictureBox As System.Windows.Forms.PictureBox
     Friend WithEvents ImageBlogs As System.Windows.Forms.Label
     Friend WithEvents TpVideoSettings As System.Windows.Forms.TabPage
-    Friend WithEvents PnlVideoSettings As System.Windows.Forms.Panel
-    Friend WithEvents PbBannerVideoSettings As System.Windows.Forms.PictureBox
-    Friend WithEvents BTNRefreshVideos As System.Windows.Forms.Button
-    Friend WithEvents GbxVideoGeneralD As System.Windows.Forms.GroupBox
-    Friend WithEvents LblVideoGeneralTotalD As System.Windows.Forms.Label
-    Friend WithEvents TxbVideoGeneralD As System.Windows.Forms.TextBox
-    Friend WithEvents BTNVideoGeneralD As System.Windows.Forms.Button
-    Friend WithEvents CBVideoGeneralD As System.Windows.Forms.CheckBox
-    Friend WithEvents GbxVideoSpecialD As System.Windows.Forms.GroupBox
-    Friend WithEvents LblVideoCHTotalD As System.Windows.Forms.Label
-    Friend WithEvents LblVideoJOITotalD As System.Windows.Forms.Label
-    Friend WithEvents TxbVideoCHD As System.Windows.Forms.TextBox
-    Friend WithEvents TxbVideoJOID As System.Windows.Forms.TextBox
-    Friend WithEvents BTNVideoCHD As System.Windows.Forms.Button
-    Friend WithEvents BTNVideoJOID As System.Windows.Forms.Button
-    Friend WithEvents CBVideoJOID As System.Windows.Forms.CheckBox
-    Friend WithEvents CBVideoCHD As System.Windows.Forms.CheckBox
-    Friend WithEvents GbxVideoGenreD As System.Windows.Forms.GroupBox
-    Friend WithEvents LblVideoFemsubTotalD As System.Windows.Forms.Label
-    Friend WithEvents TxbVideoFemsubD As System.Windows.Forms.TextBox
-    Friend WithEvents LblVideoFemdomTotalD As System.Windows.Forms.Label
-    Friend WithEvents TxbVideoFemdomD As System.Windows.Forms.TextBox
-    Friend WithEvents TxbVideoBlowjobD As System.Windows.Forms.TextBox
-    Friend WithEvents LblVideoBlowjobTotalD As System.Windows.Forms.Label
-    Friend WithEvents TxbVideoLesbianD As System.Windows.Forms.TextBox
-    Friend WithEvents TxbVideoSoftCoreD As System.Windows.Forms.TextBox
-    Friend WithEvents LblVideoLesbianTotalD As System.Windows.Forms.Label
-    Friend WithEvents TxbVideoHardCoreD As System.Windows.Forms.TextBox
-    Friend WithEvents BTNVideoFemSubD As System.Windows.Forms.Button
-    Friend WithEvents LblVideoSoftCoreTotalD As System.Windows.Forms.Label
-    Friend WithEvents BTNVideoFemDomD As System.Windows.Forms.Button
-    Friend WithEvents BTNVideoBlowjobD As System.Windows.Forms.Button
-    Friend WithEvents LblVideoHardCoreTotalD As System.Windows.Forms.Label
-    Friend WithEvents BTNVideoLesbianD As System.Windows.Forms.Button
-    Friend WithEvents BTNVideoSoftCoreD As System.Windows.Forms.Button
-    Friend WithEvents BTNVideoHardCoreD As System.Windows.Forms.Button
-    Friend WithEvents CBVideoHardcoreD As System.Windows.Forms.CheckBox
-    Friend WithEvents CBVideoSoftCoreD As System.Windows.Forms.CheckBox
-    Friend WithEvents CBVideoLesbianD As System.Windows.Forms.CheckBox
-    Friend WithEvents CBVideoBlowjobD As System.Windows.Forms.CheckBox
-    Friend WithEvents CBVideoFemsubD As System.Windows.Forms.CheckBox
-    Friend WithEvents CBVideoFemdomD As System.Windows.Forms.CheckBox
-    Friend WithEvents GbxVideoDescription As System.Windows.Forms.GroupBox
-    Friend WithEvents VideoDescriptionLabel As System.Windows.Forms.Label
-    Friend WithEvents GbxVideoGeneral As System.Windows.Forms.GroupBox
-    Friend WithEvents LblVideoGeneralTotal As System.Windows.Forms.Label
-    Friend WithEvents TxbVideoGeneral As System.Windows.Forms.TextBox
-    Friend WithEvents BTNVideoGeneral As System.Windows.Forms.Button
-    Friend WithEvents CBVideoGeneral As System.Windows.Forms.CheckBox
-    Friend WithEvents GbxVideoSpecial As System.Windows.Forms.GroupBox
-    Friend WithEvents LblVideoCHTotal As System.Windows.Forms.Label
-    Friend WithEvents LblVideoJOITotal As System.Windows.Forms.Label
-    Friend WithEvents TxbVideoCH As System.Windows.Forms.TextBox
-    Friend WithEvents TxbVideoJOI As System.Windows.Forms.TextBox
-    Friend WithEvents BTNVideoCH As System.Windows.Forms.Button
-    Friend WithEvents BTNVideoJOI As System.Windows.Forms.Button
-    Friend WithEvents CBVideoJOI As System.Windows.Forms.CheckBox
-    Friend WithEvents CBVideoCH As System.Windows.Forms.CheckBox
-    Friend WithEvents GbxVideoGenre As System.Windows.Forms.GroupBox
-    Friend WithEvents LblVideoFemsubTotal As System.Windows.Forms.Label
-    Friend WithEvents TxbVideoFemsub As System.Windows.Forms.TextBox
-    Friend WithEvents LblVideoFemdomTotal As System.Windows.Forms.Label
-    Friend WithEvents TxbVideoFemdom As System.Windows.Forms.TextBox
-    Friend WithEvents TxbVideoBlowjob As System.Windows.Forms.TextBox
-    Friend WithEvents LblVideoBlowjobTotal As System.Windows.Forms.Label
-    Friend WithEvents TxbVideoLesbian As System.Windows.Forms.TextBox
-    Friend WithEvents TxbVideoSoftCore As System.Windows.Forms.TextBox
-    Friend WithEvents LblVideoLesbianTotal As System.Windows.Forms.Label
-    Friend WithEvents TxbVideoHardCore As System.Windows.Forms.TextBox
-    Friend WithEvents BTNVideoFemSub As System.Windows.Forms.Button
-    Friend WithEvents LblVideoSoftCoreTotal As System.Windows.Forms.Label
-    Friend WithEvents BTNVideoFemDom As System.Windows.Forms.Button
-    Friend WithEvents BTNVideoBlowjob As System.Windows.Forms.Button
-    Friend WithEvents LblVideoHardCoreTotal As System.Windows.Forms.Label
-    Friend WithEvents BTNVideoLesbian As System.Windows.Forms.Button
-    Friend WithEvents BTNVideoSoftCore As System.Windows.Forms.Button
-    Friend WithEvents BTNVideoHardCore As System.Windows.Forms.Button
-    Friend WithEvents CBVideoHardcore As System.Windows.Forms.CheckBox
-    Friend WithEvents CBVideoSoftCore As System.Windows.Forms.CheckBox
-    Friend WithEvents CBVideoLesbian As System.Windows.Forms.CheckBox
-    Friend WithEvents CBVideoBlowjob As System.Windows.Forms.CheckBox
-    Friend WithEvents CBVideoFemsub As System.Windows.Forms.CheckBox
-    Friend WithEvents CBVideoFemdom As System.Windows.Forms.CheckBox
-    Friend WithEvents LblVideoHeader As System.Windows.Forms.Label
     Friend WithEvents BTNVideoModClear As System.Windows.Forms.Button
     Friend WithEvents BTNVideoModLoad As System.Windows.Forms.Button
     Friend WithEvents BTNVideoModSave As System.Windows.Forms.Button
@@ -14957,7 +14965,6 @@ Partial Class FrmSettings
     Friend WithEvents TabPage15 As System.Windows.Forms.TabPage
     Friend WithEvents OpenFileDialog1 As System.Windows.Forms.OpenFileDialog
     Friend WithEvents GetColor As System.Windows.Forms.ColorDialog
-    Friend WithEvents FolderBrowserDialog1 As System.Windows.Forms.FolderBrowserDialog
     Friend WithEvents WebImageFileDialog As System.Windows.Forms.OpenFileDialog
     Friend WithEvents SaveFileDialog1 As System.Windows.Forms.SaveFileDialog
     Friend WithEvents OpenScriptDialog As System.Windows.Forms.OpenFileDialog
@@ -15013,7 +15020,7 @@ Partial Class FrmSettings
     Friend WithEvents LocalHardcoreEnabledCheckBox As System.Windows.Forms.CheckBox
     Friend WithEvents LocalSoftcoreEnabledCheckBox As System.Windows.Forms.CheckBox
     Friend WithEvents LocalLesbianEnabledCheckBox As System.Windows.Forms.CheckBox
-    Friend WithEvents  LocalBlowjobEnabledCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents LocalBlowjobEnabledCheckBox As System.Windows.Forms.CheckBox
     Friend WithEvents LocalLezdomEnabledCheckBox As System.Windows.Forms.CheckBox
     Friend WithEvents LocalFemdomEnabledCheckBox As System.Windows.Forms.CheckBox
     Friend WithEvents LocalGeneralDirectoryTextBox As System.Windows.Forms.TextBox
@@ -15668,4 +15675,92 @@ Partial Class FrmSettings
     Friend WithEvents ScriptInfoPanel As Panel
     Friend WithEvents ScriptNavPanel As Panel
     Friend WithEvents SelectBlogDropDown As ComboBox
+    Friend WithEvents VideoSettingsPanel As Panel
+    Friend WithEvents VideoHeaderPanel As Panel
+    Friend WithEvents VideoHeaderLabel As Label
+    Friend WithEvents VideoRefreshButton As Button
+    Friend WithEvents VideoLogo As PictureBox
+    Friend WithEvents VideoDommeGeneralGroupBox As GroupBox
+    Friend WithEvents VideoTotalDommeGeneral As Label
+    Friend WithEvents VideoDommeGeneralPathTextBox As TextBox
+    Friend WithEvents BTNVideoGeneralD As Button
+    Friend WithEvents CBVideoGeneralD As CheckBox
+    Friend WithEvents GbxVideoSpecialD As GroupBox
+    Friend WithEvents LblVideoCHTotalD As Label
+    Friend WithEvents LblVideoJOITotalD As Label
+    Friend WithEvents TxbVideoCHD As TextBox
+    Friend WithEvents TxbVideoJOID As TextBox
+    Friend WithEvents BTNVideoCHD As Button
+    Friend WithEvents BTNVideoJOID As Button
+    Friend WithEvents CBVideoJOID As CheckBox
+    Friend WithEvents CBVideoCHD As CheckBox
+    Friend WithEvents GbxVideoGenreD As GroupBox
+    Friend WithEvents LblVideoFemsubTotalD As Label
+    Friend WithEvents TxbVideoFemsubD As TextBox
+    Friend WithEvents LblVideoFemdomTotalD As Label
+    Friend WithEvents TxbVideoFemdomD As TextBox
+    Friend WithEvents TxbVideoBlowjobD As TextBox
+    Friend WithEvents LblVideoBlowjobTotalD As Label
+    Friend WithEvents TxbVideoLesbianD As TextBox
+    Friend WithEvents TxbVideoSoftCoreD As TextBox
+    Friend WithEvents LblVideoLesbianTotalD As Label
+    Friend WithEvents TxbVideoHardCoreD As TextBox
+    Friend WithEvents BTNVideoFemSubD As Button
+    Friend WithEvents LblVideoSoftCoreTotalD As Label
+    Friend WithEvents BTNVideoFemDomD As Button
+    Friend WithEvents BTNVideoBlowjobD As Button
+    Friend WithEvents LblVideoHardCoreTotalD As Label
+    Friend WithEvents BTNVideoLesbianD As Button
+    Friend WithEvents BTNVideoSoftCoreD As Button
+    Friend WithEvents BTNVideoHardCoreD As Button
+    Friend WithEvents CBVideoHardcoreD As CheckBox
+    Friend WithEvents CBVideoSoftCoreD As CheckBox
+    Friend WithEvents CBVideoLesbianD As CheckBox
+    Friend WithEvents CBVideoBlowjobD As CheckBox
+    Friend WithEvents CBVideoFemsubD As CheckBox
+    Friend WithEvents CBVideoFemdomD As CheckBox
+    Friend WithEvents VideoDescriptionGroupBox As GroupBox
+    Friend WithEvents VideoDescriptionLabel As Label
+    Friend WithEvents VideoGeneralGroupBox As GroupBox
+    Friend WithEvents LblVideoGeneralTotal As Label
+    Friend WithEvents TxbVideoGeneral As TextBox
+    Friend WithEvents BTNVideoGeneral As Button
+    Friend WithEvents CBVideoGeneral As CheckBox
+    Friend WithEvents VideoSpecialGroupBox As GroupBox
+    Friend WithEvents LblVideoCHTotal As Label
+    Friend WithEvents LblVideoJOITotal As Label
+    Friend WithEvents TxbVideoCH As TextBox
+    Friend WithEvents TxbVideoJOI As TextBox
+    Friend WithEvents BTNVideoCH As Button
+    Friend WithEvents BTNVideoJOI As Button
+    Friend WithEvents CBVideoJOI As CheckBox
+    Friend WithEvents CBVideoCH As CheckBox
+    Friend WithEvents VideoGenreGroupBox As GroupBox
+    Friend WithEvents LblVideoFemsubTotal As Label
+    Friend WithEvents TxbVideoFemsub As TextBox
+    Friend WithEvents LblVideoFemdomTotal As Label
+    Friend WithEvents TxbVideoFemdom As TextBox
+    Friend WithEvents TxbVideoBlowjob As TextBox
+    Friend WithEvents LblVideoBlowjobTotal As Label
+    Friend WithEvents TxbVideoLesbian As TextBox
+    Friend WithEvents TxbVideoSoftCore As TextBox
+    Friend WithEvents LblVideoLesbianTotal As Label
+    Friend WithEvents VideoHardCorePathTextBox As TextBox
+    Friend WithEvents BTNVideoFemSub As Button
+    Friend WithEvents LblVideoSoftCoreTotal As Label
+    Friend WithEvents BTNVideoFemDom As Button
+    Friend WithEvents BTNVideoBlowjob As Button
+    Friend WithEvents LblVideoHardCoreTotal As Label
+    Friend WithEvents BTNVideoLesbian As Button
+    Friend WithEvents BTNVideoSoftCore As Button
+    Friend WithEvents VideoSetHardcorePathButton As Button
+    Friend WithEvents VideoEnableHardcoreCheckBox As CheckBox
+    Friend WithEvents VideoEnableSoftcoreCheckBox As CheckBox
+    Friend WithEvents CBVideoLesbian As CheckBox
+    Friend WithEvents CBVideoBlowjob As CheckBox
+    Friend WithEvents CBVideoFemsub As CheckBox
+    Friend WithEvents CBVideoFemdom As CheckBox
+    Friend WithEvents VideoLayoutTable As TableLayoutPanel
+    Friend WithEvents VideoGeneralPanel As Panel
+    Friend WithEvents VideoDommePanel As Panel
 End Class

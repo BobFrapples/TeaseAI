@@ -8,11 +8,11 @@ using TeaseAI.Common.Interfaces.Accessors;
 
 namespace TeaseAI.Services.CommandProcessor
 {
-    public class PlayJoiVideoCommandProcessor : CommandProcessorBase
+    public class PlayCockHeroVideoCommandProcessor : CommandProcessorBase
     {
-        public PlayJoiVideoCommandProcessor(LineService lineService
+        public PlayCockHeroVideoCommandProcessor(LineService lineService
             , IVideoAccessor videoAccessor
-            , IRandomNumberService randomNumberService) : base(Keyword.PlayJoiVideo, lineService)
+            , IRandomNumberService randomNumberService) : base(Keyword.PlayCockHeroVideo, lineService)
         {
             _videoAccessor = videoAccessor;
             _randomNumberService = randomNumberService;
@@ -21,8 +21,10 @@ namespace TeaseAI.Services.CommandProcessor
         public override Result<Session> PerformCommand(Session session, string line)
         {
             var workingSession = session.Clone();
-            var getVideos = _videoAccessor.GetVideoData(VideoGenre.Joi);
+
+            var getVideos = _videoAccessor.GetVideoData(VideoGenre.CockHero);
             var videos = getVideos.Value;
+
             var selected = videos[_randomNumberService.Roll(0, videos.Count)];
 
             var ea = new PlayVideoEventArgs()
@@ -41,8 +43,8 @@ namespace TeaseAI.Services.CommandProcessor
 
         protected override Result ParseCommandSpecific(Script script, string personalityName, string line)
         {
-            return _videoAccessor.GetVideoData(VideoGenre.Joi)
-                .Ensure(vids => vids.Count() > 0, "There are no Jerk Off Instruction videos found")
+            return _videoAccessor.GetVideoData(VideoGenre.CockHero)
+                .Ensure(vids => vids.Count() > 0, "There are no Cock Hero videos found")
                 .Map();
         }
 

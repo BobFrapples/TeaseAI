@@ -77,6 +77,7 @@ namespace TeaseAI.Services
 
             CommandProcessors[Keyword.PlayVideo].CommandProcessed += PlayVideoCommandProcessed;
             CommandProcessors[Keyword.PlayJoiVideo].CommandProcessed += PlayVideoCommandProcessed;
+            CommandProcessors[Keyword.PlayCockHeroVideo].CommandProcessed += PlayVideoCommandProcessed;
 
             CommandProcessors[Keyword.SendDailyTasks].CommandProcessed += RequestTaskCommandProcessed;
             CommandProcessors[Keyword.VitalSubAssignment].CommandProcessed += VitalSubAssignmentCommandProcessed;

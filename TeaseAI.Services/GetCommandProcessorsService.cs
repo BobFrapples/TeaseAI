@@ -94,8 +94,9 @@ namespace TeaseAI.Services
             rVal.Add(Keyword.ShowLocalImage, new ShowLocalImageCommandProcessor(_imageAccessor, _lineService));
 
             // Video commands
-            rVal.Add(Keyword.PlayVideo, new PlayVideoCommandProcessor(_videoAccessor));
+            rVal.Add(Keyword.PlayVideo, new PlayVideoCommandProcessor(_lineService, _videoAccessor));
             rVal.Add(Keyword.PlayJoiVideo, new PlayJoiVideoCommandProcessor(_lineService, _videoAccessor, _randomNumberService));
+            rVal.Add(Keyword.PlayCockHeroVideo, new PlayCockHeroVideoCommandProcessor(_lineService, _videoAccessor, _randomNumberService));
 
             rVal.Add(Keyword.RandomText, new SearchImageBlogCommandProcessor(_imageAccessor));
             rVal.Add(Keyword.IncreaseOrgasmChance, new IncreaseOrgasmChanceCommand(_lineService));

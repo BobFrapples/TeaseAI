@@ -279,6 +279,11 @@
             specifically play a Jerk Off Instruction Video
             </summary>
         </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.PlayCockHeroVideo">
+            <summary>
+            specifically play a Cock Hero Video
+            </summary>
+        </member>
         <member name="F:TeaseAI.Common.Constants.Keyword.CockTorture">
             <summary>
             <para>Make the sub torture his cock. pause briefly for it to happen (TaskPauseMinimum and TaskPauseMaximum in settings)</para>
@@ -679,6 +684,11 @@
         <member name="F:TeaseAI.Common.Constants.VideoGenre.Softcore">
             <summary>
             No insertion shown, things more like a topless car wash
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.VideoGenre.RedLightGreenLight">
+            <summary>
+            Shortened to RLGL, a game where the sub has to stop  and start repeatedly
             </summary>
         </member>
         <member name="T:TeaseAI.Common.Data.ApplicationConfiguration">
@@ -1539,6 +1549,15 @@
             </summary>
             <param name="mediaTypeId"></param>
             <param name="imageSource"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.IMediaContainerService.GetOrCreate(System.Int32,TeaseAI.Common.Constants.ImageSource,TeaseAI.Common.Constants.ImageGenre)">
+            <summary>
+            Get the first container that matches inputs, or creates a new one (but does not save)
+            </summary>
+            <param name="mediaTypeId"></param>
+            <param name="mediaSource"></param>
+            <param name="mediaGenre"></param>
             <returns></returns>
         </member>
         <member name="E:TeaseAI.Common.Interfaces.IMessageProcessor.MessageProcessed">

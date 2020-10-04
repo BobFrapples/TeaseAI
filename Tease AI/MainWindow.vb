@@ -3613,376 +3613,6 @@ DommeSlideshowFallback:
         ssh.DomTask = ssh.DomTask.Replace("#CBTAmount", CBTAmount)
     End Sub
 
-#Region "----------------------------------------------------- Video-Files ----------------------------------------------------"
-    Public Sub StartRandomVideo()
-        ' Reset retentive global variables
-        ssh.DommeVideo = False
-        Dim getVideoMetaData As Result(Of List(Of VideoMetaData)) = New VideoAccessor().GetVideoData(Nothing)
-        Dim videoMetaDatas As List(Of VideoMetaData) = getVideoMetaData.GetResultOrDefault(New List(Of VideoMetaData)())
-        Dim allFiles As New List(Of VideoMetaData)
-
-        If My.Settings.CBHardcore Then _
-            allFiles.AddRange(videoMetaDatas.Where(Function(vmd) vmd.Genre = VideoGenre.Hardcore AndAlso Not vmd.FeaturesDomme))
-
-        If My.Settings.CBSoftcore Then _
-            allFiles.AddRange(videoMetaDatas.Where(Function(vmd) vmd.Genre = VideoGenre.Softcore AndAlso Not vmd.FeaturesDomme))
-
-        If My.Settings.CBLesbian Then _
-            allFiles.AddRange(videoMetaDatas.Where(Function(vmd) vmd.Genre = VideoGenre.Lesbian AndAlso Not vmd.FeaturesDomme))
-
-        If My.Settings.CBBlowjob Then _
-            allFiles.AddRange(videoMetaDatas.Where(Function(vmd) vmd.Genre = VideoGenre.Blowjob AndAlso Not vmd.FeaturesDomme))
-
-        If My.Settings.CBFemdom = True Then _
-            allFiles.AddRange(videoMetaDatas.Where(Function(vmd) vmd.Genre = VideoGenre.FemDom AndAlso Not vmd.FeaturesDomme))
-
-        If My.Settings.CBFemsub = True Then _
-            allFiles.AddRange(videoMetaDatas.Where(Function(vmd) vmd.Genre = VideoGenre.FemSub AndAlso Not vmd.FeaturesDomme))
-
-        If ssh.NoSpecialVideo Then GoTo SkipSpecial
-        If ssh.ScriptVideoTeaseFlag Then
-            If ssh.ScriptVideoTease = "Censorship Sucks" OrElse ssh.ScriptVideoTease = "Avoid The Edge" OrElse ssh.ScriptVideoTease = "RLGL" Then GoTo SkipSpecial
-        End If
-
-        If ssh.RandomizerVideo = True Then GoTo SkipSpecial
-
-        If My.Settings.CBJOI = True Then _
-            allFiles.AddRange(videoMetaDatas.Where(Function(vmd) vmd.Genre = VideoGenre.Joi AndAlso Not vmd.FeaturesDomme))
-
-        If My.Settings.CBCH = True Then _
-            allFiles.AddRange(videoMetaDatas.Where(Function(vmd) vmd.Genre = VideoGenre.CockHero AndAlso Not vmd.FeaturesDomme))
-
-SkipSpecial:
-        If My.Settings.CBGeneral Then _
-            allFiles.AddRange(videoMetaDatas.Where(Function(vmd) vmd.Genre = VideoGenre.General AndAlso Not vmd.FeaturesDomme))
-
-        ' Domme Videos
-        If My.Settings.CBHardcoreD Then _
-            allFiles.AddRange(videoMetaDatas.Where(Function(vmd) vmd.Genre = VideoGenre.General AndAlso vmd.FeaturesDomme))
-
-        If My.Settings.CBSoftcoreD Then _
-            allFiles.AddRange(videoMetaDatas.Where(Function(vmd) vmd.Genre = VideoGenre.Softcore AndAlso vmd.FeaturesDomme))
-
-        If My.Settings.CBLesbianD Then _
-            allFiles.AddRange(videoMetaDatas.Where(Function(vmd) vmd.Genre = VideoGenre.Lesbian AndAlso vmd.FeaturesDomme))
-
-        If My.Settings.CBBlowjobD Then _
-            allFiles.AddRange(videoMetaDatas.Where(Function(vmd) vmd.Genre = VideoGenre.Blowjob AndAlso vmd.FeaturesDomme))
-
-        If My.Settings.CBFemdomD Then _
-            allFiles.AddRange(videoMetaDatas.Where(Function(vmd) vmd.Genre = VideoGenre.FemDom AndAlso vmd.FeaturesDomme))
-
-        If My.Settings.CBFemsubD Then _
-            allFiles.AddRange(videoMetaDatas.Where(Function(vmd) vmd.Genre = VideoGenre.FemSub AndAlso vmd.FeaturesDomme))
-
-        If ssh.NoSpecialVideo Then GoTo SkipSpecialD
-        If ssh.ScriptVideoTeaseFlag Then
-            If ssh.ScriptVideoTease = "Censorship Sucks" OrElse ssh.ScriptVideoTease = "Avoid The Edge" OrElse ssh.ScriptVideoTease = "RLGL" Then GoTo SkipSpecialD
-        End If
-
-        If ssh.RandomizerVideo = True Then GoTo SkipSpecialD
-
-        ' Domme Special Videos
-        If My.Settings.CBJOID Then _
-            allFiles.AddRange(videoMetaDatas.Where(Function(vmd) vmd.Genre = VideoGenre.Joi AndAlso vmd.FeaturesDomme))
-
-        If My.Settings.CBCHD = True Then _
-            allFiles.AddRange(videoMetaDatas.Where(Function(vmd) vmd.Genre = VideoGenre.CockHero AndAlso vmd.FeaturesDomme))
-
-SkipSpecialD:
-        '	Domme  General Videos
-        If My.Settings.CBGeneralD Then _
-            allFiles.AddRange(videoMetaDatas.Where(Function(vmd) vmd.Genre = VideoGenre.General AndAlso vmd.FeaturesDomme))
-
-        allFiles = allFiles.Distinct().ToList()
-        If Not allFiles.Any() OrElse ssh.VideoCheck Then Exit Sub
-
-        Dim videoMetaData As VideoMetaData = allFiles(myRandomNumberService.Roll(0, allFiles.Count))
-        Dim genre As VideoGenre = videoMetaData.Genre
-        Dim containsDomme As Boolean = videoMetaData.FeaturesDomme
-
-        ssh.VideoType = genre.ToString() + IIf(containsDomme, "D", String.Empty)
-        ssh.DommeVideo = containsDomme
-
-        PlayVideo(videoMetaData, False)
-    End Sub
-
-    Public Sub RandomVideo()
-        ' Reset retentive global variables
-        ssh.NoVideo = False
-        ssh.DommeVideo = False
-
-        Dim __dom As Random = New Random()
-        Dim __domVideo As String
-        Dim __TotalFiles As New List(Of String)
-
-        '======================================================================================
-        '									Genre Videos
-        '======================================================================================
-        If My.Settings.CBHardcore = True Then _
-            __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoHardcore))
-
-        If My.Settings.CBSoftcore = True Then _
-            __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoSoftcore))
-
-        If My.Settings.CBLesbian = True Then _
-            __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoLesbian))
-
-        If My.Settings.CBBlowjob = True Then _
-            __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoBlowjob))
-
-        If My.Settings.CBFemdom = True Then _
-            __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoFemdom))
-
-        If My.Settings.CBFemsub = True Then _
-            __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoFemsub))
-
-        If ssh.NoSpecialVideo = True Then GoTo SkipSpecial
-
-        If ssh.ScriptVideoTeaseFlag = True Then
-            If ssh.ScriptVideoTease = "Censorship Sucks" Or ssh.ScriptVideoTease = "Avoid The Edge" Or ssh.ScriptVideoTease = "RLGL" Then GoTo SkipSpecial
-        End If
-
-        If ssh.RandomizerVideo Then GoTo SkipSpecial
-        If My.Settings.CBJOI = True Then _
-            __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoJOI))
-
-        If My.Settings.CBCH = True Then _
-            __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoCH))
-
-SkipSpecial:
-        '======================================================================================
-        '									General Videos
-        '======================================================================================
-        If My.Settings.CBGeneral = True Then _
-            __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoGeneral))
-
-        '======================================================================================
-        '									Domme - Videos
-        '======================================================================================
-        If My.Settings.CBHardcoreD = True Then _
-            __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoHardcoreD))
-
-        If My.Settings.CBSoftcoreD = True Then _
-            __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoSoftcoreD))
-
-        If My.Settings.CBLesbianD = True Then _
-            __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoLesbianD))
-
-        If My.Settings.CBBlowjobD = True Then _
-            __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoBlowjobD))
-
-        If My.Settings.CBFemdomD = True Then _
-            __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoFemdomD))
-
-        If My.Settings.CBFemsubD = True Then _
-            __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoFemsubD))
-
-        If ssh.NoSpecialVideo = True Then GoTo SkipSpecialD
-        If ssh.ScriptVideoTeaseFlag = True Then
-            If ssh.ScriptVideoTease = "Censorship Sucks" Or ssh.ScriptVideoTease = "Avoid The Edge" Or ssh.ScriptVideoTease = "RLGL" Then GoTo SkipSpecialD
-        End If
-
-        If ssh.RandomizerVideo = True Then GoTo SkipSpecialD
-
-        '======================================================================================
-        '								Domme - Special - Videos
-        '======================================================================================
-        If My.Settings.CBJOID = True Then _
-            __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoJOID))
-
-        If My.Settings.CBCHD = True Then _
-            __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoCHD))
-
-SkipSpecialD:
-        '======================================================================================
-        '								Domme - General Videos
-        '======================================================================================
-        If My.Settings.CBGeneralD = True Then _
-            __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoGeneralD))
-
-
-
-        If __TotalFiles.Count = 0 Then Exit Sub
-
-        If ssh.VideoCheck = True Then Exit Sub
-
-GetAnotherRandomVideo:
-
-        __domVideo = __TotalFiles(__dom.Next(0, __TotalFiles.Count))
-
-        If __domVideo = "" Then GoTo GetAnotherRandomVideo
-
-        Dim genre As VideoGenre = VideoGenre.General
-
-        If My.Settings.CBHardcore AndAlso InStr(__domVideo, My.Settings.VideoHardcore) <> 0 Then genre = VideoGenre.Hardcore
-        If My.Settings.CBSoftcore AndAlso InStr(__domVideo, My.Settings.VideoSoftcore) <> 0 Then genre = VideoGenre.Softcore
-        If My.Settings.CBLesbian AndAlso InStr(__domVideo, My.Settings.VideoLesbian) <> 0 Then genre = VideoGenre.Lesbian
-        If My.Settings.CBBlowjob AndAlso InStr(__domVideo, My.Settings.VideoBlowjob) <> 0 Then genre = VideoGenre.Blowjob
-        If My.Settings.CBFemdom AndAlso InStr(__domVideo, My.Settings.VideoFemdom) <> 0 Then genre = VideoGenre.FemDom
-        If My.Settings.CBFemsub AndAlso InStr(__domVideo, My.Settings.VideoFemsub) <> 0 Then genre = VideoGenre.FemSub
-        If My.Settings.CBJOI AndAlso InStr(__domVideo, My.Settings.VideoJOI) <> 0 Then genre = VideoGenre.Joi
-        If My.Settings.CBCH AndAlso InStr(__domVideo, My.Settings.VideoCH) <> 0 Then genre = VideoGenre.CockHero
-        If My.Settings.CBGeneral AndAlso InStr(__domVideo, My.Settings.VideoGeneral) <> 0 Then genre = VideoGenre.General
-
-        Dim containsDomme As Boolean = False
-        If My.Settings.CBHardcoreD And InStr(__domVideo, My.Settings.VideoHardcoreD) <> 0 Then
-            genre = VideoGenre.Hardcore
-            containsDomme = True
-        End If
-        If My.Settings.CBSoftcoreD And InStr(__domVideo, My.Settings.VideoSoftcoreD) <> 0 Then
-            genre = VideoGenre.Softcore
-            containsDomme = True
-        End If
-        If My.Settings.CBLesbianD And InStr(__domVideo, My.Settings.VideoLesbianD) <> 0 Then
-            genre = VideoGenre.Lesbian
-            containsDomme = True
-        End If
-
-        If My.Settings.CBBlowjobD And InStr(__domVideo, My.Settings.VideoBlowjobD) <> 0 Then
-            genre = VideoGenre.Blowjob
-            containsDomme = True
-        End If
-        If My.Settings.CBFemdomD And InStr(__domVideo, My.Settings.VideoFemdomD) <> 0 Then
-            genre = VideoGenre.FemDom
-            containsDomme = True
-        End If
-        If My.Settings.CBFemsubD And InStr(__domVideo, My.Settings.VideoFemsubD) <> 0 Then
-            genre = VideoGenre.FemSub
-            containsDomme = True
-        End If
-
-        If My.Settings.CBJOID And InStr(__domVideo, My.Settings.VideoJOID) <> 0 Then
-            genre = VideoGenre.Joi
-            containsDomme = True
-        End If
-
-        If My.Settings.CBCHD = True And InStr(__domVideo, My.Settings.VideoCHD) <> 0 Then
-            genre = VideoGenre.CockHero
-            containsDomme = True
-        End If
-
-        If My.Settings.CBGeneralD = True And InStr(__domVideo, My.Settings.VideoGeneral) <> 0 Then
-            genre = VideoGenre.General
-            containsDomme = True
-        End If
-        ssh.VideoType = genre.ToString() + IIf(containsDomme, "D", String.Empty)
-        ssh.DommeVideo = containsDomme
-
-        Dim videoMetaData As VideoMetaData = New VideoMetaData()
-        videoMetaData.Key = __domVideo
-        videoMetaData.Genre = genre
-        videoMetaData.FeaturesDomme = containsDomme
-        PlayVideo(videoMetaData, False)
-    End Sub
-
-    ''' <summary>
-    ''' Start the video passed in.
-    ''' </summary>
-    ''' <param name="videoMetaData"></param>
-    Private Function PlayVideo(videoMetaData As VideoMetaData, makeRandom As Boolean) As Result
-        '        domVLC.Visible = True
-        DomWMP.Visible = True
-        DomWMP.stretchToFit = True
-
-        ' programsettingsPanel.Visible = False
-        mainPictureBox.Visible = False
-        ' domVLC.playlist.items.clear()
-        ' domVLC.playlist.add("file:///" & RandomVideo & "")
-        ' domVLC.video.crop = domVLC.Width & ":" & domVLC.Height
-        ' domVLC.playlist.play()
-        'If FrmSettings.VLCfillRadio.Checked = True Then
-        ' domVLC.video.crop = domVLC.Width & ":" & domVLC.Height
-        'End If
-        'If FrmSettings.VLC43Radio.Checked = True Then domVLC.video.crop = "4:3"
-        'If FrmSettings.VLC1610Radio.Checked = True Then domVLC.video.crop = "16:10"
-        'If FrmSettings.VLC169Radio.Checked = True Then domVLC.video.crop = "16:9"
-
-        DomWMP.URL = videoMetaData.Key
-
-        If ssh.JumpVideo = True Then
-            Do
-                Application.DoEvents()
-            Loop Until (DomWMP.playState = WMPLib.WMPPlayState.wmppsPlaying)
-            DomWMP.Ctlcontrols.currentPosition = GetStartPostion(makeRandom)
-        End If
-
-        ssh.JumpVideo = False
-        Return Result.Ok()
-    End Function
-
-    Friend Sub PlayRandomJOI()
-        'ISSUE: there is no control, if a Domme-Video or a Regular JOI is played.
-        'ISSUE: Redundant Code
-        Dim JOIVideos As New List(Of String)
-        JOIVideos.Clear()
-
-        If FrmSettings.LblVideoJOITotal.Text <> "0" And My.Settings.CBJOI = True Then
-
-            JOIVideos.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoJOI,
-                                                         System.IO.SearchOption.AllDirectories))
-        End If
-
-        If FrmSettings.LblVideoJOITotalD.Text <> "0" And My.Settings.CBJOID = True Then
-            JOIVideos.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoJOI,
-                                                         System.IO.SearchOption.AllDirectories))
-        End If
-
-        If JOIVideos.Count < 1 Then
-            'ISSUE: This Message will occur during running Scripts!
-            MessageBox.Show(Me, "No JOI Videos found!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            If ssh.TeaseVideo = True Then RunFileText()
-            ssh.TeaseVideo = False
-            Return
-        End If
-
-        Dim JOIVideoLine As Integer = ssh.randomizer.Next(0, JOIVideos.Count)
-
-        DomWMP.Visible = True
-        DomWMP.stretchToFit = True
-
-        mainPictureBox.Visible = False
-
-        DomWMP.URL = JOIVideos(JOIVideoLine)
-
-
-    End Sub
-
-    Friend Sub PlayRandomCH()
-        'ISSUE: there is no control, if a Domme-Video or a Regular JOI is played.
-        'ISSUE: Redundant Code
-        Dim CHVideos As New List(Of String)
-        CHVideos.Clear()
-
-        If FrmSettings.LblVideoCHTotal.Text <> "0" And My.Settings.CBCH = True Then
-            CHVideos.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoCH))
-        End If
-        If FrmSettings.LblVideoCHTotalD.Text <> "0" And My.Settings.CBCHD = True Then
-            CHVideos.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoCHD))
-        End If
-
-        If CHVideos.Count < 1 Then
-            'ISSUE: This Message will occur during running Scripts!
-            MessageBox.Show(Me, "No CH Videos found!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            If ssh.TeaseVideo = True Then RunFileText()
-            ssh.TeaseVideo = False
-            Return
-        End If
-
-        Dim CHVideoLine As Integer = ssh.randomizer.Next(0, CHVideos.Count)
-
-        DomWMP.Visible = True
-        DomWMP.stretchToFit = True
-
-        mainPictureBox.Visible = False
-
-        DomWMP.URL = CHVideos(CHVideoLine)
-
-
-    End Sub
-
-#End Region
-
     Private Sub SettingsButton_Click(sender As Object, e As EventArgs) Handles BtnToggleSettings.Click
         If FrmSettings.Visible = True Then
             FrmSettings.Visible = False
@@ -4006,84 +3636,79 @@ GetAnotherRandomVideo:
         If ssh.FollowUp <> "" And ssh.CensorshipTick < 6 Then Return
 
         ssh.CensorshipTick -= 1
+        If ssh.CensorshipTick = 0 Then
+            Return
+        End If
 
+        Dim CensorLineTemp As Integer = ssh.randomizer.Next(1, 101)
+        Dim CensorVideo As String
 
-        If ssh.CensorshipTick < 1 Then
+        If FrmSettings.CBCensorConstant.Checked Then
+            GoTo CensorConstant
+        End If
 
+        If CensorshipBar.Visible = True Then
+            CensorshipBar.Visible = False
+            ssh.CensorshipTick = ssh.randomizer.Next(FrmSettings.NBCensorHideMin.Value, FrmSettings.NBCensorHideMax.Value + 1)
 
-            Dim CensorLineTemp As Integer = ssh.randomizer.Next(1, 101)
+            If CensorLineTemp > FrmSettings.TauntSlider.Value * 5 Then
+                Return
+            End If
 
+            CensorVideo = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Video\Censorship Sucks\CensorBarOff.txt"
 
-            Dim CensorVideo As String
-
-            If FrmSettings.CBCensorConstant.Checked = True Then GoTo CensorConstant
-
-            If CensorshipBar.Visible = True Then
-                CensorshipBar.Visible = False
-                ssh.CensorshipTick = ssh.randomizer.Next(FrmSettings.NBCensorHideMin.Value, FrmSettings.NBCensorHideMax.Value + 1)
-
-                If CensorLineTemp > FrmSettings.TauntSlider.Value * 5 Then
-                    Return
-                End If
-
-                CensorVideo = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Video\Censorship Sucks\CensorBarOff.txt"
-
-            Else
+        Else
 
 CensorConstant:
 
-                Dim CensorshipBarX As Integer
-                Dim CensorshipBarY As Integer
-                Dim CensorshipBarY2 As Integer
-
-                Try
-                    CensorshipBarY2 = ssh.randomizer.Next(200, DomWMP.Height / 2)
-                Catch
-                    CensorshipBarY2 = 100
-                End Try
-
-                CensorshipBar.Height = CensorshipBarY2
-                CensorshipBar.Width = CensorshipBarY2 * 2.6
-
-                'QnD-BUGFIX: if CensorshipBar.Width > DomWMP.Width then ArgumentOutOfRangeException 
-                CensorshipBarX = ssh.randomizer.Next(5, If(CensorshipBar.Width > DomWMP.Width, DomWMP.Width, DomWMP.Width - CensorshipBar.Width + 1))
-                CensorshipBarY = ssh.randomizer.Next(5, If(CensorshipBar.Height > DomWMP.Height, DomWMP.Height, DomWMP.Height - CensorshipBar.Height + 1))
-                CensorshipBar.Location = New Point(CensorshipBarX, CensorshipBarY)
-
-
-
-                CensorshipBar.Visible = False
-                CensorshipBar.Visible = True
-                CensorshipBar.BringToFront()
-
-                ssh.CensorshipTick = ssh.randomizer.Next(FrmSettings.NBCensorShowMin.Value, FrmSettings.NBCensorShowMax.Value + 1)
-
-                If CensorLineTemp > FrmSettings.TauntSlider.Value * 5 Then
-                    Return
-                End If
-
-                CensorVideo = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Video\Censorship Sucks\CensorBarOn.txt"
-
-            End If
-
-            ' Read all lines of the given file.
-            Dim lines As List(Of String) = Txt2List(CensorVideo)
-
-            Dim CensorLine As Integer
+            Dim CensorshipBarX As Integer
+            Dim CensorshipBarY As Integer
+            Dim CensorshipBarY2 As Integer
 
             Try
-                lines = FilterList(lines)
-                If lines.Count < 1 Then Return
-                CensorLine = ssh.randomizer.Next(0, lines.Count)
-                ssh.DomTask = lines(CensorLine)
-            Catch ex As Exception
-                Log.WriteError("Tease AI did not return a valid Censorship Sucks line from file: " &
-                               CensorVideo, ex, "CensorshipTimer.Tick")
-                ssh.DomTask = "ERROR: Tease AI did not return a valid Censorship Sucks line"
+                CensorshipBarY2 = ssh.randomizer.Next(200, DomWMP.Height / 2)
+            Catch
+                CensorshipBarY2 = 100
             End Try
+
+            CensorshipBar.Height = CensorshipBarY2
+            CensorshipBar.Width = CensorshipBarY2 * 2.6
+
+            'QnD-BUGFIX: if CensorshipBar.Width > DomWMP.Width then ArgumentOutOfRangeException 
+            CensorshipBarX = ssh.randomizer.Next(5, If(CensorshipBar.Width > DomWMP.Width, DomWMP.Width, DomWMP.Width - CensorshipBar.Width + 1))
+            CensorshipBarY = ssh.randomizer.Next(5, If(CensorshipBar.Height > DomWMP.Height, DomWMP.Height, DomWMP.Height - CensorshipBar.Height + 1))
+            CensorshipBar.Location = New Point(CensorshipBarX, CensorshipBarY)
+
+
+
+            CensorshipBar.Visible = False
+            CensorshipBar.Visible = True
+            CensorshipBar.BringToFront()
+
+            ssh.CensorshipTick = ssh.randomizer.Next(FrmSettings.NBCensorShowMin.Value, FrmSettings.NBCensorShowMax.Value + 1)
+
+            If CensorLineTemp > FrmSettings.TauntSlider.Value * 5 Then
+                Return
+            End If
+
+            CensorVideo = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Video\Censorship Sucks\CensorBarOn.txt"
 
         End If
 
+        ' Read all lines of the given file.
+        Dim lines As List(Of String) = Txt2List(CensorVideo)
+        Dim CensorLine As Integer
+
+        Try
+            lines = FilterList(lines)
+            If lines.Count < 1 Then Return
+            CensorLine = ssh.randomizer.Next(0, lines.Count)
+            ssh.DomTask = lines(CensorLine)
+        Catch ex As Exception
+            Log.WriteError("Tease AI did not return a valid Censorship Sucks line from file: " &
+                               CensorVideo, ex, "CensorshipTimer.Tick")
+            ssh.DomTask = "ERROR: Tease AI did not return a valid Censorship Sucks line"
+        End Try
     End Sub
 
     Public Sub RLGLTimer_Tick(sender As Object, e As EventArgs) Handles RLGLTimer.Tick
@@ -6846,34 +6471,6 @@ OrgasmDecided:
 
         End If
 
-
-        If StringClean.Contains("@PlayJOIVideo") Then
-
-            If Directory.Exists(My.Settings.VideoJOI) Or Directory.Exists(My.Settings.VideoJOID) Then
-
-                ssh.TeaseVideo = True
-                PlayRandomJOI()
-            End If
-
-            StringClean = StringClean.Replace("@PlayJOIVideo", "")
-
-        End If
-
-        If StringClean.Contains("@PlayCHVideo") Then
-
-            If Directory.Exists(My.Settings.VideoCH) Or Directory.Exists(My.Settings.VideoCH) Then
-
-                ssh.TeaseVideo = True
-                PlayRandomCH()
-            End If
-
-            StringClean = StringClean.Replace("@PlayCHVideo", "")
-
-        End If
-
-
-
-
         If StringClean.Contains("@GiveUpCheck") Then
 
 
@@ -7564,33 +7161,6 @@ ExternalAudio:
 
         End If
 
-
-        If StringClean.Contains("@PlayVideo(") Then
-
-
-            Dim VidFlag As String = GetParentheses(StringClean, "@PlayVideo(")
-            Dim VidInt As Integer = Val(VidFlag)
-            If UCase(VidFlag).Contains("M") Then VidInt *= 60
-
-            If StringClean.Contains("@JumpVideo") Then
-                ssh.JumpVideo = True
-                StringClean = StringClean.Replace("@JumpVideo", "")
-            End If
-
-            ssh.RandomizerVideo = True
-            RandomVideo()
-
-            If ssh.NoVideo = False Then
-                ssh.TeaseVideo = True
-                ssh.VideoTick = VidInt
-                VideoTimer.Start()
-            Else
-                MessageBox.Show(Me, "No videos were found!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
-            End If
-
-            ssh.RandomizerVideo = False
-            StringClean = StringClean.Replace("@PlayVideo", "")
-        End If
 
         If StringClean.Contains("@JumpVideo") Then
 
@@ -9262,9 +8832,6 @@ VTSkip:
         If ssh.CensorshipGame = True Then ssh.ReturnSubState = "Censorship Sucks"
         If ssh.AvoidTheEdgeGame = True Then ssh.ReturnSubState = "Avoid The Edge"
         If ssh.RLGLGame = True Then ssh.ReturnSubState = "RLGL"
-
-
-
     End Sub
 
     Public Sub EdgePace()
@@ -12463,7 +12030,7 @@ restartInstantly:
         PnlChatBoxLayout.Visible = Not (MaximizeImageToolStripMenuItem.Checked AndAlso SidepanelToolStripMenuItem.Checked AndAlso PnlSidechat.Visible)
     End Sub
 
-#Region "------------------------------------------------------- Apps ---------------------------------------------------------"
+#Region "Apps"
 
 #Region "--------------------------------------------------- DommeTag APP -----------------------------------------------------"
 
@@ -13600,37 +13167,81 @@ restartInstantly:
 
 #End Region ' Lazy-Sub
 
-#Region "-------------------------------------------------- Randomizer-App ----------------------------------------------------"
+#Region "Randomizer-App"
 
-    Private Sub BTNRandomBlog_Click(sender As Object, e As EventArgs) Handles BTNRandomBlog.Click
-        BTNRandomBlog.Enabled = False
+    Private Sub BlogImageRandomizerButton_Click(sender As Object, e As EventArgs) Handles BlogImageRandomizerButton.Click
+        BlogImageRandomizerButton.Enabled = False
+        Dim dommePersonality As DommePersonality = CreateDommePersonality()
+        Dim sysNoPornAllowed As Boolean = myFlagAccessor.IsSet(dommePersonality, "SYS_NoPornAllowed")
+        If (sysNoPornAllowed) Then
+            Dim chatMessage As ChatMessage = New ChatMessage()
+            chatMessage.Message = "You aren't allowed to request porn."
+            chatMessage.Sender = dommePersonality.Name
+            chatMessage.TimeStamp = DateTime.Now
+            mySession.Say(chatMessage)
+        End If
 
-        ShowImage(GetRandomImage(ImageGenre.Blog), True)
+        mySession.SendCommand(Keyword.ShowBlogImage)
+
         ssh.JustShowedBlogImage = True
-
-        BTNRandomBlog.Enabled = True
+        BlogImageRandomizerButton.Enabled = True
     End Sub
 
-    Private Sub BTNRandomLocal_Click(sender As Object, e As EventArgs) Handles BTNRandomLocal.Click
-        BTNRandomLocal.Enabled = False
+    Private Sub LocalImageRandomizerButton_Click(sender As Object, e As EventArgs) Handles LocalImageRandomizerButton.Click
+        LocalImageRandomizerButton.Enabled = False
+        Dim dommePersonality As DommePersonality = CreateDommePersonality()
+        Dim sysNoPornAllowed As Boolean = myFlagAccessor.IsSet(dommePersonality, "SYS_NoPornAllowed")
+        If (sysNoPornAllowed) Then
+            Dim chatMessage As ChatMessage = New ChatMessage()
+            chatMessage.Message = "You aren't allowed to request porn."
+            chatMessage.Sender = dommePersonality.Name
+            chatMessage.TimeStamp = DateTime.Now
+            mySession.Say(chatMessage)
+        End If
 
-        ShowImage(GetRandomImage(ImageSourceType.Local), True)
+        mySession.SendCommand(Keyword.ShowLocalImage)
+
         ssh.JustShowedBlogImage = True
-
-        BTNRandomLocal.Enabled = True
+        LocalImageRandomizerButton.Enabled = True
     End Sub
 
-    Private Sub BTNRandomVideo_Click(sender As Object, e As EventArgs) Handles BTNRandomVideo.Click
-        ssh.RandomizerVideo = True
-        StartRandomVideo()
-        ssh.RandomizerVideo = False
+    Private Sub VideoRandomizerButton_Click(sender As Object, e As EventArgs) Handles VideoRandomizerButton.Click
+        VideoRandomizerButton.Enabled = False
+
+        Dim dommePersonality As DommePersonality = CreateDommePersonality()
+        Dim sysNoPornAllowed As Boolean = myFlagAccessor.IsSet(dommePersonality, "SYS_NoPornAllowed")
+        If (sysNoPornAllowed) Then
+            Dim chatMessage As ChatMessage = New ChatMessage()
+            chatMessage.Message = "You aren't allowed to request porn."
+            chatMessage.Sender = dommePersonality.Name
+            chatMessage.TimeStamp = DateTime.Now
+            mySession.Say(chatMessage)
+        End If
+
+        mySession.SendCommand(Keyword.PlayVideo)
+
+        VideoRandomizerButton.Enabled = True
     End Sub
 
-    Private Sub BTNRandomJOI_Click(sender As Object, e As EventArgs) Handles BTNRandomJOI.Click
-        PlayRandomJOI()
+    Private Sub JoiRandomizerButton_Click(sender As Object, e As EventArgs) Handles JerkOffInstructionsRandomizerButton.Click
+        JerkOffInstructionsRandomizerButton.Enabled = False
+
+        Dim dommePersonality As DommePersonality = CreateDommePersonality()
+        Dim sysNoPornAllowed As Boolean = myFlagAccessor.IsSet(dommePersonality, "SYS_NoPornAllowed")
+        If (sysNoPornAllowed) Then
+            Dim chatMessage As ChatMessage = New ChatMessage()
+            chatMessage.Message = "You aren't allowed to request porn."
+            chatMessage.Sender = dommePersonality.Name
+            chatMessage.TimeStamp = DateTime.Now
+            mySession.Say(chatMessage)
+        End If
+
+        mySession.SendCommand(Keyword.PlayJoiVideo)
+
+        JerkOffInstructionsRandomizerButton.Enabled = True
     End Sub
 
-    Private Sub BTNRandomCS_Click(sender As Object, e As EventArgs) Handles BTNRandomCS.Click
+    Private Sub CensorshipSucksRandomizerButton_Click(sender As Object, e As EventArgs) Handles CensorshipSucksRandomizerButton.Click
         mySession.Session.Domme.WasGreeted = True
         ssh.RandomizerVideoTease = True
 
@@ -13644,7 +13255,7 @@ restartInstantly:
         CensorshipTimer.Start()
     End Sub
 
-    Private Sub BTNRandomAtE_Click(sender As Object, e As EventArgs) Handles BTNRandomAtE.Click
+    Private Sub AvoidTheEdgeRandomizerButton_Click(sender As Object, e As EventArgs) Handles AvoidTheEdgeRandomizerButton.Click
 
         mySession.Session.Domme.WasGreeted = True
         ssh.RandomizerVideoTease = True
@@ -13668,7 +13279,7 @@ restartInstantly:
 
     End Sub
 
-    Private Sub BTNRandomRLGL_Click(sender As Object, e As EventArgs) Handles BTNRandomRLGL.Click
+    Private Sub RedLightGreenLightRandomizerButton_Click(sender As Object, e As EventArgs) Handles RedLightGreenLightRandomizerButton.Click
 
         mySession.Session.Domme.WasGreeted = True
         ssh.RandomizerVideoTease = True
@@ -13692,8 +13303,22 @@ restartInstantly:
 
     End Sub
 
-    Private Sub BTNRandomCH_Click_1(sender As Object, e As EventArgs) Handles BTNRandomCH.Click
-        PlayRandomCH()
+    Private Sub CockHeroRandomizerButton_Click(sender As Object, e As EventArgs) Handles CockHeroRandomizerButton.Click
+        CockHeroRandomizerButton.Enabled = False
+
+        Dim dommePersonality As DommePersonality = CreateDommePersonality()
+        Dim sysNoPornAllowed As Boolean = myFlagAccessor.IsSet(dommePersonality, "SYS_NoPornAllowed")
+        If (sysNoPornAllowed) Then
+            Dim chatMessage As ChatMessage = New ChatMessage()
+            chatMessage.Message = "You aren't allowed to request porn."
+            chatMessage.Sender = dommePersonality.Name
+            chatMessage.TimeStamp = DateTime.Now
+            mySession.Say(chatMessage)
+        End If
+
+        mySession.SendCommand(Keyword.PlayCockHeroVideo)
+
+        CockHeroRandomizerButton.Enabled = True
     End Sub
 
     ''' =========================================================================================================
@@ -13705,7 +13330,7 @@ restartInstantly:
     ''' <ramarks>There is no need for parameter Sender and e. 
     ''' Only for Designer Compatiblity with Butten Clicks.</ramarks>
     ''' <exception cref="exception">Rethrows all exceptions to catcher, as long sender is nothing.</exception>
-    Private Sub VideoJump2Random(sender As Object, e As EventArgs) Handles Button12.Click
+    Private Sub VideoJump2Random_Click(sender As Object, e As EventArgs) Handles Button12.Click
         Try
             If DomWMP.currentPlaylist.count = 0 Then Throw New Exception("No Video playing - can't jump.")
 
@@ -15001,12 +14626,16 @@ playLoop:
     Private Sub mySession_QueryImage(sender As Object, e As ShowImageEventArgs)
         If (InvokeRequired) Then
             BeginInvoke(New MethodInvoker(Sub() QueryImage(e)))
+        Else
+            QueryImage(e)
         End If
     End Sub
 
     Private Sub mySession_ShowImage(sender As Object, e As ShowImageEventArgs)
         If (InvokeRequired) Then
             BeginInvoke(New MethodInvoker(Sub() ShowImage(e.ImageMetaData)))
+        Else
+            ShowImage(e.ImageMetaData)
         End If
     End Sub
 
@@ -17762,30 +17391,6 @@ TaskCleanSet:
 
         End If
 
-        If inputString.Contains("@PlayJOIVideo") Then
-
-            If Directory.Exists(My.Settings.VideoJOI) Or Directory.Exists(My.Settings.VideoJOID) Then
-
-                ssh.TeaseVideo = True
-                PlayRandomJOI()
-            End If
-
-            inputString = inputString.Replace("@PlayJOIVideo", "")
-
-        End If
-
-        If inputString.Contains("@PlayCHVideo") Then
-
-            If Directory.Exists(My.Settings.VideoCH) Or Directory.Exists(My.Settings.VideoCH) Then
-
-                ssh.TeaseVideo = True
-                PlayRandomCH()
-            End If
-
-            inputString = inputString.Replace("@PlayCHVideo", "")
-
-        End If
-
         If inputString.Contains("@GiveUpCheck") Then
 
 
@@ -18448,33 +18053,6 @@ ExternalAudio:
 
             inputString = inputString.Replace("@PlayAudio[" & AudioFlag & "]", "")
 
-        End If
-
-        If inputString.Contains("@PlayVideo(") Then
-
-
-            Dim VidFlag As String = GetParentheses(inputString, "@PlayVideo(")
-            Dim VidInt As Integer = Val(VidFlag)
-            If UCase(VidFlag).Contains("M") Then VidInt *= 60
-
-            If inputString.Contains("@JumpVideo") Then
-                ssh.JumpVideo = True
-                inputString = inputString.Replace("@JumpVideo", "")
-            End If
-
-            ssh.RandomizerVideo = True
-            RandomVideo()
-
-            If ssh.NoVideo = False Then
-                ssh.TeaseVideo = True
-                ssh.VideoTick = VidInt
-                VideoTimer.Start()
-            Else
-                MessageBox.Show(Me, "No videos were found!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
-            End If
-
-            ssh.RandomizerVideo = False
-            inputString = inputString.Replace("@PlayVideo", "")
         End If
 
         If inputString.Contains("@JumpVideo") Then
@@ -19652,5 +19230,210 @@ VTSkip:
     Public Function GetGameBoard() As RiskyPickGameBoard
         Return mySession.Session.GameBoard
     End Function
+
+    Public Sub RandomVideo()
+        ' Reset retentive global variables
+        ssh.NoVideo = False
+        ssh.DommeVideo = False
+
+        Dim __dom As Random = New Random()
+        Dim __domVideo As String
+        Dim __TotalFiles As New List(Of String)
+
+        '======================================================================================
+        '									Genre Videos
+        '======================================================================================
+        If My.Settings.CBHardcore = True Then _
+            __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoHardcore))
+
+        If My.Settings.CBSoftcore = True Then _
+            __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoSoftcore))
+
+        If My.Settings.CBLesbian = True Then _
+            __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoLesbian))
+
+        If My.Settings.CBBlowjob = True Then _
+            __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoBlowjob))
+
+        If My.Settings.CBFemdom = True Then _
+            __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoFemdom))
+
+        If My.Settings.CBFemsub = True Then _
+            __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoFemsub))
+
+        If ssh.NoSpecialVideo = True Then GoTo SkipSpecial
+
+        If ssh.ScriptVideoTeaseFlag = True Then
+            If ssh.ScriptVideoTease = "Censorship Sucks" Or ssh.ScriptVideoTease = "Avoid The Edge" Or ssh.ScriptVideoTease = "RLGL" Then GoTo SkipSpecial
+        End If
+
+        'If ssh.RandomizerVideo Then GoTo SkipSpecial
+        If My.Settings.CBJOI = True Then _
+            __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoJOI))
+
+        If My.Settings.CBCH = True Then _
+            __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoCH))
+
+SkipSpecial:
+        '======================================================================================
+        '									General Videos
+        '======================================================================================
+        If My.Settings.CBGeneral = True Then _
+            __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoGeneral))
+
+        '======================================================================================
+        '									Domme - Videos
+        '======================================================================================
+        If My.Settings.CBHardcoreD = True Then _
+            __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoHardcoreD))
+
+        If My.Settings.CBSoftcoreD = True Then _
+            __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoSoftcoreD))
+
+        If My.Settings.CBLesbianD = True Then _
+            __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoLesbianD))
+
+        If My.Settings.CBBlowjobD = True Then _
+            __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoBlowjobD))
+
+        If My.Settings.CBFemdomD = True Then _
+            __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoFemdomD))
+
+        If My.Settings.CBFemsubD = True Then _
+            __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoFemsubD))
+
+        If ssh.NoSpecialVideo = True Then GoTo SkipSpecialD
+        If ssh.ScriptVideoTeaseFlag = True Then
+            If ssh.ScriptVideoTease = "Censorship Sucks" Or ssh.ScriptVideoTease = "Avoid The Edge" Or ssh.ScriptVideoTease = "RLGL" Then GoTo SkipSpecialD
+        End If
+
+        'If ssh.RandomizerVideo = True Then GoTo SkipSpecialD
+
+        '======================================================================================
+        '								Domme - Special - Videos
+        '======================================================================================
+        If My.Settings.CBJOID = True Then _
+            __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoJOID))
+
+        If My.Settings.CBCHD = True Then _
+            __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoCHD))
+
+SkipSpecialD:
+        '======================================================================================
+        '								Domme - General Videos
+        '======================================================================================
+        If My.Settings.CBGeneralD = True Then _
+            __TotalFiles.AddRange(myDirectory.GetFilesVideo(My.Settings.VideoGeneralD))
+
+
+
+        If __TotalFiles.Count = 0 Then Exit Sub
+
+        If ssh.VideoCheck = True Then Exit Sub
+
+GetAnotherRandomVideo:
+
+        __domVideo = __TotalFiles(__dom.Next(0, __TotalFiles.Count))
+
+        If __domVideo = "" Then GoTo GetAnotherRandomVideo
+
+        Dim genre As VideoGenre = VideoGenre.General
+
+        If My.Settings.CBHardcore AndAlso InStr(__domVideo, My.Settings.VideoHardcore) <> 0 Then genre = VideoGenre.Hardcore
+        If My.Settings.CBSoftcore AndAlso InStr(__domVideo, My.Settings.VideoSoftcore) <> 0 Then genre = VideoGenre.Softcore
+        If My.Settings.CBLesbian AndAlso InStr(__domVideo, My.Settings.VideoLesbian) <> 0 Then genre = VideoGenre.Lesbian
+        If My.Settings.CBBlowjob AndAlso InStr(__domVideo, My.Settings.VideoBlowjob) <> 0 Then genre = VideoGenre.Blowjob
+        If My.Settings.CBFemdom AndAlso InStr(__domVideo, My.Settings.VideoFemdom) <> 0 Then genre = VideoGenre.FemDom
+        If My.Settings.CBFemsub AndAlso InStr(__domVideo, My.Settings.VideoFemsub) <> 0 Then genre = VideoGenre.FemSub
+        If My.Settings.CBJOI AndAlso InStr(__domVideo, My.Settings.VideoJOI) <> 0 Then genre = VideoGenre.Joi
+        If My.Settings.CBCH AndAlso InStr(__domVideo, My.Settings.VideoCH) <> 0 Then genre = VideoGenre.CockHero
+        If My.Settings.CBGeneral AndAlso InStr(__domVideo, My.Settings.VideoGeneral) <> 0 Then genre = VideoGenre.General
+
+        Dim containsDomme As Boolean = False
+        If My.Settings.CBHardcoreD And InStr(__domVideo, My.Settings.VideoHardcoreD) <> 0 Then
+            genre = VideoGenre.Hardcore
+            containsDomme = True
+        End If
+        If My.Settings.CBSoftcoreD And InStr(__domVideo, My.Settings.VideoSoftcoreD) <> 0 Then
+            genre = VideoGenre.Softcore
+            containsDomme = True
+        End If
+        If My.Settings.CBLesbianD And InStr(__domVideo, My.Settings.VideoLesbianD) <> 0 Then
+            genre = VideoGenre.Lesbian
+            containsDomme = True
+        End If
+
+        If My.Settings.CBBlowjobD And InStr(__domVideo, My.Settings.VideoBlowjobD) <> 0 Then
+            genre = VideoGenre.Blowjob
+            containsDomme = True
+        End If
+        If My.Settings.CBFemdomD And InStr(__domVideo, My.Settings.VideoFemdomD) <> 0 Then
+            genre = VideoGenre.FemDom
+            containsDomme = True
+        End If
+        If My.Settings.CBFemsubD And InStr(__domVideo, My.Settings.VideoFemsubD) <> 0 Then
+            genre = VideoGenre.FemSub
+            containsDomme = True
+        End If
+
+        If My.Settings.CBJOID And InStr(__domVideo, My.Settings.VideoJOID) <> 0 Then
+            genre = VideoGenre.Joi
+            containsDomme = True
+        End If
+
+        If My.Settings.CBCHD = True And InStr(__domVideo, My.Settings.VideoCHD) <> 0 Then
+            genre = VideoGenre.CockHero
+            containsDomme = True
+        End If
+
+        If My.Settings.CBGeneralD = True And InStr(__domVideo, My.Settings.VideoGeneral) <> 0 Then
+            genre = VideoGenre.General
+            containsDomme = True
+        End If
+        ssh.VideoType = genre.ToString() + IIf(containsDomme, "D", String.Empty)
+        ssh.DommeVideo = containsDomme
+
+        Dim videoMetaData As VideoMetaData = New VideoMetaData()
+        videoMetaData.Key = __domVideo
+        videoMetaData.Genre = genre
+        videoMetaData.FeaturesDomme = containsDomme
+        PlayVideo(videoMetaData, False)
+    End Sub
+
+    ''' <summary>
+    ''' Start the video passed in.
+    ''' </summary>
+    ''' <param name="videoMetaData"></param>
+    Private Function PlayVideo(videoMetaData As VideoMetaData, makeRandom As Boolean) As Result
+        '        domVLC.Visible = True
+        DomWMP.Visible = True
+        DomWMP.stretchToFit = True
+
+        ' programsettingsPanel.Visible = False
+        mainPictureBox.Visible = False
+        ' domVLC.playlist.items.clear()
+        ' domVLC.playlist.add("file:///" & RandomVideo & "")
+        ' domVLC.video.crop = domVLC.Width & ":" & domVLC.Height
+        ' domVLC.playlist.play()
+        'If FrmSettings.VLCfillRadio.Checked = True Then
+        ' domVLC.video.crop = domVLC.Width & ":" & domVLC.Height
+        'End If
+        'If FrmSettings.VLC43Radio.Checked = True Then domVLC.video.crop = "4:3"
+        'If FrmSettings.VLC1610Radio.Checked = True Then domVLC.video.crop = "16:10"
+        'If FrmSettings.VLC169Radio.Checked = True Then domVLC.video.crop = "16:9"
+
+        DomWMP.URL = videoMetaData.Key
+
+        If ssh.JumpVideo = True Then
+            Do
+                Application.DoEvents()
+            Loop Until (DomWMP.playState = WMPLib.WMPPlayState.wmppsPlaying)
+            DomWMP.Ctlcontrols.currentPosition = GetStartPostion(makeRandom)
+        End If
+
+        ssh.JumpVideo = False
+        Return Result.Ok()
+    End Function
+
 #End Region
 End Class

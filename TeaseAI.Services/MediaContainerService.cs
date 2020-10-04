@@ -45,6 +45,20 @@ namespace TeaseAI.Services
         public List<MediaContainer> Get(int mediaTypeId, ImageSource imageSource) =>
             _mediaContainerRepository.Get().Where(mc => mc.MediaTypeId == mediaTypeId && mc.SourceId == imageSource).ToList();
 
+        public MediaContainer GetOrCreate(int mediaTypeId, ImageSource mediaSource, ImageGenre mediaGenre)
+        {
+            var mediaContainer = _mediaContainerRepository.Get().FirstOrDefault(mc => mc.MediaTypeId == mediaTypeId && mc.SourceId == mediaSource && mc.GenreId == mediaGenre);
+            return  mediaContainer ?? _mediaContainerRepository.Create( new MediaContainer
+            {
+                GenreId = mediaGenre,
+                IsEnabled = true,
+                MediaTypeId = mediaTypeId,
+                Name = mediaGenre.ToString(),
+                SourceId = mediaSource,
+                UseSubFolders = true
+            }).Value;
+        }
+
         public Result<MediaContainer> Update(MediaContainer mediaContainer) => _mediaContainerRepository.Update(mediaContainer);
 
         public Result<List<MediaContainer>> Update(List<MediaContainer> mediaContainers)

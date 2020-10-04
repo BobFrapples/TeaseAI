@@ -339,17 +339,17 @@ Partial Class MainWindow
         Me.LBLLinesWritten = New System.Windows.Forms.Label()
         Me.PNLAppRandomizer = New System.Windows.Forms.Panel()
         Me.Button12 = New System.Windows.Forms.Button()
-        Me.BTNRandomLocal = New System.Windows.Forms.Button()
+        Me.LocalImageRandomizerButton = New System.Windows.Forms.Button()
         Me.Label20 = New System.Windows.Forms.Label()
         Me.Label19 = New System.Windows.Forms.Label()
         Me.Label18 = New System.Windows.Forms.Label()
-        Me.BTNRandomRLGL = New System.Windows.Forms.Button()
-        Me.BTNRandomAtE = New System.Windows.Forms.Button()
-        Me.BTNRandomCS = New System.Windows.Forms.Button()
-        Me.BTNRandomCH = New System.Windows.Forms.Button()
-        Me.BTNRandomJOI = New System.Windows.Forms.Button()
-        Me.BTNRandomVideo = New System.Windows.Forms.Button()
-        Me.BTNRandomBlog = New System.Windows.Forms.Button()
+        Me.RedLightGreenLightRandomizerButton = New System.Windows.Forms.Button()
+        Me.AvoidTheEdgeRandomizerButton = New System.Windows.Forms.Button()
+        Me.CensorshipSucksRandomizerButton = New System.Windows.Forms.Button()
+        Me.CockHeroRandomizerButton = New System.Windows.Forms.Button()
+        Me.JerkOffInstructionsRandomizerButton = New System.Windows.Forms.Button()
+        Me.VideoRandomizerButton = New System.Windows.Forms.Button()
+        Me.BlogImageRandomizerButton = New System.Windows.Forms.Button()
         Me.PNLLazySub2 = New System.Windows.Forms.Panel()
         Me.PNLPlaylist = New System.Windows.Forms.Panel()
         Me.LBPlaylist = New System.Windows.Forms.ListBox()
@@ -3740,17 +3740,17 @@ Partial Class MainWindow
         '
         Me.PNLAppRandomizer.BackColor = System.Drawing.Color.Transparent
         Me.PNLAppRandomizer.Controls.Add(Me.Button12)
-        Me.PNLAppRandomizer.Controls.Add(Me.BTNRandomLocal)
+        Me.PNLAppRandomizer.Controls.Add(Me.LocalImageRandomizerButton)
         Me.PNLAppRandomizer.Controls.Add(Me.Label20)
         Me.PNLAppRandomizer.Controls.Add(Me.Label19)
         Me.PNLAppRandomizer.Controls.Add(Me.Label18)
-        Me.PNLAppRandomizer.Controls.Add(Me.BTNRandomRLGL)
-        Me.PNLAppRandomizer.Controls.Add(Me.BTNRandomAtE)
-        Me.PNLAppRandomizer.Controls.Add(Me.BTNRandomCS)
-        Me.PNLAppRandomizer.Controls.Add(Me.BTNRandomCH)
-        Me.PNLAppRandomizer.Controls.Add(Me.BTNRandomJOI)
-        Me.PNLAppRandomizer.Controls.Add(Me.BTNRandomVideo)
-        Me.PNLAppRandomizer.Controls.Add(Me.BTNRandomBlog)
+        Me.PNLAppRandomizer.Controls.Add(Me.RedLightGreenLightRandomizerButton)
+        Me.PNLAppRandomizer.Controls.Add(Me.AvoidTheEdgeRandomizerButton)
+        Me.PNLAppRandomizer.Controls.Add(Me.CensorshipSucksRandomizerButton)
+        Me.PNLAppRandomizer.Controls.Add(Me.CockHeroRandomizerButton)
+        Me.PNLAppRandomizer.Controls.Add(Me.JerkOffInstructionsRandomizerButton)
+        Me.PNLAppRandomizer.Controls.Add(Me.VideoRandomizerButton)
+        Me.PNLAppRandomizer.Controls.Add(Me.BlogImageRandomizerButton)
         Me.PNLAppRandomizer.Dock = System.Windows.Forms.DockStyle.Fill
         Me.PNLAppRandomizer.Location = New System.Drawing.Point(0, 0)
         Me.PNLAppRandomizer.Name = "PNLAppRandomizer"
@@ -3770,16 +3770,16 @@ Partial Class MainWindow
         '
         'BTNRandomLocal
         '
-        Me.BTNRandomLocal.BackColor = System.Drawing.Color.White
-        Me.BTNRandomLocal.FlatAppearance.BorderSize = 2
-        Me.BTNRandomLocal.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BTNRandomLocal.ForeColor = System.Drawing.Color.Black
-        Me.BTNRandomLocal.Location = New System.Drawing.Point(6, 66)
-        Me.BTNRandomLocal.Name = "BTNRandomLocal"
-        Me.BTNRandomLocal.Size = New System.Drawing.Size(228, 28)
-        Me.BTNRandomLocal.TabIndex = 11
-        Me.BTNRandomLocal.Text = "Local Image"
-        Me.BTNRandomLocal.UseVisualStyleBackColor = False
+        Me.LocalImageRandomizerButton.BackColor = System.Drawing.Color.White
+        Me.LocalImageRandomizerButton.FlatAppearance.BorderSize = 2
+        Me.LocalImageRandomizerButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.LocalImageRandomizerButton.ForeColor = System.Drawing.Color.Black
+        Me.LocalImageRandomizerButton.Location = New System.Drawing.Point(6, 66)
+        Me.LocalImageRandomizerButton.Name = "BTNRandomLocal"
+        Me.LocalImageRandomizerButton.Size = New System.Drawing.Size(228, 28)
+        Me.LocalImageRandomizerButton.TabIndex = 11
+        Me.LocalImageRandomizerButton.Text = "Local Image"
+        Me.LocalImageRandomizerButton.UseVisualStyleBackColor = False
         '
         'Label20
         '
@@ -3819,94 +3819,94 @@ Partial Class MainWindow
         '
         'BTNRandomRLGL
         '
-        Me.BTNRandomRLGL.BackColor = System.Drawing.Color.White
-        Me.BTNRandomRLGL.FlatAppearance.BorderSize = 2
-        Me.BTNRandomRLGL.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BTNRandomRLGL.ForeColor = System.Drawing.Color.Black
-        Me.BTNRandomRLGL.Location = New System.Drawing.Point(6, 338)
-        Me.BTNRandomRLGL.Name = "BTNRandomRLGL"
-        Me.BTNRandomRLGL.Size = New System.Drawing.Size(228, 28)
-        Me.BTNRandomRLGL.TabIndex = 7
-        Me.BTNRandomRLGL.Text = "Red Light Green Light"
-        Me.BTNRandomRLGL.UseVisualStyleBackColor = False
+        Me.RedLightGreenLightRandomizerButton.BackColor = System.Drawing.Color.White
+        Me.RedLightGreenLightRandomizerButton.FlatAppearance.BorderSize = 2
+        Me.RedLightGreenLightRandomizerButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.RedLightGreenLightRandomizerButton.ForeColor = System.Drawing.Color.Black
+        Me.RedLightGreenLightRandomizerButton.Location = New System.Drawing.Point(6, 338)
+        Me.RedLightGreenLightRandomizerButton.Name = "BTNRandomRLGL"
+        Me.RedLightGreenLightRandomizerButton.Size = New System.Drawing.Size(228, 28)
+        Me.RedLightGreenLightRandomizerButton.TabIndex = 7
+        Me.RedLightGreenLightRandomizerButton.Text = "Red Light Green Light"
+        Me.RedLightGreenLightRandomizerButton.UseVisualStyleBackColor = False
         '
         'BTNRandomAtE
         '
-        Me.BTNRandomAtE.BackColor = System.Drawing.Color.White
-        Me.BTNRandomAtE.FlatAppearance.BorderSize = 2
-        Me.BTNRandomAtE.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BTNRandomAtE.ForeColor = System.Drawing.Color.Black
-        Me.BTNRandomAtE.Location = New System.Drawing.Point(6, 299)
-        Me.BTNRandomAtE.Name = "BTNRandomAtE"
-        Me.BTNRandomAtE.Size = New System.Drawing.Size(228, 28)
-        Me.BTNRandomAtE.TabIndex = 6
-        Me.BTNRandomAtE.Text = "Avoid The Edge"
-        Me.BTNRandomAtE.UseVisualStyleBackColor = False
+        Me.AvoidTheEdgeRandomizerButton.BackColor = System.Drawing.Color.White
+        Me.AvoidTheEdgeRandomizerButton.FlatAppearance.BorderSize = 2
+        Me.AvoidTheEdgeRandomizerButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.AvoidTheEdgeRandomizerButton.ForeColor = System.Drawing.Color.Black
+        Me.AvoidTheEdgeRandomizerButton.Location = New System.Drawing.Point(6, 299)
+        Me.AvoidTheEdgeRandomizerButton.Name = "BTNRandomAtE"
+        Me.AvoidTheEdgeRandomizerButton.Size = New System.Drawing.Size(228, 28)
+        Me.AvoidTheEdgeRandomizerButton.TabIndex = 6
+        Me.AvoidTheEdgeRandomizerButton.Text = "Avoid The Edge"
+        Me.AvoidTheEdgeRandomizerButton.UseVisualStyleBackColor = False
         '
         'BTNRandomCS
         '
-        Me.BTNRandomCS.BackColor = System.Drawing.Color.White
-        Me.BTNRandomCS.FlatAppearance.BorderSize = 2
-        Me.BTNRandomCS.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BTNRandomCS.ForeColor = System.Drawing.Color.Black
-        Me.BTNRandomCS.Location = New System.Drawing.Point(6, 260)
-        Me.BTNRandomCS.Name = "BTNRandomCS"
-        Me.BTNRandomCS.Size = New System.Drawing.Size(228, 28)
-        Me.BTNRandomCS.TabIndex = 5
-        Me.BTNRandomCS.Text = "Censorship Sucks"
-        Me.BTNRandomCS.UseVisualStyleBackColor = False
+        Me.CensorshipSucksRandomizerButton.BackColor = System.Drawing.Color.White
+        Me.CensorshipSucksRandomizerButton.FlatAppearance.BorderSize = 2
+        Me.CensorshipSucksRandomizerButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.CensorshipSucksRandomizerButton.ForeColor = System.Drawing.Color.Black
+        Me.CensorshipSucksRandomizerButton.Location = New System.Drawing.Point(6, 260)
+        Me.CensorshipSucksRandomizerButton.Name = "BTNRandomCS"
+        Me.CensorshipSucksRandomizerButton.Size = New System.Drawing.Size(228, 28)
+        Me.CensorshipSucksRandomizerButton.TabIndex = 5
+        Me.CensorshipSucksRandomizerButton.Text = "Censorship Sucks"
+        Me.CensorshipSucksRandomizerButton.UseVisualStyleBackColor = False
         '
         'BTNRandomCH
         '
-        Me.BTNRandomCH.BackColor = System.Drawing.Color.White
-        Me.BTNRandomCH.FlatAppearance.BorderSize = 2
-        Me.BTNRandomCH.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BTNRandomCH.ForeColor = System.Drawing.Color.Black
-        Me.BTNRandomCH.Location = New System.Drawing.Point(6, 202)
-        Me.BTNRandomCH.Name = "BTNRandomCH"
-        Me.BTNRandomCH.Size = New System.Drawing.Size(228, 28)
-        Me.BTNRandomCH.TabIndex = 4
-        Me.BTNRandomCH.Text = "CH"
-        Me.BTNRandomCH.UseVisualStyleBackColor = False
+        Me.CockHeroRandomizerButton.BackColor = System.Drawing.Color.White
+        Me.CockHeroRandomizerButton.FlatAppearance.BorderSize = 2
+        Me.CockHeroRandomizerButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.CockHeroRandomizerButton.ForeColor = System.Drawing.Color.Black
+        Me.CockHeroRandomizerButton.Location = New System.Drawing.Point(6, 202)
+        Me.CockHeroRandomizerButton.Name = "BTNRandomCH"
+        Me.CockHeroRandomizerButton.Size = New System.Drawing.Size(228, 28)
+        Me.CockHeroRandomizerButton.TabIndex = 4
+        Me.CockHeroRandomizerButton.Text = "CH"
+        Me.CockHeroRandomizerButton.UseVisualStyleBackColor = False
         '
         'BTNRandomJOI
         '
-        Me.BTNRandomJOI.BackColor = System.Drawing.Color.White
-        Me.BTNRandomJOI.FlatAppearance.BorderSize = 2
-        Me.BTNRandomJOI.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BTNRandomJOI.ForeColor = System.Drawing.Color.Black
-        Me.BTNRandomJOI.Location = New System.Drawing.Point(6, 163)
-        Me.BTNRandomJOI.Name = "BTNRandomJOI"
-        Me.BTNRandomJOI.Size = New System.Drawing.Size(228, 28)
-        Me.BTNRandomJOI.TabIndex = 3
-        Me.BTNRandomJOI.Text = "JOI"
-        Me.BTNRandomJOI.UseVisualStyleBackColor = False
+        Me.JerkOffInstructionsRandomizerButton.BackColor = System.Drawing.Color.White
+        Me.JerkOffInstructionsRandomizerButton.FlatAppearance.BorderSize = 2
+        Me.JerkOffInstructionsRandomizerButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.JerkOffInstructionsRandomizerButton.ForeColor = System.Drawing.Color.Black
+        Me.JerkOffInstructionsRandomizerButton.Location = New System.Drawing.Point(6, 163)
+        Me.JerkOffInstructionsRandomizerButton.Name = "BTNRandomJOI"
+        Me.JerkOffInstructionsRandomizerButton.Size = New System.Drawing.Size(228, 28)
+        Me.JerkOffInstructionsRandomizerButton.TabIndex = 3
+        Me.JerkOffInstructionsRandomizerButton.Text = "JOI"
+        Me.JerkOffInstructionsRandomizerButton.UseVisualStyleBackColor = False
         '
         'BTNRandomVideo
         '
-        Me.BTNRandomVideo.BackColor = System.Drawing.Color.White
-        Me.BTNRandomVideo.FlatAppearance.BorderSize = 2
-        Me.BTNRandomVideo.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BTNRandomVideo.ForeColor = System.Drawing.Color.Black
-        Me.BTNRandomVideo.Location = New System.Drawing.Point(6, 105)
-        Me.BTNRandomVideo.Name = "BTNRandomVideo"
-        Me.BTNRandomVideo.Size = New System.Drawing.Size(228, 28)
-        Me.BTNRandomVideo.TabIndex = 2
-        Me.BTNRandomVideo.Text = "Video"
-        Me.BTNRandomVideo.UseVisualStyleBackColor = False
+        Me.VideoRandomizerButton.BackColor = System.Drawing.Color.White
+        Me.VideoRandomizerButton.FlatAppearance.BorderSize = 2
+        Me.VideoRandomizerButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.VideoRandomizerButton.ForeColor = System.Drawing.Color.Black
+        Me.VideoRandomizerButton.Location = New System.Drawing.Point(6, 105)
+        Me.VideoRandomizerButton.Name = "BTNRandomVideo"
+        Me.VideoRandomizerButton.Size = New System.Drawing.Size(228, 28)
+        Me.VideoRandomizerButton.TabIndex = 2
+        Me.VideoRandomizerButton.Text = "Video"
+        Me.VideoRandomizerButton.UseVisualStyleBackColor = False
         '
         'BTNRandomBlog
         '
-        Me.BTNRandomBlog.BackColor = System.Drawing.Color.White
-        Me.BTNRandomBlog.FlatAppearance.BorderSize = 2
-        Me.BTNRandomBlog.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BTNRandomBlog.ForeColor = System.Drawing.Color.Black
-        Me.BTNRandomBlog.Location = New System.Drawing.Point(6, 27)
-        Me.BTNRandomBlog.Name = "BTNRandomBlog"
-        Me.BTNRandomBlog.Size = New System.Drawing.Size(228, 28)
-        Me.BTNRandomBlog.TabIndex = 0
-        Me.BTNRandomBlog.Text = "Blog Image"
-        Me.BTNRandomBlog.UseVisualStyleBackColor = False
+        Me.BlogImageRandomizerButton.BackColor = System.Drawing.Color.White
+        Me.BlogImageRandomizerButton.FlatAppearance.BorderSize = 2
+        Me.BlogImageRandomizerButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BlogImageRandomizerButton.ForeColor = System.Drawing.Color.Black
+        Me.BlogImageRandomizerButton.Location = New System.Drawing.Point(6, 27)
+        Me.BlogImageRandomizerButton.Name = "BTNRandomBlog"
+        Me.BlogImageRandomizerButton.Size = New System.Drawing.Size(228, 28)
+        Me.BlogImageRandomizerButton.TabIndex = 0
+        Me.BlogImageRandomizerButton.Text = "Blog Image"
+        Me.BlogImageRandomizerButton.UseVisualStyleBackColor = False
         '
         'PNLLazySub2
         '
@@ -4657,17 +4657,17 @@ Partial Class MainWindow
 	Friend WithEvents BTNSpeedUp As System.Windows.Forms.Button
 	Friend WithEvents LazySubToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 	Friend WithEvents PNLAppRandomizer As System.Windows.Forms.Panel
-	Friend WithEvents BTNRandomLocal As System.Windows.Forms.Button
+	Friend WithEvents LocalImageRandomizerButton As System.Windows.Forms.Button
 	Friend WithEvents Label20 As System.Windows.Forms.Label
 	Friend WithEvents Label19 As System.Windows.Forms.Label
 	Friend WithEvents Label18 As System.Windows.Forms.Label
-	Friend WithEvents BTNRandomRLGL As System.Windows.Forms.Button
-	Friend WithEvents BTNRandomAtE As System.Windows.Forms.Button
-	Friend WithEvents BTNRandomCS As System.Windows.Forms.Button
-	Friend WithEvents BTNRandomCH As System.Windows.Forms.Button
-	Friend WithEvents BTNRandomJOI As System.Windows.Forms.Button
-	Friend WithEvents BTNRandomVideo As System.Windows.Forms.Button
-	Friend WithEvents BTNRandomBlog As System.Windows.Forms.Button
+	Friend WithEvents RedLightGreenLightRandomizerButton As System.Windows.Forms.Button
+	Friend WithEvents AvoidTheEdgeRandomizerButton As System.Windows.Forms.Button
+	Friend WithEvents CensorshipSucksRandomizerButton As System.Windows.Forms.Button
+	Friend WithEvents CockHeroRandomizerButton As System.Windows.Forms.Button
+	Friend WithEvents JerkOffInstructionsRandomizerButton As System.Windows.Forms.Button
+	Friend WithEvents VideoRandomizerButton As System.Windows.Forms.Button
+	Friend WithEvents BlogImageRandomizerButton As System.Windows.Forms.Button
 	Friend WithEvents RandomizerToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 	Friend WithEvents PNLPlaylist As System.Windows.Forms.Panel
 	Friend WithEvents LBPlaylist As System.Windows.Forms.ListBox

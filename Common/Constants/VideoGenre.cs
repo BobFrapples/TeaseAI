@@ -41,5 +41,9 @@
         /// No insertion shown, things more like a topless car wash
         /// </summary>
         Softcore,
+        /// <summary>
+        /// Shortened to RLGL, a game where the sub has to stop  and start repeatedly
+        /// </summary>
+        RedLightGreenLight
     }
 }

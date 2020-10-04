@@ -56,6 +56,7 @@ Public Class FrmSettings
     Public ApproveImage As Integer = 0
 
     Dim CheckImgDir As New List(Of String)
+    Dim FolderBrowserDialog1 As New FolderBrowserDialog()
 
     Public Sub New()
         mySettingsAccessor = ApplicationFactory.CreateSettingsAccessor()
@@ -1259,13 +1260,13 @@ Public Class FrmSettings
         TTDir.SetToolTip(LocalButtDirectoryTextBox, LocalButtDirectoryTextBox.Text)
     End Sub
 
-    Private Sub TxbVideoFolder_MouseHover(sender As Object, e As EventArgs) Handles TxbVideoSoftCoreD.MouseHover, TxbVideoSoftCore.MouseHover, TxbVideoLesbianD.MouseHover, TxbVideoLesbian.MouseHover, TxbVideoJOID.MouseHover, TxbVideoJOI.MouseHover, TxbVideoHardCoreD.MouseHover, TxbVideoHardCore.MouseHover, TxbVideoGeneralD.MouseHover, TxbVideoGeneral.MouseHover, TxbVideoFemsubD.MouseHover, TxbVideoFemsub.MouseHover, TxbVideoFemdomD.MouseHover, TxbVideoFemdom.MouseHover, TxbVideoCHD.MouseHover, TxbVideoCH.MouseHover, TxbVideoBlowjobD.MouseHover, TxbVideoBlowjob.MouseHover
+    Private Sub TxbVideoFolder_MouseHover(sender As Object, e As EventArgs) Handles TxbVideoSoftCoreD.MouseHover, TxbVideoSoftCore.MouseHover, TxbVideoLesbianD.MouseHover, TxbVideoLesbian.MouseHover, TxbVideoJOID.MouseHover, TxbVideoJOI.MouseHover, TxbVideoHardCoreD.MouseHover, VideoHardCorePathTextBox.MouseHover, VideoDommeGeneralPathTextBox.MouseHover, TxbVideoGeneral.MouseHover, TxbVideoFemsubD.MouseHover, TxbVideoFemsub.MouseHover, TxbVideoFemdomD.MouseHover, TxbVideoFemdom.MouseHover, TxbVideoCHD.MouseHover, TxbVideoCH.MouseHover, TxbVideoBlowjobD.MouseHover, TxbVideoBlowjob.MouseHover
 
         TTDir.SetToolTip(sender, CType(sender, TextBox).Text)
     End Sub
 
-    Private Sub BTNRefreshVideos_MouseHover(sender As Object, e As EventArgs) Handles BTNRefreshVideos.MouseHover
-        TTDir.SetToolTip(BTNRefreshVideos, "Use this button to refresh video paths.")
+    Private Sub BTNRefreshVideos_MouseHover(sender As Object, e As EventArgs) Handles VideoRefreshButton.MouseHover
+        TTDir.SetToolTip(VideoRefreshButton, "Use this button to refresh video paths.")
     End Sub
 
     Private Sub NBBirthdayMonth_MouseHover(sender As Object, e As EventArgs) Handles NBBirthdayMonth.MouseEnter
@@ -3495,7 +3496,43 @@ Public Class FrmSettings
     End Sub
 #End Region ' Images
 
-#Region "--------------------------------------- Videos -------------------------------------------------"
+#Region "Videos"
+
+#Region "Regular"
+
+#Region "Hardcore Videos"
+
+    Private Sub VideoSetHardcorePathButton_Click(sender As Object, e As EventArgs) Handles VideoSetHardcorePathButton.Click
+        Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
+        If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
+            Dim genre As ImageGenre = ImageGenre.Hardcore
+
+            Dim mediaContainer = myMediaContainerService.GetOrCreate(2, ImageSource.Local, genre)
+            mediaContainer.Path = folderBrowserDialog.SelectedPath
+
+            myMediaContainerService.Update(mediaContainer)
+
+            My.Settings.VideoHardcore = folderBrowserDialog.SelectedPath
+            My.Settings.CBHardcore = True
+            LblVideoHardCoreTotal.Text = VideoHardcore_Count(False)
+        End If
+    End Sub
+
+    Friend Shared Function VideoHardcore_CheckFolder() As Boolean
+        Dim def As String =
+            My.Settings.PropertyValues("VideoHardcore").Property.DefaultValue
+
+        My.Settings.VideoHardcore = Video_FolderCheck("Hardcore Video", My.Settings.VideoHardcore, def)
+
+        If My.Settings.VideoHardcore = def Then My.Settings.CBHardcore = False
+
+        Return My.Settings.CBHardcore
+    End Function
+
+    Friend Shared Function VideoHardcore_Count(Optional ByVal checkfolder As Boolean = True) As Integer
+        If checkfolder Then VideoHardcore_CheckFolder()
+        Return myDirectory.GetFilesVideo(My.Settings.VideoHardcore).Count
+    End Function
 
     Friend Shared Function Video_FolderCheck(ByVal directoryDescription As String, ByVal directoryPath As String, ByVal defaultPath As String) As String
         ' Exit if the directory exists.
@@ -3549,39 +3586,10 @@ Public Class FrmSettings
         LblVideoFemsubTotalD.Text = VideoFemsubD_Count() : t += CInt(LblVideoFemsubTotalD.Text)
         LblVideoJOITotalD.Text = VideoJOID_Count() : t += CInt(LblVideoJOITotalD.Text)
         LblVideoCHTotalD.Text = VideoCHD_Count() : t += CInt(LblVideoCHTotalD.Text)
-        LblVideoGeneralTotalD.Text = VideoGeneralD_Count() : t += CInt(LblVideoGeneralTotalD.Text)
+        VideoTotalDommeGeneral.Text = VideoGeneralD_Count() : t += CInt(VideoTotalDommeGeneral.Text)
 
         Return t
     End Function
-#Region "----------------------------------------- Regular -----------------------------------------------"
-
-#Region "------------------------------------- Hardcore Videos -------------------------------------------"
-
-    Private Sub BTNVideoHardCore_Click(sender As Object, e As EventArgs) Handles BTNVideoHardCore.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-            My.Settings.VideoHardcore = FolderBrowserDialog1.SelectedPath
-            My.Settings.CBHardcore = True
-            LblVideoHardCoreTotal.Text = VideoHardcore_Count(False)
-        End If
-    End Sub
-
-    Friend Shared Function VideoHardcore_CheckFolder() As Boolean
-        Dim def As String =
-            My.Settings.PropertyValues("VideoHardcore").Property.DefaultValue
-
-        My.Settings.VideoHardcore =
-            Video_FolderCheck("Hardcore Video", My.Settings.VideoHardcore, def)
-
-        If My.Settings.VideoHardcore = def Then My.Settings.CBHardcore = False
-
-        Return My.Settings.CBHardcore
-    End Function
-
-    Friend Shared Function VideoHardcore_Count(Optional ByVal checkfolder As Boolean = True) As Integer
-        If checkfolder Then VideoHardcore_CheckFolder()
-        Return myDirectory.GetFilesVideo(My.Settings.VideoHardcore).Count
-    End Function
-
 #End Region ' Hardcore
 
 #Region "------------------------------------- Softcore Videos -------------------------------------------"
@@ -4058,7 +4066,7 @@ Public Class FrmSettings
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             My.Settings.VideoGeneralD = FolderBrowserDialog1.SelectedPath
             My.Settings.CBGeneralD = True
-            LblVideoGeneralTotalD.Text = VideoGeneralD_Count(False)
+            VideoTotalDommeGeneral.Text = VideoGeneralD_Count(False)
         End If
     End Sub
 
@@ -4083,7 +4091,7 @@ Public Class FrmSettings
 
 #End Region ' Domme
 
-    Private Sub BTNRefreshVideos_Click(sender As Object, e As EventArgs) Handles BTNRefreshVideos.Click
+    Private Sub BTNRefreshVideos_Click(sender As Object, e As EventArgs) Handles VideoRefreshButton.Click
         VideoDescriptionLabel.Text = "Refresh complete: " & Video_CheckAllFolders() & " videos found!"
         VideoDescriptionLabel.Text = VideoDescriptionLabel.Text.Replace(": 1 videos", ": 1 video")
     End Sub
@@ -7844,4 +7852,5 @@ Public Class FrmSettings
     Private myIsFormSettingTags As Boolean
     Private myIsMediaContainerLoading As Boolean
     Private myWorkingUrlImageMetaDatas As List(Of ImageMetaData)
+
 End Class
