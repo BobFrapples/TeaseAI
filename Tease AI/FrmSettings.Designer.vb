@@ -11299,16 +11299,16 @@ Partial Class FrmSettings
         Me.RangeSettingsBody.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RangeSettingsBody.Location = New System.Drawing.Point(3, 49)
         Me.RangeSettingsBody.Name = "RangeSettingsBody"
-        Me.RangeSettingsBody.Size = New System.Drawing.Size(966, 502)
+        Me.RangeSettingsBody.Size = New System.Drawing.Size(966, 414)
         Me.RangeSettingsBody.TabIndex = 91
         '
         'RangeSettingsBodyTablePanel
         '
         Me.RangeSettingsBodyTablePanel.BackColor = System.Drawing.Color.Transparent
         Me.RangeSettingsBodyTablePanel.ColumnCount = 3
-        Me.RangeSettingsBodyTablePanel.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 48.97959!))
-        Me.RangeSettingsBodyTablePanel.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 51.02041!))
-        Me.RangeSettingsBodyTablePanel.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 425.0!))
+        Me.RangeSettingsBodyTablePanel.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.0!))
+        Me.RangeSettingsBodyTablePanel.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 34.0!))
+        Me.RangeSettingsBodyTablePanel.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.0!))
         Me.RangeSettingsBodyTablePanel.Controls.Add(Me.RangeSettingsBodyRightColumnPanel, 2, 0)
         Me.RangeSettingsBodyTablePanel.Controls.Add(Me.RangeSettingsBodyMiddleColumnPanel, 1, 0)
         Me.RangeSettingsBodyTablePanel.Controls.Add(Me.RangeSettingsBodyLeftColumnPanel, 0, 0)
@@ -11316,9 +11316,8 @@ Partial Class FrmSettings
         Me.RangeSettingsBodyTablePanel.Location = New System.Drawing.Point(0, 0)
         Me.RangeSettingsBodyTablePanel.Name = "RangeSettingsBodyTablePanel"
         Me.RangeSettingsBodyTablePanel.RowCount = 1
-        Me.RangeSettingsBodyTablePanel.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.RangeSettingsBodyTablePanel.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.RangeSettingsBodyTablePanel.Size = New System.Drawing.Size(964, 500)
+        Me.RangeSettingsBodyTablePanel.RowStyles.Add(New System.Windows.Forms.RowStyle())
+        Me.RangeSettingsBodyTablePanel.Size = New System.Drawing.Size(964, 412)
         Me.RangeSettingsBodyTablePanel.TabIndex = 174
         '
         'RangeSettingsBodyRightColumnPanel
@@ -11327,9 +11326,9 @@ Partial Class FrmSettings
         Me.RangeSettingsBodyRightColumnPanel.Controls.Add(Me.RangeSettingsGlitterTasksGroupBox)
         Me.RangeSettingsBodyRightColumnPanel.Controls.Add(Me.GroupBox17)
         Me.RangeSettingsBodyRightColumnPanel.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.RangeSettingsBodyRightColumnPanel.Location = New System.Drawing.Point(541, 3)
+        Me.RangeSettingsBodyRightColumnPanel.Location = New System.Drawing.Point(648, 3)
         Me.RangeSettingsBodyRightColumnPanel.Name = "RangeSettingsBodyRightColumnPanel"
-        Me.RangeSettingsBodyRightColumnPanel.Size = New System.Drawing.Size(420, 494)
+        Me.RangeSettingsBodyRightColumnPanel.Size = New System.Drawing.Size(313, 534)
         Me.RangeSettingsBodyRightColumnPanel.TabIndex = 0
         '
         'GroupBox10
@@ -11987,9 +11986,9 @@ Partial Class FrmSettings
         Me.RangeSettingsBodyMiddleColumnPanel.Controls.Add(Me.GroupBox69)
         Me.RangeSettingsBodyMiddleColumnPanel.Controls.Add(Me.GBRangeRuinChance)
         Me.RangeSettingsBodyMiddleColumnPanel.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.RangeSettingsBodyMiddleColumnPanel.Location = New System.Drawing.Point(266, 3)
+        Me.RangeSettingsBodyMiddleColumnPanel.Location = New System.Drawing.Point(321, 3)
         Me.RangeSettingsBodyMiddleColumnPanel.Name = "RangeSettingsBodyMiddleColumnPanel"
-        Me.RangeSettingsBodyMiddleColumnPanel.Size = New System.Drawing.Size(269, 494)
+        Me.RangeSettingsBodyMiddleColumnPanel.Size = New System.Drawing.Size(321, 534)
         Me.RangeSettingsBodyMiddleColumnPanel.TabIndex = 170
         '
         'GBRangeOrgasmChance
@@ -12006,7 +12005,7 @@ Partial Class FrmSettings
         Me.GBRangeOrgasmChance.Controls.Add(Me.DommeDecideOrgasmCheckBox)
         Me.GBRangeOrgasmChance.Location = New System.Drawing.Point(3, 4)
         Me.GBRangeOrgasmChance.Name = "GBRangeOrgasmChance"
-        Me.GBRangeOrgasmChance.Size = New System.Drawing.Size(263, 122)
+        Me.GBRangeOrgasmChance.Size = New System.Drawing.Size(315, 122)
         Me.GBRangeOrgasmChance.TabIndex = 167
         Me.GBRangeOrgasmChance.TabStop = False
         Me.GBRangeOrgasmChance.Text = "Orgasm Chance"
@@ -12027,7 +12026,7 @@ Partial Class FrmSettings
         '
         Me.SometimesAllowsPercentNumberBox.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.SometimesAllowsPercentNumberBox.Enabled = False
-        Me.SometimesAllowsPercentNumberBox.Location = New System.Drawing.Point(213, 65)
+        Me.SometimesAllowsPercentNumberBox.Location = New System.Drawing.Point(265, 65)
         Me.SometimesAllowsPercentNumberBox.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
         Me.SometimesAllowsPercentNumberBox.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.SometimesAllowsPercentNumberBox.Name = "SometimesAllowsPercentNumberBox"
@@ -12063,7 +12062,7 @@ Partial Class FrmSettings
         '
         Me.RarelyAllowsPercentNumberBox.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RarelyAllowsPercentNumberBox.Enabled = False
-        Me.RarelyAllowsPercentNumberBox.Location = New System.Drawing.Point(213, 91)
+        Me.RarelyAllowsPercentNumberBox.Location = New System.Drawing.Point(265, 91)
         Me.RarelyAllowsPercentNumberBox.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
         Me.RarelyAllowsPercentNumberBox.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.RarelyAllowsPercentNumberBox.Name = "RarelyAllowsPercentNumberBox"
@@ -12075,7 +12074,7 @@ Partial Class FrmSettings
         '
         Me.OftenAllowsPercentNumberBox.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.OftenAllowsPercentNumberBox.Enabled = False
-        Me.OftenAllowsPercentNumberBox.Location = New System.Drawing.Point(213, 39)
+        Me.OftenAllowsPercentNumberBox.Location = New System.Drawing.Point(265, 39)
         Me.OftenAllowsPercentNumberBox.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
         Me.OftenAllowsPercentNumberBox.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.OftenAllowsPercentNumberBox.Name = "OftenAllowsPercentNumberBox"
@@ -12105,7 +12104,7 @@ Partial Class FrmSettings
         Me.GroupBox69.Controls.Add(Me.TypeSpeedSlider)
         Me.GroupBox69.Location = New System.Drawing.Point(3, 260)
         Me.GroupBox69.Name = "GroupBox69"
-        Me.GroupBox69.Size = New System.Drawing.Size(263, 109)
+        Me.GroupBox69.Size = New System.Drawing.Size(315, 109)
         Me.GroupBox69.TabIndex = 173
         Me.GroupBox69.TabStop = False
         Me.GroupBox69.Text = "Writing Tasks"
@@ -12114,7 +12113,7 @@ Partial Class FrmSettings
         '
         Me.TypesSpeedVal.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TypesSpeedVal.AutoSize = True
-        Me.TypesSpeedVal.Location = New System.Drawing.Point(238, 83)
+        Me.TypesSpeedVal.Location = New System.Drawing.Point(290, 83)
         Me.TypesSpeedVal.Name = "TypesSpeedVal"
         Me.TypesSpeedVal.Size = New System.Drawing.Size(19, 13)
         Me.TypesSpeedVal.TabIndex = 0
@@ -12142,12 +12141,14 @@ Partial Class FrmSettings
         '
         'TypeSpeedSlider
         '
+        Me.TypeSpeedSlider.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TypeSpeedSlider.BackColor = System.Drawing.SystemColors.Control
         Me.TypeSpeedSlider.Location = New System.Drawing.Point(6, 35)
         Me.TypeSpeedSlider.Maximum = 100
         Me.TypeSpeedSlider.Minimum = 33
         Me.TypeSpeedSlider.Name = "TypeSpeedSlider"
-        Me.TypeSpeedSlider.Size = New System.Drawing.Size(251, 45)
+        Me.TypeSpeedSlider.Size = New System.Drawing.Size(303, 45)
         Me.TypeSpeedSlider.TabIndex = 3
         Me.TypeSpeedSlider.Value = 33
         '
@@ -12165,7 +12166,7 @@ Partial Class FrmSettings
         Me.GBRangeRuinChance.Controls.Add(Me.DommeDecideRuinCheckBox)
         Me.GBRangeRuinChance.Location = New System.Drawing.Point(3, 132)
         Me.GBRangeRuinChance.Name = "GBRangeRuinChance"
-        Me.GBRangeRuinChance.Size = New System.Drawing.Size(263, 122)
+        Me.GBRangeRuinChance.Size = New System.Drawing.Size(315, 122)
         Me.GBRangeRuinChance.TabIndex = 168
         Me.GBRangeRuinChance.TabStop = False
         Me.GBRangeRuinChance.Text = "Ruin Chance"
@@ -12186,7 +12187,7 @@ Partial Class FrmSettings
         '
         Me.NBRuinSometimes.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.NBRuinSometimes.Enabled = False
-        Me.NBRuinSometimes.Location = New System.Drawing.Point(213, 65)
+        Me.NBRuinSometimes.Location = New System.Drawing.Point(265, 65)
         Me.NBRuinSometimes.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
         Me.NBRuinSometimes.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.NBRuinSometimes.Name = "NBRuinSometimes"
@@ -12222,7 +12223,7 @@ Partial Class FrmSettings
         '
         Me.NBRuinRarely.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.NBRuinRarely.Enabled = False
-        Me.NBRuinRarely.Location = New System.Drawing.Point(213, 91)
+        Me.NBRuinRarely.Location = New System.Drawing.Point(265, 91)
         Me.NBRuinRarely.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
         Me.NBRuinRarely.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.NBRuinRarely.Name = "NBRuinRarely"
@@ -12234,7 +12235,7 @@ Partial Class FrmSettings
         '
         Me.NBRuinOften.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.NBRuinOften.Enabled = False
-        Me.NBRuinOften.Location = New System.Drawing.Point(213, 39)
+        Me.NBRuinOften.Location = New System.Drawing.Point(265, 39)
         Me.NBRuinOften.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
         Me.NBRuinOften.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.NBRuinOften.Name = "NBRuinOften"
@@ -12260,7 +12261,7 @@ Partial Class FrmSettings
         Me.RangeSettingsBodyLeftColumnPanel.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RangeSettingsBodyLeftColumnPanel.Location = New System.Drawing.Point(3, 3)
         Me.RangeSettingsBodyLeftColumnPanel.Name = "RangeSettingsBodyLeftColumnPanel"
-        Me.RangeSettingsBodyLeftColumnPanel.Size = New System.Drawing.Size(257, 494)
+        Me.RangeSettingsBodyLeftColumnPanel.Size = New System.Drawing.Size(312, 534)
         Me.RangeSettingsBodyLeftColumnPanel.TabIndex = 171
         '
         'RangeSettingsTeaseGroupBox
@@ -12293,17 +12294,18 @@ Partial Class FrmSettings
         Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.Label141)
         Me.RangeSettingsTeaseGroupBox.Location = New System.Drawing.Point(3, 4)
         Me.RangeSettingsTeaseGroupBox.Name = "RangeSettingsTeaseGroupBox"
-        Me.RangeSettingsTeaseGroupBox.Size = New System.Drawing.Size(251, 308)
+        Me.RangeSettingsTeaseGroupBox.Size = New System.Drawing.Size(306, 308)
         Me.RangeSettingsTeaseGroupBox.TabIndex = 169
         Me.RangeSettingsTeaseGroupBox.TabStop = False
         Me.RangeSettingsTeaseGroupBox.Text = "Tease"
         '
         'Label139
         '
+        Me.Label139.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label139.BackColor = System.Drawing.Color.Transparent
         Me.Label139.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label139.ForeColor = System.Drawing.Color.Black
-        Me.Label139.Location = New System.Drawing.Point(175, 171)
+        Me.Label139.Location = New System.Drawing.Point(238, 172)
         Me.Label139.Name = "Label139"
         Me.Label139.Size = New System.Drawing.Size(50, 17)
         Me.Label139.TabIndex = 184
@@ -12312,7 +12314,8 @@ Partial Class FrmSettings
         '
         'NBTauntEdging
         '
-        Me.NBTauntEdging.Location = New System.Drawing.Point(130, 171)
+        Me.NBTauntEdging.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBTauntEdging.Location = New System.Drawing.Point(193, 172)
         Me.NBTauntEdging.Name = "NBTauntEdging"
         Me.NBTauntEdging.Size = New System.Drawing.Size(44, 20)
         Me.NBTauntEdging.TabIndex = 188
@@ -12320,10 +12323,11 @@ Partial Class FrmSettings
         '
         'LBLVtf
         '
+        Me.LBLVtf.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.LBLVtf.BackColor = System.Drawing.Color.Transparent
         Me.LBLVtf.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LBLVtf.ForeColor = System.Drawing.Color.Black
-        Me.LBLVtf.Location = New System.Drawing.Point(128, 261)
+        Me.LBLVtf.Location = New System.Drawing.Point(191, 262)
         Me.LBLVtf.Name = "LBLVtf"
         Me.LBLVtf.Size = New System.Drawing.Size(87, 17)
         Me.LBLVtf.TabIndex = 187
@@ -12332,10 +12336,11 @@ Partial Class FrmSettings
         '
         'LBLStf
         '
+        Me.LBLStf.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.LBLStf.BackColor = System.Drawing.Color.Transparent
         Me.LBLStf.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LBLStf.ForeColor = System.Drawing.Color.Black
-        Me.LBLStf.Location = New System.Drawing.Point(130, 220)
+        Me.LBLStf.Location = New System.Drawing.Point(193, 221)
         Me.LBLStf.Name = "LBLStf"
         Me.LBLStf.Size = New System.Drawing.Size(87, 17)
         Me.LBLStf.TabIndex = 165
@@ -12344,10 +12349,11 @@ Partial Class FrmSettings
         '
         'SliderSTF
         '
+        Me.SliderSTF.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.SliderSTF.AutoSize = False
         Me.SliderSTF.BackColor = System.Drawing.SystemColors.Control
         Me.SliderSTF.LargeChange = 1
-        Me.SliderSTF.Location = New System.Drawing.Point(130, 199)
+        Me.SliderSTF.Location = New System.Drawing.Point(193, 200)
         Me.SliderSTF.Maximum = 5
         Me.SliderSTF.Minimum = 1
         Me.SliderSTF.Name = "SliderSTF"
@@ -12357,10 +12363,11 @@ Partial Class FrmSettings
         '
         'TauntSlider
         '
+        Me.TauntSlider.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TauntSlider.AutoSize = False
         Me.TauntSlider.BackColor = System.Drawing.SystemColors.Control
         Me.TauntSlider.LargeChange = 1
-        Me.TauntSlider.Location = New System.Drawing.Point(130, 240)
+        Me.TauntSlider.Location = New System.Drawing.Point(193, 241)
         Me.TauntSlider.Maximum = 9
         Me.TauntSlider.Minimum = 1
         Me.TauntSlider.Name = "TauntSlider"
@@ -12404,10 +12411,11 @@ Partial Class FrmSettings
         '
         'Label103
         '
+        Me.Label103.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label103.BackColor = System.Drawing.Color.Transparent
         Me.Label103.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label103.ForeColor = System.Drawing.Color.Black
-        Me.Label103.Location = New System.Drawing.Point(175, 117)
+        Me.Label103.Location = New System.Drawing.Point(238, 118)
         Me.Label103.Name = "Label103"
         Me.Label103.Size = New System.Drawing.Size(50, 17)
         Me.Label103.TabIndex = 183
@@ -12416,7 +12424,8 @@ Partial Class FrmSettings
         '
         'NBTauntCycleMax
         '
-        Me.NBTauntCycleMax.Location = New System.Drawing.Point(130, 116)
+        Me.NBTauntCycleMax.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBTauntCycleMax.Location = New System.Drawing.Point(193, 117)
         Me.NBTauntCycleMax.Maximum = New Decimal(New Integer() {30, 0, 0, 0})
         Me.NBTauntCycleMax.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
         Me.NBTauntCycleMax.Name = "NBTauntCycleMax"
@@ -12438,10 +12447,11 @@ Partial Class FrmSettings
         '
         'Label101
         '
+        Me.Label101.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label101.BackColor = System.Drawing.Color.Transparent
         Me.Label101.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label101.ForeColor = System.Drawing.Color.Black
-        Me.Label101.Location = New System.Drawing.Point(175, 93)
+        Me.Label101.Location = New System.Drawing.Point(238, 94)
         Me.Label101.Name = "Label101"
         Me.Label101.Size = New System.Drawing.Size(50, 17)
         Me.Label101.TabIndex = 180
@@ -12450,7 +12460,8 @@ Partial Class FrmSettings
         '
         'NBTauntCycleMin
         '
-        Me.NBTauntCycleMin.Location = New System.Drawing.Point(130, 92)
+        Me.NBTauntCycleMin.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBTauntCycleMin.Location = New System.Drawing.Point(193, 93)
         Me.NBTauntCycleMin.Maximum = New Decimal(New Integer() {10, 0, 0, 0})
         Me.NBTauntCycleMin.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.NBTauntCycleMin.Name = "NBTauntCycleMin"
@@ -12472,10 +12483,11 @@ Partial Class FrmSettings
         '
         'Label97
         '
+        Me.Label97.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label97.BackColor = System.Drawing.Color.Transparent
         Me.Label97.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label97.ForeColor = System.Drawing.Color.Black
-        Me.Label97.Location = New System.Drawing.Point(175, 46)
+        Me.Label97.Location = New System.Drawing.Point(238, 47)
         Me.Label97.Name = "Label97"
         Me.Label97.Size = New System.Drawing.Size(50, 17)
         Me.Label97.TabIndex = 177
@@ -12484,7 +12496,8 @@ Partial Class FrmSettings
         '
         'NBTeaseLengthMax
         '
-        Me.NBTeaseLengthMax.Location = New System.Drawing.Point(130, 45)
+        Me.NBTeaseLengthMax.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBTeaseLengthMax.Location = New System.Drawing.Point(193, 46)
         Me.NBTeaseLengthMax.Maximum = New Decimal(New Integer() {720, 0, 0, 0})
         Me.NBTeaseLengthMax.Minimum = New Decimal(New Integer() {10, 0, 0, 0})
         Me.NBTeaseLengthMax.Name = "NBTeaseLengthMax"
@@ -12506,10 +12519,11 @@ Partial Class FrmSettings
         '
         'Label96
         '
+        Me.Label96.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label96.BackColor = System.Drawing.Color.Transparent
         Me.Label96.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label96.ForeColor = System.Drawing.Color.Black
-        Me.Label96.Location = New System.Drawing.Point(175, 20)
+        Me.Label96.Location = New System.Drawing.Point(238, 21)
         Me.Label96.Name = "Label96"
         Me.Label96.Size = New System.Drawing.Size(50, 17)
         Me.Label96.TabIndex = 174
@@ -12518,7 +12532,8 @@ Partial Class FrmSettings
         '
         'NBTeaseLengthMin
         '
-        Me.NBTeaseLengthMin.Location = New System.Drawing.Point(130, 19)
+        Me.NBTeaseLengthMin.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBTeaseLengthMin.Location = New System.Drawing.Point(193, 20)
         Me.NBTeaseLengthMin.Maximum = New Decimal(New Integer() {360, 0, 0, 0})
         Me.NBTeaseLengthMin.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
         Me.NBTeaseLengthMin.Name = "NBTeaseLengthMin"
@@ -12572,7 +12587,7 @@ Partial Class FrmSettings
         Me.RangeSettingsSessionTasksGroupBox.Controls.Add(Me.Label166)
         Me.RangeSettingsSessionTasksGroupBox.Location = New System.Drawing.Point(3, 318)
         Me.RangeSettingsSessionTasksGroupBox.Name = "RangeSettingsSessionTasksGroupBox"
-        Me.RangeSettingsSessionTasksGroupBox.Size = New System.Drawing.Size(251, 51)
+        Me.RangeSettingsSessionTasksGroupBox.Size = New System.Drawing.Size(306, 51)
         Me.RangeSettingsSessionTasksGroupBox.TabIndex = 172
         Me.RangeSettingsSessionTasksGroupBox.TabStop = False
         Me.RangeSettingsSessionTasksGroupBox.Text = "Session Tasks"
@@ -12662,9 +12677,9 @@ Partial Class FrmSettings
         Me.RangeSettingsDescriptionGroupBox.Controls.Add(Me.RangeSettingsDescriptionLabel)
         Me.RangeSettingsDescriptionGroupBox.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.RangeSettingsDescriptionGroupBox.ForeColor = System.Drawing.Color.Black
-        Me.RangeSettingsDescriptionGroupBox.Location = New System.Drawing.Point(3, 551)
+        Me.RangeSettingsDescriptionGroupBox.Location = New System.Drawing.Point(3, 463)
         Me.RangeSettingsDescriptionGroupBox.Name = "RangeSettingsDescriptionGroupBox"
-        Me.RangeSettingsDescriptionGroupBox.Size = New System.Drawing.Size(966, 77)
+        Me.RangeSettingsDescriptionGroupBox.Size = New System.Drawing.Size(966, 165)
         Me.RangeSettingsDescriptionGroupBox.TabIndex = 66
         Me.RangeSettingsDescriptionGroupBox.TabStop = False
         Me.RangeSettingsDescriptionGroupBox.Text = "Description"
@@ -12679,7 +12694,7 @@ Partial Class FrmSettings
         Me.RangeSettingsDescriptionLabel.ForeColor = System.Drawing.Color.Black
         Me.RangeSettingsDescriptionLabel.Location = New System.Drawing.Point(9, 16)
         Me.RangeSettingsDescriptionLabel.Name = "RangeSettingsDescriptionLabel"
-        Me.RangeSettingsDescriptionLabel.Size = New System.Drawing.Size(950, 56)
+        Me.RangeSettingsDescriptionLabel.Size = New System.Drawing.Size(950, 144)
         Me.RangeSettingsDescriptionLabel.TabIndex = 62
         Me.RangeSettingsDescriptionLabel.Text = "Hover over any setting in the menu for a more detailed description of its functio" &
     "n."
