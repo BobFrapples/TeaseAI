@@ -817,7 +817,7 @@ Partial Class FrmSettings
         Me.RangeSettingsBody = New System.Windows.Forms.Panel()
         Me.RangeSettingsBodyTablePanel = New System.Windows.Forms.TableLayoutPanel()
         Me.RangeSettingsBodyRightColumnPanel = New System.Windows.Forms.Panel()
-        Me.GroupBox10 = New System.Windows.Forms.GroupBox()
+        Me.RangeSettingsTeaseSlideshowGroupBox = New System.Windows.Forms.GroupBox()
         Me.Label112 = New System.Windows.Forms.Label()
         Me.NBNextImageChance = New System.Windows.Forms.NumericUpDown()
         Me.Label6 = New System.Windows.Forms.Label()
@@ -845,7 +845,7 @@ Partial Class FrmSettings
         Me.NBTaskStrokesMin = New System.Windows.Forms.NumericUpDown()
         Me.Label146 = New System.Windows.Forms.Label()
         Me.Label149 = New System.Windows.Forms.Label()
-        Me.GroupBox17 = New System.Windows.Forms.GroupBox()
+        Me.RangeSettingsVideoTeaseGroupBox = New System.Windows.Forms.GroupBox()
         Me.GroupBox19 = New System.Windows.Forms.GroupBox()
         Me.Label110 = New System.Windows.Forms.Label()
         Me.Label111 = New System.Windows.Forms.Label()
@@ -857,13 +857,13 @@ Partial Class FrmSettings
         Me.Label28 = New System.Windows.Forms.Label()
         Me.Label27 = New System.Windows.Forms.Label()
         Me.Label29 = New System.Windows.Forms.Label()
-        Me.GroupBox18 = New System.Windows.Forms.GroupBox()
+        Me.RangeSettingsCensorshipSucksGroupBox = New System.Windows.Forms.GroupBox()
         Me.Label108 = New System.Windows.Forms.Label()
         Me.Label109 = New System.Windows.Forms.Label()
         Me.NBCensorShowMin = New System.Windows.Forms.NumericUpDown()
         Me.NBCensorHideMax = New System.Windows.Forms.NumericUpDown()
         Me.NBCensorHideMin = New System.Windows.Forms.NumericUpDown()
-        Me.CBCensorConstant = New System.Windows.Forms.CheckBox()
+        Me.CensorshipBarDuringVideoTease = New System.Windows.Forms.CheckBox()
         Me.Label25 = New System.Windows.Forms.Label()
         Me.Label20 = New System.Windows.Forms.Label()
         Me.Label19 = New System.Windows.Forms.Label()
@@ -898,7 +898,7 @@ Partial Class FrmSettings
         Me.LBLVtf = New System.Windows.Forms.Label()
         Me.LBLStf = New System.Windows.Forms.Label()
         Me.SliderSTF = New System.Windows.Forms.TrackBar()
-        Me.TauntSlider = New System.Windows.Forms.TrackBar()
+        Me.VideoTauntSlider = New System.Windows.Forms.TrackBar()
         Me.Label106 = New System.Windows.Forms.Label()
         Me.CBTauntCycleDD = New System.Windows.Forms.CheckBox()
         Me.TeaseLengthDommeDetermined = New System.Windows.Forms.CheckBox()
@@ -1287,7 +1287,7 @@ Partial Class FrmSettings
         Me.RangeSettingsBody.SuspendLayout
         Me.RangeSettingsBodyTablePanel.SuspendLayout
         Me.RangeSettingsBodyRightColumnPanel.SuspendLayout
-        Me.GroupBox10.SuspendLayout
+        Me.RangeSettingsTeaseSlideshowGroupBox.SuspendLayout
         CType(Me.NBNextImageChance, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RangeSettingsGlitterTasksGroupBox.SuspendLayout
         CType(Me.NBTaskCBTTimeMax, System.ComponentModel.ISupportInitialize).BeginInit
@@ -1300,13 +1300,13 @@ Partial Class FrmSettings
         CType(Me.NBTaskStrokingTimeMin, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NBTaskStrokesMax, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NBTaskStrokesMin, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.GroupBox17.SuspendLayout
+        Me.RangeSettingsVideoTeaseGroupBox.SuspendLayout
         Me.GroupBox19.SuspendLayout
         CType(Me.NBGreenLightMax, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NBGreenLightMin, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NBRedLightMax, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NBRedLightMin, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.GroupBox18.SuspendLayout
+        Me.RangeSettingsCensorshipSucksGroupBox.SuspendLayout
         CType(Me.NBCensorShowMin, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NBCensorHideMax, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NBCensorHideMin, System.ComponentModel.ISupportInitialize).BeginInit
@@ -1326,7 +1326,7 @@ Partial Class FrmSettings
         Me.RangeSettingsTeaseGroupBox.SuspendLayout
         CType(Me.NBTauntEdging, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.SliderSTF, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TauntSlider, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.VideoTauntSlider, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NBTauntCycleMax, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NBTauntCycleMin, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NBTeaseLengthMax, System.ComponentModel.ISupportInitialize).BeginInit
@@ -11322,26 +11322,28 @@ Partial Class FrmSettings
         '
         'RangeSettingsBodyRightColumnPanel
         '
-        Me.RangeSettingsBodyRightColumnPanel.Controls.Add(Me.GroupBox10)
+        Me.RangeSettingsBodyRightColumnPanel.Controls.Add(Me.RangeSettingsTeaseSlideshowGroupBox)
         Me.RangeSettingsBodyRightColumnPanel.Controls.Add(Me.RangeSettingsGlitterTasksGroupBox)
-        Me.RangeSettingsBodyRightColumnPanel.Controls.Add(Me.GroupBox17)
+        Me.RangeSettingsBodyRightColumnPanel.Controls.Add(Me.RangeSettingsVideoTeaseGroupBox)
         Me.RangeSettingsBodyRightColumnPanel.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RangeSettingsBodyRightColumnPanel.Location = New System.Drawing.Point(648, 3)
         Me.RangeSettingsBodyRightColumnPanel.Name = "RangeSettingsBodyRightColumnPanel"
         Me.RangeSettingsBodyRightColumnPanel.Size = New System.Drawing.Size(313, 534)
         Me.RangeSettingsBodyRightColumnPanel.TabIndex = 0
         '
-        'GroupBox10
+        'RangeSettingsTeaseSlideshowGroupBox
         '
-        Me.GroupBox10.Controls.Add(Me.Label112)
-        Me.GroupBox10.Controls.Add(Me.NBNextImageChance)
-        Me.GroupBox10.Controls.Add(Me.Label6)
-        Me.GroupBox10.Location = New System.Drawing.Point(3, 9)
-        Me.GroupBox10.Name = "GroupBox10"
-        Me.GroupBox10.Size = New System.Drawing.Size(413, 54)
-        Me.GroupBox10.TabIndex = 170
-        Me.GroupBox10.TabStop = False
-        Me.GroupBox10.Text = "Tease Slideshow"
+        Me.RangeSettingsTeaseSlideshowGroupBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RangeSettingsTeaseSlideshowGroupBox.Controls.Add(Me.Label112)
+        Me.RangeSettingsTeaseSlideshowGroupBox.Controls.Add(Me.NBNextImageChance)
+        Me.RangeSettingsTeaseSlideshowGroupBox.Controls.Add(Me.Label6)
+        Me.RangeSettingsTeaseSlideshowGroupBox.Location = New System.Drawing.Point(3, 9)
+        Me.RangeSettingsTeaseSlideshowGroupBox.Name = "RangeSettingsTeaseSlideshowGroupBox"
+        Me.RangeSettingsTeaseSlideshowGroupBox.Size = New System.Drawing.Size(307, 54)
+        Me.RangeSettingsTeaseSlideshowGroupBox.TabIndex = 170
+        Me.RangeSettingsTeaseSlideshowGroupBox.TabStop = False
+        Me.RangeSettingsTeaseSlideshowGroupBox.Text = "Tease Slideshow"
         '
         'Label112
         '
@@ -11403,7 +11405,7 @@ Partial Class FrmSettings
         Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.Label149)
         Me.RangeSettingsGlitterTasksGroupBox.Location = New System.Drawing.Point(3, 265)
         Me.RangeSettingsGlitterTasksGroupBox.Name = "RangeSettingsGlitterTasksGroupBox"
-        Me.RangeSettingsGlitterTasksGroupBox.Size = New System.Drawing.Size(413, 139)
+        Me.RangeSettingsGlitterTasksGroupBox.Size = New System.Drawing.Size(307, 139)
         Me.RangeSettingsGlitterTasksGroupBox.TabIndex = 171
         Me.RangeSettingsGlitterTasksGroupBox.TabStop = False
         Me.RangeSettingsGlitterTasksGroupBox.Text = "Letter Tasks"
@@ -11414,7 +11416,7 @@ Partial Class FrmSettings
         Me.Label161.BackColor = System.Drawing.Color.Transparent
         Me.Label161.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label161.ForeColor = System.Drawing.Color.Black
-        Me.Label161.Location = New System.Drawing.Point(355, 110)
+        Me.Label161.Location = New System.Drawing.Point(249, 110)
         Me.Label161.Name = "Label161"
         Me.Label161.Size = New System.Drawing.Size(50, 17)
         Me.Label161.TabIndex = 204
@@ -11424,7 +11426,7 @@ Partial Class FrmSettings
         'NBTaskCBTTimeMax
         '
         Me.NBTaskCBTTimeMax.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.NBTaskCBTTimeMax.Location = New System.Drawing.Point(305, 110)
+        Me.NBTaskCBTTimeMax.Location = New System.Drawing.Point(199, 110)
         Me.NBTaskCBTTimeMax.Maximum = New Decimal(New Integer() {600, 0, 0, 0})
         Me.NBTaskCBTTimeMax.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.NBTaskCBTTimeMax.Name = "NBTaskCBTTimeMax"
@@ -11435,7 +11437,7 @@ Partial Class FrmSettings
         'NBTaskCBTTimeMin
         '
         Me.NBTaskCBTTimeMin.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.NBTaskCBTTimeMin.Location = New System.Drawing.Point(239, 111)
+        Me.NBTaskCBTTimeMin.Location = New System.Drawing.Point(133, 111)
         Me.NBTaskCBTTimeMin.Maximum = New Decimal(New Integer() {9999, 0, 0, 0})
         Me.NBTaskCBTTimeMin.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.NBTaskCBTTimeMin.Name = "NBTaskCBTTimeMin"
@@ -11449,7 +11451,7 @@ Partial Class FrmSettings
         Me.Label162.BackColor = System.Drawing.Color.Transparent
         Me.Label162.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label162.ForeColor = System.Drawing.Color.Black
-        Me.Label162.Location = New System.Drawing.Point(289, 110)
+        Me.Label162.Location = New System.Drawing.Point(183, 110)
         Me.Label162.Name = "Label162"
         Me.Label162.Size = New System.Drawing.Size(10, 17)
         Me.Label162.TabIndex = 201
@@ -11474,7 +11476,7 @@ Partial Class FrmSettings
         Me.Label158.BackColor = System.Drawing.Color.Transparent
         Me.Label158.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label158.ForeColor = System.Drawing.Color.Black
-        Me.Label158.Location = New System.Drawing.Point(355, 87)
+        Me.Label158.Location = New System.Drawing.Point(249, 87)
         Me.Label158.Name = "Label158"
         Me.Label158.Size = New System.Drawing.Size(50, 17)
         Me.Label158.TabIndex = 199
@@ -11484,7 +11486,7 @@ Partial Class FrmSettings
         'NBTaskEdgeHoldTimeMax
         '
         Me.NBTaskEdgeHoldTimeMax.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.NBTaskEdgeHoldTimeMax.Location = New System.Drawing.Point(305, 87)
+        Me.NBTaskEdgeHoldTimeMax.Location = New System.Drawing.Point(199, 87)
         Me.NBTaskEdgeHoldTimeMax.Maximum = New Decimal(New Integer() {600, 0, 0, 0})
         Me.NBTaskEdgeHoldTimeMax.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.NBTaskEdgeHoldTimeMax.Name = "NBTaskEdgeHoldTimeMax"
@@ -11495,7 +11497,7 @@ Partial Class FrmSettings
         'NBTaskEdgeHoldTimeMin
         '
         Me.NBTaskEdgeHoldTimeMin.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.NBTaskEdgeHoldTimeMin.Location = New System.Drawing.Point(239, 88)
+        Me.NBTaskEdgeHoldTimeMin.Location = New System.Drawing.Point(133, 88)
         Me.NBTaskEdgeHoldTimeMin.Maximum = New Decimal(New Integer() {9999, 0, 0, 0})
         Me.NBTaskEdgeHoldTimeMin.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.NBTaskEdgeHoldTimeMin.Name = "NBTaskEdgeHoldTimeMin"
@@ -11509,7 +11511,7 @@ Partial Class FrmSettings
         Me.Label159.BackColor = System.Drawing.Color.Transparent
         Me.Label159.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label159.ForeColor = System.Drawing.Color.Black
-        Me.Label159.Location = New System.Drawing.Point(289, 87)
+        Me.Label159.Location = New System.Drawing.Point(183, 87)
         Me.Label159.Name = "Label159"
         Me.Label159.Size = New System.Drawing.Size(10, 17)
         Me.Label159.TabIndex = 196
@@ -11531,7 +11533,7 @@ Partial Class FrmSettings
         'NBTaskEdgesMax
         '
         Me.NBTaskEdgesMax.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.NBTaskEdgesMax.Location = New System.Drawing.Point(305, 64)
+        Me.NBTaskEdgesMax.Location = New System.Drawing.Point(199, 64)
         Me.NBTaskEdgesMax.Maximum = New Decimal(New Integer() {1000, 0, 0, 0})
         Me.NBTaskEdgesMax.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.NBTaskEdgesMax.Name = "NBTaskEdgesMax"
@@ -11542,7 +11544,7 @@ Partial Class FrmSettings
         'NBTaskEdgesMin
         '
         Me.NBTaskEdgesMin.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.NBTaskEdgesMin.Location = New System.Drawing.Point(239, 65)
+        Me.NBTaskEdgesMin.Location = New System.Drawing.Point(133, 65)
         Me.NBTaskEdgesMin.Maximum = New Decimal(New Integer() {9999, 0, 0, 0})
         Me.NBTaskEdgesMin.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.NBTaskEdgesMin.Name = "NBTaskEdgesMin"
@@ -11556,7 +11558,7 @@ Partial Class FrmSettings
         Me.Label119.BackColor = System.Drawing.Color.Transparent
         Me.Label119.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label119.ForeColor = System.Drawing.Color.Black
-        Me.Label119.Location = New System.Drawing.Point(289, 64)
+        Me.Label119.Location = New System.Drawing.Point(183, 64)
         Me.Label119.Name = "Label119"
         Me.Label119.Size = New System.Drawing.Size(10, 17)
         Me.Label119.TabIndex = 192
@@ -11581,7 +11583,7 @@ Partial Class FrmSettings
         Me.Label151.BackColor = System.Drawing.Color.Transparent
         Me.Label151.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label151.ForeColor = System.Drawing.Color.Black
-        Me.Label151.Location = New System.Drawing.Point(355, 41)
+        Me.Label151.Location = New System.Drawing.Point(249, 41)
         Me.Label151.Name = "Label151"
         Me.Label151.Size = New System.Drawing.Size(50, 17)
         Me.Label151.TabIndex = 190
@@ -11591,7 +11593,7 @@ Partial Class FrmSettings
         'NBTaskStrokingTimeMax
         '
         Me.NBTaskStrokingTimeMax.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.NBTaskStrokingTimeMax.Location = New System.Drawing.Point(305, 41)
+        Me.NBTaskStrokingTimeMax.Location = New System.Drawing.Point(199, 41)
         Me.NBTaskStrokingTimeMax.Maximum = New Decimal(New Integer() {9999, 0, 0, 0})
         Me.NBTaskStrokingTimeMax.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.NBTaskStrokingTimeMax.Name = "NBTaskStrokingTimeMax"
@@ -11602,7 +11604,7 @@ Partial Class FrmSettings
         'NBTaskStrokingTimeMin
         '
         Me.NBTaskStrokingTimeMin.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.NBTaskStrokingTimeMin.Location = New System.Drawing.Point(239, 42)
+        Me.NBTaskStrokingTimeMin.Location = New System.Drawing.Point(133, 42)
         Me.NBTaskStrokingTimeMin.Maximum = New Decimal(New Integer() {9999, 0, 0, 0})
         Me.NBTaskStrokingTimeMin.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.NBTaskStrokingTimeMin.Name = "NBTaskStrokingTimeMin"
@@ -11616,7 +11618,7 @@ Partial Class FrmSettings
         Me.Label154.BackColor = System.Drawing.Color.Transparent
         Me.Label154.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label154.ForeColor = System.Drawing.Color.Black
-        Me.Label154.Location = New System.Drawing.Point(289, 41)
+        Me.Label154.Location = New System.Drawing.Point(183, 41)
         Me.Label154.Name = "Label154"
         Me.Label154.Size = New System.Drawing.Size(10, 17)
         Me.Label154.TabIndex = 187
@@ -11638,7 +11640,7 @@ Partial Class FrmSettings
         'NBTaskStrokesMax
         '
         Me.NBTaskStrokesMax.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.NBTaskStrokesMax.Location = New System.Drawing.Point(305, 18)
+        Me.NBTaskStrokesMax.Location = New System.Drawing.Point(199, 18)
         Me.NBTaskStrokesMax.Maximum = New Decimal(New Integer() {9999, 0, 0, 0})
         Me.NBTaskStrokesMax.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.NBTaskStrokesMax.Name = "NBTaskStrokesMax"
@@ -11649,7 +11651,7 @@ Partial Class FrmSettings
         'NBTaskStrokesMin
         '
         Me.NBTaskStrokesMin.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.NBTaskStrokesMin.Location = New System.Drawing.Point(239, 19)
+        Me.NBTaskStrokesMin.Location = New System.Drawing.Point(133, 19)
         Me.NBTaskStrokesMin.Maximum = New Decimal(New Integer() {9999, 0, 0, 0})
         Me.NBTaskStrokesMin.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.NBTaskStrokesMin.Name = "NBTaskStrokesMin"
@@ -11663,7 +11665,7 @@ Partial Class FrmSettings
         Me.Label146.BackColor = System.Drawing.Color.Transparent
         Me.Label146.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label146.ForeColor = System.Drawing.Color.Black
-        Me.Label146.Location = New System.Drawing.Point(289, 18)
+        Me.Label146.Location = New System.Drawing.Point(183, 18)
         Me.Label146.Name = "Label146"
         Me.Label146.Size = New System.Drawing.Size(10, 17)
         Me.Label146.TabIndex = 182
@@ -11682,16 +11684,18 @@ Partial Class FrmSettings
         Me.Label149.Text = "Strokes:"
         Me.Label149.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'GroupBox17
+        'RangeSettingsVideoTeaseGroupBox
         '
-        Me.GroupBox17.Controls.Add(Me.GroupBox19)
-        Me.GroupBox17.Controls.Add(Me.GroupBox18)
-        Me.GroupBox17.Location = New System.Drawing.Point(3, 69)
-        Me.GroupBox17.Name = "GroupBox17"
-        Me.GroupBox17.Size = New System.Drawing.Size(413, 190)
-        Me.GroupBox17.TabIndex = 0
-        Me.GroupBox17.TabStop = False
-        Me.GroupBox17.Text = "Video Teases"
+        Me.RangeSettingsVideoTeaseGroupBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RangeSettingsVideoTeaseGroupBox.Controls.Add(Me.GroupBox19)
+        Me.RangeSettingsVideoTeaseGroupBox.Controls.Add(Me.RangeSettingsCensorshipSucksGroupBox)
+        Me.RangeSettingsVideoTeaseGroupBox.Location = New System.Drawing.Point(3, 69)
+        Me.RangeSettingsVideoTeaseGroupBox.Name = "RangeSettingsVideoTeaseGroupBox"
+        Me.RangeSettingsVideoTeaseGroupBox.Size = New System.Drawing.Size(307, 190)
+        Me.RangeSettingsVideoTeaseGroupBox.TabIndex = 0
+        Me.RangeSettingsVideoTeaseGroupBox.TabStop = False
+        Me.RangeSettingsVideoTeaseGroupBox.Text = "Video Teases"
         '
         'GroupBox19
         '
@@ -11709,7 +11713,7 @@ Partial Class FrmSettings
         Me.GroupBox19.Controls.Add(Me.Label29)
         Me.GroupBox19.Location = New System.Drawing.Point(6, 110)
         Me.GroupBox19.Name = "GroupBox19"
-        Me.GroupBox19.Size = New System.Drawing.Size(401, 66)
+        Me.GroupBox19.Size = New System.Drawing.Size(293, 66)
         Me.GroupBox19.TabIndex = 2
         Me.GroupBox19.TabStop = False
         Me.GroupBox19.Text = "Red Light, Green Light"
@@ -11720,7 +11724,7 @@ Partial Class FrmSettings
         Me.Label110.BackColor = System.Drawing.Color.Transparent
         Me.Label110.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label110.ForeColor = System.Drawing.Color.Black
-        Me.Label110.Location = New System.Drawing.Point(349, 39)
+        Me.Label110.Location = New System.Drawing.Point(241, 39)
         Me.Label110.Name = "Label110"
         Me.Label110.Size = New System.Drawing.Size(50, 17)
         Me.Label110.TabIndex = 181
@@ -11733,7 +11737,7 @@ Partial Class FrmSettings
         Me.Label111.BackColor = System.Drawing.Color.Transparent
         Me.Label111.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label111.ForeColor = System.Drawing.Color.Black
-        Me.Label111.Location = New System.Drawing.Point(349, 16)
+        Me.Label111.Location = New System.Drawing.Point(241, 16)
         Me.Label111.Name = "Label111"
         Me.Label111.Size = New System.Drawing.Size(50, 17)
         Me.Label111.TabIndex = 180
@@ -11743,7 +11747,7 @@ Partial Class FrmSettings
         'NBGreenLightMax
         '
         Me.NBGreenLightMax.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.NBGreenLightMax.Location = New System.Drawing.Point(299, 38)
+        Me.NBGreenLightMax.Location = New System.Drawing.Point(191, 38)
         Me.NBGreenLightMax.Name = "NBGreenLightMax"
         Me.NBGreenLightMax.Size = New System.Drawing.Size(44, 20)
         Me.NBGreenLightMax.TabIndex = 156
@@ -11752,7 +11756,7 @@ Partial Class FrmSettings
         'NBGreenLightMin
         '
         Me.NBGreenLightMin.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.NBGreenLightMin.Location = New System.Drawing.Point(233, 38)
+        Me.NBGreenLightMin.Location = New System.Drawing.Point(125, 38)
         Me.NBGreenLightMin.Name = "NBGreenLightMin"
         Me.NBGreenLightMin.Size = New System.Drawing.Size(44, 20)
         Me.NBGreenLightMin.TabIndex = 155
@@ -11761,7 +11765,7 @@ Partial Class FrmSettings
         'NBRedLightMax
         '
         Me.NBRedLightMax.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.NBRedLightMax.Location = New System.Drawing.Point(299, 15)
+        Me.NBRedLightMax.Location = New System.Drawing.Point(191, 15)
         Me.NBRedLightMax.Name = "NBRedLightMax"
         Me.NBRedLightMax.Size = New System.Drawing.Size(44, 20)
         Me.NBRedLightMax.TabIndex = 152
@@ -11773,7 +11777,7 @@ Partial Class FrmSettings
         Me.Label26.BackColor = System.Drawing.Color.Transparent
         Me.Label26.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label26.ForeColor = System.Drawing.Color.Black
-        Me.Label26.Location = New System.Drawing.Point(283, 38)
+        Me.Label26.Location = New System.Drawing.Point(175, 38)
         Me.Label26.Name = "Label26"
         Me.Label26.Size = New System.Drawing.Size(10, 17)
         Me.Label26.TabIndex = 154
@@ -11783,7 +11787,7 @@ Partial Class FrmSettings
         'NBRedLightMin
         '
         Me.NBRedLightMin.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.NBRedLightMin.Location = New System.Drawing.Point(233, 15)
+        Me.NBRedLightMin.Location = New System.Drawing.Point(125, 15)
         Me.NBRedLightMin.Name = "NBRedLightMin"
         Me.NBRedLightMin.Size = New System.Drawing.Size(44, 20)
         Me.NBRedLightMin.TabIndex = 151
@@ -11795,7 +11799,7 @@ Partial Class FrmSettings
         Me.Label28.BackColor = System.Drawing.Color.Transparent
         Me.Label28.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label28.ForeColor = System.Drawing.Color.Black
-        Me.Label28.Location = New System.Drawing.Point(283, 15)
+        Me.Label28.Location = New System.Drawing.Point(175, 15)
         Me.Label28.Name = "Label28"
         Me.Label28.Size = New System.Drawing.Size(10, 17)
         Me.Label28.TabIndex = 150
@@ -11826,27 +11830,27 @@ Partial Class FrmSettings
         Me.Label29.Text = "Red Light Time:"
         Me.Label29.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'GroupBox18
+        'RangeSettingsCensorshipSucksGroupBox
         '
-        Me.GroupBox18.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.RangeSettingsCensorshipSucksGroupBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.GroupBox18.Controls.Add(Me.Label108)
-        Me.GroupBox18.Controls.Add(Me.Label109)
-        Me.GroupBox18.Controls.Add(Me.NBCensorShowMin)
-        Me.GroupBox18.Controls.Add(Me.NBCensorHideMax)
-        Me.GroupBox18.Controls.Add(Me.NBCensorHideMin)
-        Me.GroupBox18.Controls.Add(Me.CBCensorConstant)
-        Me.GroupBox18.Controls.Add(Me.Label25)
-        Me.GroupBox18.Controls.Add(Me.Label20)
-        Me.GroupBox18.Controls.Add(Me.Label19)
-        Me.GroupBox18.Controls.Add(Me.Label24)
-        Me.GroupBox18.Controls.Add(Me.NBCensorShowMax)
-        Me.GroupBox18.Location = New System.Drawing.Point(6, 16)
-        Me.GroupBox18.Name = "GroupBox18"
-        Me.GroupBox18.Size = New System.Drawing.Size(401, 88)
-        Me.GroupBox18.TabIndex = 1
-        Me.GroupBox18.TabStop = False
-        Me.GroupBox18.Text = "Censorship Sucks"
+        Me.RangeSettingsCensorshipSucksGroupBox.Controls.Add(Me.Label108)
+        Me.RangeSettingsCensorshipSucksGroupBox.Controls.Add(Me.Label109)
+        Me.RangeSettingsCensorshipSucksGroupBox.Controls.Add(Me.NBCensorShowMin)
+        Me.RangeSettingsCensorshipSucksGroupBox.Controls.Add(Me.NBCensorHideMax)
+        Me.RangeSettingsCensorshipSucksGroupBox.Controls.Add(Me.NBCensorHideMin)
+        Me.RangeSettingsCensorshipSucksGroupBox.Controls.Add(Me.CensorshipBarDuringVideoTease)
+        Me.RangeSettingsCensorshipSucksGroupBox.Controls.Add(Me.Label25)
+        Me.RangeSettingsCensorshipSucksGroupBox.Controls.Add(Me.Label20)
+        Me.RangeSettingsCensorshipSucksGroupBox.Controls.Add(Me.Label19)
+        Me.RangeSettingsCensorshipSucksGroupBox.Controls.Add(Me.Label24)
+        Me.RangeSettingsCensorshipSucksGroupBox.Controls.Add(Me.NBCensorShowMax)
+        Me.RangeSettingsCensorshipSucksGroupBox.Location = New System.Drawing.Point(6, 16)
+        Me.RangeSettingsCensorshipSucksGroupBox.Name = "RangeSettingsCensorshipSucksGroupBox"
+        Me.RangeSettingsCensorshipSucksGroupBox.Size = New System.Drawing.Size(295, 88)
+        Me.RangeSettingsCensorshipSucksGroupBox.TabIndex = 1
+        Me.RangeSettingsCensorshipSucksGroupBox.TabStop = False
+        Me.RangeSettingsCensorshipSucksGroupBox.Text = "Censorship Sucks"
         '
         'Label108
         '
@@ -11854,7 +11858,7 @@ Partial Class FrmSettings
         Me.Label108.BackColor = System.Drawing.Color.Transparent
         Me.Label108.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label108.ForeColor = System.Drawing.Color.Black
-        Me.Label108.Location = New System.Drawing.Point(349, 39)
+        Me.Label108.Location = New System.Drawing.Point(243, 39)
         Me.Label108.Name = "Label108"
         Me.Label108.Size = New System.Drawing.Size(50, 17)
         Me.Label108.TabIndex = 179
@@ -11867,7 +11871,7 @@ Partial Class FrmSettings
         Me.Label109.BackColor = System.Drawing.Color.Transparent
         Me.Label109.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label109.ForeColor = System.Drawing.Color.Black
-        Me.Label109.Location = New System.Drawing.Point(349, 16)
+        Me.Label109.Location = New System.Drawing.Point(243, 16)
         Me.Label109.Name = "Label109"
         Me.Label109.Size = New System.Drawing.Size(50, 17)
         Me.Label109.TabIndex = 178
@@ -11877,7 +11881,7 @@ Partial Class FrmSettings
         'NBCensorShowMin
         '
         Me.NBCensorShowMin.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.NBCensorShowMin.Location = New System.Drawing.Point(233, 15)
+        Me.NBCensorShowMin.Location = New System.Drawing.Point(127, 15)
         Me.NBCensorShowMin.Maximum = New Decimal(New Integer() {180, 0, 0, 0})
         Me.NBCensorShowMin.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
         Me.NBCensorShowMin.Name = "NBCensorShowMin"
@@ -11888,7 +11892,7 @@ Partial Class FrmSettings
         'NBCensorHideMax
         '
         Me.NBCensorHideMax.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.NBCensorHideMax.Location = New System.Drawing.Point(299, 38)
+        Me.NBCensorHideMax.Location = New System.Drawing.Point(193, 38)
         Me.NBCensorHideMax.Maximum = New Decimal(New Integer() {300, 0, 0, 0})
         Me.NBCensorHideMax.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
         Me.NBCensorHideMax.Name = "NBCensorHideMax"
@@ -11899,7 +11903,7 @@ Partial Class FrmSettings
         'NBCensorHideMin
         '
         Me.NBCensorHideMin.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.NBCensorHideMin.Location = New System.Drawing.Point(233, 38)
+        Me.NBCensorHideMin.Location = New System.Drawing.Point(127, 38)
         Me.NBCensorHideMin.Maximum = New Decimal(New Integer() {180, 0, 0, 0})
         Me.NBCensorHideMin.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
         Me.NBCensorHideMin.Name = "NBCensorHideMin"
@@ -11907,17 +11911,17 @@ Partial Class FrmSettings
         Me.NBCensorHideMin.TabIndex = 155
         Me.NBCensorHideMin.Value = New Decimal(New Integer() {5, 0, 0, 0})
         '
-        'CBCensorConstant
+        'CensorshipBarDuringVideoTease
         '
-        Me.CBCensorConstant.AutoSize = True
-        Me.CBCensorConstant.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CBCensorConstant.ForeColor = System.Drawing.Color.Black
-        Me.CBCensorConstant.Location = New System.Drawing.Point(6, 65)
-        Me.CBCensorConstant.Name = "CBCensorConstant"
-        Me.CBCensorConstant.Size = New System.Drawing.Size(263, 17)
-        Me.CBCensorConstant.TabIndex = 157
-        Me.CBCensorConstant.Text = "Censorship Bar Always Visible During Video Tease"
-        Me.CBCensorConstant.UseVisualStyleBackColor = True
+        Me.CensorshipBarDuringVideoTease.AutoSize = True
+        Me.CensorshipBarDuringVideoTease.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CensorshipBarDuringVideoTease.ForeColor = System.Drawing.Color.Black
+        Me.CensorshipBarDuringVideoTease.Location = New System.Drawing.Point(6, 65)
+        Me.CensorshipBarDuringVideoTease.Name = "CensorshipBarDuringVideoTease"
+        Me.CensorshipBarDuringVideoTease.Size = New System.Drawing.Size(263, 17)
+        Me.CensorshipBarDuringVideoTease.TabIndex = 157
+        Me.CensorshipBarDuringVideoTease.Text = "Censorship Bar Always Visible During Video Tease"
+        Me.CensorshipBarDuringVideoTease.UseVisualStyleBackColor = True
         '
         'Label25
         '
@@ -11925,7 +11929,7 @@ Partial Class FrmSettings
         Me.Label25.BackColor = System.Drawing.Color.Transparent
         Me.Label25.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label25.ForeColor = System.Drawing.Color.Black
-        Me.Label25.Location = New System.Drawing.Point(283, 15)
+        Me.Label25.Location = New System.Drawing.Point(177, 15)
         Me.Label25.Name = "Label25"
         Me.Label25.Size = New System.Drawing.Size(10, 17)
         Me.Label25.TabIndex = 150
@@ -11950,7 +11954,7 @@ Partial Class FrmSettings
         Me.Label19.BackColor = System.Drawing.Color.Transparent
         Me.Label19.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label19.ForeColor = System.Drawing.Color.Black
-        Me.Label19.Location = New System.Drawing.Point(283, 38)
+        Me.Label19.Location = New System.Drawing.Point(177, 38)
         Me.Label19.Name = "Label19"
         Me.Label19.Size = New System.Drawing.Size(10, 17)
         Me.Label19.TabIndex = 154
@@ -11972,7 +11976,7 @@ Partial Class FrmSettings
         'NBCensorShowMax
         '
         Me.NBCensorShowMax.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.NBCensorShowMax.Location = New System.Drawing.Point(299, 15)
+        Me.NBCensorShowMax.Location = New System.Drawing.Point(193, 15)
         Me.NBCensorShowMax.Maximum = New Decimal(New Integer() {300, 0, 0, 0})
         Me.NBCensorShowMax.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
         Me.NBCensorShowMax.Name = "NBCensorShowMax"
@@ -12274,7 +12278,7 @@ Partial Class FrmSettings
         Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.LBLVtf)
         Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.LBLStf)
         Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.SliderSTF)
-        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.TauntSlider)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.VideoTauntSlider)
         Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.Label106)
         Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.CBTauntCycleDD)
         Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.TeaseLengthDommeDetermined)
@@ -12361,19 +12365,19 @@ Partial Class FrmSettings
         Me.SliderSTF.TabIndex = 163
         Me.SliderSTF.Value = 3
         '
-        'TauntSlider
+        'VideoTauntSlider
         '
-        Me.TauntSlider.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TauntSlider.AutoSize = False
-        Me.TauntSlider.BackColor = System.Drawing.SystemColors.Control
-        Me.TauntSlider.LargeChange = 1
-        Me.TauntSlider.Location = New System.Drawing.Point(193, 241)
-        Me.TauntSlider.Maximum = 9
-        Me.TauntSlider.Minimum = 1
-        Me.TauntSlider.Name = "TauntSlider"
-        Me.TauntSlider.Size = New System.Drawing.Size(87, 25)
-        Me.TauntSlider.TabIndex = 161
-        Me.TauntSlider.Value = 4
+        Me.VideoTauntSlider.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.VideoTauntSlider.AutoSize = False
+        Me.VideoTauntSlider.BackColor = System.Drawing.SystemColors.Control
+        Me.VideoTauntSlider.LargeChange = 1
+        Me.VideoTauntSlider.Location = New System.Drawing.Point(193, 241)
+        Me.VideoTauntSlider.Maximum = 9
+        Me.VideoTauntSlider.Minimum = 1
+        Me.VideoTauntSlider.Name = "VideoTauntSlider"
+        Me.VideoTauntSlider.Size = New System.Drawing.Size(87, 25)
+        Me.VideoTauntSlider.TabIndex = 161
+        Me.VideoTauntSlider.Value = 4
         '
         'Label106
         '
@@ -14743,7 +14747,7 @@ Partial Class FrmSettings
         Me.RangeSettingsBody.ResumeLayout(False)
         Me.RangeSettingsBodyTablePanel.ResumeLayout(False)
         Me.RangeSettingsBodyRightColumnPanel.ResumeLayout(False)
-        Me.GroupBox10.ResumeLayout(False)
+        Me.RangeSettingsTeaseSlideshowGroupBox.ResumeLayout(False)
         CType(Me.NBNextImageChance, System.ComponentModel.ISupportInitialize).EndInit
         Me.RangeSettingsGlitterTasksGroupBox.ResumeLayout(False)
         CType(Me.NBTaskCBTTimeMax, System.ComponentModel.ISupportInitialize).EndInit
@@ -14756,14 +14760,14 @@ Partial Class FrmSettings
         CType(Me.NBTaskStrokingTimeMin, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NBTaskStrokesMax, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NBTaskStrokesMin, System.ComponentModel.ISupportInitialize).EndInit
-        Me.GroupBox17.ResumeLayout(False)
+        Me.RangeSettingsVideoTeaseGroupBox.ResumeLayout(False)
         Me.GroupBox19.ResumeLayout(False)
         CType(Me.NBGreenLightMax, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NBGreenLightMin, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NBRedLightMax, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NBRedLightMin, System.ComponentModel.ISupportInitialize).EndInit
-        Me.GroupBox18.ResumeLayout(False)
-        Me.GroupBox18.PerformLayout
+        Me.RangeSettingsCensorshipSucksGroupBox.ResumeLayout(False)
+        Me.RangeSettingsCensorshipSucksGroupBox.PerformLayout
         CType(Me.NBCensorShowMin, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NBCensorHideMax, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NBCensorHideMin, System.ComponentModel.ISupportInitialize).EndInit
@@ -14787,7 +14791,7 @@ Partial Class FrmSettings
         Me.RangeSettingsTeaseGroupBox.PerformLayout
         CType(Me.NBTauntEdging, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.SliderSTF, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TauntSlider, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.VideoTauntSlider, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NBTauntCycleMax, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NBTauntCycleMin, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NBTeaseLengthMax, System.ComponentModel.ISupportInitialize).EndInit
@@ -15022,7 +15026,7 @@ Partial Class FrmSettings
     Friend WithEvents SliderSTF As System.Windows.Forms.TrackBar
     Friend WithEvents RangeSettingsDescriptionGroupBox As System.Windows.Forms.GroupBox
     Friend WithEvents RangeSettingsDescriptionLabel As System.Windows.Forms.Label
-    Friend WithEvents GroupBox17 As System.Windows.Forms.GroupBox
+    Friend WithEvents RangeSettingsVideoTeaseGroupBox As System.Windows.Forms.GroupBox
     Friend WithEvents GroupBox19 As System.Windows.Forms.GroupBox
     Friend WithEvents NBGreenLightMax As System.Windows.Forms.NumericUpDown
     Friend WithEvents NBGreenLightMin As System.Windows.Forms.NumericUpDown
@@ -15032,8 +15036,8 @@ Partial Class FrmSettings
     Friend WithEvents NBRedLightMin As System.Windows.Forms.NumericUpDown
     Friend WithEvents Label28 As System.Windows.Forms.Label
     Friend WithEvents Label29 As System.Windows.Forms.Label
-    Friend WithEvents GroupBox18 As System.Windows.Forms.GroupBox
-    Friend WithEvents CBCensorConstant As System.Windows.Forms.CheckBox
+    Friend WithEvents RangeSettingsCensorshipSucksGroupBox As System.Windows.Forms.GroupBox
+    Friend WithEvents CensorshipBarDuringVideoTease As System.Windows.Forms.CheckBox
     Friend WithEvents NBCensorHideMax As System.Windows.Forms.NumericUpDown
     Friend WithEvents NBCensorHideMin As System.Windows.Forms.NumericUpDown
     Friend WithEvents Label19 As System.Windows.Forms.Label
@@ -15317,7 +15321,7 @@ Partial Class FrmSettings
     Friend WithEvents RTBResponses As System.Windows.Forms.RichTextBox
     Friend WithEvents RTBResponsesKEY As System.Windows.Forms.RichTextBox
     Friend WithEvents Button9 As System.Windows.Forms.Button
-    Friend WithEvents TauntSlider As System.Windows.Forms.TrackBar
+    Friend WithEvents VideoTauntSlider As System.Windows.Forms.TrackBar
     Friend WithEvents Label97 As System.Windows.Forms.Label
     Friend WithEvents NBTeaseLengthMax As System.Windows.Forms.NumericUpDown
     Friend WithEvents Label99 As System.Windows.Forms.Label
@@ -15332,7 +15336,7 @@ Partial Class FrmSettings
     Friend WithEvents Label102 As System.Windows.Forms.Label
     Friend WithEvents CBTauntCycleDD As System.Windows.Forms.CheckBox
     Friend WithEvents TeaseLengthDommeDetermined As System.Windows.Forms.CheckBox
-    Friend WithEvents GroupBox10 As System.Windows.Forms.GroupBox
+    Friend WithEvents RangeSettingsTeaseSlideshowGroupBox As System.Windows.Forms.GroupBox
     Friend WithEvents Label106 As System.Windows.Forms.Label
     Friend WithEvents LBLVtf As System.Windows.Forms.Label
     Friend WithEvents Label6 As System.Windows.Forms.Label

@@ -480,12 +480,12 @@ retryStart:
             If FrmSettings.SliderSTF.Value = 4 Then FrmSettings.LBLStf.Text = "Talkative"
             If FrmSettings.SliderSTF.Value = 5 Then FrmSettings.LBLStf.Text = "Verbose"
 
-            FrmSettings.TauntSlider.Value = My.Settings.TimerVTF
-            If FrmSettings.TauntSlider.Value = 1 Then FrmSettings.LBLVtf.Text = "Preoccupied"
-            If FrmSettings.TauntSlider.Value = 2 Or FrmSettings.TauntSlider.Value = 3 Then FrmSettings.LBLVtf.Text = "Distracted"
-            If FrmSettings.TauntSlider.Value = 4 Or FrmSettings.TauntSlider.Value = 5 Then FrmSettings.LBLVtf.Text = "Normal"
-            If FrmSettings.TauntSlider.Value = 6 Or FrmSettings.TauntSlider.Value = 7 Or FrmSettings.TauntSlider.Value = 8 Then FrmSettings.LBLVtf.Text = "Talkative"
-            If FrmSettings.TauntSlider.Value = 9 Or FrmSettings.TauntSlider.Value = 10 Then FrmSettings.LBLVtf.Text = "Verbose"
+            FrmSettings.VideoTauntSlider.Value = My.Settings.TimerVTF
+            If FrmSettings.VideoTauntSlider.Value = 1 Then FrmSettings.LBLVtf.Text = "Preoccupied"
+            If FrmSettings.VideoTauntSlider.Value = 2 Or FrmSettings.VideoTauntSlider.Value = 3 Then FrmSettings.LBLVtf.Text = "Distracted"
+            If FrmSettings.VideoTauntSlider.Value = 4 Or FrmSettings.VideoTauntSlider.Value = 5 Then FrmSettings.LBLVtf.Text = "Normal"
+            If FrmSettings.VideoTauntSlider.Value = 6 Or FrmSettings.VideoTauntSlider.Value = 7 Or FrmSettings.VideoTauntSlider.Value = 8 Then FrmSettings.LBLVtf.Text = "Talkative"
+            If FrmSettings.VideoTauntSlider.Value = 9 Or FrmSettings.VideoTauntSlider.Value = 10 Then FrmSettings.LBLVtf.Text = "Verbose"
 
             FrmSettings.DommeMessageFontCB.Text = My.Settings.DomFont
             FrmSettings.NBFontSizeD.Text = My.Settings.DomFontSize
@@ -3624,91 +3624,66 @@ DommeSlideshowFallback:
     End Sub
 
     Public Sub CensorshipTimer_Tick(sender As Object, e As EventArgs) Handles CensorshipTimer.Tick
-
-
-        If ssh.MiniScript = True Then Return
-        If FrmSettings.CBSettingsPause.Checked = True And FrmSettings.Visible = True Then Return
-
-        If ssh.DomTyping = True Then Return
-        If ssh.DomTypeCheck = True And ssh.CensorshipTick < 6 Then Return
-        If chatBox.Text <> "" And ssh.CensorshipTick < 6 Then Return
-        If ChatBox2.Text <> "" And ssh.CensorshipTick < 6 Then Return
-        If ssh.FollowUp <> "" And ssh.CensorshipTick < 6 Then Return
-
-        ssh.CensorshipTick -= 1
-        If ssh.CensorshipTick = 0 Then
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        If ssh.MiniScript Then Return
+        If FrmSettings.CBSettingsPause.Checked AndAlso FrmSettings.Visible Then
             Return
         End If
 
-        Dim CensorLineTemp As Integer = ssh.randomizer.Next(1, 101)
-        Dim CensorVideo As String
-
-        If FrmSettings.CBCensorConstant.Checked Then
-            GoTo CensorConstant
+        If ssh.DomTyping _
+            OrElse (ssh.CensorshipTick < 6 AndAlso (
+                ssh.DomTypeCheck _
+                OrElse Not String.IsNullOrWhiteSpace(ssh.FollowUp) _
+                OrElse Not String.IsNullOrWhiteSpace(chatBox.Text) _
+                OrElse Not String.IsNullOrWhiteSpace(ChatBox2.Text)
+            )) Then
+            Return
         End If
 
-        If CensorshipBar.Visible = True Then
-            CensorshipBar.Visible = False
-            ssh.CensorshipTick = ssh.randomizer.Next(FrmSettings.NBCensorHideMin.Value, FrmSettings.NBCensorHideMax.Value + 1)
+        ssh.CensorshipTick -= 1
+        If ssh.CensorshipTick > 0 Then
+            Return
+        End If
 
-            If CensorLineTemp > FrmSettings.TauntSlider.Value * 5 Then
-                Return
-            End If
+        CensorshipBar.SuspendLayout()
+        CensorshipBar.Visible = settings.Range.IsContentAlwaysCensored OrElse Not CensorshipBar.Visible
+        ssh.CensorshipTick = If(CensorshipBar.Visible _
+            , myRandomNumberService.Roll(FrmSettings.NBCensorShowMin.Value, FrmSettings.NBCensorHideMax.Value + 1) _
+            , myRandomNumberService.Roll(FrmSettings.NBCensorHideMin.Value, FrmSettings.NBCensorShowMax.Value + 1))
 
-            CensorVideo = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Video\Censorship Sucks\CensorBarOff.txt"
+        ' We only care about moving it if it'll be seen
+        If CensorshipBar.Visible Then
+            Dim censorshipBarHeight As Integer = myRandomNumberService.Roll(200, DomWMP.Height / 2)
+            CensorshipBar.Height = censorshipBarHeight
+            CensorshipBar.Width = censorshipBarHeight * 2.6
 
-        Else
+            Dim censorshipBarX As Integer = Math.Min(DomWMP.Width, DomWMP.Width - CensorshipBar.Width + 1)
+            Dim censorshipBarY As Integer = Math.Min(DomWMP.Height, DomWMP.Height - CensorshipBar.Height + 1)
+            censorshipBarX = myRandomNumberService.Roll(5, Math.Max(5, censorshipBarX))
+            censorshipBarY = myRandomNumberService.Roll(5, Math.Max(5, censorshipBarY))
+            CensorshipBar.Location = New Point(censorshipBarX, censorshipBarY)
 
-CensorConstant:
-
-            Dim CensorshipBarX As Integer
-            Dim CensorshipBarY As Integer
-            Dim CensorshipBarY2 As Integer
-
-            Try
-                CensorshipBarY2 = ssh.randomizer.Next(200, DomWMP.Height / 2)
-            Catch
-                CensorshipBarY2 = 100
-            End Try
-
-            CensorshipBar.Height = CensorshipBarY2
-            CensorshipBar.Width = CensorshipBarY2 * 2.6
-
-            'QnD-BUGFIX: if CensorshipBar.Width > DomWMP.Width then ArgumentOutOfRangeException 
-            CensorshipBarX = ssh.randomizer.Next(5, If(CensorshipBar.Width > DomWMP.Width, DomWMP.Width, DomWMP.Width - CensorshipBar.Width + 1))
-            CensorshipBarY = ssh.randomizer.Next(5, If(CensorshipBar.Height > DomWMP.Height, DomWMP.Height, DomWMP.Height - CensorshipBar.Height + 1))
-            CensorshipBar.Location = New Point(CensorshipBarX, CensorshipBarY)
-
-
-
-            CensorshipBar.Visible = False
-            CensorshipBar.Visible = True
             CensorshipBar.BringToFront()
-
-            ssh.CensorshipTick = ssh.randomizer.Next(FrmSettings.NBCensorShowMin.Value, FrmSettings.NBCensorShowMax.Value + 1)
-
-            If CensorLineTemp > FrmSettings.TauntSlider.Value * 5 Then
-                Return
-            End If
-
-            CensorVideo = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Video\Censorship Sucks\CensorBarOn.txt"
-
         End If
 
-        ' Read all lines of the given file.
-        Dim lines As List(Of String) = Txt2List(CensorVideo)
-        Dim CensorLine As Integer
+        CensorshipBar.ResumeLayout()
 
-        Try
-            lines = FilterList(lines)
-            If lines.Count < 1 Then Return
-            CensorLine = ssh.randomizer.Next(0, lines.Count)
-            ssh.DomTask = lines(CensorLine)
-        Catch ex As Exception
-            Log.WriteError("Tease AI did not return a valid Censorship Sucks line from file: " &
-                               CensorVideo, ex, "CensorshipTimer.Tick")
-            ssh.DomTask = "ERROR: Tease AI did not return a valid Censorship Sucks line"
-        End Try
+        Dim tauntSubPercent As Integer = myRandomNumberService.RollPercent()
+        Dim tauntSubTarget As Integer = (FrmSettings.VideoTauntSlider.Value * 5)
+        If tauntSubPercent > tauntSubTarget Then
+            Return
+        End If
+        Dim myLineCollectionFilter As ILineCollectionFilter = ApplicationFactory.CreateLineCollectionFilter()
+        Dim censorshipTeaseFile As String = myPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Video\Censorship Sucks\CensorBar" & BooleanToOnOff(CensorshipBar.Visible) & ".txt"
+        Dim lines As List(Of String) = Txt2List(censorshipTeaseFile)
+        lines = FilterList(lines)
+        If Not lines.Any() Then Return
+        Dim censorshipTeaseLine As Integer = myRandomNumberService.Roll(0, lines.Count)
+        Dim myChatMessage As ChatMessage = New ChatMessage()
+        myChatMessage.Message = lines(censorshipTeaseLine)
+        myChatMessage.Sender = settings.Domme.Name
+        myChatMessage.TimeStamp = DateTime.Now()
+        UpdateChatWindow(myChatMessage)
     End Sub
 
     Public Sub RLGLTimer_Tick(sender As Object, e As EventArgs) Handles RLGLTimer.Tick
@@ -6930,7 +6905,7 @@ OrgasmDecided:
                 ssh.StartStrokingCount += 1
                 StrokePace = ssh.randomizer.Next(NBMaxPace.Value, NBMinPace.Value + 1)
                 StrokePace = 50 * Math.Round(StrokePace / 50)
-                ssh.AvoidTheEdgeTick = 120 / FrmSettings.TauntSlider.Value
+                ssh.AvoidTheEdgeTick = 120 / FrmSettings.VideoTauntSlider.Value
                 AvoidTheEdgeTaunts.Start()
 
             End If
@@ -6947,7 +6922,7 @@ OrgasmDecided:
             ssh.VideoTease = True
             StrokePace = ssh.randomizer.Next(NBMaxPace.Value, NBMinPace.Value + 1)
             StrokePace = 50 * Math.Round(StrokePace / 50)
-            ssh.AvoidTheEdgeTick = 120 / FrmSettings.TauntSlider.Value
+            ssh.AvoidTheEdgeTick = 120 / FrmSettings.VideoTauntSlider.Value
             AvoidTheEdgeTaunts.Start()
             StringClean = StringClean.Replace("@ResumeAvoidTheEdge", "")
         End If
@@ -9683,7 +9658,7 @@ SkipTextedTags:
 
                 'CensorshipTick = randomizer.Next(NBCensorHideMin.Value, NBCensorHideMax.Value + 1)
 
-                ssh.AvoidTheEdgeTick = 120 / FrmSettings.TauntSlider.Value
+                ssh.AvoidTheEdgeTick = 120 / FrmSettings.VideoTauntSlider.Value
 
                 ' If AvoidTheEdgeLineTemp > TauntSlider.Value * 5 Then
                 'Return
@@ -9726,7 +9701,7 @@ SkipTextedTags:
 
 
 
-                ssh.AvoidTheEdgeTick = 120 / FrmSettings.TauntSlider.Value
+                ssh.AvoidTheEdgeTick = 120 / FrmSettings.VideoTauntSlider.Value
 
                 Using ioFileB As New StreamReader(AvoidTheEdgeVideo)
                     Dim linesB As New List(Of String)
@@ -11235,7 +11210,7 @@ RestartFunction:
         If ssh.VideoTauntTick < 1 Then
 
             Dim FrequencyTemp As Integer = ssh.randomizer.Next(1, 101)
-            If FrequencyTemp > FrmSettings.TauntSlider.Value * 5 Then
+            If FrequencyTemp > FrmSettings.VideoTauntSlider.Value * 5 Then
                 ssh.VideoTauntTick = ssh.randomizer.Next(20, 31)
                 Return
             End If
@@ -11288,7 +11263,7 @@ RestartFunction:
         If ssh.RLGLTauntTick < 1 Then
 
             Dim FrequencyTemp As Integer = ssh.randomizer.Next(1, 101)
-            If FrequencyTemp > FrmSettings.TauntSlider.Value * 5 Then
+            If FrequencyTemp > FrmSettings.VideoTauntSlider.Value * 5 Then
                 ssh.RLGLTauntTick = ssh.randomizer.Next(20, 31)
                 Return
             End If
@@ -11334,7 +11309,7 @@ RestartFunction:
         If ssh.AvoidTheEdgeTick < 1 Then
 
             Dim FrequencyTemp As Integer = ssh.randomizer.Next(1, 101)
-            If FrequencyTemp > FrmSettings.TauntSlider.Value * 5 Then
+            If FrequencyTemp > FrmSettings.VideoTauntSlider.Value * 5 Then
                 ssh.AvoidTheEdgeTick = ssh.randomizer.Next(20, 31)
                 Return
             End If
@@ -13274,7 +13249,7 @@ restartInstantly:
         ssh.StartStrokingCount += 1
         StrokePace = ssh.randomizer.Next(NBMaxPace.Value, NBMinPace.Value + 1)
         StrokePace = 50 * Math.Round(StrokePace / 50)
-        ssh.AvoidTheEdgeTick = 120 / FrmSettings.TauntSlider.Value
+        ssh.AvoidTheEdgeTick = 120 / FrmSettings.VideoTauntSlider.Value
         AvoidTheEdgeTaunts.Start()
 
     End Sub
@@ -17824,7 +17799,7 @@ TaskCleanSet:
                 ssh.StartStrokingCount += 1
                 StrokePace = ssh.randomizer.Next(NBMaxPace.Value, NBMinPace.Value + 1)
                 StrokePace = 50 * Math.Round(StrokePace / 50)
-                ssh.AvoidTheEdgeTick = 120 / FrmSettings.TauntSlider.Value
+                ssh.AvoidTheEdgeTick = 120 / FrmSettings.VideoTauntSlider.Value
                 AvoidTheEdgeTaunts.Start()
 
             End If
@@ -17841,7 +17816,7 @@ TaskCleanSet:
             ssh.VideoTease = True
             StrokePace = ssh.randomizer.Next(NBMaxPace.Value, NBMinPace.Value + 1)
             StrokePace = 50 * Math.Round(StrokePace / 50)
-            ssh.AvoidTheEdgeTick = 120 / FrmSettings.TauntSlider.Value
+            ssh.AvoidTheEdgeTick = 120 / FrmSettings.VideoTauntSlider.Value
             AvoidTheEdgeTaunts.Start()
             inputString = inputString.Replace("@ResumeAvoidTheEdge", "")
         End If

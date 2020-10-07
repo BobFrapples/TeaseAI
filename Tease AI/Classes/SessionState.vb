@@ -256,6 +256,10 @@ Public Class SessionState
     <Category("Video - Avoid the Edge")> Public Property AvoidTheEdgeStroking As Boolean
     <Category("Video - Avoid the Edge")> Public Property AvoidTheEdgeTick As Integer
     <Category("Video - Censorship")> Public Property CensorshipGame As Boolean
+    ''' <summary>
+    ''' Defines how many seconds the censorship bar should be visible / hidden
+    ''' </summary>
+    ''' <returns></returns>
     <Category("Video - Censorship")> Public Property CensorshipTick As Integer
     <Category("Video - Red light green light")> Public Property RedLight As Boolean
     <Category("Video - Red light green light")> Public Property RLGLGame As Boolean

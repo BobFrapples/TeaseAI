@@ -5338,13 +5338,25 @@ Public Class FrmSettings
         mySettingsAccessor.WriteSettings(settings)
     End Sub
 
+    Private Sub CensorshipBarDuringVideoTease_CheckedChanged(sender As Object, e As EventArgs) Handles CensorshipBarDuringVideoTease.CheckedChanged
+        If Not DommeDecideOrgasmCheckBox.Visible Then
+            Return
+        End If
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        settings.Range.IsContentAlwaysCensored = CensorshipBarDuringVideoTease.Checked
+        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
 #Region "tooltips and descriptions"
-    Private Sub CBTeaseLengthDD_MouseHover(sender As Object, e As EventArgs) Handles TeaseLengthDommeDetermined.MouseEnter
+    Private Sub TeaseLengthDommeDetermined_MouseHover(sender As Object, e As EventArgs) Handles TeaseLengthDommeDetermined.MouseEnter
         RangeSettingsDescriptionLabel.Text = "This allows the domme to decide the length of the tease based on her level." & Environment.NewLine & Environment.NewLine &
             "A level 1 domme may tease you for 15-20 minutes, while a level 5 domme may tease you as long as an hour." & Environment.NewLine & Environment.NewLine &
             "The domme will not move to an End script until the first @End point of a Module that occurs after tease time expires."
     End Sub
 
+    Private Sub CensorshipBarDuringVideoTease_MouseHover(sender As Object, e As EventArgs) Handles CensorshipBarDuringVideoTease.MouseEnter
+        RangeSettingsDescriptionLabel.Text = "When this is checked, the censor bar will always be visible while playing Censorship Sucks. Its position on the screen will still change in time with Show Censor Bar settings."
+    End Sub
 #End Region
 #End Region
 
@@ -5438,10 +5450,6 @@ Public Class FrmSettings
 
     Private Sub NBCensorHideMax_Leave(sender As Object, e As EventArgs) Handles NBCensorHideMax.Leave
         My.Settings.NBCensorHideMax = NBCensorHideMax.Value
-    End Sub
-
-    Private Sub CBCensorConstant_CheckedChanged(sender As Object, e As EventArgs) Handles CBCensorConstant.CheckedChanged
-        My.Settings.CBCensorConstant = CBCensorConstant.Checked
     End Sub
 
     Private Sub NBCensorShowMin_ValueChanged(sender As Object, e As EventArgs) Handles NBCensorShowMin.ValueChanged
@@ -5702,18 +5710,18 @@ Public Class FrmSettings
 
     End Sub
 
-    Private Sub TauntSlider_Scroll(sender As Object, e As EventArgs) Handles TauntSlider.Scroll
-        If TauntSlider.Value = 1 Then LBLVtf.Text = "Preoccupied"
-        If TauntSlider.Value = 2 Or TauntSlider.Value = 3 Then LBLVtf.Text = "Distracted"
-        If TauntSlider.Value = 4 Or TauntSlider.Value = 5 Then LBLVtf.Text = "Normal"
-        If TauntSlider.Value = 6 Or TauntSlider.Value = 7 Or TauntSlider.Value = 8 Then LBLVtf.Text = "Talkative"
-        If TauntSlider.Value = 9 Or TauntSlider.Value = 10 Then LBLVtf.Text = "Verbose"
+    Private Sub TauntSlider_Scroll(sender As Object, e As EventArgs) Handles VideoTauntSlider.Scroll
+        If VideoTauntSlider.Value = 1 Then LBLVtf.Text = "Preoccupied"
+        If VideoTauntSlider.Value = 2 Or VideoTauntSlider.Value = 3 Then LBLVtf.Text = "Distracted"
+        If VideoTauntSlider.Value = 4 Or VideoTauntSlider.Value = 5 Then LBLVtf.Text = "Normal"
+        If VideoTauntSlider.Value = 6 Or VideoTauntSlider.Value = 7 Or VideoTauntSlider.Value = 8 Then LBLVtf.Text = "Talkative"
+        If VideoTauntSlider.Value = 9 Or VideoTauntSlider.Value = 10 Then LBLVtf.Text = "Verbose"
 
     End Sub
 
 #Region "Lost focus / save values"
-    Private Sub TauntSlider_LostFocus(sender As Object, e As EventArgs) Handles TauntSlider.LostFocus
-        My.Settings.TimerVTF = TauntSlider.Value
+    Private Sub TauntSlider_LostFocus(sender As Object, e As EventArgs) Handles VideoTauntSlider.LostFocus
+        My.Settings.TimerVTF = VideoTauntSlider.Value
 
     End Sub
 
@@ -6433,7 +6441,7 @@ Public Class FrmSettings
             "A middle value tries to emulate an online experience as closely as possible. Use a higher value to increase the frequency of Taunts to something you would expect in a webtease. Use a lower value to simulate the domme being preoccupied or not that interested in engaging you."
     End Sub
 
-    Private Sub TauntSlider_MouseHover(sender As Object, e As EventArgs) Handles TauntSlider.MouseEnter
+    Private Sub TauntSlider_MouseHover(sender As Object, e As EventArgs) Handles VideoTauntSlider.MouseEnter
         RangeSettingsDescriptionLabel.Text = "This allows you to set the frequency of the domme's Taunts during Video Teases." & Environment.NewLine & Environment.NewLine &
             "A middle value creates a fairly common use of Taunts. Use a higher value to make the domme extremely engaged. Use a lower value to focus on the Video Tease with minimal interaction from the domme."
     End Sub
@@ -6492,10 +6500,6 @@ Public Class FrmSettings
         RangeSettingsDescriptionLabel.Text = "This determines the maximum amount of time the censor bar will be invisible while playing Censorship Sucks."
     End Sub
 
-    Private Sub cbcensorconstant_MouseHover(sender As Object, e As EventArgs) Handles CBCensorConstant.MouseEnter
-        RangeSettingsDescriptionLabel.Text = "When this is checked, the censor bar will always be visible while playing Censorship Sucks. Its position on the screen will still change in time with Show Censor Bar settings."
-    End Sub
-
     Private Sub nbredlightmin_MouseHover(sender As Object, e As EventArgs) Handles NBRedLightMin.MouseEnter
         RangeSettingsDescriptionLabel.Text = "This determines the minimum amount of time the domme will keep the video paused while playing Red Light Green Light."
     End Sub
@@ -6512,7 +6516,7 @@ Public Class FrmSettings
         RangeSettingsDescriptionLabel.Text = "This determines the maximum amount of time the domme will keep the video playing while playing Red Light Green Light."
     End Sub
 
-    Private Sub RangeSet_MouseHover(sender As Object, e As EventArgs) Handles RangeSettingsBody.MouseEnter, RangeSettingsTeaseGroupBox.MouseEnter, RangeSettingsDescriptionGroupBox.MouseEnter, GroupBox19.MouseEnter, GroupBox18.MouseEnter, GroupBox10.MouseEnter, GBRangeRuinChance.MouseEnter, GBRangeOrgasmChance.MouseEnter
+    Private Sub RangeSet_MouseHover(sender As Object, e As EventArgs) Handles RangeSettingsBody.MouseEnter, RangeSettingsTeaseGroupBox.MouseEnter, RangeSettingsDescriptionGroupBox.MouseEnter, GroupBox19.MouseEnter, RangeSettingsCensorshipSucksGroupBox.MouseEnter, RangeSettingsTeaseSlideshowGroupBox.MouseEnter, GBRangeRuinChance.MouseEnter, GBRangeOrgasmChance.MouseEnter
         RangeSettingsDescriptionLabel.Text = "Hover over any setting in the menu for a more detailed description of its function."
     End Sub
 

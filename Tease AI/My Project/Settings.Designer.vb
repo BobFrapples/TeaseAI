@@ -318,17 +318,6 @@ Namespace My
             End Set
         End Property
 
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>
-        Public Property CBCensorConstant() As Boolean
-            Get
-                Return CType(Me("CBCensorConstant"), Boolean)
-            End Get
-            Set
-                Me("CBCensorConstant") = Value
-            End Set
-        End Property
 
         <Global.System.Configuration.UserScopedSettingAttribute(),
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),

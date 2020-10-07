@@ -74,5 +74,10 @@ namespace TeaseAI.Common
         /// approximate maximum time for a taunt to run
         /// </summary>
         public int TauntCycleMinutesMaximum { get; set; }
+
+        /// <summary>
+        /// Used in censorship sucks. Should the censorship bar always be visible
+        /// </summary>
+        public bool IsContentAlwaysCensored { get; set; }
     }
 }

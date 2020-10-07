@@ -61,7 +61,7 @@ Public Class ApplicationFactory
             , CreateVitalSubService())
     End Function
 
-    Private Shared Function CreateLineCollectionFilter() As ILineCollectionFilter
+    Public Shared Function CreateLineCollectionFilter() As ILineCollectionFilter
         Return New LineCollectionFilter()
     End Function
 

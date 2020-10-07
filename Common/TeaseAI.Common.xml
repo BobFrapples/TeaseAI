@@ -1802,6 +1802,11 @@
             approximate maximum time for a taunt to run
             </summary>
         </member>
+        <member name="P:TeaseAI.Common.RangeSettings.IsContentAlwaysCensored">
+            <summary>
+            Used in censorship sucks. Should the censorship bar always be visible
+            </summary>
+        </member>
         <member name="T:TeaseAI.Common.Result">
             <summary>
             Success / Failure with error of an operation
