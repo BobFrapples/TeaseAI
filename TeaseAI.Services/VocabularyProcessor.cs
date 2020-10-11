@@ -20,7 +20,9 @@ namespace TeaseAI.Services
             , LineService lineService
             , IVocabularyAccessor vocabularyAccessor
             , IImageAccessor imageAccessor
-            , IRandomNumberService randomNumberService)
+            , IRandomNumberService randomNumberService
+            , ISettingsAccessor settingsAccessor
+            )
         {
             _lineCollectionFilter = lineCollectionFilter;
             _lineService = lineService;
@@ -29,6 +31,8 @@ namespace TeaseAI.Services
             {
                 new ImageVocabularyProcessor(imageAccessor),
                 new RandomVocabularyProcessor(lineService, randomNumberService),
+                new SessionVocabularyProcessor(),
+                new SettingsVocabularyProcessor(settingsAccessor)
             };
             _codeVocabulary = new Dictionary<string, Func<string, Session, string>>
             {

@@ -16,7 +16,7 @@ namespace TeaseAI.Services.CommandProcessor
     public class PlayVideoCommandProcessor : CommandProcessorBase
     {
         public PlayVideoCommandProcessor(LineService lineService
-            , IVideoAccessor videoAccessor): base(Keyword.PlayVideo, lineService)
+            , IVideoAccessor videoAccessor) : base(Keyword.PlayVideo, lineService)
         {
             _videoAccessor = videoAccessor;
         }
@@ -48,9 +48,11 @@ namespace TeaseAI.Services.CommandProcessor
 
             OnCommandProcessed(workingSession, ea);
 
-            if (ea.Result.IsSuccess)
-                return Result.Ok(workingSession);
-            return Result.Fail<Session>(ea.Result.Error);
+            if (ea.Result.IsFailure)
+                return Result.Fail<Session>(ea.Result.Error);
+
+            workingSession.VideoPlaying = selected;
+            return Result.Ok(workingSession);
         }
 
         protected override Result ParseCommandSpecific(Script script, string personalityName, string line)

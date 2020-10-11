@@ -26,6 +26,22 @@ namespace TeaseAI.Common
         /// Used to pause reading the script. some commands do this instead of using @wait, etc.
         /// </summary>
         public bool IsScriptPaused { get; set; }
+
+        /// <summary>
+        /// Information about what video was requested to play
+        /// </summary>
+        public VideoMetaData VideoPlaying { get; set; }
+
+        /// <summary>
+        /// This is for tracking to / from the UI. is true when the UI starts a video, is false when the video stops
+        /// </summary>
+        public bool IsVideoPlaying => VideoPlaying != null;
+
+        /// <summary>
+        /// ignore if a video is not playing. Tells the engine a Taunt video
+        /// is plaing, and to continue script processing
+        /// </summary>
+        public bool IsVideoTaunt { get; set; }
         #endregion
 
         public Session(DommePersonality domme, SubPersonality sub)
@@ -50,18 +66,20 @@ namespace TeaseAI.Common
             var returnValue = new Session(Domme.Clone(), Sub.Clone())
             {
 
-                IsFirstRound = IsFirstRound,
                 IsScriptPaused = IsScriptPaused,
                 IsOrgasmRuined = IsOrgasmRuined,
-                IsBeforeTease = IsBeforeTease,
                 Phase = Phase,
-                IsVideoPlaying = IsVideoPlaying,
+                VideoPlaying = VideoPlaying,
+                IsVideoTaunt = IsVideoTaunt,
                 IsLongEdge = IsLongEdge,
                 TimeRemaining = TimeRemaining,
                 MaximumTaskTime = MaximumTaskTime,
                 MinimumTaskTime = MinimumTaskTime,
                 GameBoard = GameBoard?.Clone(),
                 Glitter = Glitter.Select(dp => dp.Clone()).ToList(),
+
+                IsFirstRound = IsFirstRound,
+                IsBeforeTease = IsBeforeTease,
             };
             var scripts = this.Scripts.ToArray().ToList();
             scripts.Reverse();
@@ -82,10 +100,7 @@ namespace TeaseAI.Common
         [Obsolete("Use Phase instead")]
         public bool IsBeforeTease { get; set; }
 
-        /// <summary>
-        /// This is for tracking to / from the UI. is true when the UI starts a video, is false when the video stops
-        /// </summary>
-        public bool IsVideoPlaying { get; set; }
+
         public bool IsLongEdge { get; set; }
         public int MaximumTaskTime { get; set; }
         public int MinimumTaskTime { get; set; }

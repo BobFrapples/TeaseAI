@@ -5,6 +5,7 @@ using TeaseAI.Data;
 using TeaseAI.PersonalityEditor.Services;
 using TeaseAI.Services;
 using TeaseAI.Services.Accessors;
+using TeaseAI.Services.VocabularyProcessors;
 
 namespace TeaseAI.PersonalityEditor
 {
@@ -39,9 +40,15 @@ namespace TeaseAI.PersonalityEditor
                 CreateMediaContainerService(),
                 CreateTimeService(),
                 CreateLineCollectionFilter(),
-                CreateVitalSubService()
+                CreateVitalSubService(),
+                CreateConditionalObjectLogic(),
+                CreateSessionVocabularyProcessor()
             );
         }
+
+        private static IVocabularyProcessor CreateSessionVocabularyProcessor() => new SessionVocabularyProcessor();
+
+        private static IConditionalObjectLogic CreateConditionalObjectLogic() => new ConditionalObjectLogic();
 
         public static IVitalSubService CreateVitalSubService() => new VitalSubService(CreatePathsAccessor(), CreateLineCollectionFilter(), CreateRandomNumberService(), CreateSettingsAccessor(),CreateScriptAccessor());
 

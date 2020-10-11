@@ -403,192 +403,186 @@ Public Class Form8
 	End Sub
 
 
-	Public Function WriteTags(ByVal TagPath As String, ByVal Tag As String) As String
+    Public Sub WriteTags(ByVal TagPath As String, ByVal Tag As String)
+        Dim SettingsString As String
+        Dim TagFile As String = Path.GetDirectoryName(TagPath) & "\ImageTags.txt"
+        Debug.Print("TagFile = " & TagFile)
 
-		Dim SettingsString As String
-		Dim TagFile As String = Path.GetDirectoryName(TagPath) & "\ImageTags.txt"
-		Debug.Print("TagFile = " & TagFile)
+        If File.Exists(TagFile) Then
 
-		If File.Exists(TagFile) Then
+            Dim TagList As New List(Of String)
+            TagList = Txt2List(TagFile)
 
-			Dim TagList As New List(Of String)
-			TagList = Txt2List(TagFile)
+            Dim FoundFile As Boolean = False
 
-			Dim FoundFile As Boolean = False
+            For i As Integer = 0 To TagList.Count - 1
+                If TagList(i).Contains(Path.GetFileName(TagPath)) Then
+                    FoundFile = True
+                    If Not TagList(i).Contains(Tag) Then
+                        TagList(i) = TagList(i) & " " & Tag
+                    End If
+                End If
+            Next
 
-			For i As Integer = 0 To TagList.Count - 1
-				If TagList(i).Contains(Path.GetFileName(TagPath)) Then
-					FoundFile = True
-					If Not TagList(i).Contains(Tag) Then
-						TagList(i) = TagList(i) & " " & Tag
-					End If
-				End If
-			Next
+            If FoundFile = False Then TagList.Add(Path.GetFileName(TagPath) & " " & Tag)
 
-			If FoundFile = False Then TagList.Add(Path.GetFileName(TagPath) & " " & Tag)
+            If TagList.Count > 0 Then
+                SettingsString = ""
+                For i As Integer = 0 To TagList.Count - 1
+                    SettingsString = SettingsString & TagList(i)
+                    If i <> TagList.Count - 1 Then SettingsString = SettingsString & Environment.NewLine
+                Next
+                My.Computer.FileSystem.WriteAllText(Path.GetDirectoryName(TagPath) & "\ImageTags.txt", SettingsString, False)
+            End If
 
-			If TagList.Count > 0 Then
-				SettingsString = ""
-				For i As Integer = 0 To TagList.Count - 1
-					SettingsString = SettingsString & TagList(i)
-					If i <> TagList.Count - 1 Then SettingsString = SettingsString & Environment.NewLine
-				Next
-				My.Computer.FileSystem.WriteAllText(Path.GetDirectoryName(TagPath) & "\ImageTags.txt", SettingsString, False)
-			End If
+        Else
 
-		Else
+            My.Computer.FileSystem.WriteAllText(Path.GetDirectoryName(TagPath) & "\ImageTags.txt", Path.GetFileName(TagPath) & " " & Tag, True)
 
-			My.Computer.FileSystem.WriteAllText(Path.GetDirectoryName(TagPath) & "\ImageTags.txt", Path.GetFileName(TagPath) & " " & Tag, True)
+        End If
 
-		End If
+        SysMessage = Tag & " tag has been applied!"
+        SysMessage = SysMessage.Replace("Tag", "")
+        InfoTick = 4
+        InfoTimer.Start()
 
-		SysMessage = Tag & " tag has been applied!"
-		SysMessage = SysMessage.Replace("Tag", "")
-		InfoTick = 4
-		InfoTimer.Start()
+    End Sub
 
-	End Function
+    Public Sub WriteCustomTags(ByVal TagPath As String, ByVal Tag As String, ByVal Custom As String)
 
-	Public Function WriteCustomTags(ByVal TagPath As String, ByVal Tag As String, ByVal Custom As String) As String
+        Dim SettingsString As String
+        Dim TagFile As String = Path.GetDirectoryName(TagPath) & "\ImageTags.txt"
+        Debug.Print("TagFile = " & TagFile)
 
-		Dim SettingsString As String
-		Dim TagFile As String = Path.GetDirectoryName(TagPath) & "\ImageTags.txt"
-		Debug.Print("TagFile = " & TagFile)
+        If File.Exists(TagFile) Then
 
-		If File.Exists(TagFile) Then
+            Dim TagList As New List(Of String)
+            TagList = Txt2List(TagFile)
 
-			Dim TagList As New List(Of String)
-			TagList = Txt2List(TagFile)
+            Dim FoundFile As Boolean = False
 
-			Dim FoundFile As Boolean = False
+            For i As Integer = 0 To TagList.Count - 1
+                If TagList(i).Contains(Path.GetFileName(TagPath)) Then
+                    FoundFile = True
+                    If Not TagList(i).Contains(Tag & Custom) Then
+                        TagList(i) = TagList(i) & " " & Tag & Custom
+                    End If
+                End If
+            Next
 
-			For i As Integer = 0 To TagList.Count - 1
-				If TagList(i).Contains(Path.GetFileName(TagPath)) Then
-					FoundFile = True
-					If Not TagList(i).Contains(Tag & Custom) Then
-						TagList(i) = TagList(i) & " " & Tag & Custom
-					End If
-				End If
-			Next
+            If FoundFile = False Then TagList.Add(Path.GetFileName(TagPath) & " " & Tag & Custom)
 
-			If FoundFile = False Then TagList.Add(Path.GetFileName(TagPath) & " " & Tag & Custom)
+            If TagList.Count > 0 Then
+                SettingsString = ""
+                For i As Integer = 0 To TagList.Count - 1
+                    SettingsString = SettingsString & TagList(i)
+                    If i <> TagList.Count - 1 Then SettingsString = SettingsString & Environment.NewLine
+                Next
+                My.Computer.FileSystem.WriteAllText(Path.GetDirectoryName(TagPath) & "\ImageTags.txt", SettingsString, False)
+            End If
 
-			If TagList.Count > 0 Then
-				SettingsString = ""
-				For i As Integer = 0 To TagList.Count - 1
-					SettingsString = SettingsString & TagList(i)
-					If i <> TagList.Count - 1 Then SettingsString = SettingsString & Environment.NewLine
-				Next
-				My.Computer.FileSystem.WriteAllText(Path.GetDirectoryName(TagPath) & "\ImageTags.txt", SettingsString, False)
-			End If
+        Else
 
-		Else
+            My.Computer.FileSystem.WriteAllText(Path.GetDirectoryName(TagPath) & "\ImageTags.txt", Path.GetFileName(TagPath) & " " & Tag & Custom, True)
 
-			My.Computer.FileSystem.WriteAllText(Path.GetDirectoryName(TagPath) & "\ImageTags.txt", Path.GetFileName(TagPath) & " " & Tag & Custom, True)
+        End If
 
-		End If
+        SysMessage = Tag & " tag has been applied!"
+        SysMessage = SysMessage.Replace("Tag", "")
+        InfoTick = 4
+        InfoTimer.Start()
 
-		SysMessage = Tag & " tag has been applied!"
-		SysMessage = SysMessage.Replace("Tag", "")
-		InfoTick = 4
-		InfoTimer.Start()
+    End Sub
 
-	End Function
+    Public Sub DeleteTags(ByVal TagPath As String, ByVal Tag As String)
 
-	Public Function DeleteTags(ByVal TagPath As String, ByVal Tag As String) As String
+        Dim SettingsString As String
+        Dim TagFile As String = Path.GetDirectoryName(TagPath) & "\ImageTags.txt"
+        Debug.Print("TagFile = " & TagFile)
 
-		Dim SettingsString As String
-		Dim TagFile As String = Path.GetDirectoryName(TagPath) & "\ImageTags.txt"
-		Debug.Print("TagFile = " & TagFile)
+        If File.Exists(TagFile) Then
 
-		If File.Exists(TagFile) Then
+            Dim TagList As New List(Of String)
+            TagList = Txt2List(TagFile)
 
-			Dim TagList As New List(Of String)
-			TagList = Txt2List(TagFile)
+            For i As Integer = TagList.Count - 1 To 0 Step -1
+                If TagList(i).Contains(Path.GetFileName(TagPath)) Then
+                    If TagList(i).Contains(Tag) Then
+                        TagList(i) = TagList(i).Replace(Tag, "")
+                        If Not TagList(i).Contains(" Tag") Then TagList.Remove(TagList(i))
+                    End If
+                End If
+            Next
 
-			For i As Integer = TagList.Count - 1 To 0 Step -1
-				If TagList(i).Contains(Path.GetFileName(TagPath)) Then
-					If TagList(i).Contains(Tag) Then
-						TagList(i) = TagList(i).Replace(Tag, "")
-						If Not TagList(i).Contains(" Tag") Then TagList.Remove(TagList(i))
-					End If
-				End If
-			Next
+            If TagList.Count > 0 Then
+                SettingsString = ""
+                For i As Integer = 0 To TagList.Count - 1
+                    SettingsString = SettingsString & TagList(i)
+                    If i <> TagList.Count - 1 Then SettingsString = SettingsString & Environment.NewLine
+                Next
+                My.Computer.FileSystem.WriteAllText(Path.GetDirectoryName(TagPath) & "\ImageTags.txt", SettingsString, False)
+            End If
 
-			If TagList.Count > 0 Then
-				SettingsString = ""
-				For i As Integer = 0 To TagList.Count - 1
-					SettingsString = SettingsString & TagList(i)
-					If i <> TagList.Count - 1 Then SettingsString = SettingsString & Environment.NewLine
-				Next
-				My.Computer.FileSystem.WriteAllText(Path.GetDirectoryName(TagPath) & "\ImageTags.txt", SettingsString, False)
-			End If
+        End If
 
-		End If
+        SysMessage = Tag & " tag has been removed!"
+        SysMessage = SysMessage.Replace("Tag", "")
+        InfoTick = 4
+        InfoTimer.Start()
 
-		SysMessage = Tag & " tag has been removed!"
-		SysMessage = SysMessage.Replace("Tag", "")
-		InfoTick = 4
-		InfoTimer.Start()
+    End Sub
 
-	End Function
+    Public Sub DeleteCustomTags(ByVal TagPath As String, ByVal Tag As String, ByVal Custom As String)
 
+        Dim SettingsString As String
+        Dim TagFile As String = Path.GetDirectoryName(TagPath) & "\ImageTags.txt"
+        Debug.Print("TagFile = " & TagFile)
 
+        If File.Exists(TagFile) Then
 
+            Dim TagList As New List(Of String)
+            TagList = Txt2List(TagFile)
 
+            For i As Integer = TagList.Count - 1 To 0 Step -1
+                If TagList(i).Contains(Path.GetFileName(TagPath)) Then
+                    If TagList(i).Contains(Tag & Custom) Then
+                        TagList(i) = TagList(i).Replace(Tag & Custom, "")
+                        If Not TagList(i).Contains(" Tag") Then TagList.Remove(TagList(i))
+                    End If
+                End If
+            Next
 
+            If TagList.Count > 0 Then
+                SettingsString = ""
+                For i As Integer = 0 To TagList.Count - 1
+                    SettingsString = SettingsString & TagList(i)
+                    If i <> TagList.Count - 1 Then SettingsString = SettingsString & Environment.NewLine
+                Next
+                My.Computer.FileSystem.WriteAllText(Path.GetDirectoryName(TagPath) & "\ImageTags.txt", SettingsString, False)
+            End If
 
-	Public Function DeleteCustomTags(ByVal TagPath As String, ByVal Tag As String, ByVal Custom As String) As String
+        End If
 
-		Dim SettingsString As String
-		Dim TagFile As String = Path.GetDirectoryName(TagPath) & "\ImageTags.txt"
-		Debug.Print("TagFile = " & TagFile)
+        SysMessage = Tag & " tag has been removed!"
+        SysMessage = SysMessage.Replace("Tag", "")
+        InfoTick = 4
+        InfoTimer.Start()
 
-		If File.Exists(TagFile) Then
-
-			Dim TagList As New List(Of String)
-			TagList = Txt2List(TagFile)
-
-			For i As Integer = TagList.Count - 1 To 0 Step -1
-				If TagList(i).Contains(Path.GetFileName(TagPath)) Then
-					If TagList(i).Contains(Tag & Custom) Then
-						TagList(i) = TagList(i).Replace(Tag & Custom, "")
-						If Not TagList(i).Contains(" Tag") Then TagList.Remove(TagList(i))
-					End If
-				End If
-			Next
-
-			If TagList.Count > 0 Then
-				SettingsString = ""
-				For i As Integer = 0 To TagList.Count - 1
-					SettingsString = SettingsString & TagList(i)
-					If i <> TagList.Count - 1 Then SettingsString = SettingsString & Environment.NewLine
-				Next
-				My.Computer.FileSystem.WriteAllText(Path.GetDirectoryName(TagPath) & "\ImageTags.txt", SettingsString, False)
-			End If
-
-		End If
-
-		SysMessage = Tag & " tag has been removed!"
-		SysMessage = SysMessage.Replace("Tag", "")
-		InfoTick = 4
-		InfoTimer.Start()
-
-	End Function
+    End Sub
 
 
 
 
-	'Private Sub Form1_Resize(sender As Object, e As System.EventArgs) Handles Me.Resize
+    'Private Sub Form1_Resize(sender As Object, e As System.EventArgs) Handles Me.Resize
 
-	'WBDommeTag.Width = Me.Width - 248
-	'WBDommeTag.Height = Me.Height - 100
-	'TBURL.Width = Me.Width - 456
+    'WBDommeTag.Width = Me.Width - 248
+    'WBDommeTag.Height = Me.Height - 100
+    'TBURL.Width = Me.Width - 456
 
 
-	'End Sub
+    'End Sub
 
-	Private Sub Face_Click(sender As System.Object, e As System.EventArgs) Handles Face.Click
+    Private Sub Face_Click(sender As System.Object, e As System.EventArgs) Handles Face.Click
 		If Face.BackColor = Color.White Then
 			Face.BackColor = Color.Red
 			Face.ForeColor = Color.White

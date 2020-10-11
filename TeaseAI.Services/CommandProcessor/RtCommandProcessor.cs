@@ -1,15 +1,15 @@
-﻿using TeaseAI.Common;
+﻿using System;
+using TeaseAI.Common;
 using TeaseAI.Common.Constants;
 using TeaseAI.Common.Data;
 using TeaseAI.Common.Interfaces;
 
-
 namespace TeaseAI.Services.CommandProcessor
 {
-    public class RandomTextCommandProcessor : CommandProcessorBase
+    public class RtCommandProcessor : CommandProcessorBase
     {
-        public RandomTextCommandProcessor(LineService lineService
-            ,IRandomNumberService randomNumberService):base(Keyword.RandomText, lineService)
+        public RtCommandProcessor(LineService lineService
+            , IRandomNumberService randomNumberService) : base(Keyword.RandomText, lineService)
         {
             _randomNumberService = randomNumberService;
         }
@@ -18,7 +18,6 @@ namespace TeaseAI.Services.CommandProcessor
         {
             if (!IsRelevant(input))
                 return input;
-
             var result = _lineService.GetParenData(input, _keyword)
                 .OnSuccess(pd => pd[_randomNumberService.Roll(0, pd.Count)])
                 .OnSuccess(text => _lineService.ReplaceParenData(input, _keyword, text));
@@ -36,9 +35,7 @@ namespace TeaseAI.Services.CommandProcessor
 
         protected override Result ParseCommandSpecific(Script script, string personalityName, string line)
         {
-            return _lineService.GetParenData(line, _keyword)
-                .Ensure(pd => pd.Count > 0, _keyword + " requires at least one parameter")
-                .Map();
+            return Result.Fail(Keyword.RT + " is deprecated, please use " + Keyword.RandomText);
         }
 
         private readonly IRandomNumberService _randomNumberService;

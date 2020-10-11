@@ -3217,7 +3217,7 @@ Public Class FrmSettings
             Loop
 
             If retrycounter <= 0 Then Throw New IOException(
-                String.Format("The file """"{0}"" is already in use."), savePath)
+                String.Format("The file ""{0}"" is already in use.", savePath), savePath)
 
             ' Check if the Databinding is properly set.
             If target.DataBindings.Item("ImageLocation") Is Nothing Then
@@ -7726,12 +7726,13 @@ Public Class FrmSettings
             Return Result.Fail(Of List(Of String))(folderName + " does not exist.")
         End If
 
-        Dim imageExtensions As List(Of String) = New List(Of String)()
-        imageExtensions.Add(".png")
-        imageExtensions.Add(".jpg")
-        imageExtensions.Add(".jpeg")
-        imageExtensions.Add(".gif")
-        imageExtensions.Add(".bmp")
+        Dim imageExtensions As List(Of String) = New List(Of String) From {
+            ".png",
+            ".jpg",
+            ".jpeg",
+            ".gif",
+            ".bmp"
+        }
 
         Dim images As List(Of String) = Directory.GetFiles(folderName) _
             .Where(Function(f) imageExtensions.Contains(Path.GetExtension(f).ToLower())) _

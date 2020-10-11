@@ -8,7 +8,7 @@ namespace TeaseAI.Services.CommandProcessor
 {
     public abstract class CommandProcessorBase : ICommandProcessor
     {
-        private readonly string _keyword;
+        protected readonly string _keyword;
         protected LineService _lineService;
 
         public CommandProcessorBase(string keyword, LineService lineService)
@@ -34,7 +34,7 @@ namespace TeaseAI.Services.CommandProcessor
 
         /// <summary>
         /// <para>Validate the syntax and script requirements for this command.</para>
-        /// <para>Variables should be ignored here</para>
+        /// <para>Variables and interpolation are ignored for parsing unless explicitly relevant to the command</para>
         /// </summary>
         /// <param name="script"></param>
         /// <param name="personalityName"></param>
@@ -51,7 +51,7 @@ namespace TeaseAI.Services.CommandProcessor
 
         public virtual bool IsRelevant(string line) => line.Contains(_keyword);
 
-        public virtual bool IsRelevant(Session session, string line) => IsRelevant(_keyword);
+        public virtual bool IsRelevant(Session session, string line) => IsRelevant(line);
 
         /// <summary>
         /// Fires <see cref="BeforeCommandProcessed"/> event passing session to subscribers.

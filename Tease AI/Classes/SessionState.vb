@@ -107,6 +107,7 @@ Public Class SessionState
     ''' </summary>
     ''' <returns></returns>
     <Description("Used for regular talk.")>
+    <Obsolete("Don't use this, Call DommeSays")>
     Public Property DomTask As String
         Get
             Return myDom
@@ -261,10 +262,18 @@ Public Class SessionState
     ''' </summary>
     ''' <returns></returns>
     <Category("Video - Censorship")> Public Property CensorshipTick As Integer
-    <Category("Video - Red light green light")> Public Property RedLight As Boolean
+    <Category("Video - Red light green light")> Public Property IsLightRed As Boolean
     <Category("Video - Red light green light")> Public Property RLGLGame As Boolean
-    <Category("Video - Red light green light")> Public Property RLGLTauntTick As Integer
-    <Category("Video - Red light green light")> Public Property RLGLTick As Integer
+    ''' <summary>
+    ''' How many seconds between the Domme Taunting the sub (Only if greenlight)
+    ''' </summary>
+    ''' <returns></returns>
+    <Category("Video - Red light green light")> Public Property RedLightGreenLightTauntTick As Integer
+    ''' <summary>
+    ''' Defines how many seconds between the light changing from red to green or back
+    ''' </summary>
+    ''' <returns></returns>
+    <Category("Video - Red light green light")> Public Property RedLightGreenLightTick As Integer
     <Category("Video")> <Obsolete("Never set to TRUE")> Public Property NoVideo As Boolean
 
     <Category("Glitter")> <Editor(EditorGenericStringList, GetType(UITypeEditor))>
@@ -761,8 +770,8 @@ Public Class SessionState
             HoldEdgeTauntTimer_enabled = .HoldEdgeTauntTimer.Enabled
             HoldEdgeTimer_enabled = .HoldEdgeTimer.Enabled
             IsTypingTimer_enabled = .IsTypingTimer.Enabled
-            RLGLTauntTimer_enabled = .RLGLTauntTimer.Enabled
-            RLGLTimer_enabled = .RLGLTimer.Enabled
+            RLGLTauntTimer_enabled = .RedLightGreenLightTauntTimer.Enabled
+            RLGLTimer_enabled = .RedLightGreenLightTimer.Enabled
             SendTimer_enabled = .SendTimer.Enabled
             SlideshowTimer_enabled = .SlideshowTimer.Enabled
             StrokeTauntTimer_enabled = .StrokeTauntTimer.Enabled
@@ -793,8 +802,8 @@ Public Class SessionState
             HoldEdgeTauntTimer_Interval = .HoldEdgeTauntTimer.Interval
             HoldEdgeTimer_Interval = .HoldEdgeTimer.Interval
             IsTypingTimer_Interval = .IsTypingTimer.Interval
-            RLGLTauntTimer_Interval = .RLGLTauntTimer.Interval
-            RLGLTimer_Interval = .RLGLTimer.Interval
+            RLGLTauntTimer_Interval = .RedLightGreenLightTauntTimer.Interval
+            RLGLTimer_Interval = .RedLightGreenLightTimer.Interval
             SendTimer_Interval = .SendTimer.Interval
             SlideshowTimer_Interval = .SlideshowTimer.Interval
             StrokeTauntTimer_Interval = .StrokeTauntTimer.Interval
@@ -897,8 +906,8 @@ Public Class SessionState
             .HoldEdgeTauntTimer.Enabled = False
             .HoldEdgeTimer.Enabled = False
             .IsTypingTimer.Enabled = False
-            .RLGLTauntTimer.Enabled = False
-            .RLGLTimer.Enabled = False
+            .RedLightGreenLightTauntTimer.Enabled = False
+            .RedLightGreenLightTimer.Enabled = False
             .SendTimer.Enabled = False
             .SlideshowTimer.Enabled = False
             .StrokeTauntTimer.Enabled = False
@@ -1037,8 +1046,8 @@ Public Class SessionState
             .HoldEdgeTauntTimer.Interval = HoldEdgeTauntTimer_Interval
             .HoldEdgeTimer.Interval = HoldEdgeTimer_Interval
             .IsTypingTimer.Interval = IsTypingTimer_Interval
-            .RLGLTauntTimer.Interval = RLGLTauntTimer_Interval
-            .RLGLTimer.Interval = RLGLTimer_Interval
+            .RedLightGreenLightTauntTimer.Interval = RLGLTauntTimer_Interval
+            .RedLightGreenLightTimer.Interval = RLGLTimer_Interval
             .SendTimer.Interval = SendTimer_Interval
             .SlideshowTimer.Interval = SlideshowTimer_Interval
             .StrokeTauntTimer.Interval = StrokeTauntTimer_Interval
@@ -1070,8 +1079,8 @@ Public Class SessionState
             .HoldEdgeTauntTimer.Enabled = HoldEdgeTauntTimer_enabled
             .HoldEdgeTimer.Enabled = HoldEdgeTimer_enabled
             .IsTypingTimer.Enabled = IsTypingTimer_enabled
-            .RLGLTauntTimer.Enabled = RLGLTauntTimer_enabled
-            .RLGLTimer.Enabled = RLGLTimer_enabled
+            .RedLightGreenLightTauntTimer.Enabled = RLGLTauntTimer_enabled
+            .RedLightGreenLightTimer.Enabled = RLGLTimer_enabled
             .SendTimer.Enabled = SendTimer_enabled
             .SlideshowTimer.Enabled = SlideshowTimer_enabled
             .StrokeTauntTimer.Enabled = StrokeTauntTimer_enabled

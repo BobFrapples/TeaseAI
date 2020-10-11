@@ -381,7 +381,7 @@ Partial Class MainWindow
         Me.StrokeTimer = New Tease_AI.teaseAI_Timer()
         Me.StrokeTauntTimer = New Tease_AI.teaseAI_Timer()
         Me.CensorshipTimer = New Tease_AI.teaseAI_Timer()
-        Me.RLGLTimer = New Tease_AI.teaseAI_Timer()
+        Me.RedLightGreenLightTimer = New Tease_AI.teaseAI_Timer()
         Me.UpdatesTimer = New Tease_AI.teaseAI_Timer()
         Me.AvoidTheEdge = New Tease_AI.teaseAI_Timer()
         Me.AvoidTheEdgeResume = New Tease_AI.teaseAI_Timer()
@@ -396,7 +396,7 @@ Partial Class MainWindow
         Me.ReceiveFileTimer = New Tease_AI.teaseAI_Timer()
         Me.VideoTauntTimer = New Tease_AI.teaseAI_Timer()
         Me.TeaseTimer = New Tease_AI.teaseAI_Timer()
-        Me.RLGLTauntTimer = New Tease_AI.teaseAI_Timer()
+        Me.RedLightGreenLightTauntTimer = New Tease_AI.teaseAI_Timer()
         Me.AvoidTheEdgeTaunts = New Tease_AI.teaseAI_Timer()
         Me.CustomSlideshowTimer = New Tease_AI.teaseAI_Timer()
         Me.Contact1Timer = New Tease_AI.teaseAI_Timer()
@@ -4265,7 +4265,7 @@ Partial Class MainWindow
         '
         'RLGLTimer
         '
-        Me.RLGLTimer.Interval = 1000
+        Me.RedLightGreenLightTimer.Interval = 1000
         '
         'UpdatesTimer
         '
@@ -4325,7 +4325,7 @@ Partial Class MainWindow
         '
         'RLGLTauntTimer
         '
-        Me.RLGLTauntTimer.Interval = 1000
+        Me.RedLightGreenLightTauntTimer.Interval = 1000
         '
         'AvoidTheEdgeTaunts
         '
@@ -4485,7 +4485,7 @@ Partial Class MainWindow
 	Friend WithEvents BtnToggleImageVideo As System.Windows.Forms.Button
 	Friend WithEvents CensorshipBar As System.Windows.Forms.Panel
 	Friend WithEvents CensorshipTimer As Tease_AI.teaseAI_Timer
-	Friend WithEvents RLGLTimer As Tease_AI.teaseAI_Timer
+	Friend WithEvents RedLightGreenLightTimer As Tease_AI.teaseAI_Timer
 	Friend WithEvents OpenFileDialog1 As System.Windows.Forms.OpenFileDialog
 	Friend WithEvents BTNLoadVideo As System.Windows.Forms.Button
 	Friend WithEvents BTNVideoControls As System.Windows.Forms.Button
@@ -4515,7 +4515,7 @@ Partial Class MainWindow
 	Friend WithEvents ReceiveFileTimer As Tease_AI.teaseAI_Timer
 	Friend WithEvents VideoTauntTimer As Tease_AI.teaseAI_Timer
 	Friend WithEvents TeaseTimer As Tease_AI.teaseAI_Timer
-	Friend WithEvents RLGLTauntTimer As Tease_AI.teaseAI_Timer
+	Friend WithEvents RedLightGreenLightTauntTimer As Tease_AI.teaseAI_Timer
 	Friend WithEvents AvoidTheEdgeTaunts As Tease_AI.teaseAI_Timer
 	Friend WithEvents PictureStrip As System.Windows.Forms.ContextMenuStrip
 	Friend WithEvents PicStripTSMIsaveImage As System.Windows.Forms.ToolStripMenuItem
