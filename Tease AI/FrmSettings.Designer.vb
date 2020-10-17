@@ -895,11 +895,11 @@ Partial Class FrmSettings
         Me.RangeSettingsTeaseGroupBox = New System.Windows.Forms.GroupBox()
         Me.Label139 = New System.Windows.Forms.Label()
         Me.NBTauntEdging = New System.Windows.Forms.NumericUpDown()
-        Me.LBLVtf = New System.Windows.Forms.Label()
+        Me.VideoTauntDescriptionLabel = New System.Windows.Forms.Label()
         Me.LBLStf = New System.Windows.Forms.Label()
         Me.SliderSTF = New System.Windows.Forms.TrackBar()
         Me.VideoTauntSlider = New System.Windows.Forms.TrackBar()
-        Me.Label106 = New System.Windows.Forms.Label()
+        Me.VideoTauntSliderLabel = New System.Windows.Forms.Label()
         Me.CBTauntCycleDD = New System.Windows.Forms.CheckBox()
         Me.TeaseLengthDommeDetermined = New System.Windows.Forms.CheckBox()
         Me.Label103 = New System.Windows.Forms.Label()
@@ -11878,35 +11878,35 @@ Partial Class FrmSettings
         Me.Label109.Text = "seconds"
         Me.Label109.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'NBCensorShowMin
+        'ShowCensorshipBarMinimumSeconds
         '
         Me.ShowCensorshipBarMinimumSeconds.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ShowCensorshipBarMinimumSeconds.Location = New System.Drawing.Point(127, 15)
         Me.ShowCensorshipBarMinimumSeconds.Maximum = New Decimal(New Integer() {180, 0, 0, 0})
         Me.ShowCensorshipBarMinimumSeconds.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
-        Me.ShowCensorshipBarMinimumSeconds.Name = "NBCensorShowMin"
+        Me.ShowCensorshipBarMinimumSeconds.Name = "ShowCensorshipBarMinimumSeconds"
         Me.ShowCensorshipBarMinimumSeconds.Size = New System.Drawing.Size(44, 20)
         Me.ShowCensorshipBarMinimumSeconds.TabIndex = 151
         Me.ShowCensorshipBarMinimumSeconds.Value = New Decimal(New Integer() {5, 0, 0, 0})
         '
-        'NBCensorHideMax
+        'HideCensorshipBarMaximumSeconds
         '
         Me.HideCensorshipBarMaximumSeconds.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.HideCensorshipBarMaximumSeconds.Location = New System.Drawing.Point(193, 38)
         Me.HideCensorshipBarMaximumSeconds.Maximum = New Decimal(New Integer() {300, 0, 0, 0})
         Me.HideCensorshipBarMaximumSeconds.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
-        Me.HideCensorshipBarMaximumSeconds.Name = "NBCensorHideMax"
+        Me.HideCensorshipBarMaximumSeconds.Name = "HideCensorshipBarMaximumSeconds"
         Me.HideCensorshipBarMaximumSeconds.Size = New System.Drawing.Size(44, 20)
         Me.HideCensorshipBarMaximumSeconds.TabIndex = 156
         Me.HideCensorshipBarMaximumSeconds.Value = New Decimal(New Integer() {5, 0, 0, 0})
         '
-        'NBCensorHideMin
+        'HideCensorshipBarMinimumSeconds
         '
         Me.HideCensorshipBarMinimumSeconds.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.HideCensorshipBarMinimumSeconds.Location = New System.Drawing.Point(127, 38)
         Me.HideCensorshipBarMinimumSeconds.Maximum = New Decimal(New Integer() {180, 0, 0, 0})
         Me.HideCensorshipBarMinimumSeconds.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
-        Me.HideCensorshipBarMinimumSeconds.Name = "NBCensorHideMin"
+        Me.HideCensorshipBarMinimumSeconds.Name = "HideCensorshipBarMinimumSeconds"
         Me.HideCensorshipBarMinimumSeconds.Size = New System.Drawing.Size(44, 20)
         Me.HideCensorshipBarMinimumSeconds.TabIndex = 155
         Me.HideCensorshipBarMinimumSeconds.Value = New Decimal(New Integer() {5, 0, 0, 0})
@@ -11973,13 +11973,13 @@ Partial Class FrmSettings
         Me.Label24.Text = "Censor Bar Shown:"
         Me.Label24.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'NBCensorShowMax
+        'ShowCensorshipBarMaximumSeconds
         '
         Me.ShowCensorshipBarMaximumSeconds.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ShowCensorshipBarMaximumSeconds.Location = New System.Drawing.Point(193, 15)
         Me.ShowCensorshipBarMaximumSeconds.Maximum = New Decimal(New Integer() {300, 0, 0, 0})
         Me.ShowCensorshipBarMaximumSeconds.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
-        Me.ShowCensorshipBarMaximumSeconds.Name = "NBCensorShowMax"
+        Me.ShowCensorshipBarMaximumSeconds.Name = "ShowCensorshipBarMaximumSeconds"
         Me.ShowCensorshipBarMaximumSeconds.Size = New System.Drawing.Size(44, 20)
         Me.ShowCensorshipBarMaximumSeconds.TabIndex = 152
         Me.ShowCensorshipBarMaximumSeconds.Value = New Decimal(New Integer() {5, 0, 0, 0})
@@ -12275,11 +12275,11 @@ Partial Class FrmSettings
         Me.RangeSettingsTeaseGroupBox.BackColor = System.Drawing.Color.Transparent
         Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.Label139)
         Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.NBTauntEdging)
-        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.LBLVtf)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.VideoTauntDescriptionLabel)
         Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.LBLStf)
         Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.SliderSTF)
         Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.VideoTauntSlider)
-        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.Label106)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.VideoTauntSliderLabel)
         Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.CBTauntCycleDD)
         Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.TeaseLengthDommeDetermined)
         Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.Label103)
@@ -12325,18 +12325,18 @@ Partial Class FrmSettings
         Me.NBTauntEdging.TabIndex = 188
         Me.NBTauntEdging.Value = New Decimal(New Integer() {70, 0, 0, 0})
         '
-        'LBLVtf
+        'VideoTauntDescriptionLabel
         '
-        Me.LBLVtf.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.LBLVtf.BackColor = System.Drawing.Color.Transparent
-        Me.LBLVtf.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LBLVtf.ForeColor = System.Drawing.Color.Black
-        Me.LBLVtf.Location = New System.Drawing.Point(191, 262)
-        Me.LBLVtf.Name = "LBLVtf"
-        Me.LBLVtf.Size = New System.Drawing.Size(87, 17)
-        Me.LBLVtf.TabIndex = 187
-        Me.LBLVtf.Text = "Normal"
-        Me.LBLVtf.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.VideoTauntDescriptionLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.VideoTauntDescriptionLabel.BackColor = System.Drawing.Color.Transparent
+        Me.VideoTauntDescriptionLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.VideoTauntDescriptionLabel.ForeColor = System.Drawing.Color.Black
+        Me.VideoTauntDescriptionLabel.Location = New System.Drawing.Point(193, 279)
+        Me.VideoTauntDescriptionLabel.Name = "VideoTauntDescriptionLabel"
+        Me.VideoTauntDescriptionLabel.Size = New System.Drawing.Size(87, 17)
+        Me.VideoTauntDescriptionLabel.TabIndex = 187
+        Me.VideoTauntDescriptionLabel.Text = "Normal"
+        Me.VideoTauntDescriptionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'LBLStf
         '
@@ -12344,7 +12344,7 @@ Partial Class FrmSettings
         Me.LBLStf.BackColor = System.Drawing.Color.Transparent
         Me.LBLStf.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LBLStf.ForeColor = System.Drawing.Color.Black
-        Me.LBLStf.Location = New System.Drawing.Point(193, 221)
+        Me.LBLStf.Location = New System.Drawing.Point(193, 233)
         Me.LBLStf.Name = "LBLStf"
         Me.LBLStf.Size = New System.Drawing.Size(87, 17)
         Me.LBLStf.TabIndex = 165
@@ -12361,7 +12361,7 @@ Partial Class FrmSettings
         Me.SliderSTF.Maximum = 5
         Me.SliderSTF.Minimum = 1
         Me.SliderSTF.Name = "SliderSTF"
-        Me.SliderSTF.Size = New System.Drawing.Size(87, 25)
+        Me.SliderSTF.Size = New System.Drawing.Size(87, 20)
         Me.SliderSTF.TabIndex = 163
         Me.SliderSTF.Value = 3
         '
@@ -12371,25 +12371,25 @@ Partial Class FrmSettings
         Me.VideoTauntSlider.AutoSize = False
         Me.VideoTauntSlider.BackColor = System.Drawing.SystemColors.Control
         Me.VideoTauntSlider.LargeChange = 1
-        Me.VideoTauntSlider.Location = New System.Drawing.Point(193, 241)
-        Me.VideoTauntSlider.Maximum = 9
+        Me.VideoTauntSlider.Location = New System.Drawing.Point(193, 256)
         Me.VideoTauntSlider.Minimum = 1
         Me.VideoTauntSlider.Name = "VideoTauntSlider"
-        Me.VideoTauntSlider.Size = New System.Drawing.Size(87, 25)
+        Me.VideoTauntSlider.Size = New System.Drawing.Size(87, 20)
         Me.VideoTauntSlider.TabIndex = 161
+        Me.VideoTauntSlider.TickFrequency = 2
         Me.VideoTauntSlider.Value = 4
         '
-        'Label106
+        'VideoTauntSliderLabel
         '
-        Me.Label106.BackColor = System.Drawing.Color.Transparent
-        Me.Label106.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label106.ForeColor = System.Drawing.Color.Black
-        Me.Label106.Location = New System.Drawing.Point(6, 243)
-        Me.Label106.Name = "Label106"
-        Me.Label106.Size = New System.Drawing.Size(123, 17)
-        Me.Label106.TabIndex = 186
-        Me.Label106.Text = "Video Taunt Frequency:"
-        Me.Label106.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.VideoTauntSliderLabel.BackColor = System.Drawing.Color.Transparent
+        Me.VideoTauntSliderLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.VideoTauntSliderLabel.ForeColor = System.Drawing.Color.Black
+        Me.VideoTauntSliderLabel.Location = New System.Drawing.Point(6, 256)
+        Me.VideoTauntSliderLabel.Name = "VideoTauntSliderLabel"
+        Me.VideoTauntSliderLabel.Size = New System.Drawing.Size(123, 17)
+        Me.VideoTauntSliderLabel.TabIndex = 186
+        Me.VideoTauntSliderLabel.Text = "Video Taunt Frequency:"
+        Me.VideoTauntSliderLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'CBTauntCycleDD
         '
@@ -15337,8 +15337,8 @@ Partial Class FrmSettings
     Friend WithEvents CBTauntCycleDD As System.Windows.Forms.CheckBox
     Friend WithEvents TeaseLengthDommeDetermined As System.Windows.Forms.CheckBox
     Friend WithEvents RangeSettingsTeaseSlideshowGroupBox As System.Windows.Forms.GroupBox
-    Friend WithEvents Label106 As System.Windows.Forms.Label
-    Friend WithEvents LBLVtf As System.Windows.Forms.Label
+    Friend WithEvents VideoTauntSliderLabel As System.Windows.Forms.Label
+    Friend WithEvents VideoTauntDescriptionLabel As System.Windows.Forms.Label
     Friend WithEvents Label6 As System.Windows.Forms.Label
     Friend WithEvents Label108 As System.Windows.Forms.Label
     Friend WithEvents Label109 As System.Windows.Forms.Label

@@ -317,6 +317,12 @@ Public Class FrmSettings
         NBTauntCycleMin.Value = rangeSettings.TauntCycleMinutesMinimum
         NBTauntCycleMax.Value = rangeSettings.TauntCycleMinutesMaximum
 
+        VideoTauntSlider.Value = rangeSettings.VideoTauntFrequency
+        HideCensorshipBarMinimumSeconds.Value = rangeSettings.CensorshipBarOffMinimum
+        HideCensorshipBarMaximumSeconds.Value = rangeSettings.CensorshipBarOffMaximum
+
+        ShowCensorshipBarMinimumSeconds.Value = rangeSettings.CensorshipBarOnMinimum
+        ShowCensorshipBarMaximumSeconds.Value = rangeSettings.CensorshipBarOnMaximum
     End Sub
 
     ''' <summary>
@@ -5359,6 +5365,7 @@ Public Class FrmSettings
     Private Sub HideCensorshipBarMinimumSeconds_Leave(sender As Object, e As EventArgs) Handles HideCensorshipBarMinimumSeconds.Leave
         UpdateSettings(HideCensorshipBarMinimumSeconds.Visible, Sub(settings As Settings) settings.Range.CensorshipBarOffMinimum = Convert.ToInt32(HideCensorshipBarMinimumSeconds.Value))
     End Sub
+
     Private Sub NBCensorHideMax_Leave(sender As Object, e As EventArgs) Handles HideCensorshipBarMaximumSeconds.Leave
         UpdateSettings(HideCensorshipBarMinimumSeconds.Visible, Sub(settings As Settings) settings.Range.CensorshipBarOffMaximum = Convert.ToInt32(HideCensorshipBarMinimumSeconds.Value))
     End Sub
@@ -5375,6 +5382,16 @@ Public Class FrmSettings
         End If
     End Sub
 
+    Private Sub VideoTauntSlider_Scroll(sender As Object, e As EventArgs) Handles VideoTauntSlider.Scroll
+        If VideoTauntSlider.Value = 1 Then VideoTauntDescriptionLabel.Text = "Preoccupied"
+        If VideoTauntSlider.Value = 2 OrElse VideoTauntSlider.Value = 3 Then VideoTauntDescriptionLabel.Text = "Distracted"
+        If VideoTauntSlider.Value = 4 OrElse VideoTauntSlider.Value = 5 Then VideoTauntDescriptionLabel.Text = "Normal"
+        If VideoTauntSlider.Value = 6 OrElse VideoTauntSlider.Value = 7 OrElse VideoTauntSlider.Value = 8 Then VideoTauntDescriptionLabel.Text = "Talkative"
+        If VideoTauntSlider.Value = 9 OrElse VideoTauntSlider.Value = 10 Then VideoTauntDescriptionLabel.Text = "Verbose"
+
+        UpdateSettings(VideoTauntSlider.Visible, Sub(settings As Settings) settings.Range.VideoTauntFrequency = Convert.ToInt32(VideoTauntSlider.Value * 5))
+    End Sub
+
 #Region "tooltips and descriptions"
     Private Sub TeaseLengthDommeDetermined_MouseHover(sender As Object, e As EventArgs) Handles TeaseLengthDommeDetermined.MouseEnter
         RangeSettingsDescriptionLabel.Text = "This allows the domme to decide the length of the tease based on her level." & Environment.NewLine & Environment.NewLine &
@@ -5386,7 +5403,7 @@ Public Class FrmSettings
         RangeSettingsDescriptionLabel.Text = "When this is checked, the censor bar will always be visible while playing Censorship Sucks. Its position on the screen will still change in time with Show Censor Bar settings."
     End Sub
 
-    Private Sub nbcensorshowmin_MouseHover(sender As Object, e As EventArgs) Handles ShowCensorshipBarMinimumSeconds.MouseEnter
+    Private Sub ShowCensorshipBarMinimumSeconds_MouseHover(sender As Object, e As EventArgs) Handles ShowCensorshipBarMinimumSeconds.MouseEnter
         RangeSettingsDescriptionLabel.Text = "This determines the minimum amount of time the censor bar will be on the screen at a time while playing Censorship Sucks."
     End Sub
 
@@ -5398,10 +5415,14 @@ Public Class FrmSettings
         RangeSettingsDescriptionLabel.Text = "This determines the minimum amount of time the censor bar will be invisible while playing Censorship Sucks."
     End Sub
 
-    Private Sub nbcensorhidemax_MouseHover(sender As Object, e As EventArgs) Handles HideCensorshipBarMaximumSeconds.MouseEnter
+    Private Sub HideCensorshipBarMaximumSeconds_MouseHover(sender As Object, e As EventArgs) Handles HideCensorshipBarMaximumSeconds.MouseEnter
         RangeSettingsDescriptionLabel.Text = "This determines the maximum amount of time the censor bar will be invisible while playing Censorship Sucks."
     End Sub
 
+    Private Sub VideoTauntSlider_MouseHover(sender As Object, e As EventArgs) Handles VideoTauntSlider.MouseEnter
+        RangeSettingsDescriptionLabel.Text = "This allows you to set the frequency of the domme's Taunts during Video Teases." & Environment.NewLine & Environment.NewLine &
+            "A middle value creates a fairly common use of Taunts. Use a higher value to make the domme extremely engaged. Use a lower value to focus on the Video Tease with minimal interaction from the domme."
+    End Sub
 #End Region
 #End Region
 
@@ -5723,20 +5744,8 @@ Public Class FrmSettings
 
     End Sub
 
-    Private Sub TauntSlider_Scroll(sender As Object, e As EventArgs) Handles VideoTauntSlider.Scroll
-        If VideoTauntSlider.Value = 1 Then LBLVtf.Text = "Preoccupied"
-        If VideoTauntSlider.Value = 2 Or VideoTauntSlider.Value = 3 Then LBLVtf.Text = "Distracted"
-        If VideoTauntSlider.Value = 4 Or VideoTauntSlider.Value = 5 Then LBLVtf.Text = "Normal"
-        If VideoTauntSlider.Value = 6 Or VideoTauntSlider.Value = 7 Or VideoTauntSlider.Value = 8 Then LBLVtf.Text = "Talkative"
-        If VideoTauntSlider.Value = 9 Or VideoTauntSlider.Value = 10 Then LBLVtf.Text = "Verbose"
-
-    End Sub
 
 #Region "Lost focus / save values"
-    Private Sub TauntSlider_LostFocus(sender As Object, e As EventArgs) Handles VideoTauntSlider.LostFocus
-        My.Settings.TimerVTF = VideoTauntSlider.Value
-
-    End Sub
 
     Private Sub SliderSTF_LostFocus(sender As Object, e As EventArgs) Handles SliderSTF.LostFocus
         My.Settings.TimerSTF = SliderSTF.Value
@@ -6452,11 +6461,6 @@ Public Class FrmSettings
     Private Sub SliderSTF_MouseHover(sender As Object, e As EventArgs) Handles SliderSTF.MouseEnter
         RangeSettingsDescriptionLabel.Text = "This allows you to set the frequency of the domme's Stroke Taunts." & Environment.NewLine & Environment.NewLine &
             "A middle value tries to emulate an online experience as closely as possible. Use a higher value to increase the frequency of Taunts to something you would expect in a webtease. Use a lower value to simulate the domme being preoccupied or not that interested in engaging you."
-    End Sub
-
-    Private Sub TauntSlider_MouseHover(sender As Object, e As EventArgs) Handles VideoTauntSlider.MouseEnter
-        RangeSettingsDescriptionLabel.Text = "This allows you to set the frequency of the domme's Taunts during Video Teases." & Environment.NewLine & Environment.NewLine &
-            "A middle value creates a fairly common use of Taunts. Use a higher value to make the domme extremely engaged. Use a lower value to focus on the Video Tease with minimal interaction from the domme."
     End Sub
 
     Private Sub CBRangeOrgasm_MouseHover(sender As Object, e As EventArgs) Handles DommeDecideOrgasmCheckBox.MouseEnter

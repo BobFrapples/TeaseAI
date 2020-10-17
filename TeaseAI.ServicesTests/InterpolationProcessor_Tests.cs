@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using TeaseAI.Common;
+using TeaseAI.Common.Constants;
 using TeaseAI.Common.Interfaces.Accessors;
 using TeaseAI.Services;
 using TeaseAI.Services.Accessors;
@@ -28,7 +29,7 @@ namespace TeaseAI.ServicesTests
         public void Interpolate_ShouldReplaceRequestedProperties(string line, string expected)
         {
             var session = new Session(new DommePersonality(), new SubPersonality());
-            session.IsBeforeTease = true;
+            session.Phase = SessionPhase.BeforeSession;
             session.Domme.Name = "Test Name";
             session.Sub.Name = "Test Sub";
 

@@ -105,7 +105,20 @@ namespace TeaseAI.Common.Constants
         public static DomLevel operator +(DomLevel value, int change) => new DomLevel(Math.Min(value._value + change, Sadistic));
         public static DomLevel operator ++(DomLevel value) => new DomLevel(Math.Min(value._value + 1, Sadistic));
 
+        /// <summary>
+        /// Compare two domination levels for equality
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public static bool operator ==(DomLevel value, DomLevel other) => value.Equals(other);
+
+        /// <summary>
+        /// Compare a domination level and an integer for equality
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public static bool operator ==(DomLevel value, int other) => value.Equals(new DomLevel(other));
 
         public static bool operator !=(DomLevel value, DomLevel other) => !value.Equals(other);
