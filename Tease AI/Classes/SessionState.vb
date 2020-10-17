@@ -256,12 +256,6 @@ Public Class SessionState
     <Category("Video - Avoid the Edge")> Public Property AvoidTheEdgeGame As Boolean
     <Category("Video - Avoid the Edge")> Public Property AvoidTheEdgeStroking As Boolean
     <Category("Video - Avoid the Edge")> Public Property AvoidTheEdgeTick As Integer
-    <Category("Video - Censorship")> Public Property CensorshipGame As Boolean
-    ''' <summary>
-    ''' Defines how many seconds the censorship bar should be visible / hidden
-    ''' </summary>
-    ''' <returns></returns>
-    <Category("Video - Censorship")> Public Property CensorshipTick As Integer
     <Category("Video - Red light green light")> Public Property IsLightRed As Boolean
     <Category("Video - Red light green light")> Public Property RLGLGame As Boolean
     ''' <summary>
@@ -760,7 +754,6 @@ Public Class SessionState
             AvoidTheEdge_enabled = .AvoidTheEdge.Enabled
             AvoidTheEdgeResume_enabled = .AvoidTheEdgeResume.Enabled
             AvoidTheEdgeTaunts_enabled = .AvoidTheEdgeTaunts.Enabled
-            CensorshipTimer_enabled = .CensorshipTimer.Enabled
             Contact1Timer_enabled = .Contact1Timer.Enabled
             Contact2Timer_enabled = .Contact2Timer.Enabled
             Contact3Timer_enabled = .Contact3Timer.Enabled
@@ -792,7 +785,6 @@ Public Class SessionState
             AvoidTheEdge_Interval = .AvoidTheEdge.Interval
             AvoidTheEdgeResume_Interval = .AvoidTheEdgeResume.Interval
             AvoidTheEdgeTaunts_Interval = .AvoidTheEdgeTaunts.Interval
-            CensorshipTimer_Interval = .CensorshipTimer.Interval
             Contact1Timer_Interval = .Contact1Timer.Interval
             Contact2Timer_Interval = .Contact2Timer.Interval
             Contact3Timer_Interval = .Contact3Timer.Interval
@@ -896,7 +888,6 @@ Public Class SessionState
             .AvoidTheEdge.Enabled = False
             .AvoidTheEdgeResume.Enabled = False
             .AvoidTheEdgeTaunts.Enabled = False
-            .CensorshipTimer.Enabled = False
             .Contact1Timer.Enabled = False
             .Contact2Timer.Enabled = False
             .Contact3Timer.Enabled = False
@@ -1020,7 +1011,7 @@ Public Class SessionState
             End If
 
             ' Hide Cencorshipbar , if no game is running 
-            If CensorshipGame = True Or CensorshipTimer_enabled = False Then .CensorshipBar.Visible = False
+            If CensorshipTimer_enabled = False Then .CensorshipBar.Visible = False
 
             '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
             '							Set Chat and StrokePace
@@ -1036,7 +1027,6 @@ Public Class SessionState
             .AvoidTheEdge.Interval = AvoidTheEdge_Interval
             .AvoidTheEdgeResume.Interval = AvoidTheEdgeResume_Interval
             .AvoidTheEdgeTaunts.Interval = AvoidTheEdgeTaunts_Interval
-            .CensorshipTimer.Interval = CensorshipTimer_Interval
             .Contact1Timer.Interval = Contact1Timer_Interval
             .Contact2Timer.Interval = Contact2Timer_Interval
             .Contact3Timer.Interval = Contact3Timer_Interval
@@ -1069,7 +1059,6 @@ Public Class SessionState
             .AvoidTheEdge.Enabled = AvoidTheEdge_enabled
             .AvoidTheEdgeResume.Enabled = AvoidTheEdgeResume_enabled
             .AvoidTheEdgeTaunts.Enabled = AvoidTheEdgeTaunts_enabled
-            .CensorshipTimer.Enabled = CensorshipTimer_enabled
             .Contact1Timer.Enabled = Contact1Timer_enabled
             .Contact2Timer.Enabled = Contact2Timer_enabled
             .Contact3Timer.Enabled = Contact3Timer_enabled

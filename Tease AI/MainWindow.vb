@@ -1500,7 +1500,7 @@ NullSkip:
         ' Miniscripts can interrupt another thing
         If ssh.MiniScript Then GoTo ReturnCalled
 
-        If ssh.CensorshipGame OrElse ssh.RLGLGame OrElse ssh.AvoidTheEdgeStroking OrElse ssh.SubEdging OrElse ssh.SubHoldingEdge Then Return
+        If ssh.RLGLGame OrElse ssh.AvoidTheEdgeStroking OrElse ssh.SubEdging OrElse ssh.SubHoldingEdge Then Return
         If ssh.MultipleEdges Then Return
 
 ReturnCalled:
@@ -6475,7 +6475,7 @@ OrgasmDecided:
 
         If StringClean.Contains("@InterruptStartStroking") Then
 
-            If ssh.CensorshipGame = True Or ssh.AvoidTheEdgeGame = True Or ssh.RLGLGame = True Then
+            If ssh.AvoidTheEdgeGame = True Or ssh.RLGLGame = True Then
                 StringClean = "Ask me later"
                 GoTo VTSkip
             End If
@@ -6539,7 +6539,6 @@ OrgasmDecided:
                 StrokeTimer.Stop()
                 StrokeTauntTimer.Stop()
 
-                CensorshipTimer.Stop()
                 RedLightGreenLightTimer.Stop()
                 TnASlides.Stop()
                 AvoidTheEdge.Stop()
@@ -6762,23 +6761,6 @@ OrgasmDecided:
             ssh.SkipGotoLine = True
             GetGoto()
             StringClean = StringClean.Replace("@CheckVideo", "")
-        End If
-
-        If StringClean.Contains("@PlayCensorshipSucks") Then
-
-            RandomVideo()
-
-            If ssh.NoVideo = False Then
-                ssh.ScriptVideoTease = "Censorship Sucks"
-                ssh.ScriptVideoTeaseFlag = True
-                ssh.ScriptVideoTeaseFlag = False
-                ssh.CensorshipGame = True
-                ssh.VideoTease = True
-                ssh.CensorshipTick = ssh.randomizer.Next(FrmSettings.HideCensorshipBarMinimumSeconds.Value, FrmSettings.HideCensorshipBarMaximumSeconds.Value + 1)
-                CensorshipTimer.Start()
-            End If
-
-            StringClean = StringClean.Replace("@PlayCensorshipSucks", "")
         End If
 
         If StringClean.Contains("@PlayAvoidTheEdge") Then
@@ -7534,7 +7516,6 @@ VTSkip:
 
             StrokeTimer.Stop()
             StrokeTauntTimer.Stop()
-            CensorshipTimer.Stop()
             RedLightGreenLightTimer.Stop()
             TnASlides.Stop()
             AvoidTheEdge.Stop()
@@ -8701,7 +8682,6 @@ VTSkip:
         If ssh.SubHoldingEdge = True Then ssh.ReturnSubState = "Holding The Edge"
         If ssh.CBTBallsFlag = True Or ssh.CBTBothFlag = True Then ssh.ReturnSubState = "CBTBalls"
         If ssh.CBTCockFlag = True Then ssh.ReturnSubState = "CBTCock"
-        If ssh.CensorshipGame = True Then ssh.ReturnSubState = "Censorship Sucks"
         If ssh.AvoidTheEdgeGame = True Then ssh.ReturnSubState = "Avoid The Edge"
         If ssh.RLGLGame = True Then ssh.ReturnSubState = "RLGL"
     End Sub
@@ -10012,7 +9992,6 @@ NoPlaylistLinkFile:
         ScriptTimer.Stop()
         StrokeTimer.Stop()
         StrokeTauntTimer.Stop()
-        CensorshipTimer.Stop()
         RedLightGreenLightTimer.Stop()
         TnASlides.Stop()
         AvoidTheEdge.Stop()
@@ -10836,23 +10815,6 @@ RestartFunction:
             ssh.RuinedVideo = False
 
             DomWMP.currentPlaylist.clear()
-
-            If ssh.CensorshipGame = True Then
-                CensorshipTimer.Stop()
-                CensorshipBar.Visible = False
-                ssh.CensorshipGame = False
-                ssh.VideoTease = False
-
-                If ssh.RandomizerVideoTease = True Then
-                    ScriptTimer.Stop()
-                    mySession.Session.Domme.WasGreeted = False
-                    ssh.RandomizerVideoTease = False
-                    StopEverything()
-                    Return
-                End If
-
-                RunFileText()
-            End If
 
             If ssh.AvoidTheEdgeGame = True Then
 
@@ -12991,12 +12953,8 @@ restartInstantly:
             DommeSays(dommePersonality.Name, doCommand.Error.Message)
         End If
 
-        'mySession.SendCommand(Keyword.PlayVideo)
-
         CensorshipSucksRandomizerButton.Enabled = True
 
-        'ssh.CensorshipTick = ssh.randomizer.Next(FrmSettings.NBCensorHideMin.Value, FrmSettings.NBCensorHideMax.Value + 1)
-        'CensorshipTimer.Start()
     End Sub
 
     Private Sub AvoidTheEdgeRandomizerButton_Click(sender As Object, e As EventArgs) Handles AvoidTheEdgeRandomizerButton.Click
@@ -13017,7 +12975,6 @@ restartInstantly:
         AvoidTheEdgeRandomizerButton.Enabled = True
 
         ssh.AvoidTheEdgeTick = VideoTauntToSecondsDivisor / settings.Range.VideoTauntFrequency
-        CensorshipTimer.Start()
 
         mySession.Session.Domme.WasGreeted = True
         ssh.RandomizerVideoTease = True
@@ -13113,49 +13070,6 @@ restartInstantly:
                 Throw
             End If
         End Try
-    End Sub
-
-    Public Sub CensorshipTimer_Tick(sender As Object, e As EventArgs) Handles CensorshipTimer.Tick
-        Dim settings As Settings = mySettingsAccessor.GetSettings()
-        If ssh.MiniScript Then Return
-        If FrmSettings.CBSettingsPause.Checked AndAlso FrmSettings.Visible Then
-            Return
-        End If
-
-        If ssh.DomTyping _
-            OrElse (ssh.CensorshipTick < 6 AndAlso (
-                ssh.DomTypeCheck _
-                OrElse Not String.IsNullOrWhiteSpace(ssh.FollowUp) _
-                OrElse Not String.IsNullOrWhiteSpace(chatBox.Text) _
-                OrElse Not String.IsNullOrWhiteSpace(ChatBox2.Text)
-            )) Then
-            Return
-        End If
-
-        ssh.CensorshipTick -= 1
-        If ssh.CensorshipTick > 0 Then
-            Return
-        End If
-
-        CensorshipBar.Visible = settings.Range.IsContentAlwaysCensored OrElse Not CensorshipBar.Visible
-        ssh.CensorshipTick = If(CensorshipBar.Visible _
-            , myRandomNumberService.Roll(settings.Range.CensorshipBarOnMinimum, settings.Range.CensorshipBarOnMaximum + 1) _
-            , myRandomNumberService.Roll(settings.Range.CensorshipBarOffMinimum, settings.Range.CensorshipBarOffMaximum + 1))
-
-        ShowCensorshipBar(Not CensorshipBar.Visible)
-
-        Dim tauntSubPercent As Integer = myRandomNumberService.RollPercent()
-        Dim tauntSubTarget As Integer = settings.Range.VideoTauntFrequency
-        If tauntSubPercent > tauntSubTarget Then
-            Return
-        End If
-        Dim myLineCollectionFilter As ILineCollectionFilter = ApplicationFactory.CreateLineCollectionFilter()
-        Dim censorshipTeaseFile As String = myPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Video\Censorship Sucks\CensorBar" & BooleanToOnOff(CensorshipBar.Visible) & ".txt"
-        Dim lines As List(Of String) = Txt2List(censorshipTeaseFile)
-        lines = FilterList(lines)
-        If Not lines.Any() Then Return
-        Dim censorshipTeaseLine As Integer = myRandomNumberService.Roll(0, lines.Count)
-        DommeSays(settings.Domme.Name, lines(censorshipTeaseLine))
     End Sub
 
     Public Sub RedLightGreenLightTimer_Tick(sender As Object, e As EventArgs) Handles RedLightGreenLightTimer.Tick
@@ -17453,7 +17367,7 @@ TaskCleanSet:
 
         If inputString.Contains("@InterruptStartStroking") Then
 
-            If ssh.CensorshipGame = True Or ssh.AvoidTheEdgeGame = True Or ssh.RLGLGame = True Then
+            If ssh.AvoidTheEdgeGame = True Or ssh.RLGLGame = True Then
                 inputString = "Ask me later"
                 GoTo VTSkip
             End If
@@ -17518,7 +17432,6 @@ TaskCleanSet:
                 StrokeTimer.Stop()
                 StrokeTauntTimer.Stop()
 
-                CensorshipTimer.Stop()
                 RedLightGreenLightTimer.Stop()
                 TnASlides.Stop()
                 AvoidTheEdge.Stop()
@@ -17715,23 +17628,6 @@ TaskCleanSet:
             ssh.SkipGotoLine = True
             GetGoto()
             inputString = inputString.Replace("@CheckVideo", "")
-        End If
-
-        If inputString.Contains("@PlayCensorshipSucks") Then
-
-            RandomVideo()
-
-            If ssh.NoVideo = False Then
-                ssh.ScriptVideoTease = "Censorship Sucks"
-                ssh.ScriptVideoTeaseFlag = True
-                ssh.ScriptVideoTeaseFlag = False
-                ssh.CensorshipGame = True
-                ssh.VideoTease = True
-                ssh.CensorshipTick = ssh.randomizer.Next(FrmSettings.HideCensorshipBarMinimumSeconds.Value, FrmSettings.HideCensorshipBarMaximumSeconds.Value + 1)
-                CensorshipTimer.Start()
-            End If
-
-            inputString = inputString.Replace("@PlayCensorshipSucks", "")
         End If
 
         If inputString.Contains("@PlayAvoidTheEdge") Then
@@ -18427,7 +18323,6 @@ VTSkip:
 
             StrokeTimer.Stop()
             StrokeTauntTimer.Stop()
-            CensorshipTimer.Stop()
             RedLightGreenLightTimer.Stop()
             TnASlides.Stop()
             AvoidTheEdge.Stop()
@@ -19202,7 +19097,7 @@ VTSkip:
         If ssh.NoSpecialVideo = True Then GoTo SkipSpecial
 
         If ssh.ScriptVideoTeaseFlag = True Then
-            If ssh.ScriptVideoTease = "Censorship Sucks" Or ssh.ScriptVideoTease = "Avoid The Edge" Or ssh.ScriptVideoTease = "RLGL" Then GoTo SkipSpecial
+            If ssh.ScriptVideoTease = "Avoid The Edge" Or ssh.ScriptVideoTease = "RLGL" Then GoTo SkipSpecial
         End If
 
         'If ssh.RandomizerVideo Then GoTo SkipSpecial
@@ -19242,7 +19137,7 @@ SkipSpecial:
 
         If ssh.NoSpecialVideo = True Then GoTo SkipSpecialD
         If ssh.ScriptVideoTeaseFlag = True Then
-            If ssh.ScriptVideoTease = "Censorship Sucks" Or ssh.ScriptVideoTease = "Avoid The Edge" Or ssh.ScriptVideoTease = "RLGL" Then GoTo SkipSpecialD
+            If ssh.ScriptVideoTease = "Avoid The Edge" Or ssh.ScriptVideoTease = "RLGL" Then GoTo SkipSpecialD
         End If
 
         'If ssh.RandomizerVideo = True Then GoTo SkipSpecialD

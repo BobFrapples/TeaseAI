@@ -380,7 +380,6 @@ Partial Class MainWindow
         Me.SendTimer = New Tease_AI.teaseAI_Timer()
         Me.StrokeTimer = New Tease_AI.teaseAI_Timer()
         Me.StrokeTauntTimer = New Tease_AI.teaseAI_Timer()
-        Me.CensorshipTimer = New Tease_AI.teaseAI_Timer()
         Me.RedLightGreenLightTimer = New Tease_AI.teaseAI_Timer()
         Me.UpdatesTimer = New Tease_AI.teaseAI_Timer()
         Me.AvoidTheEdge = New Tease_AI.teaseAI_Timer()
@@ -4259,10 +4258,6 @@ Partial Class MainWindow
         '
         Me.StrokeTauntTimer.Interval = 1000
         '
-        'CensorshipTimer
-        '
-        Me.CensorshipTimer.Interval = 1000
-        '
         'RLGLTimer
         '
         Me.RedLightGreenLightTimer.Interval = 1000
@@ -4484,9 +4479,8 @@ Partial Class MainWindow
 	Friend WithEvents BtnToggleMediaPanel As System.Windows.Forms.Button
 	Friend WithEvents BtnToggleImageVideo As System.Windows.Forms.Button
 	Friend WithEvents CensorshipBar As System.Windows.Forms.Panel
-	Friend WithEvents CensorshipTimer As Tease_AI.teaseAI_Timer
-	Friend WithEvents RedLightGreenLightTimer As Tease_AI.teaseAI_Timer
-	Friend WithEvents OpenFileDialog1 As System.Windows.Forms.OpenFileDialog
+    Friend WithEvents RedLightGreenLightTimer As Tease_AI.teaseAI_Timer
+    Friend WithEvents OpenFileDialog1 As System.Windows.Forms.OpenFileDialog
 	Friend WithEvents BTNLoadVideo As System.Windows.Forms.Button
 	Friend WithEvents BTNVideoControls As System.Windows.Forms.Button
 	Friend WithEvents UpdatesTimer As Tease_AI.teaseAI_Timer
