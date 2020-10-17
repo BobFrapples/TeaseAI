@@ -4,6 +4,31 @@
         <name>TeaseAI.Common</name>
     </assembly>
     <members>
+        <member name="T:TeaseAI.Common.ChatMessage">
+            <summary>
+            Message sent from one person to another, used to update the chat window
+            </summary>
+        </member>
+        <member name="M:TeaseAI.Common.ChatMessage.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.ChatMessage.Message">
+            <summary>
+            message sent
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.ChatMessage.Sender">
+            <summary>
+            message sender
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.ChatMessage.TimeStamp">
+            <summary>
+            timestamp
+            </summary>
+        </member>
         <member name="T:TeaseAI.Common.ChatMessagePreferences">
             <summary>
             preferences on how chat messagaes should display (timestamp, color, etc)

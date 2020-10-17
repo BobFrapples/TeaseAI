@@ -6777,7 +6777,7 @@ OrgasmDecided:
                 ssh.ScriptVideoTeaseFlag = False
                 ssh.CensorshipGame = True
                 ssh.VideoTease = True
-                ssh.CensorshipTick = ssh.randomizer.Next(FrmSettings.NBCensorHideMin.Value, FrmSettings.NBCensorHideMax.Value + 1)
+                ssh.CensorshipTick = ssh.randomizer.Next(FrmSettings.HideCensorshipBarMinimumSeconds.Value, FrmSettings.HideCensorshipBarMaximumSeconds.Value + 1)
                 CensorshipTimer.Start()
             End If
 
@@ -13151,8 +13151,8 @@ restartInstantly:
         End If
         CensorshipBar.Visible = settings.Range.IsContentAlwaysCensored OrElse Not CensorshipBar.Visible
         ssh.CensorshipTick = If(CensorshipBar.Visible _
-            , myRandomNumberService.Roll(FrmSettings.NBCensorShowMin.Value, FrmSettings.NBCensorHideMax.Value + 1) _
-            , myRandomNumberService.Roll(FrmSettings.NBCensorHideMin.Value, FrmSettings.NBCensorShowMax.Value + 1))
+            , myRandomNumberService.Roll(FrmSettings.ShowCensorshipBarMinimumSeconds.Value, FrmSettings.HideCensorshipBarMaximumSeconds.Value + 1) _
+            , myRandomNumberService.Roll(FrmSettings.HideCensorshipBarMinimumSeconds.Value, FrmSettings.ShowCensorshipBarMaximumSeconds.Value + 1))
 
         ShowCensorshipBar(Not CensorshipBar.Visible)
 
@@ -17739,7 +17739,7 @@ TaskCleanSet:
                 ssh.ScriptVideoTeaseFlag = False
                 ssh.CensorshipGame = True
                 ssh.VideoTease = True
-                ssh.CensorshipTick = ssh.randomizer.Next(FrmSettings.NBCensorHideMin.Value, FrmSettings.NBCensorHideMax.Value + 1)
+                ssh.CensorshipTick = ssh.randomizer.Next(FrmSettings.HideCensorshipBarMinimumSeconds.Value, FrmSettings.HideCensorshipBarMaximumSeconds.Value + 1)
                 CensorshipTimer.Start()
             End If
 

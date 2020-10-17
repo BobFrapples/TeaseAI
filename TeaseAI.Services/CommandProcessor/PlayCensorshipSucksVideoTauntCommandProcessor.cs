@@ -24,22 +24,22 @@ namespace TeaseAI.Services.CommandProcessor
             var script = new Script(new ScriptMetaData
             {
                 Info = "Compiled",
-                SessionPhase = SessionPhase.Modules,
+                SessionPhase = session.Phase == SessionPhase.BeforeSession ? SessionPhase.End : SessionPhase.Modules,
             },
             new List<string>
             {
                 "@PlayVideo"
                 , "(Begin)"
-                , "@Wait(@RandomNumber({Settings.Range.CensorshipBarOffMinimum},{Settings.Range.CensorshipBarOffMaximum}))"
                 , "@ShowCensorshipBar"
+                , "@Wait(@RandomNumber({Settings.Range.CensorshipBarOnMinimum},{Settings.Range.CensorshipBarOnMaximum}))"
                 , "@Chance50(HideBar)"
                 , "@TauntFromFile(Video\\Censorship Sucks\\CensorBarOn.txt)"
                 , "(HideBar)"
-                , "@Wait(5)"
                 , "@HideCensorshipBar"
+                , "@Wait(@RandomNumber({Settings.Range.CensorshipBarOffMinimum},{Settings.Range.CensorshipBarOffMaximum}))"
                 , "@Chance50(Begin)"
                 , "@TauntFromFile(Video\\Censorship Sucks\\CensorBarOff.txt)"
-                , "@If[#Session.IsVideoPlaying]==[true]Then(Begin)"
+                , "@If[{Session.IsVideoPlaying}]==[true]Then(Begin)"
                 , "@End"
                 , "@Info Script used by the Censorship Sucks video tease"
             });

@@ -105,7 +105,7 @@ Public Class ApplicationFactory
     End Function
 
     Private Shared Function CreateInterpolationProcessor() As IInterpolationProcessor
-        Return New InterpolationProcessor()
+        Return New InterpolationProcessor(CreateSettingsAccessor())
     End Function
 
     Friend Shared Function CreateImageBlogDownloadService() As IImageBlogDownloadService

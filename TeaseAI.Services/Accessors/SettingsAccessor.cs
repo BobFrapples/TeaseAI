@@ -153,6 +153,10 @@ namespace TeaseAI.Services.Accessors
                     TeaseLengthMinutesMinimum = 15,
                     TauntCycleMinutesMaximum = 5,
                     TauntCycleMinutesMinimum = 1,
+                    CensorshipBarOnMinimum = 20,
+                    CensorshipBarOnMaximum = 60,
+                    CensorshipBarOffMinimum = 10,
+                    CensorshipBarOffMaximum = 30,
                 },
                 Misc = new MiscSettings
                 {

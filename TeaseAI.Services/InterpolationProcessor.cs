@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using TeaseAI.Common;
 using TeaseAI.Common.Interfaces;
@@ -104,20 +103,11 @@ namespace TeaseAI.Services
         private List<string> GetObjectNames(string line)
         {
             var properties = new List<string>();
-            var regexMatch = @"\{(.*)\}";
-            var tokens = line.Split(' ');
-            foreach (var token in tokens)
-            {
-                if (!Regex.IsMatch(token, regexMatch))
-                    continue;
 
-                var groups = Regex.Match(token, regexMatch).Groups;
+            var regex = new Regex(@"(?<=\{).*?(?=\})");
+            foreach (Match testMatch in regex.Matches(line))
+                properties.Add(testMatch.Value);
 
-                for (var i = 1; i < groups.Count; i++)
-                {
-                    properties.Add(groups[i].ToString());
-                }
-            }
             return properties;
         }
 

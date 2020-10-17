@@ -79,5 +79,9 @@ namespace TeaseAI.Common
         /// Used in censorship sucks. Should the censorship bar always be visible
         /// </summary>
         public bool IsContentAlwaysCensored { get; set; }
+        public int CensorshipBarOnMaximum { get; set; }
+        public int CensorshipBarOnMinimum { get; set; }
+        public int CensorshipBarOffMinimum { get; set; }
+        public int CensorshipBarOffMaximum { get; set; }
     }
 }

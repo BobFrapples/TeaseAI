@@ -1,30 +1,36 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using TeaseAI.Common;
+using TeaseAI.Common.Interfaces.Accessors;
 using TeaseAI.Services;
+using TeaseAI.Services.Accessors;
 
 namespace TeaseAI.ServicesTests
 {
     [TestClass]
     public class InterpolationProcessor_Tests
     {
-         InterpolationProcessor _service;
-
+        InterpolationProcessor _service;
+        Mock<ISettingsAccessor> _settingsAccessor;
         [TestInitialize]
         public void Initialize()
         {
-            _service = new InterpolationProcessor();
+            _settingsAccessor = new Mock<ISettingsAccessor>();
+            _service = new InterpolationProcessor(_settingsAccessor.Object);
         }
 
         [DataTestMethod]
         [DataRow("{Session.IsBeforeTease}", "True")]
         [DataRow("{Session.Domme.Name} thinks {Session.IsBeforeTease}", "Test Name thinks True")]
-        [DataRow("{Session.Sub.Name}", "")]
+        [DataRow("{Session.Sub.Name}", "Test Sub")]
+        [DataRow("{Session.Domme.Name},{Session.Sub.Name}", "Test Name,Test Sub")]
         [DataRow("Sally sells sea shells", "Sally sells sea shells")]
         public void Interpolate_ShouldReplaceRequestedProperties(string line, string expected)
         {
             var session = new Session(new DommePersonality(), new SubPersonality());
             session.IsBeforeTease = true;
             session.Domme.Name = "Test Name";
+            session.Sub.Name = "Test Sub";
 
             var actual = _service.Interpolate(session, line);
 

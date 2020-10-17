@@ -675,6 +675,7 @@ namespace TeaseAI.Services
                 var doWork = _interpolationProcessor.Interpolate(Session, Session.CurrentScript.CurrentLine)
                     .OnSuccess(wl =>
                     {
+                        var commandLine = wl;
                         foreach (var p in CommandProcessors.Values)
                             wl = p.DeleteCommandFrom(wl).Trim();
 
@@ -682,16 +683,14 @@ namespace TeaseAI.Services
                         OnDommeSaid(Session.Domme, wl);
 
                         // Then we actually process the commands for this line
-                        return ProcessCommands(Session, wl);
+                        return ProcessCommands(Session, commandLine);
                     })
                     .OnSuccess(sesh =>
                     {
                         // If there is a script, and it didn't advance yet, then do so now.
-                        if (sesh.CurrentScript != null && Session.CurrentScript.LineNumber == sesh.CurrentScript.LineNumber)
+                        if (sesh.CurrentScript != null && Session.CurrentScript.LineNumber == sesh.CurrentScript.LineNumber && (sesh.CurrentScript.LineNumber != sesh.CurrentScript.Lines.Count))
                         {
-                            var script = sesh.Scripts.Pop();
-                            script.LineNumber++;
-                            sesh.Scripts.Push(script);
+                            var script = sesh.CurrentScript.LineNumber++;
                         }
                         return sesh;
                     })

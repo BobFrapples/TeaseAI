@@ -273,6 +273,7 @@ Namespace My
         <Global.System.Configuration.UserScopedSettingAttribute(),
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
          Global.System.Configuration.DefaultSettingValueAttribute("20")>
+        <Obsolete("Move to Settings object, default is 20", True)>
         Public Property NBCensorShowMin() As Decimal
             Get
                 Return CType(Me("NBCensorShowMin"), Decimal)
@@ -285,6 +286,7 @@ Namespace My
         <Global.System.Configuration.UserScopedSettingAttribute(),
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
          Global.System.Configuration.DefaultSettingValueAttribute("60")>
+        <Obsolete("Move to Settings object, default is 60", True)>
         Public Property NBCensorShowMax() As Decimal
             Get
                 Return CType(Me("NBCensorShowMax"), Decimal)
@@ -297,6 +299,7 @@ Namespace My
         <Global.System.Configuration.UserScopedSettingAttribute(),
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
          Global.System.Configuration.DefaultSettingValueAttribute("10")>
+        <Obsolete("Move to Settings object, default is 10", True)>
         Public Property NBCensorHideMin() As Decimal
             Get
                 Return CType(Me("NBCensorHideMin"), Decimal)
@@ -309,6 +312,7 @@ Namespace My
         <Global.System.Configuration.UserScopedSettingAttribute(),
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
          Global.System.Configuration.DefaultSettingValueAttribute("30")>
+        <Obsolete("Move to Settings object, default is 30", True)>
         Public Property NBCensorHideMax() As Decimal
             Get
                 Return CType(Me("NBCensorHideMax"), Decimal)

@@ -5307,13 +5307,7 @@ Public Class FrmSettings
     End Sub
 
     Private Sub CBTauntCycleDD_LostFocus(sender As Object, e As EventArgs) Handles CBTauntCycleDD.LostFocus
-        If Not CBTauntCycleDD.Visible Then
-            Return
-        End If
-
-        Dim settings As Settings = mySettingsAccessor.GetSettings()
-        settings.Range.IsTauntCycleDommeDetermined = CBTauntCycleDD.Checked
-        mySettingsAccessor.WriteSettings(settings)
+        UpdateSettings(CBTauntCycleDD.Visible, Sub(settings As Settings) settings.Range.IsTauntCycleDommeDetermined = CBTauntCycleDD.Checked)
     End Sub
 
     Private Sub NBTeaseLengthMin_ValueChanged(sender As Object, e As EventArgs) Handles NBTeaseLengthMin.ValueChanged
@@ -5339,12 +5333,46 @@ Public Class FrmSettings
     End Sub
 
     Private Sub CensorshipBarDuringVideoTease_CheckedChanged(sender As Object, e As EventArgs) Handles CensorshipBarDuringVideoTease.CheckedChanged
-        If Not DommeDecideOrgasmCheckBox.Visible Then
-            Return
+        UpdateSettings(CensorshipBarDuringVideoTease.Visible, Sub(settings As Settings) settings.Range.IsContentAlwaysCensored = CensorshipBarDuringVideoTease.Checked)
+    End Sub
+
+    Private Sub ShowCensorshipBarMinimumSeconds_Leave(sender As Object, e As EventArgs) Handles ShowCensorshipBarMinimumSeconds.Leave
+        UpdateSettings(ShowCensorshipBarMinimumSeconds.Visible, Sub(settings As Settings) settings.Range.CensorshipBarOnMinimum = Convert.ToInt32(ShowCensorshipBarMinimumSeconds.Value))
+    End Sub
+
+    Private Sub ShowCensorshipBarMaximumSeconds_Leave(sender As Object, e As EventArgs) Handles ShowCensorshipBarMaximumSeconds.Leave
+        UpdateSettings(ShowCensorshipBarMaximumSeconds.Visible, Sub(settings As Settings) settings.Range.CensorshipBarOnMaximum = Convert.ToInt32(ShowCensorshipBarMaximumSeconds.Value))
+    End Sub
+
+    Private Sub ShowCensorshipBarMinimumSeconds_ValueChanged(sender As Object, e As EventArgs) Handles ShowCensorshipBarMinimumSeconds.ValueChanged
+        If ShowCensorshipBarMinimumSeconds.Value > ShowCensorshipBarMaximumSeconds.Value Then
+            ShowCensorshipBarMinimumSeconds.Value = ShowCensorshipBarMaximumSeconds.Value
         End If
-        Dim settings As Settings = mySettingsAccessor.GetSettings()
-        settings.Range.IsContentAlwaysCensored = CensorshipBarDuringVideoTease.Checked
-        mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    Private Sub ShowCensorshipBarMaximumSeconds_ValueChanged(sender As Object, e As EventArgs) Handles ShowCensorshipBarMaximumSeconds.ValueChanged
+        If ShowCensorshipBarMaximumSeconds.Value < ShowCensorshipBarMinimumSeconds.Value Then
+            ShowCensorshipBarMaximumSeconds.Value = ShowCensorshipBarMinimumSeconds.Value
+        End If
+    End Sub
+
+    Private Sub HideCensorshipBarMinimumSeconds_Leave(sender As Object, e As EventArgs) Handles HideCensorshipBarMinimumSeconds.Leave
+        UpdateSettings(HideCensorshipBarMinimumSeconds.Visible, Sub(settings As Settings) settings.Range.CensorshipBarOffMinimum = Convert.ToInt32(HideCensorshipBarMinimumSeconds.Value))
+    End Sub
+    Private Sub NBCensorHideMax_Leave(sender As Object, e As EventArgs) Handles HideCensorshipBarMaximumSeconds.Leave
+        UpdateSettings(HideCensorshipBarMinimumSeconds.Visible, Sub(settings As Settings) settings.Range.CensorshipBarOffMaximum = Convert.ToInt32(HideCensorshipBarMinimumSeconds.Value))
+    End Sub
+
+    Private Sub NBCensorHideMin_ValueChanged(sender As Object, e As EventArgs) Handles HideCensorshipBarMinimumSeconds.ValueChanged
+        If HideCensorshipBarMinimumSeconds.Value > HideCensorshipBarMaximumSeconds.Value Then
+            HideCensorshipBarMinimumSeconds.Value = HideCensorshipBarMaximumSeconds.Value
+        End If
+    End Sub
+
+    Private Sub NBCensorHideMax_ValueChanged(sender As Object, e As EventArgs) Handles HideCensorshipBarMaximumSeconds.ValueChanged
+        If HideCensorshipBarMaximumSeconds.Value < HideCensorshipBarMinimumSeconds.Value Then
+            HideCensorshipBarMaximumSeconds.Value = HideCensorshipBarMinimumSeconds.Value
+        End If
     End Sub
 
 #Region "tooltips and descriptions"
@@ -5357,6 +5385,23 @@ Public Class FrmSettings
     Private Sub CensorshipBarDuringVideoTease_MouseHover(sender As Object, e As EventArgs) Handles CensorshipBarDuringVideoTease.MouseEnter
         RangeSettingsDescriptionLabel.Text = "When this is checked, the censor bar will always be visible while playing Censorship Sucks. Its position on the screen will still change in time with Show Censor Bar settings."
     End Sub
+
+    Private Sub nbcensorshowmin_MouseHover(sender As Object, e As EventArgs) Handles ShowCensorshipBarMinimumSeconds.MouseEnter
+        RangeSettingsDescriptionLabel.Text = "This determines the minimum amount of time the censor bar will be on the screen at a time while playing Censorship Sucks."
+    End Sub
+
+    Private Sub ShowCensorshipBarMaximumSeconds_MouseHover(sender As Object, e As EventArgs) Handles ShowCensorshipBarMaximumSeconds.MouseEnter
+        RangeSettingsDescriptionLabel.Text = "This determines the maximum amount of time the censor bar will be on the screen at a time while playing Censorship Sucks."
+    End Sub
+
+    Private Sub HideCensorshipBarMinimumSeconds_MouseHover(sender As Object, e As EventArgs) Handles HideCensorshipBarMinimumSeconds.MouseEnter
+        RangeSettingsDescriptionLabel.Text = "This determines the minimum amount of time the censor bar will be invisible while playing Censorship Sucks."
+    End Sub
+
+    Private Sub nbcensorhidemax_MouseHover(sender As Object, e As EventArgs) Handles HideCensorshipBarMaximumSeconds.MouseEnter
+        RangeSettingsDescriptionLabel.Text = "This determines the maximum amount of time the censor bar will be invisible while playing Censorship Sucks."
+    End Sub
+
 #End Region
 #End Region
 
@@ -5436,30 +5481,6 @@ Public Class FrmSettings
         End Using
     End Sub
 
-    Private Sub NBCensorShowMin_Leave(sender As Object, e As EventArgs) Handles NBCensorShowMin.Leave
-        My.Settings.NBCensorShowMin = NBCensorShowMin.Value
-    End Sub
-
-    Private Sub NBCensorShowMax_Leave(sender As Object, e As EventArgs) Handles NBCensorShowMax.Leave
-        My.Settings.NBCensorShowMax = NBCensorShowMax.Value
-    End Sub
-
-    Private Sub NBCensorHideMin_Leave(sender As Object, e As EventArgs) Handles NBCensorHideMin.Leave
-        My.Settings.NBCensorHideMin = NBCensorHideMin.Value
-    End Sub
-
-    Private Sub NBCensorHideMax_Leave(sender As Object, e As EventArgs) Handles NBCensorHideMax.Leave
-        My.Settings.NBCensorHideMax = NBCensorHideMax.Value
-    End Sub
-
-    Private Sub NBCensorShowMin_ValueChanged(sender As Object, e As EventArgs) Handles NBCensorShowMin.ValueChanged
-        If NBCensorShowMin.Value > NBCensorShowMax.Value Then NBCensorShowMin.Value = NBCensorShowMax.Value
-    End Sub
-
-    Private Sub NBCensorShowMax_ValueChanged(sender As Object, e As EventArgs) Handles NBCensorShowMax.ValueChanged
-        If NBCensorShowMax.Value < NBCensorShowMin.Value Then NBCensorShowMax.Value = NBCensorShowMin.Value
-    End Sub
-
     Private Sub NBRedLightMin_LostFocus(sender As Object, e As EventArgs) Handles NBRedLightMin.LostFocus
         My.Settings.RedLightMin = NBRedLightMin.Value
     End Sub
@@ -5482,14 +5503,6 @@ Public Class FrmSettings
 
     Private Sub NBTauntCycleMax_ValueChanged(sender As Object, e As EventArgs) Handles NBTauntCycleMax.ValueChanged
         If NBTauntCycleMax.Value < NBTauntCycleMin.Value Then NBTauntCycleMax.Value = NBTauntCycleMin.Value
-    End Sub
-
-    Private Sub NBCensorHideMin_ValueChanged(sender As Object, e As EventArgs) Handles NBCensorHideMin.ValueChanged
-        If NBCensorHideMin.Value > NBCensorHideMax.Value Then NBCensorHideMin.Value = NBCensorHideMax.Value
-    End Sub
-
-    Private Sub NBCensorHideMax_ValueChanged(sender As Object, e As EventArgs) Handles NBCensorHideMax.ValueChanged
-        If NBCensorHideMax.Value < NBCensorHideMin.Value Then NBCensorHideMax.Value = NBCensorHideMin.Value
     End Sub
 
     Private Sub Button26_Click_1(sender As Object, e As EventArgs) Handles BTNVideoModLoad.Click
@@ -6482,22 +6495,6 @@ Public Class FrmSettings
 
     Private Sub NBNextImageChance_MouseHover(sender As Object, e As EventArgs) Handles NBNextImageChance.MouseEnter
         RangeSettingsDescriptionLabel.Text = "When running a slideshow with the ""Tease"" option selected, this value determines what chance the slideshow will move forward instead of backward."
-    End Sub
-
-    Private Sub nbcensorshowmin_MouseHover(sender As Object, e As EventArgs) Handles NBCensorShowMin.MouseEnter
-        RangeSettingsDescriptionLabel.Text = "This determines the minimum amount of time the censor bar will be on the screen at a time while playing Censorship Sucks."
-    End Sub
-
-    Private Sub nbcensorshowmax_MouseHover(sender As Object, e As EventArgs) Handles NBCensorShowMax.MouseEnter
-        RangeSettingsDescriptionLabel.Text = "This determines the maximum amount of time the censor bar will be on the screen at a time while playing Censorship Sucks."
-    End Sub
-
-    Private Sub nbcensorhidemin_MouseHover(sender As Object, e As EventArgs) Handles NBCensorHideMin.MouseEnter
-        RangeSettingsDescriptionLabel.Text = "This determines the minimum amount of time the censor bar will be invisible while playing Censorship Sucks."
-    End Sub
-
-    Private Sub nbcensorhidemax_MouseHover(sender As Object, e As EventArgs) Handles NBCensorHideMax.MouseEnter
-        RangeSettingsDescriptionLabel.Text = "This determines the maximum amount of time the censor bar will be invisible while playing Censorship Sucks."
     End Sub
 
     Private Sub nbredlightmin_MouseHover(sender As Object, e As EventArgs) Handles NBRedLightMin.MouseEnter
@@ -7647,15 +7644,15 @@ Public Class FrmSettings
         Return "seconds"
     End Function
 
-    Delegate Function GetScriptsDelegate(stage As String) As List(Of String)
+    'Delegate Function GetScriptsDelegate(stage As String) As List(Of String)
 
-    Public Function GetAvailableScripts(stage As String) As List(Of String)
-        Dim getScripts As New GetScriptsDelegate(AddressOf DoGetScripts)
-        If (stage = "Start") Then
-            Return Invoke(getScripts, stage)
-        End If
-        'If FrmSettings.StartScripts.Items(x) = scriptName AndAlso FrmSettings.StartScripts.GetItemChecked(x) Then
-    End Function
+    'Public Function GetAvailableScripts(stage As String) As List(Of String)
+    '    Dim getScripts As New GetScriptsDelegate(AddressOf DoGetScripts)
+    '    If (stage = "Start") Then
+    '        Return Invoke(getScripts, stage)
+    '    End If
+    '    'If FrmSettings.StartScripts.Items(x) = scriptName AndAlso FrmSettings.StartScripts.GetItemChecked(x) Then
+    'End Function
 
     Private Function DoGetScripts(stage As String) As List(Of String)
         Dim scriptList As List(Of String) = New List(Of String)
@@ -7836,6 +7833,22 @@ Public Class FrmSettings
 
     Private Sub Label89_Click(sender As Object, e As EventArgs) Handles RarelyAllowsPercentLabel.Click
 
+    End Sub
+
+
+    ''' <summary>
+    ''' used to remove some boiler plate when saving changes from the UI
+    ''' </summary>
+    ''' <param name="shouldSave"></param>
+    ''' <param name="updateAction"></param>
+    Private Sub UpdateSettings(shouldSave As Boolean, updateAction As Action(Of Settings))
+        If Not shouldSave Then
+            Return
+        End If
+
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        updateAction(settings)
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
     Private ReadOnly mySettingsAccessor As ISettingsAccessor

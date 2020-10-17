@@ -860,15 +860,15 @@ Partial Class FrmSettings
         Me.RangeSettingsCensorshipSucksGroupBox = New System.Windows.Forms.GroupBox()
         Me.Label108 = New System.Windows.Forms.Label()
         Me.Label109 = New System.Windows.Forms.Label()
-        Me.NBCensorShowMin = New System.Windows.Forms.NumericUpDown()
-        Me.NBCensorHideMax = New System.Windows.Forms.NumericUpDown()
-        Me.NBCensorHideMin = New System.Windows.Forms.NumericUpDown()
+        Me.ShowCensorshipBarMinimumSeconds = New System.Windows.Forms.NumericUpDown()
+        Me.HideCensorshipBarMaximumSeconds = New System.Windows.Forms.NumericUpDown()
+        Me.HideCensorshipBarMinimumSeconds = New System.Windows.Forms.NumericUpDown()
         Me.CensorshipBarDuringVideoTease = New System.Windows.Forms.CheckBox()
         Me.Label25 = New System.Windows.Forms.Label()
         Me.Label20 = New System.Windows.Forms.Label()
         Me.Label19 = New System.Windows.Forms.Label()
         Me.Label24 = New System.Windows.Forms.Label()
-        Me.NBCensorShowMax = New System.Windows.Forms.NumericUpDown()
+        Me.ShowCensorshipBarMaximumSeconds = New System.Windows.Forms.NumericUpDown()
         Me.RangeSettingsBodyMiddleColumnPanel = New System.Windows.Forms.Panel()
         Me.GBRangeOrgasmChance = New System.Windows.Forms.GroupBox()
         Me.RarelyAllowsPercentLabel = New System.Windows.Forms.Label()
@@ -1307,10 +1307,10 @@ Partial Class FrmSettings
         CType(Me.NBRedLightMax, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NBRedLightMin, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RangeSettingsCensorshipSucksGroupBox.SuspendLayout
-        CType(Me.NBCensorShowMin, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.NBCensorHideMax, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.NBCensorHideMin, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.NBCensorShowMax, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.ShowCensorshipBarMinimumSeconds, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.HideCensorshipBarMaximumSeconds, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.HideCensorshipBarMinimumSeconds, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.ShowCensorshipBarMaximumSeconds, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RangeSettingsBodyMiddleColumnPanel.SuspendLayout
         Me.GBRangeOrgasmChance.SuspendLayout
         CType(Me.SometimesAllowsPercentNumberBox, System.ComponentModel.ISupportInitialize).BeginInit
@@ -11836,15 +11836,15 @@ Partial Class FrmSettings
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RangeSettingsCensorshipSucksGroupBox.Controls.Add(Me.Label108)
         Me.RangeSettingsCensorshipSucksGroupBox.Controls.Add(Me.Label109)
-        Me.RangeSettingsCensorshipSucksGroupBox.Controls.Add(Me.NBCensorShowMin)
-        Me.RangeSettingsCensorshipSucksGroupBox.Controls.Add(Me.NBCensorHideMax)
-        Me.RangeSettingsCensorshipSucksGroupBox.Controls.Add(Me.NBCensorHideMin)
+        Me.RangeSettingsCensorshipSucksGroupBox.Controls.Add(Me.ShowCensorshipBarMinimumSeconds)
+        Me.RangeSettingsCensorshipSucksGroupBox.Controls.Add(Me.HideCensorshipBarMaximumSeconds)
+        Me.RangeSettingsCensorshipSucksGroupBox.Controls.Add(Me.HideCensorshipBarMinimumSeconds)
         Me.RangeSettingsCensorshipSucksGroupBox.Controls.Add(Me.CensorshipBarDuringVideoTease)
         Me.RangeSettingsCensorshipSucksGroupBox.Controls.Add(Me.Label25)
         Me.RangeSettingsCensorshipSucksGroupBox.Controls.Add(Me.Label20)
         Me.RangeSettingsCensorshipSucksGroupBox.Controls.Add(Me.Label19)
         Me.RangeSettingsCensorshipSucksGroupBox.Controls.Add(Me.Label24)
-        Me.RangeSettingsCensorshipSucksGroupBox.Controls.Add(Me.NBCensorShowMax)
+        Me.RangeSettingsCensorshipSucksGroupBox.Controls.Add(Me.ShowCensorshipBarMaximumSeconds)
         Me.RangeSettingsCensorshipSucksGroupBox.Location = New System.Drawing.Point(6, 16)
         Me.RangeSettingsCensorshipSucksGroupBox.Name = "RangeSettingsCensorshipSucksGroupBox"
         Me.RangeSettingsCensorshipSucksGroupBox.Size = New System.Drawing.Size(295, 88)
@@ -11880,36 +11880,36 @@ Partial Class FrmSettings
         '
         'NBCensorShowMin
         '
-        Me.NBCensorShowMin.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.NBCensorShowMin.Location = New System.Drawing.Point(127, 15)
-        Me.NBCensorShowMin.Maximum = New Decimal(New Integer() {180, 0, 0, 0})
-        Me.NBCensorShowMin.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
-        Me.NBCensorShowMin.Name = "NBCensorShowMin"
-        Me.NBCensorShowMin.Size = New System.Drawing.Size(44, 20)
-        Me.NBCensorShowMin.TabIndex = 151
-        Me.NBCensorShowMin.Value = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.ShowCensorshipBarMinimumSeconds.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ShowCensorshipBarMinimumSeconds.Location = New System.Drawing.Point(127, 15)
+        Me.ShowCensorshipBarMinimumSeconds.Maximum = New Decimal(New Integer() {180, 0, 0, 0})
+        Me.ShowCensorshipBarMinimumSeconds.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.ShowCensorshipBarMinimumSeconds.Name = "NBCensorShowMin"
+        Me.ShowCensorshipBarMinimumSeconds.Size = New System.Drawing.Size(44, 20)
+        Me.ShowCensorshipBarMinimumSeconds.TabIndex = 151
+        Me.ShowCensorshipBarMinimumSeconds.Value = New Decimal(New Integer() {5, 0, 0, 0})
         '
         'NBCensorHideMax
         '
-        Me.NBCensorHideMax.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.NBCensorHideMax.Location = New System.Drawing.Point(193, 38)
-        Me.NBCensorHideMax.Maximum = New Decimal(New Integer() {300, 0, 0, 0})
-        Me.NBCensorHideMax.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
-        Me.NBCensorHideMax.Name = "NBCensorHideMax"
-        Me.NBCensorHideMax.Size = New System.Drawing.Size(44, 20)
-        Me.NBCensorHideMax.TabIndex = 156
-        Me.NBCensorHideMax.Value = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.HideCensorshipBarMaximumSeconds.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.HideCensorshipBarMaximumSeconds.Location = New System.Drawing.Point(193, 38)
+        Me.HideCensorshipBarMaximumSeconds.Maximum = New Decimal(New Integer() {300, 0, 0, 0})
+        Me.HideCensorshipBarMaximumSeconds.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.HideCensorshipBarMaximumSeconds.Name = "NBCensorHideMax"
+        Me.HideCensorshipBarMaximumSeconds.Size = New System.Drawing.Size(44, 20)
+        Me.HideCensorshipBarMaximumSeconds.TabIndex = 156
+        Me.HideCensorshipBarMaximumSeconds.Value = New Decimal(New Integer() {5, 0, 0, 0})
         '
         'NBCensorHideMin
         '
-        Me.NBCensorHideMin.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.NBCensorHideMin.Location = New System.Drawing.Point(127, 38)
-        Me.NBCensorHideMin.Maximum = New Decimal(New Integer() {180, 0, 0, 0})
-        Me.NBCensorHideMin.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
-        Me.NBCensorHideMin.Name = "NBCensorHideMin"
-        Me.NBCensorHideMin.Size = New System.Drawing.Size(44, 20)
-        Me.NBCensorHideMin.TabIndex = 155
-        Me.NBCensorHideMin.Value = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.HideCensorshipBarMinimumSeconds.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.HideCensorshipBarMinimumSeconds.Location = New System.Drawing.Point(127, 38)
+        Me.HideCensorshipBarMinimumSeconds.Maximum = New Decimal(New Integer() {180, 0, 0, 0})
+        Me.HideCensorshipBarMinimumSeconds.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.HideCensorshipBarMinimumSeconds.Name = "NBCensorHideMin"
+        Me.HideCensorshipBarMinimumSeconds.Size = New System.Drawing.Size(44, 20)
+        Me.HideCensorshipBarMinimumSeconds.TabIndex = 155
+        Me.HideCensorshipBarMinimumSeconds.Value = New Decimal(New Integer() {5, 0, 0, 0})
         '
         'CensorshipBarDuringVideoTease
         '
@@ -11975,14 +11975,14 @@ Partial Class FrmSettings
         '
         'NBCensorShowMax
         '
-        Me.NBCensorShowMax.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.NBCensorShowMax.Location = New System.Drawing.Point(193, 15)
-        Me.NBCensorShowMax.Maximum = New Decimal(New Integer() {300, 0, 0, 0})
-        Me.NBCensorShowMax.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
-        Me.NBCensorShowMax.Name = "NBCensorShowMax"
-        Me.NBCensorShowMax.Size = New System.Drawing.Size(44, 20)
-        Me.NBCensorShowMax.TabIndex = 152
-        Me.NBCensorShowMax.Value = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.ShowCensorshipBarMaximumSeconds.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ShowCensorshipBarMaximumSeconds.Location = New System.Drawing.Point(193, 15)
+        Me.ShowCensorshipBarMaximumSeconds.Maximum = New Decimal(New Integer() {300, 0, 0, 0})
+        Me.ShowCensorshipBarMaximumSeconds.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.ShowCensorshipBarMaximumSeconds.Name = "NBCensorShowMax"
+        Me.ShowCensorshipBarMaximumSeconds.Size = New System.Drawing.Size(44, 20)
+        Me.ShowCensorshipBarMaximumSeconds.TabIndex = 152
+        Me.ShowCensorshipBarMaximumSeconds.Value = New Decimal(New Integer() {5, 0, 0, 0})
         '
         'RangeSettingsBodyMiddleColumnPanel
         '
@@ -14768,10 +14768,10 @@ Partial Class FrmSettings
         CType(Me.NBRedLightMin, System.ComponentModel.ISupportInitialize).EndInit
         Me.RangeSettingsCensorshipSucksGroupBox.ResumeLayout(False)
         Me.RangeSettingsCensorshipSucksGroupBox.PerformLayout
-        CType(Me.NBCensorShowMin, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.NBCensorHideMax, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.NBCensorHideMin, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.NBCensorShowMax, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.ShowCensorshipBarMinimumSeconds, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.HideCensorshipBarMaximumSeconds, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.HideCensorshipBarMinimumSeconds, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.ShowCensorshipBarMaximumSeconds, System.ComponentModel.ISupportInitialize).EndInit
         Me.RangeSettingsBodyMiddleColumnPanel.ResumeLayout(False)
         Me.GBRangeOrgasmChance.ResumeLayout(False)
         Me.GBRangeOrgasmChance.PerformLayout
@@ -15038,12 +15038,12 @@ Partial Class FrmSettings
     Friend WithEvents Label29 As System.Windows.Forms.Label
     Friend WithEvents RangeSettingsCensorshipSucksGroupBox As System.Windows.Forms.GroupBox
     Friend WithEvents CensorshipBarDuringVideoTease As System.Windows.Forms.CheckBox
-    Friend WithEvents NBCensorHideMax As System.Windows.Forms.NumericUpDown
-    Friend WithEvents NBCensorHideMin As System.Windows.Forms.NumericUpDown
+    Friend WithEvents HideCensorshipBarMaximumSeconds As System.Windows.Forms.NumericUpDown
+    Friend WithEvents HideCensorshipBarMinimumSeconds As System.Windows.Forms.NumericUpDown
     Friend WithEvents Label19 As System.Windows.Forms.Label
     Friend WithEvents Label20 As System.Windows.Forms.Label
-    Friend WithEvents NBCensorShowMax As System.Windows.Forms.NumericUpDown
-    Friend WithEvents NBCensorShowMin As System.Windows.Forms.NumericUpDown
+    Friend WithEvents ShowCensorshipBarMaximumSeconds As System.Windows.Forms.NumericUpDown
+    Friend WithEvents ShowCensorshipBarMinimumSeconds As System.Windows.Forms.NumericUpDown
     Friend WithEvents Label25 As System.Windows.Forms.Label
     Friend WithEvents Label24 As System.Windows.Forms.Label
     Friend WithEvents RangeSettingsHeaderLabel As System.Windows.Forms.Label
