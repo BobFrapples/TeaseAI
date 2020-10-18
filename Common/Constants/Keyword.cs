@@ -268,6 +268,12 @@ namespace TeaseAI.Common.Constants
         public const string PlayCensorshipSucks = @"@PlayCensorshipSucks";
 
         /// <summary>
+        /// <para>Red Light / Green Light is a game where the sub may stroke when the light is green, but must stop when it is red.</para>
+        /// <para>Calling this will pause the existing session (if going) or start a one if not going already </para>
+        /// </summary>
+        public const string PlayRedLightGreenLight = @"@PlayRedlightGreenLight";
+
+        /// <summary>
         /// <para>Make the sub torture his cock. pause briefly for it to happen (TaskPauseMinimum and TaskPauseMaximum in settings)</para>
         /// <para>files are located in BASE_FOLDER\Scripts\DOMME_PERSONALITY\CBT\CBTCock[_First].txt with _First being called the first time</para>    
         /// </summary>

@@ -111,6 +111,7 @@ namespace TeaseAI.Services
             rVal.Add(Keyword.PlayJoiVideo, new PlayJoiVideoCommandProcessor(_lineService, _videoAccessor, _randomNumberService));
             rVal.Add(Keyword.PlayCockHeroVideo, new PlayCockHeroVideoCommandProcessor(_lineService, _videoAccessor, _randomNumberService));
             rVal.Add(Keyword.PlayCensorshipSucks, new PlayCensorshipSucksVideoTauntCommandProcessor(_lineService, _videoAccessor, _settingsAccessor));
+            rVal.Add(Keyword.PlayRedLightGreenLight, new PlayRedLightGreenLightVideoTauntCommandProcessor(_lineService, _videoAccessor, _settingsAccessor));
             rVal.Add(Keyword.ShowCensorshipBar, new ShowCensorshipBarCommandProcessor(_lineService));
             rVal.Add(Keyword.HideCensorshipBar, new HideCensorshipBarCommandProcessor(_lineService));
             rVal.Add(Keyword.StopVideo, new StopVideoCommandProcessor(_lineService));

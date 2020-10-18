@@ -4509,9 +4509,8 @@ Partial Class MainWindow
 	Friend WithEvents ReceiveFileTimer As Tease_AI.teaseAI_Timer
 	Friend WithEvents VideoTauntTimer As Tease_AI.teaseAI_Timer
 	Friend WithEvents TeaseTimer As Tease_AI.teaseAI_Timer
-	Friend WithEvents RedLightGreenLightTauntTimer As Tease_AI.teaseAI_Timer
-	Friend WithEvents AvoidTheEdgeTaunts As Tease_AI.teaseAI_Timer
-	Friend WithEvents PictureStrip As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents AvoidTheEdgeTaunts As Tease_AI.teaseAI_Timer
+    Friend WithEvents PictureStrip As System.Windows.Forms.ContextMenuStrip
 	Friend WithEvents PicStripTSMIsaveImage As System.Windows.Forms.ToolStripMenuItem
 	Friend WithEvents PicStripTSMIlikeImage As System.Windows.Forms.ToolStripMenuItem
 	Friend WithEvents PicStripTSMIdislikeImage As System.Windows.Forms.ToolStripMenuItem

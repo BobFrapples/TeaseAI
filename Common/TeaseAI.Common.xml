@@ -408,6 +408,12 @@
             <para>Calling this will pause the existing session (if going) or start a one if not going already </para>
             </summary>
         </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.PlayRedLightGreenLight">
+            <summary>
+            <para>Red Light / Green Light is a game where the sub may stroke when the light is green, but must stop when it is red.</para>
+            <para>Calling this will pause the existing session (if going) or start a one if not going already </para>
+            </summary>
+        </member>
         <member name="F:TeaseAI.Common.Constants.Keyword.CockTorture">
             <summary>
             <para>Make the sub torture his cock. pause briefly for it to happen (TaskPauseMinimum and TaskPauseMaximum in settings)</para>

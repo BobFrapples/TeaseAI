@@ -82,6 +82,7 @@ namespace TeaseAI.Services
             CommandProcessors[Keyword.PlayJoiVideo].CommandProcessed += PlayVideoCommandProcessed;
             CommandProcessors[Keyword.PlayCockHeroVideo].CommandProcessed += PlayVideoCommandProcessed;
             CommandProcessors[Keyword.PlayCensorshipSucks].CommandProcessed += PlayCensorshipSucksVideoTauntCommandProcessed;
+            CommandProcessors[Keyword.PlayRedLightGreenLight].CommandProcessed += PlayRedLightGreenLightVideoTauntCommandProcessed;
             CommandProcessors[Keyword.ShowCensorshipBar].CommandProcessed += ShowCensorshipBarCommandProcessed;
             CommandProcessors[Keyword.HideCensorshipBar].CommandProcessed += HideCensorshipBarCommandProcessed;
 
@@ -569,6 +570,15 @@ namespace TeaseAI.Services
         }
 
         private void PlayCensorshipSucksVideoTauntCommandProcessed(object sender, CommandProcessedEventArgs e)
+        {
+            lock (_sessionLock)
+            {
+                Session = e.Session;
+            }
+            BeginSession((Script)e.Parameter);
+        }
+
+        private void PlayRedLightGreenLightVideoTauntCommandProcessed(object sender, CommandProcessedEventArgs e)
         {
             lock (_sessionLock)
             {

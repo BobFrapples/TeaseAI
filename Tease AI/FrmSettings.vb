@@ -184,12 +184,6 @@ Public Class FrmSettings
 
         NBNextImageChance.Value = My.Settings.NextImageChance
 
-        NBRedLightMin.Value = My.Settings.RedLightMin
-        NBRedLightMax.Value = My.Settings.RedLightMax
-
-        NBGreenLightMin.Value = My.Settings.GreenLightMin
-        NBGreenLightMax.Value = My.Settings.GreenLightMax
-
         FrmSplash.UpdateText("Auditing scripts...")
 
         TBWebStart.Text = My.Settings.WebToyStart
@@ -323,6 +317,13 @@ Public Class FrmSettings
 
         ShowCensorshipBarMinimumSeconds.Value = rangeSettings.CensorshipBarOnMinimum
         ShowCensorshipBarMaximumSeconds.Value = rangeSettings.CensorshipBarOnMaximum
+
+        RedLightMinimumSeconds.Value = My.Settings.RedLightMin
+        RedLightMaximumSeconds.Value = My.Settings.RedLightMax
+
+        GreenLightMinimumSeconds.Value = My.Settings.GreenLightMin
+        GreenLightMaximumSeconds.Value = My.Settings.GreenLightMax
+
     End Sub
 
     ''' <summary>
@@ -5392,6 +5393,23 @@ Public Class FrmSettings
         UpdateSettings(VideoTauntSlider.Visible, Sub(settings As Settings) settings.Range.VideoTauntFrequency = Convert.ToInt32(VideoTauntSlider.Value * 5))
     End Sub
 
+    Private Sub RedLightMinimumSeconds_LostFocus(sender As Object, e As EventArgs) Handles RedLightMinimumSeconds.LostFocus
+        My.Settings.RedLightMin = RedLightMinimumSeconds.Value
+    End Sub
+
+    Private Sub RedLightMaximumSeconds_LostFocus(sender As Object, e As EventArgs) Handles RedLightMaximumSeconds.LostFocus
+        My.Settings.RedLightMax = RedLightMaximumSeconds.Value
+    End Sub
+
+    Private Sub GreenLightMinimumSeconds_LostFocus(sender As Object, e As EventArgs) Handles GreenLightMinimumSeconds.LostFocus
+        My.Settings.GreenLightMin = GreenLightMinimumSeconds.Value
+    End Sub
+
+    Private Sub GreenLightMaximumSeconds_LostFocus(sender As Object, e As EventArgs) Handles GreenLightMaximumSeconds.LostFocus
+        My.Settings.GreenLightMax = GreenLightMaximumSeconds.Value
+    End Sub
+
+
 #Region "tooltips and descriptions"
     Private Sub TeaseLengthDommeDetermined_MouseHover(sender As Object, e As EventArgs) Handles TeaseLengthDommeDetermined.MouseEnter
         RangeSettingsDescriptionLabel.Text = "This allows the domme to decide the length of the tease based on her level." & Environment.NewLine & Environment.NewLine &
@@ -5423,6 +5441,23 @@ Public Class FrmSettings
         RangeSettingsDescriptionLabel.Text = "This allows you to set the frequency of the domme's Taunts during Video Teases." & Environment.NewLine & Environment.NewLine &
             "A middle value creates a fairly common use of Taunts. Use a higher value to make the domme extremely engaged. Use a lower value to focus on the Video Tease with minimal interaction from the domme."
     End Sub
+
+    Private Sub RedLightMinimumSeconds_MouseHover(sender As Object, e As EventArgs) Handles RedLightMinimumSeconds.MouseEnter
+        RangeSettingsDescriptionLabel.Text = "This determines the minimum amount of time the domme will keep the video paused while playing Red Light Green Light."
+    End Sub
+
+    Private Sub RedLightMaximumSeconds_MouseHover(sender As Object, e As EventArgs) Handles RedLightMaximumSeconds.MouseEnter
+        RangeSettingsDescriptionLabel.Text = "This determines the maximum amount of time the domme will keep the video paused while playing Red Light Green Light."
+    End Sub
+
+    Private Sub GreenLightMinimumSeconds_MouseHover(sender As Object, e As EventArgs) Handles GreenLightMinimumSeconds.MouseEnter
+        RangeSettingsDescriptionLabel.Text = "This determines the minimum amount of time the domme will keep the video playing while playing Red Light Green Light."
+    End Sub
+
+    Private Sub GreenLightMaximumSeconds_MouseHover(sender As Object, e As EventArgs) Handles GreenLightMaximumSeconds.MouseEnter
+        RangeSettingsDescriptionLabel.Text = "This determines the maximum amount of time the domme will keep the video playing while playing Red Light Green Light."
+    End Sub
+
 #End Region
 #End Region
 
@@ -5500,22 +5535,6 @@ Public Class FrmSettings
             End If
             e.Graphics.DrawString(_FontName, _font, objBrush, e.Bounds)
         End Using
-    End Sub
-
-    Private Sub NBRedLightMin_LostFocus(sender As Object, e As EventArgs) Handles NBRedLightMin.LostFocus
-        My.Settings.RedLightMin = NBRedLightMin.Value
-    End Sub
-
-    Private Sub NBRedLightMax_LostFocus(sender As Object, e As EventArgs) Handles NBRedLightMax.LostFocus
-        My.Settings.RedLightMax = NBRedLightMax.Value
-    End Sub
-
-    Private Sub NBGreenLightMin_LostFocus(sender As Object, e As EventArgs) Handles NBGreenLightMin.LostFocus
-        My.Settings.GreenLightMin = NBGreenLightMin.Value
-    End Sub
-
-    Private Sub NBGreenLightMax_LostFocus(sender As Object, e As EventArgs) Handles NBGreenLightMax.LostFocus
-        My.Settings.GreenLightMax = NBGreenLightMax.Value
     End Sub
 
     Private Sub NBTauntCycleMin_ValueChanged(sender As Object, e As EventArgs) Handles NBTauntCycleMin.ValueChanged
@@ -6499,22 +6518,6 @@ Public Class FrmSettings
 
     Private Sub NBNextImageChance_MouseHover(sender As Object, e As EventArgs) Handles NBNextImageChance.MouseEnter
         RangeSettingsDescriptionLabel.Text = "When running a slideshow with the ""Tease"" option selected, this value determines what chance the slideshow will move forward instead of backward."
-    End Sub
-
-    Private Sub nbredlightmin_MouseHover(sender As Object, e As EventArgs) Handles NBRedLightMin.MouseEnter
-        RangeSettingsDescriptionLabel.Text = "This determines the minimum amount of time the domme will keep the video paused while playing Red Light Green Light."
-    End Sub
-
-    Private Sub nbredlightmax_MouseHover(sender As Object, e As EventArgs) Handles NBRedLightMax.MouseEnter
-        RangeSettingsDescriptionLabel.Text = "This determines the maximum amount of time the domme will keep the video paused while playing Red Light Green Light."
-    End Sub
-
-    Private Sub nbgreenlightmin_MouseHover(sender As Object, e As EventArgs) Handles NBGreenLightMin.MouseEnter
-        RangeSettingsDescriptionLabel.Text = "This determines the minimum amount of time the domme will keep the video playing while playing Red Light Green Light."
-    End Sub
-
-    Private Sub nbgreenlightmax_MouseHover(sender As Object, e As EventArgs) Handles NBGreenLightMax.MouseEnter
-        RangeSettingsDescriptionLabel.Text = "This determines the maximum amount of time the domme will keep the video playing while playing Red Light Green Light."
     End Sub
 
     Private Sub RangeSet_MouseHover(sender As Object, e As EventArgs) Handles RangeSettingsBody.MouseEnter, RangeSettingsTeaseGroupBox.MouseEnter, RangeSettingsDescriptionGroupBox.MouseEnter, GroupBox19.MouseEnter, RangeSettingsCensorshipSucksGroupBox.MouseEnter, RangeSettingsTeaseSlideshowGroupBox.MouseEnter, GBRangeRuinChance.MouseEnter, GBRangeOrgasmChance.MouseEnter

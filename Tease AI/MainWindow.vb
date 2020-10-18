@@ -6824,7 +6824,7 @@ OrgasmDecided:
 
                 ssh.ScriptVideoTeaseFlag = False
                 ssh.VideoTease = True
-                ssh.RedLightGreenLightTick = ssh.randomizer.Next(FrmSettings.NBGreenLightMin.Value, FrmSettings.NBGreenLightMax.Value + 1)
+                ssh.RedLightGreenLightTick = ssh.randomizer.Next(FrmSettings.GreenLightMinimumSeconds.Value, FrmSettings.GreenLightMaximumSeconds.Value + 1)
                 RedLightGreenLightTimer.Start()
                 ssh.StartStrokingCount += 1
                 StrokePace = ssh.randomizer.Next(NBMaxPace.Value, NBMinPace.Value + 1)
@@ -12998,26 +12998,23 @@ restartInstantly:
     End Sub
 
     Private Sub RedLightGreenLightRandomizerButton_Click(sender As Object, e As EventArgs) Handles RedLightGreenLightRandomizerButton.Click
+
         RedLightGreenLightRandomizerButton.Enabled = False
 
         Dim dommePersonality As DommePersonality = CreateDommePersonality()
-        Dim sysNoPornAllowed As Boolean = myFlagAccessor.IsSet(dommePersonality, "SYS_NoPornAllowed")
-        If (sysNoPornAllowed) Then
-            Dim chatMessage As ChatMessage = New ChatMessage()
-            chatMessage.Message = "You aren't allowed to request porn."
-            chatMessage.Sender = dommePersonality.Name
-            chatMessage.TimeStamp = DateTime.Now
-            UpdateChatWindow(chatMessage)
-        End If
+        Dim doCommand As Result = VerifyDommeAllowsPorn(dommePersonality) _
+            .OnSuccess(Function() mySession.SendCommand(Keyword.PlayRedLightGreenLight))
 
-        mySession.SendCommand(Keyword.PlayVideo)
+        If (doCommand.IsFailure) Then
+            DommeSays(dommePersonality.Name, doCommand.Error.Message)
+        End If
 
         RedLightGreenLightRandomizerButton.Enabled = True
 
-        ssh.RedLightGreenLightTick = ssh.randomizer.Next(FrmSettings.NBGreenLightMin.Value, FrmSettings.NBGreenLightMax.Value + 1)
+
+        ssh.RedLightGreenLightTick = ssh.randomizer.Next(FrmSettings.GreenLightMinimumSeconds.Value, FrmSettings.GreenLightMaximumSeconds.Value + 1)
         RedLightGreenLightTimer.Start()
 
-        mySession.Session.Domme.WasGreeted = True
         ssh.RandomizerVideoTease = True
 
         ssh.StartStrokingCount += 1
@@ -13094,12 +13091,9 @@ restartInstantly:
 
         ssh.IsLightRed = Not ssh.IsLightRed
 
-        ' Turn off TauntTimer when State is red.
-        If ssh.IsLightRed Then RedLightGreenLightTauntTimer.Stop()
-
         ssh.RedLightGreenLightTick = If(ssh.IsLightRed _
-            , myRandomNumberService.Roll(FrmSettings.NBRedLightMin.Value, FrmSettings.NBRedLightMax.Value + 1) _
-            , myRandomNumberService.Roll(FrmSettings.NBGreenLightMin.Value, FrmSettings.NBGreenLightMax.Value + 1))
+            , myRandomNumberService.Roll(FrmSettings.RedLightMinimumSeconds.Value, FrmSettings.RedLightMaximumSeconds.Value + 1) _
+            , myRandomNumberService.Roll(FrmSettings.GreenLightMinimumSeconds.Value, FrmSettings.GreenLightMaximumSeconds.Value + 1))
 
         Dim settings As Settings = mySettingsAccessor.GetSettings()
         Dim file2read As String = myPathsAccessor.GetPersonalityFolder(settings.DommePersonality) & "\Video\Red Light Green Light\" & BooleanToGreenRed(Not ssh.IsLightRed) & " Light.txt"
@@ -17689,7 +17683,7 @@ TaskCleanSet:
 
                 ssh.ScriptVideoTeaseFlag = False
                 ssh.VideoTease = True
-                ssh.RedLightGreenLightTick = myRandomNumberService.Roll(FrmSettings.NBGreenLightMin.Value, FrmSettings.NBGreenLightMax.Value + 1)
+                ssh.RedLightGreenLightTick = myRandomNumberService.Roll(FrmSettings.GreenLightMinimumSeconds.Value, FrmSettings.GreenLightMaximumSeconds.Value + 1)
                 RedLightGreenLightTimer.Start()
                 ssh.StartStrokingCount += 1
                 StrokePace = ssh.randomizer.Next(NBMaxPace.Value, NBMinPace.Value + 1)

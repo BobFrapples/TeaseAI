@@ -849,11 +849,11 @@ Partial Class FrmSettings
         Me.GroupBox19 = New System.Windows.Forms.GroupBox()
         Me.Label110 = New System.Windows.Forms.Label()
         Me.Label111 = New System.Windows.Forms.Label()
-        Me.NBGreenLightMax = New System.Windows.Forms.NumericUpDown()
-        Me.NBGreenLightMin = New System.Windows.Forms.NumericUpDown()
-        Me.NBRedLightMax = New System.Windows.Forms.NumericUpDown()
+        Me.GreenLightMaximumSeconds = New System.Windows.Forms.NumericUpDown()
+        Me.GreenLightMinimumSeconds = New System.Windows.Forms.NumericUpDown()
+        Me.RedLightMaximumSeconds = New System.Windows.Forms.NumericUpDown()
         Me.Label26 = New System.Windows.Forms.Label()
-        Me.NBRedLightMin = New System.Windows.Forms.NumericUpDown()
+        Me.RedLightMinimumSeconds = New System.Windows.Forms.NumericUpDown()
         Me.Label28 = New System.Windows.Forms.Label()
         Me.Label27 = New System.Windows.Forms.Label()
         Me.Label29 = New System.Windows.Forms.Label()
@@ -1302,10 +1302,10 @@ Partial Class FrmSettings
         CType(Me.NBTaskStrokesMin, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RangeSettingsVideoTeaseGroupBox.SuspendLayout
         Me.GroupBox19.SuspendLayout
-        CType(Me.NBGreenLightMax, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.NBGreenLightMin, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.NBRedLightMax, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.NBRedLightMin, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.GreenLightMaximumSeconds, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.GreenLightMinimumSeconds, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.RedLightMaximumSeconds, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.RedLightMinimumSeconds, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RangeSettingsCensorshipSucksGroupBox.SuspendLayout
         CType(Me.ShowCensorshipBarMinimumSeconds, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.HideCensorshipBarMaximumSeconds, System.ComponentModel.ISupportInitialize).BeginInit
@@ -11703,11 +11703,11 @@ Partial Class FrmSettings
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox19.Controls.Add(Me.Label110)
         Me.GroupBox19.Controls.Add(Me.Label111)
-        Me.GroupBox19.Controls.Add(Me.NBGreenLightMax)
-        Me.GroupBox19.Controls.Add(Me.NBGreenLightMin)
-        Me.GroupBox19.Controls.Add(Me.NBRedLightMax)
+        Me.GroupBox19.Controls.Add(Me.GreenLightMaximumSeconds)
+        Me.GroupBox19.Controls.Add(Me.GreenLightMinimumSeconds)
+        Me.GroupBox19.Controls.Add(Me.RedLightMaximumSeconds)
         Me.GroupBox19.Controls.Add(Me.Label26)
-        Me.GroupBox19.Controls.Add(Me.NBRedLightMin)
+        Me.GroupBox19.Controls.Add(Me.RedLightMinimumSeconds)
         Me.GroupBox19.Controls.Add(Me.Label28)
         Me.GroupBox19.Controls.Add(Me.Label27)
         Me.GroupBox19.Controls.Add(Me.Label29)
@@ -11744,32 +11744,32 @@ Partial Class FrmSettings
         Me.Label111.Text = "seconds"
         Me.Label111.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'NBGreenLightMax
+        'GreenLightMaximumSeconds
         '
-        Me.NBGreenLightMax.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.NBGreenLightMax.Location = New System.Drawing.Point(191, 38)
-        Me.NBGreenLightMax.Name = "NBGreenLightMax"
-        Me.NBGreenLightMax.Size = New System.Drawing.Size(44, 20)
-        Me.NBGreenLightMax.TabIndex = 156
-        Me.NBGreenLightMax.Value = New Decimal(New Integer() {60, 0, 0, 0})
+        Me.GreenLightMaximumSeconds.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GreenLightMaximumSeconds.Location = New System.Drawing.Point(191, 38)
+        Me.GreenLightMaximumSeconds.Name = "GreenLightMaximumSeconds"
+        Me.GreenLightMaximumSeconds.Size = New System.Drawing.Size(44, 20)
+        Me.GreenLightMaximumSeconds.TabIndex = 156
+        Me.GreenLightMaximumSeconds.Value = New Decimal(New Integer() {60, 0, 0, 0})
         '
-        'NBGreenLightMin
+        'GreenLightMinimumSeconds
         '
-        Me.NBGreenLightMin.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.NBGreenLightMin.Location = New System.Drawing.Point(125, 38)
-        Me.NBGreenLightMin.Name = "NBGreenLightMin"
-        Me.NBGreenLightMin.Size = New System.Drawing.Size(44, 20)
-        Me.NBGreenLightMin.TabIndex = 155
-        Me.NBGreenLightMin.Value = New Decimal(New Integer() {10, 0, 0, 0})
+        Me.GreenLightMinimumSeconds.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GreenLightMinimumSeconds.Location = New System.Drawing.Point(125, 38)
+        Me.GreenLightMinimumSeconds.Name = "GreenLightMinimumSeconds"
+        Me.GreenLightMinimumSeconds.Size = New System.Drawing.Size(44, 20)
+        Me.GreenLightMinimumSeconds.TabIndex = 155
+        Me.GreenLightMinimumSeconds.Value = New Decimal(New Integer() {10, 0, 0, 0})
         '
-        'NBRedLightMax
+        'RedLightMaximumSeconds
         '
-        Me.NBRedLightMax.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.NBRedLightMax.Location = New System.Drawing.Point(191, 15)
-        Me.NBRedLightMax.Name = "NBRedLightMax"
-        Me.NBRedLightMax.Size = New System.Drawing.Size(44, 20)
-        Me.NBRedLightMax.TabIndex = 152
-        Me.NBRedLightMax.Value = New Decimal(New Integer() {30, 0, 0, 0})
+        Me.RedLightMaximumSeconds.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RedLightMaximumSeconds.Location = New System.Drawing.Point(191, 15)
+        Me.RedLightMaximumSeconds.Name = "RedLightMaximumSeconds"
+        Me.RedLightMaximumSeconds.Size = New System.Drawing.Size(44, 20)
+        Me.RedLightMaximumSeconds.TabIndex = 152
+        Me.RedLightMaximumSeconds.Value = New Decimal(New Integer() {30, 0, 0, 0})
         '
         'Label26
         '
@@ -11784,14 +11784,14 @@ Partial Class FrmSettings
         Me.Label26.Text = "-"
         Me.Label26.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'NBRedLightMin
+        'RedLightMinimumSeconds
         '
-        Me.NBRedLightMin.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.NBRedLightMin.Location = New System.Drawing.Point(125, 15)
-        Me.NBRedLightMin.Name = "NBRedLightMin"
-        Me.NBRedLightMin.Size = New System.Drawing.Size(44, 20)
-        Me.NBRedLightMin.TabIndex = 151
-        Me.NBRedLightMin.Value = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.RedLightMinimumSeconds.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RedLightMinimumSeconds.Location = New System.Drawing.Point(125, 15)
+        Me.RedLightMinimumSeconds.Name = "RedLightMinimumSeconds"
+        Me.RedLightMinimumSeconds.Size = New System.Drawing.Size(44, 20)
+        Me.RedLightMinimumSeconds.TabIndex = 151
+        Me.RedLightMinimumSeconds.Value = New Decimal(New Integer() {5, 0, 0, 0})
         '
         'Label28
         '
@@ -14762,10 +14762,10 @@ Partial Class FrmSettings
         CType(Me.NBTaskStrokesMin, System.ComponentModel.ISupportInitialize).EndInit
         Me.RangeSettingsVideoTeaseGroupBox.ResumeLayout(False)
         Me.GroupBox19.ResumeLayout(False)
-        CType(Me.NBGreenLightMax, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.NBGreenLightMin, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.NBRedLightMax, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.NBRedLightMin, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.GreenLightMaximumSeconds, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.GreenLightMinimumSeconds, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.RedLightMaximumSeconds, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.RedLightMinimumSeconds, System.ComponentModel.ISupportInitialize).EndInit
         Me.RangeSettingsCensorshipSucksGroupBox.ResumeLayout(False)
         Me.RangeSettingsCensorshipSucksGroupBox.PerformLayout
         CType(Me.ShowCensorshipBarMinimumSeconds, System.ComponentModel.ISupportInitialize).EndInit
@@ -15028,12 +15028,8 @@ Partial Class FrmSettings
     Friend WithEvents RangeSettingsDescriptionLabel As System.Windows.Forms.Label
     Friend WithEvents RangeSettingsVideoTeaseGroupBox As System.Windows.Forms.GroupBox
     Friend WithEvents GroupBox19 As System.Windows.Forms.GroupBox
-    Friend WithEvents NBGreenLightMax As System.Windows.Forms.NumericUpDown
-    Friend WithEvents NBGreenLightMin As System.Windows.Forms.NumericUpDown
     Friend WithEvents Label26 As System.Windows.Forms.Label
     Friend WithEvents Label27 As System.Windows.Forms.Label
-    Friend WithEvents NBRedLightMax As System.Windows.Forms.NumericUpDown
-    Friend WithEvents NBRedLightMin As System.Windows.Forms.NumericUpDown
     Friend WithEvents Label28 As System.Windows.Forms.Label
     Friend WithEvents Label29 As System.Windows.Forms.Label
     Friend WithEvents RangeSettingsCensorshipSucksGroupBox As System.Windows.Forms.GroupBox
@@ -15921,4 +15917,8 @@ Partial Class FrmSettings
     Friend WithEvents RangeSettingsBodyRightColumnPanel As Panel
     Friend WithEvents RangeSettingsBodyMiddleColumnPanel As Panel
     Friend WithEvents RangeSettingsBodyLeftColumnPanel As Panel
+    Private WithEvents GreenLightMaximumSeconds As NumericUpDown
+    Private WithEvents GreenLightMinimumSeconds As NumericUpDown
+    Private WithEvents RedLightMaximumSeconds As NumericUpDown
+    Private WithEvents RedLightMinimumSeconds As NumericUpDown
 End Class
