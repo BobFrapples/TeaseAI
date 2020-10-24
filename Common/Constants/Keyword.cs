@@ -35,9 +35,14 @@ namespace TeaseAI.Common.Constants
         public const string ApathyLevelNum = @"@ApathyLevel";
 
         /// <summary>
-        /// This command will go to specified bookmark 50% of the time.
+        /// This command will go to specified bookmark 50% of the time. Please stop using ChanceXX(bookmark), and use ChancePercent instead for that
         /// </summary>
         public const string Chance = @"@Chance";
+
+        /// <summary>
+        /// Define a percentage chance to go to  specified bookmark
+        /// </summary>
+        public const string ChancePercent = @"@ChancePercent(";
 
         /// <summary>
         /// Check to see if a flag exists.
@@ -244,6 +249,16 @@ namespace TeaseAI.Common.Constants
         public const string PlayVideo = @"@PlayVideo";
 
         /// <summary>
+        /// Pause the currently playing video
+        /// </summary>
+        public const string PauseVideo = @"@PauseVideo";
+
+        /// <summary>
+        /// Unpause the currently playing video
+        /// </summary>
+        public const string UnpauseVideo = @"@UnpauseVideo";
+
+        /// <summary>
         /// specifically play a Jerk Off Instruction Video
         /// </summary>
         public const string PlayJoiVideo = @"@PlayJOIVideo";
@@ -447,12 +462,6 @@ namespace TeaseAI.Common.Constants
 
         public const string If = @"@If[";
 
-        #region Filters
-        /// <summary>
-        /// Filter flag used to mark a line for inclusion only if the sub is denied an orgasm
-        /// </summary>
-        public const string OrgasmDenied = @"@OrgasmDenied";
-
         /// <summary>
         /// Domme wishes to assign a vital sub task
         /// </summary>
@@ -477,6 +486,13 @@ namespace TeaseAI.Common.Constants
         /// Send a taunt from the specified taunt file
         /// </summary>
         public const string TauntFromFile = @"@TauntFromFile(";
+
+        #region Filters
+        /// <summary>
+        /// Filter flag used to mark a line for inclusion only if the sub is denied an orgasm
+        /// </summary>
+        public const string OrgasmDenied = @"@OrgasmDenied";
+
         #endregion
     }
 }

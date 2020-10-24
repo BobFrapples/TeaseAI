@@ -104,9 +104,25 @@ namespace TeaseAI.Common
         /// Percent chance for a given video taunt
         /// </summary>
         public int VideoTauntFrequency { get; set; }
+
+        /// <summary>
+        /// Minimum number of seconds the light will be red
+        /// </summary>
         public int RedLightMinimumSeconds { get; set; }
+
+        /// <summary>
+        /// Maximum number of seconds the light will be red
+        /// </summary>
         public int RedLightMaximumSeconds { get; set; }
+
+        /// <summary>
+        /// Minimumm number of seconds
+        /// </summary>
         public int GreenLightMinimumSeconds { get; set; }
+
+        /// <summary>
+        /// Maximum number of seconds the light will be green
+        /// </summary>
         public int GreenLightMaximumSeconds { get; set; }
     }
 }

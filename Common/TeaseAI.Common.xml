@@ -217,7 +217,12 @@
         </member>
         <member name="F:TeaseAI.Common.Constants.Keyword.Chance">
             <summary>
-            This command will go to specified bookmark 50% of the time.
+            This command will go to specified bookmark 50% of the time. Please stop using ChanceXX(bookmark), and use ChancePercent instead for that
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.ChancePercent">
+            <summary>
+            Define a percentage chance to go to  specified bookmark
             </summary>
         </member>
         <member name="F:TeaseAI.Common.Constants.Keyword.CheckFlag">
@@ -385,6 +390,16 @@
         <member name="F:TeaseAI.Common.Constants.Keyword.PlayVideo">
             <summary>
             Plays a random video *not* in JOI or CH genre
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.PauseVideo">
+            <summary>
+            Pause the currently playing video
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.UnpauseVideo">
+            <summary>
+            Unpause the currently playing video
             </summary>
         </member>
         <member name="F:TeaseAI.Common.Constants.Keyword.PlayJoiVideo">
@@ -568,11 +583,6 @@
             Flag whatever image is being displayed as disliked
             </summary>
         </member>
-        <member name="F:TeaseAI.Common.Constants.Keyword.OrgasmDenied">
-            <summary>
-            Filter flag used to mark a line for inclusion only if the sub is denied an orgasm
-            </summary>
-        </member>
         <member name="F:TeaseAI.Common.Constants.Keyword.VitalSubAssignment">
             <summary>
             Domme wishes to assign a vital sub task
@@ -596,6 +606,11 @@
         <member name="F:TeaseAI.Common.Constants.Keyword.TauntFromFile">
             <summary>
             Send a taunt from the specified taunt file
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.OrgasmDenied">
+            <summary>
+            Filter flag used to mark a line for inclusion only if the sub is denied an orgasm
             </summary>
         </member>
         <member name="T:TeaseAI.Common.Constants.Kink">
@@ -1340,6 +1355,11 @@
             Tell the UI to start playing a video
             </summary>
         </member>
+        <member name="P:TeaseAI.Common.Events.PlayVideoEventArgs.VideoMetaData">
+            <summary>
+            Metadata around the video that should be played
+            </summary>
+        </member>
         <member name="P:TeaseAI.Common.Events.PlayVideoEventArgs.ShouldRandomizeStart">
             <summary>
             Should the player randomize the starting location
@@ -2037,6 +2057,26 @@
         <member name="P:TeaseAI.Common.RangeSettings.VideoTauntFrequency">
             <summary>
             Percent chance for a given video taunt
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.RangeSettings.RedLightMinimumSeconds">
+            <summary>
+            Minimum number of seconds the light will be red
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.RangeSettings.RedLightMaximumSeconds">
+            <summary>
+            Maximum number of seconds the light will be red
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.RangeSettings.GreenLightMinimumSeconds">
+            <summary>
+            Minimumm number of seconds
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.RangeSettings.GreenLightMaximumSeconds">
+            <summary>
+            Maximum number of seconds the light will be green
             </summary>
         </member>
         <member name="T:TeaseAI.Common.Result">

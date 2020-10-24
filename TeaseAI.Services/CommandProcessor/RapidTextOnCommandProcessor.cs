@@ -16,10 +16,10 @@ namespace TeaseAI.Services.CommandProcessor
 
         public override Result<Session> PerformCommand(Session session, string line)
         {
-            var newSession = session.Clone();
-            if (IsRelevant(newSession, line))
-                newSession.Domme.MessageTimer = 1;
-            return Result.Ok(newSession);
+            var workingSession = session.Clone();
+            if (IsRelevant(workingSession, line))
+                workingSession.Domme.MessageTimer = 1;
+            return Result.Ok(workingSession);
         }
 
         protected override Result ParseCommandSpecific(Script script, string personalityName, string line)

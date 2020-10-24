@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using TeaseAI.Common;
 using TeaseAI.Common.Constants;
@@ -12,7 +11,7 @@ namespace TeaseAI.Services.CommandProcessor
     {
         public PlayRedLightGreenLightVideoTauntCommandProcessor(LineService lineService
             , IVideoAccessor videoAccessor
-            , ISettingsAccessor settingsAccessor) : base(Keyword.PlayCensorshipSucks, lineService)
+            , ISettingsAccessor settingsAccessor) : base(Keyword.PlayRedLightGreenLight, lineService)
         {
             _videoAccessor = videoAccessor;
             _settingsAccessor = settingsAccessor;
@@ -21,27 +20,35 @@ namespace TeaseAI.Services.CommandProcessor
         public override Result<Session> PerformCommand(Session session, string line)
         {
             var workingSession = session.Clone();
+            workingSession.Phase = workingSession.Phase == SessionPhase.BeforeSession ? SessionPhase.End : workingSession.Phase;
             var script = new Script(new ScriptMetaData
             {
                 Info = "Compiled",
-                SessionPhase = session.Phase == SessionPhase.BeforeSession ? SessionPhase.End : SessionPhase.Modules,
+                SessionPhase = workingSession.Phase == SessionPhase.BeforeSession ? SessionPhase.End : SessionPhase.Modules,
             },
             new List<string>
             {
                 "@PlayVideo"
-                , "(Begin)"
-                , "@ShowCensorshipBar"
-                , "@Wait(@RandomNumber({Settings.Range.CensorshipBarOnMinimum},{Settings.Range.CensorshipBarOnMaximum}))"
-                , "@Chance50(HideBar)"
-                , "@TauntFromFile(Video\\Censorship Sucks\\CensorBarOn.txt)"
-                , "(HideBar)"
-                , "@HideCensorshipBar"
-                , "@Wait(@RandomNumber({Settings.Range.CensorshipBarOffMinimum},{Settings.Range.CensorshipBarOffMaximum}))"
-                , "@Chance50(Begin)"
-                , "@TauntFromFile(Video\\Censorship Sucks\\CensorBarOff.txt)"
-                , "@If[{Session.IsVideoPlaying}]==[true]Then(Begin)"
+                , "@RapidTextOn"
+                , "(GreenLight)"
+                , "@TauntFromFile(Video\\Red Light Green Light\\Green Light.txt)"
+                , "@UnpauseVideo"
+                , "@If[{Session.IsVideoPlaying}]==[false]Then(End)"
+                , "@If[{Settings.Range.VideoTauntFrequency}] <= [@RandomNumber(100)], SkipTaunt)"
+                , "@TauntFromFile(Video\\Red Light Green Light\\Taunts.txt)"
+                , "(SkipTaunt)"
+                , "@Wait(@RandomNumber({Settings.Range.GreenLightMinimumSeconds},{Settings.Range.GreenLightMaximumSeconds}))"
+                , "@If[{Session.IsVideoPlaying}]==[false]Then(End)"
+                , "(RedLight)"
+                , "@TauntFromFile(Video\\Red Light Green Light\\Red Light.txt)"
+                , "@If[{Session.IsVideoPlaying}]==[false]Then(End)"
+                , "@PauseVideo"
+                , "@Wait(@RandomNumber({Settings.Range.RedLightMinimumSeconds},{Settings.Range.RedLightMaximumSeconds}))"
+                , "@If[{Session.IsVideoPlaying}]==[true]Then(GreenLight)"
+                , "(End)"
+                , "@RapidTextOff"
                 , "@End"
-                , "@Info Script used by the Censorship Sucks video tease"
+                , "@Info Script used by the Red Light / Green Light video tease"
             });
 
             OnCommandProcessed(workingSession, script);

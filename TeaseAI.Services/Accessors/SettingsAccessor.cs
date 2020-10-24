@@ -159,9 +159,9 @@ namespace TeaseAI.Services.Accessors
                     CensorshipBarOffMaximum = 30,
                     VideoTauntFrequency = 5,
                     RedLightMinimumSeconds = 5,
-                    RedLightMaximumSeconds = 5,
-                    GreenLightMinimumSeconds = 5,
-                    GreenLightMaximumSeconds = 5,
+                    RedLightMaximumSeconds = 30,
+                    GreenLightMinimumSeconds = 10,
+                    GreenLightMaximumSeconds = 60,
                 },
                 Misc = new MiscSettings
                 {

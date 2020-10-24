@@ -240,6 +240,7 @@ Public Class SessionState
     <Category("Video")> Public Property NoSpecialVideo As Boolean
     <Obsolete("STOP", True)>
     <Category("Video")> Public Property RandomizerVideo As Boolean
+    <Obsolete("something do do with detecting use of randomizer button")>
     <Category("Video")> Public Property RandomizerVideoTease As Boolean
     <Category("Video")> Public Property ScriptVideoTease As String
     <Category("Video")> Public Property ScriptVideoTeaseFlag As Boolean
@@ -256,18 +257,6 @@ Public Class SessionState
     <Category("Video - Avoid the Edge")> Public Property AvoidTheEdgeGame As Boolean
     <Category("Video - Avoid the Edge")> Public Property AvoidTheEdgeStroking As Boolean
     <Category("Video - Avoid the Edge")> Public Property AvoidTheEdgeTick As Integer
-    <Category("Video - Red light green light")> Public Property IsLightRed As Boolean
-    <Category("Video - Red light green light")> Public Property RLGLGame As Boolean
-    ''' <summary>
-    ''' How many seconds between the Domme Taunting the sub (Only if greenlight)
-    ''' </summary>
-    ''' <returns></returns>
-    <Category("Video - Red light green light")> Public Property RedLightGreenLightTauntTick As Integer
-    ''' <summary>
-    ''' Defines how many seconds between the light changing from red to green or back
-    ''' </summary>
-    ''' <returns></returns>
-    <Category("Video - Red light green light")> Public Property RedLightGreenLightTick As Integer
     <Category("Video")> <Obsolete("Never set to TRUE")> Public Property NoVideo As Boolean
 
     <Category("Glitter")> <Editor(EditorGenericStringList, GetType(UITypeEditor))>
@@ -613,8 +602,6 @@ Public Class SessionState
     Public HoldEdgeTauntTimer_Interval As Integer = 1000
     Public HoldEdgeTimer_Interval As Integer = 1000
     Public IsTypingTimer_Interval As Integer = 110
-    Public RLGLTauntTimer_Interval As Integer = 1000
-    Public RLGLTimer_Interval As Integer = 1000
     Public SendTimer_Interval As Integer = 110
     Public SlideshowTimer_Interval As Integer = 1000
     Public StrokeTauntTimer_Interval As Integer = 1000
@@ -763,8 +750,6 @@ Public Class SessionState
             HoldEdgeTauntTimer_enabled = .HoldEdgeTauntTimer.Enabled
             HoldEdgeTimer_enabled = .HoldEdgeTimer.Enabled
             IsTypingTimer_enabled = .IsTypingTimer.Enabled
-            RLGLTauntTimer_enabled = .RedLightGreenLightTauntTimer.Enabled
-            RLGLTimer_enabled = .RedLightGreenLightTimer.Enabled
             SendTimer_enabled = .SendTimer.Enabled
             SlideshowTimer_enabled = .SlideshowTimer.Enabled
             StrokeTauntTimer_enabled = .StrokeTauntTimer.Enabled
@@ -794,8 +779,6 @@ Public Class SessionState
             HoldEdgeTauntTimer_Interval = .HoldEdgeTauntTimer.Interval
             HoldEdgeTimer_Interval = .HoldEdgeTimer.Interval
             IsTypingTimer_Interval = .IsTypingTimer.Interval
-            RLGLTauntTimer_Interval = .RedLightGreenLightTauntTimer.Interval
-            RLGLTimer_Interval = .RedLightGreenLightTimer.Interval
             SendTimer_Interval = .SendTimer.Interval
             SlideshowTimer_Interval = .SlideshowTimer.Interval
             StrokeTauntTimer_Interval = .StrokeTauntTimer.Interval
@@ -814,10 +797,10 @@ Public Class SessionState
             '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
             '								Get WMP-Data
             '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
-            serialized_WMP_Visible = .DomWMP.Visible
-            serialized_WMP_URL = .DomWMP.URL
-            serialized_WMP_Playstate = .DomWMP.playState
-            serialized_WMP_Position = .DomWMP.Ctlcontrols.currentPosition
+            serialized_WMP_Visible = .WindowsMediaPlayerPane.Visible
+            serialized_WMP_URL = .WindowsMediaPlayerPane.URL
+            serialized_WMP_Playstate = .WindowsMediaPlayerPane.playState
+            serialized_WMP_Position = .WindowsMediaPlayerPane.Ctlcontrols.currentPosition
 
             '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
             '								Get Flags
@@ -897,8 +880,6 @@ Public Class SessionState
             .HoldEdgeTauntTimer.Enabled = False
             .HoldEdgeTimer.Enabled = False
             .IsTypingTimer.Enabled = False
-            .RedLightGreenLightTauntTimer.Enabled = False
-            .RedLightGreenLightTimer.Enabled = False
             .SendTimer.Enabled = False
             .SlideshowTimer.Enabled = False
             .StrokeTauntTimer.Enabled = False
@@ -991,23 +972,23 @@ Public Class SessionState
             End If
 
             .mainPictureBox.Visible = Not serialized_WMP_Visible
-            .DomWMP.Visible = serialized_WMP_Visible
-            .DomWMP.URL = serialized_WMP_URL
-            .DomWMP.Ctlcontrols.currentPosition = serialized_WMP_Position
+            .WindowsMediaPlayerPane.Visible = serialized_WMP_Visible
+            .WindowsMediaPlayerPane.URL = serialized_WMP_URL
+            .WindowsMediaPlayerPane.Ctlcontrols.currentPosition = serialized_WMP_Position
 
             If serialized_WMP_Playstate <= 1 Then
-                .DomWMP.Ctlcontrols.stop()
+                .WindowsMediaPlayerPane.Ctlcontrols.stop()
             ElseIf serialized_WMP_Playstate = 2 Then
                 Dim sw As New Stopwatch
                 sw.Start()
 
-                Do Until .DomWMP.playState = WMPPlayState.wmppsPlaying Or sw.ElapsedMilliseconds > 5000
+                Do Until .WindowsMediaPlayerPane.playState = WMPPlayState.wmppsPlaying Or sw.ElapsedMilliseconds > 5000
                     Application.DoEvents()
                 Loop
 
-                .DomWMP.Ctlcontrols.pause()
+                .WindowsMediaPlayerPane.Ctlcontrols.pause()
             ElseIf serialized_WMP_Playstate = 3 Then
-                .DomWMP.Ctlcontrols.play()
+                .WindowsMediaPlayerPane.Ctlcontrols.play()
             End If
 
             ' Hide Cencorshipbar , if no game is running 
@@ -1036,8 +1017,6 @@ Public Class SessionState
             .HoldEdgeTauntTimer.Interval = HoldEdgeTauntTimer_Interval
             .HoldEdgeTimer.Interval = HoldEdgeTimer_Interval
             .IsTypingTimer.Interval = IsTypingTimer_Interval
-            .RedLightGreenLightTauntTimer.Interval = RLGLTauntTimer_Interval
-            .RedLightGreenLightTimer.Interval = RLGLTimer_Interval
             .SendTimer.Interval = SendTimer_Interval
             .SlideshowTimer.Interval = SlideshowTimer_Interval
             .StrokeTauntTimer.Interval = StrokeTauntTimer_Interval
@@ -1068,8 +1047,6 @@ Public Class SessionState
             .HoldEdgeTauntTimer.Enabled = HoldEdgeTauntTimer_enabled
             .HoldEdgeTimer.Enabled = HoldEdgeTimer_enabled
             .IsTypingTimer.Enabled = IsTypingTimer_enabled
-            .RedLightGreenLightTauntTimer.Enabled = RLGLTauntTimer_enabled
-            .RedLightGreenLightTimer.Enabled = RLGLTimer_enabled
             .SendTimer.Enabled = SendTimer_enabled
             .SlideshowTimer.Enabled = SlideshowTimer_enabled
             .StrokeTauntTimer.Enabled = StrokeTauntTimer_enabled

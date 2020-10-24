@@ -83,6 +83,9 @@ namespace TeaseAI.Services
             CommandProcessors[Keyword.PlayCockHeroVideo].CommandProcessed += PlayVideoCommandProcessed;
             CommandProcessors[Keyword.PlayCensorshipSucks].CommandProcessed += PlayCensorshipSucksVideoTauntCommandProcessed;
             CommandProcessors[Keyword.PlayRedLightGreenLight].CommandProcessed += PlayRedLightGreenLightVideoTauntCommandProcessed;
+            CommandProcessors[Keyword.StopVideo].CommandProcessed += StopVideoCommandProcessed;
+            CommandProcessors[Keyword.PauseVideo].CommandProcessed += PauseVideoCommandProcessed;
+            CommandProcessors[Keyword.UnpauseVideo].CommandProcessed += UnpauseVideoCommandProcessed;
             CommandProcessors[Keyword.ShowCensorshipBar].CommandProcessed += ShowCensorshipBarCommandProcessed;
             CommandProcessors[Keyword.HideCensorshipBar].CommandProcessed += HideCensorshipBarCommandProcessed;
 
@@ -156,6 +159,33 @@ namespace TeaseAI.Services
         private void OnPlayVideo(PlayVideoEventArgs eventArgs)
         {
             PlayVideo?.Invoke(this, eventArgs);
+        }
+
+        /// <summary>
+        /// Stop whatever video is playing
+        /// </summary>
+        public event EventHandler StopVideo;
+        private void OnStopVideo()
+        {
+            StopVideo?.Invoke(this, new EventArgs());
+        }
+
+        /// <summary>
+        /// Pause whatever video is playing
+        /// </summary>
+        public event EventHandler PauseVideo;
+        private void OnPauseVideo()
+        {
+            PauseVideo?.Invoke(this, new EventArgs());
+        }
+
+        /// <summary>
+        /// Unpause whatever video is playing
+        /// </summary>
+        public event EventHandler UnpauseVideo;
+        private void OnUnpauseVideo()
+        {
+            UnpauseVideo?.Invoke(this, new EventArgs());
         }
 
         public event EventHandler<SendFileEventArgs> SendFile;
@@ -587,6 +617,12 @@ namespace TeaseAI.Services
             BeginSession((Script)e.Parameter);
         }
 
+        private void StopVideoCommandProcessed(object sender, CommandProcessedEventArgs e) => OnStopVideo();
+
+        private void PauseVideoCommandProcessed(object sender, CommandProcessedEventArgs e) => OnPauseVideo();
+
+        private void UnpauseVideoCommandProcessed(object sender, CommandProcessedEventArgs e) => OnUnpauseVideo();
+
         private void LikeImageCommandProcessed(object sender, CommandProcessedEventArgs e)
         {
             var eventArgs = (ShowImageEventArgs)e.Parameter;
@@ -711,6 +747,7 @@ namespace TeaseAI.Services
                     OnDommeSaid(Session.Domme, "Error: " + doWork.Error.Message);
                 }
                 // We are all done, so go ahead and schedule a new timer.
+                _scriptTimer.Interval = Session.Domme.MessageTimer;
                 _scriptTimer.Enabled = true;
             }
         }

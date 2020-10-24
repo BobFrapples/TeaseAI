@@ -2951,54 +2951,6 @@ Namespace My
 
         <Global.System.Configuration.UserScopedSettingAttribute(),
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("5")>
-        Public Property RedLightMin() As Integer
-            Get
-                Return CType(Me("RedLightMin"), Integer)
-            End Get
-            Set
-                Me("RedLightMin") = Value
-            End Set
-        End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("30")>
-        Public Property RedLightMax() As Integer
-            Get
-                Return CType(Me("RedLightMax"), Integer)
-            End Get
-            Set
-                Me("RedLightMax") = Value
-            End Set
-        End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("10")>
-        Public Property GreenLightMin() As Integer
-            Get
-                Return CType(Me("GreenLightMin"), Integer)
-            End Get
-            Set
-                Me("GreenLightMin") = Value
-            End Set
-        End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("60")>
-        Public Property GreenLightMax() As Integer
-            Get
-                Return CType(Me("GreenLightMax"), Integer)
-            End Get
-            Set
-                Me("GreenLightMax") = Value
-            End Set
-        End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
          Global.System.Configuration.DefaultSettingValueAttribute("Tease")>
         Public Property SlideshowMode() As String
             Get

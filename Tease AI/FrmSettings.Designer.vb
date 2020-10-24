@@ -11751,6 +11751,8 @@ Partial Class FrmSettings
         Me.GreenLightMaximumSeconds.Name = "GreenLightMaximumSeconds"
         Me.GreenLightMaximumSeconds.Size = New System.Drawing.Size(44, 20)
         Me.GreenLightMaximumSeconds.TabIndex = 156
+        Me.TTDir.SetToolTip(Me.GreenLightMaximumSeconds, "This determines the maximum amount of time the domme will keep the video playing " &
+        "while playing Red Light Green Light.")
         Me.GreenLightMaximumSeconds.Value = New Decimal(New Integer() {60, 0, 0, 0})
         '
         'GreenLightMinimumSeconds
@@ -11760,6 +11762,8 @@ Partial Class FrmSettings
         Me.GreenLightMinimumSeconds.Name = "GreenLightMinimumSeconds"
         Me.GreenLightMinimumSeconds.Size = New System.Drawing.Size(44, 20)
         Me.GreenLightMinimumSeconds.TabIndex = 155
+        Me.TTDir.SetToolTip(Me.GreenLightMinimumSeconds, "This determines the minimum amount of time the domme will keep the video playing " &
+        "while playing Red Light Green Light.")
         Me.GreenLightMinimumSeconds.Value = New Decimal(New Integer() {10, 0, 0, 0})
         '
         'RedLightMaximumSeconds
@@ -11769,6 +11773,8 @@ Partial Class FrmSettings
         Me.RedLightMaximumSeconds.Name = "RedLightMaximumSeconds"
         Me.RedLightMaximumSeconds.Size = New System.Drawing.Size(44, 20)
         Me.RedLightMaximumSeconds.TabIndex = 152
+        Me.TTDir.SetToolTip(Me.RedLightMaximumSeconds, "This determines the maximum amount of time the domme will keep the video paused w" &
+        "hile playing Red Light Green Light.")
         Me.RedLightMaximumSeconds.Value = New Decimal(New Integer() {30, 0, 0, 0})
         '
         'Label26
@@ -11791,6 +11797,8 @@ Partial Class FrmSettings
         Me.RedLightMinimumSeconds.Name = "RedLightMinimumSeconds"
         Me.RedLightMinimumSeconds.Size = New System.Drawing.Size(44, 20)
         Me.RedLightMinimumSeconds.TabIndex = 151
+        Me.TTDir.SetToolTip(Me.RedLightMinimumSeconds, "This determines the minimum amount of time the domme will keep the video paused w" &
+        "hile playing Red Light Green Light.")
         Me.RedLightMinimumSeconds.Value = New Decimal(New Integer() {5, 0, 0, 0})
         '
         'Label28
@@ -11887,6 +11895,8 @@ Partial Class FrmSettings
         Me.ShowCensorshipBarMinimumSeconds.Name = "ShowCensorshipBarMinimumSeconds"
         Me.ShowCensorshipBarMinimumSeconds.Size = New System.Drawing.Size(44, 20)
         Me.ShowCensorshipBarMinimumSeconds.TabIndex = 151
+        Me.TTDir.SetToolTip(Me.ShowCensorshipBarMinimumSeconds, "This determines the minimum amount of time the censor bar will be on the screen a" &
+        "t a time while playing Censorship Sucks.")
         Me.ShowCensorshipBarMinimumSeconds.Value = New Decimal(New Integer() {5, 0, 0, 0})
         '
         'HideCensorshipBarMaximumSeconds
@@ -11898,6 +11908,8 @@ Partial Class FrmSettings
         Me.HideCensorshipBarMaximumSeconds.Name = "HideCensorshipBarMaximumSeconds"
         Me.HideCensorshipBarMaximumSeconds.Size = New System.Drawing.Size(44, 20)
         Me.HideCensorshipBarMaximumSeconds.TabIndex = 156
+        Me.TTDir.SetToolTip(Me.HideCensorshipBarMaximumSeconds, "This determines the maximum amount of time the censor bar will be invisible while" &
+        " playing Censorship Sucks.")
         Me.HideCensorshipBarMaximumSeconds.Value = New Decimal(New Integer() {5, 0, 0, 0})
         '
         'HideCensorshipBarMinimumSeconds
@@ -11909,6 +11921,8 @@ Partial Class FrmSettings
         Me.HideCensorshipBarMinimumSeconds.Name = "HideCensorshipBarMinimumSeconds"
         Me.HideCensorshipBarMinimumSeconds.Size = New System.Drawing.Size(44, 20)
         Me.HideCensorshipBarMinimumSeconds.TabIndex = 155
+        Me.TTDir.SetToolTip(Me.HideCensorshipBarMinimumSeconds, "This determines the minimum amount of time the censor bar will be invisible while" &
+        " playing Censorship Sucks.")
         Me.HideCensorshipBarMinimumSeconds.Value = New Decimal(New Integer() {5, 0, 0, 0})
         '
         'CensorshipBarDuringVideoTease
@@ -11921,6 +11935,9 @@ Partial Class FrmSettings
         Me.CensorshipBarDuringVideoTease.Size = New System.Drawing.Size(263, 17)
         Me.CensorshipBarDuringVideoTease.TabIndex = 157
         Me.CensorshipBarDuringVideoTease.Text = "Censorship Bar Always Visible During Video Tease"
+        Me.TTDir.SetToolTip(Me.CensorshipBarDuringVideoTease, "When this is checked, the censor bar will always be visible while playing Censors" &
+        "hip Sucks. Its position on the screen will still change in time with Show Censor" &
+        " Bar settings.")
         Me.CensorshipBarDuringVideoTease.UseVisualStyleBackColor = True
         '
         'Label25
@@ -11982,6 +11999,8 @@ Partial Class FrmSettings
         Me.ShowCensorshipBarMaximumSeconds.Name = "ShowCensorshipBarMaximumSeconds"
         Me.ShowCensorshipBarMaximumSeconds.Size = New System.Drawing.Size(44, 20)
         Me.ShowCensorshipBarMaximumSeconds.TabIndex = 152
+        Me.TTDir.SetToolTip(Me.ShowCensorshipBarMaximumSeconds, "This determines the maximum amount of time the censor bar will be on the screen a" &
+        "t a time while playing Censorship Sucks.")
         Me.ShowCensorshipBarMaximumSeconds.Value = New Decimal(New Integer() {5, 0, 0, 0})
         '
         'RangeSettingsBodyMiddleColumnPanel
@@ -12377,6 +12396,7 @@ Partial Class FrmSettings
         Me.VideoTauntSlider.Size = New System.Drawing.Size(87, 20)
         Me.VideoTauntSlider.TabIndex = 161
         Me.VideoTauntSlider.TickFrequency = 2
+        Me.TTDir.SetToolTip(Me.VideoTauntSlider, resources.GetString("VideoTauntSlider.ToolTip"))
         Me.VideoTauntSlider.Value = 4
         '
         'VideoTauntSliderLabel
@@ -12411,6 +12431,7 @@ Partial Class FrmSettings
         Me.TeaseLengthDommeDetermined.Size = New System.Drawing.Size(176, 17)
         Me.TeaseLengthDommeDetermined.TabIndex = 184
         Me.TeaseLengthDommeDetermined.Text = "Domme Decide Based on Level"
+        Me.TTDir.SetToolTip(Me.TeaseLengthDommeDetermined, resources.GetString("TeaseLengthDommeDetermined.ToolTip"))
         Me.TeaseLengthDommeDetermined.UseVisualStyleBackColor = True
         '
         'Label103
@@ -15917,8 +15938,8 @@ Partial Class FrmSettings
     Friend WithEvents RangeSettingsBodyRightColumnPanel As Panel
     Friend WithEvents RangeSettingsBodyMiddleColumnPanel As Panel
     Friend WithEvents RangeSettingsBodyLeftColumnPanel As Panel
-    Private WithEvents GreenLightMaximumSeconds As NumericUpDown
-    Private WithEvents GreenLightMinimumSeconds As NumericUpDown
-    Private WithEvents RedLightMaximumSeconds As NumericUpDown
-    Private WithEvents RedLightMinimumSeconds As NumericUpDown
+    Friend WithEvents GreenLightMaximumSeconds As NumericUpDown
+    Friend WithEvents GreenLightMinimumSeconds As NumericUpDown
+    Friend WithEvents RedLightMaximumSeconds As NumericUpDown
+    Friend WithEvents RedLightMinimumSeconds As NumericUpDown
 End Class

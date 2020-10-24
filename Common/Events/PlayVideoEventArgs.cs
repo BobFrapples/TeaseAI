@@ -8,11 +8,16 @@ namespace TeaseAI.Common.Events
     /// </summary>
     public class PlayVideoEventArgs : EventArgs
     {
+        /// <summary>
+        /// Metadata around the video that should be played
+        /// </summary>
         public VideoMetaData VideoMetaData { get; set; }
+
         /// <summary>
         /// Should the player randomize the starting location
         /// </summary>
         public bool ShouldRandomizeStart { get; set; }
+
         /// <summary>
         /// Did the video start, or did it fail, and why
         /// </summary>

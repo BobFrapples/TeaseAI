@@ -115,6 +115,8 @@ namespace TeaseAI.Services
             rVal.Add(Keyword.ShowCensorshipBar, new ShowCensorshipBarCommandProcessor(_lineService));
             rVal.Add(Keyword.HideCensorshipBar, new HideCensorshipBarCommandProcessor(_lineService));
             rVal.Add(Keyword.StopVideo, new StopVideoCommandProcessor(_lineService));
+            rVal.Add(Keyword.PauseVideo, new PauseVideoCommandProcessor(_lineService));
+            rVal.Add(Keyword.UnpauseVideo, new UnpauseVideoCommandProcessor(_lineService));
 
             rVal.Add(Keyword.IncreaseOrgasmChance, new IncreaseOrgasmChanceCommand(_lineService));
             rVal.Add(Keyword.DecreaseOrgasmChance, new DecreaseOrgasmChanceCommand(_lineService));
@@ -139,6 +141,7 @@ namespace TeaseAI.Services
 
             // Commands that move you to another part of the script should be checked after commands that operate on the current line
             rVal.Add(Keyword.Goto, new GotoCommandProcessor(_lineService, _bookmarkService, _randomNumberService));
+            rVal.Add(Keyword.ChancePercent, new ChancePercentCommandProcessor(_lineService, _bookmarkService, _randomNumberService));
             rVal.Add(Keyword.Chance, new ChanceCommandProcessor(_lineService, _bookmarkService, _randomNumberService));
             rVal.Add(Keyword.CheckFlag, new CheckFlagCommandProcessor(_flagAccessor, _lineService, _bookmarkService));
             rVal.Add(Keyword.GotoDommeOrgasm, new GotoDommeOrgasmCommandProcessor(_lineService, _bookmarkService));

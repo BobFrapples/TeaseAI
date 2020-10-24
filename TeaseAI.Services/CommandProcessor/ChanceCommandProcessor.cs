@@ -79,7 +79,6 @@ namespace TeaseAI.Services.CommandProcessor
             return result;
         }
 
-        private readonly LineService _lineService;
         private readonly IBookmarkService _bookmarkService;
         private readonly IRandomNumberService _randomNumberService;
     }

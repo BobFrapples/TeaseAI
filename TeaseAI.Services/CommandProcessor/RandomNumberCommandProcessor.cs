@@ -35,7 +35,7 @@ namespace TeaseAI.Services.CommandProcessor
 
             return getOptions
                 .Ensure(p => int.TryParse(p.Item1, out int minimum), getOptions.Value.Item1 + " is text, minimum must be a number.")
-                .Ensure(p => int.TryParse(p.Item2, out int maximum), getOptions.Value.Item2 + " is text, minimum must be a number.")
+                .Ensure(p => int.TryParse(p.Item2, out int maximum), getOptions.Value.Item2 + " is text, maximum must be a number.")
                 .Map(p => session);
         }
 
@@ -52,8 +52,8 @@ namespace TeaseAI.Services.CommandProcessor
         private Result<Tuple<string, string>> GetCommandOptions(string line)
         {
             return _lineService.GetParenData(line, _keyword)
-                .Ensure(lines => lines.Count == 1 || lines.Count == 2, "@RandomNumber accepts only one or two parameters")
-                .Map(lines => Tuple.Create(lines[0], lines[1]));
+                 .Ensure(lines => lines.Count == 1 || lines.Count == 2, "@RandomNumber accepts only one or two parameters")
+                 .OnSuccess(lines => lines.Count == 1 ? Tuple.Create("0", lines[0]) : Tuple.Create(lines[0], lines[1]));
         }
 
         private readonly IRandomNumberService _randomNumberService;

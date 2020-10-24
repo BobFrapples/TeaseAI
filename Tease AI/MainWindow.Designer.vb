@@ -29,7 +29,7 @@ Partial Class MainWindow
         Me.mainPictureBox = New System.Windows.Forms.PictureBox()
         Me.domAvatar = New System.Windows.Forms.PictureBox()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.DomWMP = New AxWMPLib.AxWindowsMediaPlayer()
+        Me.WindowsMediaPlayerPane = New AxWMPLib.AxWindowsMediaPlayer()
         Me.ProgressBar_BGW_Images = New System.Windows.Forms.ProgressBar()
         Me.CensorshipBar = New System.Windows.Forms.Panel()
         Me.LBLImageInfo = New System.Windows.Forms.Label()
@@ -380,7 +380,6 @@ Partial Class MainWindow
         Me.SendTimer = New Tease_AI.teaseAI_Timer()
         Me.StrokeTimer = New Tease_AI.teaseAI_Timer()
         Me.StrokeTauntTimer = New Tease_AI.teaseAI_Timer()
-        Me.RedLightGreenLightTimer = New Tease_AI.teaseAI_Timer()
         Me.UpdatesTimer = New Tease_AI.teaseAI_Timer()
         Me.AvoidTheEdge = New Tease_AI.teaseAI_Timer()
         Me.AvoidTheEdgeResume = New Tease_AI.teaseAI_Timer()
@@ -395,7 +394,6 @@ Partial Class MainWindow
         Me.ReceiveFileTimer = New Tease_AI.teaseAI_Timer()
         Me.VideoTauntTimer = New Tease_AI.teaseAI_Timer()
         Me.TeaseTimer = New Tease_AI.teaseAI_Timer()
-        Me.RedLightGreenLightTauntTimer = New Tease_AI.teaseAI_Timer()
         Me.AvoidTheEdgeTaunts = New Tease_AI.teaseAI_Timer()
         Me.CustomSlideshowTimer = New Tease_AI.teaseAI_Timer()
         Me.Contact1Timer = New Tease_AI.teaseAI_Timer()
@@ -414,7 +412,7 @@ Partial Class MainWindow
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
-        CType(Me.DomWMP, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.WindowsMediaPlayerPane, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PnlChatTextLayout.SuspendLayout()
         Me.PNLMediaBar.SuspendLayout()
         Me.PnlChatBoxLayout.SuspendLayout()
@@ -527,7 +525,7 @@ Partial Class MainWindow
         'SplitContainer1.Panel1
         '
         Me.SplitContainer1.Panel1.BackColor = System.Drawing.Color.Transparent
-        Me.SplitContainer1.Panel1.Controls.Add(Me.DomWMP)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.WindowsMediaPlayerPane)
         Me.SplitContainer1.Panel1.Controls.Add(Me.ProgressBar_BGW_Images)
         Me.SplitContainer1.Panel1.Controls.Add(Me.CensorshipBar)
         Me.SplitContainer1.Panel1.Controls.Add(Me.LBLImageInfo)
@@ -547,16 +545,16 @@ Partial Class MainWindow
         '
         'DomWMP
         '
-        Me.DomWMP.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+        Me.WindowsMediaPlayerPane.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.DomWMP.Enabled = True
-        Me.DomWMP.Location = New System.Drawing.Point(0, 0)
-        Me.DomWMP.Name = "DomWMP"
-        Me.DomWMP.OcxState = CType(resources.GetObject("DomWMP.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.DomWMP.Size = New System.Drawing.Size(1326, 712)
-        Me.DomWMP.TabIndex = 96
-        Me.DomWMP.Visible = False
+        Me.WindowsMediaPlayerPane.Enabled = True
+        Me.WindowsMediaPlayerPane.Location = New System.Drawing.Point(0, 0)
+        Me.WindowsMediaPlayerPane.Name = "DomWMP"
+        Me.WindowsMediaPlayerPane.OcxState = CType(resources.GetObject("DomWMP.OcxState"), System.Windows.Forms.AxHost.State)
+        Me.WindowsMediaPlayerPane.Size = New System.Drawing.Size(1326, 712)
+        Me.WindowsMediaPlayerPane.TabIndex = 96
+        Me.WindowsMediaPlayerPane.Visible = False
         '
         'ProgressBar_BGW_Images
         '
@@ -4258,10 +4256,6 @@ Partial Class MainWindow
         '
         Me.StrokeTauntTimer.Interval = 1000
         '
-        'RLGLTimer
-        '
-        Me.RedLightGreenLightTimer.Interval = 1000
-        '
         'UpdatesTimer
         '
         Me.UpdatesTimer.Interval = 1000
@@ -4317,10 +4311,6 @@ Partial Class MainWindow
         'TeaseTimer
         '
         Me.TeaseTimer.Interval = 1000
-        '
-        'RLGLTauntTimer
-        '
-        Me.RedLightGreenLightTauntTimer.Interval = 1000
         '
         'AvoidTheEdgeTaunts
         '
@@ -4395,7 +4385,7 @@ Partial Class MainWindow
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.ResumeLayout(False)
-        CType(Me.DomWMP, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.WindowsMediaPlayerPane, System.ComponentModel.ISupportInitialize).EndInit()
         Me.PnlChatTextLayout.ResumeLayout(False)
         Me.PNLMediaBar.ResumeLayout(False)
         Me.PnlChatBoxLayout.ResumeLayout(False)
@@ -4479,9 +4469,8 @@ Partial Class MainWindow
 	Friend WithEvents BtnToggleMediaPanel As System.Windows.Forms.Button
 	Friend WithEvents BtnToggleImageVideo As System.Windows.Forms.Button
 	Friend WithEvents CensorshipBar As System.Windows.Forms.Panel
-    Friend WithEvents RedLightGreenLightTimer As Tease_AI.teaseAI_Timer
     Friend WithEvents OpenFileDialog1 As System.Windows.Forms.OpenFileDialog
-	Friend WithEvents BTNLoadVideo As System.Windows.Forms.Button
+    Friend WithEvents BTNLoadVideo As System.Windows.Forms.Button
 	Friend WithEvents BTNVideoControls As System.Windows.Forms.Button
 	Friend WithEvents UpdatesTimer As Tease_AI.teaseAI_Timer
 	Friend WithEvents GetColor As System.Windows.Forms.ColorDialog
@@ -4504,7 +4493,7 @@ Partial Class MainWindow
 	Friend WithEvents TnASlides As Tease_AI.teaseAI_Timer
 	Friend WithEvents ImageFolderComboBox As System.Windows.Forms.ComboBox
 	Friend WithEvents LBLImageInfo As System.Windows.Forms.Label
-	Friend WithEvents DomWMP As AxWMPLib.AxWindowsMediaPlayer
+	Friend WithEvents WindowsMediaPlayerPane As AxWMPLib.AxWindowsMediaPlayer
 	Friend WithEvents WaitTimer As Tease_AI.teaseAI_Timer
 	Friend WithEvents ReceiveFileTimer As Tease_AI.teaseAI_Timer
 	Friend WithEvents VideoTauntTimer As Tease_AI.teaseAI_Timer

@@ -318,11 +318,11 @@ Public Class FrmSettings
         ShowCensorshipBarMinimumSeconds.Value = rangeSettings.CensorshipBarOnMinimum
         ShowCensorshipBarMaximumSeconds.Value = rangeSettings.CensorshipBarOnMaximum
 
-        RedLightMinimumSeconds.Value = My.Settings.RedLightMin
-        RedLightMaximumSeconds.Value = My.Settings.RedLightMax
+        RedLightMinimumSeconds.Value = rangeSettings.RedLightMinimumSeconds
+        RedLightMaximumSeconds.Value = rangeSettings.RedLightMaximumSeconds
 
-        GreenLightMinimumSeconds.Value = My.Settings.GreenLightMin
-        GreenLightMaximumSeconds.Value = My.Settings.GreenLightMax
+        GreenLightMinimumSeconds.Value = rangeSettings.GreenLightMinimumSeconds
+        GreenLightMaximumSeconds.Value = rangeSettings.GreenLightMaximumSeconds
 
     End Sub
 
@@ -5394,71 +5394,34 @@ Public Class FrmSettings
     End Sub
 
     Private Sub RedLightMinimumSeconds_LostFocus(sender As Object, e As EventArgs) Handles RedLightMinimumSeconds.LostFocus
-        My.Settings.RedLightMin = RedLightMinimumSeconds.Value
+        UpdateSettings(RedLightMinimumSeconds.Visible, Sub(settings As Settings) settings.Range.RedLightMinimumSeconds = Convert.ToInt32(RedLightMinimumSeconds.Value))
     End Sub
 
     Private Sub RedLightMaximumSeconds_LostFocus(sender As Object, e As EventArgs) Handles RedLightMaximumSeconds.LostFocus
-        My.Settings.RedLightMax = RedLightMaximumSeconds.Value
+        UpdateSettings(RedLightMaximumSeconds.Visible, Sub(settings As Settings) settings.Range.RedLightMaximumSeconds = Convert.ToInt32(RedLightMaximumSeconds.Value))
     End Sub
 
     Private Sub GreenLightMinimumSeconds_LostFocus(sender As Object, e As EventArgs) Handles GreenLightMinimumSeconds.LostFocus
-        My.Settings.GreenLightMin = GreenLightMinimumSeconds.Value
+        UpdateSettings(GreenLightMinimumSeconds.Visible, Sub(settings As Settings) settings.Range.GreenLightMinimumSeconds = Convert.ToInt32(GreenLightMinimumSeconds.Value))
     End Sub
 
     Private Sub GreenLightMaximumSeconds_LostFocus(sender As Object, e As EventArgs) Handles GreenLightMaximumSeconds.LostFocus
-        My.Settings.GreenLightMax = GreenLightMaximumSeconds.Value
+        UpdateSettings(GreenLightMaximumSeconds.Visible, Sub(settings As Settings) settings.Range.GreenLightMaximumSeconds = Convert.ToInt32(GreenLightMaximumSeconds.Value))
     End Sub
 
-
-#Region "tooltips and descriptions"
-    Private Sub TeaseLengthDommeDetermined_MouseHover(sender As Object, e As EventArgs) Handles TeaseLengthDommeDetermined.MouseEnter
-        RangeSettingsDescriptionLabel.Text = "This allows the domme to decide the length of the tease based on her level." & Environment.NewLine & Environment.NewLine &
-            "A level 1 domme may tease you for 15-20 minutes, while a level 5 domme may tease you as long as an hour." & Environment.NewLine & Environment.NewLine &
-            "The domme will not move to an End script until the first @End point of a Module that occurs after tease time expires."
+    Private Sub RangeSettingsDescriptionLabel_ShowToolTips(sender As Object, e As EventArgs) Handles RedLightMinimumSeconds.MouseEnter _
+        , RedLightMaximumSeconds.MouseEnter _
+        , GreenLightMaximumSeconds.MouseEnter _
+        , GreenLightMinimumSeconds.MouseEnter _
+        , VideoTauntSlider.MouseEnter _
+        , HideCensorshipBarMaximumSeconds.MouseEnter _
+        , HideCensorshipBarMinimumSeconds.MouseEnter _
+        , TeaseLengthDommeDetermined.MouseEnter _
+        , CensorshipBarDuringVideoTease.MouseEnter _
+        , ShowCensorshipBarMinimumSeconds.MouseEnter _
+        , ShowCensorshipBarMaximumSeconds.MouseEnter
+        RangeSettingsDescriptionLabel.Text = TTDir.GetToolTip(sender)
     End Sub
-
-    Private Sub CensorshipBarDuringVideoTease_MouseHover(sender As Object, e As EventArgs) Handles CensorshipBarDuringVideoTease.MouseEnter
-        RangeSettingsDescriptionLabel.Text = "When this is checked, the censor bar will always be visible while playing Censorship Sucks. Its position on the screen will still change in time with Show Censor Bar settings."
-    End Sub
-
-    Private Sub ShowCensorshipBarMinimumSeconds_MouseHover(sender As Object, e As EventArgs) Handles ShowCensorshipBarMinimumSeconds.MouseEnter
-        RangeSettingsDescriptionLabel.Text = "This determines the minimum amount of time the censor bar will be on the screen at a time while playing Censorship Sucks."
-    End Sub
-
-    Private Sub ShowCensorshipBarMaximumSeconds_MouseHover(sender As Object, e As EventArgs) Handles ShowCensorshipBarMaximumSeconds.MouseEnter
-        RangeSettingsDescriptionLabel.Text = "This determines the maximum amount of time the censor bar will be on the screen at a time while playing Censorship Sucks."
-    End Sub
-
-    Private Sub HideCensorshipBarMinimumSeconds_MouseHover(sender As Object, e As EventArgs) Handles HideCensorshipBarMinimumSeconds.MouseEnter
-        RangeSettingsDescriptionLabel.Text = "This determines the minimum amount of time the censor bar will be invisible while playing Censorship Sucks."
-    End Sub
-
-    Private Sub HideCensorshipBarMaximumSeconds_MouseHover(sender As Object, e As EventArgs) Handles HideCensorshipBarMaximumSeconds.MouseEnter
-        RangeSettingsDescriptionLabel.Text = "This determines the maximum amount of time the censor bar will be invisible while playing Censorship Sucks."
-    End Sub
-
-    Private Sub VideoTauntSlider_MouseHover(sender As Object, e As EventArgs) Handles VideoTauntSlider.MouseEnter
-        RangeSettingsDescriptionLabel.Text = "This allows you to set the frequency of the domme's Taunts during Video Teases." & Environment.NewLine & Environment.NewLine &
-            "A middle value creates a fairly common use of Taunts. Use a higher value to make the domme extremely engaged. Use a lower value to focus on the Video Tease with minimal interaction from the domme."
-    End Sub
-
-    Private Sub RedLightMinimumSeconds_MouseHover(sender As Object, e As EventArgs) Handles RedLightMinimumSeconds.MouseEnter
-        RangeSettingsDescriptionLabel.Text = "This determines the minimum amount of time the domme will keep the video paused while playing Red Light Green Light."
-    End Sub
-
-    Private Sub RedLightMaximumSeconds_MouseHover(sender As Object, e As EventArgs) Handles RedLightMaximumSeconds.MouseEnter
-        RangeSettingsDescriptionLabel.Text = "This determines the maximum amount of time the domme will keep the video paused while playing Red Light Green Light."
-    End Sub
-
-    Private Sub GreenLightMinimumSeconds_MouseHover(sender As Object, e As EventArgs) Handles GreenLightMinimumSeconds.MouseEnter
-        RangeSettingsDescriptionLabel.Text = "This determines the minimum amount of time the domme will keep the video playing while playing Red Light Green Light."
-    End Sub
-
-    Private Sub GreenLightMaximumSeconds_MouseHover(sender As Object, e As EventArgs) Handles GreenLightMaximumSeconds.MouseEnter
-        RangeSettingsDescriptionLabel.Text = "This determines the maximum amount of time the domme will keep the video playing while playing Red Light Green Light."
-    End Sub
-
-#End Region
 #End Region
 
 #Region "Misc Tab"
@@ -7534,7 +7497,7 @@ Public Class FrmSettings
 
     Private Sub CBMuteMedia_CheckedChanged(sender As Object, e As EventArgs) Handles CBMuteMedia.CheckedChanged
 
-        MainWindow.DomWMP.settings.mute = CBMuteMedia.Checked
+        MainWindow.WindowsMediaPlayerPane.settings.mute = CBMuteMedia.Checked
 
     End Sub
 
@@ -7837,11 +7800,6 @@ Public Class FrmSettings
                 Return 0
         End Select
     End Function
-
-    Private Sub Label89_Click(sender As Object, e As EventArgs) Handles RarelyAllowsPercentLabel.Click
-
-    End Sub
-
 
     ''' <summary>
     ''' used to remove some boiler plate when saving changes from the UI

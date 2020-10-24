@@ -82,6 +82,7 @@
     <Compile Include="CommandDetection\VideoDetection_Tests.cs" />
     <Compile Include="CommandProcessors\CheckFlagCommandProcessor_Tests.cs" />
     <Compile Include="CommandProcessors\IfCommandProcessor_Tests.cs" />
+    <Compile Include="CommandProcessors\RandomNumberCommandProcessor_Tests.cs" />
     <Compile Include="CommandProcessors\SetVarCommandProcessor_Tests.cs" />
     <Compile Include="CommandProcessors\ShowHardcoreImageCommandProcessor_Tests.cs" />
     <Compile Include="ConditionalObjectLogic_Tests.cs" />
