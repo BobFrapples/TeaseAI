@@ -11694,11 +11694,19 @@ restartInstantly:
         Next
 
         PNLTabs.Visible = appToOpen IsNot Nothing
-        PnlTabsLayout.Visible = appToOpen IsNot Nothing
+        AppPanel.Visible = appToOpen IsNot Nothing
 
         PnlChatBoxLayout.Visible = Not (MaximizeImageToolStripMenuItem.Checked AndAlso SidepanelToolStripMenuItem.Checked AndAlso PnlSidechat.Visible)
     End Sub
 
+    Public Sub SetVisibleApp(appToOpen As Control)
+        AppPanel.Visible = True
+        PNLTabs.Visible = True
+        For Each control As Control In PNLTabs.Controls
+            control.Visible = control Is appToOpen
+        Next
+
+    End Sub
 #Region "Apps"
 
 #Region "--------------------------------------------------- DommeTag APP -----------------------------------------------------"
@@ -12833,8 +12841,8 @@ restartInstantly:
 
 #Region "Randomizer-App"
 
-    Private Sub BlogImageRandomizerButton_Click(sender As Object, e As EventArgs) Handles BlogImageRandomizerButton.Click
-        BlogImageRandomizerButton.Enabled = False
+    Private Sub BlogImageRandomizerButton_Click(sender As Object, e As EventArgs) Handles RandomizerAppPanel1.BlogImageRandomizerButton_Clicked
+        RandomizerAppPanel1.BlogImageRandomizerButton.Enabled = False
 
         Dim dommePersonality As DommePersonality = CreateDommePersonality()
         Dim doCommand As Result = VerifyDommeAllowsPorn(dommePersonality) _
@@ -12845,12 +12853,12 @@ restartInstantly:
             DommeSays(dommePersonality.PersonalityName, doCommand.Error.Message)
         End If
 
-        BlogImageRandomizerButton.Enabled = True
+        RandomizerAppPanel1.BlogImageRandomizerButton.Enabled = True
     End Sub
 
 
-    Private Sub LocalImageRandomizerButton_Click(sender As Object, e As EventArgs) Handles LocalImageRandomizerButton.Click
-        LocalImageRandomizerButton.Enabled = False
+    Private Sub LocalImageRandomizerButton_Click(sender As Object, e As EventArgs) Handles RandomizerAppPanel1.LocalImageRandomizerButton_Clicked
+        RandomizerAppPanel1.LocalImageRandomizerButton.Enabled = False
 
         Dim dommePersonality As DommePersonality = CreateDommePersonality()
         Dim doCommand As Result = VerifyDommeAllowsPorn(dommePersonality) _
@@ -12861,11 +12869,11 @@ restartInstantly:
             DommeSays(dommePersonality.PersonalityName, doCommand.Error.Message)
         End If
 
-        LocalImageRandomizerButton.Enabled = True
+        RandomizerAppPanel1.LocalImageRandomizerButton.Enabled = True
     End Sub
 
-    Private Sub VideoRandomizerButton_Click(sender As Object, e As EventArgs) Handles VideoRandomizerButton.Click
-        VideoRandomizerButton.Enabled = False
+    Private Sub VideoRandomizerButton_Click(sender As Object, e As EventArgs) Handles RandomizerAppPanel1.VideoRandomizerButton_Clicked
+        RandomizerAppPanel1.VideoRandomizerButton.Enabled = False
 
         Dim dommePersonality As DommePersonality = CreateDommePersonality()
         Dim doCommand As Result = VerifyDommeAllowsPorn(dommePersonality) _
@@ -12875,11 +12883,11 @@ restartInstantly:
             DommeSays(dommePersonality.PersonalityName, doCommand.Error.Message)
         End If
 
-        VideoRandomizerButton.Enabled = True
+        RandomizerAppPanel1.VideoRandomizerButton.Enabled = True
     End Sub
 
-    Private Sub JoiRandomizerButton_Click(sender As Object, e As EventArgs) Handles JerkOffInstructionsRandomizerButton.Click
-        JerkOffInstructionsRandomizerButton.Enabled = False
+    Private Sub JoiRandomizerButton_Click(sender As Object, e As EventArgs) Handles RandomizerAppPanel1.JerkOffInstructionsRandomizerButton_Clicked
+        RandomizerAppPanel1.JerkOffInstructionsRandomizerButton.Enabled = False
 
         Dim dommePersonality As DommePersonality = CreateDommePersonality()
         Dim doCommand As Result = VerifyDommeAllowsPorn(dommePersonality) _
@@ -12889,11 +12897,11 @@ restartInstantly:
             DommeSays(dommePersonality.PersonalityName, doCommand.Error.Message)
         End If
 
-        JerkOffInstructionsRandomizerButton.Enabled = True
+        RandomizerAppPanel1.JerkOffInstructionsRandomizerButton.Enabled = True
     End Sub
 
-    Private Sub CensorshipSucksRandomizerButton_Click(sender As Object, e As EventArgs) Handles CensorshipSucksRandomizerButton.Click
-        CensorshipSucksRandomizerButton.Enabled = False
+    Private Sub CensorshipSucksRandomizerButton_Click(sender As Object, e As EventArgs) Handles RandomizerAppPanel1.CensorshipSucksRandomizerButton_Clicked
+        RandomizerAppPanel1.CensorshipSucksRandomizerButton.Enabled = False
 
         Dim dommePersonality As DommePersonality = CreateDommePersonality()
         Dim doCommand As Result = VerifyDommeAllowsPorn(dommePersonality) _
@@ -12903,12 +12911,12 @@ restartInstantly:
             DommeSays(dommePersonality.Name, doCommand.Error.Message)
         End If
 
-        CensorshipSucksRandomizerButton.Enabled = True
+        RandomizerAppPanel1.CensorshipSucksRandomizerButton.Enabled = True
 
     End Sub
 
-    Private Sub AvoidTheEdgeRandomizerButton_Click(sender As Object, e As EventArgs) Handles AvoidTheEdgeRandomizerButton.Click
-        AvoidTheEdgeRandomizerButton.Enabled = False
+    Private Sub AvoidTheEdgeRandomizerButton_Click(sender As Object, e As EventArgs) Handles RandomizerAppPanel1.AvoidTheEdgeRandomizerButton_Clicked
+        RandomizerAppPanel1.AvoidTheEdgeRandomizerButton.Enabled = False
 
         Dim dommePersonality As DommePersonality = CreateDommePersonality()
         Dim settings As Settings = mySettingsAccessor.GetSettings()
@@ -12922,7 +12930,7 @@ restartInstantly:
         End If
 
         mySession.SendCommand(Keyword.PlayVideo)
-        AvoidTheEdgeRandomizerButton.Enabled = True
+        RandomizerAppPanel1.AvoidTheEdgeRandomizerButton.Enabled = True
 
         ssh.AvoidTheEdgeTick = VideoTauntToSecondsDivisor / settings.Range.VideoTauntFrequency
 
@@ -12947,9 +12955,9 @@ restartInstantly:
 
     End Sub
 
-    Private Sub RedLightGreenLightRandomizerButton_Click(sender As Object, e As EventArgs) Handles RedLightGreenLightRandomizerButton.Click
+    Private Sub RedLightGreenLightRandomizerButton_Click(sender As Object, e As EventArgs) Handles RandomizerAppPanel1.RedLightGreenLightRandomizerButton_Clicked
 
-        RedLightGreenLightRandomizerButton.Enabled = False
+        RandomizerAppPanel1.RedLightGreenLightRandomizerButton.Enabled = False
 
         Dim dommePersonality As DommePersonality = CreateDommePersonality()
         Dim doCommand As Result = VerifyDommeAllowsPorn(dommePersonality) _
@@ -12959,7 +12967,7 @@ restartInstantly:
             DommeSays(dommePersonality.Name, doCommand.Error.Message)
         End If
 
-        RedLightGreenLightRandomizerButton.Enabled = True
+        RandomizerAppPanel1.RedLightGreenLightRandomizerButton.Enabled = True
 
 
         ssh.StartStrokingCount += 1
@@ -12967,8 +12975,8 @@ restartInstantly:
         StrokePace = 50 * Math.Round(StrokePace / 50)
     End Sub
 
-    Private Sub CockHeroRandomizerButton_Click(sender As Object, e As EventArgs) Handles CockHeroRandomizerButton.Click
-        CockHeroRandomizerButton.Enabled = False
+    Private Sub CockHeroRandomizerButton_Click(sender As Object, e As EventArgs) Handles RandomizerAppPanel1.CockHeroRandomizerButton_Clicked
+        RandomizerAppPanel1.CockHeroRandomizerButton.Enabled = False
 
         Dim dommePersonality As DommePersonality = CreateDommePersonality()
         Dim sysNoPornAllowed As Boolean = myFlagAccessor.IsSet(dommePersonality, "SYS_NoPornAllowed")
@@ -12982,7 +12990,7 @@ restartInstantly:
 
         mySession.SendCommand(Keyword.PlayCockHeroVideo)
 
-        CockHeroRandomizerButton.Enabled = True
+        RandomizerAppPanel1.CockHeroRandomizerButton.Enabled = True
     End Sub
 
     ''' =========================================================================================================
@@ -12994,7 +13002,8 @@ restartInstantly:
     ''' <ramarks>There is no need for parameter Sender and e. 
     ''' Only for Designer Compatiblity with Butten Clicks.</ramarks>
     ''' <exception cref="exception">Rethrows all exceptions to catcher, as long sender is nothing.</exception>
-    Private Sub VideoJump2Random_Click(sender As Object, e As EventArgs) Handles Button12.Click
+    Private Sub VideoJump2Random_Click(sender As Object, e As EventArgs)
+        ' This was the handler for Button12, but Button12 wasn't visible or labled, so WTF?
         Try
             If WindowsMediaPlayerPane.currentPlaylist.count = 0 Then Throw New Exception("No Video playing - can't jump.")
 
@@ -14765,7 +14774,7 @@ NoPlaylistStartFile:
     End Sub
 
     Private Sub RandomizerToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RandomizerToolStripMenuItem.Click
-        ToggleAppVisibility(PNLAppRandomizer)
+        SetVisibleApp(RandomizerAppPanel1)
     End Sub
 
     Private Sub PlaylistToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PlaylistToolStripMenuItem.Click

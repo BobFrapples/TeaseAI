@@ -1,27 +1,27 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class MainWindow
-	Inherits System.Windows.Forms.Form
+    Inherits System.Windows.Forms.Form
 
-	'Form overrides dispose to clean up the component list.
-	<System.Diagnostics.DebuggerNonUserCode()>
-	Protected Overrides Sub Dispose(ByVal disposing As Boolean)
-		Try
-			If disposing AndAlso components IsNot Nothing Then
-				components.Dispose()
-			End If
-		Finally
-			MyBase.Dispose(disposing)
-		End Try
-	End Sub
+    'Form overrides dispose to clean up the component list.
+    <System.Diagnostics.DebuggerNonUserCode()>
+    Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+        Try
+            If disposing AndAlso components IsNot Nothing Then
+                components.Dispose()
+            End If
+        Finally
+            MyBase.Dispose(disposing)
+        End Try
+    End Sub
 
-	'Required by the Windows Form Designer
-	Private components As System.ComponentModel.IContainer
+    'Required by the Windows Form Designer
+    Private components As System.ComponentModel.IContainer
 
-	'NOTE: The following procedure is required by the Windows Form Designer
-	'It can be modified using the Windows Form Designer.  
-	'Do not modify it using the code editor.
-	<System.Diagnostics.DebuggerStepThrough()>
-	Private Sub InitializeComponent()
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.  
+    'Do not modify it using the code editor.
+    <System.Diagnostics.DebuggerStepThrough()>
+    Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainWindow))
         Me.domName = New System.Windows.Forms.TextBox()
@@ -337,19 +337,6 @@ Partial Class MainWindow
         Me.LBLWritingTaskText = New System.Windows.Forms.Label()
         Me.LBLWritingTask = New System.Windows.Forms.Label()
         Me.LBLLinesWritten = New System.Windows.Forms.Label()
-        Me.PNLAppRandomizer = New System.Windows.Forms.Panel()
-        Me.Button12 = New System.Windows.Forms.Button()
-        Me.LocalImageRandomizerButton = New System.Windows.Forms.Button()
-        Me.Label20 = New System.Windows.Forms.Label()
-        Me.Label19 = New System.Windows.Forms.Label()
-        Me.Label18 = New System.Windows.Forms.Label()
-        Me.RedLightGreenLightRandomizerButton = New System.Windows.Forms.Button()
-        Me.AvoidTheEdgeRandomizerButton = New System.Windows.Forms.Button()
-        Me.CensorshipSucksRandomizerButton = New System.Windows.Forms.Button()
-        Me.CockHeroRandomizerButton = New System.Windows.Forms.Button()
-        Me.JerkOffInstructionsRandomizerButton = New System.Windows.Forms.Button()
-        Me.VideoRandomizerButton = New System.Windows.Forms.Button()
-        Me.BlogImageRandomizerButton = New System.Windows.Forms.Button()
         Me.PNLLazySub2 = New System.Windows.Forms.Panel()
         Me.PNLPlaylist = New System.Windows.Forms.Panel()
         Me.LBPlaylist = New System.Windows.Forms.ListBox()
@@ -372,7 +359,8 @@ Partial Class MainWindow
         Me.Button3 = New System.Windows.Forms.Button()
         Me.Button4 = New System.Windows.Forms.Button()
         Me.PnlSidepanelLayout = New System.Windows.Forms.Panel()
-        Me.PnlTabsLayout = New System.Windows.Forms.Panel()
+        Me.RandomizerAppPanel1 = New Tease_AI.RandomizerAppPanel()
+        Me.AppPanel = New System.Windows.Forms.Panel()
         Me.PnlLayoutForm = New System.Windows.Forms.Panel()
         Me.ScriptTimer = New Tease_AI.teaseAI_Timer()
         Me.Timer1 = New Tease_AI.teaseAI_Timer()
@@ -445,7 +433,6 @@ Partial Class MainWindow
         Me.PnlSidechat.SuspendLayout()
         Me.PNLChatBox2.SuspendLayout()
         Me.PNLWritingTask.SuspendLayout()
-        Me.PNLAppRandomizer.SuspendLayout()
         Me.PNLPlaylist.SuspendLayout()
         Me.PNLAvatar.SuspendLayout()
         Me.PnlAvatarBackground.SuspendLayout()
@@ -455,7 +442,7 @@ Partial Class MainWindow
         Me.Panel3.SuspendLayout()
         Me.PNLLazySubAV.SuspendLayout()
         Me.PnlSidepanelLayout.SuspendLayout()
-        Me.PnlTabsLayout.SuspendLayout()
+        Me.AppPanel.SuspendLayout()
         Me.PnlLayoutForm.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -543,16 +530,16 @@ Partial Class MainWindow
         Me.SplitContainer1.SplitterWidth = 10
         Me.SplitContainer1.TabIndex = 136
         '
-        'DomWMP
+        'WindowsMediaPlayerPane
         '
         Me.WindowsMediaPlayerPane.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.WindowsMediaPlayerPane.Enabled = True
         Me.WindowsMediaPlayerPane.Location = New System.Drawing.Point(0, 0)
-        Me.WindowsMediaPlayerPane.Name = "DomWMP"
-        Me.WindowsMediaPlayerPane.OcxState = CType(resources.GetObject("DomWMP.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.WindowsMediaPlayerPane.Size = New System.Drawing.Size(1326, 712)
+        Me.WindowsMediaPlayerPane.Name = "WindowsMediaPlayerPane"
+        Me.WindowsMediaPlayerPane.OcxState = CType(resources.GetObject("WindowsMediaPlayerPane.OcxState"), System.Windows.Forms.AxHost.State)
+        Me.WindowsMediaPlayerPane.Size = New System.Drawing.Size(1326, 694)
         Me.WindowsMediaPlayerPane.TabIndex = 96
         Me.WindowsMediaPlayerPane.Visible = False
         '
@@ -1898,72 +1885,72 @@ Partial Class MainWindow
         'CloseAppPanelToolStripMenuItem
         '
         Me.CloseAppPanelToolStripMenuItem.Name = "CloseAppPanelToolStripMenuItem"
-        Me.CloseAppPanelToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.CloseAppPanelToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
         Me.CloseAppPanelToolStripMenuItem.Text = "Close Apps"
         '
         'ToolStripSeparator4
         '
         Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
-        Me.ToolStripSeparator4.Size = New System.Drawing.Size(177, 6)
+        Me.ToolStripSeparator4.Size = New System.Drawing.Size(154, 6)
         '
         'MetronomeToolStripMenuItem
         '
         Me.MetronomeToolStripMenuItem.Name = "MetronomeToolStripMenuItem"
-        Me.MetronomeToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.MetronomeToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
         Me.MetronomeToolStripMenuItem.Text = "Metronome"
         '
         'GlitterToolStripMenuItem
         '
         Me.GlitterToolStripMenuItem.Name = "GlitterToolStripMenuItem"
-        Me.GlitterToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.GlitterToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
         Me.GlitterToolStripMenuItem.Text = "Glitter"
         '
         'DommeTagsToolStripMenuItem2
         '
         Me.DommeTagsToolStripMenuItem2.Name = "DommeTagsToolStripMenuItem2"
-        Me.DommeTagsToolStripMenuItem2.Size = New System.Drawing.Size(180, 22)
+        Me.DommeTagsToolStripMenuItem2.Size = New System.Drawing.Size(157, 22)
         Me.DommeTagsToolStripMenuItem2.Text = "Domme Tags"
         '
         'LazySubToolStripMenuItem
         '
         Me.LazySubToolStripMenuItem.Name = "LazySubToolStripMenuItem"
-        Me.LazySubToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.LazySubToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
         Me.LazySubToolStripMenuItem.Text = "Lazy Sub"
         '
         'RandomizerToolStripMenuItem
         '
         Me.RandomizerToolStripMenuItem.Name = "RandomizerToolStripMenuItem"
-        Me.RandomizerToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.RandomizerToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
         Me.RandomizerToolStripMenuItem.Text = "Randomizer"
         '
         'PlaylistToolStripMenuItem
         '
         Me.PlaylistToolStripMenuItem.Name = "PlaylistToolStripMenuItem"
-        Me.PlaylistToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.PlaylistToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
         Me.PlaylistToolStripMenuItem.Text = "Playlist"
         '
         'WritingTasksToolStripMenuItem
         '
         Me.WritingTasksToolStripMenuItem.Name = "WritingTasksToolStripMenuItem"
-        Me.WritingTasksToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.WritingTasksToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
         Me.WritingTasksToolStripMenuItem.Text = "Writing Tasks"
         '
         'WishlistToolStripMenuItem
         '
         Me.WishlistToolStripMenuItem.Name = "WishlistToolStripMenuItem"
-        Me.WishlistToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.WishlistToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
         Me.WishlistToolStripMenuItem.Text = "Wishlist"
         '
         'HypnoticGuideToolStripMenuItem
         '
         Me.HypnoticGuideToolStripMenuItem.Name = "HypnoticGuideToolStripMenuItem"
-        Me.HypnoticGuideToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.HypnoticGuideToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
         Me.HypnoticGuideToolStripMenuItem.Text = "Hypnotic Guide"
         '
         'VitalSubToolStripMenuItem
         '
         Me.VitalSubToolStripMenuItem.Name = "VitalSubToolStripMenuItem"
-        Me.VitalSubToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.VitalSubToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
         Me.VitalSubToolStripMenuItem.Text = "VitalSub"
         '
         'GamesToolStripMenuItem1
@@ -2257,7 +2244,7 @@ Partial Class MainWindow
         Me.PNLTabs.Controls.Add(Me.PnlGlitter)
         Me.PNLTabs.Controls.Add(Me.PnlSidechat)
         Me.PNLTabs.Controls.Add(Me.PNLWritingTask)
-        Me.PNLTabs.Controls.Add(Me.PNLAppRandomizer)
+        Me.PNLTabs.Controls.Add(Me.RandomizerAppPanel1)
         Me.PNLTabs.Controls.Add(Me.PNLDomTagBTN)
         Me.PNLTabs.Controls.Add(Me.PNLLazySub2)
         Me.PNLTabs.Controls.Add(Me.PNLPlaylist)
@@ -2702,27 +2689,27 @@ Partial Class MainWindow
         Me.TBExercise.Size = New System.Drawing.Size(162, 20)
         Me.TBExercise.TabIndex = 1
         '
-        'CLBExercise
+        'VitalSubExerciseAssignmentsCheckBoxList
         '
         Me.VitalSubExerciseAssignmentsCheckBoxList.CheckOnClick = True
         Me.VitalSubExerciseAssignmentsCheckBoxList.FormattingEnabled = True
         Me.VitalSubExerciseAssignmentsCheckBoxList.Location = New System.Drawing.Point(7, 46)
-        Me.VitalSubExerciseAssignmentsCheckBoxList.Name = "CLBExercise"
+        Me.VitalSubExerciseAssignmentsCheckBoxList.Name = "VitalSubExerciseAssignmentsCheckBoxList"
         Me.VitalSubExerciseAssignmentsCheckBoxList.Size = New System.Drawing.Size(213, 94)
         Me.VitalSubExerciseAssignmentsCheckBoxList.TabIndex = 0
         '
-        'CBVitalSubDomTask
+        'VitalSubDommeAssignmentsCheckBox
         '
         Me.VitalSubDommeAssignmentsCheckBox.DataBindings.Add(New System.Windows.Forms.Binding("ForeColor", Global.Tease_AI.My.MySettings.Default, "TextColor", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
         Me.VitalSubDommeAssignmentsCheckBox.ForeColor = Global.Tease_AI.My.MySettings.Default.TextColor
         Me.VitalSubDommeAssignmentsCheckBox.Location = New System.Drawing.Point(114, 0)
-        Me.VitalSubDommeAssignmentsCheckBox.Name = "CBVitalSubDomTask"
+        Me.VitalSubDommeAssignmentsCheckBox.Name = "VitalSubDommeAssignmentsCheckBox"
         Me.VitalSubDommeAssignmentsCheckBox.Size = New System.Drawing.Size(126, 24)
         Me.VitalSubDommeAssignmentsCheckBox.TabIndex = 6
         Me.VitalSubDommeAssignmentsCheckBox.Text = "Domme Assignments"
         Me.VitalSubDommeAssignmentsCheckBox.UseVisualStyleBackColor = True
         '
-        'BTNVitalSub
+        'VitalSubSubmitReportButton
         '
         Me.VitalSubSubmitReportButton.BackColor = Global.Tease_AI.My.MySettings.Default.ButtonColor
         Me.VitalSubSubmitReportButton.DataBindings.Add(New System.Windows.Forms.Binding("ForeColor", Global.Tease_AI.My.MySettings.Default, "TextColor", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
@@ -2730,7 +2717,7 @@ Partial Class MainWindow
         Me.VitalSubSubmitReportButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.VitalSubSubmitReportButton.ForeColor = Global.Tease_AI.My.MySettings.Default.TextColor
         Me.VitalSubSubmitReportButton.Location = New System.Drawing.Point(7, 383)
-        Me.VitalSubSubmitReportButton.Name = "BTNVitalSub"
+        Me.VitalSubSubmitReportButton.Name = "VitalSubSubmitReportButton"
         Me.VitalSubSubmitReportButton.Size = New System.Drawing.Size(227, 29)
         Me.VitalSubSubmitReportButton.TabIndex = 5
         Me.VitalSubSubmitReportButton.Text = "Report End-of-Day Result to Domme"
@@ -2758,21 +2745,21 @@ Partial Class MainWindow
         Me.GBCalories.TabStop = False
         Me.GBCalories.Text = "Calorie Goals"
         '
-        'TBCalorieAmount
+        'FoodItemCaloriesAmountTextBox
         '
         Me.FoodItemCaloriesAmountTextBox.Location = New System.Drawing.Point(115, 28)
-        Me.FoodItemCaloriesAmountTextBox.Name = "TBCalorieAmount"
+        Me.FoodItemCaloriesAmountTextBox.Name = "FoodItemCaloriesAmountTextBox"
         Me.FoodItemCaloriesAmountTextBox.Size = New System.Drawing.Size(54, 20)
         Me.FoodItemCaloriesAmountTextBox.TabIndex = 10
         '
-        'TBCalorieItem
+        'foodItemTextBox
         '
         Me.foodItemTextBox.Location = New System.Drawing.Point(8, 28)
-        Me.foodItemTextBox.Name = "TBCalorieItem"
+        Me.foodItemTextBox.Name = "foodItemTextBox"
         Me.foodItemTextBox.Size = New System.Drawing.Size(100, 20)
         Me.foodItemTextBox.TabIndex = 9
         '
-        'BTNCalorie
+        'VitalSubAddCaloriesButton
         '
         Me.VitalSubAddCaloriesButton.BackColor = Global.Tease_AI.My.MySettings.Default.ButtonColor
         Me.VitalSubAddCaloriesButton.DataBindings.Add(New System.Windows.Forms.Binding("BackColor", Global.Tease_AI.My.MySettings.Default, "ButtonColor", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
@@ -2780,7 +2767,7 @@ Partial Class MainWindow
         Me.VitalSubAddCaloriesButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.VitalSubAddCaloriesButton.ForeColor = Global.Tease_AI.My.MySettings.Default.TextColor
         Me.VitalSubAddCaloriesButton.Location = New System.Drawing.Point(174, 26)
-        Me.VitalSubAddCaloriesButton.Name = "BTNCalorie"
+        Me.VitalSubAddCaloriesButton.Name = "VitalSubAddCaloriesButton"
         Me.VitalSubAddCaloriesButton.Size = New System.Drawing.Size(46, 24)
         Me.VitalSubAddCaloriesButton.TabIndex = 8
         Me.VitalSubAddCaloriesButton.Text = "Add"
@@ -2810,19 +2797,19 @@ Partial Class MainWindow
         Me.Label12.Text = "Item"
         Me.Label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'LBCalorie
+        'VitalSubCaloriesListBox
         '
         Me.VitalSubCaloriesListBox.FormattingEnabled = True
         Me.VitalSubCaloriesListBox.Location = New System.Drawing.Point(7, 80)
-        Me.VitalSubCaloriesListBox.Name = "LBCalorie"
+        Me.VitalSubCaloriesListBox.Name = "VitalSubCaloriesListBox"
         Me.VitalSubCaloriesListBox.Size = New System.Drawing.Size(213, 82)
         Me.VitalSubCaloriesListBox.TabIndex = 5
         '
-        'ComboBoxCalorie
+        'VitalSubCalorieComboBox
         '
         Me.VitalSubCalorieComboBox.FormattingEnabled = True
         Me.VitalSubCalorieComboBox.Location = New System.Drawing.Point(7, 54)
-        Me.VitalSubCalorieComboBox.Name = "ComboBoxCalorie"
+        Me.VitalSubCalorieComboBox.Name = "VitalSubCalorieComboBox"
         Me.VitalSubCalorieComboBox.Size = New System.Drawing.Size(213, 21)
         Me.VitalSubCalorieComboBox.Sorted = True
         Me.VitalSubCalorieComboBox.TabIndex = 4
@@ -2852,7 +2839,7 @@ Partial Class MainWindow
         Me.LBLGoal.Text = "Goal"
         Me.LBLGoal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'LBLCalorie
+        'VitalSubCaloriesConsumedLabel
         '
         Me.VitalSubCaloriesConsumedLabel.BackColor = Global.Tease_AI.My.MySettings.Default.BackgroundColor
         Me.VitalSubCaloriesConsumedLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
@@ -2861,7 +2848,7 @@ Partial Class MainWindow
         Me.VitalSubCaloriesConsumedLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.VitalSubCaloriesConsumedLabel.ForeColor = Global.Tease_AI.My.MySettings.Default.TextColor
         Me.VitalSubCaloriesConsumedLabel.Location = New System.Drawing.Point(23, 180)
-        Me.VitalSubCaloriesConsumedLabel.Name = "LBLCalorie"
+        Me.VitalSubCaloriesConsumedLabel.Name = "VitalSubCaloriesConsumedLabel"
         Me.VitalSubCaloriesConsumedLabel.Size = New System.Drawing.Size(74, 23)
         Me.VitalSubCaloriesConsumedLabel.TabIndex = 1
         Me.VitalSubCaloriesConsumedLabel.Text = "0"
@@ -2879,11 +2866,11 @@ Partial Class MainWindow
         Me.LBLConsumed.Text = "Consumed"
         Me.LBLConsumed.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'CBVitalSub
+        'VitalSubEnabledCheckBox
         '
         Me.VitalSubEnabledCheckBox.ForeColor = System.Drawing.Color.Red
         Me.VitalSubEnabledCheckBox.Location = New System.Drawing.Point(7, 0)
-        Me.VitalSubEnabledCheckBox.Name = "CBVitalSub"
+        Me.VitalSubEnabledCheckBox.Name = "VitalSubEnabledCheckBox"
         Me.VitalSubEnabledCheckBox.Size = New System.Drawing.Size(107, 24)
         Me.VitalSubEnabledCheckBox.TabIndex = 2
         Me.VitalSubEnabledCheckBox.Text = "VitalSub Inactive"
@@ -3732,178 +3719,7 @@ Partial Class MainWindow
         Me.LBLLinesWritten.TabIndex = 129
         Me.LBLLinesWritten.Text = "1000"
         Me.LBLLinesWritten.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'PNLAppRandomizer
-        '
-        Me.PNLAppRandomizer.BackColor = System.Drawing.Color.Transparent
-        Me.PNLAppRandomizer.Controls.Add(Me.Button12)
-        Me.PNLAppRandomizer.Controls.Add(Me.LocalImageRandomizerButton)
-        Me.PNLAppRandomizer.Controls.Add(Me.Label20)
-        Me.PNLAppRandomizer.Controls.Add(Me.Label19)
-        Me.PNLAppRandomizer.Controls.Add(Me.Label18)
-        Me.PNLAppRandomizer.Controls.Add(Me.RedLightGreenLightRandomizerButton)
-        Me.PNLAppRandomizer.Controls.Add(Me.AvoidTheEdgeRandomizerButton)
-        Me.PNLAppRandomizer.Controls.Add(Me.CensorshipSucksRandomizerButton)
-        Me.PNLAppRandomizer.Controls.Add(Me.CockHeroRandomizerButton)
-        Me.PNLAppRandomizer.Controls.Add(Me.JerkOffInstructionsRandomizerButton)
-        Me.PNLAppRandomizer.Controls.Add(Me.VideoRandomizerButton)
-        Me.PNLAppRandomizer.Controls.Add(Me.BlogImageRandomizerButton)
-        Me.PNLAppRandomizer.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.PNLAppRandomizer.Location = New System.Drawing.Point(0, 0)
-        Me.PNLAppRandomizer.Name = "PNLAppRandomizer"
-        Me.PNLAppRandomizer.Size = New System.Drawing.Size(240, 477)
-        Me.PNLAppRandomizer.TabIndex = 772
-        Me.PNLAppRandomizer.Visible = False
-        '
-        'Button12
-        '
-        Me.Button12.Location = New System.Drawing.Point(83, 382)
-        Me.Button12.Name = "Button12"
-        Me.Button12.Size = New System.Drawing.Size(75, 23)
-        Me.Button12.TabIndex = 12
-        Me.Button12.Text = "Button12"
-        Me.Button12.UseVisualStyleBackColor = True
-        Me.Button12.Visible = False
-        '
-        'BTNRandomLocal
-        '
-        Me.LocalImageRandomizerButton.BackColor = System.Drawing.Color.White
-        Me.LocalImageRandomizerButton.FlatAppearance.BorderSize = 2
-        Me.LocalImageRandomizerButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.LocalImageRandomizerButton.ForeColor = System.Drawing.Color.Black
-        Me.LocalImageRandomizerButton.Location = New System.Drawing.Point(6, 66)
-        Me.LocalImageRandomizerButton.Name = "BTNRandomLocal"
-        Me.LocalImageRandomizerButton.Size = New System.Drawing.Size(228, 28)
-        Me.LocalImageRandomizerButton.TabIndex = 11
-        Me.LocalImageRandomizerButton.Text = "Local Image"
-        Me.LocalImageRandomizerButton.UseVisualStyleBackColor = False
-        '
-        'Label20
-        '
-        Me.Label20.BackColor = System.Drawing.Color.Transparent
-        Me.Label20.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Underline), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label20.ForeColor = System.Drawing.Color.White
-        Me.Label20.Location = New System.Drawing.Point(-2, -3)
-        Me.Label20.Name = "Label20"
-        Me.Label20.Size = New System.Drawing.Size(245, 28)
-        Me.Label20.TabIndex = 10
-        Me.Label20.Text = "Media"
-        Me.Label20.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'Label19
-        '
-        Me.Label19.BackColor = System.Drawing.Color.Transparent
-        Me.Label19.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Underline), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label19.ForeColor = System.Drawing.Color.White
-        Me.Label19.Location = New System.Drawing.Point(-2, 133)
-        Me.Label19.Name = "Label19"
-        Me.Label19.Size = New System.Drawing.Size(245, 28)
-        Me.Label19.TabIndex = 9
-        Me.Label19.Text = "Special Videos"
-        Me.Label19.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'Label18
-        '
-        Me.Label18.BackColor = System.Drawing.Color.Transparent
-        Me.Label18.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Underline), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label18.ForeColor = System.Drawing.Color.White
-        Me.Label18.Location = New System.Drawing.Point(-2, 230)
-        Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(245, 28)
-        Me.Label18.TabIndex = 8
-        Me.Label18.Text = "Video Teases"
-        Me.Label18.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'BTNRandomRLGL
-        '
-        Me.RedLightGreenLightRandomizerButton.BackColor = System.Drawing.Color.White
-        Me.RedLightGreenLightRandomizerButton.FlatAppearance.BorderSize = 2
-        Me.RedLightGreenLightRandomizerButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.RedLightGreenLightRandomizerButton.ForeColor = System.Drawing.Color.Black
-        Me.RedLightGreenLightRandomizerButton.Location = New System.Drawing.Point(6, 338)
-        Me.RedLightGreenLightRandomizerButton.Name = "BTNRandomRLGL"
-        Me.RedLightGreenLightRandomizerButton.Size = New System.Drawing.Size(228, 28)
-        Me.RedLightGreenLightRandomizerButton.TabIndex = 7
-        Me.RedLightGreenLightRandomizerButton.Text = "Red Light Green Light"
-        Me.RedLightGreenLightRandomizerButton.UseVisualStyleBackColor = False
-        '
-        'BTNRandomAtE
-        '
-        Me.AvoidTheEdgeRandomizerButton.BackColor = System.Drawing.Color.White
-        Me.AvoidTheEdgeRandomizerButton.FlatAppearance.BorderSize = 2
-        Me.AvoidTheEdgeRandomizerButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.AvoidTheEdgeRandomizerButton.ForeColor = System.Drawing.Color.Black
-        Me.AvoidTheEdgeRandomizerButton.Location = New System.Drawing.Point(6, 299)
-        Me.AvoidTheEdgeRandomizerButton.Name = "BTNRandomAtE"
-        Me.AvoidTheEdgeRandomizerButton.Size = New System.Drawing.Size(228, 28)
-        Me.AvoidTheEdgeRandomizerButton.TabIndex = 6
-        Me.AvoidTheEdgeRandomizerButton.Text = "Avoid The Edge"
-        Me.AvoidTheEdgeRandomizerButton.UseVisualStyleBackColor = False
-        '
-        'BTNRandomCS
-        '
-        Me.CensorshipSucksRandomizerButton.BackColor = System.Drawing.Color.White
-        Me.CensorshipSucksRandomizerButton.FlatAppearance.BorderSize = 2
-        Me.CensorshipSucksRandomizerButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.CensorshipSucksRandomizerButton.ForeColor = System.Drawing.Color.Black
-        Me.CensorshipSucksRandomizerButton.Location = New System.Drawing.Point(6, 260)
-        Me.CensorshipSucksRandomizerButton.Name = "BTNRandomCS"
-        Me.CensorshipSucksRandomizerButton.Size = New System.Drawing.Size(228, 28)
-        Me.CensorshipSucksRandomizerButton.TabIndex = 5
-        Me.CensorshipSucksRandomizerButton.Text = "Censorship Sucks"
-        Me.CensorshipSucksRandomizerButton.UseVisualStyleBackColor = False
-        '
-        'BTNRandomCH
-        '
-        Me.CockHeroRandomizerButton.BackColor = System.Drawing.Color.White
-        Me.CockHeroRandomizerButton.FlatAppearance.BorderSize = 2
-        Me.CockHeroRandomizerButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.CockHeroRandomizerButton.ForeColor = System.Drawing.Color.Black
-        Me.CockHeroRandomizerButton.Location = New System.Drawing.Point(6, 202)
-        Me.CockHeroRandomizerButton.Name = "BTNRandomCH"
-        Me.CockHeroRandomizerButton.Size = New System.Drawing.Size(228, 28)
-        Me.CockHeroRandomizerButton.TabIndex = 4
-        Me.CockHeroRandomizerButton.Text = "CH"
-        Me.CockHeroRandomizerButton.UseVisualStyleBackColor = False
-        '
-        'BTNRandomJOI
-        '
-        Me.JerkOffInstructionsRandomizerButton.BackColor = System.Drawing.Color.White
-        Me.JerkOffInstructionsRandomizerButton.FlatAppearance.BorderSize = 2
-        Me.JerkOffInstructionsRandomizerButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.JerkOffInstructionsRandomizerButton.ForeColor = System.Drawing.Color.Black
-        Me.JerkOffInstructionsRandomizerButton.Location = New System.Drawing.Point(6, 163)
-        Me.JerkOffInstructionsRandomizerButton.Name = "BTNRandomJOI"
-        Me.JerkOffInstructionsRandomizerButton.Size = New System.Drawing.Size(228, 28)
-        Me.JerkOffInstructionsRandomizerButton.TabIndex = 3
-        Me.JerkOffInstructionsRandomizerButton.Text = "JOI"
-        Me.JerkOffInstructionsRandomizerButton.UseVisualStyleBackColor = False
-        '
-        'BTNRandomVideo
-        '
-        Me.VideoRandomizerButton.BackColor = System.Drawing.Color.White
-        Me.VideoRandomizerButton.FlatAppearance.BorderSize = 2
-        Me.VideoRandomizerButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.VideoRandomizerButton.ForeColor = System.Drawing.Color.Black
-        Me.VideoRandomizerButton.Location = New System.Drawing.Point(6, 105)
-        Me.VideoRandomizerButton.Name = "BTNRandomVideo"
-        Me.VideoRandomizerButton.Size = New System.Drawing.Size(228, 28)
-        Me.VideoRandomizerButton.TabIndex = 2
-        Me.VideoRandomizerButton.Text = "Video"
-        Me.VideoRandomizerButton.UseVisualStyleBackColor = False
-        '
-        'BTNRandomBlog
-        '
-        Me.BlogImageRandomizerButton.BackColor = System.Drawing.Color.White
-        Me.BlogImageRandomizerButton.FlatAppearance.BorderSize = 2
-        Me.BlogImageRandomizerButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BlogImageRandomizerButton.ForeColor = System.Drawing.Color.Black
-        Me.BlogImageRandomizerButton.Location = New System.Drawing.Point(6, 27)
-        Me.BlogImageRandomizerButton.Name = "BTNRandomBlog"
-        Me.BlogImageRandomizerButton.Size = New System.Drawing.Size(228, 28)
-        Me.BlogImageRandomizerButton.TabIndex = 0
-        Me.BlogImageRandomizerButton.Text = "Blog Image"
-        Me.BlogImageRandomizerButton.UseVisualStyleBackColor = False
+
         '
         'PNLLazySub2
         '
@@ -4198,7 +4014,7 @@ Partial Class MainWindow
         'PnlSidepanelLayout
         '
         Me.PnlSidepanelLayout.BackColor = System.Drawing.Color.Transparent
-        Me.PnlSidepanelLayout.Controls.Add(Me.PnlTabsLayout)
+        Me.PnlSidepanelLayout.Controls.Add(Me.AppPanel)
         Me.PnlSidepanelLayout.Controls.Add(Me.PNLDate)
         Me.PnlSidepanelLayout.Controls.Add(Me.PNLAvatar)
         Me.PnlSidepanelLayout.Dock = System.Windows.Forms.DockStyle.Left
@@ -4208,15 +4024,26 @@ Partial Class MainWindow
         Me.PnlSidepanelLayout.Size = New System.Drawing.Size(265, 837)
         Me.PnlSidepanelLayout.TabIndex = 779
         '
-        'PnlTabsLayout
+        'RandomizerAppPanel1
         '
-        Me.PnlTabsLayout.Controls.Add(Me.PNLTabs)
-        Me.PnlTabsLayout.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.PnlTabsLayout.Location = New System.Drawing.Point(9, 89)
-        Me.PnlTabsLayout.Name = "PnlTabsLayout"
-        Me.PnlTabsLayout.Padding = New System.Windows.Forms.Padding(0, 10, 0, 10)
-        Me.PnlTabsLayout.Size = New System.Drawing.Size(244, 501)
-        Me.PnlTabsLayout.TabIndex = 779
+        Me.RandomizerAppPanel1.BackColor = System.Drawing.Color.Transparent
+        Me.RandomizerAppPanel1.ButtonBackgroundColor = System.Drawing.Color.White
+        Me.RandomizerAppPanel1.ButtonForegroundColor = System.Drawing.Color.Black
+        Me.RandomizerAppPanel1.LabelColor = System.Drawing.Color.White
+        Me.RandomizerAppPanel1.Location = New System.Drawing.Point(3, 3)
+        Me.RandomizerAppPanel1.Name = "RandomizerAppPanel1"
+        Me.RandomizerAppPanel1.Size = New System.Drawing.Size(240, 477)
+        Me.RandomizerAppPanel1.TabIndex = 780
+        '
+        'AppPanel
+        '
+        Me.AppPanel.Controls.Add(Me.PNLTabs)
+        Me.AppPanel.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.AppPanel.Location = New System.Drawing.Point(9, 89)
+        Me.AppPanel.Name = "AppPanel"
+        Me.AppPanel.Padding = New System.Windows.Forms.Padding(0, 10, 0, 10)
+        Me.AppPanel.Size = New System.Drawing.Size(244, 501)
+        Me.AppPanel.TabIndex = 779
         '
         'PnlLayoutForm
         '
@@ -4428,7 +4255,6 @@ Partial Class MainWindow
         Me.PNLChatBox2.PerformLayout()
         Me.PNLWritingTask.ResumeLayout(False)
         Me.PNLWritingTask.PerformLayout()
-        Me.PNLAppRandomizer.ResumeLayout(False)
         Me.PNLPlaylist.ResumeLayout(False)
         Me.PNLAvatar.ResumeLayout(False)
         Me.PnlAvatarBackground.ResumeLayout(False)
@@ -4440,392 +4266,380 @@ Partial Class MainWindow
         Me.Panel3.PerformLayout()
         Me.PNLLazySubAV.ResumeLayout(False)
         Me.PnlSidepanelLayout.ResumeLayout(False)
-        Me.PnlTabsLayout.ResumeLayout(False)
+        Me.AppPanel.ResumeLayout(False)
         Me.PnlLayoutForm.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
     Friend WithEvents domName As System.Windows.Forms.TextBox
-	Friend WithEvents chatBox As System.Windows.Forms.TextBox
-	Friend WithEvents mainPictureBox As System.Windows.Forms.PictureBox
-	Friend WithEvents domAvatar As System.Windows.Forms.PictureBox
-	Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
-	Friend WithEvents ImageSlideShowNextButton As System.Windows.Forms.Button
-	Friend WithEvents BrowseFolderButton As System.Windows.Forms.Button
-	Friend WithEvents ImageSlideShowPreviousButton As System.Windows.Forms.Button
-	Friend WithEvents SubName As System.Windows.Forms.TextBox
-	Friend WithEvents ChatText As System.Windows.Forms.WebBrowser
-	Friend WithEvents ScriptTimer As Tease_AI.teaseAI_Timer
-	Friend WithEvents OpenScriptDialog As System.Windows.Forms.OpenFileDialog
-	Friend WithEvents Timer1 As Tease_AI.teaseAI_Timer
-	Friend WithEvents IsTypingTimer As Tease_AI.teaseAI_Timer
-	Friend WithEvents SendTimer As Tease_AI.teaseAI_Timer
-	Friend WithEvents FolderBrowserDialog1 As System.Windows.Forms.FolderBrowserDialog
-	Friend WithEvents OpenFileDialog2 As System.Windows.Forms.OpenFileDialog
-	Friend WithEvents StrokeTimer As Tease_AI.teaseAI_Timer
-	Friend WithEvents StrokeTauntTimer As Tease_AI.teaseAI_Timer
-	Friend WithEvents BtnToggleSettings As System.Windows.Forms.Button
-	Friend WithEvents BtnToggleMediaPanel As System.Windows.Forms.Button
-	Friend WithEvents BtnToggleImageVideo As System.Windows.Forms.Button
-	Friend WithEvents CensorshipBar As System.Windows.Forms.Panel
+    Friend WithEvents chatBox As System.Windows.Forms.TextBox
+    Friend WithEvents mainPictureBox As System.Windows.Forms.PictureBox
+    Friend WithEvents domAvatar As System.Windows.Forms.PictureBox
+    Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
+    Friend WithEvents ImageSlideShowNextButton As System.Windows.Forms.Button
+    Friend WithEvents BrowseFolderButton As System.Windows.Forms.Button
+    Friend WithEvents ImageSlideShowPreviousButton As System.Windows.Forms.Button
+    Friend WithEvents SubName As System.Windows.Forms.TextBox
+    Friend WithEvents ChatText As System.Windows.Forms.WebBrowser
+    Friend WithEvents ScriptTimer As Tease_AI.teaseAI_Timer
+    Friend WithEvents OpenScriptDialog As System.Windows.Forms.OpenFileDialog
+    Friend WithEvents Timer1 As Tease_AI.teaseAI_Timer
+    Friend WithEvents IsTypingTimer As Tease_AI.teaseAI_Timer
+    Friend WithEvents SendTimer As Tease_AI.teaseAI_Timer
+    Friend WithEvents FolderBrowserDialog1 As System.Windows.Forms.FolderBrowserDialog
+    Friend WithEvents OpenFileDialog2 As System.Windows.Forms.OpenFileDialog
+    Friend WithEvents StrokeTimer As Tease_AI.teaseAI_Timer
+    Friend WithEvents StrokeTauntTimer As Tease_AI.teaseAI_Timer
+    Friend WithEvents BtnToggleSettings As System.Windows.Forms.Button
+    Friend WithEvents BtnToggleMediaPanel As System.Windows.Forms.Button
+    Friend WithEvents BtnToggleImageVideo As System.Windows.Forms.Button
+    Friend WithEvents CensorshipBar As System.Windows.Forms.Panel
     Friend WithEvents OpenFileDialog1 As System.Windows.Forms.OpenFileDialog
     Friend WithEvents BTNLoadVideo As System.Windows.Forms.Button
-	Friend WithEvents BTNVideoControls As System.Windows.Forms.Button
-	Friend WithEvents UpdatesTimer As Tease_AI.teaseAI_Timer
-	Friend WithEvents GetColor As System.Windows.Forms.ColorDialog
-	Friend WithEvents SendButton As System.Windows.Forms.Button
-	Friend WithEvents AvoidTheEdge As Tease_AI.teaseAI_Timer
-	Friend WithEvents AvoidTheEdgeResume As Tease_AI.teaseAI_Timer
-	Friend WithEvents SaveFileDialog1 As System.Windows.Forms.SaveFileDialog
-	Friend WithEvents EdgeTauntTimer As Tease_AI.teaseAI_Timer
-	Friend WithEvents HoldEdgeTimer As Tease_AI.teaseAI_Timer
-	Friend WithEvents HoldEdgeTauntTimer As Tease_AI.teaseAI_Timer
-	Friend WithEvents FileTransferPanel As System.Windows.Forms.Panel
-	Friend WithEvents FileTransferLabel As System.Windows.Forms.Label
-	Friend WithEvents FileTransferProgressBar As System.Windows.Forms.ProgressBar
-	Friend WithEvents PictureBox11 As System.Windows.Forms.PictureBox
-	Friend WithEvents FileTransferOpenButton As System.Windows.Forms.Button
-	Friend WithEvents FileTransferDismissButton As System.Windows.Forms.Button
-	Friend WithEvents SlideshowTimer As Tease_AI.teaseAI_Timer
-	Friend WithEvents EdgeCountTimer As Tease_AI.teaseAI_Timer
-	Friend WithEvents StrokeTimeTotalTimer As Tease_AI.teaseAI_Timer
-	Friend WithEvents TnASlides As Tease_AI.teaseAI_Timer
-	Friend WithEvents ImageFolderComboBox As System.Windows.Forms.ComboBox
-	Friend WithEvents LBLImageInfo As System.Windows.Forms.Label
-	Friend WithEvents WindowsMediaPlayerPane As AxWMPLib.AxWindowsMediaPlayer
-	Friend WithEvents WaitTimer As Tease_AI.teaseAI_Timer
-	Friend WithEvents ReceiveFileTimer As Tease_AI.teaseAI_Timer
-	Friend WithEvents VideoTauntTimer As Tease_AI.teaseAI_Timer
-	Friend WithEvents TeaseTimer As Tease_AI.teaseAI_Timer
+    Friend WithEvents BTNVideoControls As System.Windows.Forms.Button
+    Friend WithEvents UpdatesTimer As Tease_AI.teaseAI_Timer
+    Friend WithEvents GetColor As System.Windows.Forms.ColorDialog
+    Friend WithEvents SendButton As System.Windows.Forms.Button
+    Friend WithEvents AvoidTheEdge As Tease_AI.teaseAI_Timer
+    Friend WithEvents AvoidTheEdgeResume As Tease_AI.teaseAI_Timer
+    Friend WithEvents SaveFileDialog1 As System.Windows.Forms.SaveFileDialog
+    Friend WithEvents EdgeTauntTimer As Tease_AI.teaseAI_Timer
+    Friend WithEvents HoldEdgeTimer As Tease_AI.teaseAI_Timer
+    Friend WithEvents HoldEdgeTauntTimer As Tease_AI.teaseAI_Timer
+    Friend WithEvents FileTransferPanel As System.Windows.Forms.Panel
+    Friend WithEvents FileTransferLabel As System.Windows.Forms.Label
+    Friend WithEvents FileTransferProgressBar As System.Windows.Forms.ProgressBar
+    Friend WithEvents PictureBox11 As System.Windows.Forms.PictureBox
+    Friend WithEvents FileTransferOpenButton As System.Windows.Forms.Button
+    Friend WithEvents FileTransferDismissButton As System.Windows.Forms.Button
+    Friend WithEvents SlideshowTimer As Tease_AI.teaseAI_Timer
+    Friend WithEvents EdgeCountTimer As Tease_AI.teaseAI_Timer
+    Friend WithEvents StrokeTimeTotalTimer As Tease_AI.teaseAI_Timer
+    Friend WithEvents TnASlides As Tease_AI.teaseAI_Timer
+    Friend WithEvents ImageFolderComboBox As System.Windows.Forms.ComboBox
+    Friend WithEvents LBLImageInfo As System.Windows.Forms.Label
+    Friend WithEvents WindowsMediaPlayerPane As AxWMPLib.AxWindowsMediaPlayer
+    Friend WithEvents WaitTimer As Tease_AI.teaseAI_Timer
+    Friend WithEvents ReceiveFileTimer As Tease_AI.teaseAI_Timer
+    Friend WithEvents VideoTauntTimer As Tease_AI.teaseAI_Timer
+    Friend WithEvents TeaseTimer As Tease_AI.teaseAI_Timer
     Friend WithEvents AvoidTheEdgeTaunts As Tease_AI.teaseAI_Timer
     Friend WithEvents PictureStrip As System.Windows.Forms.ContextMenuStrip
-	Friend WithEvents PicStripTSMIsaveImage As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents PicStripTSMIlikeImage As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents PicStripTSMIdislikeImage As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents PicStripTSMIremoveFromURL As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents StatusUpdates As System.Windows.Forms.WebBrowser
-	Friend WithEvents PicStripTSMIcopyImageLocation As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents CustomSlideshowTimer As Tease_AI.teaseAI_Timer
-	Friend WithEvents Contact1Timer As Tease_AI.teaseAI_Timer
-	Friend WithEvents Contact2Timer As Tease_AI.teaseAI_Timer
-	Friend WithEvents Contact3Timer As Tease_AI.teaseAI_Timer
-	Friend WithEvents UpdateStageTimer As Tease_AI.teaseAI_Timer
-	Friend WithEvents WMPTimer As Tease_AI.teaseAI_Timer
-	Friend WithEvents TeaseAINotify As System.Windows.Forms.NotifyIcon
-	Friend WithEvents TeaseAIMenu As System.Windows.Forms.ContextMenuStrip
-	Friend WithEvents GamesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents SlotsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents MatchGameToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents RiskyPickToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents ExchangeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents CollectionToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents ToolStripMenuItem7 As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents ExitToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents MilovanaToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents OpenBetaThreadToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents BugReportThreadToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents WebteasesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents AllAndEverythingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents DommeTimer As Tease_AI.teaseAI_Timer
-	Friend WithEvents PNLMediaBar As System.Windows.Forms.Panel
-	Friend WithEvents TeaseAIClock As Tease_AI.teaseAI_Timer
-	Friend WithEvents LBLTime As System.Windows.Forms.Label
-	Friend WithEvents LBLDate As System.Windows.Forms.Label
-	Friend WithEvents LBLAMPM As System.Windows.Forms.Label
-	Friend WithEvents MenuStrip2 As System.Windows.Forms.MenuStrip
-	Friend WithEvents FileToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents AppsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents SettingsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents GamesToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents MilovanaToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents DebugToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents AboutToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents PersonalityToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents DommePersonalityComboBox As System.Windows.Forms.ToolStripComboBox
-	Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
-	Friend WithEvents SuspendSessionToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents ResumeSessionToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
-	Friend WithEvents ResetSessionToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents ToolStripSeparator3 As System.Windows.Forms.ToolStripSeparator
-	Friend WithEvents ExitToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents GeneralSettingsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents DommeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents SubToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents ScriptsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents ImagesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents TaggingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents URLFilesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents VideoToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents AppsToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents RangesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents ModdingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents MiscToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents SlotsToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents MatchGameToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents RiskyPickToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents ExchangeToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents CollectionToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents RunScriptToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents OpenBetaThreadToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents BugReportThreadToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents WebteasesToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents ForumToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents TBFurniture As System.Windows.Forms.TextBox
-	Friend WithEvents TBSexToy As System.Windows.Forms.TextBox
-	Friend WithEvents TBTattoo As System.Windows.Forms.TextBox
-	Friend WithEvents TBUnderwear As System.Windows.Forms.TextBox
-	Friend WithEvents TBGarment As System.Windows.Forms.TextBox
-	Friend WithEvents Furniture As System.Windows.Forms.Button
-	Friend WithEvents SexToy As System.Windows.Forms.Button
-	Friend WithEvents Tattoo As System.Windows.Forms.Button
-	Friend WithEvents Underwear As System.Windows.Forms.Button
-	Friend WithEvents Garment As System.Windows.Forms.Button
-	Friend WithEvents Piercing As System.Windows.Forms.Button
-	Friend WithEvents AllFours As System.Windows.Forms.Button
-	Friend WithEvents SeeThrough As System.Windows.Forms.Button
-	Friend WithEvents CloseUp As System.Windows.Forms.Button
-	Friend WithEvents SideView As System.Windows.Forms.Button
-	Friend WithEvents Naked As System.Windows.Forms.Button
-	Friend WithEvents HandsCovering As System.Windows.Forms.Button
-	Friend WithEvents GarmentCovering As System.Windows.Forms.Button
-	Friend WithEvents HalfDressed As System.Windows.Forms.Button
-	Friend WithEvents FullyDressed As System.Windows.Forms.Button
-	Friend WithEvents Glaring As System.Windows.Forms.Button
-	Friend WithEvents Smiling As System.Windows.Forms.Button
-	Friend WithEvents Sucking As System.Windows.Forms.Button
-	Friend WithEvents Masturbating As System.Windows.Forms.Button
-	Friend WithEvents Feet As System.Windows.Forms.Button
-	Friend WithEvents Legs As System.Windows.Forms.Button
-	Friend WithEvents Face As System.Windows.Forms.Button
-	Friend WithEvents Pussy As System.Windows.Forms.Button
-	Friend WithEvents Boobs As System.Windows.Forms.Button
-	Friend WithEvents Ass As System.Windows.Forms.Button
-	Friend WithEvents PNLDomTagBTN As System.Windows.Forms.Panel
-	Friend WithEvents PNLDate As System.Windows.Forms.Panel
-	Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
-	Friend WithEvents LBLGeneralSettings As System.Windows.Forms.Label
-	Friend WithEvents PNLTabs As System.Windows.Forms.Panel
-	Friend WithEvents GlitterToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents PNLAvatar As System.Windows.Forms.Panel
-	Friend WithEvents Panel3 As System.Windows.Forms.Panel
-	Friend WithEvents Panel4 As System.Windows.Forms.Panel
-	Friend WithEvents DommeTagsToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents CloseAppPanelToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents ToolStripSeparator4 As System.Windows.Forms.ToolStripSeparator
-	Friend WithEvents PNLLazySub As System.Windows.Forms.Panel
-	Friend WithEvents CBHideShortcuts As System.Windows.Forms.CheckBox
-	Friend WithEvents CBShortcuts As System.Windows.Forms.CheckBox
-	Friend WithEvents TBShortSafeword As System.Windows.Forms.TextBox
-	Friend WithEvents TBShortGreet As System.Windows.Forms.TextBox
-	Friend WithEvents TBShortCum As System.Windows.Forms.TextBox
-	Friend WithEvents TBShortStroke As System.Windows.Forms.TextBox
-	Friend WithEvents TBShortStop As System.Windows.Forms.TextBox
-	Friend WithEvents TBShortSlowDown As System.Windows.Forms.TextBox
-	Friend WithEvents TBShortSpeedUp As System.Windows.Forms.TextBox
-	Friend WithEvents TBShortEdge As System.Windows.Forms.TextBox
-	Friend WithEvents TBShortNo As System.Windows.Forms.TextBox
-	Friend WithEvents TBShortYes As System.Windows.Forms.TextBox
-	Friend WithEvents BTNAskToCum As System.Windows.Forms.Button
-	Friend WithEvents BTNSlowDown As System.Windows.Forms.Button
-	Friend WithEvents BTNYes As System.Windows.Forms.Button
-	Friend WithEvents BTNStroke As System.Windows.Forms.Button
-	Friend WithEvents BTNNo As System.Windows.Forms.Button
-	Friend WithEvents BTNGreeting As System.Windows.Forms.Button
-	Friend WithEvents BTNStop As System.Windows.Forms.Button
-	Friend WithEvents BTNSafeword As System.Windows.Forms.Button
-	Friend WithEvents BTNEdge As System.Windows.Forms.Button
-	Friend WithEvents BTNSpeedUp As System.Windows.Forms.Button
-	Friend WithEvents LazySubToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents PNLAppRandomizer As System.Windows.Forms.Panel
-	Friend WithEvents LocalImageRandomizerButton As System.Windows.Forms.Button
-	Friend WithEvents Label20 As System.Windows.Forms.Label
-	Friend WithEvents Label19 As System.Windows.Forms.Label
-	Friend WithEvents Label18 As System.Windows.Forms.Label
-	Friend WithEvents RedLightGreenLightRandomizerButton As System.Windows.Forms.Button
-	Friend WithEvents AvoidTheEdgeRandomizerButton As System.Windows.Forms.Button
-	Friend WithEvents CensorshipSucksRandomizerButton As System.Windows.Forms.Button
-	Friend WithEvents CockHeroRandomizerButton As System.Windows.Forms.Button
-	Friend WithEvents JerkOffInstructionsRandomizerButton As System.Windows.Forms.Button
-	Friend WithEvents VideoRandomizerButton As System.Windows.Forms.Button
-	Friend WithEvents BlogImageRandomizerButton As System.Windows.Forms.Button
-	Friend WithEvents RandomizerToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents PNLPlaylist As System.Windows.Forms.Panel
-	Friend WithEvents LBPlaylist As System.Windows.Forms.ListBox
-	Friend WithEvents BTNPlaylist As System.Windows.Forms.Button
-	Friend WithEvents PlaylistToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents ToolsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents CommandGuideToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents AIBoxesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents PNLWritingTask As System.Windows.Forms.Panel
-	Friend WithEvents Label76 As System.Windows.Forms.Label
-	Friend WithEvents LBLMistakesMade As System.Windows.Forms.Label
-	Friend WithEvents LNLMistakesMade As System.Windows.Forms.Label
-	Friend WithEvents LBLMistakesAllowed As System.Windows.Forms.Label
-	Friend WithEvents Label74 As System.Windows.Forms.Label
-	Friend WithEvents LBLLinesRemaining As System.Windows.Forms.Label
-	Friend WithEvents Label15 As System.Windows.Forms.Label
-	Friend WithEvents LBLWritingTaskText As System.Windows.Forms.Label
-	Friend WithEvents LBLWritingTask As System.Windows.Forms.Label
-	Friend WithEvents LBLLinesWritten As System.Windows.Forms.Label
-	Friend WithEvents Button1 As System.Windows.Forms.Button
-	Friend WithEvents WritingTasksToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents PNLWishList As System.Windows.Forms.Panel
-	Friend WithEvents WishlistCostSilver As System.Windows.Forms.PictureBox
-	Friend WithEvents LBLWishlistDate As System.Windows.Forms.Label
-	Friend WithEvents BTNWishlist As System.Windows.Forms.Button
-	Friend WithEvents LBLWishListText As System.Windows.Forms.Label
-	Friend WithEvents LBLWishlistCost As System.Windows.Forms.Label
-	Friend WithEvents WishlistCostGold As System.Windows.Forms.PictureBox
-	Friend WithEvents PNLWishlistTokenBack As System.Windows.Forms.Panel
-	Friend WithEvents LBLWishlistSilver As System.Windows.Forms.Label
-	Friend WithEvents PictureBox6 As System.Windows.Forms.PictureBox
-	Friend WithEvents LBLWishlistBronze As System.Windows.Forms.Label
-	Friend WithEvents PictureBox5 As System.Windows.Forms.PictureBox
-	Friend WithEvents LBLWishlistGold As System.Windows.Forms.Label
-	Friend WithEvents PictureBox4 As System.Windows.Forms.PictureBox
-	Friend WithEvents LBLWishListName As System.Windows.Forms.Label
-	Friend WithEvents PNLWishlistHeader As System.Windows.Forms.Panel
-	Friend WithEvents LBLWishlistDom As System.Windows.Forms.Label
-	Friend WithEvents WishlistPreview As System.Windows.Forms.PictureBox
-	Friend WithEvents WishlistToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents PNLHypnoGen As System.Windows.Forms.Panel
-	Friend WithEvents ComboBoxHypnoGenTrack As System.Windows.Forms.ComboBox
-	Friend WithEvents LBLBackTrack As System.Windows.Forms.Label
-	Friend WithEvents CBHypnoGenNoText As System.Windows.Forms.CheckBox
-	Friend WithEvents TBHypnoGenImageTag As System.Windows.Forms.TextBox
-	Friend WithEvents LBLHypnoImageTag As System.Windows.Forms.Label
-	Friend WithEvents LBHypnoGenSlideshow As System.Windows.Forms.ListBox
-	Friend WithEvents CBHypnoGenSlideshow As System.Windows.Forms.CheckBox
-	Friend WithEvents LBHypnoGen As System.Windows.Forms.ListBox
-	Friend WithEvents LBLHypnoFile As System.Windows.Forms.Label
-	Friend WithEvents LBHypnoGenInduction As System.Windows.Forms.ListBox
-	Friend WithEvents CBHypnoGenInduction As System.Windows.Forms.CheckBox
-	Friend WithEvents CBHypnoGenPhase As System.Windows.Forms.CheckBox
-	Friend WithEvents BTNHypnoGenStart As System.Windows.Forms.Button
-	Friend WithEvents HypnoticGuideToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents VitalSubPanel As System.Windows.Forms.Panel
-	Friend WithEvents GBGoals As System.Windows.Forms.GroupBox
-	Friend WithEvents BTNExercise As System.Windows.Forms.Button
-	Friend WithEvents TBExercise As System.Windows.Forms.TextBox
-	Friend WithEvents VitalSubExerciseAssignmentsCheckBoxList As System.Windows.Forms.CheckedListBox
-	Friend WithEvents VitalSubDommeAssignmentsCheckBox As System.Windows.Forms.CheckBox
-	Friend WithEvents VitalSubSubmitReportButton As System.Windows.Forms.Button
-	Friend WithEvents GBCalories As System.Windows.Forms.GroupBox
-	Friend WithEvents FoodItemCaloriesAmountTextBox As System.Windows.Forms.TextBox
-	Friend WithEvents foodItemTextBox As System.Windows.Forms.TextBox
-	Friend WithEvents VitalSubAddCaloriesButton As System.Windows.Forms.Button
-	Friend WithEvents Label14 As System.Windows.Forms.Label
-	Friend WithEvents Label12 As System.Windows.Forms.Label
-	Friend WithEvents VitalSubCaloriesListBox As System.Windows.Forms.ListBox
-	Friend WithEvents VitalSubCalorieComboBox As System.Windows.Forms.ComboBox
-	Friend WithEvents TBCalorie As System.Windows.Forms.TextBox
-	Friend WithEvents LBLGoal As System.Windows.Forms.Label
-	Friend WithEvents VitalSubCaloriesConsumedLabel As System.Windows.Forms.Label
-	Friend WithEvents LBLConsumed As System.Windows.Forms.Label
-	Friend WithEvents VitalSubEnabledCheckBox As System.Windows.Forms.CheckBox
-	Friend WithEvents VitalSubToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents PNLMetronome As System.Windows.Forms.Panel
-	Friend WithEvents LBLLow As System.Windows.Forms.Label
-	Friend WithEvents NBMaxPace As System.Windows.Forms.NumericUpDown
-	Friend WithEvents LBLMaxSpeed As System.Windows.Forms.Label
-	Friend WithEvents CBMetronome As System.Windows.Forms.CheckBox
-	Friend WithEvents LBLHigh As System.Windows.Forms.Label
-	Friend WithEvents NBMinPace As System.Windows.Forms.NumericUpDown
-	Friend WithEvents LBLMinSpeed As System.Windows.Forms.Label
-	Friend WithEvents BTNMetroPreview2 As System.Windows.Forms.Button
-	Friend WithEvents BTNMetroPreview1 As System.Windows.Forms.Button
-	Friend WithEvents BTNMetroStop2 As System.Windows.Forms.Button
-	Friend WithEvents BTNMetroStop1 As System.Windows.Forms.Button
-	Friend WithEvents MetronomeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents PicStripTSMISaveImageTo As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents PicStripTSMIsaveHardcore As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents PicStripTSMIsaveSoftcore As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents PicStripTSMIsaveLesbian As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents PicStripTSMIsaveBlowjob As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents PicStripTSMIsaveFemdom As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents PicStripTSMIsaveLezdom As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents PicStripTSMIsaveHentai As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents PicStripTSMIsaveGay As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents PicStripTSMIsaveMaledom As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents PicStripTSMIsaveCaptions As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents PicStripTSMIsaveGeneral As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents PicStripTSMIsaveBoobs As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents PicStripTSMIsaveButts As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents TimeoutTimer As Tease_AI.teaseAI_Timer
-	Friend WithEvents PNLLazySub2 As System.Windows.Forms.Panel
-	Friend WithEvents BTNLS1 As System.Windows.Forms.Button
-	Friend WithEvents BTNLS1Edit As System.Windows.Forms.Button
-	Friend WithEvents BTNLS5Edit As System.Windows.Forms.Button
-	Friend WithEvents BTNLS5 As System.Windows.Forms.Button
-	Friend WithEvents BTNLS4Edit As System.Windows.Forms.Button
-	Friend WithEvents BTNLS4 As System.Windows.Forms.Button
-	Friend WithEvents BTNLS3Edit As System.Windows.Forms.Button
-	Friend WithEvents BTNLS3 As System.Windows.Forms.Button
-	Friend WithEvents BTNLS2Edit As System.Windows.Forms.Button
-	Friend WithEvents BTNLS2 As System.Windows.Forms.Button
-	Friend WithEvents ChatText2 As System.Windows.Forms.WebBrowser
-	Friend WithEvents PNLLazySubAV As System.Windows.Forms.Panel
-	Friend WithEvents Button10 As System.Windows.Forms.Button
-	Friend WithEvents Button11 As System.Windows.Forms.Button
-	Friend WithEvents Button9 As System.Windows.Forms.Button
-	Friend WithEvents Button5 As System.Windows.Forms.Button
-	Friend WithEvents Button6 As System.Windows.Forms.Button
-	Friend WithEvents Button7 As System.Windows.Forms.Button
-	Friend WithEvents Button8 As System.Windows.Forms.Button
-	Friend WithEvents Button2 As System.Windows.Forms.Button
-	Friend WithEvents Button3 As System.Windows.Forms.Button
-	Friend WithEvents Button4 As System.Windows.Forms.Button
-	Friend WithEvents PNLChatBox2 As System.Windows.Forms.Panel
-	Friend WithEvents ChatBox2 As System.Windows.Forms.TextBox
-	Friend WithEvents PicStripTSS1 As System.Windows.Forms.ToolStripSeparator
-	Friend WithEvents PicStripTSS2 As System.Windows.Forms.ToolStripSeparator
-	Friend WithEvents PicStripTSS3 As System.Windows.Forms.ToolStripSeparator
-	Friend WithEvents PicStripTSMIdommeSlideshow As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents PicStripTSMIdommeSlideshow_GoToFirst As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents PicStripTSMIdommeSlideshowGoToLast As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents PicStripTSMIdommeSlideshowTSS1 As System.Windows.Forms.ToolStripSeparator
-	Friend WithEvents PicStripTSMIdommeSlideshowLoadNewSlideshow As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents InterfaceToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents SideChatToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents SwitchSidesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents ToolStripSeparator10 As System.Windows.Forms.ToolStripSeparator
-	Friend WithEvents LazySubAVToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents ToolStripSeparator11 As System.Windows.Forms.ToolStripSeparator
-	Friend WithEvents MaximizeImageToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents ThemesToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents ToolStripSeparator5 As System.Windows.Forms.ToolStripSeparator
-	Friend WithEvents ToolStripSeparator12 As System.Windows.Forms.ToolStripSeparator
-	Friend WithEvents WebteaseModeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents DefaultImageSizeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents DebugMenuToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents ToolStripSeparator13 As System.Windows.Forms.ToolStripSeparator
-	Friend WithEvents RefreshRandomizerToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents Button12 As System.Windows.Forms.Button
-	Friend WithEvents VideoTimer As Tease_AI.teaseAI_Timer
-	Friend WithEvents MultipleEdgesTimer As Tease_AI.teaseAI_Timer
-	Friend WithEvents OldDommeTagsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents Button15 As System.Windows.Forms.Button
-	Friend WithEvents CBWritingProgress As System.Windows.Forms.CheckBox
-	Friend WithEvents DommeTagBtnNextImage As System.Windows.Forms.Button
-	Friend WithEvents DommeTagBtnLastImage As System.Windows.Forms.Button
-	Private WithEvents PicStripTmsiDisableAnimation As ToolStripMenuItem
-	Friend WithEvents ProgressBar_BGW_Images As ProgressBar
-	Friend WithEvents DebugSessionWindowToolStripMenuItem As ToolStripMenuItem
-	Friend WithEvents ToolStripSeparator6 As ToolStripSeparator
-	Friend WithEvents DebugTimersToolStripMenuItem As ToolStripMenuItem
-	Friend WithEvents StartTimer1ToolStripMenuItem As ToolStripMenuItem
-	Friend WithEvents PnlSidepanelLayout As Panel
-	Friend WithEvents PnlChatBoxLayout As Panel
-	Friend WithEvents PnlChatTextLayout As System.Windows.Forms.Panel
-	Friend WithEvents PnlLayoutForm As System.Windows.Forms.Panel
-	Friend WithEvents PnlAvatarBackground As System.Windows.Forms.Panel
-	Friend WithEvents PnlTabsLayout As System.Windows.Forms.Panel
-	Friend WithEvents PnlAvatarInner As System.Windows.Forms.Panel
-	Friend WithEvents Panel7 As System.Windows.Forms.Panel
-	Friend WithEvents PnlSidechat As System.Windows.Forms.Panel
-	Friend WithEvents FullscreenToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-	Friend WithEvents PnlGlitter As System.Windows.Forms.Panel
-	Friend WithEvents SidepanelToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents PicStripTSMIsaveImage As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PicStripTSMIlikeImage As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PicStripTSMIdislikeImage As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PicStripTSMIremoveFromURL As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents StatusUpdates As System.Windows.Forms.WebBrowser
+    Friend WithEvents PicStripTSMIcopyImageLocation As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents CustomSlideshowTimer As Tease_AI.teaseAI_Timer
+    Friend WithEvents Contact1Timer As Tease_AI.teaseAI_Timer
+    Friend WithEvents Contact2Timer As Tease_AI.teaseAI_Timer
+    Friend WithEvents Contact3Timer As Tease_AI.teaseAI_Timer
+    Friend WithEvents UpdateStageTimer As Tease_AI.teaseAI_Timer
+    Friend WithEvents WMPTimer As Tease_AI.teaseAI_Timer
+    Friend WithEvents TeaseAINotify As System.Windows.Forms.NotifyIcon
+    Friend WithEvents TeaseAIMenu As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents GamesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SlotsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents MatchGameToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents RiskyPickToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ExchangeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents CollectionToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem7 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ExitToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents MilovanaToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents OpenBetaThreadToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents BugReportThreadToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents WebteasesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents AllAndEverythingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents DommeTimer As Tease_AI.teaseAI_Timer
+    Friend WithEvents PNLMediaBar As System.Windows.Forms.Panel
+    Friend WithEvents TeaseAIClock As Tease_AI.teaseAI_Timer
+    Friend WithEvents LBLTime As System.Windows.Forms.Label
+    Friend WithEvents LBLDate As System.Windows.Forms.Label
+    Friend WithEvents LBLAMPM As System.Windows.Forms.Label
+    Friend WithEvents MenuStrip2 As System.Windows.Forms.MenuStrip
+    Friend WithEvents FileToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents AppsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SettingsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents GamesToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents MilovanaToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents DebugToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents AboutToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PersonalityToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents DommePersonalityComboBox As System.Windows.Forms.ToolStripComboBox
+    Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents SuspendSessionToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ResumeSessionToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ResetSessionToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator3 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ExitToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents GeneralSettingsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents DommeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SubToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ScriptsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ImagesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents TaggingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents URLFilesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents VideoToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents AppsToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents RangesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ModdingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents MiscToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SlotsToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents MatchGameToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents RiskyPickToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ExchangeToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents CollectionToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents RunScriptToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents OpenBetaThreadToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents BugReportThreadToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents WebteasesToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ForumToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents TBFurniture As System.Windows.Forms.TextBox
+    Friend WithEvents TBSexToy As System.Windows.Forms.TextBox
+    Friend WithEvents TBTattoo As System.Windows.Forms.TextBox
+    Friend WithEvents TBUnderwear As System.Windows.Forms.TextBox
+    Friend WithEvents TBGarment As System.Windows.Forms.TextBox
+    Friend WithEvents Furniture As System.Windows.Forms.Button
+    Friend WithEvents SexToy As System.Windows.Forms.Button
+    Friend WithEvents Tattoo As System.Windows.Forms.Button
+    Friend WithEvents Underwear As System.Windows.Forms.Button
+    Friend WithEvents Garment As System.Windows.Forms.Button
+    Friend WithEvents Piercing As System.Windows.Forms.Button
+    Friend WithEvents AllFours As System.Windows.Forms.Button
+    Friend WithEvents SeeThrough As System.Windows.Forms.Button
+    Friend WithEvents CloseUp As System.Windows.Forms.Button
+    Friend WithEvents SideView As System.Windows.Forms.Button
+    Friend WithEvents Naked As System.Windows.Forms.Button
+    Friend WithEvents HandsCovering As System.Windows.Forms.Button
+    Friend WithEvents GarmentCovering As System.Windows.Forms.Button
+    Friend WithEvents HalfDressed As System.Windows.Forms.Button
+    Friend WithEvents FullyDressed As System.Windows.Forms.Button
+    Friend WithEvents Glaring As System.Windows.Forms.Button
+    Friend WithEvents Smiling As System.Windows.Forms.Button
+    Friend WithEvents Sucking As System.Windows.Forms.Button
+    Friend WithEvents Masturbating As System.Windows.Forms.Button
+    Friend WithEvents Feet As System.Windows.Forms.Button
+    Friend WithEvents Legs As System.Windows.Forms.Button
+    Friend WithEvents Face As System.Windows.Forms.Button
+    Friend WithEvents Pussy As System.Windows.Forms.Button
+    Friend WithEvents Boobs As System.Windows.Forms.Button
+    Friend WithEvents Ass As System.Windows.Forms.Button
+    Friend WithEvents PNLDomTagBTN As System.Windows.Forms.Panel
+    Friend WithEvents PNLDate As System.Windows.Forms.Panel
+    Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
+    Friend WithEvents LBLGeneralSettings As System.Windows.Forms.Label
+    Friend WithEvents PNLTabs As System.Windows.Forms.Panel
+    Friend WithEvents GlitterToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PNLAvatar As System.Windows.Forms.Panel
+    Friend WithEvents Panel3 As System.Windows.Forms.Panel
+    Friend WithEvents Panel4 As System.Windows.Forms.Panel
+    Friend WithEvents DommeTagsToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents CloseAppPanelToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator4 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents PNLLazySub As System.Windows.Forms.Panel
+    Friend WithEvents CBHideShortcuts As System.Windows.Forms.CheckBox
+    Friend WithEvents CBShortcuts As System.Windows.Forms.CheckBox
+    Friend WithEvents TBShortSafeword As System.Windows.Forms.TextBox
+    Friend WithEvents TBShortGreet As System.Windows.Forms.TextBox
+    Friend WithEvents TBShortCum As System.Windows.Forms.TextBox
+    Friend WithEvents TBShortStroke As System.Windows.Forms.TextBox
+    Friend WithEvents TBShortStop As System.Windows.Forms.TextBox
+    Friend WithEvents TBShortSlowDown As System.Windows.Forms.TextBox
+    Friend WithEvents TBShortSpeedUp As System.Windows.Forms.TextBox
+    Friend WithEvents TBShortEdge As System.Windows.Forms.TextBox
+    Friend WithEvents TBShortNo As System.Windows.Forms.TextBox
+    Friend WithEvents TBShortYes As System.Windows.Forms.TextBox
+    Friend WithEvents BTNAskToCum As System.Windows.Forms.Button
+    Friend WithEvents BTNSlowDown As System.Windows.Forms.Button
+    Friend WithEvents BTNYes As System.Windows.Forms.Button
+    Friend WithEvents BTNStroke As System.Windows.Forms.Button
+    Friend WithEvents BTNNo As System.Windows.Forms.Button
+    Friend WithEvents BTNGreeting As System.Windows.Forms.Button
+    Friend WithEvents BTNStop As System.Windows.Forms.Button
+    Friend WithEvents BTNSafeword As System.Windows.Forms.Button
+    Friend WithEvents BTNEdge As System.Windows.Forms.Button
+    Friend WithEvents BTNSpeedUp As System.Windows.Forms.Button
+    Friend WithEvents LazySubToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents RandomizerAppPanel1 As RandomizerAppPanel
+    Friend WithEvents RandomizerToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PNLPlaylist As System.Windows.Forms.Panel
+    Friend WithEvents LBPlaylist As System.Windows.Forms.ListBox
+    Friend WithEvents BTNPlaylist As System.Windows.Forms.Button
+    Friend WithEvents PlaylistToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents CommandGuideToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents AIBoxesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PNLWritingTask As System.Windows.Forms.Panel
+    Friend WithEvents Label76 As System.Windows.Forms.Label
+    Friend WithEvents LBLMistakesMade As System.Windows.Forms.Label
+    Friend WithEvents LNLMistakesMade As System.Windows.Forms.Label
+    Friend WithEvents LBLMistakesAllowed As System.Windows.Forms.Label
+    Friend WithEvents Label74 As System.Windows.Forms.Label
+    Friend WithEvents LBLLinesRemaining As System.Windows.Forms.Label
+    Friend WithEvents Label15 As System.Windows.Forms.Label
+    Friend WithEvents LBLWritingTaskText As System.Windows.Forms.Label
+    Friend WithEvents LBLWritingTask As System.Windows.Forms.Label
+    Friend WithEvents LBLLinesWritten As System.Windows.Forms.Label
+    Friend WithEvents Button1 As System.Windows.Forms.Button
+    Friend WithEvents WritingTasksToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PNLWishList As System.Windows.Forms.Panel
+    Friend WithEvents WishlistCostSilver As System.Windows.Forms.PictureBox
+    Friend WithEvents LBLWishlistDate As System.Windows.Forms.Label
+    Friend WithEvents BTNWishlist As System.Windows.Forms.Button
+    Friend WithEvents LBLWishListText As System.Windows.Forms.Label
+    Friend WithEvents LBLWishlistCost As System.Windows.Forms.Label
+    Friend WithEvents WishlistCostGold As System.Windows.Forms.PictureBox
+    Friend WithEvents PNLWishlistTokenBack As System.Windows.Forms.Panel
+    Friend WithEvents LBLWishlistSilver As System.Windows.Forms.Label
+    Friend WithEvents PictureBox6 As System.Windows.Forms.PictureBox
+    Friend WithEvents LBLWishlistBronze As System.Windows.Forms.Label
+    Friend WithEvents PictureBox5 As System.Windows.Forms.PictureBox
+    Friend WithEvents LBLWishlistGold As System.Windows.Forms.Label
+    Friend WithEvents PictureBox4 As System.Windows.Forms.PictureBox
+    Friend WithEvents LBLWishListName As System.Windows.Forms.Label
+    Friend WithEvents PNLWishlistHeader As System.Windows.Forms.Panel
+    Friend WithEvents LBLWishlistDom As System.Windows.Forms.Label
+    Friend WithEvents WishlistPreview As System.Windows.Forms.PictureBox
+    Friend WithEvents WishlistToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PNLHypnoGen As System.Windows.Forms.Panel
+    Friend WithEvents ComboBoxHypnoGenTrack As System.Windows.Forms.ComboBox
+    Friend WithEvents LBLBackTrack As System.Windows.Forms.Label
+    Friend WithEvents CBHypnoGenNoText As System.Windows.Forms.CheckBox
+    Friend WithEvents TBHypnoGenImageTag As System.Windows.Forms.TextBox
+    Friend WithEvents LBLHypnoImageTag As System.Windows.Forms.Label
+    Friend WithEvents LBHypnoGenSlideshow As System.Windows.Forms.ListBox
+    Friend WithEvents CBHypnoGenSlideshow As System.Windows.Forms.CheckBox
+    Friend WithEvents LBHypnoGen As System.Windows.Forms.ListBox
+    Friend WithEvents LBLHypnoFile As System.Windows.Forms.Label
+    Friend WithEvents LBHypnoGenInduction As System.Windows.Forms.ListBox
+    Friend WithEvents CBHypnoGenInduction As System.Windows.Forms.CheckBox
+    Friend WithEvents CBHypnoGenPhase As System.Windows.Forms.CheckBox
+    Friend WithEvents BTNHypnoGenStart As System.Windows.Forms.Button
+    Friend WithEvents HypnoticGuideToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents VitalSubPanel As System.Windows.Forms.Panel
+    Friend WithEvents GBGoals As System.Windows.Forms.GroupBox
+    Friend WithEvents BTNExercise As System.Windows.Forms.Button
+    Friend WithEvents TBExercise As System.Windows.Forms.TextBox
+    Friend WithEvents VitalSubExerciseAssignmentsCheckBoxList As System.Windows.Forms.CheckedListBox
+    Friend WithEvents VitalSubDommeAssignmentsCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents VitalSubSubmitReportButton As System.Windows.Forms.Button
+    Friend WithEvents GBCalories As System.Windows.Forms.GroupBox
+    Friend WithEvents FoodItemCaloriesAmountTextBox As System.Windows.Forms.TextBox
+    Friend WithEvents foodItemTextBox As System.Windows.Forms.TextBox
+    Friend WithEvents VitalSubAddCaloriesButton As System.Windows.Forms.Button
+    Friend WithEvents Label14 As System.Windows.Forms.Label
+    Friend WithEvents Label12 As System.Windows.Forms.Label
+    Friend WithEvents VitalSubCaloriesListBox As System.Windows.Forms.ListBox
+    Friend WithEvents VitalSubCalorieComboBox As System.Windows.Forms.ComboBox
+    Friend WithEvents TBCalorie As System.Windows.Forms.TextBox
+    Friend WithEvents LBLGoal As System.Windows.Forms.Label
+    Friend WithEvents VitalSubCaloriesConsumedLabel As System.Windows.Forms.Label
+    Friend WithEvents LBLConsumed As System.Windows.Forms.Label
+    Friend WithEvents VitalSubEnabledCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents VitalSubToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PNLMetronome As System.Windows.Forms.Panel
+    Friend WithEvents LBLLow As System.Windows.Forms.Label
+    Friend WithEvents NBMaxPace As System.Windows.Forms.NumericUpDown
+    Friend WithEvents LBLMaxSpeed As System.Windows.Forms.Label
+    Friend WithEvents CBMetronome As System.Windows.Forms.CheckBox
+    Friend WithEvents LBLHigh As System.Windows.Forms.Label
+    Friend WithEvents NBMinPace As System.Windows.Forms.NumericUpDown
+    Friend WithEvents LBLMinSpeed As System.Windows.Forms.Label
+    Friend WithEvents BTNMetroPreview2 As System.Windows.Forms.Button
+    Friend WithEvents BTNMetroPreview1 As System.Windows.Forms.Button
+    Friend WithEvents BTNMetroStop2 As System.Windows.Forms.Button
+    Friend WithEvents BTNMetroStop1 As System.Windows.Forms.Button
+    Friend WithEvents MetronomeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PicStripTSMISaveImageTo As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PicStripTSMIsaveHardcore As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PicStripTSMIsaveSoftcore As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PicStripTSMIsaveLesbian As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PicStripTSMIsaveBlowjob As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PicStripTSMIsaveFemdom As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PicStripTSMIsaveLezdom As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PicStripTSMIsaveHentai As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PicStripTSMIsaveGay As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PicStripTSMIsaveMaledom As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PicStripTSMIsaveCaptions As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PicStripTSMIsaveGeneral As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PicStripTSMIsaveBoobs As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PicStripTSMIsaveButts As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents TimeoutTimer As Tease_AI.teaseAI_Timer
+    Friend WithEvents PNLLazySub2 As System.Windows.Forms.Panel
+    Friend WithEvents BTNLS1 As System.Windows.Forms.Button
+    Friend WithEvents BTNLS1Edit As System.Windows.Forms.Button
+    Friend WithEvents BTNLS5Edit As System.Windows.Forms.Button
+    Friend WithEvents BTNLS5 As System.Windows.Forms.Button
+    Friend WithEvents BTNLS4Edit As System.Windows.Forms.Button
+    Friend WithEvents BTNLS4 As System.Windows.Forms.Button
+    Friend WithEvents BTNLS3Edit As System.Windows.Forms.Button
+    Friend WithEvents BTNLS3 As System.Windows.Forms.Button
+    Friend WithEvents BTNLS2Edit As System.Windows.Forms.Button
+    Friend WithEvents BTNLS2 As System.Windows.Forms.Button
+    Friend WithEvents ChatText2 As System.Windows.Forms.WebBrowser
+    Friend WithEvents PNLLazySubAV As System.Windows.Forms.Panel
+    Friend WithEvents Button10 As System.Windows.Forms.Button
+    Friend WithEvents Button11 As System.Windows.Forms.Button
+    Friend WithEvents Button9 As System.Windows.Forms.Button
+    Friend WithEvents Button5 As System.Windows.Forms.Button
+    Friend WithEvents Button6 As System.Windows.Forms.Button
+    Friend WithEvents Button7 As System.Windows.Forms.Button
+    Friend WithEvents Button8 As System.Windows.Forms.Button
+    Friend WithEvents Button2 As System.Windows.Forms.Button
+    Friend WithEvents Button3 As System.Windows.Forms.Button
+    Friend WithEvents Button4 As System.Windows.Forms.Button
+    Friend WithEvents PNLChatBox2 As System.Windows.Forms.Panel
+    Friend WithEvents ChatBox2 As System.Windows.Forms.TextBox
+    Friend WithEvents PicStripTSS1 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents PicStripTSS2 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents PicStripTSS3 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents PicStripTSMIdommeSlideshow As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PicStripTSMIdommeSlideshow_GoToFirst As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PicStripTSMIdommeSlideshowGoToLast As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PicStripTSMIdommeSlideshowTSS1 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents PicStripTSMIdommeSlideshowLoadNewSlideshow As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents InterfaceToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SideChatToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SwitchSidesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator10 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents LazySubAVToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator11 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents MaximizeImageToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ThemesToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator5 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ToolStripSeparator12 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents WebteaseModeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents DefaultImageSizeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents DebugMenuToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator13 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents RefreshRandomizerToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents VideoTimer As Tease_AI.teaseAI_Timer
+    Friend WithEvents MultipleEdgesTimer As Tease_AI.teaseAI_Timer
+    Friend WithEvents OldDommeTagsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents Button15 As System.Windows.Forms.Button
+    Friend WithEvents CBWritingProgress As System.Windows.Forms.CheckBox
+    Friend WithEvents DommeTagBtnNextImage As System.Windows.Forms.Button
+    Friend WithEvents DommeTagBtnLastImage As System.Windows.Forms.Button
+    Private WithEvents PicStripTmsiDisableAnimation As ToolStripMenuItem
+    Friend WithEvents ProgressBar_BGW_Images As ProgressBar
+    Friend WithEvents DebugSessionWindowToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator6 As ToolStripSeparator
+    Friend WithEvents DebugTimersToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents StartTimer1ToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents PnlSidepanelLayout As Panel
+    Friend WithEvents PnlChatBoxLayout As Panel
+    Friend WithEvents PnlChatTextLayout As System.Windows.Forms.Panel
+    Friend WithEvents PnlLayoutForm As System.Windows.Forms.Panel
+    Friend WithEvents PnlAvatarBackground As System.Windows.Forms.Panel
+    Friend WithEvents AppPanel As System.Windows.Forms.Panel
+    Friend WithEvents PnlAvatarInner As System.Windows.Forms.Panel
+    Friend WithEvents Panel7 As System.Windows.Forms.Panel
+    Friend WithEvents PnlSidechat As System.Windows.Forms.Panel
+    Friend WithEvents FullscreenToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PnlGlitter As System.Windows.Forms.Panel
+    Friend WithEvents SidepanelToolStripMenuItem As ToolStripMenuItem
 End Class
