@@ -18,6 +18,7 @@ Imports System.IO
 Imports System.Runtime.Serialization
 Imports TeaseAI
 Imports TeaseAI.Common
+Imports TeaseAI.Common.Interfaces
 Imports TeaseAI.Common.Interfaces.Accessors
 
 ''' <summary>
@@ -39,7 +40,6 @@ Public Class SessionState
 #Region "------------------------------------------- Data -----------------------------------------------"
     Const EditorGenericStringList As String = "System.Windows.Forms.Design.ListControlStringCollectionEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
 
-    Public Property randomizer As New Random
     Public Property ScriptOperator As String
 
     Public Property DomTyping As Boolean
@@ -643,6 +643,7 @@ Public Class SessionState
     ''' </summary>
     Sub New()
         mySettingsAccessor = ApplicationFactory.CreateSettingsAccessor()
+        myRandomNumberService = ApplicationFactory.CreateRandomNumberService()
         InitializeComponent()
     End Sub
 
@@ -656,8 +657,6 @@ Public Class SessionState
     End Sub
 
     Private Sub InitializeComponent()
-        randomizer = New Random()
-
         StrokeTimeTotal = My.Settings.StrokeTimeTotal
 
         HoldEdgeTimeTotal = My.Settings.HoldEdgeTimeTotal
@@ -671,7 +670,7 @@ Public Class SessionState
         AvgEdgeCount = My.Settings.AvgEdgeCount
         AvgEdgeCountRest = My.Settings.AvgEdgeCountRest
         Dim settings As Settings = mySettingsAccessor.GetSettings()
-        DommeMood = randomizer.Next(settings.Domme.BadMoodThreshold, settings.Domme.GoodMoodThreshold + 1)
+        DommeMood = myRandomNumberService.Roll(settings.Domme.BadMoodThreshold, settings.Domme.GoodMoodThreshold + 1)
 
         SlideshowMain = New ContactData(ContactType.Domme)
         SlideshowContact1 = New ContactData(ContactType.Contact1)
@@ -1145,6 +1144,7 @@ Public Class SessionState
     End Function
 
     Private ReadOnly mySettingsAccessor As ISettingsAccessor
+    Private ReadOnly myRandomNumberService As IRandomNumberService
     Private myDom As String
     Private myFileText As String
     Private myScriptLineCount As Integer

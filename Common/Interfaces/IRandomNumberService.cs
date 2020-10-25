@@ -1,9 +1,12 @@
 ﻿namespace TeaseAI.Common.Interfaces
 {
+    /// <summary>
+    /// Interface to generate random numbers
+    /// </summary>
     public interface IRandomNumberService
     {
         /// <summary>
-        /// Roll a number between 1 and 100
+        /// Roll a number between 1 and 100 (inclusive)
         /// </summary>
         /// <returns></returns>
         int RollPercent();

@@ -141,7 +141,7 @@ Partial Class MainWindow
         Me.LBLTime = New System.Windows.Forms.Label()
         Me.LBLDate = New System.Windows.Forms.Label()
         Me.LBLAMPM = New System.Windows.Forms.Label()
-        Me.MenuStrip2 = New System.Windows.Forms.MenuStrip()
+        Me.MainMenuStrip = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PersonalityToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DommePersonalityComboBox = New System.Windows.Forms.ToolStripComboBox()
@@ -214,8 +214,6 @@ Partial Class MainWindow
         Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator()
         Me.DebugTimersToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.StartTimer1ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripSeparator13 = New System.Windows.Forms.ToolStripSeparator()
-        Me.RefreshRandomizerToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AboutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PNLDate = New System.Windows.Forms.Panel()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
@@ -337,6 +335,7 @@ Partial Class MainWindow
         Me.LBLWritingTaskText = New System.Windows.Forms.Label()
         Me.LBLWritingTask = New System.Windows.Forms.Label()
         Me.LBLLinesWritten = New System.Windows.Forms.Label()
+        Me.RandomizerAppPanel = New Tease_AI.RandomizerAppPanel()
         Me.PNLLazySub2 = New System.Windows.Forms.Panel()
         Me.PNLPlaylist = New System.Windows.Forms.Panel()
         Me.LBPlaylist = New System.Windows.Forms.ListBox()
@@ -359,7 +358,6 @@ Partial Class MainWindow
         Me.Button3 = New System.Windows.Forms.Button()
         Me.Button4 = New System.Windows.Forms.Button()
         Me.PnlSidepanelLayout = New System.Windows.Forms.Panel()
-        Me.RandomizerAppPanel1 = New Tease_AI.RandomizerAppPanel()
         Me.AppPanel = New System.Windows.Forms.Panel()
         Me.PnlLayoutForm = New System.Windows.Forms.Panel()
         Me.ScriptTimer = New Tease_AI.teaseAI_Timer()
@@ -409,7 +407,7 @@ Partial Class MainWindow
         CType(Me.PictureBox11, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PictureStrip.SuspendLayout()
         Me.TeaseAIMenu.SuspendLayout()
-        Me.MenuStrip2.SuspendLayout()
+        Me.MainMenuStrip.SuspendLayout()
         Me.PNLDate.SuspendLayout()
         Me.PNLTabs.SuspendLayout()
         Me.PNLWishList.SuspendLayout()
@@ -539,7 +537,7 @@ Partial Class MainWindow
         Me.WindowsMediaPlayerPane.Location = New System.Drawing.Point(0, 0)
         Me.WindowsMediaPlayerPane.Name = "WindowsMediaPlayerPane"
         Me.WindowsMediaPlayerPane.OcxState = CType(resources.GetObject("WindowsMediaPlayerPane.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.WindowsMediaPlayerPane.Size = New System.Drawing.Size(1326, 694)
+        Me.WindowsMediaPlayerPane.Size = New System.Drawing.Size(1326, 688)
         Me.WindowsMediaPlayerPane.TabIndex = 96
         Me.WindowsMediaPlayerPane.Visible = False
         '
@@ -1728,14 +1726,14 @@ Partial Class MainWindow
         Me.LBLAMPM.Text = "PM"
         Me.LBLAMPM.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'MenuStrip2
+        'MainMenuStrip
         '
-        Me.MenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.SettingsToolStripMenuItem, Me.AppsToolStripMenuItem, Me.GamesToolStripMenuItem1, Me.InterfaceToolStripMenuItem, Me.ToolsToolStripMenuItem, Me.MilovanaToolStripMenuItem1, Me.DebugToolStripMenuItem, Me.AboutToolStripMenuItem})
-        Me.MenuStrip2.Location = New System.Drawing.Point(0, 0)
-        Me.MenuStrip2.Name = "MenuStrip2"
-        Me.MenuStrip2.Size = New System.Drawing.Size(1604, 24)
-        Me.MenuStrip2.TabIndex = 774
-        Me.MenuStrip2.Text = "MenuStrip2"
+        Me.MainMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.SettingsToolStripMenuItem, Me.AppsToolStripMenuItem, Me.GamesToolStripMenuItem1, Me.InterfaceToolStripMenuItem, Me.ToolsToolStripMenuItem, Me.MilovanaToolStripMenuItem1, Me.DebugToolStripMenuItem, Me.AboutToolStripMenuItem})
+        Me.MainMenuStrip.Location = New System.Drawing.Point(0, 0)
+        Me.MainMenuStrip.Name = "MainMenuStrip"
+        Me.MainMenuStrip.Size = New System.Drawing.Size(1604, 24)
+        Me.MainMenuStrip.TabIndex = 774
+        Me.MainMenuStrip.Text = "MenuStrip2"
         '
         'FileToolStripMenuItem
         '
@@ -1806,73 +1804,73 @@ Partial Class MainWindow
         'GeneralSettingsToolStripMenuItem
         '
         Me.GeneralSettingsToolStripMenuItem.Name = "GeneralSettingsToolStripMenuItem"
-        Me.GeneralSettingsToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
+        Me.GeneralSettingsToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.GeneralSettingsToolStripMenuItem.Text = "General"
         '
         'DommeToolStripMenuItem
         '
         Me.DommeToolStripMenuItem.Name = "DommeToolStripMenuItem"
-        Me.DommeToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
+        Me.DommeToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.DommeToolStripMenuItem.Text = "Domme"
         '
         'SubToolStripMenuItem
         '
         Me.SubToolStripMenuItem.Name = "SubToolStripMenuItem"
-        Me.SubToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
+        Me.SubToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.SubToolStripMenuItem.Text = "Sub"
         '
         'ScriptsToolStripMenuItem
         '
         Me.ScriptsToolStripMenuItem.Name = "ScriptsToolStripMenuItem"
-        Me.ScriptsToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
+        Me.ScriptsToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ScriptsToolStripMenuItem.Text = "Scripts"
         '
         'ImagesToolStripMenuItem
         '
         Me.ImagesToolStripMenuItem.Name = "ImagesToolStripMenuItem"
-        Me.ImagesToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
+        Me.ImagesToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ImagesToolStripMenuItem.Text = "Images"
         '
         'TaggingToolStripMenuItem
         '
         Me.TaggingToolStripMenuItem.Name = "TaggingToolStripMenuItem"
-        Me.TaggingToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
+        Me.TaggingToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.TaggingToolStripMenuItem.Text = "Tagging"
         '
         'URLFilesToolStripMenuItem
         '
         Me.URLFilesToolStripMenuItem.Name = "URLFilesToolStripMenuItem"
-        Me.URLFilesToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
+        Me.URLFilesToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.URLFilesToolStripMenuItem.Text = "URL Files"
         '
         'VideoToolStripMenuItem
         '
         Me.VideoToolStripMenuItem.Name = "VideoToolStripMenuItem"
-        Me.VideoToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
+        Me.VideoToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.VideoToolStripMenuItem.Text = "Video"
         '
         'AppsToolStripMenuItem1
         '
         Me.AppsToolStripMenuItem1.Name = "AppsToolStripMenuItem1"
-        Me.AppsToolStripMenuItem1.Size = New System.Drawing.Size(123, 22)
+        Me.AppsToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
         Me.AppsToolStripMenuItem1.Text = "Apps"
         '
         'RangesToolStripMenuItem
         '
         Me.RangesToolStripMenuItem.Name = "RangesToolStripMenuItem"
-        Me.RangesToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
+        Me.RangesToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.RangesToolStripMenuItem.Text = "Ranges"
         '
         'ModdingToolStripMenuItem
         '
         Me.ModdingToolStripMenuItem.Name = "ModdingToolStripMenuItem"
-        Me.ModdingToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
+        Me.ModdingToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ModdingToolStripMenuItem.Text = "Modding"
         '
         'MiscToolStripMenuItem
         '
         Me.MiscToolStripMenuItem.Name = "MiscToolStripMenuItem"
-        Me.MiscToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
+        Me.MiscToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.MiscToolStripMenuItem.Text = "Misc"
         '
         'AppsToolStripMenuItem
@@ -1885,72 +1883,72 @@ Partial Class MainWindow
         'CloseAppPanelToolStripMenuItem
         '
         Me.CloseAppPanelToolStripMenuItem.Name = "CloseAppPanelToolStripMenuItem"
-        Me.CloseAppPanelToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
+        Me.CloseAppPanelToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.CloseAppPanelToolStripMenuItem.Text = "Close Apps"
         '
         'ToolStripSeparator4
         '
         Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
-        Me.ToolStripSeparator4.Size = New System.Drawing.Size(154, 6)
+        Me.ToolStripSeparator4.Size = New System.Drawing.Size(177, 6)
         '
         'MetronomeToolStripMenuItem
         '
         Me.MetronomeToolStripMenuItem.Name = "MetronomeToolStripMenuItem"
-        Me.MetronomeToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
+        Me.MetronomeToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.MetronomeToolStripMenuItem.Text = "Metronome"
         '
         'GlitterToolStripMenuItem
         '
         Me.GlitterToolStripMenuItem.Name = "GlitterToolStripMenuItem"
-        Me.GlitterToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
+        Me.GlitterToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.GlitterToolStripMenuItem.Text = "Glitter"
         '
         'DommeTagsToolStripMenuItem2
         '
         Me.DommeTagsToolStripMenuItem2.Name = "DommeTagsToolStripMenuItem2"
-        Me.DommeTagsToolStripMenuItem2.Size = New System.Drawing.Size(157, 22)
+        Me.DommeTagsToolStripMenuItem2.Size = New System.Drawing.Size(180, 22)
         Me.DommeTagsToolStripMenuItem2.Text = "Domme Tags"
         '
         'LazySubToolStripMenuItem
         '
         Me.LazySubToolStripMenuItem.Name = "LazySubToolStripMenuItem"
-        Me.LazySubToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
+        Me.LazySubToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.LazySubToolStripMenuItem.Text = "Lazy Sub"
         '
         'RandomizerToolStripMenuItem
         '
         Me.RandomizerToolStripMenuItem.Name = "RandomizerToolStripMenuItem"
-        Me.RandomizerToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
+        Me.RandomizerToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.RandomizerToolStripMenuItem.Text = "Randomizer"
         '
         'PlaylistToolStripMenuItem
         '
         Me.PlaylistToolStripMenuItem.Name = "PlaylistToolStripMenuItem"
-        Me.PlaylistToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
+        Me.PlaylistToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.PlaylistToolStripMenuItem.Text = "Playlist"
         '
         'WritingTasksToolStripMenuItem
         '
         Me.WritingTasksToolStripMenuItem.Name = "WritingTasksToolStripMenuItem"
-        Me.WritingTasksToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
+        Me.WritingTasksToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.WritingTasksToolStripMenuItem.Text = "Writing Tasks"
         '
         'WishlistToolStripMenuItem
         '
         Me.WishlistToolStripMenuItem.Name = "WishlistToolStripMenuItem"
-        Me.WishlistToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
+        Me.WishlistToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.WishlistToolStripMenuItem.Text = "Wishlist"
         '
         'HypnoticGuideToolStripMenuItem
         '
         Me.HypnoticGuideToolStripMenuItem.Name = "HypnoticGuideToolStripMenuItem"
-        Me.HypnoticGuideToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
+        Me.HypnoticGuideToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.HypnoticGuideToolStripMenuItem.Text = "Hypnotic Guide"
         '
         'VitalSubToolStripMenuItem
         '
         Me.VitalSubToolStripMenuItem.Name = "VitalSubToolStripMenuItem"
-        Me.VitalSubToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
+        Me.VitalSubToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.VitalSubToolStripMenuItem.Text = "VitalSub"
         '
         'GamesToolStripMenuItem1
@@ -2137,7 +2135,7 @@ Partial Class MainWindow
         '
         'DebugToolStripMenuItem
         '
-        Me.DebugToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RunScriptToolStripMenuItem, Me.DebugSessionWindowToolStripMenuItem, Me.DebugMenuToolStripMenuItem, Me.ToolStripSeparator6, Me.DebugTimersToolStripMenuItem, Me.ToolStripSeparator13, Me.RefreshRandomizerToolStripMenuItem})
+        Me.DebugToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RunScriptToolStripMenuItem, Me.DebugSessionWindowToolStripMenuItem, Me.DebugMenuToolStripMenuItem, Me.ToolStripSeparator6, Me.DebugTimersToolStripMenuItem})
         Me.DebugToolStripMenuItem.Name = "DebugToolStripMenuItem"
         Me.DebugToolStripMenuItem.Size = New System.Drawing.Size(54, 20)
         Me.DebugToolStripMenuItem.Text = "Debug"
@@ -2177,17 +2175,6 @@ Partial Class MainWindow
         Me.StartTimer1ToolStripMenuItem.Name = "StartTimer1ToolStripMenuItem"
         Me.StartTimer1ToolStripMenuItem.Size = New System.Drawing.Size(140, 22)
         Me.StartTimer1ToolStripMenuItem.Text = "Start Timer 1"
-        '
-        'ToolStripSeparator13
-        '
-        Me.ToolStripSeparator13.Name = "ToolStripSeparator13"
-        Me.ToolStripSeparator13.Size = New System.Drawing.Size(195, 6)
-        '
-        'RefreshRandomizerToolStripMenuItem
-        '
-        Me.RefreshRandomizerToolStripMenuItem.Name = "RefreshRandomizerToolStripMenuItem"
-        Me.RefreshRandomizerToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
-        Me.RefreshRandomizerToolStripMenuItem.Text = "Refresh Randomizer"
         '
         'AboutToolStripMenuItem
         '
@@ -2244,7 +2231,7 @@ Partial Class MainWindow
         Me.PNLTabs.Controls.Add(Me.PnlGlitter)
         Me.PNLTabs.Controls.Add(Me.PnlSidechat)
         Me.PNLTabs.Controls.Add(Me.PNLWritingTask)
-        Me.PNLTabs.Controls.Add(Me.RandomizerAppPanel1)
+        Me.PNLTabs.Controls.Add(Me.RandomizerAppPanel)
         Me.PNLTabs.Controls.Add(Me.PNLDomTagBTN)
         Me.PNLTabs.Controls.Add(Me.PNLLazySub2)
         Me.PNLTabs.Controls.Add(Me.PNLPlaylist)
@@ -3719,7 +3706,17 @@ Partial Class MainWindow
         Me.LBLLinesWritten.TabIndex = 129
         Me.LBLLinesWritten.Text = "1000"
         Me.LBLLinesWritten.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-
+        '
+        'RandomizerAppPanel
+        '
+        Me.RandomizerAppPanel.BackColor = System.Drawing.Color.Transparent
+        Me.RandomizerAppPanel.ButtonBackgroundColor = System.Drawing.Color.White
+        Me.RandomizerAppPanel.ButtonForegroundColor = System.Drawing.Color.Black
+        Me.RandomizerAppPanel.LabelColor = System.Drawing.Color.White
+        Me.RandomizerAppPanel.Location = New System.Drawing.Point(3, 3)
+        Me.RandomizerAppPanel.Name = "RandomizerAppPanel"
+        Me.RandomizerAppPanel.Size = New System.Drawing.Size(240, 477)
+        Me.RandomizerAppPanel.TabIndex = 780
         '
         'PNLLazySub2
         '
@@ -4024,17 +4021,6 @@ Partial Class MainWindow
         Me.PnlSidepanelLayout.Size = New System.Drawing.Size(265, 837)
         Me.PnlSidepanelLayout.TabIndex = 779
         '
-        'RandomizerAppPanel1
-        '
-        Me.RandomizerAppPanel1.BackColor = System.Drawing.Color.Transparent
-        Me.RandomizerAppPanel1.ButtonBackgroundColor = System.Drawing.Color.White
-        Me.RandomizerAppPanel1.ButtonForegroundColor = System.Drawing.Color.Black
-        Me.RandomizerAppPanel1.LabelColor = System.Drawing.Color.White
-        Me.RandomizerAppPanel1.Location = New System.Drawing.Point(3, 3)
-        Me.RandomizerAppPanel1.Name = "RandomizerAppPanel1"
-        Me.RandomizerAppPanel1.Size = New System.Drawing.Size(240, 477)
-        Me.RandomizerAppPanel1.TabIndex = 780
-        '
         'AppPanel
         '
         Me.AppPanel.Controls.Add(Me.PNLTabs)
@@ -4194,12 +4180,12 @@ Partial Class MainWindow
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.ClientSize = New System.Drawing.Size(1604, 881)
         Me.Controls.Add(Me.PnlLayoutForm)
-        Me.Controls.Add(Me.MenuStrip2)
+        Me.Controls.Add(Me.MainMenuStrip)
         Me.Controls.Add(Me.SendButton)
         Me.DoubleBuffered = True
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.KeyPreview = True
-        Me.MainMenuStrip = Me.MenuStrip2
+        Me.MainMenuStrip = Me.MainMenuStrip
         Me.MinimumSize = New System.Drawing.Size(978, 734)
         Me.Name = "MainWindow"
         Me.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show
@@ -4223,8 +4209,8 @@ Partial Class MainWindow
         CType(Me.PictureBox11, System.ComponentModel.ISupportInitialize).EndInit()
         Me.PictureStrip.ResumeLayout(False)
         Me.TeaseAIMenu.ResumeLayout(False)
-        Me.MenuStrip2.ResumeLayout(False)
-        Me.MenuStrip2.PerformLayout()
+        Me.MainMenuStrip.ResumeLayout(False)
+        Me.MainMenuStrip.PerformLayout()
         Me.PNLDate.ResumeLayout(False)
         Me.PNLTabs.ResumeLayout(False)
         Me.PNLWishList.ResumeLayout(False)
@@ -4359,7 +4345,7 @@ Partial Class MainWindow
     Friend WithEvents LBLTime As System.Windows.Forms.Label
     Friend WithEvents LBLDate As System.Windows.Forms.Label
     Friend WithEvents LBLAMPM As System.Windows.Forms.Label
-    Friend WithEvents MenuStrip2 As System.Windows.Forms.MenuStrip
+    Friend WithEvents MainMenuStrip As System.Windows.Forms.MenuStrip
     Friend WithEvents FileToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents AppsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SettingsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
@@ -4464,7 +4450,7 @@ Partial Class MainWindow
     Friend WithEvents BTNEdge As System.Windows.Forms.Button
     Friend WithEvents BTNSpeedUp As System.Windows.Forms.Button
     Friend WithEvents LazySubToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents RandomizerAppPanel1 As RandomizerAppPanel
+    Friend WithEvents RandomizerAppPanel As RandomizerAppPanel
     Friend WithEvents RandomizerToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents PNLPlaylist As System.Windows.Forms.Panel
     Friend WithEvents LBPlaylist As System.Windows.Forms.ListBox
@@ -4615,8 +4601,6 @@ Partial Class MainWindow
     Friend WithEvents WebteaseModeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents DefaultImageSizeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents DebugMenuToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripSeparator13 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents RefreshRandomizerToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents VideoTimer As Tease_AI.teaseAI_Timer
     Friend WithEvents MultipleEdgesTimer As Tease_AI.teaseAI_Timer
     Friend WithEvents OldDommeTagsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem

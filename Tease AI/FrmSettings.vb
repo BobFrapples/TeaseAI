@@ -73,6 +73,8 @@ Public Class FrmSettings
         myGetCommandProcessorsService = ApplicationFactory.CreateGetCommandProcessorsService()
         myNotifyUserService = ApplicationFactory.CreateNotifyUserService()
         myImageBlogDownloadService = ApplicationFactory.CreateImageBlogDownloadService()
+        myRandomNumberService = ApplicationFactory.CreateRandomNumberService()
+
 
         InitializeComponent()
     End Sub
@@ -3293,7 +3295,7 @@ Public Class FrmSettings
             Dim imageMetaDatas = myImageMetaDataService.GetImagesInContainer(mediaContainer.Id) _
                 .Ensure(Function(imds) imds.Any(), "No images stored for " & mediaContainer.Name) _
                 .OnSuccess(Async Function(imds)
-                               Dim image As ImageMetaData = imds(MainWindow.ssh.randomizer.Next(0, imds.Count))
+                               Dim image As ImageMetaData = imds(myRandomNumberService.Roll(0, imds.Count))
                                PBURLPreview.Image = Await LoadImageAsync(image)
                            End Function)
             If imageMetaDatas.IsFailure Then
@@ -6370,7 +6372,7 @@ Public Class FrmSettings
         End If
 
         Dim settings As Settings = mySettingsAccessor.GetSettings()
-        Dim randomOrgasms As Integer = MainWindow.ssh.randomizer.Next(1, 6)
+        Dim randomOrgasms As Integer = myRandomNumberService.Roll(1, 6)
         My.Settings.OrgasmsRemaining = randomOrgasms
         settings.Domme.OrgasmsPerTimePeriod = randomOrgasms
         OrgasmsPerNumBox.Value = randomOrgasms
@@ -7710,7 +7712,7 @@ Public Class FrmSettings
     End Function
 
     Private Function GetOrgasmInterval(dominationLevel As DomLevel) As String
-        Dim randomTime As Integer = MainWindow.ssh.randomizer.Next(1, 4)
+        Dim randomTime As Integer = myRandomNumberService.Roll(1, 4)
 
         If dominationLevel = DomLevel.Gentle Then
             Return If(randomTime = 2, "2 Weeks", "Week")
@@ -7830,7 +7832,7 @@ Public Class FrmSettings
     Private ReadOnly myGetCommandProcessorsService As IGetCommandProcessorsService
     Private ReadOnly myNotifyUserService As INotifyUser
     Private ReadOnly myImageBlogDownloadService As IImageBlogDownloadService
-
+    Private ReadOnly myRandomNumberService As IRandomNumberService
     Private myIsFormSettingTags As Boolean
     Private myIsMediaContainerLoading As Boolean
     Private myWorkingUrlImageMetaDatas As List(Of ImageMetaData)
