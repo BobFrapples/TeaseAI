@@ -3,6 +3,9 @@ using TeaseAI.Common.Constants;
 
 namespace TeaseAI.Common
 {
+    /// <summary>
+    /// Domme's personality for the session
+    /// </summary>
     public class DommePersonality
     {
         /// <summary>
@@ -36,6 +39,7 @@ namespace TeaseAI.Common
         public ushort CockSmallLimit { get; set; }
 
         public CupSize CupSize { get; set; }
+
         /// <summary>
         /// Domination level, how mean the Domme is.
         /// </summary>
@@ -44,7 +48,11 @@ namespace TeaseAI.Common
         /// <summary>
         /// What is the Domme's title, Princess, Mistress, etc
         /// </summary>
-        public string Honorific { get; set; }
+        public string Honorific
+        {
+            get => _honorific ?? (_honorific = string.Empty);
+            set => _honorific = value;
+        }
 
         public bool IsCrazy { get; set; }
         public bool IsDegrading { get; set; }
@@ -61,6 +69,7 @@ namespace TeaseAI.Common
         /// The level at which the Domme gets angry
         /// </summary>
         public MoodLevel MoodAngry { get; set; }
+
         /// <summary>
         /// The level at which the Domme becomes happy
         /// </summary>
@@ -69,13 +78,24 @@ namespace TeaseAI.Common
         /// <summary>
         /// the name of the Domme
         /// </summary>
-        public string Name { get; set; }
+        public string Name
+        {
+            get => _name ?? (_name = string.Empty);
+            set => _name = value;
+        }
 
         /// <summary>
         /// This is the name the program uses to find files on the Domme's personality
         /// </summary>
-        public string PersonalityName { get; set; }
+        public string PersonalityName
+        {
+            get => _personalityName ?? (_personalityName = string.Empty);
+            set => _personalityName = value;
+        }
 
+        /// <summary>
+        /// How likely is the Domme to ruin the Sub's orgasm, Cast as int to get the percentage
+        /// </summary>
         public RuinsOrgasms RuinsOrgasms { get; set; }
 
         /// <summary>
@@ -87,7 +107,15 @@ namespace TeaseAI.Common
         /// Age over which the Domme considers the sub old
         /// </summary>
         public ushort SubAgeOldLimit { get; set; }
+
+        /// <summary>
+        /// Does the Domme require use of honorific
+        /// </summary>
         public bool RequiresHonorific { get; set; }
+
+        /// <summary>
+        /// Does the Domme require the honorific be capitalized
+        /// </summary>
         public bool RequiresHonorificCapitalized { get; set; }
 
         /// <summary>
@@ -99,15 +127,35 @@ namespace TeaseAI.Common
         /// Time in milliseconds the Domme will wait between reading lines in the script.
         /// </summary>
         public int MessageTimer { get; set; } = 2000;
+
         /// <summary>
         /// Is the Domme marked away from keyboard
         /// </summary>
         public bool IsAfk { get; set; }
-        public int EdgesRequired { get; set; }
-        public string HairColor { get; set; }
-        public int HairLength { get; set; }
-        public string EyeColor { get; set; }
 
+        public int EdgesRequired { get; set; }
+
+        public string HairColor
+        {
+            get => _hairColor ?? (_hairColor = string.Empty);
+            set => _hairColor = value;
+        }
+
+        public int HairLength { get; set; }
+
+        /// <summary>
+        /// The Domme's eye color, empty ("") if unknown, will never be null (Nothing in VB)
+        /// </summary>
+        public string EyeColor
+        {
+            get => _eyeColor ?? (_eyeColor = string.Empty);
+            set => _eyeColor = value;
+        }
+
+        /// <summary>
+        /// Create an exact copy of this object (aka, a deep clone)
+        /// </summary>
+        /// <returns></returns>
         public DommePersonality Clone()
         {
             return new DommePersonality()
@@ -144,5 +192,10 @@ namespace TeaseAI.Common
             };
         }
 
+        private string _eyeColor;
+        private string _hairColor;
+        private string _name;
+        private string _personalityName;
+        private string _honorific;
     }
 }

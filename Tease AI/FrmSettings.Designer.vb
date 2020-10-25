@@ -569,12 +569,52 @@ Partial Class FrmSettings
         Me.WebPictureBox = New System.Windows.Forms.PictureBox()
         Me.ImageBlogs = New System.Windows.Forms.Label()
         Me.TpVideoSettings = New System.Windows.Forms.TabPage()
-        Me.PnlVideoSettings = New System.Windows.Forms.Panel()
-        Me.PbBannerVideoSettings = New System.Windows.Forms.PictureBox()
-        Me.BTNRefreshVideos = New System.Windows.Forms.Button()
-        Me.GbxVideoGeneralD = New System.Windows.Forms.GroupBox()
-        Me.LblVideoGeneralTotalD = New System.Windows.Forms.Label()
-        Me.TxbVideoGeneralD = New System.Windows.Forms.TextBox()
+        Me.VideoSettingsPanel = New System.Windows.Forms.Panel()
+        Me.VideoLayoutTable = New System.Windows.Forms.TableLayoutPanel()
+        Me.VideoGeneralPanel = New System.Windows.Forms.Panel()
+        Me.VideoGeneralGroupBox = New System.Windows.Forms.GroupBox()
+        Me.LblVideoGeneralTotal = New System.Windows.Forms.Label()
+        Me.TxbVideoGeneral = New System.Windows.Forms.TextBox()
+        Me.BTNVideoGeneral = New System.Windows.Forms.Button()
+        Me.CBVideoGeneral = New System.Windows.Forms.CheckBox()
+        Me.VideoSpecialGroupBox = New System.Windows.Forms.GroupBox()
+        Me.LblVideoCHTotal = New System.Windows.Forms.Label()
+        Me.LblVideoJOITotal = New System.Windows.Forms.Label()
+        Me.TxbVideoCH = New System.Windows.Forms.TextBox()
+        Me.TxbVideoJOI = New System.Windows.Forms.TextBox()
+        Me.BTNVideoCH = New System.Windows.Forms.Button()
+        Me.BTNVideoJOI = New System.Windows.Forms.Button()
+        Me.CBVideoJOI = New System.Windows.Forms.CheckBox()
+        Me.CBVideoCH = New System.Windows.Forms.CheckBox()
+        Me.VideoGenreGroupBox = New System.Windows.Forms.GroupBox()
+        Me.LblVideoFemsubTotal = New System.Windows.Forms.Label()
+        Me.TxbVideoFemsub = New System.Windows.Forms.TextBox()
+        Me.LblVideoFemdomTotal = New System.Windows.Forms.Label()
+        Me.TxbVideoFemdom = New System.Windows.Forms.TextBox()
+        Me.TxbVideoBlowjob = New System.Windows.Forms.TextBox()
+        Me.LblVideoBlowjobTotal = New System.Windows.Forms.Label()
+        Me.TxbVideoLesbian = New System.Windows.Forms.TextBox()
+        Me.TxbVideoSoftCore = New System.Windows.Forms.TextBox()
+        Me.LblVideoLesbianTotal = New System.Windows.Forms.Label()
+        Me.VideoHardCorePathTextBox = New System.Windows.Forms.TextBox()
+        Me.BTNVideoFemSub = New System.Windows.Forms.Button()
+        Me.LblVideoSoftCoreTotal = New System.Windows.Forms.Label()
+        Me.BTNVideoFemDom = New System.Windows.Forms.Button()
+        Me.BTNVideoBlowjob = New System.Windows.Forms.Button()
+        Me.LblVideoHardCoreTotal = New System.Windows.Forms.Label()
+        Me.BTNVideoLesbian = New System.Windows.Forms.Button()
+        Me.BTNVideoSoftCore = New System.Windows.Forms.Button()
+        Me.VideoSetHardcorePathButton = New System.Windows.Forms.Button()
+        Me.VideoEnableHardcoreCheckBox = New System.Windows.Forms.CheckBox()
+        Me.VideoEnableSoftcoreCheckBox = New System.Windows.Forms.CheckBox()
+        Me.CBVideoLesbian = New System.Windows.Forms.CheckBox()
+        Me.CBVideoBlowjob = New System.Windows.Forms.CheckBox()
+        Me.CBVideoFemsub = New System.Windows.Forms.CheckBox()
+        Me.CBVideoFemdom = New System.Windows.Forms.CheckBox()
+        Me.VideoDommePanel = New System.Windows.Forms.Panel()
+        Me.VideoDommeGeneralGroupBox = New System.Windows.Forms.GroupBox()
+        Me.VideoTotalDommeGeneral = New System.Windows.Forms.Label()
+        Me.VideoDommeGeneralPathTextBox = New System.Windows.Forms.TextBox()
         Me.BTNVideoGeneralD = New System.Windows.Forms.Button()
         Me.CBVideoGeneralD = New System.Windows.Forms.CheckBox()
         Me.GbxVideoSpecialD = New System.Windows.Forms.GroupBox()
@@ -611,48 +651,12 @@ Partial Class FrmSettings
         Me.CBVideoBlowjobD = New System.Windows.Forms.CheckBox()
         Me.CBVideoFemsubD = New System.Windows.Forms.CheckBox()
         Me.CBVideoFemdomD = New System.Windows.Forms.CheckBox()
-        Me.GbxVideoDescription = New System.Windows.Forms.GroupBox()
+        Me.VideoHeaderPanel = New System.Windows.Forms.Panel()
+        Me.VideoHeaderLabel = New System.Windows.Forms.Label()
+        Me.VideoRefreshButton = New System.Windows.Forms.Button()
+        Me.VideoLogo = New System.Windows.Forms.PictureBox()
+        Me.VideoDescriptionGroupBox = New System.Windows.Forms.GroupBox()
         Me.VideoDescriptionLabel = New System.Windows.Forms.Label()
-        Me.GbxVideoGeneral = New System.Windows.Forms.GroupBox()
-        Me.LblVideoGeneralTotal = New System.Windows.Forms.Label()
-        Me.TxbVideoGeneral = New System.Windows.Forms.TextBox()
-        Me.BTNVideoGeneral = New System.Windows.Forms.Button()
-        Me.CBVideoGeneral = New System.Windows.Forms.CheckBox()
-        Me.GbxVideoSpecial = New System.Windows.Forms.GroupBox()
-        Me.LblVideoCHTotal = New System.Windows.Forms.Label()
-        Me.LblVideoJOITotal = New System.Windows.Forms.Label()
-        Me.TxbVideoCH = New System.Windows.Forms.TextBox()
-        Me.TxbVideoJOI = New System.Windows.Forms.TextBox()
-        Me.BTNVideoCH = New System.Windows.Forms.Button()
-        Me.BTNVideoJOI = New System.Windows.Forms.Button()
-        Me.CBVideoJOI = New System.Windows.Forms.CheckBox()
-        Me.CBVideoCH = New System.Windows.Forms.CheckBox()
-        Me.GbxVideoGenre = New System.Windows.Forms.GroupBox()
-        Me.LblVideoFemsubTotal = New System.Windows.Forms.Label()
-        Me.TxbVideoFemsub = New System.Windows.Forms.TextBox()
-        Me.LblVideoFemdomTotal = New System.Windows.Forms.Label()
-        Me.TxbVideoFemdom = New System.Windows.Forms.TextBox()
-        Me.TxbVideoBlowjob = New System.Windows.Forms.TextBox()
-        Me.LblVideoBlowjobTotal = New System.Windows.Forms.Label()
-        Me.TxbVideoLesbian = New System.Windows.Forms.TextBox()
-        Me.TxbVideoSoftCore = New System.Windows.Forms.TextBox()
-        Me.LblVideoLesbianTotal = New System.Windows.Forms.Label()
-        Me.TxbVideoHardCore = New System.Windows.Forms.TextBox()
-        Me.BTNVideoFemSub = New System.Windows.Forms.Button()
-        Me.LblVideoSoftCoreTotal = New System.Windows.Forms.Label()
-        Me.BTNVideoFemDom = New System.Windows.Forms.Button()
-        Me.BTNVideoBlowjob = New System.Windows.Forms.Button()
-        Me.LblVideoHardCoreTotal = New System.Windows.Forms.Label()
-        Me.BTNVideoLesbian = New System.Windows.Forms.Button()
-        Me.BTNVideoSoftCore = New System.Windows.Forms.Button()
-        Me.BTNVideoHardCore = New System.Windows.Forms.Button()
-        Me.CBVideoHardcore = New System.Windows.Forms.CheckBox()
-        Me.CBVideoSoftCore = New System.Windows.Forms.CheckBox()
-        Me.CBVideoLesbian = New System.Windows.Forms.CheckBox()
-        Me.CBVideoBlowjob = New System.Windows.Forms.CheckBox()
-        Me.CBVideoFemsub = New System.Windows.Forms.CheckBox()
-        Me.CBVideoFemdom = New System.Windows.Forms.CheckBox()
-        Me.LblVideoHeader = New System.Windows.Forms.Label()
         Me.TabPage20 = New System.Windows.Forms.TabPage()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage22 = New System.Windows.Forms.TabPage()
@@ -809,19 +813,15 @@ Partial Class FrmSettings
         Me.CBStretchBack = New System.Windows.Forms.CheckBox()
         Me.Button18 = New System.Windows.Forms.Button()
         Me.Label164 = New System.Windows.Forms.Label()
-        Me.TabPage4 = New System.Windows.Forms.TabPage()
-        Me.Panel6 = New System.Windows.Forms.Panel()
-        Me.GroupBox69 = New System.Windows.Forms.GroupBox()
-        Me.TypesSpeedVal = New System.Windows.Forms.Label()
-        Me.TypeSpeedLabel = New System.Windows.Forms.Label()
-        Me.TimedWriting = New System.Windows.Forms.CheckBox()
-        Me.TypeSpeedSlider = New System.Windows.Forms.TrackBar()
-        Me.GroupBox68 = New System.Windows.Forms.GroupBox()
-        Me.TaskWaitMaximum = New System.Windows.Forms.NumericUpDown()
-        Me.TaskWaitMinimum = New System.Windows.Forms.NumericUpDown()
-        Me.Label165 = New System.Windows.Forms.Label()
-        Me.Label166 = New System.Windows.Forms.Label()
-        Me.GroupBox67 = New System.Windows.Forms.GroupBox()
+        Me.RangeSettingsTabPage = New System.Windows.Forms.TabPage()
+        Me.RangeSettingsBody = New System.Windows.Forms.Panel()
+        Me.RangeSettingsBodyTablePanel = New System.Windows.Forms.TableLayoutPanel()
+        Me.RangeSettingsBodyRightColumnPanel = New System.Windows.Forms.Panel()
+        Me.RangeSettingsTeaseSlideshowGroupBox = New System.Windows.Forms.GroupBox()
+        Me.Label112 = New System.Windows.Forms.Label()
+        Me.NBNextImageChance = New System.Windows.Forms.NumericUpDown()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.RangeSettingsGlitterTasksGroupBox = New System.Windows.Forms.GroupBox()
         Me.Label161 = New System.Windows.Forms.Label()
         Me.NBTaskCBTTimeMax = New System.Windows.Forms.NumericUpDown()
         Me.NBTaskCBTTimeMin = New System.Windows.Forms.NumericUpDown()
@@ -845,18 +845,61 @@ Partial Class FrmSettings
         Me.NBTaskStrokesMin = New System.Windows.Forms.NumericUpDown()
         Me.Label146 = New System.Windows.Forms.Label()
         Me.Label149 = New System.Windows.Forms.Label()
-        Me.GroupBox10 = New System.Windows.Forms.GroupBox()
-        Me.Label112 = New System.Windows.Forms.Label()
-        Me.NBNextImageChance = New System.Windows.Forms.NumericUpDown()
-        Me.Label6 = New System.Windows.Forms.Label()
-        Me.GroupBox57 = New System.Windows.Forms.GroupBox()
+        Me.RangeSettingsVideoTeaseGroupBox = New System.Windows.Forms.GroupBox()
+        Me.GroupBox19 = New System.Windows.Forms.GroupBox()
+        Me.Label110 = New System.Windows.Forms.Label()
+        Me.Label111 = New System.Windows.Forms.Label()
+        Me.GreenLightMaximumSeconds = New System.Windows.Forms.NumericUpDown()
+        Me.GreenLightMinimumSeconds = New System.Windows.Forms.NumericUpDown()
+        Me.RedLightMaximumSeconds = New System.Windows.Forms.NumericUpDown()
+        Me.Label26 = New System.Windows.Forms.Label()
+        Me.RedLightMinimumSeconds = New System.Windows.Forms.NumericUpDown()
+        Me.Label28 = New System.Windows.Forms.Label()
+        Me.Label27 = New System.Windows.Forms.Label()
+        Me.Label29 = New System.Windows.Forms.Label()
+        Me.RangeSettingsCensorshipSucksGroupBox = New System.Windows.Forms.GroupBox()
+        Me.Label108 = New System.Windows.Forms.Label()
+        Me.Label109 = New System.Windows.Forms.Label()
+        Me.ShowCensorshipBarMinimumSeconds = New System.Windows.Forms.NumericUpDown()
+        Me.HideCensorshipBarMaximumSeconds = New System.Windows.Forms.NumericUpDown()
+        Me.HideCensorshipBarMinimumSeconds = New System.Windows.Forms.NumericUpDown()
+        Me.CensorshipBarDuringVideoTease = New System.Windows.Forms.CheckBox()
+        Me.Label25 = New System.Windows.Forms.Label()
+        Me.Label20 = New System.Windows.Forms.Label()
+        Me.Label19 = New System.Windows.Forms.Label()
+        Me.Label24 = New System.Windows.Forms.Label()
+        Me.ShowCensorshipBarMaximumSeconds = New System.Windows.Forms.NumericUpDown()
+        Me.RangeSettingsBodyMiddleColumnPanel = New System.Windows.Forms.Panel()
+        Me.GBRangeOrgasmChance = New System.Windows.Forms.GroupBox()
+        Me.RarelyAllowsPercentLabel = New System.Windows.Forms.Label()
+        Me.SometimesAllowsPercentNumberBox = New System.Windows.Forms.NumericUpDown()
+        Me.SometimesAllowsPercentLabel = New System.Windows.Forms.Label()
+        Me.OftenAllowsPercentLabel = New System.Windows.Forms.Label()
+        Me.RarelyAllowsPercentNumberBox = New System.Windows.Forms.NumericUpDown()
+        Me.OftenAllowsPercentNumberBox = New System.Windows.Forms.NumericUpDown()
+        Me.DommeDecideOrgasmCheckBox = New System.Windows.Forms.CheckBox()
+        Me.GroupBox69 = New System.Windows.Forms.GroupBox()
+        Me.TypesSpeedVal = New System.Windows.Forms.Label()
+        Me.TypeSpeedLabel = New System.Windows.Forms.Label()
+        Me.TimedWriting = New System.Windows.Forms.CheckBox()
+        Me.TypeSpeedSlider = New System.Windows.Forms.TrackBar()
+        Me.GBRangeRuinChance = New System.Windows.Forms.GroupBox()
+        Me.Label90 = New System.Windows.Forms.Label()
+        Me.NBRuinSometimes = New System.Windows.Forms.NumericUpDown()
+        Me.Label91 = New System.Windows.Forms.Label()
+        Me.Label92 = New System.Windows.Forms.Label()
+        Me.NBRuinRarely = New System.Windows.Forms.NumericUpDown()
+        Me.NBRuinOften = New System.Windows.Forms.NumericUpDown()
+        Me.DommeDecideRuinCheckBox = New System.Windows.Forms.CheckBox()
+        Me.RangeSettingsBodyLeftColumnPanel = New System.Windows.Forms.Panel()
+        Me.RangeSettingsTeaseGroupBox = New System.Windows.Forms.GroupBox()
         Me.Label139 = New System.Windows.Forms.Label()
         Me.NBTauntEdging = New System.Windows.Forms.NumericUpDown()
-        Me.LBLVtf = New System.Windows.Forms.Label()
+        Me.VideoTauntDescriptionLabel = New System.Windows.Forms.Label()
         Me.LBLStf = New System.Windows.Forms.Label()
         Me.SliderSTF = New System.Windows.Forms.TrackBar()
-        Me.TauntSlider = New System.Windows.Forms.TrackBar()
-        Me.Label106 = New System.Windows.Forms.Label()
+        Me.VideoTauntSlider = New System.Windows.Forms.TrackBar()
+        Me.VideoTauntSliderLabel = New System.Windows.Forms.Label()
         Me.CBTauntCycleDD = New System.Windows.Forms.CheckBox()
         Me.TeaseLengthDommeDetermined = New System.Windows.Forms.CheckBox()
         Me.Label103 = New System.Windows.Forms.Label()
@@ -873,50 +916,16 @@ Partial Class FrmSettings
         Me.Label95 = New System.Windows.Forms.Label()
         Me.Label49 = New System.Windows.Forms.Label()
         Me.Label141 = New System.Windows.Forms.Label()
-        Me.GBRangeRuinChance = New System.Windows.Forms.GroupBox()
-        Me.Label90 = New System.Windows.Forms.Label()
-        Me.NBRuinSometimes = New System.Windows.Forms.NumericUpDown()
-        Me.Label91 = New System.Windows.Forms.Label()
-        Me.Label92 = New System.Windows.Forms.Label()
-        Me.NBRuinRarely = New System.Windows.Forms.NumericUpDown()
-        Me.NBRuinOften = New System.Windows.Forms.NumericUpDown()
-        Me.DommeDecideRuinCheckBox = New System.Windows.Forms.CheckBox()
-        Me.GroupBox17 = New System.Windows.Forms.GroupBox()
-        Me.GroupBox19 = New System.Windows.Forms.GroupBox()
-        Me.Label110 = New System.Windows.Forms.Label()
-        Me.Label111 = New System.Windows.Forms.Label()
-        Me.NBGreenLightMax = New System.Windows.Forms.NumericUpDown()
-        Me.NBGreenLightMin = New System.Windows.Forms.NumericUpDown()
-        Me.NBRedLightMax = New System.Windows.Forms.NumericUpDown()
-        Me.Label26 = New System.Windows.Forms.Label()
-        Me.NBRedLightMin = New System.Windows.Forms.NumericUpDown()
-        Me.Label28 = New System.Windows.Forms.Label()
-        Me.Label27 = New System.Windows.Forms.Label()
-        Me.Label29 = New System.Windows.Forms.Label()
-        Me.GroupBox18 = New System.Windows.Forms.GroupBox()
-        Me.Label108 = New System.Windows.Forms.Label()
-        Me.Label109 = New System.Windows.Forms.Label()
-        Me.NBCensorShowMin = New System.Windows.Forms.NumericUpDown()
-        Me.NBCensorHideMax = New System.Windows.Forms.NumericUpDown()
-        Me.NBCensorHideMin = New System.Windows.Forms.NumericUpDown()
-        Me.CBCensorConstant = New System.Windows.Forms.CheckBox()
-        Me.Label25 = New System.Windows.Forms.Label()
-        Me.Label20 = New System.Windows.Forms.Label()
-        Me.Label19 = New System.Windows.Forms.Label()
-        Me.Label24 = New System.Windows.Forms.Label()
-        Me.NBCensorShowMax = New System.Windows.Forms.NumericUpDown()
-        Me.GroupBox21 = New System.Windows.Forms.GroupBox()
-        Me.LBLRangeSettingsDescription = New System.Windows.Forms.Label()
-        Me.GBRangeOrgasmChance = New System.Windows.Forms.GroupBox()
-        Me.RarelyAllowsPercentLabel = New System.Windows.Forms.Label()
-        Me.SometimesAllowsPercentNumberBox = New System.Windows.Forms.NumericUpDown()
-        Me.SometimesAllowsPercentLabel = New System.Windows.Forms.Label()
-        Me.OftenAllowsPercentLabel = New System.Windows.Forms.Label()
-        Me.RarelyAllowsPercentNumberBox = New System.Windows.Forms.NumericUpDown()
-        Me.OftenAllowsPercentNumberBox = New System.Windows.Forms.NumericUpDown()
-        Me.DommeDecideOrgasmCheckBox = New System.Windows.Forms.CheckBox()
-        Me.PictureBox8 = New System.Windows.Forms.PictureBox()
-        Me.Label38 = New System.Windows.Forms.Label()
+        Me.RangeSettingsSessionTasksGroupBox = New System.Windows.Forms.GroupBox()
+        Me.TaskWaitMaximum = New System.Windows.Forms.NumericUpDown()
+        Me.TaskWaitMinimum = New System.Windows.Forms.NumericUpDown()
+        Me.Label165 = New System.Windows.Forms.Label()
+        Me.Label166 = New System.Windows.Forms.Label()
+        Me.RangeSettingsHeaderPanel = New System.Windows.Forms.Panel()
+        Me.RangeSettingsLogo = New System.Windows.Forms.PictureBox()
+        Me.RangeSettingsHeaderLabel = New System.Windows.Forms.Label()
+        Me.RangeSettingsDescriptionGroupBox = New System.Windows.Forms.GroupBox()
+        Me.RangeSettingsDescriptionLabel = New System.Windows.Forms.Label()
         Me.TabPage13 = New System.Windows.Forms.TabPage()
         Me.ModSubTab = New System.Windows.Forms.TabControl()
         Me.ModPlaylistTabPage = New System.Windows.Forms.TabPage()
@@ -1083,7 +1092,6 @@ Partial Class FrmSettings
         Me.Label41 = New System.Windows.Forms.Label()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.GetColor = New System.Windows.Forms.ColorDialog()
-        Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.WebImageFileDialog = New System.Windows.Forms.OpenFileDialog()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.OpenScriptDialog = New System.Windows.Forms.OpenFileDialog()
@@ -1206,15 +1214,19 @@ Partial Class FrmSettings
         CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.WebPictureBox, System.ComponentModel.ISupportInitialize).BeginInit
         Me.TpVideoSettings.SuspendLayout
-        Me.PnlVideoSettings.SuspendLayout
-        CType(Me.PbBannerVideoSettings, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.GbxVideoGeneralD.SuspendLayout
+        Me.VideoSettingsPanel.SuspendLayout
+        Me.VideoLayoutTable.SuspendLayout
+        Me.VideoGeneralPanel.SuspendLayout
+        Me.VideoGeneralGroupBox.SuspendLayout
+        Me.VideoSpecialGroupBox.SuspendLayout
+        Me.VideoGenreGroupBox.SuspendLayout
+        Me.VideoDommePanel.SuspendLayout
+        Me.VideoDommeGeneralGroupBox.SuspendLayout
         Me.GbxVideoSpecialD.SuspendLayout
         Me.GbxVideoGenreD.SuspendLayout
-        Me.GbxVideoDescription.SuspendLayout
-        Me.GbxVideoGeneral.SuspendLayout
-        Me.GbxVideoSpecial.SuspendLayout
-        Me.GbxVideoGenre.SuspendLayout
+        Me.VideoHeaderPanel.SuspendLayout
+        CType(Me.VideoLogo, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.VideoDescriptionGroupBox.SuspendLayout
         Me.TabPage20.SuspendLayout
         Me.TabControl1.SuspendLayout
         Me.TabPage22.SuspendLayout
@@ -1271,14 +1283,13 @@ Partial Class FrmSettings
         Me.GroupBox11.SuspendLayout
         Me.GroupBox1.SuspendLayout
         CType(Me.PBBackgroundPreview, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.TabPage4.SuspendLayout
-        Me.Panel6.SuspendLayout
-        Me.GroupBox69.SuspendLayout
-        CType(Me.TypeSpeedSlider, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.GroupBox68.SuspendLayout
-        CType(Me.TaskWaitMaximum, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TaskWaitMinimum, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.GroupBox67.SuspendLayout
+        Me.RangeSettingsTabPage.SuspendLayout
+        Me.RangeSettingsBody.SuspendLayout
+        Me.RangeSettingsBodyTablePanel.SuspendLayout
+        Me.RangeSettingsBodyRightColumnPanel.SuspendLayout
+        Me.RangeSettingsTeaseSlideshowGroupBox.SuspendLayout
+        CType(Me.NBNextImageChance, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.RangeSettingsGlitterTasksGroupBox.SuspendLayout
         CType(Me.NBTaskCBTTimeMax, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NBTaskCBTTimeMin, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NBTaskEdgeHoldTimeMax, System.ComponentModel.ISupportInitialize).BeginInit
@@ -1289,37 +1300,43 @@ Partial Class FrmSettings
         CType(Me.NBTaskStrokingTimeMin, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NBTaskStrokesMax, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NBTaskStrokesMin, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.GroupBox10.SuspendLayout
-        CType(Me.NBNextImageChance, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.GroupBox57.SuspendLayout
-        CType(Me.NBTauntEdging, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.SliderSTF, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TauntSlider, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.NBTauntCycleMax, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.NBTauntCycleMin, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.NBTeaseLengthMax, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.NBTeaseLengthMin, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.GBRangeRuinChance.SuspendLayout
-        CType(Me.NBRuinSometimes, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.NBRuinRarely, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.NBRuinOften, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.GroupBox17.SuspendLayout
+        Me.RangeSettingsVideoTeaseGroupBox.SuspendLayout
         Me.GroupBox19.SuspendLayout
-        CType(Me.NBGreenLightMax, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.NBGreenLightMin, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.NBRedLightMax, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.NBRedLightMin, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.GroupBox18.SuspendLayout
-        CType(Me.NBCensorShowMin, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.NBCensorHideMax, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.NBCensorHideMin, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.NBCensorShowMax, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.GroupBox21.SuspendLayout
+        CType(Me.GreenLightMaximumSeconds, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.GreenLightMinimumSeconds, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.RedLightMaximumSeconds, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.RedLightMinimumSeconds, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.RangeSettingsCensorshipSucksGroupBox.SuspendLayout
+        CType(Me.ShowCensorshipBarMinimumSeconds, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.HideCensorshipBarMaximumSeconds, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.HideCensorshipBarMinimumSeconds, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.ShowCensorshipBarMaximumSeconds, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.RangeSettingsBodyMiddleColumnPanel.SuspendLayout
         Me.GBRangeOrgasmChance.SuspendLayout
         CType(Me.SometimesAllowsPercentNumberBox, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RarelyAllowsPercentNumberBox, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.OftenAllowsPercentNumberBox, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.PictureBox8, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GroupBox69.SuspendLayout
+        CType(Me.TypeSpeedSlider, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GBRangeRuinChance.SuspendLayout
+        CType(Me.NBRuinSometimes, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBRuinRarely, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBRuinOften, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.RangeSettingsBodyLeftColumnPanel.SuspendLayout
+        Me.RangeSettingsTeaseGroupBox.SuspendLayout
+        CType(Me.NBTauntEdging, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.SliderSTF, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.VideoTauntSlider, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBTauntCycleMax, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBTauntCycleMin, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBTeaseLengthMax, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBTeaseLengthMin, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.RangeSettingsSessionTasksGroupBox.SuspendLayout
+        CType(Me.TaskWaitMaximum, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.TaskWaitMinimum, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.RangeSettingsHeaderPanel.SuspendLayout
+        CType(Me.RangeSettingsLogo, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.RangeSettingsDescriptionGroupBox.SuspendLayout
         Me.TabPage13.SuspendLayout
         Me.ModSubTab.SuspendLayout
         Me.ModPlaylistTabPage.SuspendLayout
@@ -1362,7 +1379,7 @@ Partial Class FrmSettings
         Me.SettingsTabs.Controls.Add(Me.TpVideoSettings)
         Me.SettingsTabs.Controls.Add(Me.TabPage20)
         Me.SettingsTabs.Controls.Add(Me.TabPage26)
-        Me.SettingsTabs.Controls.Add(Me.TabPage4)
+        Me.SettingsTabs.Controls.Add(Me.RangeSettingsTabPage)
         Me.SettingsTabs.Controls.Add(Me.TabPage13)
         Me.SettingsTabs.Controls.Add(Me.TabPage25)
         Me.SettingsTabs.Controls.Add(Me.TabPage28)
@@ -2683,7 +2700,7 @@ Partial Class FrmSettings
         Me.TBDomHairColor.TabIndex = 153
         Me.TBDomHairColor.Text = "brown"
         '
-        'domageNumBox
+        'DomAgeNumberBox
         '
         Me.DomAgeNumberBox.BackColor = System.Drawing.Color.White
         Me.DomAgeNumberBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
@@ -2692,7 +2709,7 @@ Partial Class FrmSettings
         Me.DomAgeNumberBox.Location = New System.Drawing.Point(73, 61)
         Me.DomAgeNumberBox.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
         Me.DomAgeNumberBox.Minimum = New Decimal(New Integer() {18, 0, 0, 0})
-        Me.DomAgeNumberBox.Name = "domageNumBox"
+        Me.DomAgeNumberBox.Name = "DomAgeNumberBox"
         Me.DomAgeNumberBox.Size = New System.Drawing.Size(38, 20)
         Me.DomAgeNumberBox.TabIndex = 27
         Me.DomAgeNumberBox.Value = New Decimal(New Integer() {21, 0, 0, 0})
@@ -8255,7 +8272,7 @@ Partial Class FrmSettings
         'TpVideoSettings
         '
         Me.TpVideoSettings.BackColor = System.Drawing.Color.Silver
-        Me.TpVideoSettings.Controls.Add(Me.PnlVideoSettings)
+        Me.TpVideoSettings.Controls.Add(Me.VideoSettingsPanel)
         Me.TpVideoSettings.Location = New System.Drawing.Point(4, 22)
         Me.TpVideoSettings.Name = "TpVideoSettings"
         Me.TpVideoSettings.Padding = New System.Windows.Forms.Padding(6)
@@ -8263,95 +8280,629 @@ Partial Class FrmSettings
         Me.TpVideoSettings.TabIndex = 2
         Me.TpVideoSettings.Text = "Video"
         '
-        'PnlVideoSettings
+        'VideoSettingsPanel
         '
-        Me.PnlVideoSettings.BackColor = System.Drawing.Color.LightGray
-        Me.PnlVideoSettings.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PnlVideoSettings.Controls.Add(Me.PbBannerVideoSettings)
-        Me.PnlVideoSettings.Controls.Add(Me.BTNRefreshVideos)
-        Me.PnlVideoSettings.Controls.Add(Me.GbxVideoGeneralD)
-        Me.PnlVideoSettings.Controls.Add(Me.GbxVideoSpecialD)
-        Me.PnlVideoSettings.Controls.Add(Me.GbxVideoGenreD)
-        Me.PnlVideoSettings.Controls.Add(Me.GbxVideoDescription)
-        Me.PnlVideoSettings.Controls.Add(Me.GbxVideoGeneral)
-        Me.PnlVideoSettings.Controls.Add(Me.GbxVideoSpecial)
-        Me.PnlVideoSettings.Controls.Add(Me.GbxVideoGenre)
-        Me.PnlVideoSettings.Controls.Add(Me.LblVideoHeader)
-        Me.PnlVideoSettings.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.PnlVideoSettings.Location = New System.Drawing.Point(6, 6)
-        Me.PnlVideoSettings.Margin = New System.Windows.Forms.Padding(6)
-        Me.PnlVideoSettings.Name = "PnlVideoSettings"
-        Me.PnlVideoSettings.Size = New System.Drawing.Size(960, 619)
-        Me.PnlVideoSettings.TabIndex = 92
+        Me.VideoSettingsPanel.BackColor = System.Drawing.Color.LightGray
+        Me.VideoSettingsPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.VideoSettingsPanel.Controls.Add(Me.VideoLayoutTable)
+        Me.VideoSettingsPanel.Controls.Add(Me.VideoHeaderPanel)
+        Me.VideoSettingsPanel.Controls.Add(Me.VideoDescriptionGroupBox)
+        Me.VideoSettingsPanel.Location = New System.Drawing.Point(6, 6)
+        Me.VideoSettingsPanel.Margin = New System.Windows.Forms.Padding(6)
+        Me.VideoSettingsPanel.Name = "VideoSettingsPanel"
+        Me.VideoSettingsPanel.Size = New System.Drawing.Size(960, 619)
+        Me.VideoSettingsPanel.TabIndex = 92
         '
-        'PbBannerVideoSettings
+        'VideoLayoutTable
         '
-        Me.PbBannerVideoSettings.BackColor = System.Drawing.Color.LightGray
-        Me.PbBannerVideoSettings.Image = Global.Tease_AI.My.Resources.Resources.TAI_Banner_small
-        Me.PbBannerVideoSettings.Location = New System.Drawing.Point(9, 6)
-        Me.PbBannerVideoSettings.Name = "PbBannerVideoSettings"
-        Me.PbBannerVideoSettings.Size = New System.Drawing.Size(160, 19)
-        Me.PbBannerVideoSettings.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
-        Me.PbBannerVideoSettings.TabIndex = 151
-        Me.PbBannerVideoSettings.TabStop = False
+        Me.VideoLayoutTable.BackColor = System.Drawing.Color.Transparent
+        Me.VideoLayoutTable.ColumnCount = 2
+        Me.VideoLayoutTable.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.VideoLayoutTable.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.VideoLayoutTable.Controls.Add(Me.VideoGeneralPanel, 0, 0)
+        Me.VideoLayoutTable.Controls.Add(Me.VideoDommePanel, 1, 0)
+        Me.VideoLayoutTable.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.VideoLayoutTable.Location = New System.Drawing.Point(0, 46)
+        Me.VideoLayoutTable.Name = "VideoLayoutTable"
+        Me.VideoLayoutTable.RowCount = 1
+        Me.VideoLayoutTable.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.VideoLayoutTable.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.VideoLayoutTable.Size = New System.Drawing.Size(958, 479)
+        Me.VideoLayoutTable.TabIndex = 153
         '
-        'BTNRefreshVideos
+        'VideoGeneralPanel
         '
-        Me.BTNRefreshVideos.BackColor = System.Drawing.Color.LightGray
-        Me.BTNRefreshVideos.BackgroundImage = Global.Tease_AI.My.Resources.Resources.Button_Refresh
-        Me.BTNRefreshVideos.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
-        Me.BTNRefreshVideos.FlatAppearance.BorderSize = 0
-        Me.BTNRefreshVideos.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray
-        Me.BTNRefreshVideos.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver
-        Me.BTNRefreshVideos.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BTNRefreshVideos.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BTNRefreshVideos.ForeColor = System.Drawing.Color.Black
-        Me.BTNRefreshVideos.Location = New System.Drawing.Point(671, 6)
-        Me.BTNRefreshVideos.Name = "BTNRefreshVideos"
-        Me.BTNRefreshVideos.Size = New System.Drawing.Size(30, 26)
-        Me.BTNRefreshVideos.TabIndex = 149
-        Me.BTNRefreshVideos.UseVisualStyleBackColor = False
+        Me.VideoGeneralPanel.BackColor = System.Drawing.Color.Transparent
+        Me.VideoGeneralPanel.Controls.Add(Me.VideoGeneralGroupBox)
+        Me.VideoGeneralPanel.Controls.Add(Me.VideoSpecialGroupBox)
+        Me.VideoGeneralPanel.Controls.Add(Me.VideoGenreGroupBox)
+        Me.VideoGeneralPanel.Dock = System.Windows.Forms.DockStyle.Top
+        Me.VideoGeneralPanel.Location = New System.Drawing.Point(3, 3)
+        Me.VideoGeneralPanel.Name = "VideoGeneralPanel"
+        Me.VideoGeneralPanel.Size = New System.Drawing.Size(473, 307)
+        Me.VideoGeneralPanel.TabIndex = 0
         '
-        'GbxVideoGeneralD
+        'VideoGeneralGroupBox
         '
-        Me.GbxVideoGeneralD.BackColor = System.Drawing.Color.LightGray
-        Me.GbxVideoGeneralD.Controls.Add(Me.LblVideoGeneralTotalD)
-        Me.GbxVideoGeneralD.Controls.Add(Me.TxbVideoGeneralD)
-        Me.GbxVideoGeneralD.Controls.Add(Me.BTNVideoGeneralD)
-        Me.GbxVideoGeneralD.Controls.Add(Me.CBVideoGeneralD)
-        Me.GbxVideoGeneralD.ForeColor = System.Drawing.Color.Black
-        Me.GbxVideoGeneralD.Location = New System.Drawing.Point(359, 277)
-        Me.GbxVideoGeneralD.Name = "GbxVideoGeneralD"
-        Me.GbxVideoGeneralD.Size = New System.Drawing.Size(340, 48)
-        Me.GbxVideoGeneralD.TabIndex = 5
-        Me.GbxVideoGeneralD.TabStop = False
-        Me.GbxVideoGeneralD.Text = "Domme General"
+        Me.VideoGeneralGroupBox.BackColor = System.Drawing.Color.Transparent
+        Me.VideoGeneralGroupBox.Controls.Add(Me.LblVideoGeneralTotal)
+        Me.VideoGeneralGroupBox.Controls.Add(Me.TxbVideoGeneral)
+        Me.VideoGeneralGroupBox.Controls.Add(Me.BTNVideoGeneral)
+        Me.VideoGeneralGroupBox.Controls.Add(Me.CBVideoGeneral)
+        Me.VideoGeneralGroupBox.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.VideoGeneralGroupBox.ForeColor = System.Drawing.Color.Black
+        Me.VideoGeneralGroupBox.Location = New System.Drawing.Point(0, 235)
+        Me.VideoGeneralGroupBox.Name = "VideoGeneralGroupBox"
+        Me.VideoGeneralGroupBox.Size = New System.Drawing.Size(473, 72)
+        Me.VideoGeneralGroupBox.TabIndex = 2
+        Me.VideoGeneralGroupBox.TabStop = False
+        Me.VideoGeneralGroupBox.Text = "General"
         '
-        'LblVideoGeneralTotalD
+        'LblVideoGeneralTotal
         '
-        Me.LblVideoGeneralTotalD.BackColor = System.Drawing.Color.Transparent
-        Me.LblVideoGeneralTotalD.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblVideoGeneralTotalD.ForeColor = System.Drawing.Color.Black
-        Me.LblVideoGeneralTotalD.Location = New System.Drawing.Point(299, 19)
-        Me.LblVideoGeneralTotalD.Name = "LblVideoGeneralTotalD"
-        Me.LblVideoGeneralTotalD.Size = New System.Drawing.Size(34, 17)
-        Me.LblVideoGeneralTotalD.TabIndex = 3
-        Me.LblVideoGeneralTotalD.Text = "0"
-        Me.LblVideoGeneralTotalD.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.LblVideoGeneralTotal.BackColor = System.Drawing.Color.Transparent
+        Me.LblVideoGeneralTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblVideoGeneralTotal.ForeColor = System.Drawing.Color.Black
+        Me.LblVideoGeneralTotal.Location = New System.Drawing.Point(424, 22)
+        Me.LblVideoGeneralTotal.Name = "LblVideoGeneralTotal"
+        Me.LblVideoGeneralTotal.Size = New System.Drawing.Size(34, 17)
+        Me.LblVideoGeneralTotal.TabIndex = 3
+        Me.LblVideoGeneralTotal.Text = "0"
+        Me.LblVideoGeneralTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'TxbVideoGeneralD
+        'TxbVideoGeneral
         '
-        Me.TxbVideoGeneralD.BackColor = System.Drawing.Color.LightGray
-        Me.TxbVideoGeneralD.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxbVideoGeneralD.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxbVideoGeneralD.ForeColor = System.Drawing.Color.Black
-        Me.TxbVideoGeneralD.Location = New System.Drawing.Point(113, 18)
-        Me.TxbVideoGeneralD.MaximumSize = New System.Drawing.Size(2, 17)
-        Me.TxbVideoGeneralD.MinimumSize = New System.Drawing.Size(180, 17)
-        Me.TxbVideoGeneralD.Name = "TxbVideoGeneralD"
-        Me.TxbVideoGeneralD.ReadOnly = True
-        Me.TxbVideoGeneralD.Size = New System.Drawing.Size(180, 17)
-        Me.TxbVideoGeneralD.TabIndex = 2
+        Me.TxbVideoGeneral.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TxbVideoGeneral.BackColor = System.Drawing.Color.LightGray
+        Me.TxbVideoGeneral.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxbVideoGeneral.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxbVideoGeneral.ForeColor = System.Drawing.Color.Black
+        Me.TxbVideoGeneral.Location = New System.Drawing.Point(113, 19)
+        Me.TxbVideoGeneral.MinimumSize = New System.Drawing.Size(180, 17)
+        Me.TxbVideoGeneral.Name = "TxbVideoGeneral"
+        Me.TxbVideoGeneral.ReadOnly = True
+        Me.TxbVideoGeneral.Size = New System.Drawing.Size(305, 20)
+        Me.TxbVideoGeneral.TabIndex = 2
+        '
+        'BTNVideoGeneral
+        '
+        Me.BTNVideoGeneral.BackColor = System.Drawing.Color.LightGray
+        Me.BTNVideoGeneral.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
+        Me.BTNVideoGeneral.ForeColor = System.Drawing.Color.Black
+        Me.BTNVideoGeneral.Location = New System.Drawing.Point(73, 13)
+        Me.BTNVideoGeneral.Name = "BTNVideoGeneral"
+        Me.BTNVideoGeneral.Size = New System.Drawing.Size(34, 28)
+        Me.BTNVideoGeneral.TabIndex = 1
+        Me.BTNVideoGeneral.Text = "1"
+        Me.BTNVideoGeneral.UseVisualStyleBackColor = False
+        '
+        'CBVideoGeneral
+        '
+        Me.CBVideoGeneral.AutoSize = True
+        Me.CBVideoGeneral.ForeColor = System.Drawing.Color.Black
+        Me.CBVideoGeneral.Location = New System.Drawing.Point(6, 19)
+        Me.CBVideoGeneral.Name = "CBVideoGeneral"
+        Me.CBVideoGeneral.Size = New System.Drawing.Size(63, 17)
+        Me.CBVideoGeneral.TabIndex = 0
+        Me.CBVideoGeneral.Text = "General"
+        Me.CBVideoGeneral.UseVisualStyleBackColor = True
+        '
+        'VideoSpecialGroupBox
+        '
+        Me.VideoSpecialGroupBox.BackColor = System.Drawing.Color.Transparent
+        Me.VideoSpecialGroupBox.Controls.Add(Me.LblVideoCHTotal)
+        Me.VideoSpecialGroupBox.Controls.Add(Me.LblVideoJOITotal)
+        Me.VideoSpecialGroupBox.Controls.Add(Me.TxbVideoCH)
+        Me.VideoSpecialGroupBox.Controls.Add(Me.TxbVideoJOI)
+        Me.VideoSpecialGroupBox.Controls.Add(Me.BTNVideoCH)
+        Me.VideoSpecialGroupBox.Controls.Add(Me.BTNVideoJOI)
+        Me.VideoSpecialGroupBox.Controls.Add(Me.CBVideoJOI)
+        Me.VideoSpecialGroupBox.Controls.Add(Me.CBVideoCH)
+        Me.VideoSpecialGroupBox.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.VideoSpecialGroupBox.ForeColor = System.Drawing.Color.Black
+        Me.VideoSpecialGroupBox.Location = New System.Drawing.Point(0, 165)
+        Me.VideoSpecialGroupBox.Name = "VideoSpecialGroupBox"
+        Me.VideoSpecialGroupBox.Size = New System.Drawing.Size(473, 142)
+        Me.VideoSpecialGroupBox.TabIndex = 1
+        Me.VideoSpecialGroupBox.TabStop = False
+        Me.VideoSpecialGroupBox.Text = "Special"
+        '
+        'LblVideoCHTotal
+        '
+        Me.LblVideoCHTotal.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.LblVideoCHTotal.BackColor = System.Drawing.Color.Transparent
+        Me.LblVideoCHTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblVideoCHTotal.ForeColor = System.Drawing.Color.Black
+        Me.LblVideoCHTotal.Location = New System.Drawing.Point(424, 35)
+        Me.LblVideoCHTotal.Name = "LblVideoCHTotal"
+        Me.LblVideoCHTotal.Size = New System.Drawing.Size(34, 17)
+        Me.LblVideoCHTotal.TabIndex = 7
+        Me.LblVideoCHTotal.Text = "0"
+        Me.LblVideoCHTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'LblVideoJOITotal
+        '
+        Me.LblVideoJOITotal.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.LblVideoJOITotal.BackColor = System.Drawing.Color.Transparent
+        Me.LblVideoJOITotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblVideoJOITotal.ForeColor = System.Drawing.Color.Black
+        Me.LblVideoJOITotal.Location = New System.Drawing.Point(424, 12)
+        Me.LblVideoJOITotal.Name = "LblVideoJOITotal"
+        Me.LblVideoJOITotal.Size = New System.Drawing.Size(34, 17)
+        Me.LblVideoJOITotal.TabIndex = 3
+        Me.LblVideoJOITotal.Text = "0"
+        Me.LblVideoJOITotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'TxbVideoCH
+        '
+        Me.TxbVideoCH.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TxbVideoCH.BackColor = System.Drawing.Color.LightGray
+        Me.TxbVideoCH.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxbVideoCH.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxbVideoCH.ForeColor = System.Drawing.Color.Black
+        Me.TxbVideoCH.Location = New System.Drawing.Point(113, 32)
+        Me.TxbVideoCH.MinimumSize = New System.Drawing.Size(180, 17)
+        Me.TxbVideoCH.Name = "TxbVideoCH"
+        Me.TxbVideoCH.ReadOnly = True
+        Me.TxbVideoCH.Size = New System.Drawing.Size(307, 20)
+        Me.TxbVideoCH.TabIndex = 6
+        '
+        'TxbVideoJOI
+        '
+        Me.TxbVideoJOI.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TxbVideoJOI.BackColor = System.Drawing.Color.LightGray
+        Me.TxbVideoJOI.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxbVideoJOI.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxbVideoJOI.ForeColor = System.Drawing.Color.Black
+        Me.TxbVideoJOI.Location = New System.Drawing.Point(113, 9)
+        Me.TxbVideoJOI.MinimumSize = New System.Drawing.Size(180, 17)
+        Me.TxbVideoJOI.Name = "TxbVideoJOI"
+        Me.TxbVideoJOI.ReadOnly = True
+        Me.TxbVideoJOI.Size = New System.Drawing.Size(307, 20)
+        Me.TxbVideoJOI.TabIndex = 2
+        '
+        'BTNVideoCH
+        '
+        Me.BTNVideoCH.BackColor = System.Drawing.Color.LightGray
+        Me.BTNVideoCH.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
+        Me.BTNVideoCH.ForeColor = System.Drawing.Color.Black
+        Me.BTNVideoCH.Location = New System.Drawing.Point(67, 29)
+        Me.BTNVideoCH.Name = "BTNVideoCH"
+        Me.BTNVideoCH.Size = New System.Drawing.Size(34, 28)
+        Me.BTNVideoCH.TabIndex = 5
+        Me.BTNVideoCH.Text = "1"
+        Me.BTNVideoCH.UseVisualStyleBackColor = False
+        '
+        'BTNVideoJOI
+        '
+        Me.BTNVideoJOI.BackColor = System.Drawing.Color.LightGray
+        Me.BTNVideoJOI.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
+        Me.BTNVideoJOI.ForeColor = System.Drawing.Color.Black
+        Me.BTNVideoJOI.Location = New System.Drawing.Point(67, 6)
+        Me.BTNVideoJOI.Name = "BTNVideoJOI"
+        Me.BTNVideoJOI.Size = New System.Drawing.Size(34, 28)
+        Me.BTNVideoJOI.TabIndex = 1
+        Me.BTNVideoJOI.Text = "1"
+        Me.BTNVideoJOI.UseVisualStyleBackColor = False
+        '
+        'CBVideoJOI
+        '
+        Me.CBVideoJOI.AutoSize = True
+        Me.CBVideoJOI.ForeColor = System.Drawing.Color.Black
+        Me.CBVideoJOI.Location = New System.Drawing.Point(6, 13)
+        Me.CBVideoJOI.Name = "CBVideoJOI"
+        Me.CBVideoJOI.Size = New System.Drawing.Size(42, 17)
+        Me.CBVideoJOI.TabIndex = 0
+        Me.CBVideoJOI.Text = "JOI"
+        Me.TTDir.SetToolTip(Me.CBVideoJOI, "Jerk Off Instructions")
+        Me.CBVideoJOI.UseVisualStyleBackColor = True
+        '
+        'CBVideoCH
+        '
+        Me.CBVideoCH.AutoSize = True
+        Me.CBVideoCH.ForeColor = System.Drawing.Color.Black
+        Me.CBVideoCH.Location = New System.Drawing.Point(6, 37)
+        Me.CBVideoCH.Name = "CBVideoCH"
+        Me.CBVideoCH.Size = New System.Drawing.Size(41, 17)
+        Me.CBVideoCH.TabIndex = 4
+        Me.CBVideoCH.Text = "CH"
+        Me.TTDir.SetToolTip(Me.CBVideoCH, "Cock Hero")
+        Me.CBVideoCH.UseVisualStyleBackColor = True
+        '
+        'VideoGenreGroupBox
+        '
+        Me.VideoGenreGroupBox.BackColor = System.Drawing.Color.Transparent
+        Me.VideoGenreGroupBox.Controls.Add(Me.LblVideoFemsubTotal)
+        Me.VideoGenreGroupBox.Controls.Add(Me.TxbVideoFemsub)
+        Me.VideoGenreGroupBox.Controls.Add(Me.LblVideoFemdomTotal)
+        Me.VideoGenreGroupBox.Controls.Add(Me.TxbVideoFemdom)
+        Me.VideoGenreGroupBox.Controls.Add(Me.TxbVideoBlowjob)
+        Me.VideoGenreGroupBox.Controls.Add(Me.LblVideoBlowjobTotal)
+        Me.VideoGenreGroupBox.Controls.Add(Me.TxbVideoLesbian)
+        Me.VideoGenreGroupBox.Controls.Add(Me.TxbVideoSoftCore)
+        Me.VideoGenreGroupBox.Controls.Add(Me.LblVideoLesbianTotal)
+        Me.VideoGenreGroupBox.Controls.Add(Me.VideoHardCorePathTextBox)
+        Me.VideoGenreGroupBox.Controls.Add(Me.BTNVideoFemSub)
+        Me.VideoGenreGroupBox.Controls.Add(Me.LblVideoSoftCoreTotal)
+        Me.VideoGenreGroupBox.Controls.Add(Me.BTNVideoFemDom)
+        Me.VideoGenreGroupBox.Controls.Add(Me.BTNVideoBlowjob)
+        Me.VideoGenreGroupBox.Controls.Add(Me.LblVideoHardCoreTotal)
+        Me.VideoGenreGroupBox.Controls.Add(Me.BTNVideoLesbian)
+        Me.VideoGenreGroupBox.Controls.Add(Me.BTNVideoSoftCore)
+        Me.VideoGenreGroupBox.Controls.Add(Me.VideoSetHardcorePathButton)
+        Me.VideoGenreGroupBox.Controls.Add(Me.VideoEnableHardcoreCheckBox)
+        Me.VideoGenreGroupBox.Controls.Add(Me.VideoEnableSoftcoreCheckBox)
+        Me.VideoGenreGroupBox.Controls.Add(Me.CBVideoLesbian)
+        Me.VideoGenreGroupBox.Controls.Add(Me.CBVideoBlowjob)
+        Me.VideoGenreGroupBox.Controls.Add(Me.CBVideoFemsub)
+        Me.VideoGenreGroupBox.Controls.Add(Me.CBVideoFemdom)
+        Me.VideoGenreGroupBox.Dock = System.Windows.Forms.DockStyle.Top
+        Me.VideoGenreGroupBox.ForeColor = System.Drawing.Color.Black
+        Me.VideoGenreGroupBox.Location = New System.Drawing.Point(0, 0)
+        Me.VideoGenreGroupBox.Name = "VideoGenreGroupBox"
+        Me.VideoGenreGroupBox.Size = New System.Drawing.Size(473, 165)
+        Me.VideoGenreGroupBox.TabIndex = 0
+        Me.VideoGenreGroupBox.TabStop = False
+        Me.VideoGenreGroupBox.Text = "Genre"
+        '
+        'LblVideoFemsubTotal
+        '
+        Me.LblVideoFemsubTotal.Anchor = System.Windows.Forms.AnchorStyles.Right
+        Me.LblVideoFemsubTotal.BackColor = System.Drawing.Color.Transparent
+        Me.LblVideoFemsubTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblVideoFemsubTotal.ForeColor = System.Drawing.Color.Black
+        Me.LblVideoFemsubTotal.Location = New System.Drawing.Point(424, 136)
+        Me.LblVideoFemsubTotal.Name = "LblVideoFemsubTotal"
+        Me.LblVideoFemsubTotal.Size = New System.Drawing.Size(34, 17)
+        Me.LblVideoFemsubTotal.TabIndex = 23
+        Me.LblVideoFemsubTotal.Text = "0"
+        Me.LblVideoFemsubTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'TxbVideoFemsub
+        '
+        Me.TxbVideoFemsub.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TxbVideoFemsub.BackColor = System.Drawing.Color.LightGray
+        Me.TxbVideoFemsub.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxbVideoFemsub.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxbVideoFemsub.ForeColor = System.Drawing.Color.Black
+        Me.TxbVideoFemsub.Location = New System.Drawing.Point(107, 134)
+        Me.TxbVideoFemsub.MinimumSize = New System.Drawing.Size(180, 17)
+        Me.TxbVideoFemsub.Name = "TxbVideoFemsub"
+        Me.TxbVideoFemsub.ReadOnly = True
+        Me.TxbVideoFemsub.Size = New System.Drawing.Size(313, 20)
+        Me.TxbVideoFemsub.TabIndex = 22
+        '
+        'LblVideoFemdomTotal
+        '
+        Me.LblVideoFemdomTotal.Anchor = System.Windows.Forms.AnchorStyles.Right
+        Me.LblVideoFemdomTotal.BackColor = System.Drawing.Color.Transparent
+        Me.LblVideoFemdomTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblVideoFemdomTotal.ForeColor = System.Drawing.Color.Black
+        Me.LblVideoFemdomTotal.Location = New System.Drawing.Point(424, 112)
+        Me.LblVideoFemdomTotal.Name = "LblVideoFemdomTotal"
+        Me.LblVideoFemdomTotal.Size = New System.Drawing.Size(34, 17)
+        Me.LblVideoFemdomTotal.TabIndex = 19
+        Me.LblVideoFemdomTotal.Text = "0"
+        Me.LblVideoFemdomTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'TxbVideoFemdom
+        '
+        Me.TxbVideoFemdom.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TxbVideoFemdom.BackColor = System.Drawing.Color.LightGray
+        Me.TxbVideoFemdom.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxbVideoFemdom.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxbVideoFemdom.ForeColor = System.Drawing.Color.Black
+        Me.TxbVideoFemdom.Location = New System.Drawing.Point(107, 110)
+        Me.TxbVideoFemdom.MinimumSize = New System.Drawing.Size(180, 17)
+        Me.TxbVideoFemdom.Name = "TxbVideoFemdom"
+        Me.TxbVideoFemdom.ReadOnly = True
+        Me.TxbVideoFemdom.Size = New System.Drawing.Size(313, 20)
+        Me.TxbVideoFemdom.TabIndex = 18
+        '
+        'TxbVideoBlowjob
+        '
+        Me.TxbVideoBlowjob.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TxbVideoBlowjob.BackColor = System.Drawing.Color.LightGray
+        Me.TxbVideoBlowjob.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxbVideoBlowjob.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxbVideoBlowjob.ForeColor = System.Drawing.Color.Black
+        Me.TxbVideoBlowjob.Location = New System.Drawing.Point(107, 86)
+        Me.TxbVideoBlowjob.MinimumSize = New System.Drawing.Size(180, 17)
+        Me.TxbVideoBlowjob.Name = "TxbVideoBlowjob"
+        Me.TxbVideoBlowjob.ReadOnly = True
+        Me.TxbVideoBlowjob.Size = New System.Drawing.Size(313, 20)
+        Me.TxbVideoBlowjob.TabIndex = 14
+        '
+        'LblVideoBlowjobTotal
+        '
+        Me.LblVideoBlowjobTotal.Anchor = System.Windows.Forms.AnchorStyles.Right
+        Me.LblVideoBlowjobTotal.BackColor = System.Drawing.Color.Transparent
+        Me.LblVideoBlowjobTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblVideoBlowjobTotal.ForeColor = System.Drawing.Color.Black
+        Me.LblVideoBlowjobTotal.Location = New System.Drawing.Point(424, 88)
+        Me.LblVideoBlowjobTotal.Name = "LblVideoBlowjobTotal"
+        Me.LblVideoBlowjobTotal.Size = New System.Drawing.Size(34, 17)
+        Me.LblVideoBlowjobTotal.TabIndex = 15
+        Me.LblVideoBlowjobTotal.Text = "0"
+        Me.LblVideoBlowjobTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'TxbVideoLesbian
+        '
+        Me.TxbVideoLesbian.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TxbVideoLesbian.BackColor = System.Drawing.Color.LightGray
+        Me.TxbVideoLesbian.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxbVideoLesbian.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxbVideoLesbian.ForeColor = System.Drawing.Color.Black
+        Me.TxbVideoLesbian.Location = New System.Drawing.Point(107, 63)
+        Me.TxbVideoLesbian.MinimumSize = New System.Drawing.Size(180, 17)
+        Me.TxbVideoLesbian.Name = "TxbVideoLesbian"
+        Me.TxbVideoLesbian.ReadOnly = True
+        Me.TxbVideoLesbian.Size = New System.Drawing.Size(313, 20)
+        Me.TxbVideoLesbian.TabIndex = 10
+        '
+        'TxbVideoSoftCore
+        '
+        Me.TxbVideoSoftCore.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TxbVideoSoftCore.BackColor = System.Drawing.Color.LightGray
+        Me.TxbVideoSoftCore.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxbVideoSoftCore.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxbVideoSoftCore.ForeColor = System.Drawing.Color.Black
+        Me.TxbVideoSoftCore.Location = New System.Drawing.Point(107, 40)
+        Me.TxbVideoSoftCore.MinimumSize = New System.Drawing.Size(180, 17)
+        Me.TxbVideoSoftCore.Name = "TxbVideoSoftCore"
+        Me.TxbVideoSoftCore.ReadOnly = True
+        Me.TxbVideoSoftCore.Size = New System.Drawing.Size(313, 20)
+        Me.TxbVideoSoftCore.TabIndex = 6
+        '
+        'LblVideoLesbianTotal
+        '
+        Me.LblVideoLesbianTotal.Anchor = System.Windows.Forms.AnchorStyles.Right
+        Me.LblVideoLesbianTotal.BackColor = System.Drawing.Color.Transparent
+        Me.LblVideoLesbianTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblVideoLesbianTotal.ForeColor = System.Drawing.Color.Black
+        Me.LblVideoLesbianTotal.Location = New System.Drawing.Point(424, 66)
+        Me.LblVideoLesbianTotal.Name = "LblVideoLesbianTotal"
+        Me.LblVideoLesbianTotal.Size = New System.Drawing.Size(34, 17)
+        Me.LblVideoLesbianTotal.TabIndex = 11
+        Me.LblVideoLesbianTotal.Text = "0"
+        Me.LblVideoLesbianTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'VideoHardCorePathTextBox
+        '
+        Me.VideoHardCorePathTextBox.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.VideoHardCorePathTextBox.BackColor = System.Drawing.Color.LightGray
+        Me.VideoHardCorePathTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.VideoHardCorePathTextBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.VideoHardCorePathTextBox.ForeColor = System.Drawing.Color.Black
+        Me.VideoHardCorePathTextBox.Location = New System.Drawing.Point(107, 17)
+        Me.VideoHardCorePathTextBox.MinimumSize = New System.Drawing.Size(180, 17)
+        Me.VideoHardCorePathTextBox.Name = "VideoHardCorePathTextBox"
+        Me.VideoHardCorePathTextBox.ReadOnly = True
+        Me.VideoHardCorePathTextBox.Size = New System.Drawing.Size(313, 20)
+        Me.VideoHardCorePathTextBox.TabIndex = 2
+        '
+        'BTNVideoFemSub
+        '
+        Me.BTNVideoFemSub.BackColor = System.Drawing.Color.LightGray
+        Me.BTNVideoFemSub.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
+        Me.BTNVideoFemSub.ForeColor = System.Drawing.Color.Black
+        Me.BTNVideoFemSub.Location = New System.Drawing.Point(73, 130)
+        Me.BTNVideoFemSub.Name = "BTNVideoFemSub"
+        Me.BTNVideoFemSub.Size = New System.Drawing.Size(34, 28)
+        Me.BTNVideoFemSub.TabIndex = 21
+        Me.BTNVideoFemSub.Text = "1"
+        Me.BTNVideoFemSub.UseVisualStyleBackColor = False
+        '
+        'LblVideoSoftCoreTotal
+        '
+        Me.LblVideoSoftCoreTotal.Anchor = System.Windows.Forms.AnchorStyles.Right
+        Me.LblVideoSoftCoreTotal.BackColor = System.Drawing.Color.Transparent
+        Me.LblVideoSoftCoreTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblVideoSoftCoreTotal.ForeColor = System.Drawing.Color.Black
+        Me.LblVideoSoftCoreTotal.Location = New System.Drawing.Point(424, 43)
+        Me.LblVideoSoftCoreTotal.Name = "LblVideoSoftCoreTotal"
+        Me.LblVideoSoftCoreTotal.Size = New System.Drawing.Size(34, 17)
+        Me.LblVideoSoftCoreTotal.TabIndex = 7
+        Me.LblVideoSoftCoreTotal.Text = "0"
+        Me.LblVideoSoftCoreTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'BTNVideoFemDom
+        '
+        Me.BTNVideoFemDom.BackColor = System.Drawing.Color.LightGray
+        Me.BTNVideoFemDom.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
+        Me.BTNVideoFemDom.ForeColor = System.Drawing.Color.Black
+        Me.BTNVideoFemDom.Location = New System.Drawing.Point(73, 106)
+        Me.BTNVideoFemDom.Name = "BTNVideoFemDom"
+        Me.BTNVideoFemDom.Size = New System.Drawing.Size(34, 28)
+        Me.BTNVideoFemDom.TabIndex = 17
+        Me.BTNVideoFemDom.Text = "1"
+        Me.BTNVideoFemDom.UseVisualStyleBackColor = False
+        '
+        'BTNVideoBlowjob
+        '
+        Me.BTNVideoBlowjob.BackColor = System.Drawing.Color.LightGray
+        Me.BTNVideoBlowjob.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
+        Me.BTNVideoBlowjob.ForeColor = System.Drawing.Color.Black
+        Me.BTNVideoBlowjob.Location = New System.Drawing.Point(73, 82)
+        Me.BTNVideoBlowjob.Name = "BTNVideoBlowjob"
+        Me.BTNVideoBlowjob.Size = New System.Drawing.Size(34, 28)
+        Me.BTNVideoBlowjob.TabIndex = 13
+        Me.BTNVideoBlowjob.Text = "1"
+        Me.BTNVideoBlowjob.UseVisualStyleBackColor = False
+        '
+        'LblVideoHardCoreTotal
+        '
+        Me.LblVideoHardCoreTotal.Anchor = System.Windows.Forms.AnchorStyles.Right
+        Me.LblVideoHardCoreTotal.BackColor = System.Drawing.Color.Transparent
+        Me.LblVideoHardCoreTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblVideoHardCoreTotal.ForeColor = System.Drawing.Color.Black
+        Me.LblVideoHardCoreTotal.Location = New System.Drawing.Point(424, 19)
+        Me.LblVideoHardCoreTotal.Name = "LblVideoHardCoreTotal"
+        Me.LblVideoHardCoreTotal.Size = New System.Drawing.Size(34, 17)
+        Me.LblVideoHardCoreTotal.TabIndex = 3
+        Me.LblVideoHardCoreTotal.Text = "0"
+        Me.LblVideoHardCoreTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'BTNVideoLesbian
+        '
+        Me.BTNVideoLesbian.BackColor = System.Drawing.Color.LightGray
+        Me.BTNVideoLesbian.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
+        Me.BTNVideoLesbian.ForeColor = System.Drawing.Color.Black
+        Me.BTNVideoLesbian.Location = New System.Drawing.Point(73, 59)
+        Me.BTNVideoLesbian.Name = "BTNVideoLesbian"
+        Me.BTNVideoLesbian.Size = New System.Drawing.Size(34, 28)
+        Me.BTNVideoLesbian.TabIndex = 9
+        Me.BTNVideoLesbian.Text = "1"
+        Me.BTNVideoLesbian.UseVisualStyleBackColor = False
+        '
+        'BTNVideoSoftCore
+        '
+        Me.BTNVideoSoftCore.BackColor = System.Drawing.Color.LightGray
+        Me.BTNVideoSoftCore.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
+        Me.BTNVideoSoftCore.ForeColor = System.Drawing.Color.Black
+        Me.BTNVideoSoftCore.Location = New System.Drawing.Point(73, 36)
+        Me.BTNVideoSoftCore.Name = "BTNVideoSoftCore"
+        Me.BTNVideoSoftCore.Size = New System.Drawing.Size(34, 28)
+        Me.BTNVideoSoftCore.TabIndex = 5
+        Me.BTNVideoSoftCore.Text = "1"
+        Me.BTNVideoSoftCore.UseVisualStyleBackColor = False
+        '
+        'VideoSetHardcorePathButton
+        '
+        Me.VideoSetHardcorePathButton.BackColor = System.Drawing.Color.LightGray
+        Me.VideoSetHardcorePathButton.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
+        Me.VideoSetHardcorePathButton.ForeColor = System.Drawing.Color.Black
+        Me.VideoSetHardcorePathButton.Location = New System.Drawing.Point(73, 12)
+        Me.VideoSetHardcorePathButton.Name = "VideoSetHardcorePathButton"
+        Me.VideoSetHardcorePathButton.Size = New System.Drawing.Size(34, 28)
+        Me.VideoSetHardcorePathButton.TabIndex = 1
+        Me.VideoSetHardcorePathButton.Text = "1"
+        Me.VideoSetHardcorePathButton.UseVisualStyleBackColor = False
+        '
+        'VideoEnableHardcoreCheckBox
+        '
+        Me.VideoEnableHardcoreCheckBox.AutoSize = True
+        Me.VideoEnableHardcoreCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.VideoEnableHardcoreCheckBox.Location = New System.Drawing.Point(6, 19)
+        Me.VideoEnableHardcoreCheckBox.Name = "VideoEnableHardcoreCheckBox"
+        Me.VideoEnableHardcoreCheckBox.Size = New System.Drawing.Size(70, 17)
+        Me.VideoEnableHardcoreCheckBox.TabIndex = 0
+        Me.VideoEnableHardcoreCheckBox.Text = "Hardcore"
+        Me.VideoEnableHardcoreCheckBox.UseVisualStyleBackColor = True
+        '
+        'VideoEnableSoftcoreCheckBox
+        '
+        Me.VideoEnableSoftcoreCheckBox.AutoSize = True
+        Me.VideoEnableSoftcoreCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.VideoEnableSoftcoreCheckBox.Location = New System.Drawing.Point(6, 43)
+        Me.VideoEnableSoftcoreCheckBox.Name = "VideoEnableSoftcoreCheckBox"
+        Me.VideoEnableSoftcoreCheckBox.Size = New System.Drawing.Size(66, 17)
+        Me.VideoEnableSoftcoreCheckBox.TabIndex = 4
+        Me.VideoEnableSoftcoreCheckBox.Text = "Softcore"
+        Me.VideoEnableSoftcoreCheckBox.UseVisualStyleBackColor = True
+        '
+        'CBVideoLesbian
+        '
+        Me.CBVideoLesbian.AutoSize = True
+        Me.CBVideoLesbian.ForeColor = System.Drawing.Color.Black
+        Me.CBVideoLesbian.Location = New System.Drawing.Point(6, 66)
+        Me.CBVideoLesbian.Name = "CBVideoLesbian"
+        Me.CBVideoLesbian.Size = New System.Drawing.Size(63, 17)
+        Me.CBVideoLesbian.TabIndex = 8
+        Me.CBVideoLesbian.Text = "Lesbian"
+        Me.CBVideoLesbian.UseVisualStyleBackColor = True
+        '
+        'CBVideoBlowjob
+        '
+        Me.CBVideoBlowjob.AutoSize = True
+        Me.CBVideoBlowjob.ForeColor = System.Drawing.Color.Black
+        Me.CBVideoBlowjob.Location = New System.Drawing.Point(6, 89)
+        Me.CBVideoBlowjob.Name = "CBVideoBlowjob"
+        Me.CBVideoBlowjob.Size = New System.Drawing.Size(63, 17)
+        Me.CBVideoBlowjob.TabIndex = 12
+        Me.CBVideoBlowjob.Text = "Blowjob"
+        Me.CBVideoBlowjob.UseVisualStyleBackColor = True
+        '
+        'CBVideoFemsub
+        '
+        Me.CBVideoFemsub.AutoSize = True
+        Me.CBVideoFemsub.ForeColor = System.Drawing.Color.Black
+        Me.CBVideoFemsub.Location = New System.Drawing.Point(6, 137)
+        Me.CBVideoFemsub.Name = "CBVideoFemsub"
+        Me.CBVideoFemsub.Size = New System.Drawing.Size(63, 17)
+        Me.CBVideoFemsub.TabIndex = 20
+        Me.CBVideoFemsub.Text = "Femsub"
+        Me.CBVideoFemsub.UseVisualStyleBackColor = True
+        '
+        'CBVideoFemdom
+        '
+        Me.CBVideoFemdom.AutoSize = True
+        Me.CBVideoFemdom.ForeColor = System.Drawing.Color.Black
+        Me.CBVideoFemdom.Location = New System.Drawing.Point(6, 113)
+        Me.CBVideoFemdom.Name = "CBVideoFemdom"
+        Me.CBVideoFemdom.Size = New System.Drawing.Size(66, 17)
+        Me.CBVideoFemdom.TabIndex = 16
+        Me.CBVideoFemdom.Text = "Femdom"
+        Me.CBVideoFemdom.UseVisualStyleBackColor = True
+        '
+        'VideoDommePanel
+        '
+        Me.VideoDommePanel.BackColor = System.Drawing.Color.Transparent
+        Me.VideoDommePanel.Controls.Add(Me.VideoDommeGeneralGroupBox)
+        Me.VideoDommePanel.Controls.Add(Me.GbxVideoSpecialD)
+        Me.VideoDommePanel.Controls.Add(Me.GbxVideoGenreD)
+        Me.VideoDommePanel.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.VideoDommePanel.Location = New System.Drawing.Point(482, 3)
+        Me.VideoDommePanel.Name = "VideoDommePanel"
+        Me.VideoDommePanel.Size = New System.Drawing.Size(473, 473)
+        Me.VideoDommePanel.TabIndex = 1
+        '
+        'VideoDommeGeneralGroupBox
+        '
+        Me.VideoDommeGeneralGroupBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.VideoDommeGeneralGroupBox.BackColor = System.Drawing.Color.Transparent
+        Me.VideoDommeGeneralGroupBox.Controls.Add(Me.VideoTotalDommeGeneral)
+        Me.VideoDommeGeneralGroupBox.Controls.Add(Me.VideoDommeGeneralPathTextBox)
+        Me.VideoDommeGeneralGroupBox.Controls.Add(Me.BTNVideoGeneralD)
+        Me.VideoDommeGeneralGroupBox.Controls.Add(Me.CBVideoGeneralD)
+        Me.VideoDommeGeneralGroupBox.ForeColor = System.Drawing.Color.Black
+        Me.VideoDommeGeneralGroupBox.Location = New System.Drawing.Point(0, 235)
+        Me.VideoDommeGeneralGroupBox.Name = "VideoDommeGeneralGroupBox"
+        Me.VideoDommeGeneralGroupBox.Size = New System.Drawing.Size(473, 72)
+        Me.VideoDommeGeneralGroupBox.TabIndex = 5
+        Me.VideoDommeGeneralGroupBox.TabStop = False
+        Me.VideoDommeGeneralGroupBox.Text = "Domme General"
+        '
+        'VideoTotalDommeGeneral
+        '
+        Me.VideoTotalDommeGeneral.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.VideoTotalDommeGeneral.BackColor = System.Drawing.Color.Transparent
+        Me.VideoTotalDommeGeneral.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.VideoTotalDommeGeneral.ForeColor = System.Drawing.Color.Black
+        Me.VideoTotalDommeGeneral.Location = New System.Drawing.Point(432, 19)
+        Me.VideoTotalDommeGeneral.Name = "VideoTotalDommeGeneral"
+        Me.VideoTotalDommeGeneral.Size = New System.Drawing.Size(34, 17)
+        Me.VideoTotalDommeGeneral.TabIndex = 3
+        Me.VideoTotalDommeGeneral.Text = "0"
+        Me.VideoTotalDommeGeneral.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'VideoDommeGeneralPathTextBox
+        '
+        Me.VideoDommeGeneralPathTextBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.VideoDommeGeneralPathTextBox.BackColor = System.Drawing.Color.LightGray
+        Me.VideoDommeGeneralPathTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.VideoDommeGeneralPathTextBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.VideoDommeGeneralPathTextBox.ForeColor = System.Drawing.Color.Black
+        Me.VideoDommeGeneralPathTextBox.Location = New System.Drawing.Point(113, 18)
+        Me.VideoDommeGeneralPathTextBox.MinimumSize = New System.Drawing.Size(180, 17)
+        Me.VideoDommeGeneralPathTextBox.Name = "VideoDommeGeneralPathTextBox"
+        Me.VideoDommeGeneralPathTextBox.ReadOnly = True
+        Me.VideoDommeGeneralPathTextBox.Size = New System.Drawing.Size(313, 20)
+        Me.VideoDommeGeneralPathTextBox.TabIndex = 2
         '
         'BTNVideoGeneralD
         '
@@ -8387,10 +8938,11 @@ Partial Class FrmSettings
         Me.GbxVideoSpecialD.Controls.Add(Me.BTNVideoJOID)
         Me.GbxVideoSpecialD.Controls.Add(Me.CBVideoJOID)
         Me.GbxVideoSpecialD.Controls.Add(Me.CBVideoCHD)
+        Me.GbxVideoSpecialD.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GbxVideoSpecialD.ForeColor = System.Drawing.Color.Black
-        Me.GbxVideoSpecialD.Location = New System.Drawing.Point(359, 201)
+        Me.GbxVideoSpecialD.Location = New System.Drawing.Point(0, 165)
         Me.GbxVideoSpecialD.Name = "GbxVideoSpecialD"
-        Me.GbxVideoSpecialD.Size = New System.Drawing.Size(340, 70)
+        Me.GbxVideoSpecialD.Size = New System.Drawing.Size(473, 308)
         Me.GbxVideoSpecialD.TabIndex = 4
         Me.GbxVideoSpecialD.TabStop = False
         Me.GbxVideoSpecialD.Text = "Domme Special"
@@ -8400,7 +8952,7 @@ Partial Class FrmSettings
         Me.LblVideoCHTotalD.BackColor = System.Drawing.Color.Transparent
         Me.LblVideoCHTotalD.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblVideoCHTotalD.ForeColor = System.Drawing.Color.Black
-        Me.LblVideoCHTotalD.Location = New System.Drawing.Point(299, 42)
+        Me.LblVideoCHTotalD.Location = New System.Drawing.Point(432, 42)
         Me.LblVideoCHTotalD.Name = "LblVideoCHTotalD"
         Me.LblVideoCHTotalD.Size = New System.Drawing.Size(34, 17)
         Me.LblVideoCHTotalD.TabIndex = 7
@@ -8412,7 +8964,7 @@ Partial Class FrmSettings
         Me.LblVideoJOITotalD.BackColor = System.Drawing.Color.Transparent
         Me.LblVideoJOITotalD.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblVideoJOITotalD.ForeColor = System.Drawing.Color.Black
-        Me.LblVideoJOITotalD.Location = New System.Drawing.Point(299, 19)
+        Me.LblVideoJOITotalD.Location = New System.Drawing.Point(432, 19)
         Me.LblVideoJOITotalD.Name = "LblVideoJOITotalD"
         Me.LblVideoJOITotalD.Size = New System.Drawing.Size(34, 17)
         Me.LblVideoJOITotalD.TabIndex = 3
@@ -8421,30 +8973,32 @@ Partial Class FrmSettings
         '
         'TxbVideoCHD
         '
+        Me.TxbVideoCHD.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TxbVideoCHD.BackColor = System.Drawing.Color.LightGray
         Me.TxbVideoCHD.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxbVideoCHD.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxbVideoCHD.ForeColor = System.Drawing.Color.Black
         Me.TxbVideoCHD.Location = New System.Drawing.Point(113, 41)
-        Me.TxbVideoCHD.MaximumSize = New System.Drawing.Size(2, 17)
         Me.TxbVideoCHD.MinimumSize = New System.Drawing.Size(180, 17)
         Me.TxbVideoCHD.Name = "TxbVideoCHD"
         Me.TxbVideoCHD.ReadOnly = True
-        Me.TxbVideoCHD.Size = New System.Drawing.Size(180, 17)
+        Me.TxbVideoCHD.Size = New System.Drawing.Size(313, 20)
         Me.TxbVideoCHD.TabIndex = 6
         '
         'TxbVideoJOID
         '
+        Me.TxbVideoJOID.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TxbVideoJOID.BackColor = System.Drawing.Color.LightGray
         Me.TxbVideoJOID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxbVideoJOID.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxbVideoJOID.ForeColor = System.Drawing.Color.Black
         Me.TxbVideoJOID.Location = New System.Drawing.Point(113, 18)
-        Me.TxbVideoJOID.MaximumSize = New System.Drawing.Size(2, 17)
         Me.TxbVideoJOID.MinimumSize = New System.Drawing.Size(180, 17)
         Me.TxbVideoJOID.Name = "TxbVideoJOID"
         Me.TxbVideoJOID.ReadOnly = True
-        Me.TxbVideoJOID.Size = New System.Drawing.Size(180, 17)
+        Me.TxbVideoJOID.Size = New System.Drawing.Size(313, 20)
         Me.TxbVideoJOID.TabIndex = 2
         '
         'BTNVideoCHD
@@ -8520,20 +9074,22 @@ Partial Class FrmSettings
         Me.GbxVideoGenreD.Controls.Add(Me.CBVideoBlowjobD)
         Me.GbxVideoGenreD.Controls.Add(Me.CBVideoFemsubD)
         Me.GbxVideoGenreD.Controls.Add(Me.CBVideoFemdomD)
+        Me.GbxVideoGenreD.Dock = System.Windows.Forms.DockStyle.Top
         Me.GbxVideoGenreD.ForeColor = System.Drawing.Color.Black
-        Me.GbxVideoGenreD.Location = New System.Drawing.Point(359, 30)
+        Me.GbxVideoGenreD.Location = New System.Drawing.Point(0, 0)
         Me.GbxVideoGenreD.Name = "GbxVideoGenreD"
-        Me.GbxVideoGenreD.Size = New System.Drawing.Size(340, 165)
+        Me.GbxVideoGenreD.Size = New System.Drawing.Size(473, 165)
         Me.GbxVideoGenreD.TabIndex = 3
         Me.GbxVideoGenreD.TabStop = False
         Me.GbxVideoGenreD.Text = "Domme Genre"
         '
         'LblVideoFemsubTotalD
         '
+        Me.LblVideoFemsubTotalD.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.LblVideoFemsubTotalD.BackColor = System.Drawing.Color.Transparent
         Me.LblVideoFemsubTotalD.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblVideoFemsubTotalD.ForeColor = System.Drawing.Color.Black
-        Me.LblVideoFemsubTotalD.Location = New System.Drawing.Point(299, 136)
+        Me.LblVideoFemsubTotalD.Location = New System.Drawing.Point(432, 129)
         Me.LblVideoFemsubTotalD.Name = "LblVideoFemsubTotalD"
         Me.LblVideoFemsubTotalD.Size = New System.Drawing.Size(34, 17)
         Me.LblVideoFemsubTotalD.TabIndex = 23
@@ -8542,24 +9098,25 @@ Partial Class FrmSettings
         '
         'TxbVideoFemsubD
         '
+        Me.TxbVideoFemsubD.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TxbVideoFemsubD.BackColor = System.Drawing.Color.LightGray
         Me.TxbVideoFemsubD.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxbVideoFemsubD.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxbVideoFemsubD.ForeColor = System.Drawing.Color.Black
         Me.TxbVideoFemsubD.Location = New System.Drawing.Point(113, 136)
-        Me.TxbVideoFemsubD.MaximumSize = New System.Drawing.Size(2, 17)
         Me.TxbVideoFemsubD.MinimumSize = New System.Drawing.Size(180, 17)
         Me.TxbVideoFemsubD.Name = "TxbVideoFemsubD"
         Me.TxbVideoFemsubD.ReadOnly = True
-        Me.TxbVideoFemsubD.Size = New System.Drawing.Size(180, 17)
+        Me.TxbVideoFemsubD.Size = New System.Drawing.Size(313, 20)
         Me.TxbVideoFemsubD.TabIndex = 22
         '
         'LblVideoFemdomTotalD
         '
+        Me.LblVideoFemdomTotalD.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.LblVideoFemdomTotalD.BackColor = System.Drawing.Color.Transparent
         Me.LblVideoFemdomTotalD.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblVideoFemdomTotalD.ForeColor = System.Drawing.Color.Black
-        Me.LblVideoFemdomTotalD.Location = New System.Drawing.Point(299, 112)
+        Me.LblVideoFemdomTotalD.Location = New System.Drawing.Point(432, 105)
         Me.LblVideoFemdomTotalD.Name = "LblVideoFemdomTotalD"
         Me.LblVideoFemdomTotalD.Size = New System.Drawing.Size(34, 17)
         Me.LblVideoFemdomTotalD.TabIndex = 19
@@ -8568,38 +9125,39 @@ Partial Class FrmSettings
         '
         'TxbVideoFemdomD
         '
+        Me.TxbVideoFemdomD.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TxbVideoFemdomD.BackColor = System.Drawing.Color.LightGray
         Me.TxbVideoFemdomD.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxbVideoFemdomD.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxbVideoFemdomD.ForeColor = System.Drawing.Color.Black
         Me.TxbVideoFemdomD.Location = New System.Drawing.Point(113, 112)
-        Me.TxbVideoFemdomD.MaximumSize = New System.Drawing.Size(2, 17)
         Me.TxbVideoFemdomD.MinimumSize = New System.Drawing.Size(180, 17)
         Me.TxbVideoFemdomD.Name = "TxbVideoFemdomD"
         Me.TxbVideoFemdomD.ReadOnly = True
-        Me.TxbVideoFemdomD.Size = New System.Drawing.Size(180, 17)
+        Me.TxbVideoFemdomD.Size = New System.Drawing.Size(313, 20)
         Me.TxbVideoFemdomD.TabIndex = 18
         '
         'TxbVideoBlowjobD
         '
+        Me.TxbVideoBlowjobD.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TxbVideoBlowjobD.BackColor = System.Drawing.Color.LightGray
         Me.TxbVideoBlowjobD.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxbVideoBlowjobD.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxbVideoBlowjobD.ForeColor = System.Drawing.Color.Black
         Me.TxbVideoBlowjobD.Location = New System.Drawing.Point(113, 88)
-        Me.TxbVideoBlowjobD.MaximumSize = New System.Drawing.Size(2, 17)
         Me.TxbVideoBlowjobD.MinimumSize = New System.Drawing.Size(180, 17)
         Me.TxbVideoBlowjobD.Name = "TxbVideoBlowjobD"
         Me.TxbVideoBlowjobD.ReadOnly = True
-        Me.TxbVideoBlowjobD.Size = New System.Drawing.Size(180, 17)
+        Me.TxbVideoBlowjobD.Size = New System.Drawing.Size(313, 20)
         Me.TxbVideoBlowjobD.TabIndex = 14
         '
         'LblVideoBlowjobTotalD
         '
+        Me.LblVideoBlowjobTotalD.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.LblVideoBlowjobTotalD.BackColor = System.Drawing.Color.Transparent
         Me.LblVideoBlowjobTotalD.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblVideoBlowjobTotalD.ForeColor = System.Drawing.Color.Black
-        Me.LblVideoBlowjobTotalD.Location = New System.Drawing.Point(299, 88)
+        Me.LblVideoBlowjobTotalD.Location = New System.Drawing.Point(432, 81)
         Me.LblVideoBlowjobTotalD.Name = "LblVideoBlowjobTotalD"
         Me.LblVideoBlowjobTotalD.Size = New System.Drawing.Size(34, 17)
         Me.LblVideoBlowjobTotalD.TabIndex = 15
@@ -8608,38 +9166,39 @@ Partial Class FrmSettings
         '
         'TxbVideoLesbianD
         '
+        Me.TxbVideoLesbianD.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TxbVideoLesbianD.BackColor = System.Drawing.Color.LightGray
         Me.TxbVideoLesbianD.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxbVideoLesbianD.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxbVideoLesbianD.ForeColor = System.Drawing.Color.Black
         Me.TxbVideoLesbianD.Location = New System.Drawing.Point(113, 65)
-        Me.TxbVideoLesbianD.MaximumSize = New System.Drawing.Size(2, 17)
         Me.TxbVideoLesbianD.MinimumSize = New System.Drawing.Size(180, 17)
         Me.TxbVideoLesbianD.Name = "TxbVideoLesbianD"
         Me.TxbVideoLesbianD.ReadOnly = True
-        Me.TxbVideoLesbianD.Size = New System.Drawing.Size(180, 17)
+        Me.TxbVideoLesbianD.Size = New System.Drawing.Size(313, 20)
         Me.TxbVideoLesbianD.TabIndex = 10
         '
         'TxbVideoSoftCoreD
         '
+        Me.TxbVideoSoftCoreD.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TxbVideoSoftCoreD.BackColor = System.Drawing.Color.LightGray
         Me.TxbVideoSoftCoreD.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxbVideoSoftCoreD.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxbVideoSoftCoreD.ForeColor = System.Drawing.Color.Black
         Me.TxbVideoSoftCoreD.Location = New System.Drawing.Point(113, 42)
-        Me.TxbVideoSoftCoreD.MaximumSize = New System.Drawing.Size(2, 17)
         Me.TxbVideoSoftCoreD.MinimumSize = New System.Drawing.Size(180, 17)
         Me.TxbVideoSoftCoreD.Name = "TxbVideoSoftCoreD"
         Me.TxbVideoSoftCoreD.ReadOnly = True
-        Me.TxbVideoSoftCoreD.Size = New System.Drawing.Size(180, 17)
+        Me.TxbVideoSoftCoreD.Size = New System.Drawing.Size(313, 20)
         Me.TxbVideoSoftCoreD.TabIndex = 6
         '
         'LblVideoLesbianTotalD
         '
+        Me.LblVideoLesbianTotalD.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.LblVideoLesbianTotalD.BackColor = System.Drawing.Color.Transparent
         Me.LblVideoLesbianTotalD.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblVideoLesbianTotalD.ForeColor = System.Drawing.Color.Black
-        Me.LblVideoLesbianTotalD.Location = New System.Drawing.Point(299, 66)
+        Me.LblVideoLesbianTotalD.Location = New System.Drawing.Point(432, 59)
         Me.LblVideoLesbianTotalD.Name = "LblVideoLesbianTotalD"
         Me.LblVideoLesbianTotalD.Size = New System.Drawing.Size(34, 17)
         Me.LblVideoLesbianTotalD.TabIndex = 11
@@ -8648,16 +9207,16 @@ Partial Class FrmSettings
         '
         'TxbVideoHardCoreD
         '
+        Me.TxbVideoHardCoreD.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TxbVideoHardCoreD.BackColor = System.Drawing.Color.LightGray
         Me.TxbVideoHardCoreD.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxbVideoHardCoreD.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxbVideoHardCoreD.ForeColor = System.Drawing.Color.Black
         Me.TxbVideoHardCoreD.Location = New System.Drawing.Point(113, 19)
-        Me.TxbVideoHardCoreD.MaximumSize = New System.Drawing.Size(2, 17)
         Me.TxbVideoHardCoreD.MinimumSize = New System.Drawing.Size(180, 17)
         Me.TxbVideoHardCoreD.Name = "TxbVideoHardCoreD"
         Me.TxbVideoHardCoreD.ReadOnly = True
-        Me.TxbVideoHardCoreD.Size = New System.Drawing.Size(180, 17)
+        Me.TxbVideoHardCoreD.Size = New System.Drawing.Size(313, 20)
         Me.TxbVideoHardCoreD.TabIndex = 2
         '
         'BTNVideoFemSubD
@@ -8674,10 +9233,11 @@ Partial Class FrmSettings
         '
         'LblVideoSoftCoreTotalD
         '
+        Me.LblVideoSoftCoreTotalD.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.LblVideoSoftCoreTotalD.BackColor = System.Drawing.Color.Transparent
         Me.LblVideoSoftCoreTotalD.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblVideoSoftCoreTotalD.ForeColor = System.Drawing.Color.Black
-        Me.LblVideoSoftCoreTotalD.Location = New System.Drawing.Point(299, 43)
+        Me.LblVideoSoftCoreTotalD.Location = New System.Drawing.Point(432, 36)
         Me.LblVideoSoftCoreTotalD.Name = "LblVideoSoftCoreTotalD"
         Me.LblVideoSoftCoreTotalD.Size = New System.Drawing.Size(34, 17)
         Me.LblVideoSoftCoreTotalD.TabIndex = 7
@@ -8710,10 +9270,11 @@ Partial Class FrmSettings
         '
         'LblVideoHardCoreTotalD
         '
+        Me.LblVideoHardCoreTotalD.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.LblVideoHardCoreTotalD.BackColor = System.Drawing.Color.Transparent
         Me.LblVideoHardCoreTotalD.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblVideoHardCoreTotalD.ForeColor = System.Drawing.Color.Black
-        Me.LblVideoHardCoreTotalD.Location = New System.Drawing.Point(299, 19)
+        Me.LblVideoHardCoreTotalD.Location = New System.Drawing.Point(432, 12)
         Me.LblVideoHardCoreTotalD.Name = "LblVideoHardCoreTotalD"
         Me.LblVideoHardCoreTotalD.Size = New System.Drawing.Size(34, 17)
         Me.LblVideoHardCoreTotalD.TabIndex = 3
@@ -8822,553 +9383,90 @@ Partial Class FrmSettings
         Me.CBVideoFemdomD.Text = "Femdom"
         Me.CBVideoFemdomD.UseVisualStyleBackColor = True
         '
-        'GbxVideoDescription
+        'VideoHeaderPanel
         '
-        Me.GbxVideoDescription.BackColor = System.Drawing.Color.LightGray
-        Me.GbxVideoDescription.Controls.Add(Me.VideoDescriptionLabel)
-        Me.GbxVideoDescription.ForeColor = System.Drawing.Color.Black
-        Me.GbxVideoDescription.Location = New System.Drawing.Point(7, 331)
-        Me.GbxVideoDescription.Name = "GbxVideoDescription"
-        Me.GbxVideoDescription.Size = New System.Drawing.Size(692, 92)
-        Me.GbxVideoDescription.TabIndex = 6
-        Me.GbxVideoDescription.TabStop = False
-        Me.GbxVideoDescription.Text = "Description"
+        Me.VideoHeaderPanel.BackColor = System.Drawing.Color.Transparent
+        Me.VideoHeaderPanel.Controls.Add(Me.VideoHeaderLabel)
+        Me.VideoHeaderPanel.Controls.Add(Me.VideoRefreshButton)
+        Me.VideoHeaderPanel.Controls.Add(Me.VideoLogo)
+        Me.VideoHeaderPanel.Dock = System.Windows.Forms.DockStyle.Top
+        Me.VideoHeaderPanel.Location = New System.Drawing.Point(0, 0)
+        Me.VideoHeaderPanel.Name = "VideoHeaderPanel"
+        Me.VideoHeaderPanel.Size = New System.Drawing.Size(958, 46)
+        Me.VideoHeaderPanel.TabIndex = 152
+        '
+        'VideoHeaderLabel
+        '
+        Me.VideoHeaderLabel.BackColor = System.Drawing.Color.Transparent
+        Me.VideoHeaderLabel.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.VideoHeaderLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.VideoHeaderLabel.ForeColor = System.Drawing.Color.Black
+        Me.VideoHeaderLabel.Location = New System.Drawing.Point(160, 0)
+        Me.VideoHeaderLabel.Name = "VideoHeaderLabel"
+        Me.VideoHeaderLabel.Size = New System.Drawing.Size(638, 46)
+        Me.VideoHeaderLabel.TabIndex = 49
+        Me.VideoHeaderLabel.Text = "Video Settings"
+        Me.VideoHeaderLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'VideoRefreshButton
+        '
+        Me.VideoRefreshButton.BackColor = System.Drawing.Color.Transparent
+        Me.VideoRefreshButton.BackgroundImage = Global.Tease_AI.My.Resources.Resources.Button_Refresh
+        Me.VideoRefreshButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
+        Me.VideoRefreshButton.Dock = System.Windows.Forms.DockStyle.Right
+        Me.VideoRefreshButton.FlatAppearance.BorderSize = 0
+        Me.VideoRefreshButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray
+        Me.VideoRefreshButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver
+        Me.VideoRefreshButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.VideoRefreshButton.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.VideoRefreshButton.ForeColor = System.Drawing.Color.Black
+        Me.VideoRefreshButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.VideoRefreshButton.Location = New System.Drawing.Point(798, 0)
+        Me.VideoRefreshButton.Name = "VideoRefreshButton"
+        Me.VideoRefreshButton.Size = New System.Drawing.Size(160, 46)
+        Me.VideoRefreshButton.TabIndex = 149
+        Me.VideoRefreshButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.VideoRefreshButton.UseVisualStyleBackColor = False
+        '
+        'VideoLogo
+        '
+        Me.VideoLogo.BackColor = System.Drawing.Color.Transparent
+        Me.VideoLogo.Dock = System.Windows.Forms.DockStyle.Left
+        Me.VideoLogo.Image = Global.Tease_AI.My.Resources.Resources.TAI_Banner_small
+        Me.VideoLogo.Location = New System.Drawing.Point(0, 0)
+        Me.VideoLogo.Name = "VideoLogo"
+        Me.VideoLogo.Size = New System.Drawing.Size(160, 46)
+        Me.VideoLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
+        Me.VideoLogo.TabIndex = 151
+        Me.VideoLogo.TabStop = False
+        '
+        'VideoDescriptionGroupBox
+        '
+        Me.VideoDescriptionGroupBox.BackColor = System.Drawing.Color.LightGray
+        Me.VideoDescriptionGroupBox.Controls.Add(Me.VideoDescriptionLabel)
+        Me.VideoDescriptionGroupBox.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.VideoDescriptionGroupBox.ForeColor = System.Drawing.Color.Black
+        Me.VideoDescriptionGroupBox.Location = New System.Drawing.Point(0, 525)
+        Me.VideoDescriptionGroupBox.Name = "VideoDescriptionGroupBox"
+        Me.VideoDescriptionGroupBox.Size = New System.Drawing.Size(958, 92)
+        Me.VideoDescriptionGroupBox.TabIndex = 6
+        Me.VideoDescriptionGroupBox.TabStop = False
+        Me.VideoDescriptionGroupBox.Text = "Description"
         '
         'VideoDescriptionLabel
         '
         Me.VideoDescriptionLabel.BackColor = System.Drawing.Color.Transparent
+        Me.VideoDescriptionLabel.Dock = System.Windows.Forms.DockStyle.Fill
         Me.VideoDescriptionLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.VideoDescriptionLabel.ForeColor = System.Drawing.Color.Black
-        Me.VideoDescriptionLabel.Location = New System.Drawing.Point(6, 16)
+        Me.VideoDescriptionLabel.Location = New System.Drawing.Point(3, 16)
         Me.VideoDescriptionLabel.Name = "VideoDescriptionLabel"
-        Me.VideoDescriptionLabel.Size = New System.Drawing.Size(680, 73)
+        Me.VideoDescriptionLabel.Size = New System.Drawing.Size(952, 73)
         Me.VideoDescriptionLabel.TabIndex = 62
         Me.VideoDescriptionLabel.Text = "Use this page to select the videos you would like the program to use and set thei" &
     "r paths." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "The Domme Genre paths are for videos that feature the model you are " &
     "using as your domme."
         Me.VideoDescriptionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'GbxVideoGeneral
-        '
-        Me.GbxVideoGeneral.BackColor = System.Drawing.Color.LightGray
-        Me.GbxVideoGeneral.Controls.Add(Me.LblVideoGeneralTotal)
-        Me.GbxVideoGeneral.Controls.Add(Me.TxbVideoGeneral)
-        Me.GbxVideoGeneral.Controls.Add(Me.BTNVideoGeneral)
-        Me.GbxVideoGeneral.Controls.Add(Me.CBVideoGeneral)
-        Me.GbxVideoGeneral.ForeColor = System.Drawing.Color.Black
-        Me.GbxVideoGeneral.Location = New System.Drawing.Point(7, 277)
-        Me.GbxVideoGeneral.Name = "GbxVideoGeneral"
-        Me.GbxVideoGeneral.Size = New System.Drawing.Size(340, 48)
-        Me.GbxVideoGeneral.TabIndex = 2
-        Me.GbxVideoGeneral.TabStop = False
-        Me.GbxVideoGeneral.Text = "General"
-        '
-        'LblVideoGeneralTotal
-        '
-        Me.LblVideoGeneralTotal.BackColor = System.Drawing.Color.Transparent
-        Me.LblVideoGeneralTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblVideoGeneralTotal.ForeColor = System.Drawing.Color.Black
-        Me.LblVideoGeneralTotal.Location = New System.Drawing.Point(299, 19)
-        Me.LblVideoGeneralTotal.Name = "LblVideoGeneralTotal"
-        Me.LblVideoGeneralTotal.Size = New System.Drawing.Size(34, 17)
-        Me.LblVideoGeneralTotal.TabIndex = 3
-        Me.LblVideoGeneralTotal.Text = "0"
-        Me.LblVideoGeneralTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'TxbVideoGeneral
-        '
-        Me.TxbVideoGeneral.BackColor = System.Drawing.Color.LightGray
-        Me.TxbVideoGeneral.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxbVideoGeneral.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxbVideoGeneral.ForeColor = System.Drawing.Color.Black
-        Me.TxbVideoGeneral.Location = New System.Drawing.Point(113, 18)
-        Me.TxbVideoGeneral.MaximumSize = New System.Drawing.Size(2, 17)
-        Me.TxbVideoGeneral.MinimumSize = New System.Drawing.Size(180, 17)
-        Me.TxbVideoGeneral.Name = "TxbVideoGeneral"
-        Me.TxbVideoGeneral.ReadOnly = True
-        Me.TxbVideoGeneral.Size = New System.Drawing.Size(180, 17)
-        Me.TxbVideoGeneral.TabIndex = 2
-        '
-        'BTNVideoGeneral
-        '
-        Me.BTNVideoGeneral.BackColor = System.Drawing.Color.LightGray
-        Me.BTNVideoGeneral.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
-        Me.BTNVideoGeneral.ForeColor = System.Drawing.Color.Black
-        Me.BTNVideoGeneral.Location = New System.Drawing.Point(73, 13)
-        Me.BTNVideoGeneral.Name = "BTNVideoGeneral"
-        Me.BTNVideoGeneral.Size = New System.Drawing.Size(34, 28)
-        Me.BTNVideoGeneral.TabIndex = 1
-        Me.BTNVideoGeneral.Text = "1"
-        Me.BTNVideoGeneral.UseVisualStyleBackColor = False
-        '
-        'CBVideoGeneral
-        '
-        Me.CBVideoGeneral.AutoSize = True
-        Me.CBVideoGeneral.ForeColor = System.Drawing.Color.Black
-        Me.CBVideoGeneral.Location = New System.Drawing.Point(6, 19)
-        Me.CBVideoGeneral.Name = "CBVideoGeneral"
-        Me.CBVideoGeneral.Size = New System.Drawing.Size(63, 17)
-        Me.CBVideoGeneral.TabIndex = 0
-        Me.CBVideoGeneral.Text = "General"
-        Me.CBVideoGeneral.UseVisualStyleBackColor = True
-        '
-        'GbxVideoSpecial
-        '
-        Me.GbxVideoSpecial.BackColor = System.Drawing.Color.LightGray
-        Me.GbxVideoSpecial.Controls.Add(Me.LblVideoCHTotal)
-        Me.GbxVideoSpecial.Controls.Add(Me.LblVideoJOITotal)
-        Me.GbxVideoSpecial.Controls.Add(Me.TxbVideoCH)
-        Me.GbxVideoSpecial.Controls.Add(Me.TxbVideoJOI)
-        Me.GbxVideoSpecial.Controls.Add(Me.BTNVideoCH)
-        Me.GbxVideoSpecial.Controls.Add(Me.BTNVideoJOI)
-        Me.GbxVideoSpecial.Controls.Add(Me.CBVideoJOI)
-        Me.GbxVideoSpecial.Controls.Add(Me.CBVideoCH)
-        Me.GbxVideoSpecial.ForeColor = System.Drawing.Color.Black
-        Me.GbxVideoSpecial.Location = New System.Drawing.Point(7, 201)
-        Me.GbxVideoSpecial.Name = "GbxVideoSpecial"
-        Me.GbxVideoSpecial.Size = New System.Drawing.Size(340, 70)
-        Me.GbxVideoSpecial.TabIndex = 1
-        Me.GbxVideoSpecial.TabStop = False
-        Me.GbxVideoSpecial.Text = "Special"
-        '
-        'LblVideoCHTotal
-        '
-        Me.LblVideoCHTotal.BackColor = System.Drawing.Color.Transparent
-        Me.LblVideoCHTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblVideoCHTotal.ForeColor = System.Drawing.Color.Black
-        Me.LblVideoCHTotal.Location = New System.Drawing.Point(299, 41)
-        Me.LblVideoCHTotal.Name = "LblVideoCHTotal"
-        Me.LblVideoCHTotal.Size = New System.Drawing.Size(34, 17)
-        Me.LblVideoCHTotal.TabIndex = 7
-        Me.LblVideoCHTotal.Text = "0"
-        Me.LblVideoCHTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'LblVideoJOITotal
-        '
-        Me.LblVideoJOITotal.BackColor = System.Drawing.Color.Transparent
-        Me.LblVideoJOITotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblVideoJOITotal.ForeColor = System.Drawing.Color.Black
-        Me.LblVideoJOITotal.Location = New System.Drawing.Point(299, 18)
-        Me.LblVideoJOITotal.Name = "LblVideoJOITotal"
-        Me.LblVideoJOITotal.Size = New System.Drawing.Size(34, 17)
-        Me.LblVideoJOITotal.TabIndex = 3
-        Me.LblVideoJOITotal.Text = "0"
-        Me.LblVideoJOITotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'TxbVideoCH
-        '
-        Me.TxbVideoCH.BackColor = System.Drawing.Color.LightGray
-        Me.TxbVideoCH.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxbVideoCH.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxbVideoCH.ForeColor = System.Drawing.Color.Black
-        Me.TxbVideoCH.Location = New System.Drawing.Point(113, 41)
-        Me.TxbVideoCH.MaximumSize = New System.Drawing.Size(2, 17)
-        Me.TxbVideoCH.MinimumSize = New System.Drawing.Size(180, 17)
-        Me.TxbVideoCH.Name = "TxbVideoCH"
-        Me.TxbVideoCH.ReadOnly = True
-        Me.TxbVideoCH.Size = New System.Drawing.Size(180, 17)
-        Me.TxbVideoCH.TabIndex = 6
-        '
-        'TxbVideoJOI
-        '
-        Me.TxbVideoJOI.BackColor = System.Drawing.Color.LightGray
-        Me.TxbVideoJOI.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxbVideoJOI.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxbVideoJOI.ForeColor = System.Drawing.Color.Black
-        Me.TxbVideoJOI.Location = New System.Drawing.Point(113, 18)
-        Me.TxbVideoJOI.MaximumSize = New System.Drawing.Size(2, 17)
-        Me.TxbVideoJOI.MinimumSize = New System.Drawing.Size(180, 17)
-        Me.TxbVideoJOI.Name = "TxbVideoJOI"
-        Me.TxbVideoJOI.ReadOnly = True
-        Me.TxbVideoJOI.Size = New System.Drawing.Size(180, 17)
-        Me.TxbVideoJOI.TabIndex = 2
-        '
-        'BTNVideoCH
-        '
-        Me.BTNVideoCH.BackColor = System.Drawing.Color.LightGray
-        Me.BTNVideoCH.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
-        Me.BTNVideoCH.ForeColor = System.Drawing.Color.Black
-        Me.BTNVideoCH.Location = New System.Drawing.Point(73, 36)
-        Me.BTNVideoCH.Name = "BTNVideoCH"
-        Me.BTNVideoCH.Size = New System.Drawing.Size(34, 28)
-        Me.BTNVideoCH.TabIndex = 5
-        Me.BTNVideoCH.Text = "1"
-        Me.BTNVideoCH.UseVisualStyleBackColor = False
-        '
-        'BTNVideoJOI
-        '
-        Me.BTNVideoJOI.BackColor = System.Drawing.Color.LightGray
-        Me.BTNVideoJOI.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
-        Me.BTNVideoJOI.ForeColor = System.Drawing.Color.Black
-        Me.BTNVideoJOI.Location = New System.Drawing.Point(73, 13)
-        Me.BTNVideoJOI.Name = "BTNVideoJOI"
-        Me.BTNVideoJOI.Size = New System.Drawing.Size(34, 28)
-        Me.BTNVideoJOI.TabIndex = 1
-        Me.BTNVideoJOI.Text = "1"
-        Me.BTNVideoJOI.UseVisualStyleBackColor = False
-        '
-        'CBVideoJOI
-        '
-        Me.CBVideoJOI.AutoSize = True
-        Me.CBVideoJOI.ForeColor = System.Drawing.Color.Black
-        Me.CBVideoJOI.Location = New System.Drawing.Point(6, 19)
-        Me.CBVideoJOI.Name = "CBVideoJOI"
-        Me.CBVideoJOI.Size = New System.Drawing.Size(42, 17)
-        Me.CBVideoJOI.TabIndex = 0
-        Me.CBVideoJOI.Text = "JOI"
-        Me.CBVideoJOI.UseVisualStyleBackColor = True
-        '
-        'CBVideoCH
-        '
-        Me.CBVideoCH.AutoSize = True
-        Me.CBVideoCH.ForeColor = System.Drawing.Color.Black
-        Me.CBVideoCH.Location = New System.Drawing.Point(6, 43)
-        Me.CBVideoCH.Name = "CBVideoCH"
-        Me.CBVideoCH.Size = New System.Drawing.Size(41, 17)
-        Me.CBVideoCH.TabIndex = 4
-        Me.CBVideoCH.Text = "CH"
-        Me.CBVideoCH.UseVisualStyleBackColor = True
-        '
-        'GbxVideoGenre
-        '
-        Me.GbxVideoGenre.BackColor = System.Drawing.Color.LightGray
-        Me.GbxVideoGenre.Controls.Add(Me.LblVideoFemsubTotal)
-        Me.GbxVideoGenre.Controls.Add(Me.TxbVideoFemsub)
-        Me.GbxVideoGenre.Controls.Add(Me.LblVideoFemdomTotal)
-        Me.GbxVideoGenre.Controls.Add(Me.TxbVideoFemdom)
-        Me.GbxVideoGenre.Controls.Add(Me.TxbVideoBlowjob)
-        Me.GbxVideoGenre.Controls.Add(Me.LblVideoBlowjobTotal)
-        Me.GbxVideoGenre.Controls.Add(Me.TxbVideoLesbian)
-        Me.GbxVideoGenre.Controls.Add(Me.TxbVideoSoftCore)
-        Me.GbxVideoGenre.Controls.Add(Me.LblVideoLesbianTotal)
-        Me.GbxVideoGenre.Controls.Add(Me.TxbVideoHardCore)
-        Me.GbxVideoGenre.Controls.Add(Me.BTNVideoFemSub)
-        Me.GbxVideoGenre.Controls.Add(Me.LblVideoSoftCoreTotal)
-        Me.GbxVideoGenre.Controls.Add(Me.BTNVideoFemDom)
-        Me.GbxVideoGenre.Controls.Add(Me.BTNVideoBlowjob)
-        Me.GbxVideoGenre.Controls.Add(Me.LblVideoHardCoreTotal)
-        Me.GbxVideoGenre.Controls.Add(Me.BTNVideoLesbian)
-        Me.GbxVideoGenre.Controls.Add(Me.BTNVideoSoftCore)
-        Me.GbxVideoGenre.Controls.Add(Me.BTNVideoHardCore)
-        Me.GbxVideoGenre.Controls.Add(Me.CBVideoHardcore)
-        Me.GbxVideoGenre.Controls.Add(Me.CBVideoSoftCore)
-        Me.GbxVideoGenre.Controls.Add(Me.CBVideoLesbian)
-        Me.GbxVideoGenre.Controls.Add(Me.CBVideoBlowjob)
-        Me.GbxVideoGenre.Controls.Add(Me.CBVideoFemsub)
-        Me.GbxVideoGenre.Controls.Add(Me.CBVideoFemdom)
-        Me.GbxVideoGenre.ForeColor = System.Drawing.Color.Black
-        Me.GbxVideoGenre.Location = New System.Drawing.Point(7, 30)
-        Me.GbxVideoGenre.Name = "GbxVideoGenre"
-        Me.GbxVideoGenre.Size = New System.Drawing.Size(340, 165)
-        Me.GbxVideoGenre.TabIndex = 0
-        Me.GbxVideoGenre.TabStop = False
-        Me.GbxVideoGenre.Text = "Genre"
-        '
-        'LblVideoFemsubTotal
-        '
-        Me.LblVideoFemsubTotal.BackColor = System.Drawing.Color.Transparent
-        Me.LblVideoFemsubTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblVideoFemsubTotal.ForeColor = System.Drawing.Color.Black
-        Me.LblVideoFemsubTotal.Location = New System.Drawing.Point(299, 136)
-        Me.LblVideoFemsubTotal.Name = "LblVideoFemsubTotal"
-        Me.LblVideoFemsubTotal.Size = New System.Drawing.Size(34, 17)
-        Me.LblVideoFemsubTotal.TabIndex = 23
-        Me.LblVideoFemsubTotal.Text = "0"
-        Me.LblVideoFemsubTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'TxbVideoFemsub
-        '
-        Me.TxbVideoFemsub.BackColor = System.Drawing.Color.LightGray
-        Me.TxbVideoFemsub.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxbVideoFemsub.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxbVideoFemsub.ForeColor = System.Drawing.Color.Black
-        Me.TxbVideoFemsub.Location = New System.Drawing.Point(113, 136)
-        Me.TxbVideoFemsub.MaximumSize = New System.Drawing.Size(2, 17)
-        Me.TxbVideoFemsub.MinimumSize = New System.Drawing.Size(180, 17)
-        Me.TxbVideoFemsub.Name = "TxbVideoFemsub"
-        Me.TxbVideoFemsub.ReadOnly = True
-        Me.TxbVideoFemsub.Size = New System.Drawing.Size(180, 17)
-        Me.TxbVideoFemsub.TabIndex = 22
-        '
-        'LblVideoFemdomTotal
-        '
-        Me.LblVideoFemdomTotal.BackColor = System.Drawing.Color.Transparent
-        Me.LblVideoFemdomTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblVideoFemdomTotal.ForeColor = System.Drawing.Color.Black
-        Me.LblVideoFemdomTotal.Location = New System.Drawing.Point(299, 112)
-        Me.LblVideoFemdomTotal.Name = "LblVideoFemdomTotal"
-        Me.LblVideoFemdomTotal.Size = New System.Drawing.Size(34, 17)
-        Me.LblVideoFemdomTotal.TabIndex = 19
-        Me.LblVideoFemdomTotal.Text = "0"
-        Me.LblVideoFemdomTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'TxbVideoFemdom
-        '
-        Me.TxbVideoFemdom.BackColor = System.Drawing.Color.LightGray
-        Me.TxbVideoFemdom.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxbVideoFemdom.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxbVideoFemdom.ForeColor = System.Drawing.Color.Black
-        Me.TxbVideoFemdom.Location = New System.Drawing.Point(113, 112)
-        Me.TxbVideoFemdom.MaximumSize = New System.Drawing.Size(2, 17)
-        Me.TxbVideoFemdom.MinimumSize = New System.Drawing.Size(180, 17)
-        Me.TxbVideoFemdom.Name = "TxbVideoFemdom"
-        Me.TxbVideoFemdom.ReadOnly = True
-        Me.TxbVideoFemdom.Size = New System.Drawing.Size(180, 17)
-        Me.TxbVideoFemdom.TabIndex = 18
-        '
-        'TxbVideoBlowjob
-        '
-        Me.TxbVideoBlowjob.BackColor = System.Drawing.Color.LightGray
-        Me.TxbVideoBlowjob.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxbVideoBlowjob.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxbVideoBlowjob.ForeColor = System.Drawing.Color.Black
-        Me.TxbVideoBlowjob.Location = New System.Drawing.Point(113, 88)
-        Me.TxbVideoBlowjob.MaximumSize = New System.Drawing.Size(2, 17)
-        Me.TxbVideoBlowjob.MinimumSize = New System.Drawing.Size(180, 17)
-        Me.TxbVideoBlowjob.Name = "TxbVideoBlowjob"
-        Me.TxbVideoBlowjob.ReadOnly = True
-        Me.TxbVideoBlowjob.Size = New System.Drawing.Size(180, 17)
-        Me.TxbVideoBlowjob.TabIndex = 14
-        '
-        'LblVideoBlowjobTotal
-        '
-        Me.LblVideoBlowjobTotal.BackColor = System.Drawing.Color.Transparent
-        Me.LblVideoBlowjobTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblVideoBlowjobTotal.ForeColor = System.Drawing.Color.Black
-        Me.LblVideoBlowjobTotal.Location = New System.Drawing.Point(299, 88)
-        Me.LblVideoBlowjobTotal.Name = "LblVideoBlowjobTotal"
-        Me.LblVideoBlowjobTotal.Size = New System.Drawing.Size(34, 17)
-        Me.LblVideoBlowjobTotal.TabIndex = 15
-        Me.LblVideoBlowjobTotal.Text = "0"
-        Me.LblVideoBlowjobTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'TxbVideoLesbian
-        '
-        Me.TxbVideoLesbian.BackColor = System.Drawing.Color.LightGray
-        Me.TxbVideoLesbian.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxbVideoLesbian.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxbVideoLesbian.ForeColor = System.Drawing.Color.Black
-        Me.TxbVideoLesbian.Location = New System.Drawing.Point(113, 65)
-        Me.TxbVideoLesbian.MaximumSize = New System.Drawing.Size(2, 17)
-        Me.TxbVideoLesbian.MinimumSize = New System.Drawing.Size(180, 17)
-        Me.TxbVideoLesbian.Name = "TxbVideoLesbian"
-        Me.TxbVideoLesbian.ReadOnly = True
-        Me.TxbVideoLesbian.Size = New System.Drawing.Size(180, 17)
-        Me.TxbVideoLesbian.TabIndex = 10
-        '
-        'TxbVideoSoftCore
-        '
-        Me.TxbVideoSoftCore.BackColor = System.Drawing.Color.LightGray
-        Me.TxbVideoSoftCore.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxbVideoSoftCore.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxbVideoSoftCore.ForeColor = System.Drawing.Color.Black
-        Me.TxbVideoSoftCore.Location = New System.Drawing.Point(113, 42)
-        Me.TxbVideoSoftCore.MaximumSize = New System.Drawing.Size(2, 17)
-        Me.TxbVideoSoftCore.MinimumSize = New System.Drawing.Size(180, 17)
-        Me.TxbVideoSoftCore.Name = "TxbVideoSoftCore"
-        Me.TxbVideoSoftCore.ReadOnly = True
-        Me.TxbVideoSoftCore.Size = New System.Drawing.Size(180, 17)
-        Me.TxbVideoSoftCore.TabIndex = 6
-        '
-        'LblVideoLesbianTotal
-        '
-        Me.LblVideoLesbianTotal.BackColor = System.Drawing.Color.Transparent
-        Me.LblVideoLesbianTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblVideoLesbianTotal.ForeColor = System.Drawing.Color.Black
-        Me.LblVideoLesbianTotal.Location = New System.Drawing.Point(299, 66)
-        Me.LblVideoLesbianTotal.Name = "LblVideoLesbianTotal"
-        Me.LblVideoLesbianTotal.Size = New System.Drawing.Size(34, 17)
-        Me.LblVideoLesbianTotal.TabIndex = 11
-        Me.LblVideoLesbianTotal.Text = "0"
-        Me.LblVideoLesbianTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'TxbVideoHardCore
-        '
-        Me.TxbVideoHardCore.BackColor = System.Drawing.Color.LightGray
-        Me.TxbVideoHardCore.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxbVideoHardCore.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxbVideoHardCore.ForeColor = System.Drawing.Color.Black
-        Me.TxbVideoHardCore.Location = New System.Drawing.Point(113, 19)
-        Me.TxbVideoHardCore.MaximumSize = New System.Drawing.Size(2, 17)
-        Me.TxbVideoHardCore.MinimumSize = New System.Drawing.Size(180, 17)
-        Me.TxbVideoHardCore.Name = "TxbVideoHardCore"
-        Me.TxbVideoHardCore.ReadOnly = True
-        Me.TxbVideoHardCore.Size = New System.Drawing.Size(180, 17)
-        Me.TxbVideoHardCore.TabIndex = 2
-        '
-        'BTNVideoFemSub
-        '
-        Me.BTNVideoFemSub.BackColor = System.Drawing.Color.LightGray
-        Me.BTNVideoFemSub.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
-        Me.BTNVideoFemSub.ForeColor = System.Drawing.Color.Black
-        Me.BTNVideoFemSub.Location = New System.Drawing.Point(73, 130)
-        Me.BTNVideoFemSub.Name = "BTNVideoFemSub"
-        Me.BTNVideoFemSub.Size = New System.Drawing.Size(34, 28)
-        Me.BTNVideoFemSub.TabIndex = 21
-        Me.BTNVideoFemSub.Text = "1"
-        Me.BTNVideoFemSub.UseVisualStyleBackColor = False
-        '
-        'LblVideoSoftCoreTotal
-        '
-        Me.LblVideoSoftCoreTotal.BackColor = System.Drawing.Color.Transparent
-        Me.LblVideoSoftCoreTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblVideoSoftCoreTotal.ForeColor = System.Drawing.Color.Black
-        Me.LblVideoSoftCoreTotal.Location = New System.Drawing.Point(299, 43)
-        Me.LblVideoSoftCoreTotal.Name = "LblVideoSoftCoreTotal"
-        Me.LblVideoSoftCoreTotal.Size = New System.Drawing.Size(34, 17)
-        Me.LblVideoSoftCoreTotal.TabIndex = 7
-        Me.LblVideoSoftCoreTotal.Text = "0"
-        Me.LblVideoSoftCoreTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'BTNVideoFemDom
-        '
-        Me.BTNVideoFemDom.BackColor = System.Drawing.Color.LightGray
-        Me.BTNVideoFemDom.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
-        Me.BTNVideoFemDom.ForeColor = System.Drawing.Color.Black
-        Me.BTNVideoFemDom.Location = New System.Drawing.Point(73, 106)
-        Me.BTNVideoFemDom.Name = "BTNVideoFemDom"
-        Me.BTNVideoFemDom.Size = New System.Drawing.Size(34, 28)
-        Me.BTNVideoFemDom.TabIndex = 17
-        Me.BTNVideoFemDom.Text = "1"
-        Me.BTNVideoFemDom.UseVisualStyleBackColor = False
-        '
-        'BTNVideoBlowjob
-        '
-        Me.BTNVideoBlowjob.BackColor = System.Drawing.Color.LightGray
-        Me.BTNVideoBlowjob.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
-        Me.BTNVideoBlowjob.ForeColor = System.Drawing.Color.Black
-        Me.BTNVideoBlowjob.Location = New System.Drawing.Point(73, 82)
-        Me.BTNVideoBlowjob.Name = "BTNVideoBlowjob"
-        Me.BTNVideoBlowjob.Size = New System.Drawing.Size(34, 28)
-        Me.BTNVideoBlowjob.TabIndex = 13
-        Me.BTNVideoBlowjob.Text = "1"
-        Me.BTNVideoBlowjob.UseVisualStyleBackColor = False
-        '
-        'LblVideoHardCoreTotal
-        '
-        Me.LblVideoHardCoreTotal.BackColor = System.Drawing.Color.Transparent
-        Me.LblVideoHardCoreTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblVideoHardCoreTotal.ForeColor = System.Drawing.Color.Black
-        Me.LblVideoHardCoreTotal.Location = New System.Drawing.Point(299, 19)
-        Me.LblVideoHardCoreTotal.Name = "LblVideoHardCoreTotal"
-        Me.LblVideoHardCoreTotal.Size = New System.Drawing.Size(34, 17)
-        Me.LblVideoHardCoreTotal.TabIndex = 3
-        Me.LblVideoHardCoreTotal.Text = "0"
-        Me.LblVideoHardCoreTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'BTNVideoLesbian
-        '
-        Me.BTNVideoLesbian.BackColor = System.Drawing.Color.LightGray
-        Me.BTNVideoLesbian.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
-        Me.BTNVideoLesbian.ForeColor = System.Drawing.Color.Black
-        Me.BTNVideoLesbian.Location = New System.Drawing.Point(73, 59)
-        Me.BTNVideoLesbian.Name = "BTNVideoLesbian"
-        Me.BTNVideoLesbian.Size = New System.Drawing.Size(34, 28)
-        Me.BTNVideoLesbian.TabIndex = 9
-        Me.BTNVideoLesbian.Text = "1"
-        Me.BTNVideoLesbian.UseVisualStyleBackColor = False
-        '
-        'BTNVideoSoftCore
-        '
-        Me.BTNVideoSoftCore.BackColor = System.Drawing.Color.LightGray
-        Me.BTNVideoSoftCore.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
-        Me.BTNVideoSoftCore.ForeColor = System.Drawing.Color.Black
-        Me.BTNVideoSoftCore.Location = New System.Drawing.Point(73, 36)
-        Me.BTNVideoSoftCore.Name = "BTNVideoSoftCore"
-        Me.BTNVideoSoftCore.Size = New System.Drawing.Size(34, 28)
-        Me.BTNVideoSoftCore.TabIndex = 5
-        Me.BTNVideoSoftCore.Text = "1"
-        Me.BTNVideoSoftCore.UseVisualStyleBackColor = False
-        '
-        'BTNVideoHardCore
-        '
-        Me.BTNVideoHardCore.BackColor = System.Drawing.Color.LightGray
-        Me.BTNVideoHardCore.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
-        Me.BTNVideoHardCore.ForeColor = System.Drawing.Color.Black
-        Me.BTNVideoHardCore.Location = New System.Drawing.Point(73, 12)
-        Me.BTNVideoHardCore.Name = "BTNVideoHardCore"
-        Me.BTNVideoHardCore.Size = New System.Drawing.Size(34, 28)
-        Me.BTNVideoHardCore.TabIndex = 1
-        Me.BTNVideoHardCore.Text = "1"
-        Me.BTNVideoHardCore.UseVisualStyleBackColor = False
-        '
-        'CBVideoHardcore
-        '
-        Me.CBVideoHardcore.AutoSize = True
-        Me.CBVideoHardcore.ForeColor = System.Drawing.Color.Black
-        Me.CBVideoHardcore.Location = New System.Drawing.Point(6, 19)
-        Me.CBVideoHardcore.Name = "CBVideoHardcore"
-        Me.CBVideoHardcore.Size = New System.Drawing.Size(70, 17)
-        Me.CBVideoHardcore.TabIndex = 0
-        Me.CBVideoHardcore.Text = "Hardcore"
-        Me.CBVideoHardcore.UseVisualStyleBackColor = True
-        '
-        'CBVideoSoftCore
-        '
-        Me.CBVideoSoftCore.AutoSize = True
-        Me.CBVideoSoftCore.ForeColor = System.Drawing.Color.Black
-        Me.CBVideoSoftCore.Location = New System.Drawing.Point(6, 43)
-        Me.CBVideoSoftCore.Name = "CBVideoSoftCore"
-        Me.CBVideoSoftCore.Size = New System.Drawing.Size(66, 17)
-        Me.CBVideoSoftCore.TabIndex = 4
-        Me.CBVideoSoftCore.Text = "Softcore"
-        Me.CBVideoSoftCore.UseVisualStyleBackColor = True
-        '
-        'CBVideoLesbian
-        '
-        Me.CBVideoLesbian.AutoSize = True
-        Me.CBVideoLesbian.ForeColor = System.Drawing.Color.Black
-        Me.CBVideoLesbian.Location = New System.Drawing.Point(6, 66)
-        Me.CBVideoLesbian.Name = "CBVideoLesbian"
-        Me.CBVideoLesbian.Size = New System.Drawing.Size(63, 17)
-        Me.CBVideoLesbian.TabIndex = 8
-        Me.CBVideoLesbian.Text = "Lesbian"
-        Me.CBVideoLesbian.UseVisualStyleBackColor = True
-        '
-        'CBVideoBlowjob
-        '
-        Me.CBVideoBlowjob.AutoSize = True
-        Me.CBVideoBlowjob.ForeColor = System.Drawing.Color.Black
-        Me.CBVideoBlowjob.Location = New System.Drawing.Point(6, 89)
-        Me.CBVideoBlowjob.Name = "CBVideoBlowjob"
-        Me.CBVideoBlowjob.Size = New System.Drawing.Size(63, 17)
-        Me.CBVideoBlowjob.TabIndex = 12
-        Me.CBVideoBlowjob.Text = "Blowjob"
-        Me.CBVideoBlowjob.UseVisualStyleBackColor = True
-        '
-        'CBVideoFemsub
-        '
-        Me.CBVideoFemsub.AutoSize = True
-        Me.CBVideoFemsub.ForeColor = System.Drawing.Color.Black
-        Me.CBVideoFemsub.Location = New System.Drawing.Point(6, 137)
-        Me.CBVideoFemsub.Name = "CBVideoFemsub"
-        Me.CBVideoFemsub.Size = New System.Drawing.Size(63, 17)
-        Me.CBVideoFemsub.TabIndex = 20
-        Me.CBVideoFemsub.Text = "Femsub"
-        Me.CBVideoFemsub.UseVisualStyleBackColor = True
-        '
-        'CBVideoFemdom
-        '
-        Me.CBVideoFemdom.AutoSize = True
-        Me.CBVideoFemdom.ForeColor = System.Drawing.Color.Black
-        Me.CBVideoFemdom.Location = New System.Drawing.Point(6, 113)
-        Me.CBVideoFemdom.Name = "CBVideoFemdom"
-        Me.CBVideoFemdom.Size = New System.Drawing.Size(66, 17)
-        Me.CBVideoFemdom.TabIndex = 16
-        Me.CBVideoFemdom.Text = "Femdom"
-        Me.CBVideoFemdom.UseVisualStyleBackColor = True
-        '
-        'LblVideoHeader
-        '
-        Me.LblVideoHeader.BackColor = System.Drawing.Color.Transparent
-        Me.LblVideoHeader.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblVideoHeader.ForeColor = System.Drawing.Color.Black
-        Me.LblVideoHeader.Location = New System.Drawing.Point(7, 6)
-        Me.LblVideoHeader.Name = "LblVideoHeader"
-        Me.LblVideoHeader.Size = New System.Drawing.Size(692, 21)
-        Me.LblVideoHeader.TabIndex = 49
-        Me.LblVideoHeader.Text = "Video Settings"
-        Me.LblVideoHeader.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'TabPage20
         '
@@ -11180,55 +11278,865 @@ Partial Class FrmSettings
         Me.Label164.Text = "Theme Settings"
         Me.Label164.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'TabPage4
+        'RangeSettingsTabPage
         '
-        Me.TabPage4.BackColor = System.Drawing.Color.Silver
-        Me.TabPage4.Controls.Add(Me.Panel6)
-        Me.TabPage4.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage4.Name = "TabPage4"
-        Me.TabPage4.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage4.Size = New System.Drawing.Size(972, 631)
-        Me.TabPage4.TabIndex = 3
-        Me.TabPage4.Text = "Ranges"
+        Me.RangeSettingsTabPage.BackColor = System.Drawing.Color.Silver
+        Me.RangeSettingsTabPage.Controls.Add(Me.RangeSettingsBody)
+        Me.RangeSettingsTabPage.Controls.Add(Me.RangeSettingsHeaderPanel)
+        Me.RangeSettingsTabPage.Controls.Add(Me.RangeSettingsDescriptionGroupBox)
+        Me.RangeSettingsTabPage.Location = New System.Drawing.Point(4, 22)
+        Me.RangeSettingsTabPage.Name = "RangeSettingsTabPage"
+        Me.RangeSettingsTabPage.Padding = New System.Windows.Forms.Padding(3)
+        Me.RangeSettingsTabPage.Size = New System.Drawing.Size(972, 631)
+        Me.RangeSettingsTabPage.TabIndex = 3
+        Me.RangeSettingsTabPage.Text = "Ranges"
         '
-        'Panel6
+        'RangeSettingsBody
         '
-        Me.Panel6.BackColor = System.Drawing.Color.LightGray
-        Me.Panel6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Panel6.Controls.Add(Me.GroupBox69)
-        Me.Panel6.Controls.Add(Me.GroupBox68)
-        Me.Panel6.Controls.Add(Me.GroupBox67)
-        Me.Panel6.Controls.Add(Me.GroupBox10)
-        Me.Panel6.Controls.Add(Me.GroupBox57)
-        Me.Panel6.Controls.Add(Me.GBRangeRuinChance)
-        Me.Panel6.Controls.Add(Me.GroupBox17)
-        Me.Panel6.Controls.Add(Me.GroupBox21)
-        Me.Panel6.Controls.Add(Me.GBRangeOrgasmChance)
-        Me.Panel6.Controls.Add(Me.PictureBox8)
-        Me.Panel6.Controls.Add(Me.Label38)
-        Me.Panel6.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Panel6.Location = New System.Drawing.Point(3, 3)
-        Me.Panel6.Name = "Panel6"
-        Me.Panel6.Size = New System.Drawing.Size(966, 625)
-        Me.Panel6.TabIndex = 91
+        Me.RangeSettingsBody.BackColor = System.Drawing.Color.Transparent
+        Me.RangeSettingsBody.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.RangeSettingsBody.Controls.Add(Me.RangeSettingsBodyTablePanel)
+        Me.RangeSettingsBody.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.RangeSettingsBody.Location = New System.Drawing.Point(3, 49)
+        Me.RangeSettingsBody.Name = "RangeSettingsBody"
+        Me.RangeSettingsBody.Size = New System.Drawing.Size(966, 414)
+        Me.RangeSettingsBody.TabIndex = 91
+        '
+        'RangeSettingsBodyTablePanel
+        '
+        Me.RangeSettingsBodyTablePanel.BackColor = System.Drawing.Color.Transparent
+        Me.RangeSettingsBodyTablePanel.ColumnCount = 3
+        Me.RangeSettingsBodyTablePanel.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.0!))
+        Me.RangeSettingsBodyTablePanel.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 34.0!))
+        Me.RangeSettingsBodyTablePanel.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.0!))
+        Me.RangeSettingsBodyTablePanel.Controls.Add(Me.RangeSettingsBodyRightColumnPanel, 2, 0)
+        Me.RangeSettingsBodyTablePanel.Controls.Add(Me.RangeSettingsBodyMiddleColumnPanel, 1, 0)
+        Me.RangeSettingsBodyTablePanel.Controls.Add(Me.RangeSettingsBodyLeftColumnPanel, 0, 0)
+        Me.RangeSettingsBodyTablePanel.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.RangeSettingsBodyTablePanel.Location = New System.Drawing.Point(0, 0)
+        Me.RangeSettingsBodyTablePanel.Name = "RangeSettingsBodyTablePanel"
+        Me.RangeSettingsBodyTablePanel.RowCount = 1
+        Me.RangeSettingsBodyTablePanel.RowStyles.Add(New System.Windows.Forms.RowStyle())
+        Me.RangeSettingsBodyTablePanel.Size = New System.Drawing.Size(964, 412)
+        Me.RangeSettingsBodyTablePanel.TabIndex = 174
+        '
+        'RangeSettingsBodyRightColumnPanel
+        '
+        Me.RangeSettingsBodyRightColumnPanel.Controls.Add(Me.RangeSettingsTeaseSlideshowGroupBox)
+        Me.RangeSettingsBodyRightColumnPanel.Controls.Add(Me.RangeSettingsGlitterTasksGroupBox)
+        Me.RangeSettingsBodyRightColumnPanel.Controls.Add(Me.RangeSettingsVideoTeaseGroupBox)
+        Me.RangeSettingsBodyRightColumnPanel.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.RangeSettingsBodyRightColumnPanel.Location = New System.Drawing.Point(648, 3)
+        Me.RangeSettingsBodyRightColumnPanel.Name = "RangeSettingsBodyRightColumnPanel"
+        Me.RangeSettingsBodyRightColumnPanel.Size = New System.Drawing.Size(313, 534)
+        Me.RangeSettingsBodyRightColumnPanel.TabIndex = 0
+        '
+        'RangeSettingsTeaseSlideshowGroupBox
+        '
+        Me.RangeSettingsTeaseSlideshowGroupBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RangeSettingsTeaseSlideshowGroupBox.Controls.Add(Me.Label112)
+        Me.RangeSettingsTeaseSlideshowGroupBox.Controls.Add(Me.NBNextImageChance)
+        Me.RangeSettingsTeaseSlideshowGroupBox.Controls.Add(Me.Label6)
+        Me.RangeSettingsTeaseSlideshowGroupBox.Location = New System.Drawing.Point(3, 9)
+        Me.RangeSettingsTeaseSlideshowGroupBox.Name = "RangeSettingsTeaseSlideshowGroupBox"
+        Me.RangeSettingsTeaseSlideshowGroupBox.Size = New System.Drawing.Size(307, 54)
+        Me.RangeSettingsTeaseSlideshowGroupBox.TabIndex = 170
+        Me.RangeSettingsTeaseSlideshowGroupBox.TabStop = False
+        Me.RangeSettingsTeaseSlideshowGroupBox.Text = "Tease Slideshow"
+        '
+        'Label112
+        '
+        Me.Label112.BackColor = System.Drawing.Color.Transparent
+        Me.Label112.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label112.ForeColor = System.Drawing.Color.Black
+        Me.Label112.Location = New System.Drawing.Point(233, 21)
+        Me.Label112.Name = "Label112"
+        Me.Label112.Size = New System.Drawing.Size(50, 17)
+        Me.Label112.TabIndex = 180
+        Me.Label112.Text = "percent"
+        Me.Label112.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'NBNextImageChance
+        '
+        Me.NBNextImageChance.Location = New System.Drawing.Point(183, 20)
+        Me.NBNextImageChance.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NBNextImageChance.Name = "NBNextImageChance"
+        Me.NBNextImageChance.Size = New System.Drawing.Size(44, 20)
+        Me.NBNextImageChance.TabIndex = 179
+        Me.NBNextImageChance.Value = New Decimal(New Integer() {60, 0, 0, 0})
+        '
+        'Label6
+        '
+        Me.Label6.BackColor = System.Drawing.Color.Transparent
+        Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label6.ForeColor = System.Drawing.Color.Black
+        Me.Label6.Location = New System.Drawing.Point(9, 21)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(151, 17)
+        Me.Label6.TabIndex = 154
+        Me.Label6.Text = "Image Next/Previous Chance:"
+        Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'RangeSettingsGlitterTasksGroupBox
+        '
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.Label161)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.NBTaskCBTTimeMax)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.NBTaskCBTTimeMin)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.Label162)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.Label163)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.Label158)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.NBTaskEdgeHoldTimeMax)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.NBTaskEdgeHoldTimeMin)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.Label159)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.Label160)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.NBTaskEdgesMax)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.NBTaskEdgesMin)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.Label119)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.Label157)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.Label151)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.NBTaskStrokingTimeMax)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.NBTaskStrokingTimeMin)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.Label154)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.Label155)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.NBTaskStrokesMax)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.NBTaskStrokesMin)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.Label146)
+        Me.RangeSettingsGlitterTasksGroupBox.Controls.Add(Me.Label149)
+        Me.RangeSettingsGlitterTasksGroupBox.Location = New System.Drawing.Point(3, 265)
+        Me.RangeSettingsGlitterTasksGroupBox.Name = "RangeSettingsGlitterTasksGroupBox"
+        Me.RangeSettingsGlitterTasksGroupBox.Size = New System.Drawing.Size(307, 139)
+        Me.RangeSettingsGlitterTasksGroupBox.TabIndex = 171
+        Me.RangeSettingsGlitterTasksGroupBox.TabStop = False
+        Me.RangeSettingsGlitterTasksGroupBox.Text = "Letter Tasks"
+        '
+        'Label161
+        '
+        Me.Label161.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label161.BackColor = System.Drawing.Color.Transparent
+        Me.Label161.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label161.ForeColor = System.Drawing.Color.Black
+        Me.Label161.Location = New System.Drawing.Point(249, 110)
+        Me.Label161.Name = "Label161"
+        Me.Label161.Size = New System.Drawing.Size(50, 17)
+        Me.Label161.TabIndex = 204
+        Me.Label161.Text = "minutes"
+        Me.Label161.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'NBTaskCBTTimeMax
+        '
+        Me.NBTaskCBTTimeMax.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBTaskCBTTimeMax.Location = New System.Drawing.Point(199, 110)
+        Me.NBTaskCBTTimeMax.Maximum = New Decimal(New Integer() {600, 0, 0, 0})
+        Me.NBTaskCBTTimeMax.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NBTaskCBTTimeMax.Name = "NBTaskCBTTimeMax"
+        Me.NBTaskCBTTimeMax.Size = New System.Drawing.Size(44, 20)
+        Me.NBTaskCBTTimeMax.TabIndex = 203
+        Me.NBTaskCBTTimeMax.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'NBTaskCBTTimeMin
+        '
+        Me.NBTaskCBTTimeMin.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBTaskCBTTimeMin.Location = New System.Drawing.Point(133, 111)
+        Me.NBTaskCBTTimeMin.Maximum = New Decimal(New Integer() {9999, 0, 0, 0})
+        Me.NBTaskCBTTimeMin.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NBTaskCBTTimeMin.Name = "NBTaskCBTTimeMin"
+        Me.NBTaskCBTTimeMin.Size = New System.Drawing.Size(44, 20)
+        Me.NBTaskCBTTimeMin.TabIndex = 202
+        Me.NBTaskCBTTimeMin.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'Label162
+        '
+        Me.Label162.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label162.BackColor = System.Drawing.Color.Transparent
+        Me.Label162.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label162.ForeColor = System.Drawing.Color.Black
+        Me.Label162.Location = New System.Drawing.Point(183, 110)
+        Me.Label162.Name = "Label162"
+        Me.Label162.Size = New System.Drawing.Size(10, 17)
+        Me.Label162.TabIndex = 201
+        Me.Label162.Text = "-"
+        Me.Label162.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label163
+        '
+        Me.Label163.BackColor = System.Drawing.Color.Transparent
+        Me.Label163.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label163.ForeColor = System.Drawing.Color.Black
+        Me.Label163.Location = New System.Drawing.Point(12, 111)
+        Me.Label163.Name = "Label163"
+        Me.Label163.Size = New System.Drawing.Size(151, 17)
+        Me.Label163.TabIndex = 200
+        Me.Label163.Text = "CBT Time:"
+        Me.Label163.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label158
+        '
+        Me.Label158.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label158.BackColor = System.Drawing.Color.Transparent
+        Me.Label158.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label158.ForeColor = System.Drawing.Color.Black
+        Me.Label158.Location = New System.Drawing.Point(249, 87)
+        Me.Label158.Name = "Label158"
+        Me.Label158.Size = New System.Drawing.Size(50, 17)
+        Me.Label158.TabIndex = 199
+        Me.Label158.Text = "minutes"
+        Me.Label158.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'NBTaskEdgeHoldTimeMax
+        '
+        Me.NBTaskEdgeHoldTimeMax.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBTaskEdgeHoldTimeMax.Location = New System.Drawing.Point(199, 87)
+        Me.NBTaskEdgeHoldTimeMax.Maximum = New Decimal(New Integer() {600, 0, 0, 0})
+        Me.NBTaskEdgeHoldTimeMax.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NBTaskEdgeHoldTimeMax.Name = "NBTaskEdgeHoldTimeMax"
+        Me.NBTaskEdgeHoldTimeMax.Size = New System.Drawing.Size(44, 20)
+        Me.NBTaskEdgeHoldTimeMax.TabIndex = 198
+        Me.NBTaskEdgeHoldTimeMax.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'NBTaskEdgeHoldTimeMin
+        '
+        Me.NBTaskEdgeHoldTimeMin.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBTaskEdgeHoldTimeMin.Location = New System.Drawing.Point(133, 88)
+        Me.NBTaskEdgeHoldTimeMin.Maximum = New Decimal(New Integer() {9999, 0, 0, 0})
+        Me.NBTaskEdgeHoldTimeMin.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NBTaskEdgeHoldTimeMin.Name = "NBTaskEdgeHoldTimeMin"
+        Me.NBTaskEdgeHoldTimeMin.Size = New System.Drawing.Size(44, 20)
+        Me.NBTaskEdgeHoldTimeMin.TabIndex = 197
+        Me.NBTaskEdgeHoldTimeMin.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'Label159
+        '
+        Me.Label159.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label159.BackColor = System.Drawing.Color.Transparent
+        Me.Label159.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label159.ForeColor = System.Drawing.Color.Black
+        Me.Label159.Location = New System.Drawing.Point(183, 87)
+        Me.Label159.Name = "Label159"
+        Me.Label159.Size = New System.Drawing.Size(10, 17)
+        Me.Label159.TabIndex = 196
+        Me.Label159.Text = "-"
+        Me.Label159.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label160
+        '
+        Me.Label160.BackColor = System.Drawing.Color.Transparent
+        Me.Label160.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label160.ForeColor = System.Drawing.Color.Black
+        Me.Label160.Location = New System.Drawing.Point(12, 88)
+        Me.Label160.Name = "Label160"
+        Me.Label160.Size = New System.Drawing.Size(151, 17)
+        Me.Label160.TabIndex = 195
+        Me.Label160.Text = "Edge Hold Time:"
+        Me.Label160.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'NBTaskEdgesMax
+        '
+        Me.NBTaskEdgesMax.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBTaskEdgesMax.Location = New System.Drawing.Point(199, 64)
+        Me.NBTaskEdgesMax.Maximum = New Decimal(New Integer() {1000, 0, 0, 0})
+        Me.NBTaskEdgesMax.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NBTaskEdgesMax.Name = "NBTaskEdgesMax"
+        Me.NBTaskEdgesMax.Size = New System.Drawing.Size(44, 20)
+        Me.NBTaskEdgesMax.TabIndex = 194
+        Me.NBTaskEdgesMax.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'NBTaskEdgesMin
+        '
+        Me.NBTaskEdgesMin.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBTaskEdgesMin.Location = New System.Drawing.Point(133, 65)
+        Me.NBTaskEdgesMin.Maximum = New Decimal(New Integer() {9999, 0, 0, 0})
+        Me.NBTaskEdgesMin.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NBTaskEdgesMin.Name = "NBTaskEdgesMin"
+        Me.NBTaskEdgesMin.Size = New System.Drawing.Size(44, 20)
+        Me.NBTaskEdgesMin.TabIndex = 193
+        Me.NBTaskEdgesMin.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'Label119
+        '
+        Me.Label119.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label119.BackColor = System.Drawing.Color.Transparent
+        Me.Label119.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label119.ForeColor = System.Drawing.Color.Black
+        Me.Label119.Location = New System.Drawing.Point(183, 64)
+        Me.Label119.Name = "Label119"
+        Me.Label119.Size = New System.Drawing.Size(10, 17)
+        Me.Label119.TabIndex = 192
+        Me.Label119.Text = "-"
+        Me.Label119.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label157
+        '
+        Me.Label157.BackColor = System.Drawing.Color.Transparent
+        Me.Label157.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label157.ForeColor = System.Drawing.Color.Black
+        Me.Label157.Location = New System.Drawing.Point(12, 65)
+        Me.Label157.Name = "Label157"
+        Me.Label157.Size = New System.Drawing.Size(151, 17)
+        Me.Label157.TabIndex = 191
+        Me.Label157.Text = "Edges:"
+        Me.Label157.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label151
+        '
+        Me.Label151.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label151.BackColor = System.Drawing.Color.Transparent
+        Me.Label151.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label151.ForeColor = System.Drawing.Color.Black
+        Me.Label151.Location = New System.Drawing.Point(249, 41)
+        Me.Label151.Name = "Label151"
+        Me.Label151.Size = New System.Drawing.Size(50, 17)
+        Me.Label151.TabIndex = 190
+        Me.Label151.Text = "minutes"
+        Me.Label151.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'NBTaskStrokingTimeMax
+        '
+        Me.NBTaskStrokingTimeMax.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBTaskStrokingTimeMax.Location = New System.Drawing.Point(199, 41)
+        Me.NBTaskStrokingTimeMax.Maximum = New Decimal(New Integer() {9999, 0, 0, 0})
+        Me.NBTaskStrokingTimeMax.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NBTaskStrokingTimeMax.Name = "NBTaskStrokingTimeMax"
+        Me.NBTaskStrokingTimeMax.Size = New System.Drawing.Size(44, 20)
+        Me.NBTaskStrokingTimeMax.TabIndex = 189
+        Me.NBTaskStrokingTimeMax.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'NBTaskStrokingTimeMin
+        '
+        Me.NBTaskStrokingTimeMin.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBTaskStrokingTimeMin.Location = New System.Drawing.Point(133, 42)
+        Me.NBTaskStrokingTimeMin.Maximum = New Decimal(New Integer() {9999, 0, 0, 0})
+        Me.NBTaskStrokingTimeMin.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NBTaskStrokingTimeMin.Name = "NBTaskStrokingTimeMin"
+        Me.NBTaskStrokingTimeMin.Size = New System.Drawing.Size(44, 20)
+        Me.NBTaskStrokingTimeMin.TabIndex = 188
+        Me.NBTaskStrokingTimeMin.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'Label154
+        '
+        Me.Label154.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label154.BackColor = System.Drawing.Color.Transparent
+        Me.Label154.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label154.ForeColor = System.Drawing.Color.Black
+        Me.Label154.Location = New System.Drawing.Point(183, 41)
+        Me.Label154.Name = "Label154"
+        Me.Label154.Size = New System.Drawing.Size(10, 17)
+        Me.Label154.TabIndex = 187
+        Me.Label154.Text = "-"
+        Me.Label154.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label155
+        '
+        Me.Label155.BackColor = System.Drawing.Color.Transparent
+        Me.Label155.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label155.ForeColor = System.Drawing.Color.Black
+        Me.Label155.Location = New System.Drawing.Point(12, 42)
+        Me.Label155.Name = "Label155"
+        Me.Label155.Size = New System.Drawing.Size(151, 17)
+        Me.Label155.TabIndex = 186
+        Me.Label155.Text = "Stroking Time:"
+        Me.Label155.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'NBTaskStrokesMax
+        '
+        Me.NBTaskStrokesMax.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBTaskStrokesMax.Location = New System.Drawing.Point(199, 18)
+        Me.NBTaskStrokesMax.Maximum = New Decimal(New Integer() {9999, 0, 0, 0})
+        Me.NBTaskStrokesMax.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NBTaskStrokesMax.Name = "NBTaskStrokesMax"
+        Me.NBTaskStrokesMax.Size = New System.Drawing.Size(44, 20)
+        Me.NBTaskStrokesMax.TabIndex = 184
+        Me.NBTaskStrokesMax.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'NBTaskStrokesMin
+        '
+        Me.NBTaskStrokesMin.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBTaskStrokesMin.Location = New System.Drawing.Point(133, 19)
+        Me.NBTaskStrokesMin.Maximum = New Decimal(New Integer() {9999, 0, 0, 0})
+        Me.NBTaskStrokesMin.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NBTaskStrokesMin.Name = "NBTaskStrokesMin"
+        Me.NBTaskStrokesMin.Size = New System.Drawing.Size(44, 20)
+        Me.NBTaskStrokesMin.TabIndex = 183
+        Me.NBTaskStrokesMin.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'Label146
+        '
+        Me.Label146.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label146.BackColor = System.Drawing.Color.Transparent
+        Me.Label146.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label146.ForeColor = System.Drawing.Color.Black
+        Me.Label146.Location = New System.Drawing.Point(183, 18)
+        Me.Label146.Name = "Label146"
+        Me.Label146.Size = New System.Drawing.Size(10, 17)
+        Me.Label146.TabIndex = 182
+        Me.Label146.Text = "-"
+        Me.Label146.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label149
+        '
+        Me.Label149.BackColor = System.Drawing.Color.Transparent
+        Me.Label149.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label149.ForeColor = System.Drawing.Color.Black
+        Me.Label149.Location = New System.Drawing.Point(12, 19)
+        Me.Label149.Name = "Label149"
+        Me.Label149.Size = New System.Drawing.Size(151, 17)
+        Me.Label149.TabIndex = 181
+        Me.Label149.Text = "Strokes:"
+        Me.Label149.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'RangeSettingsVideoTeaseGroupBox
+        '
+        Me.RangeSettingsVideoTeaseGroupBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RangeSettingsVideoTeaseGroupBox.Controls.Add(Me.GroupBox19)
+        Me.RangeSettingsVideoTeaseGroupBox.Controls.Add(Me.RangeSettingsCensorshipSucksGroupBox)
+        Me.RangeSettingsVideoTeaseGroupBox.Location = New System.Drawing.Point(3, 69)
+        Me.RangeSettingsVideoTeaseGroupBox.Name = "RangeSettingsVideoTeaseGroupBox"
+        Me.RangeSettingsVideoTeaseGroupBox.Size = New System.Drawing.Size(307, 190)
+        Me.RangeSettingsVideoTeaseGroupBox.TabIndex = 0
+        Me.RangeSettingsVideoTeaseGroupBox.TabStop = False
+        Me.RangeSettingsVideoTeaseGroupBox.Text = "Video Teases"
+        '
+        'GroupBox19
+        '
+        Me.GroupBox19.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox19.Controls.Add(Me.Label110)
+        Me.GroupBox19.Controls.Add(Me.Label111)
+        Me.GroupBox19.Controls.Add(Me.GreenLightMaximumSeconds)
+        Me.GroupBox19.Controls.Add(Me.GreenLightMinimumSeconds)
+        Me.GroupBox19.Controls.Add(Me.RedLightMaximumSeconds)
+        Me.GroupBox19.Controls.Add(Me.Label26)
+        Me.GroupBox19.Controls.Add(Me.RedLightMinimumSeconds)
+        Me.GroupBox19.Controls.Add(Me.Label28)
+        Me.GroupBox19.Controls.Add(Me.Label27)
+        Me.GroupBox19.Controls.Add(Me.Label29)
+        Me.GroupBox19.Location = New System.Drawing.Point(6, 110)
+        Me.GroupBox19.Name = "GroupBox19"
+        Me.GroupBox19.Size = New System.Drawing.Size(293, 66)
+        Me.GroupBox19.TabIndex = 2
+        Me.GroupBox19.TabStop = False
+        Me.GroupBox19.Text = "Red Light, Green Light"
+        '
+        'Label110
+        '
+        Me.Label110.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label110.BackColor = System.Drawing.Color.Transparent
+        Me.Label110.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label110.ForeColor = System.Drawing.Color.Black
+        Me.Label110.Location = New System.Drawing.Point(241, 39)
+        Me.Label110.Name = "Label110"
+        Me.Label110.Size = New System.Drawing.Size(50, 17)
+        Me.Label110.TabIndex = 181
+        Me.Label110.Text = "seconds"
+        Me.Label110.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label111
+        '
+        Me.Label111.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label111.BackColor = System.Drawing.Color.Transparent
+        Me.Label111.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label111.ForeColor = System.Drawing.Color.Black
+        Me.Label111.Location = New System.Drawing.Point(241, 16)
+        Me.Label111.Name = "Label111"
+        Me.Label111.Size = New System.Drawing.Size(50, 17)
+        Me.Label111.TabIndex = 180
+        Me.Label111.Text = "seconds"
+        Me.Label111.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'GreenLightMaximumSeconds
+        '
+        Me.GreenLightMaximumSeconds.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GreenLightMaximumSeconds.Location = New System.Drawing.Point(191, 38)
+        Me.GreenLightMaximumSeconds.Name = "GreenLightMaximumSeconds"
+        Me.GreenLightMaximumSeconds.Size = New System.Drawing.Size(44, 20)
+        Me.GreenLightMaximumSeconds.TabIndex = 156
+        Me.TTDir.SetToolTip(Me.GreenLightMaximumSeconds, "This determines the maximum amount of time the domme will keep the video playing " &
+        "while playing Red Light Green Light.")
+        Me.GreenLightMaximumSeconds.Value = New Decimal(New Integer() {60, 0, 0, 0})
+        '
+        'GreenLightMinimumSeconds
+        '
+        Me.GreenLightMinimumSeconds.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GreenLightMinimumSeconds.Location = New System.Drawing.Point(125, 38)
+        Me.GreenLightMinimumSeconds.Name = "GreenLightMinimumSeconds"
+        Me.GreenLightMinimumSeconds.Size = New System.Drawing.Size(44, 20)
+        Me.GreenLightMinimumSeconds.TabIndex = 155
+        Me.TTDir.SetToolTip(Me.GreenLightMinimumSeconds, "This determines the minimum amount of time the domme will keep the video playing " &
+        "while playing Red Light Green Light.")
+        Me.GreenLightMinimumSeconds.Value = New Decimal(New Integer() {10, 0, 0, 0})
+        '
+        'RedLightMaximumSeconds
+        '
+        Me.RedLightMaximumSeconds.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RedLightMaximumSeconds.Location = New System.Drawing.Point(191, 15)
+        Me.RedLightMaximumSeconds.Name = "RedLightMaximumSeconds"
+        Me.RedLightMaximumSeconds.Size = New System.Drawing.Size(44, 20)
+        Me.RedLightMaximumSeconds.TabIndex = 152
+        Me.TTDir.SetToolTip(Me.RedLightMaximumSeconds, "This determines the maximum amount of time the domme will keep the video paused w" &
+        "hile playing Red Light Green Light.")
+        Me.RedLightMaximumSeconds.Value = New Decimal(New Integer() {30, 0, 0, 0})
+        '
+        'Label26
+        '
+        Me.Label26.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label26.BackColor = System.Drawing.Color.Transparent
+        Me.Label26.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label26.ForeColor = System.Drawing.Color.Black
+        Me.Label26.Location = New System.Drawing.Point(175, 38)
+        Me.Label26.Name = "Label26"
+        Me.Label26.Size = New System.Drawing.Size(10, 17)
+        Me.Label26.TabIndex = 154
+        Me.Label26.Text = "-"
+        Me.Label26.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'RedLightMinimumSeconds
+        '
+        Me.RedLightMinimumSeconds.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RedLightMinimumSeconds.Location = New System.Drawing.Point(125, 15)
+        Me.RedLightMinimumSeconds.Name = "RedLightMinimumSeconds"
+        Me.RedLightMinimumSeconds.Size = New System.Drawing.Size(44, 20)
+        Me.RedLightMinimumSeconds.TabIndex = 151
+        Me.TTDir.SetToolTip(Me.RedLightMinimumSeconds, "This determines the minimum amount of time the domme will keep the video paused w" &
+        "hile playing Red Light Green Light.")
+        Me.RedLightMinimumSeconds.Value = New Decimal(New Integer() {5, 0, 0, 0})
+        '
+        'Label28
+        '
+        Me.Label28.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label28.BackColor = System.Drawing.Color.Transparent
+        Me.Label28.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label28.ForeColor = System.Drawing.Color.Black
+        Me.Label28.Location = New System.Drawing.Point(175, 15)
+        Me.Label28.Name = "Label28"
+        Me.Label28.Size = New System.Drawing.Size(10, 17)
+        Me.Label28.TabIndex = 150
+        Me.Label28.Text = "-"
+        Me.Label28.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label27
+        '
+        Me.Label27.BackColor = System.Drawing.Color.Transparent
+        Me.Label27.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label27.ForeColor = System.Drawing.Color.Black
+        Me.Label27.Location = New System.Drawing.Point(6, 39)
+        Me.Label27.Name = "Label27"
+        Me.Label27.Size = New System.Drawing.Size(151, 17)
+        Me.Label27.TabIndex = 153
+        Me.Label27.Text = "Green Light Time:"
+        Me.Label27.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label29
+        '
+        Me.Label29.BackColor = System.Drawing.Color.Transparent
+        Me.Label29.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label29.ForeColor = System.Drawing.Color.Black
+        Me.Label29.Location = New System.Drawing.Point(6, 16)
+        Me.Label29.Name = "Label29"
+        Me.Label29.Size = New System.Drawing.Size(151, 17)
+        Me.Label29.TabIndex = 149
+        Me.Label29.Text = "Red Light Time:"
+        Me.Label29.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'RangeSettingsCensorshipSucksGroupBox
+        '
+        Me.RangeSettingsCensorshipSucksGroupBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RangeSettingsCensorshipSucksGroupBox.Controls.Add(Me.Label108)
+        Me.RangeSettingsCensorshipSucksGroupBox.Controls.Add(Me.Label109)
+        Me.RangeSettingsCensorshipSucksGroupBox.Controls.Add(Me.ShowCensorshipBarMinimumSeconds)
+        Me.RangeSettingsCensorshipSucksGroupBox.Controls.Add(Me.HideCensorshipBarMaximumSeconds)
+        Me.RangeSettingsCensorshipSucksGroupBox.Controls.Add(Me.HideCensorshipBarMinimumSeconds)
+        Me.RangeSettingsCensorshipSucksGroupBox.Controls.Add(Me.CensorshipBarDuringVideoTease)
+        Me.RangeSettingsCensorshipSucksGroupBox.Controls.Add(Me.Label25)
+        Me.RangeSettingsCensorshipSucksGroupBox.Controls.Add(Me.Label20)
+        Me.RangeSettingsCensorshipSucksGroupBox.Controls.Add(Me.Label19)
+        Me.RangeSettingsCensorshipSucksGroupBox.Controls.Add(Me.Label24)
+        Me.RangeSettingsCensorshipSucksGroupBox.Controls.Add(Me.ShowCensorshipBarMaximumSeconds)
+        Me.RangeSettingsCensorshipSucksGroupBox.Location = New System.Drawing.Point(6, 16)
+        Me.RangeSettingsCensorshipSucksGroupBox.Name = "RangeSettingsCensorshipSucksGroupBox"
+        Me.RangeSettingsCensorshipSucksGroupBox.Size = New System.Drawing.Size(295, 88)
+        Me.RangeSettingsCensorshipSucksGroupBox.TabIndex = 1
+        Me.RangeSettingsCensorshipSucksGroupBox.TabStop = False
+        Me.RangeSettingsCensorshipSucksGroupBox.Text = "Censorship Sucks"
+        '
+        'Label108
+        '
+        Me.Label108.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label108.BackColor = System.Drawing.Color.Transparent
+        Me.Label108.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label108.ForeColor = System.Drawing.Color.Black
+        Me.Label108.Location = New System.Drawing.Point(243, 39)
+        Me.Label108.Name = "Label108"
+        Me.Label108.Size = New System.Drawing.Size(50, 17)
+        Me.Label108.TabIndex = 179
+        Me.Label108.Text = "seconds"
+        Me.Label108.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label109
+        '
+        Me.Label109.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label109.BackColor = System.Drawing.Color.Transparent
+        Me.Label109.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label109.ForeColor = System.Drawing.Color.Black
+        Me.Label109.Location = New System.Drawing.Point(243, 16)
+        Me.Label109.Name = "Label109"
+        Me.Label109.Size = New System.Drawing.Size(50, 17)
+        Me.Label109.TabIndex = 178
+        Me.Label109.Text = "seconds"
+        Me.Label109.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'ShowCensorshipBarMinimumSeconds
+        '
+        Me.ShowCensorshipBarMinimumSeconds.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ShowCensorshipBarMinimumSeconds.Location = New System.Drawing.Point(127, 15)
+        Me.ShowCensorshipBarMinimumSeconds.Maximum = New Decimal(New Integer() {180, 0, 0, 0})
+        Me.ShowCensorshipBarMinimumSeconds.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.ShowCensorshipBarMinimumSeconds.Name = "ShowCensorshipBarMinimumSeconds"
+        Me.ShowCensorshipBarMinimumSeconds.Size = New System.Drawing.Size(44, 20)
+        Me.ShowCensorshipBarMinimumSeconds.TabIndex = 151
+        Me.TTDir.SetToolTip(Me.ShowCensorshipBarMinimumSeconds, "This determines the minimum amount of time the censor bar will be on the screen a" &
+        "t a time while playing Censorship Sucks.")
+        Me.ShowCensorshipBarMinimumSeconds.Value = New Decimal(New Integer() {5, 0, 0, 0})
+        '
+        'HideCensorshipBarMaximumSeconds
+        '
+        Me.HideCensorshipBarMaximumSeconds.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.HideCensorshipBarMaximumSeconds.Location = New System.Drawing.Point(193, 38)
+        Me.HideCensorshipBarMaximumSeconds.Maximum = New Decimal(New Integer() {300, 0, 0, 0})
+        Me.HideCensorshipBarMaximumSeconds.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.HideCensorshipBarMaximumSeconds.Name = "HideCensorshipBarMaximumSeconds"
+        Me.HideCensorshipBarMaximumSeconds.Size = New System.Drawing.Size(44, 20)
+        Me.HideCensorshipBarMaximumSeconds.TabIndex = 156
+        Me.TTDir.SetToolTip(Me.HideCensorshipBarMaximumSeconds, "This determines the maximum amount of time the censor bar will be invisible while" &
+        " playing Censorship Sucks.")
+        Me.HideCensorshipBarMaximumSeconds.Value = New Decimal(New Integer() {5, 0, 0, 0})
+        '
+        'HideCensorshipBarMinimumSeconds
+        '
+        Me.HideCensorshipBarMinimumSeconds.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.HideCensorshipBarMinimumSeconds.Location = New System.Drawing.Point(127, 38)
+        Me.HideCensorshipBarMinimumSeconds.Maximum = New Decimal(New Integer() {180, 0, 0, 0})
+        Me.HideCensorshipBarMinimumSeconds.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.HideCensorshipBarMinimumSeconds.Name = "HideCensorshipBarMinimumSeconds"
+        Me.HideCensorshipBarMinimumSeconds.Size = New System.Drawing.Size(44, 20)
+        Me.HideCensorshipBarMinimumSeconds.TabIndex = 155
+        Me.TTDir.SetToolTip(Me.HideCensorshipBarMinimumSeconds, "This determines the minimum amount of time the censor bar will be invisible while" &
+        " playing Censorship Sucks.")
+        Me.HideCensorshipBarMinimumSeconds.Value = New Decimal(New Integer() {5, 0, 0, 0})
+        '
+        'CensorshipBarDuringVideoTease
+        '
+        Me.CensorshipBarDuringVideoTease.AutoSize = True
+        Me.CensorshipBarDuringVideoTease.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CensorshipBarDuringVideoTease.ForeColor = System.Drawing.Color.Black
+        Me.CensorshipBarDuringVideoTease.Location = New System.Drawing.Point(6, 65)
+        Me.CensorshipBarDuringVideoTease.Name = "CensorshipBarDuringVideoTease"
+        Me.CensorshipBarDuringVideoTease.Size = New System.Drawing.Size(263, 17)
+        Me.CensorshipBarDuringVideoTease.TabIndex = 157
+        Me.CensorshipBarDuringVideoTease.Text = "Censorship Bar Always Visible During Video Tease"
+        Me.TTDir.SetToolTip(Me.CensorshipBarDuringVideoTease, "When this is checked, the censor bar will always be visible while playing Censors" &
+        "hip Sucks. Its position on the screen will still change in time with Show Censor" &
+        " Bar settings.")
+        Me.CensorshipBarDuringVideoTease.UseVisualStyleBackColor = True
+        '
+        'Label25
+        '
+        Me.Label25.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label25.BackColor = System.Drawing.Color.Transparent
+        Me.Label25.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label25.ForeColor = System.Drawing.Color.Black
+        Me.Label25.Location = New System.Drawing.Point(177, 15)
+        Me.Label25.Name = "Label25"
+        Me.Label25.Size = New System.Drawing.Size(10, 17)
+        Me.Label25.TabIndex = 150
+        Me.Label25.Text = "-"
+        Me.Label25.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label20
+        '
+        Me.Label20.BackColor = System.Drawing.Color.Transparent
+        Me.Label20.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label20.ForeColor = System.Drawing.Color.Black
+        Me.Label20.Location = New System.Drawing.Point(6, 39)
+        Me.Label20.Name = "Label20"
+        Me.Label20.Size = New System.Drawing.Size(110, 17)
+        Me.Label20.TabIndex = 153
+        Me.Label20.Text = "Censor Bar Hidden:"
+        Me.Label20.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label19
+        '
+        Me.Label19.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label19.BackColor = System.Drawing.Color.Transparent
+        Me.Label19.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label19.ForeColor = System.Drawing.Color.Black
+        Me.Label19.Location = New System.Drawing.Point(177, 38)
+        Me.Label19.Name = "Label19"
+        Me.Label19.Size = New System.Drawing.Size(10, 17)
+        Me.Label19.TabIndex = 154
+        Me.Label19.Text = "-"
+        Me.Label19.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label24
+        '
+        Me.Label24.BackColor = System.Drawing.Color.Transparent
+        Me.Label24.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label24.ForeColor = System.Drawing.Color.Black
+        Me.Label24.Location = New System.Drawing.Point(6, 16)
+        Me.Label24.Name = "Label24"
+        Me.Label24.Size = New System.Drawing.Size(110, 17)
+        Me.Label24.TabIndex = 149
+        Me.Label24.Text = "Censor Bar Shown:"
+        Me.Label24.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'ShowCensorshipBarMaximumSeconds
+        '
+        Me.ShowCensorshipBarMaximumSeconds.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ShowCensorshipBarMaximumSeconds.Location = New System.Drawing.Point(193, 15)
+        Me.ShowCensorshipBarMaximumSeconds.Maximum = New Decimal(New Integer() {300, 0, 0, 0})
+        Me.ShowCensorshipBarMaximumSeconds.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.ShowCensorshipBarMaximumSeconds.Name = "ShowCensorshipBarMaximumSeconds"
+        Me.ShowCensorshipBarMaximumSeconds.Size = New System.Drawing.Size(44, 20)
+        Me.ShowCensorshipBarMaximumSeconds.TabIndex = 152
+        Me.TTDir.SetToolTip(Me.ShowCensorshipBarMaximumSeconds, "This determines the maximum amount of time the censor bar will be on the screen a" &
+        "t a time while playing Censorship Sucks.")
+        Me.ShowCensorshipBarMaximumSeconds.Value = New Decimal(New Integer() {5, 0, 0, 0})
+        '
+        'RangeSettingsBodyMiddleColumnPanel
+        '
+        Me.RangeSettingsBodyMiddleColumnPanel.Controls.Add(Me.GBRangeOrgasmChance)
+        Me.RangeSettingsBodyMiddleColumnPanel.Controls.Add(Me.GroupBox69)
+        Me.RangeSettingsBodyMiddleColumnPanel.Controls.Add(Me.GBRangeRuinChance)
+        Me.RangeSettingsBodyMiddleColumnPanel.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.RangeSettingsBodyMiddleColumnPanel.Location = New System.Drawing.Point(321, 3)
+        Me.RangeSettingsBodyMiddleColumnPanel.Name = "RangeSettingsBodyMiddleColumnPanel"
+        Me.RangeSettingsBodyMiddleColumnPanel.Size = New System.Drawing.Size(321, 534)
+        Me.RangeSettingsBodyMiddleColumnPanel.TabIndex = 170
+        '
+        'GBRangeOrgasmChance
+        '
+        Me.GBRangeOrgasmChance.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GBRangeOrgasmChance.BackColor = System.Drawing.Color.Transparent
+        Me.GBRangeOrgasmChance.Controls.Add(Me.RarelyAllowsPercentLabel)
+        Me.GBRangeOrgasmChance.Controls.Add(Me.SometimesAllowsPercentNumberBox)
+        Me.GBRangeOrgasmChance.Controls.Add(Me.SometimesAllowsPercentLabel)
+        Me.GBRangeOrgasmChance.Controls.Add(Me.OftenAllowsPercentLabel)
+        Me.GBRangeOrgasmChance.Controls.Add(Me.RarelyAllowsPercentNumberBox)
+        Me.GBRangeOrgasmChance.Controls.Add(Me.OftenAllowsPercentNumberBox)
+        Me.GBRangeOrgasmChance.Controls.Add(Me.DommeDecideOrgasmCheckBox)
+        Me.GBRangeOrgasmChance.Location = New System.Drawing.Point(3, 4)
+        Me.GBRangeOrgasmChance.Name = "GBRangeOrgasmChance"
+        Me.GBRangeOrgasmChance.Size = New System.Drawing.Size(315, 122)
+        Me.GBRangeOrgasmChance.TabIndex = 167
+        Me.GBRangeOrgasmChance.TabStop = False
+        Me.GBRangeOrgasmChance.Text = "Orgasm Chance"
+        '
+        'RarelyAllowsPercentLabel
+        '
+        Me.RarelyAllowsPercentLabel.BackColor = System.Drawing.Color.Transparent
+        Me.RarelyAllowsPercentLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RarelyAllowsPercentLabel.ForeColor = System.Drawing.Color.Black
+        Me.RarelyAllowsPercentLabel.Location = New System.Drawing.Point(6, 94)
+        Me.RarelyAllowsPercentLabel.Name = "RarelyAllowsPercentLabel"
+        Me.RarelyAllowsPercentLabel.Size = New System.Drawing.Size(83, 17)
+        Me.RarelyAllowsPercentLabel.TabIndex = 173
+        Me.RarelyAllowsPercentLabel.Text = "Rarely Allows:"
+        Me.RarelyAllowsPercentLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'SometimesAllowsPercentNumberBox
+        '
+        Me.SometimesAllowsPercentNumberBox.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.SometimesAllowsPercentNumberBox.Enabled = False
+        Me.SometimesAllowsPercentNumberBox.Location = New System.Drawing.Point(265, 65)
+        Me.SometimesAllowsPercentNumberBox.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
+        Me.SometimesAllowsPercentNumberBox.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.SometimesAllowsPercentNumberBox.Name = "SometimesAllowsPercentNumberBox"
+        Me.SometimesAllowsPercentNumberBox.Size = New System.Drawing.Size(44, 20)
+        Me.SometimesAllowsPercentNumberBox.TabIndex = 169
+        Me.SometimesAllowsPercentNumberBox.Value = New Decimal(New Integer() {50, 0, 0, 0})
+        '
+        'SometimesAllowsPercentLabel
+        '
+        Me.SometimesAllowsPercentLabel.BackColor = System.Drawing.Color.Transparent
+        Me.SometimesAllowsPercentLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SometimesAllowsPercentLabel.ForeColor = System.Drawing.Color.Black
+        Me.SometimesAllowsPercentLabel.Location = New System.Drawing.Point(6, 68)
+        Me.SometimesAllowsPercentLabel.Name = "SometimesAllowsPercentLabel"
+        Me.SometimesAllowsPercentLabel.Size = New System.Drawing.Size(102, 17)
+        Me.SometimesAllowsPercentLabel.TabIndex = 172
+        Me.SometimesAllowsPercentLabel.Text = "Sometimes Allows:"
+        Me.SometimesAllowsPercentLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'OftenAllowsPercentLabel
+        '
+        Me.OftenAllowsPercentLabel.BackColor = System.Drawing.Color.Transparent
+        Me.OftenAllowsPercentLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.OftenAllowsPercentLabel.ForeColor = System.Drawing.Color.Black
+        Me.OftenAllowsPercentLabel.Location = New System.Drawing.Point(6, 42)
+        Me.OftenAllowsPercentLabel.Name = "OftenAllowsPercentLabel"
+        Me.OftenAllowsPercentLabel.Size = New System.Drawing.Size(83, 17)
+        Me.OftenAllowsPercentLabel.TabIndex = 171
+        Me.OftenAllowsPercentLabel.Text = "Often Allows:"
+        Me.OftenAllowsPercentLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'RarelyAllowsPercentNumberBox
+        '
+        Me.RarelyAllowsPercentNumberBox.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RarelyAllowsPercentNumberBox.Enabled = False
+        Me.RarelyAllowsPercentNumberBox.Location = New System.Drawing.Point(265, 91)
+        Me.RarelyAllowsPercentNumberBox.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
+        Me.RarelyAllowsPercentNumberBox.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.RarelyAllowsPercentNumberBox.Name = "RarelyAllowsPercentNumberBox"
+        Me.RarelyAllowsPercentNumberBox.Size = New System.Drawing.Size(44, 20)
+        Me.RarelyAllowsPercentNumberBox.TabIndex = 170
+        Me.RarelyAllowsPercentNumberBox.Value = New Decimal(New Integer() {20, 0, 0, 0})
+        '
+        'OftenAllowsPercentNumberBox
+        '
+        Me.OftenAllowsPercentNumberBox.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.OftenAllowsPercentNumberBox.Enabled = False
+        Me.OftenAllowsPercentNumberBox.Location = New System.Drawing.Point(265, 39)
+        Me.OftenAllowsPercentNumberBox.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
+        Me.OftenAllowsPercentNumberBox.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.OftenAllowsPercentNumberBox.Name = "OftenAllowsPercentNumberBox"
+        Me.OftenAllowsPercentNumberBox.Size = New System.Drawing.Size(44, 20)
+        Me.OftenAllowsPercentNumberBox.TabIndex = 168
+        Me.OftenAllowsPercentNumberBox.Value = New Decimal(New Integer() {75, 0, 0, 0})
+        '
+        'DommeDecideOrgasmCheckBox
+        '
+        Me.DommeDecideOrgasmCheckBox.AutoSize = True
+        Me.DommeDecideOrgasmCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.DommeDecideOrgasmCheckBox.Location = New System.Drawing.Point(9, 19)
+        Me.DommeDecideOrgasmCheckBox.Name = "DommeDecideOrgasmCheckBox"
+        Me.DommeDecideOrgasmCheckBox.Size = New System.Drawing.Size(99, 17)
+        Me.DommeDecideOrgasmCheckBox.TabIndex = 159
+        Me.DommeDecideOrgasmCheckBox.Text = "Domme Decide"
+        Me.DommeDecideOrgasmCheckBox.UseVisualStyleBackColor = True
         '
         'GroupBox69
         '
+        Me.GroupBox69.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox69.BackColor = System.Drawing.Color.Transparent
         Me.GroupBox69.Controls.Add(Me.TypesSpeedVal)
         Me.GroupBox69.Controls.Add(Me.TypeSpeedLabel)
         Me.GroupBox69.Controls.Add(Me.TimedWriting)
         Me.GroupBox69.Controls.Add(Me.TypeSpeedSlider)
-        Me.GroupBox69.Location = New System.Drawing.Point(236, 344)
+        Me.GroupBox69.Location = New System.Drawing.Point(3, 260)
         Me.GroupBox69.Name = "GroupBox69"
-        Me.GroupBox69.Size = New System.Drawing.Size(166, 83)
+        Me.GroupBox69.Size = New System.Drawing.Size(315, 109)
         Me.GroupBox69.TabIndex = 173
         Me.GroupBox69.TabStop = False
         Me.GroupBox69.Text = "Writing Tasks"
         '
         'TypesSpeedVal
         '
+        Me.TypesSpeedVal.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TypesSpeedVal.AutoSize = True
-        Me.TypesSpeedVal.Location = New System.Drawing.Point(132, 64)
+        Me.TypesSpeedVal.Location = New System.Drawing.Point(290, 83)
         Me.TypesSpeedVal.Name = "TypesSpeedVal"
         Me.TypesSpeedVal.Size = New System.Drawing.Size(19, 13)
         Me.TypesSpeedVal.TabIndex = 0
@@ -11238,7 +12146,7 @@ Partial Class FrmSettings
         'TypeSpeedLabel
         '
         Me.TypeSpeedLabel.AutoSize = True
-        Me.TypeSpeedLabel.Location = New System.Drawing.Point(6, 64)
+        Me.TypeSpeedLabel.Location = New System.Drawing.Point(6, 83)
         Me.TypeSpeedLabel.Name = "TypeSpeedLabel"
         Me.TypeSpeedLabel.Size = New System.Drawing.Size(76, 13)
         Me.TypeSpeedLabel.TabIndex = 2
@@ -11256,26 +12164,458 @@ Partial Class FrmSettings
         '
         'TypeSpeedSlider
         '
-        Me.TypeSpeedSlider.Location = New System.Drawing.Point(9, 35)
+        Me.TypeSpeedSlider.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TypeSpeedSlider.BackColor = System.Drawing.SystemColors.Control
+        Me.TypeSpeedSlider.Location = New System.Drawing.Point(6, 35)
         Me.TypeSpeedSlider.Maximum = 100
         Me.TypeSpeedSlider.Minimum = 33
         Me.TypeSpeedSlider.Name = "TypeSpeedSlider"
-        Me.TypeSpeedSlider.Size = New System.Drawing.Size(148, 45)
+        Me.TypeSpeedSlider.Size = New System.Drawing.Size(303, 45)
         Me.TypeSpeedSlider.TabIndex = 3
         Me.TypeSpeedSlider.Value = 33
         '
-        'GroupBox68
+        'GBRangeRuinChance
         '
-        Me.GroupBox68.Controls.Add(Me.TaskWaitMaximum)
-        Me.GroupBox68.Controls.Add(Me.TaskWaitMinimum)
-        Me.GroupBox68.Controls.Add(Me.Label165)
-        Me.GroupBox68.Controls.Add(Me.Label166)
-        Me.GroupBox68.Location = New System.Drawing.Point(236, 287)
-        Me.GroupBox68.Name = "GroupBox68"
-        Me.GroupBox68.Size = New System.Drawing.Size(166, 51)
-        Me.GroupBox68.TabIndex = 172
-        Me.GroupBox68.TabStop = False
-        Me.GroupBox68.Text = "Session Tasks"
+        Me.GBRangeRuinChance.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GBRangeRuinChance.BackColor = System.Drawing.Color.Transparent
+        Me.GBRangeRuinChance.Controls.Add(Me.Label90)
+        Me.GBRangeRuinChance.Controls.Add(Me.NBRuinSometimes)
+        Me.GBRangeRuinChance.Controls.Add(Me.Label91)
+        Me.GBRangeRuinChance.Controls.Add(Me.Label92)
+        Me.GBRangeRuinChance.Controls.Add(Me.NBRuinRarely)
+        Me.GBRangeRuinChance.Controls.Add(Me.NBRuinOften)
+        Me.GBRangeRuinChance.Controls.Add(Me.DommeDecideRuinCheckBox)
+        Me.GBRangeRuinChance.Location = New System.Drawing.Point(3, 132)
+        Me.GBRangeRuinChance.Name = "GBRangeRuinChance"
+        Me.GBRangeRuinChance.Size = New System.Drawing.Size(315, 122)
+        Me.GBRangeRuinChance.TabIndex = 168
+        Me.GBRangeRuinChance.TabStop = False
+        Me.GBRangeRuinChance.Text = "Ruin Chance"
+        '
+        'Label90
+        '
+        Me.Label90.BackColor = System.Drawing.Color.Transparent
+        Me.Label90.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label90.ForeColor = System.Drawing.Color.Black
+        Me.Label90.Location = New System.Drawing.Point(6, 94)
+        Me.Label90.Name = "Label90"
+        Me.Label90.Size = New System.Drawing.Size(83, 17)
+        Me.Label90.TabIndex = 173
+        Me.Label90.Text = "Rarely Ruins:"
+        Me.Label90.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'NBRuinSometimes
+        '
+        Me.NBRuinSometimes.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBRuinSometimes.Enabled = False
+        Me.NBRuinSometimes.Location = New System.Drawing.Point(265, 65)
+        Me.NBRuinSometimes.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
+        Me.NBRuinSometimes.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NBRuinSometimes.Name = "NBRuinSometimes"
+        Me.NBRuinSometimes.Size = New System.Drawing.Size(44, 20)
+        Me.NBRuinSometimes.TabIndex = 169
+        Me.NBRuinSometimes.Value = New Decimal(New Integer() {50, 0, 0, 0})
+        '
+        'Label91
+        '
+        Me.Label91.BackColor = System.Drawing.Color.Transparent
+        Me.Label91.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label91.ForeColor = System.Drawing.Color.Black
+        Me.Label91.Location = New System.Drawing.Point(6, 68)
+        Me.Label91.Name = "Label91"
+        Me.Label91.Size = New System.Drawing.Size(102, 17)
+        Me.Label91.TabIndex = 172
+        Me.Label91.Text = "Sometimes Ruins:"
+        Me.Label91.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label92
+        '
+        Me.Label92.BackColor = System.Drawing.Color.Transparent
+        Me.Label92.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label92.ForeColor = System.Drawing.Color.Black
+        Me.Label92.Location = New System.Drawing.Point(6, 42)
+        Me.Label92.Name = "Label92"
+        Me.Label92.Size = New System.Drawing.Size(72, 17)
+        Me.Label92.TabIndex = 171
+        Me.Label92.Text = "Often Ruins:"
+        Me.Label92.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'NBRuinRarely
+        '
+        Me.NBRuinRarely.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBRuinRarely.Enabled = False
+        Me.NBRuinRarely.Location = New System.Drawing.Point(265, 91)
+        Me.NBRuinRarely.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
+        Me.NBRuinRarely.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NBRuinRarely.Name = "NBRuinRarely"
+        Me.NBRuinRarely.Size = New System.Drawing.Size(44, 20)
+        Me.NBRuinRarely.TabIndex = 170
+        Me.NBRuinRarely.Value = New Decimal(New Integer() {20, 0, 0, 0})
+        '
+        'NBRuinOften
+        '
+        Me.NBRuinOften.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBRuinOften.Enabled = False
+        Me.NBRuinOften.Location = New System.Drawing.Point(265, 39)
+        Me.NBRuinOften.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
+        Me.NBRuinOften.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NBRuinOften.Name = "NBRuinOften"
+        Me.NBRuinOften.Size = New System.Drawing.Size(44, 20)
+        Me.NBRuinOften.TabIndex = 168
+        Me.NBRuinOften.Value = New Decimal(New Integer() {75, 0, 0, 0})
+        '
+        'DommeDecideRuinCheckBox
+        '
+        Me.DommeDecideRuinCheckBox.AutoSize = True
+        Me.DommeDecideRuinCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.DommeDecideRuinCheckBox.Location = New System.Drawing.Point(9, 19)
+        Me.DommeDecideRuinCheckBox.Name = "DommeDecideRuinCheckBox"
+        Me.DommeDecideRuinCheckBox.Size = New System.Drawing.Size(99, 17)
+        Me.DommeDecideRuinCheckBox.TabIndex = 159
+        Me.DommeDecideRuinCheckBox.Text = "Domme Decide"
+        Me.DommeDecideRuinCheckBox.UseVisualStyleBackColor = True
+        '
+        'RangeSettingsBodyLeftColumnPanel
+        '
+        Me.RangeSettingsBodyLeftColumnPanel.Controls.Add(Me.RangeSettingsTeaseGroupBox)
+        Me.RangeSettingsBodyLeftColumnPanel.Controls.Add(Me.RangeSettingsSessionTasksGroupBox)
+        Me.RangeSettingsBodyLeftColumnPanel.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.RangeSettingsBodyLeftColumnPanel.Location = New System.Drawing.Point(3, 3)
+        Me.RangeSettingsBodyLeftColumnPanel.Name = "RangeSettingsBodyLeftColumnPanel"
+        Me.RangeSettingsBodyLeftColumnPanel.Size = New System.Drawing.Size(312, 534)
+        Me.RangeSettingsBodyLeftColumnPanel.TabIndex = 171
+        '
+        'RangeSettingsTeaseGroupBox
+        '
+        Me.RangeSettingsTeaseGroupBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RangeSettingsTeaseGroupBox.BackColor = System.Drawing.Color.Transparent
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.Label139)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.NBTauntEdging)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.VideoTauntDescriptionLabel)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.LBLStf)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.SliderSTF)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.VideoTauntSlider)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.VideoTauntSliderLabel)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.CBTauntCycleDD)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.TeaseLengthDommeDetermined)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.Label103)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.NBTauntCycleMax)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.Label105)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.Label101)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.NBTauntCycleMin)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.Label102)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.Label97)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.NBTeaseLengthMax)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.Label99)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.Label96)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.NBTeaseLengthMin)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.Label95)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.Label49)
+        Me.RangeSettingsTeaseGroupBox.Controls.Add(Me.Label141)
+        Me.RangeSettingsTeaseGroupBox.Location = New System.Drawing.Point(3, 4)
+        Me.RangeSettingsTeaseGroupBox.Name = "RangeSettingsTeaseGroupBox"
+        Me.RangeSettingsTeaseGroupBox.Size = New System.Drawing.Size(306, 308)
+        Me.RangeSettingsTeaseGroupBox.TabIndex = 169
+        Me.RangeSettingsTeaseGroupBox.TabStop = False
+        Me.RangeSettingsTeaseGroupBox.Text = "Tease"
+        '
+        'Label139
+        '
+        Me.Label139.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label139.BackColor = System.Drawing.Color.Transparent
+        Me.Label139.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label139.ForeColor = System.Drawing.Color.Black
+        Me.Label139.Location = New System.Drawing.Point(238, 172)
+        Me.Label139.Name = "Label139"
+        Me.Label139.Size = New System.Drawing.Size(50, 17)
+        Me.Label139.TabIndex = 184
+        Me.Label139.Text = "percent"
+        Me.Label139.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'NBTauntEdging
+        '
+        Me.NBTauntEdging.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBTauntEdging.Location = New System.Drawing.Point(193, 172)
+        Me.NBTauntEdging.Name = "NBTauntEdging"
+        Me.NBTauntEdging.Size = New System.Drawing.Size(44, 20)
+        Me.NBTauntEdging.TabIndex = 188
+        Me.NBTauntEdging.Value = New Decimal(New Integer() {70, 0, 0, 0})
+        '
+        'VideoTauntDescriptionLabel
+        '
+        Me.VideoTauntDescriptionLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.VideoTauntDescriptionLabel.BackColor = System.Drawing.Color.Transparent
+        Me.VideoTauntDescriptionLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.VideoTauntDescriptionLabel.ForeColor = System.Drawing.Color.Black
+        Me.VideoTauntDescriptionLabel.Location = New System.Drawing.Point(193, 279)
+        Me.VideoTauntDescriptionLabel.Name = "VideoTauntDescriptionLabel"
+        Me.VideoTauntDescriptionLabel.Size = New System.Drawing.Size(87, 17)
+        Me.VideoTauntDescriptionLabel.TabIndex = 187
+        Me.VideoTauntDescriptionLabel.Text = "Normal"
+        Me.VideoTauntDescriptionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'LBLStf
+        '
+        Me.LBLStf.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.LBLStf.BackColor = System.Drawing.Color.Transparent
+        Me.LBLStf.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LBLStf.ForeColor = System.Drawing.Color.Black
+        Me.LBLStf.Location = New System.Drawing.Point(193, 233)
+        Me.LBLStf.Name = "LBLStf"
+        Me.LBLStf.Size = New System.Drawing.Size(87, 17)
+        Me.LBLStf.TabIndex = 165
+        Me.LBLStf.Text = "Normal"
+        Me.LBLStf.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'SliderSTF
+        '
+        Me.SliderSTF.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.SliderSTF.AutoSize = False
+        Me.SliderSTF.BackColor = System.Drawing.SystemColors.Control
+        Me.SliderSTF.LargeChange = 1
+        Me.SliderSTF.Location = New System.Drawing.Point(193, 200)
+        Me.SliderSTF.Maximum = 5
+        Me.SliderSTF.Minimum = 1
+        Me.SliderSTF.Name = "SliderSTF"
+        Me.SliderSTF.Size = New System.Drawing.Size(87, 20)
+        Me.SliderSTF.TabIndex = 163
+        Me.SliderSTF.Value = 3
+        '
+        'VideoTauntSlider
+        '
+        Me.VideoTauntSlider.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.VideoTauntSlider.AutoSize = False
+        Me.VideoTauntSlider.BackColor = System.Drawing.SystemColors.Control
+        Me.VideoTauntSlider.LargeChange = 1
+        Me.VideoTauntSlider.Location = New System.Drawing.Point(193, 256)
+        Me.VideoTauntSlider.Minimum = 1
+        Me.VideoTauntSlider.Name = "VideoTauntSlider"
+        Me.VideoTauntSlider.Size = New System.Drawing.Size(87, 20)
+        Me.VideoTauntSlider.TabIndex = 161
+        Me.VideoTauntSlider.TickFrequency = 2
+        Me.TTDir.SetToolTip(Me.VideoTauntSlider, resources.GetString("VideoTauntSlider.ToolTip"))
+        Me.VideoTauntSlider.Value = 4
+        '
+        'VideoTauntSliderLabel
+        '
+        Me.VideoTauntSliderLabel.BackColor = System.Drawing.Color.Transparent
+        Me.VideoTauntSliderLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.VideoTauntSliderLabel.ForeColor = System.Drawing.Color.Black
+        Me.VideoTauntSliderLabel.Location = New System.Drawing.Point(6, 256)
+        Me.VideoTauntSliderLabel.Name = "VideoTauntSliderLabel"
+        Me.VideoTauntSliderLabel.Size = New System.Drawing.Size(123, 17)
+        Me.VideoTauntSliderLabel.TabIndex = 186
+        Me.VideoTauntSliderLabel.Text = "Video Taunt Frequency:"
+        Me.VideoTauntSliderLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'CBTauntCycleDD
+        '
+        Me.CBTauntCycleDD.AutoSize = True
+        Me.CBTauntCycleDD.ForeColor = System.Drawing.Color.Black
+        Me.CBTauntCycleDD.Location = New System.Drawing.Point(9, 140)
+        Me.CBTauntCycleDD.Name = "CBTauntCycleDD"
+        Me.CBTauntCycleDD.Size = New System.Drawing.Size(176, 17)
+        Me.CBTauntCycleDD.TabIndex = 185
+        Me.CBTauntCycleDD.Text = "Domme Decide Based on Level"
+        Me.CBTauntCycleDD.UseVisualStyleBackColor = True
+        '
+        'TeaseLengthDommeDetermined
+        '
+        Me.TeaseLengthDommeDetermined.AutoSize = True
+        Me.TeaseLengthDommeDetermined.ForeColor = System.Drawing.Color.Black
+        Me.TeaseLengthDommeDetermined.Location = New System.Drawing.Point(9, 69)
+        Me.TeaseLengthDommeDetermined.Name = "TeaseLengthDommeDetermined"
+        Me.TeaseLengthDommeDetermined.Size = New System.Drawing.Size(176, 17)
+        Me.TeaseLengthDommeDetermined.TabIndex = 184
+        Me.TeaseLengthDommeDetermined.Text = "Domme Decide Based on Level"
+        Me.TTDir.SetToolTip(Me.TeaseLengthDommeDetermined, resources.GetString("TeaseLengthDommeDetermined.ToolTip"))
+        Me.TeaseLengthDommeDetermined.UseVisualStyleBackColor = True
+        '
+        'Label103
+        '
+        Me.Label103.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label103.BackColor = System.Drawing.Color.Transparent
+        Me.Label103.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label103.ForeColor = System.Drawing.Color.Black
+        Me.Label103.Location = New System.Drawing.Point(238, 118)
+        Me.Label103.Name = "Label103"
+        Me.Label103.Size = New System.Drawing.Size(50, 17)
+        Me.Label103.TabIndex = 183
+        Me.Label103.Text = "minutes"
+        Me.Label103.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'NBTauntCycleMax
+        '
+        Me.NBTauntCycleMax.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBTauntCycleMax.Location = New System.Drawing.Point(193, 117)
+        Me.NBTauntCycleMax.Maximum = New Decimal(New Integer() {30, 0, 0, 0})
+        Me.NBTauntCycleMax.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
+        Me.NBTauntCycleMax.Name = "NBTauntCycleMax"
+        Me.NBTauntCycleMax.Size = New System.Drawing.Size(44, 20)
+        Me.NBTauntCycleMax.TabIndex = 182
+        Me.NBTauntCycleMax.Value = New Decimal(New Integer() {5, 0, 0, 0})
+        '
+        'Label105
+        '
+        Me.Label105.BackColor = System.Drawing.Color.Transparent
+        Me.Label105.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label105.ForeColor = System.Drawing.Color.Black
+        Me.Label105.Location = New System.Drawing.Point(6, 117)
+        Me.Label105.Name = "Label105"
+        Me.Label105.Size = New System.Drawing.Size(123, 17)
+        Me.Label105.TabIndex = 181
+        Me.Label105.Text = "Taunt Cycle Maximum:"
+        Me.Label105.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label101
+        '
+        Me.Label101.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label101.BackColor = System.Drawing.Color.Transparent
+        Me.Label101.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label101.ForeColor = System.Drawing.Color.Black
+        Me.Label101.Location = New System.Drawing.Point(238, 94)
+        Me.Label101.Name = "Label101"
+        Me.Label101.Size = New System.Drawing.Size(50, 17)
+        Me.Label101.TabIndex = 180
+        Me.Label101.Text = "minutes"
+        Me.Label101.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'NBTauntCycleMin
+        '
+        Me.NBTauntCycleMin.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBTauntCycleMin.Location = New System.Drawing.Point(193, 93)
+        Me.NBTauntCycleMin.Maximum = New Decimal(New Integer() {10, 0, 0, 0})
+        Me.NBTauntCycleMin.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NBTauntCycleMin.Name = "NBTauntCycleMin"
+        Me.NBTauntCycleMin.Size = New System.Drawing.Size(44, 20)
+        Me.NBTauntCycleMin.TabIndex = 179
+        Me.NBTauntCycleMin.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'Label102
+        '
+        Me.Label102.BackColor = System.Drawing.Color.Transparent
+        Me.Label102.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label102.ForeColor = System.Drawing.Color.Black
+        Me.Label102.Location = New System.Drawing.Point(6, 93)
+        Me.Label102.Name = "Label102"
+        Me.Label102.Size = New System.Drawing.Size(123, 17)
+        Me.Label102.TabIndex = 178
+        Me.Label102.Text = "Taunt Cycle Minimum:"
+        Me.Label102.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label97
+        '
+        Me.Label97.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label97.BackColor = System.Drawing.Color.Transparent
+        Me.Label97.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label97.ForeColor = System.Drawing.Color.Black
+        Me.Label97.Location = New System.Drawing.Point(238, 47)
+        Me.Label97.Name = "Label97"
+        Me.Label97.Size = New System.Drawing.Size(50, 17)
+        Me.Label97.TabIndex = 177
+        Me.Label97.Text = "minutes"
+        Me.Label97.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'NBTeaseLengthMax
+        '
+        Me.NBTeaseLengthMax.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBTeaseLengthMax.Location = New System.Drawing.Point(193, 46)
+        Me.NBTeaseLengthMax.Maximum = New Decimal(New Integer() {720, 0, 0, 0})
+        Me.NBTeaseLengthMax.Minimum = New Decimal(New Integer() {10, 0, 0, 0})
+        Me.NBTeaseLengthMax.Name = "NBTeaseLengthMax"
+        Me.NBTeaseLengthMax.Size = New System.Drawing.Size(44, 20)
+        Me.NBTeaseLengthMax.TabIndex = 176
+        Me.NBTeaseLengthMax.Value = New Decimal(New Integer() {60, 0, 0, 0})
+        '
+        'Label99
+        '
+        Me.Label99.BackColor = System.Drawing.Color.Transparent
+        Me.Label99.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label99.ForeColor = System.Drawing.Color.Black
+        Me.Label99.Location = New System.Drawing.Point(6, 46)
+        Me.Label99.Name = "Label99"
+        Me.Label99.Size = New System.Drawing.Size(123, 17)
+        Me.Label99.TabIndex = 175
+        Me.Label99.Text = "Tease Length Maximum:"
+        Me.Label99.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label96
+        '
+        Me.Label96.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label96.BackColor = System.Drawing.Color.Transparent
+        Me.Label96.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label96.ForeColor = System.Drawing.Color.Black
+        Me.Label96.Location = New System.Drawing.Point(238, 21)
+        Me.Label96.Name = "Label96"
+        Me.Label96.Size = New System.Drawing.Size(50, 17)
+        Me.Label96.TabIndex = 174
+        Me.Label96.Text = "minutes"
+        Me.Label96.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'NBTeaseLengthMin
+        '
+        Me.NBTeaseLengthMin.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NBTeaseLengthMin.Location = New System.Drawing.Point(193, 20)
+        Me.NBTeaseLengthMin.Maximum = New Decimal(New Integer() {360, 0, 0, 0})
+        Me.NBTeaseLengthMin.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.NBTeaseLengthMin.Name = "NBTeaseLengthMin"
+        Me.NBTeaseLengthMin.Size = New System.Drawing.Size(44, 20)
+        Me.NBTeaseLengthMin.TabIndex = 169
+        Me.NBTeaseLengthMin.Value = New Decimal(New Integer() {15, 0, 0, 0})
+        '
+        'Label95
+        '
+        Me.Label95.BackColor = System.Drawing.Color.Transparent
+        Me.Label95.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label95.ForeColor = System.Drawing.Color.Black
+        Me.Label95.Location = New System.Drawing.Point(6, 20)
+        Me.Label95.Name = "Label95"
+        Me.Label95.Size = New System.Drawing.Size(123, 17)
+        Me.Label95.TabIndex = 166
+        Me.Label95.Text = "Tease Length Minimum:"
+        Me.Label95.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label49
+        '
+        Me.Label49.BackColor = System.Drawing.Color.Transparent
+        Me.Label49.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label49.ForeColor = System.Drawing.Color.Black
+        Me.Label49.Location = New System.Drawing.Point(6, 207)
+        Me.Label49.Name = "Label49"
+        Me.Label49.Size = New System.Drawing.Size(132, 17)
+        Me.Label49.TabIndex = 164
+        Me.Label49.Text = "Stroke Taunt Frequency:"
+        Me.Label49.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label141
+        '
+        Me.Label141.BackColor = System.Drawing.Color.Transparent
+        Me.Label141.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label141.ForeColor = System.Drawing.Color.Black
+        Me.Label141.Location = New System.Drawing.Point(6, 163)
+        Me.Label141.Name = "Label141"
+        Me.Label141.Size = New System.Drawing.Size(141, 32)
+        Me.Label141.TabIndex = 189
+        Me.Label141.Text = "Edging Ends Taunts:"
+        Me.Label141.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'RangeSettingsSessionTasksGroupBox
+        '
+        Me.RangeSettingsSessionTasksGroupBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RangeSettingsSessionTasksGroupBox.Controls.Add(Me.TaskWaitMaximum)
+        Me.RangeSettingsSessionTasksGroupBox.Controls.Add(Me.TaskWaitMinimum)
+        Me.RangeSettingsSessionTasksGroupBox.Controls.Add(Me.Label165)
+        Me.RangeSettingsSessionTasksGroupBox.Controls.Add(Me.Label166)
+        Me.RangeSettingsSessionTasksGroupBox.Location = New System.Drawing.Point(3, 318)
+        Me.RangeSettingsSessionTasksGroupBox.Name = "RangeSettingsSessionTasksGroupBox"
+        Me.RangeSettingsSessionTasksGroupBox.Size = New System.Drawing.Size(306, 51)
+        Me.RangeSettingsSessionTasksGroupBox.TabIndex = 172
+        Me.RangeSettingsSessionTasksGroupBox.TabStop = False
+        Me.RangeSettingsSessionTasksGroupBox.Text = "Session Tasks"
         '
         'TaskWaitMaximum
         '
@@ -11320,1153 +12660,70 @@ Partial Class FrmSettings
         Me.Label166.Text = "Amount:"
         Me.Label166.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'GroupBox67
-        '
-        Me.GroupBox67.Controls.Add(Me.Label161)
-        Me.GroupBox67.Controls.Add(Me.NBTaskCBTTimeMax)
-        Me.GroupBox67.Controls.Add(Me.NBTaskCBTTimeMin)
-        Me.GroupBox67.Controls.Add(Me.Label162)
-        Me.GroupBox67.Controls.Add(Me.Label163)
-        Me.GroupBox67.Controls.Add(Me.Label158)
-        Me.GroupBox67.Controls.Add(Me.NBTaskEdgeHoldTimeMax)
-        Me.GroupBox67.Controls.Add(Me.NBTaskEdgeHoldTimeMin)
-        Me.GroupBox67.Controls.Add(Me.Label159)
-        Me.GroupBox67.Controls.Add(Me.Label160)
-        Me.GroupBox67.Controls.Add(Me.NBTaskEdgesMax)
-        Me.GroupBox67.Controls.Add(Me.NBTaskEdgesMin)
-        Me.GroupBox67.Controls.Add(Me.Label119)
-        Me.GroupBox67.Controls.Add(Me.Label157)
-        Me.GroupBox67.Controls.Add(Me.Label151)
-        Me.GroupBox67.Controls.Add(Me.NBTaskStrokingTimeMax)
-        Me.GroupBox67.Controls.Add(Me.NBTaskStrokingTimeMin)
-        Me.GroupBox67.Controls.Add(Me.Label154)
-        Me.GroupBox67.Controls.Add(Me.Label155)
-        Me.GroupBox67.Controls.Add(Me.NBTaskStrokesMax)
-        Me.GroupBox67.Controls.Add(Me.NBTaskStrokesMin)
-        Me.GroupBox67.Controls.Add(Me.Label146)
-        Me.GroupBox67.Controls.Add(Me.Label149)
-        Me.GroupBox67.Location = New System.Drawing.Point(408, 288)
-        Me.GroupBox67.Name = "GroupBox67"
-        Me.GroupBox67.Size = New System.Drawing.Size(291, 139)
-        Me.GroupBox67.TabIndex = 171
-        Me.GroupBox67.TabStop = False
-        Me.GroupBox67.Text = "Letter Tasks"
-        '
-        'Label161
-        '
-        Me.Label161.BackColor = System.Drawing.Color.Transparent
-        Me.Label161.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label161.ForeColor = System.Drawing.Color.Black
-        Me.Label161.Location = New System.Drawing.Point(233, 110)
-        Me.Label161.Name = "Label161"
-        Me.Label161.Size = New System.Drawing.Size(50, 17)
-        Me.Label161.TabIndex = 204
-        Me.Label161.Text = "minutes"
-        Me.Label161.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'NBTaskCBTTimeMax
-        '
-        Me.NBTaskCBTTimeMax.Location = New System.Drawing.Point(183, 110)
-        Me.NBTaskCBTTimeMax.Maximum = New Decimal(New Integer() {600, 0, 0, 0})
-        Me.NBTaskCBTTimeMax.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NBTaskCBTTimeMax.Name = "NBTaskCBTTimeMax"
-        Me.NBTaskCBTTimeMax.Size = New System.Drawing.Size(44, 20)
-        Me.NBTaskCBTTimeMax.TabIndex = 203
-        Me.NBTaskCBTTimeMax.Value = New Decimal(New Integer() {1, 0, 0, 0})
-        '
-        'NBTaskCBTTimeMin
-        '
-        Me.NBTaskCBTTimeMin.Location = New System.Drawing.Point(117, 111)
-        Me.NBTaskCBTTimeMin.Maximum = New Decimal(New Integer() {9999, 0, 0, 0})
-        Me.NBTaskCBTTimeMin.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NBTaskCBTTimeMin.Name = "NBTaskCBTTimeMin"
-        Me.NBTaskCBTTimeMin.Size = New System.Drawing.Size(44, 20)
-        Me.NBTaskCBTTimeMin.TabIndex = 202
-        Me.NBTaskCBTTimeMin.Value = New Decimal(New Integer() {1, 0, 0, 0})
-        '
-        'Label162
-        '
-        Me.Label162.BackColor = System.Drawing.Color.Transparent
-        Me.Label162.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label162.ForeColor = System.Drawing.Color.Black
-        Me.Label162.Location = New System.Drawing.Point(167, 110)
-        Me.Label162.Name = "Label162"
-        Me.Label162.Size = New System.Drawing.Size(10, 17)
-        Me.Label162.TabIndex = 201
-        Me.Label162.Text = "-"
-        Me.Label162.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label163
-        '
-        Me.Label163.BackColor = System.Drawing.Color.Transparent
-        Me.Label163.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label163.ForeColor = System.Drawing.Color.Black
-        Me.Label163.Location = New System.Drawing.Point(12, 111)
-        Me.Label163.Name = "Label163"
-        Me.Label163.Size = New System.Drawing.Size(151, 17)
-        Me.Label163.TabIndex = 200
-        Me.Label163.Text = "CBT Time:"
-        Me.Label163.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label158
-        '
-        Me.Label158.BackColor = System.Drawing.Color.Transparent
-        Me.Label158.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label158.ForeColor = System.Drawing.Color.Black
-        Me.Label158.Location = New System.Drawing.Point(233, 87)
-        Me.Label158.Name = "Label158"
-        Me.Label158.Size = New System.Drawing.Size(50, 17)
-        Me.Label158.TabIndex = 199
-        Me.Label158.Text = "minutes"
-        Me.Label158.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'NBTaskEdgeHoldTimeMax
-        '
-        Me.NBTaskEdgeHoldTimeMax.Location = New System.Drawing.Point(183, 87)
-        Me.NBTaskEdgeHoldTimeMax.Maximum = New Decimal(New Integer() {600, 0, 0, 0})
-        Me.NBTaskEdgeHoldTimeMax.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NBTaskEdgeHoldTimeMax.Name = "NBTaskEdgeHoldTimeMax"
-        Me.NBTaskEdgeHoldTimeMax.Size = New System.Drawing.Size(44, 20)
-        Me.NBTaskEdgeHoldTimeMax.TabIndex = 198
-        Me.NBTaskEdgeHoldTimeMax.Value = New Decimal(New Integer() {1, 0, 0, 0})
-        '
-        'NBTaskEdgeHoldTimeMin
-        '
-        Me.NBTaskEdgeHoldTimeMin.Location = New System.Drawing.Point(117, 88)
-        Me.NBTaskEdgeHoldTimeMin.Maximum = New Decimal(New Integer() {9999, 0, 0, 0})
-        Me.NBTaskEdgeHoldTimeMin.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NBTaskEdgeHoldTimeMin.Name = "NBTaskEdgeHoldTimeMin"
-        Me.NBTaskEdgeHoldTimeMin.Size = New System.Drawing.Size(44, 20)
-        Me.NBTaskEdgeHoldTimeMin.TabIndex = 197
-        Me.NBTaskEdgeHoldTimeMin.Value = New Decimal(New Integer() {1, 0, 0, 0})
-        '
-        'Label159
-        '
-        Me.Label159.BackColor = System.Drawing.Color.Transparent
-        Me.Label159.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label159.ForeColor = System.Drawing.Color.Black
-        Me.Label159.Location = New System.Drawing.Point(167, 87)
-        Me.Label159.Name = "Label159"
-        Me.Label159.Size = New System.Drawing.Size(10, 17)
-        Me.Label159.TabIndex = 196
-        Me.Label159.Text = "-"
-        Me.Label159.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label160
-        '
-        Me.Label160.BackColor = System.Drawing.Color.Transparent
-        Me.Label160.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label160.ForeColor = System.Drawing.Color.Black
-        Me.Label160.Location = New System.Drawing.Point(12, 88)
-        Me.Label160.Name = "Label160"
-        Me.Label160.Size = New System.Drawing.Size(151, 17)
-        Me.Label160.TabIndex = 195
-        Me.Label160.Text = "Edge Hold Time:"
-        Me.Label160.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'NBTaskEdgesMax
-        '
-        Me.NBTaskEdgesMax.Location = New System.Drawing.Point(183, 64)
-        Me.NBTaskEdgesMax.Maximum = New Decimal(New Integer() {1000, 0, 0, 0})
-        Me.NBTaskEdgesMax.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NBTaskEdgesMax.Name = "NBTaskEdgesMax"
-        Me.NBTaskEdgesMax.Size = New System.Drawing.Size(44, 20)
-        Me.NBTaskEdgesMax.TabIndex = 194
-        Me.NBTaskEdgesMax.Value = New Decimal(New Integer() {1, 0, 0, 0})
-        '
-        'NBTaskEdgesMin
-        '
-        Me.NBTaskEdgesMin.Location = New System.Drawing.Point(117, 65)
-        Me.NBTaskEdgesMin.Maximum = New Decimal(New Integer() {9999, 0, 0, 0})
-        Me.NBTaskEdgesMin.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NBTaskEdgesMin.Name = "NBTaskEdgesMin"
-        Me.NBTaskEdgesMin.Size = New System.Drawing.Size(44, 20)
-        Me.NBTaskEdgesMin.TabIndex = 193
-        Me.NBTaskEdgesMin.Value = New Decimal(New Integer() {1, 0, 0, 0})
-        '
-        'Label119
-        '
-        Me.Label119.BackColor = System.Drawing.Color.Transparent
-        Me.Label119.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label119.ForeColor = System.Drawing.Color.Black
-        Me.Label119.Location = New System.Drawing.Point(167, 64)
-        Me.Label119.Name = "Label119"
-        Me.Label119.Size = New System.Drawing.Size(10, 17)
-        Me.Label119.TabIndex = 192
-        Me.Label119.Text = "-"
-        Me.Label119.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label157
-        '
-        Me.Label157.BackColor = System.Drawing.Color.Transparent
-        Me.Label157.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label157.ForeColor = System.Drawing.Color.Black
-        Me.Label157.Location = New System.Drawing.Point(12, 65)
-        Me.Label157.Name = "Label157"
-        Me.Label157.Size = New System.Drawing.Size(151, 17)
-        Me.Label157.TabIndex = 191
-        Me.Label157.Text = "Edges:"
-        Me.Label157.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label151
-        '
-        Me.Label151.BackColor = System.Drawing.Color.Transparent
-        Me.Label151.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label151.ForeColor = System.Drawing.Color.Black
-        Me.Label151.Location = New System.Drawing.Point(233, 41)
-        Me.Label151.Name = "Label151"
-        Me.Label151.Size = New System.Drawing.Size(50, 17)
-        Me.Label151.TabIndex = 190
-        Me.Label151.Text = "minutes"
-        Me.Label151.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'NBTaskStrokingTimeMax
-        '
-        Me.NBTaskStrokingTimeMax.Location = New System.Drawing.Point(183, 41)
-        Me.NBTaskStrokingTimeMax.Maximum = New Decimal(New Integer() {9999, 0, 0, 0})
-        Me.NBTaskStrokingTimeMax.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NBTaskStrokingTimeMax.Name = "NBTaskStrokingTimeMax"
-        Me.NBTaskStrokingTimeMax.Size = New System.Drawing.Size(44, 20)
-        Me.NBTaskStrokingTimeMax.TabIndex = 189
-        Me.NBTaskStrokingTimeMax.Value = New Decimal(New Integer() {1, 0, 0, 0})
-        '
-        'NBTaskStrokingTimeMin
-        '
-        Me.NBTaskStrokingTimeMin.Location = New System.Drawing.Point(117, 42)
-        Me.NBTaskStrokingTimeMin.Maximum = New Decimal(New Integer() {9999, 0, 0, 0})
-        Me.NBTaskStrokingTimeMin.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NBTaskStrokingTimeMin.Name = "NBTaskStrokingTimeMin"
-        Me.NBTaskStrokingTimeMin.Size = New System.Drawing.Size(44, 20)
-        Me.NBTaskStrokingTimeMin.TabIndex = 188
-        Me.NBTaskStrokingTimeMin.Value = New Decimal(New Integer() {1, 0, 0, 0})
-        '
-        'Label154
-        '
-        Me.Label154.BackColor = System.Drawing.Color.Transparent
-        Me.Label154.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label154.ForeColor = System.Drawing.Color.Black
-        Me.Label154.Location = New System.Drawing.Point(167, 41)
-        Me.Label154.Name = "Label154"
-        Me.Label154.Size = New System.Drawing.Size(10, 17)
-        Me.Label154.TabIndex = 187
-        Me.Label154.Text = "-"
-        Me.Label154.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label155
-        '
-        Me.Label155.BackColor = System.Drawing.Color.Transparent
-        Me.Label155.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label155.ForeColor = System.Drawing.Color.Black
-        Me.Label155.Location = New System.Drawing.Point(12, 42)
-        Me.Label155.Name = "Label155"
-        Me.Label155.Size = New System.Drawing.Size(151, 17)
-        Me.Label155.TabIndex = 186
-        Me.Label155.Text = "Stroking Time:"
-        Me.Label155.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'NBTaskStrokesMax
-        '
-        Me.NBTaskStrokesMax.Location = New System.Drawing.Point(183, 18)
-        Me.NBTaskStrokesMax.Maximum = New Decimal(New Integer() {9999, 0, 0, 0})
-        Me.NBTaskStrokesMax.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NBTaskStrokesMax.Name = "NBTaskStrokesMax"
-        Me.NBTaskStrokesMax.Size = New System.Drawing.Size(44, 20)
-        Me.NBTaskStrokesMax.TabIndex = 184
-        Me.NBTaskStrokesMax.Value = New Decimal(New Integer() {1, 0, 0, 0})
-        '
-        'NBTaskStrokesMin
-        '
-        Me.NBTaskStrokesMin.Location = New System.Drawing.Point(117, 19)
-        Me.NBTaskStrokesMin.Maximum = New Decimal(New Integer() {9999, 0, 0, 0})
-        Me.NBTaskStrokesMin.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NBTaskStrokesMin.Name = "NBTaskStrokesMin"
-        Me.NBTaskStrokesMin.Size = New System.Drawing.Size(44, 20)
-        Me.NBTaskStrokesMin.TabIndex = 183
-        Me.NBTaskStrokesMin.Value = New Decimal(New Integer() {1, 0, 0, 0})
-        '
-        'Label146
-        '
-        Me.Label146.BackColor = System.Drawing.Color.Transparent
-        Me.Label146.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label146.ForeColor = System.Drawing.Color.Black
-        Me.Label146.Location = New System.Drawing.Point(167, 18)
-        Me.Label146.Name = "Label146"
-        Me.Label146.Size = New System.Drawing.Size(10, 17)
-        Me.Label146.TabIndex = 182
-        Me.Label146.Text = "-"
-        Me.Label146.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label149
-        '
-        Me.Label149.BackColor = System.Drawing.Color.Transparent
-        Me.Label149.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label149.ForeColor = System.Drawing.Color.Black
-        Me.Label149.Location = New System.Drawing.Point(12, 19)
-        Me.Label149.Name = "Label149"
-        Me.Label149.Size = New System.Drawing.Size(151, 17)
-        Me.Label149.TabIndex = 181
-        Me.Label149.Text = "Strokes:"
-        Me.Label149.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'GroupBox10
-        '
-        Me.GroupBox10.Controls.Add(Me.Label112)
-        Me.GroupBox10.Controls.Add(Me.NBNextImageChance)
-        Me.GroupBox10.Controls.Add(Me.Label6)
-        Me.GroupBox10.Location = New System.Drawing.Point(408, 31)
-        Me.GroupBox10.Name = "GroupBox10"
-        Me.GroupBox10.Size = New System.Drawing.Size(291, 54)
-        Me.GroupBox10.TabIndex = 170
-        Me.GroupBox10.TabStop = False
-        Me.GroupBox10.Text = "Tease Slideshow"
-        '
-        'Label112
-        '
-        Me.Label112.BackColor = System.Drawing.Color.Transparent
-        Me.Label112.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label112.ForeColor = System.Drawing.Color.Black
-        Me.Label112.Location = New System.Drawing.Point(233, 21)
-        Me.Label112.Name = "Label112"
-        Me.Label112.Size = New System.Drawing.Size(50, 17)
-        Me.Label112.TabIndex = 180
-        Me.Label112.Text = "percent"
-        Me.Label112.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'NBNextImageChance
-        '
-        Me.NBNextImageChance.Location = New System.Drawing.Point(183, 20)
-        Me.NBNextImageChance.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NBNextImageChance.Name = "NBNextImageChance"
-        Me.NBNextImageChance.Size = New System.Drawing.Size(44, 20)
-        Me.NBNextImageChance.TabIndex = 179
-        Me.NBNextImageChance.Value = New Decimal(New Integer() {60, 0, 0, 0})
-        '
-        'Label6
-        '
-        Me.Label6.BackColor = System.Drawing.Color.Transparent
-        Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label6.ForeColor = System.Drawing.Color.Black
-        Me.Label6.Location = New System.Drawing.Point(9, 21)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(151, 17)
-        Me.Label6.TabIndex = 154
-        Me.Label6.Text = "Image Next/Previous Chance:"
-        Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'GroupBox57
-        '
-        Me.GroupBox57.Controls.Add(Me.Label139)
-        Me.GroupBox57.Controls.Add(Me.NBTauntEdging)
-        Me.GroupBox57.Controls.Add(Me.LBLVtf)
-        Me.GroupBox57.Controls.Add(Me.LBLStf)
-        Me.GroupBox57.Controls.Add(Me.SliderSTF)
-        Me.GroupBox57.Controls.Add(Me.TauntSlider)
-        Me.GroupBox57.Controls.Add(Me.Label106)
-        Me.GroupBox57.Controls.Add(Me.CBTauntCycleDD)
-        Me.GroupBox57.Controls.Add(Me.TeaseLengthDommeDetermined)
-        Me.GroupBox57.Controls.Add(Me.Label103)
-        Me.GroupBox57.Controls.Add(Me.NBTauntCycleMax)
-        Me.GroupBox57.Controls.Add(Me.Label105)
-        Me.GroupBox57.Controls.Add(Me.Label101)
-        Me.GroupBox57.Controls.Add(Me.NBTauntCycleMin)
-        Me.GroupBox57.Controls.Add(Me.Label102)
-        Me.GroupBox57.Controls.Add(Me.Label97)
-        Me.GroupBox57.Controls.Add(Me.NBTeaseLengthMax)
-        Me.GroupBox57.Controls.Add(Me.Label99)
-        Me.GroupBox57.Controls.Add(Me.Label96)
-        Me.GroupBox57.Controls.Add(Me.NBTeaseLengthMin)
-        Me.GroupBox57.Controls.Add(Me.Label95)
-        Me.GroupBox57.Controls.Add(Me.Label49)
-        Me.GroupBox57.Controls.Add(Me.Label141)
-        Me.GroupBox57.Location = New System.Drawing.Point(7, 30)
-        Me.GroupBox57.Name = "GroupBox57"
-        Me.GroupBox57.Size = New System.Drawing.Size(223, 308)
-        Me.GroupBox57.TabIndex = 169
-        Me.GroupBox57.TabStop = False
-        Me.GroupBox57.Text = "Tease"
-        '
-        'Label139
-        '
-        Me.Label139.BackColor = System.Drawing.Color.Transparent
-        Me.Label139.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label139.ForeColor = System.Drawing.Color.Black
-        Me.Label139.Location = New System.Drawing.Point(175, 171)
-        Me.Label139.Name = "Label139"
-        Me.Label139.Size = New System.Drawing.Size(50, 17)
-        Me.Label139.TabIndex = 184
-        Me.Label139.Text = "percent"
-        Me.Label139.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'NBTauntEdging
-        '
-        Me.NBTauntEdging.Location = New System.Drawing.Point(130, 171)
-        Me.NBTauntEdging.Name = "NBTauntEdging"
-        Me.NBTauntEdging.Size = New System.Drawing.Size(44, 20)
-        Me.NBTauntEdging.TabIndex = 188
-        Me.NBTauntEdging.Value = New Decimal(New Integer() {70, 0, 0, 0})
-        '
-        'LBLVtf
-        '
-        Me.LBLVtf.BackColor = System.Drawing.Color.Transparent
-        Me.LBLVtf.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LBLVtf.ForeColor = System.Drawing.Color.Black
-        Me.LBLVtf.Location = New System.Drawing.Point(128, 261)
-        Me.LBLVtf.Name = "LBLVtf"
-        Me.LBLVtf.Size = New System.Drawing.Size(87, 17)
-        Me.LBLVtf.TabIndex = 187
-        Me.LBLVtf.Text = "Normal"
-        Me.LBLVtf.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'LBLStf
-        '
-        Me.LBLStf.BackColor = System.Drawing.Color.Transparent
-        Me.LBLStf.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LBLStf.ForeColor = System.Drawing.Color.Black
-        Me.LBLStf.Location = New System.Drawing.Point(130, 220)
-        Me.LBLStf.Name = "LBLStf"
-        Me.LBLStf.Size = New System.Drawing.Size(87, 17)
-        Me.LBLStf.TabIndex = 165
-        Me.LBLStf.Text = "Normal"
-        Me.LBLStf.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'SliderSTF
-        '
-        Me.SliderSTF.AutoSize = False
-        Me.SliderSTF.LargeChange = 1
-        Me.SliderSTF.Location = New System.Drawing.Point(130, 199)
-        Me.SliderSTF.Maximum = 5
-        Me.SliderSTF.Minimum = 1
-        Me.SliderSTF.Name = "SliderSTF"
-        Me.SliderSTF.Size = New System.Drawing.Size(87, 25)
-        Me.SliderSTF.TabIndex = 163
-        Me.SliderSTF.Value = 3
-        '
-        'TauntSlider
-        '
-        Me.TauntSlider.AutoSize = False
-        Me.TauntSlider.LargeChange = 1
-        Me.TauntSlider.Location = New System.Drawing.Point(130, 240)
-        Me.TauntSlider.Maximum = 9
-        Me.TauntSlider.Minimum = 1
-        Me.TauntSlider.Name = "TauntSlider"
-        Me.TauntSlider.Size = New System.Drawing.Size(87, 25)
-        Me.TauntSlider.TabIndex = 161
-        Me.TauntSlider.Value = 4
-        '
-        'Label106
-        '
-        Me.Label106.BackColor = System.Drawing.Color.Transparent
-        Me.Label106.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label106.ForeColor = System.Drawing.Color.Black
-        Me.Label106.Location = New System.Drawing.Point(6, 243)
-        Me.Label106.Name = "Label106"
-        Me.Label106.Size = New System.Drawing.Size(123, 17)
-        Me.Label106.TabIndex = 186
-        Me.Label106.Text = "Video Taunt Frequency:"
-        Me.Label106.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'CBTauntCycleDD
-        '
-        Me.CBTauntCycleDD.AutoSize = True
-        Me.CBTauntCycleDD.ForeColor = System.Drawing.Color.Black
-        Me.CBTauntCycleDD.Location = New System.Drawing.Point(9, 140)
-        Me.CBTauntCycleDD.Name = "CBTauntCycleDD"
-        Me.CBTauntCycleDD.Size = New System.Drawing.Size(176, 17)
-        Me.CBTauntCycleDD.TabIndex = 185
-        Me.CBTauntCycleDD.Text = "Domme Decide Based on Level"
-        Me.CBTauntCycleDD.UseVisualStyleBackColor = True
-        '
-        'TeaseLengthDommeDetermined
-        '
-        Me.TeaseLengthDommeDetermined.AutoSize = True
-        Me.TeaseLengthDommeDetermined.ForeColor = System.Drawing.Color.Black
-        Me.TeaseLengthDommeDetermined.Location = New System.Drawing.Point(9, 69)
-        Me.TeaseLengthDommeDetermined.Name = "TeaseLengthDommeDetermined"
-        Me.TeaseLengthDommeDetermined.Size = New System.Drawing.Size(176, 17)
-        Me.TeaseLengthDommeDetermined.TabIndex = 184
-        Me.TeaseLengthDommeDetermined.Text = "Domme Decide Based on Level"
-        Me.TeaseLengthDommeDetermined.UseVisualStyleBackColor = True
-        '
-        'Label103
-        '
-        Me.Label103.BackColor = System.Drawing.Color.Transparent
-        Me.Label103.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label103.ForeColor = System.Drawing.Color.Black
-        Me.Label103.Location = New System.Drawing.Point(175, 117)
-        Me.Label103.Name = "Label103"
-        Me.Label103.Size = New System.Drawing.Size(50, 17)
-        Me.Label103.TabIndex = 183
-        Me.Label103.Text = "minutes"
-        Me.Label103.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'NBTauntCycleMax
-        '
-        Me.NBTauntCycleMax.Location = New System.Drawing.Point(130, 116)
-        Me.NBTauntCycleMax.Maximum = New Decimal(New Integer() {30, 0, 0, 0})
-        Me.NBTauntCycleMax.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
-        Me.NBTauntCycleMax.Name = "NBTauntCycleMax"
-        Me.NBTauntCycleMax.Size = New System.Drawing.Size(44, 20)
-        Me.NBTauntCycleMax.TabIndex = 182
-        Me.NBTauntCycleMax.Value = New Decimal(New Integer() {5, 0, 0, 0})
-        '
-        'Label105
-        '
-        Me.Label105.BackColor = System.Drawing.Color.Transparent
-        Me.Label105.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label105.ForeColor = System.Drawing.Color.Black
-        Me.Label105.Location = New System.Drawing.Point(6, 117)
-        Me.Label105.Name = "Label105"
-        Me.Label105.Size = New System.Drawing.Size(123, 17)
-        Me.Label105.TabIndex = 181
-        Me.Label105.Text = "Taunt Cycle Maximum:"
-        Me.Label105.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label101
-        '
-        Me.Label101.BackColor = System.Drawing.Color.Transparent
-        Me.Label101.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label101.ForeColor = System.Drawing.Color.Black
-        Me.Label101.Location = New System.Drawing.Point(175, 93)
-        Me.Label101.Name = "Label101"
-        Me.Label101.Size = New System.Drawing.Size(50, 17)
-        Me.Label101.TabIndex = 180
-        Me.Label101.Text = "minutes"
-        Me.Label101.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'NBTauntCycleMin
-        '
-        Me.NBTauntCycleMin.Location = New System.Drawing.Point(130, 92)
-        Me.NBTauntCycleMin.Maximum = New Decimal(New Integer() {10, 0, 0, 0})
-        Me.NBTauntCycleMin.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NBTauntCycleMin.Name = "NBTauntCycleMin"
-        Me.NBTauntCycleMin.Size = New System.Drawing.Size(44, 20)
-        Me.NBTauntCycleMin.TabIndex = 179
-        Me.NBTauntCycleMin.Value = New Decimal(New Integer() {1, 0, 0, 0})
-        '
-        'Label102
-        '
-        Me.Label102.BackColor = System.Drawing.Color.Transparent
-        Me.Label102.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label102.ForeColor = System.Drawing.Color.Black
-        Me.Label102.Location = New System.Drawing.Point(6, 93)
-        Me.Label102.Name = "Label102"
-        Me.Label102.Size = New System.Drawing.Size(123, 17)
-        Me.Label102.TabIndex = 178
-        Me.Label102.Text = "Taunt Cycle Minimum:"
-        Me.Label102.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label97
-        '
-        Me.Label97.BackColor = System.Drawing.Color.Transparent
-        Me.Label97.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label97.ForeColor = System.Drawing.Color.Black
-        Me.Label97.Location = New System.Drawing.Point(175, 46)
-        Me.Label97.Name = "Label97"
-        Me.Label97.Size = New System.Drawing.Size(50, 17)
-        Me.Label97.TabIndex = 177
-        Me.Label97.Text = "minutes"
-        Me.Label97.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'NBTeaseLengthMax
-        '
-        Me.NBTeaseLengthMax.Location = New System.Drawing.Point(130, 45)
-        Me.NBTeaseLengthMax.Maximum = New Decimal(New Integer() {720, 0, 0, 0})
-        Me.NBTeaseLengthMax.Minimum = New Decimal(New Integer() {10, 0, 0, 0})
-        Me.NBTeaseLengthMax.Name = "NBTeaseLengthMax"
-        Me.NBTeaseLengthMax.Size = New System.Drawing.Size(44, 20)
-        Me.NBTeaseLengthMax.TabIndex = 176
-        Me.NBTeaseLengthMax.Value = New Decimal(New Integer() {60, 0, 0, 0})
-        '
-        'Label99
-        '
-        Me.Label99.BackColor = System.Drawing.Color.Transparent
-        Me.Label99.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label99.ForeColor = System.Drawing.Color.Black
-        Me.Label99.Location = New System.Drawing.Point(6, 46)
-        Me.Label99.Name = "Label99"
-        Me.Label99.Size = New System.Drawing.Size(123, 17)
-        Me.Label99.TabIndex = 175
-        Me.Label99.Text = "Tease Length Maximum:"
-        Me.Label99.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label96
-        '
-        Me.Label96.BackColor = System.Drawing.Color.Transparent
-        Me.Label96.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label96.ForeColor = System.Drawing.Color.Black
-        Me.Label96.Location = New System.Drawing.Point(175, 20)
-        Me.Label96.Name = "Label96"
-        Me.Label96.Size = New System.Drawing.Size(50, 17)
-        Me.Label96.TabIndex = 174
-        Me.Label96.Text = "minutes"
-        Me.Label96.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'NBTeaseLengthMin
-        '
-        Me.NBTeaseLengthMin.Location = New System.Drawing.Point(130, 19)
-        Me.NBTeaseLengthMin.Maximum = New Decimal(New Integer() {360, 0, 0, 0})
-        Me.NBTeaseLengthMin.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
-        Me.NBTeaseLengthMin.Name = "NBTeaseLengthMin"
-        Me.NBTeaseLengthMin.Size = New System.Drawing.Size(44, 20)
-        Me.NBTeaseLengthMin.TabIndex = 169
-        Me.NBTeaseLengthMin.Value = New Decimal(New Integer() {15, 0, 0, 0})
-        '
-        'Label95
-        '
-        Me.Label95.BackColor = System.Drawing.Color.Transparent
-        Me.Label95.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label95.ForeColor = System.Drawing.Color.Black
-        Me.Label95.Location = New System.Drawing.Point(6, 20)
-        Me.Label95.Name = "Label95"
-        Me.Label95.Size = New System.Drawing.Size(123, 17)
-        Me.Label95.TabIndex = 166
-        Me.Label95.Text = "Tease Length Minimum:"
-        Me.Label95.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label49
-        '
-        Me.Label49.BackColor = System.Drawing.Color.Transparent
-        Me.Label49.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label49.ForeColor = System.Drawing.Color.Black
-        Me.Label49.Location = New System.Drawing.Point(6, 207)
-        Me.Label49.Name = "Label49"
-        Me.Label49.Size = New System.Drawing.Size(132, 17)
-        Me.Label49.TabIndex = 164
-        Me.Label49.Text = "Stroke Taunt Frequency:"
-        Me.Label49.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label141
-        '
-        Me.Label141.BackColor = System.Drawing.Color.Transparent
-        Me.Label141.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label141.ForeColor = System.Drawing.Color.Black
-        Me.Label141.Location = New System.Drawing.Point(6, 163)
-        Me.Label141.Name = "Label141"
-        Me.Label141.Size = New System.Drawing.Size(141, 32)
-        Me.Label141.TabIndex = 189
-        Me.Label141.Text = "Edging Ends Taunts:"
-        Me.Label141.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'GBRangeRuinChance
-        '
-        Me.GBRangeRuinChance.Controls.Add(Me.Label90)
-        Me.GBRangeRuinChance.Controls.Add(Me.NBRuinSometimes)
-        Me.GBRangeRuinChance.Controls.Add(Me.Label91)
-        Me.GBRangeRuinChance.Controls.Add(Me.Label92)
-        Me.GBRangeRuinChance.Controls.Add(Me.NBRuinRarely)
-        Me.GBRangeRuinChance.Controls.Add(Me.NBRuinOften)
-        Me.GBRangeRuinChance.Controls.Add(Me.DommeDecideRuinCheckBox)
-        Me.GBRangeRuinChance.Location = New System.Drawing.Point(236, 159)
-        Me.GBRangeRuinChance.Name = "GBRangeRuinChance"
-        Me.GBRangeRuinChance.Size = New System.Drawing.Size(166, 122)
-        Me.GBRangeRuinChance.TabIndex = 168
-        Me.GBRangeRuinChance.TabStop = False
-        Me.GBRangeRuinChance.Text = "Ruin Chance"
-        '
-        'Label90
-        '
-        Me.Label90.BackColor = System.Drawing.Color.Transparent
-        Me.Label90.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label90.ForeColor = System.Drawing.Color.Black
-        Me.Label90.Location = New System.Drawing.Point(6, 94)
-        Me.Label90.Name = "Label90"
-        Me.Label90.Size = New System.Drawing.Size(83, 17)
-        Me.Label90.TabIndex = 173
-        Me.Label90.Text = "Rarely Ruins:"
-        Me.Label90.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'NBRuinSometimes
-        '
-        Me.NBRuinSometimes.Enabled = False
-        Me.NBRuinSometimes.Location = New System.Drawing.Point(113, 68)
-        Me.NBRuinSometimes.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
-        Me.NBRuinSometimes.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NBRuinSometimes.Name = "NBRuinSometimes"
-        Me.NBRuinSometimes.Size = New System.Drawing.Size(44, 20)
-        Me.NBRuinSometimes.TabIndex = 169
-        Me.NBRuinSometimes.Value = New Decimal(New Integer() {50, 0, 0, 0})
-        '
-        'Label91
-        '
-        Me.Label91.BackColor = System.Drawing.Color.Transparent
-        Me.Label91.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label91.ForeColor = System.Drawing.Color.Black
-        Me.Label91.Location = New System.Drawing.Point(6, 68)
-        Me.Label91.Name = "Label91"
-        Me.Label91.Size = New System.Drawing.Size(102, 17)
-        Me.Label91.TabIndex = 172
-        Me.Label91.Text = "Sometimes Ruins:"
-        Me.Label91.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label92
-        '
-        Me.Label92.BackColor = System.Drawing.Color.Transparent
-        Me.Label92.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label92.ForeColor = System.Drawing.Color.Black
-        Me.Label92.Location = New System.Drawing.Point(6, 42)
-        Me.Label92.Name = "Label92"
-        Me.Label92.Size = New System.Drawing.Size(72, 17)
-        Me.Label92.TabIndex = 171
-        Me.Label92.Text = "Often Ruins:"
-        Me.Label92.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'NBRuinRarely
-        '
-        Me.NBRuinRarely.Enabled = False
-        Me.NBRuinRarely.Location = New System.Drawing.Point(113, 94)
-        Me.NBRuinRarely.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
-        Me.NBRuinRarely.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NBRuinRarely.Name = "NBRuinRarely"
-        Me.NBRuinRarely.Size = New System.Drawing.Size(44, 20)
-        Me.NBRuinRarely.TabIndex = 170
-        Me.NBRuinRarely.Value = New Decimal(New Integer() {20, 0, 0, 0})
-        '
-        'NBRuinOften
-        '
-        Me.NBRuinOften.Enabled = False
-        Me.NBRuinOften.Location = New System.Drawing.Point(113, 42)
-        Me.NBRuinOften.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
-        Me.NBRuinOften.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NBRuinOften.Name = "NBRuinOften"
-        Me.NBRuinOften.Size = New System.Drawing.Size(44, 20)
-        Me.NBRuinOften.TabIndex = 168
-        Me.NBRuinOften.Value = New Decimal(New Integer() {75, 0, 0, 0})
-        '
-        'DommeDecideRuinCheckBox
-        '
-        Me.DommeDecideRuinCheckBox.AutoSize = True
-        Me.DommeDecideRuinCheckBox.ForeColor = System.Drawing.Color.Black
-        Me.DommeDecideRuinCheckBox.Location = New System.Drawing.Point(9, 19)
-        Me.DommeDecideRuinCheckBox.Name = "DommeDecideRuinCheckBox"
-        Me.DommeDecideRuinCheckBox.Size = New System.Drawing.Size(99, 17)
-        Me.DommeDecideRuinCheckBox.TabIndex = 159
-        Me.DommeDecideRuinCheckBox.Text = "Domme Decide"
-        Me.DommeDecideRuinCheckBox.UseVisualStyleBackColor = True
-        '
-        'GroupBox17
-        '
-        Me.GroupBox17.Controls.Add(Me.GroupBox19)
-        Me.GroupBox17.Controls.Add(Me.GroupBox18)
-        Me.GroupBox17.Location = New System.Drawing.Point(408, 91)
-        Me.GroupBox17.Name = "GroupBox17"
-        Me.GroupBox17.Size = New System.Drawing.Size(291, 190)
-        Me.GroupBox17.TabIndex = 0
-        Me.GroupBox17.TabStop = False
-        Me.GroupBox17.Text = "Video Teases"
-        '
-        'GroupBox19
-        '
-        Me.GroupBox19.Controls.Add(Me.Label110)
-        Me.GroupBox19.Controls.Add(Me.Label111)
-        Me.GroupBox19.Controls.Add(Me.NBGreenLightMax)
-        Me.GroupBox19.Controls.Add(Me.NBGreenLightMin)
-        Me.GroupBox19.Controls.Add(Me.NBRedLightMax)
-        Me.GroupBox19.Controls.Add(Me.Label26)
-        Me.GroupBox19.Controls.Add(Me.NBRedLightMin)
-        Me.GroupBox19.Controls.Add(Me.Label28)
-        Me.GroupBox19.Controls.Add(Me.Label27)
-        Me.GroupBox19.Controls.Add(Me.Label29)
-        Me.GroupBox19.Location = New System.Drawing.Point(6, 110)
-        Me.GroupBox19.Name = "GroupBox19"
-        Me.GroupBox19.Size = New System.Drawing.Size(279, 66)
-        Me.GroupBox19.TabIndex = 2
-        Me.GroupBox19.TabStop = False
-        Me.GroupBox19.Text = "Red Light, Green Light"
-        '
-        'Label110
-        '
-        Me.Label110.BackColor = System.Drawing.Color.Transparent
-        Me.Label110.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label110.ForeColor = System.Drawing.Color.Black
-        Me.Label110.Location = New System.Drawing.Point(227, 39)
-        Me.Label110.Name = "Label110"
-        Me.Label110.Size = New System.Drawing.Size(50, 17)
-        Me.Label110.TabIndex = 181
-        Me.Label110.Text = "seconds"
-        Me.Label110.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label111
-        '
-        Me.Label111.BackColor = System.Drawing.Color.Transparent
-        Me.Label111.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label111.ForeColor = System.Drawing.Color.Black
-        Me.Label111.Location = New System.Drawing.Point(227, 16)
-        Me.Label111.Name = "Label111"
-        Me.Label111.Size = New System.Drawing.Size(50, 17)
-        Me.Label111.TabIndex = 180
-        Me.Label111.Text = "seconds"
-        Me.Label111.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'NBGreenLightMax
-        '
-        Me.NBGreenLightMax.Location = New System.Drawing.Point(177, 38)
-        Me.NBGreenLightMax.Name = "NBGreenLightMax"
-        Me.NBGreenLightMax.Size = New System.Drawing.Size(44, 20)
-        Me.NBGreenLightMax.TabIndex = 156
-        Me.NBGreenLightMax.Value = New Decimal(New Integer() {60, 0, 0, 0})
-        '
-        'NBGreenLightMin
-        '
-        Me.NBGreenLightMin.Location = New System.Drawing.Point(111, 38)
-        Me.NBGreenLightMin.Name = "NBGreenLightMin"
-        Me.NBGreenLightMin.Size = New System.Drawing.Size(44, 20)
-        Me.NBGreenLightMin.TabIndex = 155
-        Me.NBGreenLightMin.Value = New Decimal(New Integer() {10, 0, 0, 0})
-        '
-        'NBRedLightMax
-        '
-        Me.NBRedLightMax.Location = New System.Drawing.Point(177, 15)
-        Me.NBRedLightMax.Name = "NBRedLightMax"
-        Me.NBRedLightMax.Size = New System.Drawing.Size(44, 20)
-        Me.NBRedLightMax.TabIndex = 152
-        Me.NBRedLightMax.Value = New Decimal(New Integer() {30, 0, 0, 0})
-        '
-        'Label26
-        '
-        Me.Label26.BackColor = System.Drawing.Color.Transparent
-        Me.Label26.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label26.ForeColor = System.Drawing.Color.Black
-        Me.Label26.Location = New System.Drawing.Point(161, 38)
-        Me.Label26.Name = "Label26"
-        Me.Label26.Size = New System.Drawing.Size(10, 17)
-        Me.Label26.TabIndex = 154
-        Me.Label26.Text = "-"
-        Me.Label26.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'NBRedLightMin
-        '
-        Me.NBRedLightMin.Location = New System.Drawing.Point(111, 15)
-        Me.NBRedLightMin.Name = "NBRedLightMin"
-        Me.NBRedLightMin.Size = New System.Drawing.Size(44, 20)
-        Me.NBRedLightMin.TabIndex = 151
-        Me.NBRedLightMin.Value = New Decimal(New Integer() {5, 0, 0, 0})
-        '
-        'Label28
-        '
-        Me.Label28.BackColor = System.Drawing.Color.Transparent
-        Me.Label28.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label28.ForeColor = System.Drawing.Color.Black
-        Me.Label28.Location = New System.Drawing.Point(161, 15)
-        Me.Label28.Name = "Label28"
-        Me.Label28.Size = New System.Drawing.Size(10, 17)
-        Me.Label28.TabIndex = 150
-        Me.Label28.Text = "-"
-        Me.Label28.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label27
-        '
-        Me.Label27.BackColor = System.Drawing.Color.Transparent
-        Me.Label27.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label27.ForeColor = System.Drawing.Color.Black
-        Me.Label27.Location = New System.Drawing.Point(6, 39)
-        Me.Label27.Name = "Label27"
-        Me.Label27.Size = New System.Drawing.Size(151, 17)
-        Me.Label27.TabIndex = 153
-        Me.Label27.Text = "Green Light Time:"
-        Me.Label27.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label29
-        '
-        Me.Label29.BackColor = System.Drawing.Color.Transparent
-        Me.Label29.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label29.ForeColor = System.Drawing.Color.Black
-        Me.Label29.Location = New System.Drawing.Point(6, 16)
-        Me.Label29.Name = "Label29"
-        Me.Label29.Size = New System.Drawing.Size(151, 17)
-        Me.Label29.TabIndex = 149
-        Me.Label29.Text = "Red Light Time:"
-        Me.Label29.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'GroupBox18
-        '
-        Me.GroupBox18.Controls.Add(Me.Label108)
-        Me.GroupBox18.Controls.Add(Me.Label109)
-        Me.GroupBox18.Controls.Add(Me.NBCensorShowMin)
-        Me.GroupBox18.Controls.Add(Me.NBCensorHideMax)
-        Me.GroupBox18.Controls.Add(Me.NBCensorHideMin)
-        Me.GroupBox18.Controls.Add(Me.CBCensorConstant)
-        Me.GroupBox18.Controls.Add(Me.Label25)
-        Me.GroupBox18.Controls.Add(Me.Label20)
-        Me.GroupBox18.Controls.Add(Me.Label19)
-        Me.GroupBox18.Controls.Add(Me.Label24)
-        Me.GroupBox18.Controls.Add(Me.NBCensorShowMax)
-        Me.GroupBox18.Location = New System.Drawing.Point(6, 16)
-        Me.GroupBox18.Name = "GroupBox18"
-        Me.GroupBox18.Size = New System.Drawing.Size(279, 88)
-        Me.GroupBox18.TabIndex = 1
-        Me.GroupBox18.TabStop = False
-        Me.GroupBox18.Text = "Censorship Sucks"
-        '
-        'Label108
-        '
-        Me.Label108.BackColor = System.Drawing.Color.Transparent
-        Me.Label108.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label108.ForeColor = System.Drawing.Color.Black
-        Me.Label108.Location = New System.Drawing.Point(227, 39)
-        Me.Label108.Name = "Label108"
-        Me.Label108.Size = New System.Drawing.Size(50, 17)
-        Me.Label108.TabIndex = 179
-        Me.Label108.Text = "seconds"
-        Me.Label108.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label109
-        '
-        Me.Label109.BackColor = System.Drawing.Color.Transparent
-        Me.Label109.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label109.ForeColor = System.Drawing.Color.Black
-        Me.Label109.Location = New System.Drawing.Point(227, 16)
-        Me.Label109.Name = "Label109"
-        Me.Label109.Size = New System.Drawing.Size(50, 17)
-        Me.Label109.TabIndex = 178
-        Me.Label109.Text = "seconds"
-        Me.Label109.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'NBCensorShowMin
-        '
-        Me.NBCensorShowMin.Location = New System.Drawing.Point(111, 15)
-        Me.NBCensorShowMin.Maximum = New Decimal(New Integer() {180, 0, 0, 0})
-        Me.NBCensorShowMin.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
-        Me.NBCensorShowMin.Name = "NBCensorShowMin"
-        Me.NBCensorShowMin.Size = New System.Drawing.Size(44, 20)
-        Me.NBCensorShowMin.TabIndex = 151
-        Me.NBCensorShowMin.Value = New Decimal(New Integer() {5, 0, 0, 0})
-        '
-        'NBCensorHideMax
-        '
-        Me.NBCensorHideMax.Location = New System.Drawing.Point(177, 38)
-        Me.NBCensorHideMax.Maximum = New Decimal(New Integer() {300, 0, 0, 0})
-        Me.NBCensorHideMax.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
-        Me.NBCensorHideMax.Name = "NBCensorHideMax"
-        Me.NBCensorHideMax.Size = New System.Drawing.Size(44, 20)
-        Me.NBCensorHideMax.TabIndex = 156
-        Me.NBCensorHideMax.Value = New Decimal(New Integer() {5, 0, 0, 0})
-        '
-        'NBCensorHideMin
-        '
-        Me.NBCensorHideMin.Location = New System.Drawing.Point(111, 38)
-        Me.NBCensorHideMin.Maximum = New Decimal(New Integer() {180, 0, 0, 0})
-        Me.NBCensorHideMin.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
-        Me.NBCensorHideMin.Name = "NBCensorHideMin"
-        Me.NBCensorHideMin.Size = New System.Drawing.Size(44, 20)
-        Me.NBCensorHideMin.TabIndex = 155
-        Me.NBCensorHideMin.Value = New Decimal(New Integer() {5, 0, 0, 0})
-        '
-        'CBCensorConstant
-        '
-        Me.CBCensorConstant.AutoSize = True
-        Me.CBCensorConstant.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CBCensorConstant.ForeColor = System.Drawing.Color.Black
-        Me.CBCensorConstant.Location = New System.Drawing.Point(6, 65)
-        Me.CBCensorConstant.Name = "CBCensorConstant"
-        Me.CBCensorConstant.Size = New System.Drawing.Size(263, 17)
-        Me.CBCensorConstant.TabIndex = 157
-        Me.CBCensorConstant.Text = "Censorship Bar Always Visible During Video Tease"
-        Me.CBCensorConstant.UseVisualStyleBackColor = True
-        '
-        'Label25
-        '
-        Me.Label25.BackColor = System.Drawing.Color.Transparent
-        Me.Label25.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label25.ForeColor = System.Drawing.Color.Black
-        Me.Label25.Location = New System.Drawing.Point(161, 15)
-        Me.Label25.Name = "Label25"
-        Me.Label25.Size = New System.Drawing.Size(10, 17)
-        Me.Label25.TabIndex = 150
-        Me.Label25.Text = "-"
-        Me.Label25.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label20
-        '
-        Me.Label20.BackColor = System.Drawing.Color.Transparent
-        Me.Label20.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label20.ForeColor = System.Drawing.Color.Black
-        Me.Label20.Location = New System.Drawing.Point(6, 39)
-        Me.Label20.Name = "Label20"
-        Me.Label20.Size = New System.Drawing.Size(110, 17)
-        Me.Label20.TabIndex = 153
-        Me.Label20.Text = "Censor Bar Hidden:"
-        Me.Label20.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label19
-        '
-        Me.Label19.BackColor = System.Drawing.Color.Transparent
-        Me.Label19.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label19.ForeColor = System.Drawing.Color.Black
-        Me.Label19.Location = New System.Drawing.Point(161, 38)
-        Me.Label19.Name = "Label19"
-        Me.Label19.Size = New System.Drawing.Size(10, 17)
-        Me.Label19.TabIndex = 154
-        Me.Label19.Text = "-"
-        Me.Label19.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label24
-        '
-        Me.Label24.BackColor = System.Drawing.Color.Transparent
-        Me.Label24.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label24.ForeColor = System.Drawing.Color.Black
-        Me.Label24.Location = New System.Drawing.Point(6, 16)
-        Me.Label24.Name = "Label24"
-        Me.Label24.Size = New System.Drawing.Size(110, 17)
-        Me.Label24.TabIndex = 149
-        Me.Label24.Text = "Censor Bar Shown:"
-        Me.Label24.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'NBCensorShowMax
-        '
-        Me.NBCensorShowMax.Location = New System.Drawing.Point(177, 15)
-        Me.NBCensorShowMax.Maximum = New Decimal(New Integer() {300, 0, 0, 0})
-        Me.NBCensorShowMax.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
-        Me.NBCensorShowMax.Name = "NBCensorShowMax"
-        Me.NBCensorShowMax.Size = New System.Drawing.Size(44, 20)
-        Me.NBCensorShowMax.TabIndex = 152
-        Me.NBCensorShowMax.Value = New Decimal(New Integer() {5, 0, 0, 0})
-        '
-        'GroupBox21
-        '
-        Me.GroupBox21.BackColor = System.Drawing.Color.LightGray
-        Me.GroupBox21.Controls.Add(Me.LBLRangeSettingsDescription)
-        Me.GroupBox21.ForeColor = System.Drawing.Color.Black
-        Me.GroupBox21.Location = New System.Drawing.Point(7, 344)
-        Me.GroupBox21.Name = "GroupBox21"
-        Me.GroupBox21.Size = New System.Drawing.Size(225, 83)
-        Me.GroupBox21.TabIndex = 66
-        Me.GroupBox21.TabStop = False
-        Me.GroupBox21.Text = "Description"
-        '
-        'LBLRangeSettingsDescription
-        '
-        Me.LBLRangeSettingsDescription.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+        'RangeSettingsHeaderPanel
+        '
+        Me.RangeSettingsHeaderPanel.BackColor = System.Drawing.Color.Transparent
+        Me.RangeSettingsHeaderPanel.Controls.Add(Me.RangeSettingsLogo)
+        Me.RangeSettingsHeaderPanel.Controls.Add(Me.RangeSettingsHeaderLabel)
+        Me.RangeSettingsHeaderPanel.Dock = System.Windows.Forms.DockStyle.Top
+        Me.RangeSettingsHeaderPanel.Location = New System.Drawing.Point(3, 3)
+        Me.RangeSettingsHeaderPanel.Name = "RangeSettingsHeaderPanel"
+        Me.RangeSettingsHeaderPanel.Size = New System.Drawing.Size(966, 46)
+        Me.RangeSettingsHeaderPanel.TabIndex = 174
+        '
+        'RangeSettingsLogo
+        '
+        Me.RangeSettingsLogo.BackColor = System.Drawing.Color.Transparent
+        Me.RangeSettingsLogo.Dock = System.Windows.Forms.DockStyle.Left
+        Me.RangeSettingsLogo.Image = Global.Tease_AI.My.Resources.Resources.TAI_Banner_small
+        Me.RangeSettingsLogo.Location = New System.Drawing.Point(0, 0)
+        Me.RangeSettingsLogo.Name = "RangeSettingsLogo"
+        Me.RangeSettingsLogo.Size = New System.Drawing.Size(160, 46)
+        Me.RangeSettingsLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
+        Me.RangeSettingsLogo.TabIndex = 166
+        Me.RangeSettingsLogo.TabStop = False
+        '
+        'RangeSettingsHeaderLabel
+        '
+        Me.RangeSettingsHeaderLabel.BackColor = System.Drawing.Color.Transparent
+        Me.RangeSettingsHeaderLabel.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.RangeSettingsHeaderLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RangeSettingsHeaderLabel.ForeColor = System.Drawing.Color.Black
+        Me.RangeSettingsHeaderLabel.Location = New System.Drawing.Point(0, 0)
+        Me.RangeSettingsHeaderLabel.Name = "RangeSettingsHeaderLabel"
+        Me.RangeSettingsHeaderLabel.Size = New System.Drawing.Size(966, 46)
+        Me.RangeSettingsHeaderLabel.TabIndex = 48
+        Me.RangeSettingsHeaderLabel.Text = "Range Settings"
+        Me.RangeSettingsHeaderLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'RangeSettingsDescriptionGroupBox
+        '
+        Me.RangeSettingsDescriptionGroupBox.BackColor = System.Drawing.Color.Transparent
+        Me.RangeSettingsDescriptionGroupBox.Controls.Add(Me.RangeSettingsDescriptionLabel)
+        Me.RangeSettingsDescriptionGroupBox.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.RangeSettingsDescriptionGroupBox.ForeColor = System.Drawing.Color.Black
+        Me.RangeSettingsDescriptionGroupBox.Location = New System.Drawing.Point(3, 463)
+        Me.RangeSettingsDescriptionGroupBox.Name = "RangeSettingsDescriptionGroupBox"
+        Me.RangeSettingsDescriptionGroupBox.Size = New System.Drawing.Size(966, 165)
+        Me.RangeSettingsDescriptionGroupBox.TabIndex = 66
+        Me.RangeSettingsDescriptionGroupBox.TabStop = False
+        Me.RangeSettingsDescriptionGroupBox.Text = "Description"
+        '
+        'RangeSettingsDescriptionLabel
+        '
+        Me.RangeSettingsDescriptionLabel.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.LBLRangeSettingsDescription.BackColor = System.Drawing.Color.Transparent
-        Me.LBLRangeSettingsDescription.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LBLRangeSettingsDescription.ForeColor = System.Drawing.Color.Black
-        Me.LBLRangeSettingsDescription.Location = New System.Drawing.Point(9, 16)
-        Me.LBLRangeSettingsDescription.Name = "LBLRangeSettingsDescription"
-        Me.LBLRangeSettingsDescription.Size = New System.Drawing.Size(209, 62)
-        Me.LBLRangeSettingsDescription.TabIndex = 62
-        Me.LBLRangeSettingsDescription.Text = "Hover over any setting in the menu for a more detailed description of its functio" &
+        Me.RangeSettingsDescriptionLabel.BackColor = System.Drawing.Color.Transparent
+        Me.RangeSettingsDescriptionLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RangeSettingsDescriptionLabel.ForeColor = System.Drawing.Color.Black
+        Me.RangeSettingsDescriptionLabel.Location = New System.Drawing.Point(9, 16)
+        Me.RangeSettingsDescriptionLabel.Name = "RangeSettingsDescriptionLabel"
+        Me.RangeSettingsDescriptionLabel.Size = New System.Drawing.Size(950, 144)
+        Me.RangeSettingsDescriptionLabel.TabIndex = 62
+        Me.RangeSettingsDescriptionLabel.Text = "Hover over any setting in the menu for a more detailed description of its functio" &
     "n."
-        Me.LBLRangeSettingsDescription.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'GBRangeOrgasmChance
-        '
-        Me.GBRangeOrgasmChance.Controls.Add(Me.RarelyAllowsPercentLabel)
-        Me.GBRangeOrgasmChance.Controls.Add(Me.SometimesAllowsPercentNumberBox)
-        Me.GBRangeOrgasmChance.Controls.Add(Me.SometimesAllowsPercentLabel)
-        Me.GBRangeOrgasmChance.Controls.Add(Me.OftenAllowsPercentLabel)
-        Me.GBRangeOrgasmChance.Controls.Add(Me.RarelyAllowsPercentNumberBox)
-        Me.GBRangeOrgasmChance.Controls.Add(Me.OftenAllowsPercentNumberBox)
-        Me.GBRangeOrgasmChance.Controls.Add(Me.DommeDecideOrgasmCheckBox)
-        Me.GBRangeOrgasmChance.Location = New System.Drawing.Point(236, 31)
-        Me.GBRangeOrgasmChance.Name = "GBRangeOrgasmChance"
-        Me.GBRangeOrgasmChance.Size = New System.Drawing.Size(166, 122)
-        Me.GBRangeOrgasmChance.TabIndex = 167
-        Me.GBRangeOrgasmChance.TabStop = False
-        Me.GBRangeOrgasmChance.Text = "Orgasm Chance"
-        '
-        'RarelyAllowsPercentLabel
-        '
-        Me.RarelyAllowsPercentLabel.BackColor = System.Drawing.Color.Transparent
-        Me.RarelyAllowsPercentLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RarelyAllowsPercentLabel.ForeColor = System.Drawing.Color.Black
-        Me.RarelyAllowsPercentLabel.Location = New System.Drawing.Point(6, 94)
-        Me.RarelyAllowsPercentLabel.Name = "RarelyAllowsPercentLabel"
-        Me.RarelyAllowsPercentLabel.Size = New System.Drawing.Size(83, 17)
-        Me.RarelyAllowsPercentLabel.TabIndex = 173
-        Me.RarelyAllowsPercentLabel.Text = "Rarely Allows:"
-        Me.RarelyAllowsPercentLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'SometimesAllowsPercentNumberBox
-        '
-        Me.SometimesAllowsPercentNumberBox.Enabled = False
-        Me.SometimesAllowsPercentNumberBox.Location = New System.Drawing.Point(113, 68)
-        Me.SometimesAllowsPercentNumberBox.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
-        Me.SometimesAllowsPercentNumberBox.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.SometimesAllowsPercentNumberBox.Name = "SometimesAllowsPercentNumberBox"
-        Me.SometimesAllowsPercentNumberBox.Size = New System.Drawing.Size(44, 20)
-        Me.SometimesAllowsPercentNumberBox.TabIndex = 169
-        Me.SometimesAllowsPercentNumberBox.Value = New Decimal(New Integer() {50, 0, 0, 0})
-        '
-        'SometimesAllowsPercentLabel
-        '
-        Me.SometimesAllowsPercentLabel.BackColor = System.Drawing.Color.Transparent
-        Me.SometimesAllowsPercentLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.SometimesAllowsPercentLabel.ForeColor = System.Drawing.Color.Black
-        Me.SometimesAllowsPercentLabel.Location = New System.Drawing.Point(6, 68)
-        Me.SometimesAllowsPercentLabel.Name = "SometimesAllowsPercentLabel"
-        Me.SometimesAllowsPercentLabel.Size = New System.Drawing.Size(102, 17)
-        Me.SometimesAllowsPercentLabel.TabIndex = 172
-        Me.SometimesAllowsPercentLabel.Text = "Sometimes Allows:"
-        Me.SometimesAllowsPercentLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'OftenAllowsPercentLabel
-        '
-        Me.OftenAllowsPercentLabel.BackColor = System.Drawing.Color.Transparent
-        Me.OftenAllowsPercentLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.OftenAllowsPercentLabel.ForeColor = System.Drawing.Color.Black
-        Me.OftenAllowsPercentLabel.Location = New System.Drawing.Point(6, 42)
-        Me.OftenAllowsPercentLabel.Name = "OftenAllowsPercentLabel"
-        Me.OftenAllowsPercentLabel.Size = New System.Drawing.Size(83, 17)
-        Me.OftenAllowsPercentLabel.TabIndex = 171
-        Me.OftenAllowsPercentLabel.Text = "Often Allows:"
-        Me.OftenAllowsPercentLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'RarelyAllowsPercentNumberBox
-        '
-        Me.RarelyAllowsPercentNumberBox.Enabled = False
-        Me.RarelyAllowsPercentNumberBox.Location = New System.Drawing.Point(113, 94)
-        Me.RarelyAllowsPercentNumberBox.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
-        Me.RarelyAllowsPercentNumberBox.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.RarelyAllowsPercentNumberBox.Name = "RarelyAllowsPercentNumberBox"
-        Me.RarelyAllowsPercentNumberBox.Size = New System.Drawing.Size(44, 20)
-        Me.RarelyAllowsPercentNumberBox.TabIndex = 170
-        Me.RarelyAllowsPercentNumberBox.Value = New Decimal(New Integer() {20, 0, 0, 0})
-        '
-        'OftenAllowsPercentNumberBox
-        '
-        Me.OftenAllowsPercentNumberBox.Enabled = False
-        Me.OftenAllowsPercentNumberBox.Location = New System.Drawing.Point(113, 42)
-        Me.OftenAllowsPercentNumberBox.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
-        Me.OftenAllowsPercentNumberBox.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.OftenAllowsPercentNumberBox.Name = "OftenAllowsPercentNumberBox"
-        Me.OftenAllowsPercentNumberBox.Size = New System.Drawing.Size(44, 20)
-        Me.OftenAllowsPercentNumberBox.TabIndex = 168
-        Me.OftenAllowsPercentNumberBox.Value = New Decimal(New Integer() {75, 0, 0, 0})
-        '
-        'DommeDecideOrgasmCheckBox
-        '
-        Me.DommeDecideOrgasmCheckBox.AutoSize = True
-        Me.DommeDecideOrgasmCheckBox.ForeColor = System.Drawing.Color.Black
-        Me.DommeDecideOrgasmCheckBox.Location = New System.Drawing.Point(9, 19)
-        Me.DommeDecideOrgasmCheckBox.Name = "DommeDecideOrgasmCheckBox"
-        Me.DommeDecideOrgasmCheckBox.Size = New System.Drawing.Size(99, 17)
-        Me.DommeDecideOrgasmCheckBox.TabIndex = 159
-        Me.DommeDecideOrgasmCheckBox.Text = "Domme Decide"
-        Me.DommeDecideOrgasmCheckBox.UseVisualStyleBackColor = True
-        '
-        'PictureBox8
-        '
-        Me.PictureBox8.BackColor = System.Drawing.Color.LightGray
-        Me.PictureBox8.Image = Global.Tease_AI.My.Resources.Resources.TAI_Banner_small
-        Me.PictureBox8.Location = New System.Drawing.Point(9, 6)
-        Me.PictureBox8.Name = "PictureBox8"
-        Me.PictureBox8.Size = New System.Drawing.Size(160, 19)
-        Me.PictureBox8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
-        Me.PictureBox8.TabIndex = 166
-        Me.PictureBox8.TabStop = False
-        '
-        'Label38
-        '
-        Me.Label38.BackColor = System.Drawing.Color.Transparent
-        Me.Label38.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label38.ForeColor = System.Drawing.Color.Black
-        Me.Label38.Location = New System.Drawing.Point(7, 6)
-        Me.Label38.Name = "Label38"
-        Me.Label38.Size = New System.Drawing.Size(692, 21)
-        Me.Label38.TabIndex = 48
-        Me.Label38.Text = "Range Settings"
-        Me.Label38.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.RangeSettingsDescriptionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'TabPage13
         '
@@ -14420,21 +14677,25 @@ Partial Class FrmSettings
         CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.WebPictureBox, System.ComponentModel.ISupportInitialize).EndInit
         Me.TpVideoSettings.ResumeLayout(False)
-        Me.PnlVideoSettings.ResumeLayout(False)
-        CType(Me.PbBannerVideoSettings, System.ComponentModel.ISupportInitialize).EndInit
-        Me.GbxVideoGeneralD.ResumeLayout(False)
-        Me.GbxVideoGeneralD.PerformLayout
+        Me.VideoSettingsPanel.ResumeLayout(False)
+        Me.VideoLayoutTable.ResumeLayout(False)
+        Me.VideoGeneralPanel.ResumeLayout(False)
+        Me.VideoGeneralGroupBox.ResumeLayout(False)
+        Me.VideoGeneralGroupBox.PerformLayout
+        Me.VideoSpecialGroupBox.ResumeLayout(False)
+        Me.VideoSpecialGroupBox.PerformLayout
+        Me.VideoGenreGroupBox.ResumeLayout(False)
+        Me.VideoGenreGroupBox.PerformLayout
+        Me.VideoDommePanel.ResumeLayout(False)
+        Me.VideoDommeGeneralGroupBox.ResumeLayout(False)
+        Me.VideoDommeGeneralGroupBox.PerformLayout
         Me.GbxVideoSpecialD.ResumeLayout(False)
         Me.GbxVideoSpecialD.PerformLayout
         Me.GbxVideoGenreD.ResumeLayout(False)
         Me.GbxVideoGenreD.PerformLayout
-        Me.GbxVideoDescription.ResumeLayout(False)
-        Me.GbxVideoGeneral.ResumeLayout(False)
-        Me.GbxVideoGeneral.PerformLayout
-        Me.GbxVideoSpecial.ResumeLayout(False)
-        Me.GbxVideoSpecial.PerformLayout
-        Me.GbxVideoGenre.ResumeLayout(False)
-        Me.GbxVideoGenre.PerformLayout
+        Me.VideoHeaderPanel.ResumeLayout(False)
+        CType(Me.VideoLogo, System.ComponentModel.ISupportInitialize).EndInit
+        Me.VideoDescriptionGroupBox.ResumeLayout(False)
         Me.TabPage20.ResumeLayout(False)
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage22.ResumeLayout(False)
@@ -14503,15 +14764,13 @@ Partial Class FrmSettings
         Me.GroupBox11.ResumeLayout(False)
         Me.GroupBox1.ResumeLayout(False)
         CType(Me.PBBackgroundPreview, System.ComponentModel.ISupportInitialize).EndInit
-        Me.TabPage4.ResumeLayout(False)
-        Me.Panel6.ResumeLayout(False)
-        Me.GroupBox69.ResumeLayout(False)
-        Me.GroupBox69.PerformLayout
-        CType(Me.TypeSpeedSlider, System.ComponentModel.ISupportInitialize).EndInit
-        Me.GroupBox68.ResumeLayout(False)
-        CType(Me.TaskWaitMaximum, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TaskWaitMinimum, System.ComponentModel.ISupportInitialize).EndInit
-        Me.GroupBox67.ResumeLayout(False)
+        Me.RangeSettingsTabPage.ResumeLayout(False)
+        Me.RangeSettingsBody.ResumeLayout(False)
+        Me.RangeSettingsBodyTablePanel.ResumeLayout(False)
+        Me.RangeSettingsBodyRightColumnPanel.ResumeLayout(False)
+        Me.RangeSettingsTeaseSlideshowGroupBox.ResumeLayout(False)
+        CType(Me.NBNextImageChance, System.ComponentModel.ISupportInitialize).EndInit
+        Me.RangeSettingsGlitterTasksGroupBox.ResumeLayout(False)
         CType(Me.NBTaskCBTTimeMax, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NBTaskCBTTimeMin, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NBTaskEdgeHoldTimeMax, System.ComponentModel.ISupportInitialize).EndInit
@@ -14522,41 +14781,48 @@ Partial Class FrmSettings
         CType(Me.NBTaskStrokingTimeMin, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NBTaskStrokesMax, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NBTaskStrokesMin, System.ComponentModel.ISupportInitialize).EndInit
-        Me.GroupBox10.ResumeLayout(False)
-        CType(Me.NBNextImageChance, System.ComponentModel.ISupportInitialize).EndInit
-        Me.GroupBox57.ResumeLayout(False)
-        Me.GroupBox57.PerformLayout
-        CType(Me.NBTauntEdging, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.SliderSTF, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TauntSlider, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.NBTauntCycleMax, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.NBTauntCycleMin, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.NBTeaseLengthMax, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.NBTeaseLengthMin, System.ComponentModel.ISupportInitialize).EndInit
-        Me.GBRangeRuinChance.ResumeLayout(False)
-        Me.GBRangeRuinChance.PerformLayout
-        CType(Me.NBRuinSometimes, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.NBRuinRarely, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.NBRuinOften, System.ComponentModel.ISupportInitialize).EndInit
-        Me.GroupBox17.ResumeLayout(False)
+        Me.RangeSettingsVideoTeaseGroupBox.ResumeLayout(False)
         Me.GroupBox19.ResumeLayout(False)
-        CType(Me.NBGreenLightMax, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.NBGreenLightMin, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.NBRedLightMax, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.NBRedLightMin, System.ComponentModel.ISupportInitialize).EndInit
-        Me.GroupBox18.ResumeLayout(False)
-        Me.GroupBox18.PerformLayout
-        CType(Me.NBCensorShowMin, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.NBCensorHideMax, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.NBCensorHideMin, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.NBCensorShowMax, System.ComponentModel.ISupportInitialize).EndInit
-        Me.GroupBox21.ResumeLayout(False)
+        CType(Me.GreenLightMaximumSeconds, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.GreenLightMinimumSeconds, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.RedLightMaximumSeconds, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.RedLightMinimumSeconds, System.ComponentModel.ISupportInitialize).EndInit
+        Me.RangeSettingsCensorshipSucksGroupBox.ResumeLayout(False)
+        Me.RangeSettingsCensorshipSucksGroupBox.PerformLayout
+        CType(Me.ShowCensorshipBarMinimumSeconds, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.HideCensorshipBarMaximumSeconds, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.HideCensorshipBarMinimumSeconds, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.ShowCensorshipBarMaximumSeconds, System.ComponentModel.ISupportInitialize).EndInit
+        Me.RangeSettingsBodyMiddleColumnPanel.ResumeLayout(False)
         Me.GBRangeOrgasmChance.ResumeLayout(False)
         Me.GBRangeOrgasmChance.PerformLayout
         CType(Me.SometimesAllowsPercentNumberBox, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RarelyAllowsPercentNumberBox, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.OftenAllowsPercentNumberBox, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.PictureBox8, System.ComponentModel.ISupportInitialize).EndInit
+        Me.GroupBox69.ResumeLayout(False)
+        Me.GroupBox69.PerformLayout
+        CType(Me.TypeSpeedSlider, System.ComponentModel.ISupportInitialize).EndInit
+        Me.GBRangeRuinChance.ResumeLayout(False)
+        Me.GBRangeRuinChance.PerformLayout
+        CType(Me.NBRuinSometimes, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBRuinRarely, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBRuinOften, System.ComponentModel.ISupportInitialize).EndInit
+        Me.RangeSettingsBodyLeftColumnPanel.ResumeLayout(False)
+        Me.RangeSettingsTeaseGroupBox.ResumeLayout(False)
+        Me.RangeSettingsTeaseGroupBox.PerformLayout
+        CType(Me.NBTauntEdging, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.SliderSTF, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.VideoTauntSlider, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBTauntCycleMax, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBTauntCycleMin, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBTeaseLengthMax, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBTeaseLengthMin, System.ComponentModel.ISupportInitialize).EndInit
+        Me.RangeSettingsSessionTasksGroupBox.ResumeLayout(False)
+        CType(Me.TaskWaitMaximum, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.TaskWaitMinimum, System.ComponentModel.ISupportInitialize).EndInit
+        Me.RangeSettingsHeaderPanel.ResumeLayout(False)
+        CType(Me.RangeSettingsLogo, System.ComponentModel.ISupportInitialize).EndInit
+        Me.RangeSettingsDescriptionGroupBox.ResumeLayout(False)
         Me.TabPage13.ResumeLayout(False)
         Me.ModSubTab.ResumeLayout(False)
         Me.ModPlaylistTabPage.ResumeLayout(False)
@@ -14764,90 +15030,6 @@ Partial Class FrmSettings
     Friend WithEvents WebPictureBox As System.Windows.Forms.PictureBox
     Friend WithEvents ImageBlogs As System.Windows.Forms.Label
     Friend WithEvents TpVideoSettings As System.Windows.Forms.TabPage
-    Friend WithEvents PnlVideoSettings As System.Windows.Forms.Panel
-    Friend WithEvents PbBannerVideoSettings As System.Windows.Forms.PictureBox
-    Friend WithEvents BTNRefreshVideos As System.Windows.Forms.Button
-    Friend WithEvents GbxVideoGeneralD As System.Windows.Forms.GroupBox
-    Friend WithEvents LblVideoGeneralTotalD As System.Windows.Forms.Label
-    Friend WithEvents TxbVideoGeneralD As System.Windows.Forms.TextBox
-    Friend WithEvents BTNVideoGeneralD As System.Windows.Forms.Button
-    Friend WithEvents CBVideoGeneralD As System.Windows.Forms.CheckBox
-    Friend WithEvents GbxVideoSpecialD As System.Windows.Forms.GroupBox
-    Friend WithEvents LblVideoCHTotalD As System.Windows.Forms.Label
-    Friend WithEvents LblVideoJOITotalD As System.Windows.Forms.Label
-    Friend WithEvents TxbVideoCHD As System.Windows.Forms.TextBox
-    Friend WithEvents TxbVideoJOID As System.Windows.Forms.TextBox
-    Friend WithEvents BTNVideoCHD As System.Windows.Forms.Button
-    Friend WithEvents BTNVideoJOID As System.Windows.Forms.Button
-    Friend WithEvents CBVideoJOID As System.Windows.Forms.CheckBox
-    Friend WithEvents CBVideoCHD As System.Windows.Forms.CheckBox
-    Friend WithEvents GbxVideoGenreD As System.Windows.Forms.GroupBox
-    Friend WithEvents LblVideoFemsubTotalD As System.Windows.Forms.Label
-    Friend WithEvents TxbVideoFemsubD As System.Windows.Forms.TextBox
-    Friend WithEvents LblVideoFemdomTotalD As System.Windows.Forms.Label
-    Friend WithEvents TxbVideoFemdomD As System.Windows.Forms.TextBox
-    Friend WithEvents TxbVideoBlowjobD As System.Windows.Forms.TextBox
-    Friend WithEvents LblVideoBlowjobTotalD As System.Windows.Forms.Label
-    Friend WithEvents TxbVideoLesbianD As System.Windows.Forms.TextBox
-    Friend WithEvents TxbVideoSoftCoreD As System.Windows.Forms.TextBox
-    Friend WithEvents LblVideoLesbianTotalD As System.Windows.Forms.Label
-    Friend WithEvents TxbVideoHardCoreD As System.Windows.Forms.TextBox
-    Friend WithEvents BTNVideoFemSubD As System.Windows.Forms.Button
-    Friend WithEvents LblVideoSoftCoreTotalD As System.Windows.Forms.Label
-    Friend WithEvents BTNVideoFemDomD As System.Windows.Forms.Button
-    Friend WithEvents BTNVideoBlowjobD As System.Windows.Forms.Button
-    Friend WithEvents LblVideoHardCoreTotalD As System.Windows.Forms.Label
-    Friend WithEvents BTNVideoLesbianD As System.Windows.Forms.Button
-    Friend WithEvents BTNVideoSoftCoreD As System.Windows.Forms.Button
-    Friend WithEvents BTNVideoHardCoreD As System.Windows.Forms.Button
-    Friend WithEvents CBVideoHardcoreD As System.Windows.Forms.CheckBox
-    Friend WithEvents CBVideoSoftCoreD As System.Windows.Forms.CheckBox
-    Friend WithEvents CBVideoLesbianD As System.Windows.Forms.CheckBox
-    Friend WithEvents CBVideoBlowjobD As System.Windows.Forms.CheckBox
-    Friend WithEvents CBVideoFemsubD As System.Windows.Forms.CheckBox
-    Friend WithEvents CBVideoFemdomD As System.Windows.Forms.CheckBox
-    Friend WithEvents GbxVideoDescription As System.Windows.Forms.GroupBox
-    Friend WithEvents VideoDescriptionLabel As System.Windows.Forms.Label
-    Friend WithEvents GbxVideoGeneral As System.Windows.Forms.GroupBox
-    Friend WithEvents LblVideoGeneralTotal As System.Windows.Forms.Label
-    Friend WithEvents TxbVideoGeneral As System.Windows.Forms.TextBox
-    Friend WithEvents BTNVideoGeneral As System.Windows.Forms.Button
-    Friend WithEvents CBVideoGeneral As System.Windows.Forms.CheckBox
-    Friend WithEvents GbxVideoSpecial As System.Windows.Forms.GroupBox
-    Friend WithEvents LblVideoCHTotal As System.Windows.Forms.Label
-    Friend WithEvents LblVideoJOITotal As System.Windows.Forms.Label
-    Friend WithEvents TxbVideoCH As System.Windows.Forms.TextBox
-    Friend WithEvents TxbVideoJOI As System.Windows.Forms.TextBox
-    Friend WithEvents BTNVideoCH As System.Windows.Forms.Button
-    Friend WithEvents BTNVideoJOI As System.Windows.Forms.Button
-    Friend WithEvents CBVideoJOI As System.Windows.Forms.CheckBox
-    Friend WithEvents CBVideoCH As System.Windows.Forms.CheckBox
-    Friend WithEvents GbxVideoGenre As System.Windows.Forms.GroupBox
-    Friend WithEvents LblVideoFemsubTotal As System.Windows.Forms.Label
-    Friend WithEvents TxbVideoFemsub As System.Windows.Forms.TextBox
-    Friend WithEvents LblVideoFemdomTotal As System.Windows.Forms.Label
-    Friend WithEvents TxbVideoFemdom As System.Windows.Forms.TextBox
-    Friend WithEvents TxbVideoBlowjob As System.Windows.Forms.TextBox
-    Friend WithEvents LblVideoBlowjobTotal As System.Windows.Forms.Label
-    Friend WithEvents TxbVideoLesbian As System.Windows.Forms.TextBox
-    Friend WithEvents TxbVideoSoftCore As System.Windows.Forms.TextBox
-    Friend WithEvents LblVideoLesbianTotal As System.Windows.Forms.Label
-    Friend WithEvents TxbVideoHardCore As System.Windows.Forms.TextBox
-    Friend WithEvents BTNVideoFemSub As System.Windows.Forms.Button
-    Friend WithEvents LblVideoSoftCoreTotal As System.Windows.Forms.Label
-    Friend WithEvents BTNVideoFemDom As System.Windows.Forms.Button
-    Friend WithEvents BTNVideoBlowjob As System.Windows.Forms.Button
-    Friend WithEvents LblVideoHardCoreTotal As System.Windows.Forms.Label
-    Friend WithEvents BTNVideoLesbian As System.Windows.Forms.Button
-    Friend WithEvents BTNVideoSoftCore As System.Windows.Forms.Button
-    Friend WithEvents BTNVideoHardCore As System.Windows.Forms.Button
-    Friend WithEvents CBVideoHardcore As System.Windows.Forms.CheckBox
-    Friend WithEvents CBVideoSoftCore As System.Windows.Forms.CheckBox
-    Friend WithEvents CBVideoLesbian As System.Windows.Forms.CheckBox
-    Friend WithEvents CBVideoBlowjob As System.Windows.Forms.CheckBox
-    Friend WithEvents CBVideoFemsub As System.Windows.Forms.CheckBox
-    Friend WithEvents CBVideoFemdom As System.Windows.Forms.CheckBox
-    Friend WithEvents LblVideoHeader As System.Windows.Forms.Label
     Friend WithEvents BTNVideoModClear As System.Windows.Forms.Button
     Friend WithEvents BTNVideoModLoad As System.Windows.Forms.Button
     Friend WithEvents BTNVideoModSave As System.Windows.Forms.Button
@@ -14857,35 +15039,31 @@ Partial Class FrmSettings
     Friend WithEvents CBVTType As System.Windows.Forms.ComboBox
     Friend WithEvents GroupBox29 As System.Windows.Forms.GroupBox
     Friend WithEvents Label51 As System.Windows.Forms.Label
-    Friend WithEvents TabPage4 As System.Windows.Forms.TabPage
-    Friend WithEvents Panel6 As System.Windows.Forms.Panel
-    Friend WithEvents PictureBox8 As System.Windows.Forms.PictureBox
+    Friend WithEvents RangeSettingsTabPage As System.Windows.Forms.TabPage
+    Friend WithEvents RangeSettingsBody As System.Windows.Forms.Panel
+    Friend WithEvents RangeSettingsLogo As System.Windows.Forms.PictureBox
     Friend WithEvents LBLStf As System.Windows.Forms.Label
     Friend WithEvents Label49 As System.Windows.Forms.Label
     Friend WithEvents SliderSTF As System.Windows.Forms.TrackBar
-    Friend WithEvents GroupBox21 As System.Windows.Forms.GroupBox
-    Friend WithEvents LBLRangeSettingsDescription As System.Windows.Forms.Label
-    Friend WithEvents GroupBox17 As System.Windows.Forms.GroupBox
+    Friend WithEvents RangeSettingsDescriptionGroupBox As System.Windows.Forms.GroupBox
+    Friend WithEvents RangeSettingsDescriptionLabel As System.Windows.Forms.Label
+    Friend WithEvents RangeSettingsVideoTeaseGroupBox As System.Windows.Forms.GroupBox
     Friend WithEvents GroupBox19 As System.Windows.Forms.GroupBox
-    Friend WithEvents NBGreenLightMax As System.Windows.Forms.NumericUpDown
-    Friend WithEvents NBGreenLightMin As System.Windows.Forms.NumericUpDown
     Friend WithEvents Label26 As System.Windows.Forms.Label
     Friend WithEvents Label27 As System.Windows.Forms.Label
-    Friend WithEvents NBRedLightMax As System.Windows.Forms.NumericUpDown
-    Friend WithEvents NBRedLightMin As System.Windows.Forms.NumericUpDown
     Friend WithEvents Label28 As System.Windows.Forms.Label
     Friend WithEvents Label29 As System.Windows.Forms.Label
-    Friend WithEvents GroupBox18 As System.Windows.Forms.GroupBox
-    Friend WithEvents CBCensorConstant As System.Windows.Forms.CheckBox
-    Friend WithEvents NBCensorHideMax As System.Windows.Forms.NumericUpDown
-    Friend WithEvents NBCensorHideMin As System.Windows.Forms.NumericUpDown
+    Friend WithEvents RangeSettingsCensorshipSucksGroupBox As System.Windows.Forms.GroupBox
+    Friend WithEvents CensorshipBarDuringVideoTease As System.Windows.Forms.CheckBox
+    Friend WithEvents HideCensorshipBarMaximumSeconds As System.Windows.Forms.NumericUpDown
+    Friend WithEvents HideCensorshipBarMinimumSeconds As System.Windows.Forms.NumericUpDown
     Friend WithEvents Label19 As System.Windows.Forms.Label
     Friend WithEvents Label20 As System.Windows.Forms.Label
-    Friend WithEvents NBCensorShowMax As System.Windows.Forms.NumericUpDown
-    Friend WithEvents NBCensorShowMin As System.Windows.Forms.NumericUpDown
+    Friend WithEvents ShowCensorshipBarMaximumSeconds As System.Windows.Forms.NumericUpDown
+    Friend WithEvents ShowCensorshipBarMinimumSeconds As System.Windows.Forms.NumericUpDown
     Friend WithEvents Label25 As System.Windows.Forms.Label
     Friend WithEvents Label24 As System.Windows.Forms.Label
-    Friend WithEvents Label38 As System.Windows.Forms.Label
+    Friend WithEvents RangeSettingsHeaderLabel As System.Windows.Forms.Label
     Friend WithEvents PNLGlitter As System.Windows.Forms.Panel
     Friend WithEvents GBGlitterD As System.Windows.Forms.GroupBox
     Friend WithEvents BTNGlitterD As System.Windows.Forms.Button
@@ -14957,7 +15135,6 @@ Partial Class FrmSettings
     Friend WithEvents TabPage15 As System.Windows.Forms.TabPage
     Friend WithEvents OpenFileDialog1 As System.Windows.Forms.OpenFileDialog
     Friend WithEvents GetColor As System.Windows.Forms.ColorDialog
-    Friend WithEvents FolderBrowserDialog1 As System.Windows.Forms.FolderBrowserDialog
     Friend WithEvents WebImageFileDialog As System.Windows.Forms.OpenFileDialog
     Friend WithEvents SaveFileDialog1 As System.Windows.Forms.SaveFileDialog
     Friend WithEvents OpenScriptDialog As System.Windows.Forms.OpenFileDialog
@@ -15013,7 +15190,7 @@ Partial Class FrmSettings
     Friend WithEvents LocalHardcoreEnabledCheckBox As System.Windows.Forms.CheckBox
     Friend WithEvents LocalSoftcoreEnabledCheckBox As System.Windows.Forms.CheckBox
     Friend WithEvents LocalLesbianEnabledCheckBox As System.Windows.Forms.CheckBox
-    Friend WithEvents  LocalBlowjobEnabledCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents LocalBlowjobEnabledCheckBox As System.Windows.Forms.CheckBox
     Friend WithEvents LocalLezdomEnabledCheckBox As System.Windows.Forms.CheckBox
     Friend WithEvents LocalFemdomEnabledCheckBox As System.Windows.Forms.CheckBox
     Friend WithEvents LocalGeneralDirectoryTextBox As System.Windows.Forms.TextBox
@@ -15100,7 +15277,7 @@ Partial Class FrmSettings
     Friend WithEvents NBRuinRarely As System.Windows.Forms.NumericUpDown
     Friend WithEvents NBRuinOften As System.Windows.Forms.NumericUpDown
     Friend WithEvents DommeDecideRuinCheckBox As System.Windows.Forms.CheckBox
-    Friend WithEvents GroupBox57 As System.Windows.Forms.GroupBox
+    Friend WithEvents RangeSettingsTeaseGroupBox As System.Windows.Forms.GroupBox
     Friend WithEvents LBLSafeword As System.Windows.Forms.Label
     Friend WithEvents TBSafeword As System.Windows.Forms.TextBox
     Friend WithEvents TabPage20 As System.Windows.Forms.TabPage
@@ -15161,7 +15338,7 @@ Partial Class FrmSettings
     Friend WithEvents RTBResponses As System.Windows.Forms.RichTextBox
     Friend WithEvents RTBResponsesKEY As System.Windows.Forms.RichTextBox
     Friend WithEvents Button9 As System.Windows.Forms.Button
-    Friend WithEvents TauntSlider As System.Windows.Forms.TrackBar
+    Friend WithEvents VideoTauntSlider As System.Windows.Forms.TrackBar
     Friend WithEvents Label97 As System.Windows.Forms.Label
     Friend WithEvents NBTeaseLengthMax As System.Windows.Forms.NumericUpDown
     Friend WithEvents Label99 As System.Windows.Forms.Label
@@ -15176,9 +15353,9 @@ Partial Class FrmSettings
     Friend WithEvents Label102 As System.Windows.Forms.Label
     Friend WithEvents CBTauntCycleDD As System.Windows.Forms.CheckBox
     Friend WithEvents TeaseLengthDommeDetermined As System.Windows.Forms.CheckBox
-    Friend WithEvents GroupBox10 As System.Windows.Forms.GroupBox
-    Friend WithEvents Label106 As System.Windows.Forms.Label
-    Friend WithEvents LBLVtf As System.Windows.Forms.Label
+    Friend WithEvents RangeSettingsTeaseSlideshowGroupBox As System.Windows.Forms.GroupBox
+    Friend WithEvents VideoTauntSliderLabel As System.Windows.Forms.Label
+    Friend WithEvents VideoTauntDescriptionLabel As System.Windows.Forms.Label
     Friend WithEvents Label6 As System.Windows.Forms.Label
     Friend WithEvents Label108 As System.Windows.Forms.Label
     Friend WithEvents Label109 As System.Windows.Forms.Label
@@ -15449,7 +15626,7 @@ Partial Class FrmSettings
     Friend WithEvents GroupBox66 As System.Windows.Forms.GroupBox
     Friend WithEvents PBURLPreview As System.Windows.Forms.PictureBox
     Friend WithEvents PreviewRemoteImagesCheckBox As System.Windows.Forms.CheckBox
-    Friend WithEvents GroupBox67 As System.Windows.Forms.GroupBox
+    Friend WithEvents RangeSettingsGlitterTasksGroupBox As System.Windows.Forms.GroupBox
     Friend WithEvents Label151 As System.Windows.Forms.Label
     Friend WithEvents NBTaskStrokingTimeMax As System.Windows.Forms.NumericUpDown
     Friend WithEvents NBTaskStrokingTimeMin As System.Windows.Forms.NumericUpDown
@@ -15475,7 +15652,7 @@ Partial Class FrmSettings
     Friend WithEvents Label160 As System.Windows.Forms.Label
     Friend WithEvents BtnImportSettings As Button
     Friend WithEvents LblImportSettings As Label
-    Friend WithEvents GroupBox68 As System.Windows.Forms.GroupBox
+    Friend WithEvents RangeSettingsSessionTasksGroupBox As System.Windows.Forms.GroupBox
     Friend WithEvents TaskWaitMaximum As System.Windows.Forms.NumericUpDown
     Friend WithEvents TaskWaitMinimum As System.Windows.Forms.NumericUpDown
     Friend WithEvents Label165 As System.Windows.Forms.Label
@@ -15668,4 +15845,101 @@ Partial Class FrmSettings
     Friend WithEvents ScriptInfoPanel As Panel
     Friend WithEvents ScriptNavPanel As Panel
     Friend WithEvents SelectBlogDropDown As ComboBox
+    Friend WithEvents VideoSettingsPanel As Panel
+    Friend WithEvents VideoHeaderPanel As Panel
+    Friend WithEvents VideoHeaderLabel As Label
+    Friend WithEvents VideoRefreshButton As Button
+    Friend WithEvents VideoLogo As PictureBox
+    Friend WithEvents VideoDommeGeneralGroupBox As GroupBox
+    Friend WithEvents VideoTotalDommeGeneral As Label
+    Friend WithEvents VideoDommeGeneralPathTextBox As TextBox
+    Friend WithEvents BTNVideoGeneralD As Button
+    Friend WithEvents CBVideoGeneralD As CheckBox
+    Friend WithEvents GbxVideoSpecialD As GroupBox
+    Friend WithEvents LblVideoCHTotalD As Label
+    Friend WithEvents LblVideoJOITotalD As Label
+    Friend WithEvents TxbVideoCHD As TextBox
+    Friend WithEvents TxbVideoJOID As TextBox
+    Friend WithEvents BTNVideoCHD As Button
+    Friend WithEvents BTNVideoJOID As Button
+    Friend WithEvents CBVideoJOID As CheckBox
+    Friend WithEvents CBVideoCHD As CheckBox
+    Friend WithEvents GbxVideoGenreD As GroupBox
+    Friend WithEvents LblVideoFemsubTotalD As Label
+    Friend WithEvents TxbVideoFemsubD As TextBox
+    Friend WithEvents LblVideoFemdomTotalD As Label
+    Friend WithEvents TxbVideoFemdomD As TextBox
+    Friend WithEvents TxbVideoBlowjobD As TextBox
+    Friend WithEvents LblVideoBlowjobTotalD As Label
+    Friend WithEvents TxbVideoLesbianD As TextBox
+    Friend WithEvents TxbVideoSoftCoreD As TextBox
+    Friend WithEvents LblVideoLesbianTotalD As Label
+    Friend WithEvents TxbVideoHardCoreD As TextBox
+    Friend WithEvents BTNVideoFemSubD As Button
+    Friend WithEvents LblVideoSoftCoreTotalD As Label
+    Friend WithEvents BTNVideoFemDomD As Button
+    Friend WithEvents BTNVideoBlowjobD As Button
+    Friend WithEvents LblVideoHardCoreTotalD As Label
+    Friend WithEvents BTNVideoLesbianD As Button
+    Friend WithEvents BTNVideoSoftCoreD As Button
+    Friend WithEvents BTNVideoHardCoreD As Button
+    Friend WithEvents CBVideoHardcoreD As CheckBox
+    Friend WithEvents CBVideoSoftCoreD As CheckBox
+    Friend WithEvents CBVideoLesbianD As CheckBox
+    Friend WithEvents CBVideoBlowjobD As CheckBox
+    Friend WithEvents CBVideoFemsubD As CheckBox
+    Friend WithEvents CBVideoFemdomD As CheckBox
+    Friend WithEvents VideoDescriptionGroupBox As GroupBox
+    Friend WithEvents VideoDescriptionLabel As Label
+    Friend WithEvents VideoGeneralGroupBox As GroupBox
+    Friend WithEvents LblVideoGeneralTotal As Label
+    Friend WithEvents TxbVideoGeneral As TextBox
+    Friend WithEvents BTNVideoGeneral As Button
+    Friend WithEvents CBVideoGeneral As CheckBox
+    Friend WithEvents VideoSpecialGroupBox As GroupBox
+    Friend WithEvents LblVideoCHTotal As Label
+    Friend WithEvents LblVideoJOITotal As Label
+    Friend WithEvents TxbVideoCH As TextBox
+    Friend WithEvents TxbVideoJOI As TextBox
+    Friend WithEvents BTNVideoCH As Button
+    Friend WithEvents BTNVideoJOI As Button
+    Friend WithEvents CBVideoJOI As CheckBox
+    Friend WithEvents CBVideoCH As CheckBox
+    Friend WithEvents VideoGenreGroupBox As GroupBox
+    Friend WithEvents LblVideoFemsubTotal As Label
+    Friend WithEvents TxbVideoFemsub As TextBox
+    Friend WithEvents LblVideoFemdomTotal As Label
+    Friend WithEvents TxbVideoFemdom As TextBox
+    Friend WithEvents TxbVideoBlowjob As TextBox
+    Friend WithEvents LblVideoBlowjobTotal As Label
+    Friend WithEvents TxbVideoLesbian As TextBox
+    Friend WithEvents TxbVideoSoftCore As TextBox
+    Friend WithEvents LblVideoLesbianTotal As Label
+    Friend WithEvents VideoHardCorePathTextBox As TextBox
+    Friend WithEvents BTNVideoFemSub As Button
+    Friend WithEvents LblVideoSoftCoreTotal As Label
+    Friend WithEvents BTNVideoFemDom As Button
+    Friend WithEvents BTNVideoBlowjob As Button
+    Friend WithEvents LblVideoHardCoreTotal As Label
+    Friend WithEvents BTNVideoLesbian As Button
+    Friend WithEvents BTNVideoSoftCore As Button
+    Friend WithEvents VideoSetHardcorePathButton As Button
+    Friend WithEvents VideoEnableHardcoreCheckBox As CheckBox
+    Friend WithEvents VideoEnableSoftcoreCheckBox As CheckBox
+    Friend WithEvents CBVideoLesbian As CheckBox
+    Friend WithEvents CBVideoBlowjob As CheckBox
+    Friend WithEvents CBVideoFemsub As CheckBox
+    Friend WithEvents CBVideoFemdom As CheckBox
+    Friend WithEvents VideoLayoutTable As TableLayoutPanel
+    Friend WithEvents VideoGeneralPanel As Panel
+    Friend WithEvents VideoDommePanel As Panel
+    Friend WithEvents RangeSettingsHeaderPanel As Panel
+    Friend WithEvents RangeSettingsBodyTablePanel As TableLayoutPanel
+    Friend WithEvents RangeSettingsBodyRightColumnPanel As Panel
+    Friend WithEvents RangeSettingsBodyMiddleColumnPanel As Panel
+    Friend WithEvents RangeSettingsBodyLeftColumnPanel As Panel
+    Friend WithEvents GreenLightMaximumSeconds As NumericUpDown
+    Friend WithEvents GreenLightMinimumSeconds As NumericUpDown
+    Friend WithEvents RedLightMaximumSeconds As NumericUpDown
+    Friend WithEvents RedLightMinimumSeconds As NumericUpDown
 End Class

@@ -18,6 +18,7 @@ Imports System.IO
 Imports System.Runtime.Serialization
 Imports TeaseAI
 Imports TeaseAI.Common
+Imports TeaseAI.Common.Interfaces
 Imports TeaseAI.Common.Interfaces.Accessors
 
 ''' <summary>
@@ -39,7 +40,6 @@ Public Class SessionState
 #Region "------------------------------------------- Data -----------------------------------------------"
     Const EditorGenericStringList As String = "System.Windows.Forms.Design.ListControlStringCollectionEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
 
-    Public Property randomizer As New Random
     Public Property ScriptOperator As String
 
     Public Property DomTyping As Boolean
@@ -107,6 +107,7 @@ Public Class SessionState
     ''' </summary>
     ''' <returns></returns>
     <Description("Used for regular talk.")>
+    <Obsolete("Don't use this, Call DommeSays")>
     Public Property DomTask As String
         Get
             Return myDom
@@ -237,7 +238,9 @@ Public Class SessionState
     <Category("Video")> Public Property DommeVideo As Boolean
     <Category("Video")> Public Property JumpVideo As Boolean
     <Category("Video")> Public Property NoSpecialVideo As Boolean
+    <Obsolete("STOP", True)>
     <Category("Video")> Public Property RandomizerVideo As Boolean
+    <Obsolete("something do do with detecting use of randomizer button")>
     <Category("Video")> Public Property RandomizerVideoTease As Boolean
     <Category("Video")> Public Property ScriptVideoTease As String
     <Category("Video")> Public Property ScriptVideoTeaseFlag As Boolean
@@ -254,12 +257,6 @@ Public Class SessionState
     <Category("Video - Avoid the Edge")> Public Property AvoidTheEdgeGame As Boolean
     <Category("Video - Avoid the Edge")> Public Property AvoidTheEdgeStroking As Boolean
     <Category("Video - Avoid the Edge")> Public Property AvoidTheEdgeTick As Integer
-    <Category("Video - Censorship")> Public Property CensorshipGame As Boolean
-    <Category("Video - Censorship")> Public Property CensorshipTick As Integer
-    <Category("Video - Red light green light")> Public Property RedLight As Boolean
-    <Category("Video - Red light green light")> Public Property RLGLGame As Boolean
-    <Category("Video - Red light green light")> Public Property RLGLTauntTick As Integer
-    <Category("Video - Red light green light")> Public Property RLGLTick As Integer
     <Category("Video")> <Obsolete("Never set to TRUE")> Public Property NoVideo As Boolean
 
     <Category("Glitter")> <Editor(EditorGenericStringList, GetType(UITypeEditor))>
@@ -605,8 +602,6 @@ Public Class SessionState
     Public HoldEdgeTauntTimer_Interval As Integer = 1000
     Public HoldEdgeTimer_Interval As Integer = 1000
     Public IsTypingTimer_Interval As Integer = 110
-    Public RLGLTauntTimer_Interval As Integer = 1000
-    Public RLGLTimer_Interval As Integer = 1000
     Public SendTimer_Interval As Integer = 110
     Public SlideshowTimer_Interval As Integer = 1000
     Public StrokeTauntTimer_Interval As Integer = 1000
@@ -648,6 +643,7 @@ Public Class SessionState
     ''' </summary>
     Sub New()
         mySettingsAccessor = ApplicationFactory.CreateSettingsAccessor()
+        myRandomNumberService = ApplicationFactory.CreateRandomNumberService()
         InitializeComponent()
     End Sub
 
@@ -661,8 +657,6 @@ Public Class SessionState
     End Sub
 
     Private Sub InitializeComponent()
-        randomizer = New Random()
-
         StrokeTimeTotal = My.Settings.StrokeTimeTotal
 
         HoldEdgeTimeTotal = My.Settings.HoldEdgeTimeTotal
@@ -676,7 +670,7 @@ Public Class SessionState
         AvgEdgeCount = My.Settings.AvgEdgeCount
         AvgEdgeCountRest = My.Settings.AvgEdgeCountRest
         Dim settings As Settings = mySettingsAccessor.GetSettings()
-        DommeMood = randomizer.Next(settings.Domme.BadMoodThreshold, settings.Domme.GoodMoodThreshold + 1)
+        DommeMood = myRandomNumberService.Roll(settings.Domme.BadMoodThreshold, settings.Domme.GoodMoodThreshold + 1)
 
         SlideshowMain = New ContactData(ContactType.Domme)
         SlideshowContact1 = New ContactData(ContactType.Contact1)
@@ -746,7 +740,6 @@ Public Class SessionState
             AvoidTheEdge_enabled = .AvoidTheEdge.Enabled
             AvoidTheEdgeResume_enabled = .AvoidTheEdgeResume.Enabled
             AvoidTheEdgeTaunts_enabled = .AvoidTheEdgeTaunts.Enabled
-            CensorshipTimer_enabled = .CensorshipTimer.Enabled
             Contact1Timer_enabled = .Contact1Timer.Enabled
             Contact2Timer_enabled = .Contact2Timer.Enabled
             Contact3Timer_enabled = .Contact3Timer.Enabled
@@ -756,8 +749,6 @@ Public Class SessionState
             HoldEdgeTauntTimer_enabled = .HoldEdgeTauntTimer.Enabled
             HoldEdgeTimer_enabled = .HoldEdgeTimer.Enabled
             IsTypingTimer_enabled = .IsTypingTimer.Enabled
-            RLGLTauntTimer_enabled = .RLGLTauntTimer.Enabled
-            RLGLTimer_enabled = .RLGLTimer.Enabled
             SendTimer_enabled = .SendTimer.Enabled
             SlideshowTimer_enabled = .SlideshowTimer.Enabled
             StrokeTauntTimer_enabled = .StrokeTauntTimer.Enabled
@@ -778,7 +769,6 @@ Public Class SessionState
             AvoidTheEdge_Interval = .AvoidTheEdge.Interval
             AvoidTheEdgeResume_Interval = .AvoidTheEdgeResume.Interval
             AvoidTheEdgeTaunts_Interval = .AvoidTheEdgeTaunts.Interval
-            CensorshipTimer_Interval = .CensorshipTimer.Interval
             Contact1Timer_Interval = .Contact1Timer.Interval
             Contact2Timer_Interval = .Contact2Timer.Interval
             Contact3Timer_Interval = .Contact3Timer.Interval
@@ -788,8 +778,6 @@ Public Class SessionState
             HoldEdgeTauntTimer_Interval = .HoldEdgeTauntTimer.Interval
             HoldEdgeTimer_Interval = .HoldEdgeTimer.Interval
             IsTypingTimer_Interval = .IsTypingTimer.Interval
-            RLGLTauntTimer_Interval = .RLGLTauntTimer.Interval
-            RLGLTimer_Interval = .RLGLTimer.Interval
             SendTimer_Interval = .SendTimer.Interval
             SlideshowTimer_Interval = .SlideshowTimer.Interval
             StrokeTauntTimer_Interval = .StrokeTauntTimer.Interval
@@ -808,10 +796,10 @@ Public Class SessionState
             '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
             '								Get WMP-Data
             '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
-            serialized_WMP_Visible = .DomWMP.Visible
-            serialized_WMP_URL = .DomWMP.URL
-            serialized_WMP_Playstate = .DomWMP.playState
-            serialized_WMP_Position = .DomWMP.Ctlcontrols.currentPosition
+            serialized_WMP_Visible = .WindowsMediaPlayerPane.Visible
+            serialized_WMP_URL = .WindowsMediaPlayerPane.URL
+            serialized_WMP_Playstate = .WindowsMediaPlayerPane.playState
+            serialized_WMP_Position = .WindowsMediaPlayerPane.Ctlcontrols.currentPosition
 
             '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
             '								Get Flags
@@ -882,7 +870,6 @@ Public Class SessionState
             .AvoidTheEdge.Enabled = False
             .AvoidTheEdgeResume.Enabled = False
             .AvoidTheEdgeTaunts.Enabled = False
-            .CensorshipTimer.Enabled = False
             .Contact1Timer.Enabled = False
             .Contact2Timer.Enabled = False
             .Contact3Timer.Enabled = False
@@ -892,8 +879,6 @@ Public Class SessionState
             .HoldEdgeTauntTimer.Enabled = False
             .HoldEdgeTimer.Enabled = False
             .IsTypingTimer.Enabled = False
-            .RLGLTauntTimer.Enabled = False
-            .RLGLTimer.Enabled = False
             .SendTimer.Enabled = False
             .SlideshowTimer.Enabled = False
             .StrokeTauntTimer.Enabled = False
@@ -986,27 +971,27 @@ Public Class SessionState
             End If
 
             .mainPictureBox.Visible = Not serialized_WMP_Visible
-            .DomWMP.Visible = serialized_WMP_Visible
-            .DomWMP.URL = serialized_WMP_URL
-            .DomWMP.Ctlcontrols.currentPosition = serialized_WMP_Position
+            .WindowsMediaPlayerPane.Visible = serialized_WMP_Visible
+            .WindowsMediaPlayerPane.URL = serialized_WMP_URL
+            .WindowsMediaPlayerPane.Ctlcontrols.currentPosition = serialized_WMP_Position
 
             If serialized_WMP_Playstate <= 1 Then
-                .DomWMP.Ctlcontrols.stop()
+                .WindowsMediaPlayerPane.Ctlcontrols.stop()
             ElseIf serialized_WMP_Playstate = 2 Then
                 Dim sw As New Stopwatch
                 sw.Start()
 
-                Do Until .DomWMP.playState = WMPPlayState.wmppsPlaying Or sw.ElapsedMilliseconds > 5000
+                Do Until .WindowsMediaPlayerPane.playState = WMPPlayState.wmppsPlaying Or sw.ElapsedMilliseconds > 5000
                     Application.DoEvents()
                 Loop
 
-                .DomWMP.Ctlcontrols.pause()
+                .WindowsMediaPlayerPane.Ctlcontrols.pause()
             ElseIf serialized_WMP_Playstate = 3 Then
-                .DomWMP.Ctlcontrols.play()
+                .WindowsMediaPlayerPane.Ctlcontrols.play()
             End If
 
             ' Hide Cencorshipbar , if no game is running 
-            If CensorshipGame = True Or CensorshipTimer_enabled = False Then .CensorshipBar.Visible = False
+            If CensorshipTimer_enabled = False Then .CensorshipBar.Visible = False
 
             '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
             '							Set Chat and StrokePace
@@ -1022,7 +1007,6 @@ Public Class SessionState
             .AvoidTheEdge.Interval = AvoidTheEdge_Interval
             .AvoidTheEdgeResume.Interval = AvoidTheEdgeResume_Interval
             .AvoidTheEdgeTaunts.Interval = AvoidTheEdgeTaunts_Interval
-            .CensorshipTimer.Interval = CensorshipTimer_Interval
             .Contact1Timer.Interval = Contact1Timer_Interval
             .Contact2Timer.Interval = Contact2Timer_Interval
             .Contact3Timer.Interval = Contact3Timer_Interval
@@ -1032,8 +1016,6 @@ Public Class SessionState
             .HoldEdgeTauntTimer.Interval = HoldEdgeTauntTimer_Interval
             .HoldEdgeTimer.Interval = HoldEdgeTimer_Interval
             .IsTypingTimer.Interval = IsTypingTimer_Interval
-            .RLGLTauntTimer.Interval = RLGLTauntTimer_Interval
-            .RLGLTimer.Interval = RLGLTimer_Interval
             .SendTimer.Interval = SendTimer_Interval
             .SlideshowTimer.Interval = SlideshowTimer_Interval
             .StrokeTauntTimer.Interval = StrokeTauntTimer_Interval
@@ -1055,7 +1037,6 @@ Public Class SessionState
             .AvoidTheEdge.Enabled = AvoidTheEdge_enabled
             .AvoidTheEdgeResume.Enabled = AvoidTheEdgeResume_enabled
             .AvoidTheEdgeTaunts.Enabled = AvoidTheEdgeTaunts_enabled
-            .CensorshipTimer.Enabled = CensorshipTimer_enabled
             .Contact1Timer.Enabled = Contact1Timer_enabled
             .Contact2Timer.Enabled = Contact2Timer_enabled
             .Contact3Timer.Enabled = Contact3Timer_enabled
@@ -1065,8 +1046,6 @@ Public Class SessionState
             .HoldEdgeTauntTimer.Enabled = HoldEdgeTauntTimer_enabled
             .HoldEdgeTimer.Enabled = HoldEdgeTimer_enabled
             .IsTypingTimer.Enabled = IsTypingTimer_enabled
-            .RLGLTauntTimer.Enabled = RLGLTauntTimer_enabled
-            .RLGLTimer.Enabled = RLGLTimer_enabled
             .SendTimer.Enabled = SendTimer_enabled
             .SlideshowTimer.Enabled = SlideshowTimer_enabled
             .StrokeTauntTimer.Enabled = StrokeTauntTimer_enabled
@@ -1165,6 +1144,7 @@ Public Class SessionState
     End Function
 
     Private ReadOnly mySettingsAccessor As ISettingsAccessor
+    Private ReadOnly myRandomNumberService As IRandomNumberService
     Private myDom As String
     Private myFileText As String
     Private myScriptLineCount As Integer

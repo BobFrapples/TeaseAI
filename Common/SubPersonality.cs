@@ -32,7 +32,10 @@ namespace TeaseAI.Common
         /// </summary>
         public bool IsHoldingTheEdge => HoldEdgeSeconds > 0;
 
-        public string Name { get; set; }
+        /// <summary>
+        /// Sub's name
+        /// </summary>
+        public string Name { get => _name ?? (_name = string.Empty); set => _name = value; }
 
         /// <summary>
         /// List of things the sub likes. Will never be null(Nothing in VB)
@@ -42,7 +45,6 @@ namespace TeaseAI.Common
             get { return _kinks ?? (_kinks = new List<string>()); }
             set { _kinks = value; }
         }
-        private List<string> _kinks;
 
         /// <summary>
         /// Lisst of toys the sub owns. Will never be null(Nothing in VB)
@@ -53,7 +55,8 @@ namespace TeaseAI.Common
             set { _toyBox = value; }
         }
 
-        public string Safeword { get; set; }
+        public string Safeword { get => _safeword ?? (_safeword = string.Empty); set => _safeword = value; }
+        private string _safeword;
         public bool? WillBeAllowedToOrgasm { get; set; }
         public bool IsOrgasmRestricted { get; set; }
         public int StrokePace { get; set; }
@@ -68,11 +71,29 @@ namespace TeaseAI.Common
         }
 
         public int EdgeCount { get; set; }
+
         public decimal HoldEdgeSeconds { get; set; }
+
+        /// <summary>
+        /// should the sub's cock be referred to as a clit
+        /// </summary>
         public bool CallCockAClit { get; set; }
+
+        /// <summary>
+        /// should the subs balls be referred to as a pussy
+        /// </summary>
         public bool CallBallsAPussy { get; set; }
-        public string EyeColor { get; set; }
-        public string HairColor { get; set; }
+
+        /// <summary>
+        /// sub's eye color
+        /// </summary>
+        public string EyeColor { get => _eyeColor ?? (_eyeColor = string.Empty); set=> _eyeColor = value; }
+
+        /// <summary>
+        /// sub's hair color
+        /// </summary>
+        public string HairColor { get => _hairColor ?? (_hairColor = string.Empty); set => _hairColor = value; }
+
         public int WritingTaskMin { get; set; }
         public int WritingTaskMax { get; set; }
         public bool IsCockBeingTortured { get; set; }
@@ -130,5 +151,9 @@ namespace TeaseAI.Common
         private Dictionary<TokenDenomination, int> _purse;
         private List<string> _toyBox;
         private List<string> _petNames;
+        private List<string> _kinks;
+        private string _name;
+        private string _eyeColor;
+        private string _hairColor;
     }
 }

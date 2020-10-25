@@ -4,6 +4,7 @@ Imports TeaseAI.Common
 Imports TeaseAI.Common.Data
 Imports TeaseAI.Common.Data.RiskyPick
 Imports TeaseAI.Common.Constants
+Imports TeaseAI.Common.Interfaces
 
 Public Class GamesWindow
 
@@ -141,10 +142,12 @@ Public Class GamesWindow
     Public CardImage8 As Image
     Public CardImage9 As Image
     Private ReadOnly mySettingsAccessor As ISettingsAccessor
+    Private ReadOnly myRandomNumberService As IRandomNumberService
 #End Region
 
     Public Sub New()
-        mySettingsAccessor = ApplicationFactory.CreateOldSettingsAccessor()
+        mySettingsAccessor = ApplicationFactory.CreateSettingsAccessor()
+        myRandomNumberService = ApplicationFactory.CreateRandomNumberService()
 
         ' This call is required by the designer.
         InitializeComponent()
@@ -660,7 +663,7 @@ Public Class GamesWindow
     Public Sub ShowCard1()
         Debug.Print("ShowCard1 Called")
 Card1:
-        CardVal = MainWindow.ssh.randomizer.Next(0, MatchList.Count)
+        CardVal = myRandomNumberService.Roll(0, MatchList.Count)
         Pair1 = MatchList(CardVal)
         MatchList.Remove(MatchList(CardVal))
         Try
@@ -690,7 +693,7 @@ Card1:
     Public Sub ShowCard2()
         Debug.Print("ShowCard 2")
 Card2:
-        CardVal = MainWindow.ssh.randomizer.Next(0, MatchList.Count)
+        CardVal = myRandomNumberService.Roll(0, MatchList.Count)
         Pair2 = MatchList(CardVal)
         MatchList.Remove(MatchList(CardVal))
         Try
@@ -727,7 +730,7 @@ Card2:
 
     Public Sub ShowCard3()
 Card3:
-        CardVal = MainWindow.ssh.randomizer.Next(0, MatchList.Count)
+        CardVal = myRandomNumberService.Roll(0, MatchList.Count)
         Pair3 = MatchList(CardVal)
         MatchList.Remove(MatchList(CardVal))
         Try
@@ -767,7 +770,7 @@ Card3:
     Public Sub ShowCard4()
 
 Card4:
-        CardVal = MainWindow.ssh.randomizer.Next(0, MatchList.Count)
+        CardVal = myRandomNumberService.Roll(0, MatchList.Count)
         Pair4 = MatchList(CardVal)
         MatchList.Remove(MatchList(CardVal))
         Try
@@ -807,7 +810,7 @@ Card4:
 
     Public Sub ShowCard5()
 Card5:
-        CardVal = MainWindow.ssh.randomizer.Next(0, MatchList.Count)
+        CardVal = myRandomNumberService.Roll(0, MatchList.Count)
         Pair5 = MatchList(CardVal)
         MatchList.Remove(MatchList(CardVal))
         Try
@@ -846,7 +849,7 @@ Card5:
     Public Sub ShowCard6()
 
 Card6:
-        CardVal = MainWindow.ssh.randomizer.Next(0, MatchList.Count)
+        CardVal = myRandomNumberService.Roll(0, MatchList.Count)
         Pair6 = MatchList(CardVal)
         MatchList.Remove(MatchList(CardVal))
         Try
@@ -885,7 +888,7 @@ Card6:
     Public Sub ShowCard7()
 
 Card7:
-        CardVal = MainWindow.ssh.randomizer.Next(0, MatchList.Count)
+        CardVal = myRandomNumberService.Roll(0, MatchList.Count)
         Pair7 = MatchList(CardVal)
         MatchList.Remove(MatchList(CardVal))
         Try
@@ -923,7 +926,7 @@ Card7:
 
     Public Sub ShowCard8()
 Card8:
-        CardVal = MainWindow.ssh.randomizer.Next(0, MatchList.Count)
+        CardVal = myRandomNumberService.Roll(0, MatchList.Count)
         Pair8 = MatchList(CardVal)
         MatchList.Remove(MatchList(CardVal))
         Try
@@ -960,7 +963,7 @@ Card8:
     Public Sub ShowCard9()
 
 Card9:
-        CardVal = MainWindow.ssh.randomizer.Next(0, MatchList.Count)
+        CardVal = myRandomNumberService.Roll(0, MatchList.Count)
         Pair9 = MatchList(CardVal)
         Try
             'M5C.Load(Pair9)
@@ -1058,43 +1061,43 @@ Card9:
                 Debug.Print(MatchList(I))
             Next
 
-            Match1A = MatchList(MainWindow.ssh.randomizer.Next(0, MatchList.Count))
+            Match1A = MatchList(myRandomNumberService.Roll(0, MatchList.Count))
             MatchList.Remove(Match1A)
-            Match2A = MatchList(MainWindow.ssh.randomizer.Next(0, MatchList.Count))
+            Match2A = MatchList(myRandomNumberService.Roll(0, MatchList.Count))
             MatchList.Remove(Match2A)
-            Match3A = MatchList(MainWindow.ssh.randomizer.Next(0, MatchList.Count))
+            Match3A = MatchList(myRandomNumberService.Roll(0, MatchList.Count))
             MatchList.Remove(Match3A)
-            Match4A = MatchList(MainWindow.ssh.randomizer.Next(0, MatchList.Count))
+            Match4A = MatchList(myRandomNumberService.Roll(0, MatchList.Count))
             MatchList.Remove(Match4A)
-            Match5A = MatchList(MainWindow.ssh.randomizer.Next(0, MatchList.Count))
+            Match5A = MatchList(myRandomNumberService.Roll(0, MatchList.Count))
             MatchList.Remove(Match5A)
-            Match6A = MatchList(MainWindow.ssh.randomizer.Next(0, MatchList.Count))
+            Match6A = MatchList(myRandomNumberService.Roll(0, MatchList.Count))
             MatchList.Remove(Match6A)
 
-            Match1B = MatchList(MainWindow.ssh.randomizer.Next(0, MatchList.Count))
+            Match1B = MatchList(myRandomNumberService.Roll(0, MatchList.Count))
             MatchList.Remove(Match1B)
-            Match2B = MatchList(MainWindow.ssh.randomizer.Next(0, MatchList.Count))
+            Match2B = MatchList(myRandomNumberService.Roll(0, MatchList.Count))
             MatchList.Remove(Match2B)
-            Match3B = MatchList(MainWindow.ssh.randomizer.Next(0, MatchList.Count))
+            Match3B = MatchList(myRandomNumberService.Roll(0, MatchList.Count))
             MatchList.Remove(Match3B)
-            Match4B = MatchList(MainWindow.ssh.randomizer.Next(0, MatchList.Count))
+            Match4B = MatchList(myRandomNumberService.Roll(0, MatchList.Count))
             MatchList.Remove(Match4B)
-            Match5B = MatchList(MainWindow.ssh.randomizer.Next(0, MatchList.Count))
+            Match5B = MatchList(myRandomNumberService.Roll(0, MatchList.Count))
             MatchList.Remove(Match5B)
-            Match6B = MatchList(MainWindow.ssh.randomizer.Next(0, MatchList.Count))
+            Match6B = MatchList(myRandomNumberService.Roll(0, MatchList.Count))
             MatchList.Remove(Match6B)
 
-            Match1C = MatchList(MainWindow.ssh.randomizer.Next(0, MatchList.Count))
+            Match1C = MatchList(myRandomNumberService.Roll(0, MatchList.Count))
             MatchList.Remove(Match1C)
-            Match2C = MatchList(MainWindow.ssh.randomizer.Next(0, MatchList.Count))
+            Match2C = MatchList(myRandomNumberService.Roll(0, MatchList.Count))
             MatchList.Remove(Match2C)
-            Match3C = MatchList(MainWindow.ssh.randomizer.Next(0, MatchList.Count))
+            Match3C = MatchList(myRandomNumberService.Roll(0, MatchList.Count))
             MatchList.Remove(Match3C)
-            Match4C = MatchList(MainWindow.ssh.randomizer.Next(0, MatchList.Count))
+            Match4C = MatchList(myRandomNumberService.Roll(0, MatchList.Count))
             MatchList.Remove(Match4C)
-            Match5C = MatchList(MainWindow.ssh.randomizer.Next(0, MatchList.Count))
+            Match5C = MatchList(myRandomNumberService.Roll(0, MatchList.Count))
             MatchList.Remove(Match5C)
-            Match6C = MatchList(MainWindow.ssh.randomizer.Next(0, MatchList.Count))
+            Match6C = MatchList(myRandomNumberService.Roll(0, MatchList.Count))
             'MatchList.Remove(Match6C)
 
             RevealTick = 3

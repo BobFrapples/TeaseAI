@@ -9,6 +9,7 @@ Imports TeaseAI.Data.Interfaces
 Imports TeaseAI.Data.Repositories
 Imports TeaseAI.Services
 Imports TeaseAI.Services.Services
+Imports TeaseAI.Services.VocabularyProcessors
 
 Public Class ApplicationFactory
 
@@ -58,10 +59,21 @@ Public Class ApplicationFactory
             , CreateMediaContainerService() _
             , CreateTimeService() _
             , CreateLineCollectionFilter() _
-            , CreateVitalSubService())
+            , CreateVitalSubService() _
+            , CreateConditionalObjectLogic() _
+            , CreateSessionVocabularyProcessor()
+            )
     End Function
 
-    Private Shared Function CreateLineCollectionFilter() As ILineCollectionFilter
+    Private Shared Function CreateSessionVocabularyProcessor() As IVocabularyProcessor
+        Return New SessionVocabularyProcessor()
+    End Function
+
+    Private Shared Function CreateConditionalObjectLogic() As IConditionalObjectLogic
+        Return New ConditionalObjectLogic()
+    End Function
+
+    Public Shared Function CreateLineCollectionFilter() As ILineCollectionFilter
         Return New LineCollectionFilter()
     End Function
 
@@ -89,7 +101,11 @@ Public Class ApplicationFactory
     End Function
 
     Public Shared Function CreateSessionEngine() As SessionEngine
-        Return New SessionEngine(CreateSettingsAccessor(), New StringService(), CreateScriptAccessor(), New TimerFactory(), New FlagAccessor(), CreateImageMetaDataService(), New VideoAccessor(), New VariableAccessor(), New TauntAccessor(), New SystemVocabularyAccessor(), New VocabularyAccessor(), New LineCollectionFilter(), New RandomNumberService(), CreateConfigurationAccessor(), New NotifyUser(), CreatePathsAccessor(), CreateGetCommandProcessorsService())
+        Return New SessionEngine(CreateSettingsAccessor(), New StringService(), CreateScriptAccessor(), New TimerFactory(), New FlagAccessor(), CreateImageMetaDataService(), New VideoAccessor(), New VariableAccessor(), New TauntAccessor(), New SystemVocabularyAccessor(), New VocabularyAccessor(), New LineCollectionFilter(), New RandomNumberService(), CreateConfigurationAccessor(), New NotifyUser(), CreatePathsAccessor(), CreateGetCommandProcessorsService(), CreateInterpolationProcessor())
+    End Function
+
+    Private Shared Function CreateInterpolationProcessor() As IInterpolationProcessor
+        Return New InterpolationProcessor(CreateSettingsAccessor())
     End Function
 
     Friend Shared Function CreateImageBlogDownloadService() As IImageBlogDownloadService

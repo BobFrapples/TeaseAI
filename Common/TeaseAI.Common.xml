@@ -4,9 +4,64 @@
         <name>TeaseAI.Common</name>
     </assembly>
     <members>
+        <member name="T:TeaseAI.Common.ChatMessage">
+            <summary>
+            Message sent from one person to another, used to update the chat window
+            </summary>
+        </member>
+        <member name="M:TeaseAI.Common.ChatMessage.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.ChatMessage.Message">
+            <summary>
+            message sent
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.ChatMessage.Sender">
+            <summary>
+            message sender
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.ChatMessage.TimeStamp">
+            <summary>
+            timestamp
+            </summary>
+        </member>
         <member name="T:TeaseAI.Common.ChatMessagePreferences">
             <summary>
             preferences on how chat messagaes should display (timestamp, color, etc)
+            </summary>
+        </member>
+        <member name="T:TeaseAI.Common.ConditionalObject">
+            <summary>
+            Used to build logic into scripts.
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.ConditionalObject.String">
+            <summary>
+            This is the string before parsing
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.ConditionalObject.LeftSide">
+            <summary>
+            Left side of the condition
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.ConditionalObject.Operator">
+            <summary>
+            Comparison operator, <see cref="T:TeaseAI.Common.Constants.ConditionalOperator"/> has the full list
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.ConditionalObject.RightSide">
+            <summary>
+            Right side of the condition
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.ConditionalObject.Target">
+            <summary>
+            if condition is true, this is the bookmark to jump to
             </summary>
         </member>
         <member name="T:TeaseAI.Common.Constants.AllowsOrgasms">
@@ -57,10 +112,59 @@
             How much the dom cares about the sub
             </summary>
         </member>
+        <member name="T:TeaseAI.Common.Constants.ConditionalOperator">
+            <summary>
+            Various operators that can be used with conditionals
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.ConditionalOperator.EqualTo">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.ConditionalOperator.NotEqualTo">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.ConditionalOperator.GreaterThan">
+            <summary>
+            <para>Numeric comparison only</para>
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.ConditionalOperator.GreaterThanOrEqualTo">
+            <summary>
+            <para>Numeric comparison only</para>
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.ConditionalOperator.LessThan">
+            <summary>
+            <para>Numeric comparison only</para>
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.ConditionalOperator.LessThanOrEqualTo">
+            <summary>
+            <para>Numeric comparison only</para>
+            </summary>
+        </member>
         <member name="T:TeaseAI.Common.Constants.DomLevel">
             <summary>
             How rough will the dom be
             </summary>
+        </member>
+        <member name="M:TeaseAI.Common.Constants.DomLevel.op_Equality(TeaseAI.Common.Constants.DomLevel,TeaseAI.Common.Constants.DomLevel)">
+            <summary>
+            Compare two domination levels for equality
+            </summary>
+            <param name="value"></param>
+            <param name="other"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Constants.DomLevel.op_Equality(TeaseAI.Common.Constants.DomLevel,System.Int32)">
+            <summary>
+            Compare a domination level and an integer for equality
+            </summary>
+            <param name="value"></param>
+            <param name="other"></param>
+            <returns></returns>
         </member>
         <member name="T:TeaseAI.Common.Constants.ImageSource">
             <summary>
@@ -113,7 +217,12 @@
         </member>
         <member name="F:TeaseAI.Common.Constants.Keyword.Chance">
             <summary>
-            This command will go to specified bookmark 50% of the time.
+            This command will go to specified bookmark 50% of the time. Please stop using ChanceXX(bookmark), and use ChancePercent instead for that
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.ChancePercent">
+            <summary>
+            Define a percentage chance to go to  specified bookmark
             </summary>
         </member>
         <member name="F:TeaseAI.Common.Constants.Keyword.CheckFlag">
@@ -223,6 +332,15 @@
             i.e. @RandomText(Hello, Hiya) has a roughly 50/50 chance of using either word
             </summary>
         </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.RandomNumber">
+            <summary>
+            Replace with a random whole number. A single parameter will be between 0 and that number, two will set the range. 
+            Combine with interpolation for more flexability.
+            <para>i.e. @RandomNumber(100) -- generate a percentage (0 - 100)</para>
+            <para>i.e. @RandomNumber(10,12) -- generate a random number from 10 to 12</para>
+            <para>i.e. @RandomNumber({Settings.Range.TeaseLengthMinutesMinimum},{Settings.Range.TeaseLengthMinutesMaximum}) -- Generate a random number based on the tease lenth settings </para>
+            </summary>
+        </member>
         <member name="F:TeaseAI.Common.Constants.Keyword.RapidCodeOff">
             <summary>
             Set sleep time between messages to default value
@@ -274,9 +392,41 @@
             Plays a random video *not* in JOI or CH genre
             </summary>
         </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.PauseVideo">
+            <summary>
+            Pause the currently playing video
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.UnpauseVideo">
+            <summary>
+            Unpause the currently playing video
+            </summary>
+        </member>
         <member name="F:TeaseAI.Common.Constants.Keyword.PlayJoiVideo">
             <summary>
             specifically play a Jerk Off Instruction Video
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.PlayCockHeroVideo">
+            <summary>
+            specifically play a Cock Hero Video
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.StopVideo">
+            <summary>
+            Stop whatever video is playing.
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.PlayCensorshipSucks">
+            <summary>
+            <para>Censorship sucks involves overlaying a black bar on a video, thus "censoring" the content.</para>
+            <para>Calling this will pause the existing session (if going) or start a one if not going already </para>
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.PlayRedLightGreenLight">
+            <summary>
+            <para>Red Light / Green Light is a game where the sub may stroke when the light is green, but must stop when it is red.</para>
+            <para>Calling this will pause the existing session (if going) or start a one if not going already </para>
             </summary>
         </member>
         <member name="F:TeaseAI.Common.Constants.Keyword.CockTorture">
@@ -433,11 +583,6 @@
             Flag whatever image is being displayed as disliked
             </summary>
         </member>
-        <member name="F:TeaseAI.Common.Constants.Keyword.OrgasmDenied">
-            <summary>
-            Filter flag used to mark a line for inclusion only if the sub is denied an orgasm
-            </summary>
-        </member>
         <member name="F:TeaseAI.Common.Constants.Keyword.VitalSubAssignment">
             <summary>
             Domme wishes to assign a vital sub task
@@ -446,6 +591,26 @@
         <member name="F:TeaseAI.Common.Constants.Keyword.VitalSubSubmitDailyReport">
             <summary>
             Submit the daily vital sub report to the domme
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.ShowCensorshipBar">
+            <summary>
+            Turn the censorship bar on
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.HideCensorshipBar">
+            <summary>
+            Turn the censorship bar off
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.TauntFromFile">
+            <summary>
+            Send a taunt from the specified taunt file
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.OrgasmDenied">
+            <summary>
+            Filter flag used to mark a line for inclusion only if the sub is denied an orgasm
             </summary>
         </member>
         <member name="T:TeaseAI.Common.Constants.Kink">
@@ -681,6 +846,11 @@
             No insertion shown, things more like a topless car wash
             </summary>
         </member>
+        <member name="F:TeaseAI.Common.Constants.VideoGenre.RedLightGreenLight">
+            <summary>
+            Shortened to RLGL, a game where the sub has to stop  and start repeatedly
+            </summary>
+        </member>
         <member name="T:TeaseAI.Common.Data.ApplicationConfiguration">
             <summary>
             Configuration options for any application
@@ -860,6 +1030,11 @@
             Key to identify the video
             </summary>
         </member>
+        <member name="T:TeaseAI.Common.DommePersonality">
+            <summary>
+            Domme's personality for the session
+            </summary>
+        </member>
         <member name="P:TeaseAI.Common.DommePersonality.Age">
             <summary>
             Age of the Domme
@@ -920,6 +1095,11 @@
             This is the name the program uses to find files on the Domme's personality
             </summary>
         </member>
+        <member name="P:TeaseAI.Common.DommePersonality.RuinsOrgasms">
+            <summary>
+            How likely is the Domme to ruin the Sub's orgasm, Cast as int to get the percentage
+            </summary>
+        </member>
         <member name="P:TeaseAI.Common.DommePersonality.SubAgeYoungLimit">
             <summary>
             Age under which the Domme considers the sub young
@@ -928,6 +1108,16 @@
         <member name="P:TeaseAI.Common.DommePersonality.SubAgeOldLimit">
             <summary>
             Age over which the Domme considers the sub old
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommePersonality.RequiresHonorific">
+            <summary>
+            Does the Domme require use of honorific
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommePersonality.RequiresHonorificCapitalized">
+            <summary>
+            Does the Domme require the honorific be capitalized
             </summary>
         </member>
         <member name="P:TeaseAI.Common.DommePersonality.WasGreeted">
@@ -944,6 +1134,17 @@
             <summary>
             Is the Domme marked away from keyboard
             </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommePersonality.EyeColor">
+            <summary>
+            The Domme's eye color, empty ("") if unknown, will never be null (Nothing in VB)
+            </summary>
+        </member>
+        <member name="M:TeaseAI.Common.DommePersonality.Clone">
+            <summary>
+            Create an exact copy of this object (aka, a deep clone)
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:TeaseAI.Common.DommeSettings">
             <summary>
@@ -1124,6 +1325,16 @@
         <member name="T:TeaseAI.Common.ArgumentError">
             <summary>Error when a method has arguments which are incorrect</summary>
         </member>
+        <member name="T:TeaseAI.Common.Events.CensorshipBarChangedEventArgs">
+            <summary>
+            Arguments telling the UI how to update the censorship bar
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Events.CensorshipBarChangedEventArgs.IsVisible">
+            <summary>
+            Show the bar be shown or hidden
+            </summary>
+        </member>
         <member name="P:TeaseAI.Common.Events.CommandProcessedEventArgs.Session">
             <summary>
             The current session
@@ -1142,6 +1353,11 @@
         <member name="T:TeaseAI.Common.Events.PlayVideoEventArgs">
             <summary>
             Tell the UI to start playing a video
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Events.PlayVideoEventArgs.VideoMetaData">
+            <summary>
+            Metadata around the video that should be played
             </summary>
         </member>
         <member name="P:TeaseAI.Common.Events.PlayVideoEventArgs.ShouldRandomizeStart">
@@ -1499,6 +1715,27 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:TeaseAI.Common.Interfaces.IInterpolationProcessor">
+            <summary>
+            This is used to replace variables, settings, session information, etc *before* command or vocabulary processing.
+            </summary>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.IInterpolationProcessor.Parse(TeaseAI.Common.Session,System.String)">
+            <summary>
+            Attempt to parse and confirm an interpolation in the line is valid.
+            </summary>
+            <param name="line"></param>
+            <param name="session"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.IInterpolationProcessor.Interpolate(TeaseAI.Common.Session,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="session"></param>
+            <param name="line"></param>
+            <returns></returns>
+        </member>
         <member name="T:TeaseAI.Common.Interfaces.ILineCollectionFilter">
             <summary>
             remove lines from a collection that aren't relevant to the session
@@ -1539,6 +1776,15 @@
             </summary>
             <param name="mediaTypeId"></param>
             <param name="imageSource"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.IMediaContainerService.GetOrCreate(System.Int32,TeaseAI.Common.Constants.ImageSource,TeaseAI.Common.Constants.ImageGenre)">
+            <summary>
+            Get the first container that matches inputs, or creates a new one (but does not save)
+            </summary>
+            <param name="mediaTypeId"></param>
+            <param name="mediaSource"></param>
+            <param name="mediaGenre"></param>
             <returns></returns>
         </member>
         <member name="E:TeaseAI.Common.Interfaces.IMessageProcessor.MessageProcessed">
@@ -1783,6 +2029,56 @@
             approximate maximum time for a taunt to run
             </summary>
         </member>
+        <member name="P:TeaseAI.Common.RangeSettings.IsContentAlwaysCensored">
+            <summary>
+            Used in censorship sucks. Should the censorship bar always be visible
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.RangeSettings.CensorshipBarOnMaximum">
+            <summary>
+            Minimum number of seconds the censorship bar should be shown
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.RangeSettings.CensorshipBarOnMinimum">
+            <summary>
+            Maximum number of seconds the censorship bar should be shown
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.RangeSettings.CensorshipBarOffMinimum">
+            <summary>
+            Minimum number of seconds the censorship bar should be hidden
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.RangeSettings.CensorshipBarOffMaximum">
+            <summary>
+            Maximum number of seconds the censorship bar should be hidden
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.RangeSettings.VideoTauntFrequency">
+            <summary>
+            Percent chance for a given video taunt
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.RangeSettings.RedLightMinimumSeconds">
+            <summary>
+            Minimum number of seconds the light will be red
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.RangeSettings.RedLightMaximumSeconds">
+            <summary>
+            Maximum number of seconds the light will be red
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.RangeSettings.GreenLightMinimumSeconds">
+            <summary>
+            Minimumm number of seconds
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.RangeSettings.GreenLightMaximumSeconds">
+            <summary>
+            Maximum number of seconds the light will be green
+            </summary>
+        </member>
         <member name="T:TeaseAI.Common.Result">
             <summary>
             Success / Failure with error of an operation
@@ -1865,16 +2161,27 @@
             Used to pause reading the script. some commands do this instead of using @wait, etc.
             </summary>
         </member>
-        <member name="M:TeaseAI.Common.Session.Clone">
+        <member name="P:TeaseAI.Common.Session.VideoPlaying">
             <summary>
-            Perform a deep copy of session object
+            Information about what video was requested to play
             </summary>
-            <returns></returns>
         </member>
         <member name="P:TeaseAI.Common.Session.IsVideoPlaying">
             <summary>
             This is for tracking to / from the UI. is true when the UI starts a video, is false when the video stops
             </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Session.IsVideoTaunt">
+            <summary>
+            ignore if a video is not playing. Tells the engine a Taunt video
+            is plaing, and to continue script processing
+            </summary>
+        </member>
+        <member name="M:TeaseAI.Common.Session.Clone">
+            <summary>
+            Perform a deep copy of session object
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:TeaseAI.Common.Settings">
             <summary>
@@ -1936,6 +2243,11 @@
             Should the sub hold the edge, evaluates to HoldEdgeSeconds > 0
             </summary>
         </member>
+        <member name="P:TeaseAI.Common.SubPersonality.Name">
+            <summary>
+            Sub's name
+            </summary>
+        </member>
         <member name="P:TeaseAI.Common.SubPersonality.Kinks">
             <summary>
             List of things the sub likes. Will never be null(Nothing in VB)
@@ -1949,6 +2261,26 @@
         <member name="P:TeaseAI.Common.SubPersonality.PetNames">
             <summary>
             All pet names that might be used
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubPersonality.CallCockAClit">
+            <summary>
+            should the sub's cock be referred to as a clit
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubPersonality.CallBallsAPussy">
+            <summary>
+            should the subs balls be referred to as a pussy
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubPersonality.EyeColor">
+            <summary>
+            sub's eye color
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubPersonality.HairColor">
+            <summary>
+            sub's hair color
             </summary>
         </member>
         <member name="P:TeaseAI.Common.SubPersonality.Purse">

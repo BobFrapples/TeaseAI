@@ -47,6 +47,7 @@ namespace TeaseAI.Services
             , INotifyUser notifyUser
             , IPathsAccessor pathsAccessor
             , IGetCommandProcessorsService getCommandProcessorsService
+            , IInterpolationProcessor interpolationProcessor
             )
         {
             CommandProcessors = getCommandProcessorsService.CreateCommandProcessors();
@@ -54,6 +55,8 @@ namespace TeaseAI.Services
             CommandProcessors[Keyword.StartStroking].CommandProcessed += StartStrokingCommandProcessed;
             CommandProcessors[Keyword.Edge].CommandProcessed += EdgeCommandProcessed;
             CommandProcessors[Keyword.End].CommandProcessed += EndCommandProcessed;
+            CommandProcessors[Keyword.TauntFromFile].CommandProcessed += TauntFromFileCommandProcessed;
+
             CommandProcessors[Keyword.ShowImage].CommandProcessed += ShowImageCommandProcessed;
             CommandProcessors[Keyword.ShowButtImage].CommandProcessed += ShowImageCommandProcessed;
             CommandProcessors[Keyword.ShowBoobsImage].CommandProcessed += ShowImageCommandProcessed;
@@ -77,6 +80,14 @@ namespace TeaseAI.Services
 
             CommandProcessors[Keyword.PlayVideo].CommandProcessed += PlayVideoCommandProcessed;
             CommandProcessors[Keyword.PlayJoiVideo].CommandProcessed += PlayVideoCommandProcessed;
+            CommandProcessors[Keyword.PlayCockHeroVideo].CommandProcessed += PlayVideoCommandProcessed;
+            CommandProcessors[Keyword.PlayCensorshipSucks].CommandProcessed += PlayCensorshipSucksVideoTauntCommandProcessed;
+            CommandProcessors[Keyword.PlayRedLightGreenLight].CommandProcessed += PlayRedLightGreenLightVideoTauntCommandProcessed;
+            CommandProcessors[Keyword.StopVideo].CommandProcessed += StopVideoCommandProcessed;
+            CommandProcessors[Keyword.PauseVideo].CommandProcessed += PauseVideoCommandProcessed;
+            CommandProcessors[Keyword.UnpauseVideo].CommandProcessed += UnpauseVideoCommandProcessed;
+            CommandProcessors[Keyword.ShowCensorshipBar].CommandProcessed += ShowCensorshipBarCommandProcessed;
+            CommandProcessors[Keyword.HideCensorshipBar].CommandProcessed += HideCensorshipBarCommandProcessed;
 
             CommandProcessors[Keyword.SendDailyTasks].CommandProcessed += RequestTaskCommandProcessed;
             CommandProcessors[Keyword.VitalSubAssignment].CommandProcessed += VitalSubAssignmentCommandProcessed;
@@ -102,16 +113,8 @@ namespace TeaseAI.Services
             _teaseCountDown = timerFactory.Create();
             _teaseCountDown.Elapsed += _teaseCountDown_Elapsed;
 
-            _vocabularyProcesser = new VocabularyProcessor(lineCollectionFilter, new LineService(), vocabularyAccessor, imageAccessor, randomNumberService);
-        }
-
-
-
-        private void EdgeCommandProcessed(object sender, CommandProcessedEventArgs e)
-        {
-            _teaseCountDown.Interval = 1000;
-            _teaseCountDown.AutoReset = true;
-            _teaseCountDown.Enabled = true;
+            _vocabularyProcesser = new VocabularyProcessor(lineCollectionFilter, new LineService(), vocabularyAccessor, imageAccessor, randomNumberService, settingsAccessor);
+            _interpolationProcessor = interpolationProcessor;
         }
 
         #region events and OnEvent methods
@@ -158,6 +161,33 @@ namespace TeaseAI.Services
             PlayVideo?.Invoke(this, eventArgs);
         }
 
+        /// <summary>
+        /// Stop whatever video is playing
+        /// </summary>
+        public event EventHandler StopVideo;
+        private void OnStopVideo()
+        {
+            StopVideo?.Invoke(this, new EventArgs());
+        }
+
+        /// <summary>
+        /// Pause whatever video is playing
+        /// </summary>
+        public event EventHandler PauseVideo;
+        private void OnPauseVideo()
+        {
+            PauseVideo?.Invoke(this, new EventArgs());
+        }
+
+        /// <summary>
+        /// Unpause whatever video is playing
+        /// </summary>
+        public event EventHandler UnpauseVideo;
+        private void OnUnpauseVideo()
+        {
+            UnpauseVideo?.Invoke(this, new EventArgs());
+        }
+
         public event EventHandler<SendFileEventArgs> SendFile;
         private void OnSendFile(SendFileEventArgs eventArgs)
         {
@@ -168,6 +198,12 @@ namespace TeaseAI.Services
         private void OnVitalSubUpdated(EventArgs eventArgs)
         {
             VitalSubUpdated?.Invoke(this, eventArgs);
+        }
+
+        public event EventHandler<EventArgs> CensorshipBarChanged;
+        private void OnCensorshipBarChanged(CensorshipBarChangedEventArgs eventArgs)
+        {
+            CensorshipBarChanged?.Invoke(this, eventArgs);
         }
         #endregion
 
@@ -236,18 +272,6 @@ namespace TeaseAI.Services
                         return Result.Ok();
                     });
             }
-        }
-
-        /// <summary>
-        /// Tell the engine that the video stopped playing
-        /// </summary>
-        public void VideoStopped()
-        {
-            if (!Session.IsVideoPlaying)
-                return;
-            var newSession = Session.Clone();
-            newSession.IsVideoPlaying = false;
-            Session = newSession;
         }
 
         /// <summary>
@@ -353,7 +377,7 @@ namespace TeaseAI.Services
             if (session.CurrentScript.CurrentLine[0] == '[')
                 return true;
 
-            if (session.IsVideoPlaying)
+            if (session.IsVideoPlaying && !session.IsVideoTaunt)
                 return true;
 
             if (session.IsScriptPaused)
@@ -392,16 +416,19 @@ namespace TeaseAI.Services
         {
             var response = e.Parameter as Response;
 
-            var workingLine = response.Responses[Response.Script].Single();
-            foreach (var p in CommandProcessors.Values)
-            {
-                workingLine = p.DeleteCommandFrom(workingLine).Trim();
-            }
+            var getWorkingLine = _interpolationProcessor.Interpolate(e.Session, response.Responses[Response.Script].Single())
+                .OnSuccess(wl =>
+                {
+                    foreach (var p in CommandProcessors.Values)
+                        wl = p.DeleteCommandFrom(wl).Trim();
 
-            workingLine = _vocabularyProcesser.ReplaceVocabulary(Session, workingLine);
+                    wl = _vocabularyProcesser.ReplaceVocabulary(Session, wl);
+                });
 
-            // if the engine needs to pause here, then it can.
-            OnDommeSaid(e.Session.Domme, workingLine);
+            if (getWorkingLine.IsSuccess)
+                OnDommeSaid(e.Session.Domme, getWorkingLine.Value);
+            else
+                OnDommeSaid(e.Session.Domme, "Error: " + getWorkingLine.Error.Message);
 
             var doWork = ProcessCommands(e.Session, response.Responses[Response.Script].Single())
                 .OnSuccess(sesh =>
@@ -535,11 +562,20 @@ namespace TeaseAI.Services
             _scriptTimer.Enabled = false;
         }
 
+        private void TauntFromFileCommandProcessed(object sender, CommandProcessedEventArgs e)
+        {
+            var taunt = _vocabularyProcesser.ReplaceVocabulary(e.Session, (string)e.Parameter);
+
+            OnDommeSaid(e.Session.Domme, taunt);
+        }
+
         private void PlayVideoCommandProcessed(object sender, CommandProcessedEventArgs e)
         {
             var playEventArgs = (PlayVideoEventArgs)e.Parameter;
+
             OnPlayVideo(playEventArgs);
-            e.Session.IsVideoPlaying = playEventArgs.Result.IsSuccess;
+
+            OnDommeSaid(e.Session.Domme, playEventArgs.Result.GetErrorMessageOrDefault());
         }
 
         private void ShowImageCommandProcessed(object sender, CommandProcessedEventArgs e)
@@ -563,6 +599,30 @@ namespace TeaseAI.Services
             BeginSession((Script)e.Parameter);
         }
 
+        private void PlayCensorshipSucksVideoTauntCommandProcessed(object sender, CommandProcessedEventArgs e)
+        {
+            lock (_sessionLock)
+            {
+                Session = e.Session;
+            }
+            BeginSession((Script)e.Parameter);
+        }
+
+        private void PlayRedLightGreenLightVideoTauntCommandProcessed(object sender, CommandProcessedEventArgs e)
+        {
+            lock (_sessionLock)
+            {
+                Session = e.Session;
+            }
+            BeginSession((Script)e.Parameter);
+        }
+
+        private void StopVideoCommandProcessed(object sender, CommandProcessedEventArgs e) => OnStopVideo();
+
+        private void PauseVideoCommandProcessed(object sender, CommandProcessedEventArgs e) => OnPauseVideo();
+
+        private void UnpauseVideoCommandProcessed(object sender, CommandProcessedEventArgs e) => OnUnpauseVideo();
+
         private void LikeImageCommandProcessed(object sender, CommandProcessedEventArgs e)
         {
             var eventArgs = (ShowImageEventArgs)e.Parameter;
@@ -571,7 +631,7 @@ namespace TeaseAI.Services
 
         private void RequestTaskCommandProcessed(object sender, CommandProcessedEventArgs e)
         {
-            var taskLetter = ((TaskLetter) e.Parameter).Body;
+            var taskLetter = ((TaskLetter)e.Parameter).Body;
             taskLetter = _vocabularyProcesser.ReplaceVocabulary(e.Session, taskLetter);
 
             var title = "Tasks for " + DateTime.Now.ToString("M dd");
@@ -585,7 +645,7 @@ namespace TeaseAI.Services
             }
 
             taskLetter = _vocabularyProcesser.ReplaceVocabulary(Session, taskLetter);
-            
+
             var sendFileArgs = new SendFileEventArgs
             {
                 FileName = fileName,
@@ -599,12 +659,45 @@ namespace TeaseAI.Services
         {
             OnVitalSubUpdated(new EventArgs());
         }
+
+        private void ShowCensorshipBarCommandProcessed(object sender, CommandProcessedEventArgs e)
+        {
+            var eventArgs = new CensorshipBarChangedEventArgs()
+            {
+                IsVisible = true,
+            };
+
+            OnCensorshipBarChanged(eventArgs);
+
+            OnDommeSaid(e.Session.Domme, eventArgs.Result.GetErrorMessageOrDefault());
+        }
+
+        private void HideCensorshipBarCommandProcessed(object sender, CommandProcessedEventArgs e)
+        {
+            var eventArgs = new CensorshipBarChangedEventArgs()
+            {
+                IsVisible = false,
+            };
+
+            OnCensorshipBarChanged(eventArgs);
+
+            OnDommeSaid(e.Session.Domme, eventArgs.Result.GetErrorMessageOrDefault());
+        }
+
+        private void EdgeCommandProcessed(object sender, CommandProcessedEventArgs e)
+        {
+            _teaseCountDown.Interval = 1000;
+            _teaseCountDown.AutoReset = true;
+            _teaseCountDown.Enabled = true;
+        }
+
         #endregion
 
         #region Services
         private readonly IScriptAccessor _scriptAccessor;
         private readonly IVariableAccessor _variableAccessor;
         private readonly VocabularyProcessor _vocabularyProcesser;
+        private readonly IInterpolationProcessor _interpolationProcessor;
         private readonly IConfigurationAccessor _configurationAccessor;
         #endregion
 
@@ -625,35 +718,36 @@ namespace TeaseAI.Services
                     Session.CurrentScript.LineNumber++;
 
                 // First we replace the vocabulary
-                var workingLine = _vocabularyProcesser.ReplaceVocabulary(Session, Session.CurrentScript.CurrentLine);
-                var commandLine = workingLine;
+                var doWork = _interpolationProcessor.Interpolate(Session, Session.CurrentScript.CurrentLine)
+                    .OnSuccess(wl =>
+                    {
+                        var commandLine = wl;
+                        foreach (var p in CommandProcessors.Values)
+                            wl = p.DeleteCommandFrom(wl).Trim();
 
-                // Strip out commands so the Domme can speak
-                foreach (var p in CommandProcessors.Values)
-                {
-                    workingLine = p.DeleteCommandFrom(workingLine).Trim();
-                }
+                        wl = _vocabularyProcesser.ReplaceVocabulary(Session, wl);
+                        OnDommeSaid(Session.Domme, wl);
 
-                OnDommeSaid(Session.Domme, workingLine);
-
-                // Then we actually process the commands for this line
-                var doWork = ProcessCommands(Session, commandLine)
+                        // Then we actually process the commands for this line
+                        return ProcessCommands(Session, commandLine);
+                    })
                     .OnSuccess(sesh =>
                     {
                         // If there is a script, and it didn't advance yet, then do so now.
-                        if (sesh.CurrentScript != null && Session.CurrentScript.LineNumber == sesh.CurrentScript.LineNumber)
+                        if (sesh.CurrentScript != null && Session.CurrentScript.LineNumber == sesh.CurrentScript.LineNumber && (sesh.CurrentScript.LineNumber != sesh.CurrentScript.Lines.Count))
                         {
-                            var script = sesh.Scripts.Pop();
-                            script.LineNumber++;
-                            sesh.Scripts.Push(script);
+                            var script = sesh.CurrentScript.LineNumber++;
                         }
                         return sesh;
                     })
                     .OnSuccess(sesh => Session = sesh);
 
                 if (doWork.IsFailure)
-                    OnDommeSaid(Session.Domme, doWork.Error.Message);
+                {
+                    OnDommeSaid(Session.Domme, "Error: " + doWork.Error.Message);
+                }
                 // We are all done, so go ahead and schedule a new timer.
+                _scriptTimer.Interval = Session.Domme.MessageTimer;
                 _scriptTimer.Enabled = true;
             }
         }

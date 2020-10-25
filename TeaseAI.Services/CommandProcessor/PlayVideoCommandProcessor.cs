@@ -10,29 +10,28 @@ using TeaseAI.Common.Interfaces.Accessors;
 
 namespace TeaseAI.Services.CommandProcessor
 {
-    public class PlayVideoCommandProcessor : ICommandProcessor
+    /// <summary>
+    /// Play a random video, will ignore CockHero and Jerk Off Instruction videos
+    /// </summary>
+    public class PlayVideoCommandProcessor : CommandProcessorBase
     {
-        public PlayVideoCommandProcessor(IVideoAccessor videoAccessor)
+        public PlayVideoCommandProcessor(LineService lineService
+            , IVideoAccessor videoAccessor) : base(Keyword.PlayVideo, lineService)
         {
             _videoAccessor = videoAccessor;
         }
 
-        public event EventHandler<CommandProcessedEventArgs> BeforeCommandProcessed;
-        public event EventHandler<CommandProcessedEventArgs> CommandProcessed;
-
-        public string DeleteCommandFrom(string line)
+        public override string DeleteCommandFrom(string line)
         {
             return line.Replace(Keyword.PlayVideo, string.Empty).Replace(Keyword.JumpVideo, string.Empty);
         }
 
-        public bool IsRelevant(Session session, string line) => IsRelevant(line);
-
-        public bool IsRelevant(string line)
+        public override bool IsRelevant(string line)
         {
             return line.Contains(Keyword.PlayVideo) && !line.Contains(Keyword.PlaySpecificVideo) && !line.Contains(Keyword.PlaySpecificVideoSquareBrackets);
         }
 
-        public Result<Session> PerformCommand(Session session, string line)
+        public override Result<Session> PerformCommand(Session session, string line)
         {
             var workingSession = session.Clone();
 
@@ -49,17 +48,14 @@ namespace TeaseAI.Services.CommandProcessor
 
             OnCommandProcessed(workingSession, ea);
 
-            if (ea.Result.IsSuccess)
-                return Result.Ok(workingSession);
-            return Result.Fail<Session>(ea.Result.Error);
+            if (ea.Result.IsFailure)
+                return Result.Fail<Session>(ea.Result.Error);
+
+            workingSession.VideoPlaying = selected;
+            return Result.Ok(workingSession);
         }
 
-        private void OnCommandProcessed(Session session, PlayVideoEventArgs selected)
-        {
-            CommandProcessed?.Invoke(this, new CommandProcessedEventArgs() { Session = session, Parameter = selected });
-        }
-
-        public Result ParseCommand(Script script, string personalityName, string line)
+        protected override Result ParseCommandSpecific(Script script, string personalityName, string line)
         {
             return _videoAccessor.GetVideoData(default(VideoGenre?))
                 .OnSuccess(vids => vids.Where(vmd => vmd.Genre != VideoGenre.CockHero && vmd.Genre != VideoGenre.Joi).Count())

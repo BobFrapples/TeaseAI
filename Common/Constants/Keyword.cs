@@ -35,9 +35,14 @@ namespace TeaseAI.Common.Constants
         public const string ApathyLevelNum = @"@ApathyLevel";
 
         /// <summary>
-        /// This command will go to specified bookmark 50% of the time.
+        /// This command will go to specified bookmark 50% of the time. Please stop using ChanceXX(bookmark), and use ChancePercent instead for that
         /// </summary>
         public const string Chance = @"@Chance";
+
+        /// <summary>
+        /// Define a percentage chance to go to  specified bookmark
+        /// </summary>
+        public const string ChancePercent = @"@ChancePercent(";
 
         /// <summary>
         /// Check to see if a flag exists.
@@ -163,6 +168,16 @@ namespace TeaseAI.Common.Constants
         /// i.e. @RandomText(Hello, Hiya) has a roughly 50/50 chance of using either word
         /// </summary>
         public const string RandomText = @"@RandomText(";
+
+        /// <summary>
+        /// Replace with a random whole number. A single parameter will be between 0 and that number, two will set the range. 
+        /// Combine with interpolation for more flexability.
+        /// <para>i.e. @RandomNumber(100) -- generate a percentage (0 - 100)</para>
+        /// <para>i.e. @RandomNumber(10,12) -- generate a random number from 10 to 12</para>
+        /// <para>i.e. @RandomNumber({Settings.Range.TeaseLengthMinutesMinimum},{Settings.Range.TeaseLengthMinutesMaximum}) -- Generate a random number based on the tease lenth settings </para>
+        /// </summary>
+        public const string RandomNumber = @"@RandomNumber(";
+
         /// <summary>
         /// Set sleep time between messages to default value
         /// </summary>
@@ -234,11 +249,44 @@ namespace TeaseAI.Common.Constants
         public const string PlayVideo = @"@PlayVideo";
 
         /// <summary>
+        /// Pause the currently playing video
+        /// </summary>
+        public const string PauseVideo = @"@PauseVideo";
+
+        /// <summary>
+        /// Unpause the currently playing video
+        /// </summary>
+        public const string UnpauseVideo = @"@UnpauseVideo";
+
+        /// <summary>
         /// specifically play a Jerk Off Instruction Video
         /// </summary>
         public const string PlayJoiVideo = @"@PlayJOIVideo";
+
+        /// <summary>
+        /// specifically play a Cock Hero Video
+        /// </summary>
+        public const string PlayCockHeroVideo = @"@PlayCHVideo";
+
         public const string PlaySpecificVideo = @"@PlayVideo(";
         public const string PlaySpecificVideoSquareBrackets = @"@PlayVideo[";
+
+        /// <summary>
+        /// Stop whatever video is playing.
+        /// </summary>
+        public const string StopVideo = @"@StopVideo";
+
+        /// <summary>
+        /// <para>Censorship sucks involves overlaying a black bar on a video, thus "censoring" the content.</para>
+        /// <para>Calling this will pause the existing session (if going) or start a one if not going already </para>
+        /// </summary>
+        public const string PlayCensorshipSucks = @"@PlayCensorshipSucks";
+
+        /// <summary>
+        /// <para>Red Light / Green Light is a game where the sub may stroke when the light is green, but must stop when it is red.</para>
+        /// <para>Calling this will pause the existing session (if going) or start a one if not going already </para>
+        /// </summary>
+        public const string PlayRedLightGreenLight = @"@PlayRedlightGreenLight";
 
         /// <summary>
         /// <para>Make the sub torture his cock. pause briefly for it to happen (TaskPauseMinimum and TaskPauseMaximum in settings)</para>
@@ -412,11 +460,7 @@ namespace TeaseAI.Common.Constants
 
         public const string SendDailyTasks = @"@SendDailyTasks";
 
-        #region Filters
-        /// <summary>
-        /// Filter flag used to mark a line for inclusion only if the sub is denied an orgasm
-        /// </summary>
-        public const string OrgasmDenied = @"@OrgasmDenied";
+        public const string If = @"@If[";
 
         /// <summary>
         /// Domme wishes to assign a vital sub task
@@ -427,6 +471,28 @@ namespace TeaseAI.Common.Constants
         /// Submit the daily vital sub report to the domme
         /// </summary>
         public const string VitalSubSubmitDailyReport = @"@VitalSubSubmitDailyReport";
+
+        /// <summary>
+        /// Turn the censorship bar on
+        /// </summary>
+        public const string ShowCensorshipBar = @"@ShowCensorshipBar";
+
+        /// <summary>
+        /// Turn the censorship bar off
+        /// </summary>
+        public const string HideCensorshipBar = @"@HideCensorshipBar";
+
+        /// <summary>
+        /// Send a taunt from the specified taunt file
+        /// </summary>
+        public const string TauntFromFile = @"@TauntFromFile(";
+
+        #region Filters
+        /// <summary>
+        /// Filter flag used to mark a line for inclusion only if the sub is denied an orgasm
+        /// </summary>
+        public const string OrgasmDenied = @"@OrgasmDenied";
+
         #endregion
     }
 }

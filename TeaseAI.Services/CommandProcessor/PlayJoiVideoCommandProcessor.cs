@@ -21,10 +21,8 @@ namespace TeaseAI.Services.CommandProcessor
         public override Result<Session> PerformCommand(Session session, string line)
         {
             var workingSession = session.Clone();
-            var getVideos = _videoAccessor.GetVideoData(default(VideoGenre?));
-
-            var videos = getVideos.Value.Where(vmd => vmd.Genre == VideoGenre.Joi).ToList();
-
+            var getVideos = _videoAccessor.GetVideoData(VideoGenre.Joi);
+            var videos = getVideos.Value;
             var selected = videos[_randomNumberService.Roll(0, videos.Count)];
 
             var ea = new PlayVideoEventArgs()
@@ -44,6 +42,7 @@ namespace TeaseAI.Services.CommandProcessor
         protected override Result ParseCommandSpecific(Script script, string personalityName, string line)
         {
             return _videoAccessor.GetVideoData(VideoGenre.Joi)
+                .Ensure(vids => vids.Count() > 0, "There are no Jerk Off Instruction videos found")
                 .Map();
         }
 

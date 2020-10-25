@@ -74,5 +74,55 @@ namespace TeaseAI.Common
         /// approximate maximum time for a taunt to run
         /// </summary>
         public int TauntCycleMinutesMaximum { get; set; }
+
+        /// <summary>
+        /// Used in censorship sucks. Should the censorship bar always be visible
+        /// </summary>
+        public bool IsContentAlwaysCensored { get; set; }
+        
+        /// <summary>
+        /// Minimum number of seconds the censorship bar should be shown
+        /// </summary>
+        public int CensorshipBarOnMaximum { get; set; }
+        
+        /// <summary>
+        /// Maximum number of seconds the censorship bar should be shown
+        /// </summary>
+        public int CensorshipBarOnMinimum { get; set; }
+        
+        /// <summary>
+        /// Minimum number of seconds the censorship bar should be hidden
+        /// </summary>
+        public int CensorshipBarOffMinimum { get; set; }
+
+        /// <summary>
+        /// Maximum number of seconds the censorship bar should be hidden
+        /// </summary>
+        public int CensorshipBarOffMaximum { get; set; }
+
+        /// <summary>
+        /// Percent chance for a given video taunt
+        /// </summary>
+        public int VideoTauntFrequency { get; set; }
+
+        /// <summary>
+        /// Minimum number of seconds the light will be red
+        /// </summary>
+        public int RedLightMinimumSeconds { get; set; }
+
+        /// <summary>
+        /// Maximum number of seconds the light will be red
+        /// </summary>
+        public int RedLightMaximumSeconds { get; set; }
+
+        /// <summary>
+        /// Minimumm number of seconds
+        /// </summary>
+        public int GreenLightMinimumSeconds { get; set; }
+
+        /// <summary>
+        /// Maximum number of seconds the light will be green
+        /// </summary>
+        public int GreenLightMaximumSeconds { get; set; }
     }
 }

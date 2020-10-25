@@ -5,7 +5,7 @@ using TeaseAI.Common;
 using TeaseAI.Common.Interfaces.Accessors;
 using TeaseAI.Services;
 
-namespace TeaseAI.ServicesTests
+namespace TeaseAI.ServicesTests.VocabularyProcessors
 {
     [TestClass]
     public class VocabularyProcessor_Tests
@@ -21,7 +21,7 @@ namespace TeaseAI.ServicesTests
             _vocabularyAccessor = new Mock<IVocabularyAccessor>();
             _imageAccessor = new Mock<IImageAccessor>();
             _randomNumberService = new Mock<RandomNumberService>();
-            _service = new VocabularyProcessor(new LineCollectionFilter(), new LineService(), _vocabularyAccessor.Object, _imageAccessor.Object, _randomNumberService.Object);
+            _service = new VocabularyProcessor(new LineCollectionFilter(), new LineService(), _vocabularyAccessor.Object, _imageAccessor.Object, _randomNumberService.Object, null);
         }
 
         [TestMethod]

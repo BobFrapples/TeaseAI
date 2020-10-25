@@ -32,5 +32,14 @@ namespace TeaseAI.Common.Interfaces
         /// <param name="imageSource"></param>
         /// <returns></returns>
         List<MediaContainer> Get(int mediaTypeId, ImageSource imageSource);
+
+        /// <summary>
+        /// Get the first container that matches inputs, or creates a new one (but does not save)
+        /// </summary>
+        /// <param name="mediaTypeId"></param>
+        /// <param name="mediaSource"></param>
+        /// <param name="mediaGenre"></param>
+        /// <returns></returns>
+        MediaContainer GetOrCreate(int mediaTypeId, ImageSource mediaSource, ImageGenre mediaGenre);
     }
 }

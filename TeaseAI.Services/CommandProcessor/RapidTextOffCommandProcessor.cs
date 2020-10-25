@@ -18,7 +18,7 @@ namespace TeaseAI.Services.CommandProcessor
         {
             var newSession = session.Clone();
             if (IsRelevant(newSession, line))
-                newSession.Domme.MessageTimer = 2000;
+                newSession.Domme.MessageTimer = 1000;
             return Result.Ok(newSession);
         }
 

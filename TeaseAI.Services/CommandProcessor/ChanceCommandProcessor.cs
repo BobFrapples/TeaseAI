@@ -16,10 +16,12 @@ namespace TeaseAI.Services.CommandProcessor
     public class ChanceCommandProcessor : CommandProcessorBase
     {
         public ChanceCommandProcessor(LineService lineService
-            , IBookmarkService bookmarkService) : base(Keyword.Chance, lineService)
+            , IBookmarkService bookmarkService
+            , IRandomNumberService randomNumberService) : base(Keyword.Chance, lineService)
         {
             _lineService = lineService;
             _bookmarkService = bookmarkService;
+            _randomNumberService = randomNumberService;
         }
 
         public override string DeleteCommandFrom(string input)
@@ -38,7 +40,7 @@ namespace TeaseAI.Services.CommandProcessor
             if (!int.TryParse(chance, out chanceNum))
                 throw new Exception("Unable to determine chance percent");
 
-            var jumpRoll = new Random().Next(100);
+            var jumpRoll = _randomNumberService.RollPercent();
             if (jumpRoll <= chanceNum)
             {
                 var workingSession = session.Clone();
@@ -77,7 +79,7 @@ namespace TeaseAI.Services.CommandProcessor
             return result;
         }
 
-        private readonly LineService _lineService;
         private readonly IBookmarkService _bookmarkService;
+        private readonly IRandomNumberService _randomNumberService;
     }
 }

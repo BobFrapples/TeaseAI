@@ -42,7 +42,6 @@ namespace TeaseAI.Services.CommandProcessor
                 .Map();
         }
 
-        private LineService _lineService;
         private readonly IBookmarkService _bookmarkService;
         private readonly IRandomNumberService _randomNumberService;
     }

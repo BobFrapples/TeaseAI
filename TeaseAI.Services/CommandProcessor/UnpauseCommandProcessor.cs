@@ -6,8 +6,6 @@ namespace TeaseAI.Services.CommandProcessor
 {
     public class UnpauseCommandProcessor : CommandProcessorBase
     {
-        private readonly LineService _lineService;
-
         public UnpauseCommandProcessor(LineService lineService): base(Keyword.Unpause, lineService)
         {
             _lineService = lineService;

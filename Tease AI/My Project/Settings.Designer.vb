@@ -273,6 +273,7 @@ Namespace My
         <Global.System.Configuration.UserScopedSettingAttribute(),
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
          Global.System.Configuration.DefaultSettingValueAttribute("20")>
+        <Obsolete("Move to Settings object, default is 20", True)>
         Public Property NBCensorShowMin() As Decimal
             Get
                 Return CType(Me("NBCensorShowMin"), Decimal)
@@ -285,6 +286,7 @@ Namespace My
         <Global.System.Configuration.UserScopedSettingAttribute(),
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
          Global.System.Configuration.DefaultSettingValueAttribute("60")>
+        <Obsolete("Move to Settings object, default is 60", True)>
         Public Property NBCensorShowMax() As Decimal
             Get
                 Return CType(Me("NBCensorShowMax"), Decimal)
@@ -297,6 +299,7 @@ Namespace My
         <Global.System.Configuration.UserScopedSettingAttribute(),
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
          Global.System.Configuration.DefaultSettingValueAttribute("10")>
+        <Obsolete("Move to Settings object, default is 10", True)>
         Public Property NBCensorHideMin() As Decimal
             Get
                 Return CType(Me("NBCensorHideMin"), Decimal)
@@ -309,6 +312,7 @@ Namespace My
         <Global.System.Configuration.UserScopedSettingAttribute(),
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
          Global.System.Configuration.DefaultSettingValueAttribute("30")>
+        <Obsolete("Move to Settings object, default is 30", True)>
         Public Property NBCensorHideMax() As Decimal
             Get
                 Return CType(Me("NBCensorHideMax"), Decimal)
@@ -318,17 +322,6 @@ Namespace My
             End Set
         End Property
 
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>
-        Public Property CBCensorConstant() As Boolean
-            Get
-                Return CType(Me("CBCensorConstant"), Boolean)
-            End Get
-            Set
-                Me("CBCensorConstant") = Value
-            End Set
-        End Property
 
         <Global.System.Configuration.UserScopedSettingAttribute(),
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
@@ -2953,54 +2946,6 @@ Namespace My
             End Get
             Set
                 Me("CBIncludeGifs") = Value
-            End Set
-        End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("5")>
-        Public Property RedLightMin() As Integer
-            Get
-                Return CType(Me("RedLightMin"), Integer)
-            End Get
-            Set
-                Me("RedLightMin") = Value
-            End Set
-        End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("30")>
-        Public Property RedLightMax() As Integer
-            Get
-                Return CType(Me("RedLightMax"), Integer)
-            End Get
-            Set
-                Me("RedLightMax") = Value
-            End Set
-        End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("10")>
-        Public Property GreenLightMin() As Integer
-            Get
-                Return CType(Me("GreenLightMin"), Integer)
-            End Get
-            Set
-                Me("GreenLightMin") = Value
-            End Set
-        End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("60")>
-        Public Property GreenLightMax() As Integer
-            Get
-                Return CType(Me("GreenLightMax"), Integer)
-            End Get
-            Set
-                Me("GreenLightMax") = Value
             End Set
         End Property
 

@@ -25,6 +25,8 @@ namespace TeaseAI.Services
         private readonly ITimeService _timeService;
         private readonly ILineCollectionFilter _lineCollectionFilter;
         private readonly IVitalSubService _vitalSubService;
+        private readonly IConditionalObjectLogic _conditionalObjectLogic;
+        private readonly IVocabularyProcessor _sessionVocabularyProcessor;
 
         public GetCommandProcessorsService(IScriptAccessor scriptAccessor
             , IFlagAccessor flagAccessor
@@ -43,6 +45,8 @@ namespace TeaseAI.Services
             , ITimeService timeService
             , ILineCollectionFilter lineCollectionFilter
             , IVitalSubService vitalSubService
+            , IConditionalObjectLogic conditionalObjectLogic
+            , IVocabularyProcessor sessionVocabularyProcessor
             )
         {
             _scriptAccessor = scriptAccessor;
@@ -62,14 +66,23 @@ namespace TeaseAI.Services
             _timeService = timeService;
             _lineCollectionFilter = lineCollectionFilter;
             _vitalSubService = vitalSubService;
+            _conditionalObjectLogic = conditionalObjectLogic;
+            _sessionVocabularyProcessor = sessionVocabularyProcessor;
         }
 
         public Dictionary<string, ICommandProcessor> CreateCommandProcessors()
         {
             var rVal = new Dictionary<string, ICommandProcessor>();
+            // First commands that basically just rewrite the line
+            rVal.Add(Keyword.RandomText, new RandomTextCommandProcessor(_lineService, _randomNumberService));
+            rVal.Add(Keyword.RT, new RtCommandProcessor(_lineService, _randomNumberService));
+            rVal.Add(Keyword.RandomNumber, new RandomNumberCommandProcessor(_lineService, _randomNumberService));
+            rVal.Add(Keyword.Info, new InfoCommandProcessor(_lineService));
+
             rVal.Add(Keyword.Wait, new WaitCommandProcessor(_lineService));
             rVal.Add(Keyword.StartStroking, new StartStrokingCommandProcessor(_variableAccessor, _lineService));
             rVal.Add(Keyword.Edge, new EdgeCommandProcessor(_lineService));
+            rVal.Add(Keyword.TauntFromFile, new TauntFromFileCommandProcessor(_lineService, _pathsAccessor, _lineCollectionFilter, _randomNumberService));
 
             // Image commands
             rVal.Add(Keyword.ShowImage, new ShowImageCommandProcessor(_imageAccessor, _lineService, _randomNumberService));
@@ -94,10 +107,17 @@ namespace TeaseAI.Services
             rVal.Add(Keyword.ShowLocalImage, new ShowLocalImageCommandProcessor(_imageAccessor, _lineService));
 
             // Video commands
-            rVal.Add(Keyword.PlayVideo, new PlayVideoCommandProcessor(_videoAccessor));
+            rVal.Add(Keyword.PlayVideo, new PlayVideoCommandProcessor(_lineService, _videoAccessor));
             rVal.Add(Keyword.PlayJoiVideo, new PlayJoiVideoCommandProcessor(_lineService, _videoAccessor, _randomNumberService));
+            rVal.Add(Keyword.PlayCockHeroVideo, new PlayCockHeroVideoCommandProcessor(_lineService, _videoAccessor, _randomNumberService));
+            rVal.Add(Keyword.PlayCensorshipSucks, new PlayCensorshipSucksVideoTauntCommandProcessor(_lineService, _videoAccessor, _settingsAccessor));
+            rVal.Add(Keyword.PlayRedLightGreenLight, new PlayRedLightGreenLightVideoTauntCommandProcessor(_lineService, _videoAccessor, _settingsAccessor));
+            rVal.Add(Keyword.ShowCensorshipBar, new ShowCensorshipBarCommandProcessor(_lineService));
+            rVal.Add(Keyword.HideCensorshipBar, new HideCensorshipBarCommandProcessor(_lineService));
+            rVal.Add(Keyword.StopVideo, new StopVideoCommandProcessor(_lineService));
+            rVal.Add(Keyword.PauseVideo, new PauseVideoCommandProcessor(_lineService));
+            rVal.Add(Keyword.UnpauseVideo, new UnpauseVideoCommandProcessor(_lineService));
 
-            rVal.Add(Keyword.RandomText, new SearchImageBlogCommandProcessor(_imageAccessor));
             rVal.Add(Keyword.IncreaseOrgasmChance, new IncreaseOrgasmChanceCommand(_lineService));
             rVal.Add(Keyword.DecreaseOrgasmChance, new DecreaseOrgasmChanceCommand(_lineService));
             rVal.Add(Keyword.IncreaseRuinChance, new IncreaseRuinChanceCommand(_lineService));
@@ -121,7 +141,8 @@ namespace TeaseAI.Services
 
             // Commands that move you to another part of the script should be checked after commands that operate on the current line
             rVal.Add(Keyword.Goto, new GotoCommandProcessor(_lineService, _bookmarkService, _randomNumberService));
-            rVal.Add(Keyword.Chance, new ChanceCommandProcessor(_lineService, _bookmarkService));
+            rVal.Add(Keyword.ChancePercent, new ChancePercentCommandProcessor(_lineService, _bookmarkService, _randomNumberService));
+            rVal.Add(Keyword.Chance, new ChanceCommandProcessor(_lineService, _bookmarkService, _randomNumberService));
             rVal.Add(Keyword.CheckFlag, new CheckFlagCommandProcessor(_flagAccessor, _lineService, _bookmarkService));
             rVal.Add(Keyword.GotoDommeOrgasm, new GotoDommeOrgasmCommandProcessor(_lineService, _bookmarkService));
             rVal.Add(Keyword.GotoDommeRuin, new GotoDommeRuinCommandProcessor(_lineService, _bookmarkService));
@@ -131,6 +152,7 @@ namespace TeaseAI.Services
             rVal.Add(Keyword.OrgasmDeny, new OrgasmDenyCommandProcessor(_lineService, _bookmarkService));
             rVal.Add(Keyword.Call, new CallCommandProcessor(_scriptAccessor, _lineService, _pathsAccessor, _bookmarkService));
             rVal.Add(Keyword.Unpause, new UnpauseCommandProcessor(_lineService));
+            rVal.Add(Keyword.If, new IfCommandProcessor(_lineService, _bookmarkService, _conditionalObjectLogic, _variableAccessor, _sessionVocabularyProcessor));
 
             rVal.Add(Keyword.CockTorture, new CockTortureCommandProcessor(_lineService, _configurationAccessor, _randomNumberService, _pathsAccessor));
             rVal.Add(Keyword.BallTorture, new BallTortureCommandProcessor(_lineService, _configurationAccessor, _randomNumberService, _pathsAccessor));
@@ -146,7 +168,6 @@ namespace TeaseAI.Services
 
             rVal.Add(Keyword.End, new EndCommandProcessor(_lineService));
             rVal.Add(Keyword.NullResponse, new NullResponseCommandProcessor(_lineService));
-            rVal.Add(Keyword.Info, new InfoCommandProcessor(_lineService));
             rVal.Add(Keyword.DifferentAnswer, new DifferentAnswerCommandProcessor(_lineService));
             rVal.Add(Keyword.AcceptAnswer, new AcceptAnswerCommandProcessor(_lineService));
             rVal.Add(Keyword.LikeImage, new LikeImageCommandProcessor(_lineService, _imageAccessor, _mediaContainerService));

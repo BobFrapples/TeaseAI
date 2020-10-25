@@ -56,6 +56,7 @@ Public Class FrmSettings
     Public ApproveImage As Integer = 0
 
     Dim CheckImgDir As New List(Of String)
+    Dim FolderBrowserDialog1 As New FolderBrowserDialog()
 
     Public Sub New()
         mySettingsAccessor = ApplicationFactory.CreateSettingsAccessor()
@@ -72,6 +73,8 @@ Public Class FrmSettings
         myGetCommandProcessorsService = ApplicationFactory.CreateGetCommandProcessorsService()
         myNotifyUserService = ApplicationFactory.CreateNotifyUserService()
         myImageBlogDownloadService = ApplicationFactory.CreateImageBlogDownloadService()
+        myRandomNumberService = ApplicationFactory.CreateRandomNumberService()
+
 
         InitializeComponent()
     End Sub
@@ -182,12 +185,6 @@ Public Class FrmSettings
         FrmSplash.UpdateText("Checking user settings...")
 
         NBNextImageChance.Value = My.Settings.NextImageChance
-
-        NBRedLightMin.Value = My.Settings.RedLightMin
-        NBRedLightMax.Value = My.Settings.RedLightMax
-
-        NBGreenLightMin.Value = My.Settings.GreenLightMin
-        NBGreenLightMax.Value = My.Settings.GreenLightMax
 
         FrmSplash.UpdateText("Auditing scripts...")
 
@@ -315,6 +312,19 @@ Public Class FrmSettings
 
         NBTauntCycleMin.Value = rangeSettings.TauntCycleMinutesMinimum
         NBTauntCycleMax.Value = rangeSettings.TauntCycleMinutesMaximum
+
+        VideoTauntSlider.Value = rangeSettings.VideoTauntFrequency
+        HideCensorshipBarMinimumSeconds.Value = rangeSettings.CensorshipBarOffMinimum
+        HideCensorshipBarMaximumSeconds.Value = rangeSettings.CensorshipBarOffMaximum
+
+        ShowCensorshipBarMinimumSeconds.Value = rangeSettings.CensorshipBarOnMinimum
+        ShowCensorshipBarMaximumSeconds.Value = rangeSettings.CensorshipBarOnMaximum
+
+        RedLightMinimumSeconds.Value = rangeSettings.RedLightMinimumSeconds
+        RedLightMaximumSeconds.Value = rangeSettings.RedLightMaximumSeconds
+
+        GreenLightMinimumSeconds.Value = rangeSettings.GreenLightMinimumSeconds
+        GreenLightMaximumSeconds.Value = rangeSettings.GreenLightMaximumSeconds
 
     End Sub
 
@@ -1259,13 +1269,13 @@ Public Class FrmSettings
         TTDir.SetToolTip(LocalButtDirectoryTextBox, LocalButtDirectoryTextBox.Text)
     End Sub
 
-    Private Sub TxbVideoFolder_MouseHover(sender As Object, e As EventArgs) Handles TxbVideoSoftCoreD.MouseHover, TxbVideoSoftCore.MouseHover, TxbVideoLesbianD.MouseHover, TxbVideoLesbian.MouseHover, TxbVideoJOID.MouseHover, TxbVideoJOI.MouseHover, TxbVideoHardCoreD.MouseHover, TxbVideoHardCore.MouseHover, TxbVideoGeneralD.MouseHover, TxbVideoGeneral.MouseHover, TxbVideoFemsubD.MouseHover, TxbVideoFemsub.MouseHover, TxbVideoFemdomD.MouseHover, TxbVideoFemdom.MouseHover, TxbVideoCHD.MouseHover, TxbVideoCH.MouseHover, TxbVideoBlowjobD.MouseHover, TxbVideoBlowjob.MouseHover
+    Private Sub TxbVideoFolder_MouseHover(sender As Object, e As EventArgs) Handles TxbVideoSoftCoreD.MouseHover, TxbVideoSoftCore.MouseHover, TxbVideoLesbianD.MouseHover, TxbVideoLesbian.MouseHover, TxbVideoJOID.MouseHover, TxbVideoJOI.MouseHover, TxbVideoHardCoreD.MouseHover, VideoHardCorePathTextBox.MouseHover, VideoDommeGeneralPathTextBox.MouseHover, TxbVideoGeneral.MouseHover, TxbVideoFemsubD.MouseHover, TxbVideoFemsub.MouseHover, TxbVideoFemdomD.MouseHover, TxbVideoFemdom.MouseHover, TxbVideoCHD.MouseHover, TxbVideoCH.MouseHover, TxbVideoBlowjobD.MouseHover, TxbVideoBlowjob.MouseHover
 
         TTDir.SetToolTip(sender, CType(sender, TextBox).Text)
     End Sub
 
-    Private Sub BTNRefreshVideos_MouseHover(sender As Object, e As EventArgs) Handles BTNRefreshVideos.MouseHover
-        TTDir.SetToolTip(BTNRefreshVideos, "Use this button to refresh video paths.")
+    Private Sub BTNRefreshVideos_MouseHover(sender As Object, e As EventArgs) Handles VideoRefreshButton.MouseHover
+        TTDir.SetToolTip(VideoRefreshButton, "Use this button to refresh video paths.")
     End Sub
 
     Private Sub NBBirthdayMonth_MouseHover(sender As Object, e As EventArgs) Handles NBBirthdayMonth.MouseEnter
@@ -3216,7 +3226,7 @@ Public Class FrmSettings
             Loop
 
             If retrycounter <= 0 Then Throw New IOException(
-                String.Format("The file """"{0}"" is already in use."), savePath)
+                String.Format("The file ""{0}"" is already in use.", savePath), savePath)
 
             ' Check if the Databinding is properly set.
             If target.DataBindings.Item("ImageLocation") Is Nothing Then
@@ -3285,7 +3295,7 @@ Public Class FrmSettings
             Dim imageMetaDatas = myImageMetaDataService.GetImagesInContainer(mediaContainer.Id) _
                 .Ensure(Function(imds) imds.Any(), "No images stored for " & mediaContainer.Name) _
                 .OnSuccess(Async Function(imds)
-                               Dim image As ImageMetaData = imds(MainWindow.ssh.randomizer.Next(0, imds.Count))
+                               Dim image As ImageMetaData = imds(myRandomNumberService.Roll(0, imds.Count))
                                PBURLPreview.Image = Await LoadImageAsync(image)
                            End Function)
             If imageMetaDatas.IsFailure Then
@@ -3495,7 +3505,43 @@ Public Class FrmSettings
     End Sub
 #End Region ' Images
 
-#Region "--------------------------------------- Videos -------------------------------------------------"
+#Region "Videos"
+
+#Region "Regular"
+
+#Region "Hardcore Videos"
+
+    Private Sub VideoSetHardcorePathButton_Click(sender As Object, e As EventArgs) Handles VideoSetHardcorePathButton.Click
+        Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
+        If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
+            Dim genre As ImageGenre = ImageGenre.Hardcore
+
+            Dim mediaContainer = myMediaContainerService.GetOrCreate(2, ImageSource.Local, genre)
+            mediaContainer.Path = folderBrowserDialog.SelectedPath
+
+            myMediaContainerService.Update(mediaContainer)
+
+            My.Settings.VideoHardcore = folderBrowserDialog.SelectedPath
+            My.Settings.CBHardcore = True
+            LblVideoHardCoreTotal.Text = VideoHardcore_Count(False)
+        End If
+    End Sub
+
+    Friend Shared Function VideoHardcore_CheckFolder() As Boolean
+        Dim def As String =
+            My.Settings.PropertyValues("VideoHardcore").Property.DefaultValue
+
+        My.Settings.VideoHardcore = Video_FolderCheck("Hardcore Video", My.Settings.VideoHardcore, def)
+
+        If My.Settings.VideoHardcore = def Then My.Settings.CBHardcore = False
+
+        Return My.Settings.CBHardcore
+    End Function
+
+    Friend Shared Function VideoHardcore_Count(Optional ByVal checkfolder As Boolean = True) As Integer
+        If checkfolder Then VideoHardcore_CheckFolder()
+        Return myDirectory.GetFilesVideo(My.Settings.VideoHardcore).Count
+    End Function
 
     Friend Shared Function Video_FolderCheck(ByVal directoryDescription As String, ByVal directoryPath As String, ByVal defaultPath As String) As String
         ' Exit if the directory exists.
@@ -3549,39 +3595,10 @@ Public Class FrmSettings
         LblVideoFemsubTotalD.Text = VideoFemsubD_Count() : t += CInt(LblVideoFemsubTotalD.Text)
         LblVideoJOITotalD.Text = VideoJOID_Count() : t += CInt(LblVideoJOITotalD.Text)
         LblVideoCHTotalD.Text = VideoCHD_Count() : t += CInt(LblVideoCHTotalD.Text)
-        LblVideoGeneralTotalD.Text = VideoGeneralD_Count() : t += CInt(LblVideoGeneralTotalD.Text)
+        VideoTotalDommeGeneral.Text = VideoGeneralD_Count() : t += CInt(VideoTotalDommeGeneral.Text)
 
         Return t
     End Function
-#Region "----------------------------------------- Regular -----------------------------------------------"
-
-#Region "------------------------------------- Hardcore Videos -------------------------------------------"
-
-    Private Sub BTNVideoHardCore_Click(sender As Object, e As EventArgs) Handles BTNVideoHardCore.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-            My.Settings.VideoHardcore = FolderBrowserDialog1.SelectedPath
-            My.Settings.CBHardcore = True
-            LblVideoHardCoreTotal.Text = VideoHardcore_Count(False)
-        End If
-    End Sub
-
-    Friend Shared Function VideoHardcore_CheckFolder() As Boolean
-        Dim def As String =
-            My.Settings.PropertyValues("VideoHardcore").Property.DefaultValue
-
-        My.Settings.VideoHardcore =
-            Video_FolderCheck("Hardcore Video", My.Settings.VideoHardcore, def)
-
-        If My.Settings.VideoHardcore = def Then My.Settings.CBHardcore = False
-
-        Return My.Settings.CBHardcore
-    End Function
-
-    Friend Shared Function VideoHardcore_Count(Optional ByVal checkfolder As Boolean = True) As Integer
-        If checkfolder Then VideoHardcore_CheckFolder()
-        Return myDirectory.GetFilesVideo(My.Settings.VideoHardcore).Count
-    End Function
-
 #End Region ' Hardcore
 
 #Region "------------------------------------- Softcore Videos -------------------------------------------"
@@ -4058,7 +4075,7 @@ Public Class FrmSettings
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             My.Settings.VideoGeneralD = FolderBrowserDialog1.SelectedPath
             My.Settings.CBGeneralD = True
-            LblVideoGeneralTotalD.Text = VideoGeneralD_Count(False)
+            VideoTotalDommeGeneral.Text = VideoGeneralD_Count(False)
         End If
     End Sub
 
@@ -4083,7 +4100,7 @@ Public Class FrmSettings
 
 #End Region ' Domme
 
-    Private Sub BTNRefreshVideos_Click(sender As Object, e As EventArgs) Handles BTNRefreshVideos.Click
+    Private Sub BTNRefreshVideos_Click(sender As Object, e As EventArgs) Handles VideoRefreshButton.Click
         VideoDescriptionLabel.Text = "Refresh complete: " & Video_CheckAllFolders() & " videos found!"
         VideoDescriptionLabel.Text = VideoDescriptionLabel.Text.Replace(": 1 videos", ": 1 video")
     End Sub
@@ -5205,7 +5222,6 @@ Public Class FrmSettings
         If Not DommeDecideOrgasmCheckBox.Visible Then
             Return
         End If
-
         Dim settings As Settings = mySettingsAccessor.GetSettings()
         settings.Range.DoesDommeDecideOrgasmRange = DommeDecideOrgasmCheckBox.Checked
         mySettingsAccessor.WriteSettings(settings)
@@ -5300,13 +5316,7 @@ Public Class FrmSettings
     End Sub
 
     Private Sub CBTauntCycleDD_LostFocus(sender As Object, e As EventArgs) Handles CBTauntCycleDD.LostFocus
-        If Not CBTauntCycleDD.Visible Then
-            Return
-        End If
-
-        Dim settings As Settings = mySettingsAccessor.GetSettings()
-        settings.Range.IsTauntCycleDommeDetermined = CBTauntCycleDD.Checked
-        mySettingsAccessor.WriteSettings(settings)
+        UpdateSettings(CBTauntCycleDD.Visible, Sub(settings As Settings) settings.Range.IsTauntCycleDommeDetermined = CBTauntCycleDD.Checked)
     End Sub
 
     Private Sub NBTeaseLengthMin_ValueChanged(sender As Object, e As EventArgs) Handles NBTeaseLengthMin.ValueChanged
@@ -5331,14 +5341,89 @@ Public Class FrmSettings
         mySettingsAccessor.WriteSettings(settings)
     End Sub
 
-#Region "tooltips and descriptions"
-    Private Sub CBTeaseLengthDD_MouseHover(sender As Object, e As EventArgs) Handles TeaseLengthDommeDetermined.MouseEnter
-        LBLRangeSettingsDescription.Text = "This allows the domme to decide the length of the tease based on her level." & Environment.NewLine & Environment.NewLine &
-            "A level 1 domme may tease you for 15-20 minutes, while a level 5 domme may tease you as long as an hour." & Environment.NewLine & Environment.NewLine &
-            "The domme will not move to an End script until the first @End point of a Module that occurs after tease time expires."
+    Private Sub CensorshipBarDuringVideoTease_CheckedChanged(sender As Object, e As EventArgs) Handles CensorshipBarDuringVideoTease.CheckedChanged
+        UpdateSettings(CensorshipBarDuringVideoTease.Visible, Sub(settings As Settings) settings.Range.IsContentAlwaysCensored = CensorshipBarDuringVideoTease.Checked)
     End Sub
 
-#End Region
+    Private Sub ShowCensorshipBarMinimumSeconds_Leave(sender As Object, e As EventArgs) Handles ShowCensorshipBarMinimumSeconds.Leave
+        UpdateSettings(ShowCensorshipBarMinimumSeconds.Visible, Sub(settings As Settings) settings.Range.CensorshipBarOnMinimum = Convert.ToInt32(ShowCensorshipBarMinimumSeconds.Value))
+    End Sub
+
+    Private Sub ShowCensorshipBarMaximumSeconds_Leave(sender As Object, e As EventArgs) Handles ShowCensorshipBarMaximumSeconds.Leave
+        UpdateSettings(ShowCensorshipBarMaximumSeconds.Visible, Sub(settings As Settings) settings.Range.CensorshipBarOnMaximum = Convert.ToInt32(ShowCensorshipBarMaximumSeconds.Value))
+    End Sub
+
+    Private Sub ShowCensorshipBarMinimumSeconds_ValueChanged(sender As Object, e As EventArgs) Handles ShowCensorshipBarMinimumSeconds.ValueChanged
+        If ShowCensorshipBarMinimumSeconds.Value > ShowCensorshipBarMaximumSeconds.Value Then
+            ShowCensorshipBarMinimumSeconds.Value = ShowCensorshipBarMaximumSeconds.Value
+        End If
+    End Sub
+
+    Private Sub ShowCensorshipBarMaximumSeconds_ValueChanged(sender As Object, e As EventArgs) Handles ShowCensorshipBarMaximumSeconds.ValueChanged
+        If ShowCensorshipBarMaximumSeconds.Value < ShowCensorshipBarMinimumSeconds.Value Then
+            ShowCensorshipBarMaximumSeconds.Value = ShowCensorshipBarMinimumSeconds.Value
+        End If
+    End Sub
+
+    Private Sub HideCensorshipBarMinimumSeconds_Leave(sender As Object, e As EventArgs) Handles HideCensorshipBarMinimumSeconds.Leave
+        UpdateSettings(HideCensorshipBarMinimumSeconds.Visible, Sub(settings As Settings) settings.Range.CensorshipBarOffMinimum = Convert.ToInt32(HideCensorshipBarMinimumSeconds.Value))
+    End Sub
+
+    Private Sub NBCensorHideMax_Leave(sender As Object, e As EventArgs) Handles HideCensorshipBarMaximumSeconds.Leave
+        UpdateSettings(HideCensorshipBarMinimumSeconds.Visible, Sub(settings As Settings) settings.Range.CensorshipBarOffMaximum = Convert.ToInt32(HideCensorshipBarMinimumSeconds.Value))
+    End Sub
+
+    Private Sub NBCensorHideMin_ValueChanged(sender As Object, e As EventArgs) Handles HideCensorshipBarMinimumSeconds.ValueChanged
+        If HideCensorshipBarMinimumSeconds.Value > HideCensorshipBarMaximumSeconds.Value Then
+            HideCensorshipBarMinimumSeconds.Value = HideCensorshipBarMaximumSeconds.Value
+        End If
+    End Sub
+
+    Private Sub NBCensorHideMax_ValueChanged(sender As Object, e As EventArgs) Handles HideCensorshipBarMaximumSeconds.ValueChanged
+        If HideCensorshipBarMaximumSeconds.Value < HideCensorshipBarMinimumSeconds.Value Then
+            HideCensorshipBarMaximumSeconds.Value = HideCensorshipBarMinimumSeconds.Value
+        End If
+    End Sub
+
+    Private Sub VideoTauntSlider_Scroll(sender As Object, e As EventArgs) Handles VideoTauntSlider.Scroll
+        If VideoTauntSlider.Value = 1 Then VideoTauntDescriptionLabel.Text = "Preoccupied"
+        If VideoTauntSlider.Value = 2 OrElse VideoTauntSlider.Value = 3 Then VideoTauntDescriptionLabel.Text = "Distracted"
+        If VideoTauntSlider.Value = 4 OrElse VideoTauntSlider.Value = 5 Then VideoTauntDescriptionLabel.Text = "Normal"
+        If VideoTauntSlider.Value = 6 OrElse VideoTauntSlider.Value = 7 OrElse VideoTauntSlider.Value = 8 Then VideoTauntDescriptionLabel.Text = "Talkative"
+        If VideoTauntSlider.Value = 9 OrElse VideoTauntSlider.Value = 10 Then VideoTauntDescriptionLabel.Text = "Verbose"
+
+        UpdateSettings(VideoTauntSlider.Visible, Sub(settings As Settings) settings.Range.VideoTauntFrequency = Convert.ToInt32(VideoTauntSlider.Value * 5))
+    End Sub
+
+    Private Sub RedLightMinimumSeconds_LostFocus(sender As Object, e As EventArgs) Handles RedLightMinimumSeconds.LostFocus
+        UpdateSettings(RedLightMinimumSeconds.Visible, Sub(settings As Settings) settings.Range.RedLightMinimumSeconds = Convert.ToInt32(RedLightMinimumSeconds.Value))
+    End Sub
+
+    Private Sub RedLightMaximumSeconds_LostFocus(sender As Object, e As EventArgs) Handles RedLightMaximumSeconds.LostFocus
+        UpdateSettings(RedLightMaximumSeconds.Visible, Sub(settings As Settings) settings.Range.RedLightMaximumSeconds = Convert.ToInt32(RedLightMaximumSeconds.Value))
+    End Sub
+
+    Private Sub GreenLightMinimumSeconds_LostFocus(sender As Object, e As EventArgs) Handles GreenLightMinimumSeconds.LostFocus
+        UpdateSettings(GreenLightMinimumSeconds.Visible, Sub(settings As Settings) settings.Range.GreenLightMinimumSeconds = Convert.ToInt32(GreenLightMinimumSeconds.Value))
+    End Sub
+
+    Private Sub GreenLightMaximumSeconds_LostFocus(sender As Object, e As EventArgs) Handles GreenLightMaximumSeconds.LostFocus
+        UpdateSettings(GreenLightMaximumSeconds.Visible, Sub(settings As Settings) settings.Range.GreenLightMaximumSeconds = Convert.ToInt32(GreenLightMaximumSeconds.Value))
+    End Sub
+
+    Private Sub RangeSettingsDescriptionLabel_ShowToolTips(sender As Object, e As EventArgs) Handles RedLightMinimumSeconds.MouseEnter _
+        , RedLightMaximumSeconds.MouseEnter _
+        , GreenLightMaximumSeconds.MouseEnter _
+        , GreenLightMinimumSeconds.MouseEnter _
+        , VideoTauntSlider.MouseEnter _
+        , HideCensorshipBarMaximumSeconds.MouseEnter _
+        , HideCensorshipBarMinimumSeconds.MouseEnter _
+        , TeaseLengthDommeDetermined.MouseEnter _
+        , CensorshipBarDuringVideoTease.MouseEnter _
+        , ShowCensorshipBarMinimumSeconds.MouseEnter _
+        , ShowCensorshipBarMaximumSeconds.MouseEnter
+        RangeSettingsDescriptionLabel.Text = TTDir.GetToolTip(sender)
+    End Sub
 #End Region
 
 #Region "Misc Tab"
@@ -5417,64 +5502,12 @@ Public Class FrmSettings
         End Using
     End Sub
 
-    Private Sub NBCensorShowMin_Leave(sender As Object, e As EventArgs) Handles NBCensorShowMin.Leave
-        My.Settings.NBCensorShowMin = NBCensorShowMin.Value
-    End Sub
-
-    Private Sub NBCensorShowMax_Leave(sender As Object, e As EventArgs) Handles NBCensorShowMax.Leave
-        My.Settings.NBCensorShowMax = NBCensorShowMax.Value
-    End Sub
-
-    Private Sub NBCensorHideMin_Leave(sender As Object, e As EventArgs) Handles NBCensorHideMin.Leave
-        My.Settings.NBCensorHideMin = NBCensorHideMin.Value
-    End Sub
-
-    Private Sub NBCensorHideMax_Leave(sender As Object, e As EventArgs) Handles NBCensorHideMax.Leave
-        My.Settings.NBCensorHideMax = NBCensorHideMax.Value
-    End Sub
-
-    Private Sub CBCensorConstant_CheckedChanged(sender As Object, e As EventArgs) Handles CBCensorConstant.CheckedChanged
-        My.Settings.CBCensorConstant = CBCensorConstant.Checked
-    End Sub
-
-    Private Sub NBCensorShowMin_ValueChanged(sender As Object, e As EventArgs) Handles NBCensorShowMin.ValueChanged
-        If NBCensorShowMin.Value > NBCensorShowMax.Value Then NBCensorShowMin.Value = NBCensorShowMax.Value
-    End Sub
-
-    Private Sub NBCensorShowMax_ValueChanged(sender As Object, e As EventArgs) Handles NBCensorShowMax.ValueChanged
-        If NBCensorShowMax.Value < NBCensorShowMin.Value Then NBCensorShowMax.Value = NBCensorShowMin.Value
-    End Sub
-
-    Private Sub NBRedLightMin_LostFocus(sender As Object, e As EventArgs) Handles NBRedLightMin.LostFocus
-        My.Settings.RedLightMin = NBRedLightMin.Value
-    End Sub
-
-    Private Sub NBRedLightMax_LostFocus(sender As Object, e As EventArgs) Handles NBRedLightMax.LostFocus
-        My.Settings.RedLightMax = NBRedLightMax.Value
-    End Sub
-
-    Private Sub NBGreenLightMin_LostFocus(sender As Object, e As EventArgs) Handles NBGreenLightMin.LostFocus
-        My.Settings.GreenLightMin = NBGreenLightMin.Value
-    End Sub
-
-    Private Sub NBGreenLightMax_LostFocus(sender As Object, e As EventArgs) Handles NBGreenLightMax.LostFocus
-        My.Settings.GreenLightMax = NBGreenLightMax.Value
-    End Sub
-
     Private Sub NBTauntCycleMin_ValueChanged(sender As Object, e As EventArgs) Handles NBTauntCycleMin.ValueChanged
         If NBTauntCycleMin.Value > NBTauntCycleMax.Value Then NBTauntCycleMin.Value = NBTauntCycleMax.Value
     End Sub
 
     Private Sub NBTauntCycleMax_ValueChanged(sender As Object, e As EventArgs) Handles NBTauntCycleMax.ValueChanged
         If NBTauntCycleMax.Value < NBTauntCycleMin.Value Then NBTauntCycleMax.Value = NBTauntCycleMin.Value
-    End Sub
-
-    Private Sub NBCensorHideMin_ValueChanged(sender As Object, e As EventArgs) Handles NBCensorHideMin.ValueChanged
-        If NBCensorHideMin.Value > NBCensorHideMax.Value Then NBCensorHideMin.Value = NBCensorHideMax.Value
-    End Sub
-
-    Private Sub NBCensorHideMax_ValueChanged(sender As Object, e As EventArgs) Handles NBCensorHideMax.ValueChanged
-        If NBCensorHideMax.Value < NBCensorHideMin.Value Then NBCensorHideMax.Value = NBCensorHideMin.Value
     End Sub
 
     Private Sub Button26_Click_1(sender As Object, e As EventArgs) Handles BTNVideoModLoad.Click
@@ -5695,20 +5728,8 @@ Public Class FrmSettings
 
     End Sub
 
-    Private Sub TauntSlider_Scroll(sender As Object, e As EventArgs) Handles TauntSlider.Scroll
-        If TauntSlider.Value = 1 Then LBLVtf.Text = "Preoccupied"
-        If TauntSlider.Value = 2 Or TauntSlider.Value = 3 Then LBLVtf.Text = "Distracted"
-        If TauntSlider.Value = 4 Or TauntSlider.Value = 5 Then LBLVtf.Text = "Normal"
-        If TauntSlider.Value = 6 Or TauntSlider.Value = 7 Or TauntSlider.Value = 8 Then LBLVtf.Text = "Talkative"
-        If TauntSlider.Value = 9 Or TauntSlider.Value = 10 Then LBLVtf.Text = "Verbose"
-
-    End Sub
 
 #Region "Lost focus / save values"
-    Private Sub TauntSlider_LostFocus(sender As Object, e As EventArgs) Handles TauntSlider.LostFocus
-        My.Settings.TimerVTF = TauntSlider.Value
-
-    End Sub
 
     Private Sub SliderSTF_LostFocus(sender As Object, e As EventArgs) Handles SliderSTF.LostFocus
         My.Settings.TimerSTF = SliderSTF.Value
@@ -6351,7 +6372,7 @@ Public Class FrmSettings
         End If
 
         Dim settings As Settings = mySettingsAccessor.GetSettings()
-        Dim randomOrgasms As Integer = MainWindow.ssh.randomizer.Next(1, 6)
+        Dim randomOrgasms As Integer = myRandomNumberService.Roll(1, 6)
         My.Settings.OrgasmsRemaining = randomOrgasms
         settings.Domme.OrgasmsPerTimePeriod = randomOrgasms
         OrgasmsPerNumBox.Value = randomOrgasms
@@ -6397,116 +6418,75 @@ Public Class FrmSettings
     End Sub
 
     Private Sub NBTeaseLengthMin_MouseHover(sender As Object, e As EventArgs) Handles NBTeaseLengthMin.MouseEnter
-        LBLRangeSettingsDescription.Text = "Set the minimum amount of time the program will run before the domme decides if you can have an orgasm." & Environment.NewLine & Environment.NewLine &
+        RangeSettingsDescriptionLabel.Text = "Set the minimum amount of time the program will run before the domme decides if you can have an orgasm." & Environment.NewLine & Environment.NewLine &
             "The domme will not move to an End script until the first @End point of a Module that occurs after tease time expires." & Environment.NewLine & Environment.NewLine &
             "If the domme decides to tease you again, the tease time will be reset to a new amount based Tease Length settings."
     End Sub
 
     Private Sub NBTeaseLengthMax_MouseHover(sender As Object, e As EventArgs) Handles NBTeaseLengthMax.MouseEnter
-        LBLRangeSettingsDescription.Text = "Set the maximum amount of time the program will run before the domme decides if you can have an orgasm." & Environment.NewLine & Environment.NewLine &
+        RangeSettingsDescriptionLabel.Text = "Set the maximum amount of time the program will run before the domme decides if you can have an orgasm." & Environment.NewLine & Environment.NewLine &
             "The domme will not move to an End script until the first @End point of a Module that occurs after tease time expires." & Environment.NewLine & Environment.NewLine &
             "If the domme decides to tease you again, the tease time will be reset to a new amount based Tease Length settings."
     End Sub
 
     Private Sub NBTauntCycleMin_MouseHover(sender As Object, e As EventArgs) Handles NBTauntCycleMin.MouseEnter
-        LBLRangeSettingsDescription.Text = "Set the minimum amount of time the domme will make you stroke during Taunt cycles."
+        RangeSettingsDescriptionLabel.Text = "Set the minimum amount of time the domme will make you stroke during Taunt cycles."
     End Sub
 
     Private Sub NBTauntCycleMax_MouseHover(sender As Object, e As EventArgs) Handles NBTauntCycleMax.MouseEnter
-        LBLRangeSettingsDescription.Text = "Set the maximum amount of time the domme will make you stroke during Taunt cycles"
+        RangeSettingsDescriptionLabel.Text = "Set the maximum amount of time the domme will make you stroke during Taunt cycles"
     End Sub
 
     Private Sub CBTauntCycleDD_MouseHover(sender As Object, e As EventArgs) Handles CBTauntCycleDD.MouseEnter
-        LBLRangeSettingsDescription.Text = "This allows the domme to decide how long she makes you stroke during Taunt cycles based on her level." & Environment.NewLine & Environment.NewLine &
+        RangeSettingsDescriptionLabel.Text = "This allows the domme to decide how long she makes you stroke during Taunt cycles based on her level." & Environment.NewLine & Environment.NewLine &
             "A level 1 domme may have you stroke for a couple minutes at a time, while a level 5 domme may have you stroke up to 10 minutes during each Taunt cycle."
     End Sub
 
     Private Sub SliderSTF_MouseHover(sender As Object, e As EventArgs) Handles SliderSTF.MouseEnter
-        LBLRangeSettingsDescription.Text = "This allows you to set the frequency of the domme's Stroke Taunts." & Environment.NewLine & Environment.NewLine &
+        RangeSettingsDescriptionLabel.Text = "This allows you to set the frequency of the domme's Stroke Taunts." & Environment.NewLine & Environment.NewLine &
             "A middle value tries to emulate an online experience as closely as possible. Use a higher value to increase the frequency of Taunts to something you would expect in a webtease. Use a lower value to simulate the domme being preoccupied or not that interested in engaging you."
     End Sub
 
-    Private Sub TauntSlider_MouseHover(sender As Object, e As EventArgs) Handles TauntSlider.MouseEnter
-        LBLRangeSettingsDescription.Text = "This allows you to set the frequency of the domme's Taunts during Video Teases." & Environment.NewLine & Environment.NewLine &
-            "A middle value creates a fairly common use of Taunts. Use a higher value to make the domme extremely engaged. Use a lower value to focus on the Video Tease with minimal interaction from the domme."
-    End Sub
-
     Private Sub CBRangeOrgasm_MouseHover(sender As Object, e As EventArgs) Handles DommeDecideOrgasmCheckBox.MouseEnter
-        LBLRangeSettingsDescription.Text = "This allows the domme to decide what chance she will allow an orgasm based on her settings." & Environment.NewLine & Environment.NewLine &
+        RangeSettingsDescriptionLabel.Text = "This allows the domme to decide what chance she will allow an orgasm based on her settings." & Environment.NewLine & Environment.NewLine &
             "Default settings are: Often Allows: 75% - Sometimes Allows: 50% - Rarely Allows: 20%"
     End Sub
 
     Private Sub NBAllowOften_MouseHover(sender As Object, e As EventArgs) Handles OftenAllowsPercentNumberBox.MouseEnter
-        LBLRangeSettingsDescription.Text = "When ""Domme Decide"" is not checked, this allows you to set what chance the domme will allow orgasm when she is set to ""Often Allows""."
+        RangeSettingsDescriptionLabel.Text = "When ""Domme Decide"" is not checked, this allows you to set what chance the domme will allow orgasm when she is set to ""Often Allows""."
     End Sub
 
     Private Sub NBAllowSometimes_MouseHover(sender As Object, e As EventArgs) Handles SometimesAllowsPercentNumberBox.MouseEnter
-        LBLRangeSettingsDescription.Text = "When ""Domme Decide"" is not checked, this allows you to set what chance the domme will allow orgasm when she is set to ""Sometimes Allows""."
+        RangeSettingsDescriptionLabel.Text = "When ""Domme Decide"" is not checked, this allows you to set what chance the domme will allow orgasm when she is set to ""Sometimes Allows""."
     End Sub
 
     Private Sub NBAllowRarely_MouseHover(sender As Object, e As EventArgs) Handles RarelyAllowsPercentNumberBox.MouseEnter
-        LBLRangeSettingsDescription.Text = "When ""Domme Decide"" is not checked, this allows you to set what chance the domme will allow orgasm when she is set to ""Rarely Allows""."
+        RangeSettingsDescriptionLabel.Text = "When ""Domme Decide"" is not checked, this allows you to set what chance the domme will allow orgasm when she is set to ""Rarely Allows""."
     End Sub
 
     Private Sub CBRangeRuin_MouseHover(sender As Object, e As EventArgs) Handles DommeDecideRuinCheckBox.MouseEnter
-        LBLRangeSettingsDescription.Text = "This allows the domme to decide what chance she will ruin an orgasm based on her settings." & Environment.NewLine & Environment.NewLine &
+        RangeSettingsDescriptionLabel.Text = "This allows the domme to decide what chance she will ruin an orgasm based on her settings." & Environment.NewLine & Environment.NewLine &
             "Default settings are: Often Ruins: 75% - Sometimes Ruins: 50% - Rarely Ruins: 20%"
     End Sub
 
     Private Sub NBRuinOften_MouseHover(sender As Object, e As EventArgs) Handles NBRuinOften.MouseEnter
-        LBLRangeSettingsDescription.Text = "When ""Domme Decide"" is not checked, this allows you to set what chance the domme will ruin an orgasm when she is set to ""Often Ruins""."
+        RangeSettingsDescriptionLabel.Text = "When ""Domme Decide"" is not checked, this allows you to set what chance the domme will ruin an orgasm when she is set to ""Often Ruins""."
     End Sub
 
     Private Sub NBRuinSometimes_MouseHover(sender As Object, e As EventArgs) Handles NBRuinSometimes.MouseEnter
-        LBLRangeSettingsDescription.Text = "When ""Domme Decide"" is not checked, this allows you to set what chance the domme will ruin an orgasm when she is set to ""Sometimes Ruins""."
+        RangeSettingsDescriptionLabel.Text = "When ""Domme Decide"" is not checked, this allows you to set what chance the domme will ruin an orgasm when she is set to ""Sometimes Ruins""."
     End Sub
 
     Private Sub NBRuinRarely_MouseHover(sender As Object, e As EventArgs) Handles NBRuinRarely.MouseEnter
-        LBLRangeSettingsDescription.Text = "When ""Domme Decide"" is not checked, this allows you to set what chance the domme will ruin an orgasm when she is set to ""Rarely Ruins""."
+        RangeSettingsDescriptionLabel.Text = "When ""Domme Decide"" is not checked, this allows you to set what chance the domme will ruin an orgasm when she is set to ""Rarely Ruins""."
     End Sub
 
     Private Sub NBNextImageChance_MouseHover(sender As Object, e As EventArgs) Handles NBNextImageChance.MouseEnter
-        LBLRangeSettingsDescription.Text = "When running a slideshow with the ""Tease"" option selected, this value determines what chance the slideshow will move forward instead of backward."
+        RangeSettingsDescriptionLabel.Text = "When running a slideshow with the ""Tease"" option selected, this value determines what chance the slideshow will move forward instead of backward."
     End Sub
 
-    Private Sub nbcensorshowmin_MouseHover(sender As Object, e As EventArgs) Handles NBCensorShowMin.MouseEnter
-        LBLRangeSettingsDescription.Text = "This determines the minimum amount of time the censor bar will be on the screen at a time while playing Censorship Sucks."
-    End Sub
-
-    Private Sub nbcensorshowmax_MouseHover(sender As Object, e As EventArgs) Handles NBCensorShowMax.MouseEnter
-        LBLRangeSettingsDescription.Text = "This determines the maximum amount of time the censor bar will be on the screen at a time while playing Censorship Sucks."
-    End Sub
-
-    Private Sub nbcensorhidemin_MouseHover(sender As Object, e As EventArgs) Handles NBCensorHideMin.MouseEnter
-        LBLRangeSettingsDescription.Text = "This determines the minimum amount of time the censor bar will be invisible while playing Censorship Sucks."
-    End Sub
-
-    Private Sub nbcensorhidemax_MouseHover(sender As Object, e As EventArgs) Handles NBCensorHideMax.MouseEnter
-        LBLRangeSettingsDescription.Text = "This determines the maximum amount of time the censor bar will be invisible while playing Censorship Sucks."
-    End Sub
-
-    Private Sub cbcensorconstant_MouseHover(sender As Object, e As EventArgs) Handles CBCensorConstant.MouseEnter
-        LBLRangeSettingsDescription.Text = "When this is checked, the censor bar will always be visible while playing Censorship Sucks. Its position on the screen will still change in time with Show Censor Bar settings."
-    End Sub
-
-    Private Sub nbredlightmin_MouseHover(sender As Object, e As EventArgs) Handles NBRedLightMin.MouseEnter
-        LBLRangeSettingsDescription.Text = "This determines the minimum amount of time the domme will keep the video paused while playing Red Light Green Light."
-    End Sub
-
-    Private Sub nbredlightmax_MouseHover(sender As Object, e As EventArgs) Handles NBRedLightMax.MouseEnter
-        LBLRangeSettingsDescription.Text = "This determines the maximum amount of time the domme will keep the video paused while playing Red Light Green Light."
-    End Sub
-
-    Private Sub nbgreenlightmin_MouseHover(sender As Object, e As EventArgs) Handles NBGreenLightMin.MouseEnter
-        LBLRangeSettingsDescription.Text = "This determines the minimum amount of time the domme will keep the video playing while playing Red Light Green Light."
-    End Sub
-
-    Private Sub nbgreenlightmax_MouseHover(sender As Object, e As EventArgs) Handles NBGreenLightMax.MouseEnter
-        LBLRangeSettingsDescription.Text = "This determines the maximum amount of time the domme will keep the video playing while playing Red Light Green Light."
-    End Sub
-
-    Private Sub RangeSet_MouseHover(sender As Object, e As EventArgs) Handles Panel6.MouseEnter, GroupBox57.MouseEnter, GroupBox21.MouseEnter, GroupBox19.MouseEnter, GroupBox18.MouseEnter, GroupBox10.MouseEnter, GBRangeRuinChance.MouseEnter, GBRangeOrgasmChance.MouseEnter
-        LBLRangeSettingsDescription.Text = "Hover over any setting in the menu for a more detailed description of its function."
+    Private Sub RangeSet_MouseHover(sender As Object, e As EventArgs) Handles RangeSettingsBody.MouseEnter, RangeSettingsTeaseGroupBox.MouseEnter, RangeSettingsDescriptionGroupBox.MouseEnter, GroupBox19.MouseEnter, RangeSettingsCensorshipSucksGroupBox.MouseEnter, RangeSettingsTeaseSlideshowGroupBox.MouseEnter, GBRangeRuinChance.MouseEnter, GBRangeOrgasmChance.MouseEnter
+        RangeSettingsDescriptionLabel.Text = "Hover over any setting in the menu for a more detailed description of its function."
     End Sub
 
     Private Sub TextBox2_TextChanged(sender As Object, e As EventArgs) Handles TBWishlistURL.TextChanged
@@ -7519,7 +7499,7 @@ Public Class FrmSettings
 
     Private Sub CBMuteMedia_CheckedChanged(sender As Object, e As EventArgs) Handles CBMuteMedia.CheckedChanged
 
-        MainWindow.DomWMP.settings.mute = CBMuteMedia.Checked
+        MainWindow.WindowsMediaPlayerPane.settings.mute = CBMuteMedia.Checked
 
     End Sub
 
@@ -7636,15 +7616,15 @@ Public Class FrmSettings
         Return "seconds"
     End Function
 
-    Delegate Function GetScriptsDelegate(stage As String) As List(Of String)
+    'Delegate Function GetScriptsDelegate(stage As String) As List(Of String)
 
-    Public Function GetAvailableScripts(stage As String) As List(Of String)
-        Dim getScripts As New GetScriptsDelegate(AddressOf DoGetScripts)
-        If (stage = "Start") Then
-            Return Invoke(getScripts, stage)
-        End If
-        'If FrmSettings.StartScripts.Items(x) = scriptName AndAlso FrmSettings.StartScripts.GetItemChecked(x) Then
-    End Function
+    'Public Function GetAvailableScripts(stage As String) As List(Of String)
+    '    Dim getScripts As New GetScriptsDelegate(AddressOf DoGetScripts)
+    '    If (stage = "Start") Then
+    '        Return Invoke(getScripts, stage)
+    '    End If
+    '    'If FrmSettings.StartScripts.Items(x) = scriptName AndAlso FrmSettings.StartScripts.GetItemChecked(x) Then
+    'End Function
 
     Private Function DoGetScripts(stage As String) As List(Of String)
         Dim scriptList As List(Of String) = New List(Of String)
@@ -7715,12 +7695,13 @@ Public Class FrmSettings
             Return Result.Fail(Of List(Of String))(folderName + " does not exist.")
         End If
 
-        Dim imageExtensions As List(Of String) = New List(Of String)()
-        imageExtensions.Add(".png")
-        imageExtensions.Add(".jpg")
-        imageExtensions.Add(".jpeg")
-        imageExtensions.Add(".gif")
-        imageExtensions.Add(".bmp")
+        Dim imageExtensions As List(Of String) = New List(Of String) From {
+            ".png",
+            ".jpg",
+            ".jpeg",
+            ".gif",
+            ".bmp"
+        }
 
         Dim images As List(Of String) = Directory.GetFiles(folderName) _
             .Where(Function(f) imageExtensions.Contains(Path.GetExtension(f).ToLower())) _
@@ -7731,7 +7712,7 @@ Public Class FrmSettings
     End Function
 
     Private Function GetOrgasmInterval(dominationLevel As DomLevel) As String
-        Dim randomTime As Integer = MainWindow.ssh.randomizer.Next(1, 4)
+        Dim randomTime As Integer = myRandomNumberService.Roll(1, 4)
 
         If dominationLevel = DomLevel.Gentle Then
             Return If(randomTime = 2, "2 Weeks", "Week")
@@ -7822,8 +7803,19 @@ Public Class FrmSettings
         End Select
     End Function
 
-    Private Sub Label89_Click(sender As Object, e As EventArgs) Handles RarelyAllowsPercentLabel.Click
+    ''' <summary>
+    ''' used to remove some boiler plate when saving changes from the UI
+    ''' </summary>
+    ''' <param name="shouldSave"></param>
+    ''' <param name="updateAction"></param>
+    Private Sub UpdateSettings(shouldSave As Boolean, updateAction As Action(Of Settings))
+        If Not shouldSave Then
+            Return
+        End If
 
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        updateAction(settings)
+        mySettingsAccessor.WriteSettings(settings)
     End Sub
 
     Private ReadOnly mySettingsAccessor As ISettingsAccessor
@@ -7840,8 +7832,9 @@ Public Class FrmSettings
     Private ReadOnly myGetCommandProcessorsService As IGetCommandProcessorsService
     Private ReadOnly myNotifyUserService As INotifyUser
     Private ReadOnly myImageBlogDownloadService As IImageBlogDownloadService
-
+    Private ReadOnly myRandomNumberService As IRandomNumberService
     Private myIsFormSettingTags As Boolean
     Private myIsMediaContainerLoading As Boolean
     Private myWorkingUrlImageMetaDatas As List(Of ImageMetaData)
+
 End Class
