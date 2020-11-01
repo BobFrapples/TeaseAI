@@ -83,26 +83,71 @@ Partial Class FrmSettings
         Me.TimeStampCheckBox = New System.Windows.Forms.CheckBox()
         Me.ShowNamesCheckBox = New System.Windows.Forms.CheckBox()
         Me.LBLGeneralSettings = New System.Windows.Forms.Label()
-        Me.TabPage2 = New System.Windows.Forms.TabPage()
-        Me.Panel3 = New System.Windows.Forms.Panel()
-        Me.BTNLoadDomSet = New System.Windows.Forms.Button()
-        Me.BTNSaveDomSet = New System.Windows.Forms.Button()
-        Me.Label127 = New System.Windows.Forms.Label()
-        Me.Label126 = New System.Windows.Forms.Label()
-        Me.PictureBox4 = New System.Windows.Forms.PictureBox()
-        Me.GBDomTypingStyle = New System.Windows.Forms.GroupBox()
-        Me.TBEmoteEnd = New System.Windows.Forms.TextBox()
-        Me.Label67 = New System.Windows.Forms.Label()
-        Me.TBEmote = New System.Windows.Forms.TextBox()
-        Me.NBTypoChance = New System.Windows.Forms.NumericUpDown()
-        Me.Label66 = New System.Windows.Forms.Label()
-        Me.CBMeMyMine = New System.Windows.Forms.CheckBox()
-        Me.GroupBox63 = New System.Windows.Forms.GroupBox()
-        Me.LCaseCheckBox = New System.Windows.Forms.CheckBox()
-        Me.apostropheCheckBox = New System.Windows.Forms.CheckBox()
-        Me.periodCheckBox = New System.Windows.Forms.CheckBox()
-        Me.commaCheckBox = New System.Windows.Forms.CheckBox()
-        Me.Label64 = New System.Windows.Forms.Label()
+        Me.DommeSettingsTabPage = New System.Windows.Forms.TabPage()
+        Me.DommeSettingsBodyPanel = New System.Windows.Forms.Panel()
+        Me.GroupBox39 = New System.Windows.Forms.GroupBox()
+        Me.CBHonorificInclude = New System.Windows.Forms.CheckBox()
+        Me.CBHonorificCapitalized = New System.Windows.Forms.CheckBox()
+        Me.TBHonorific = New System.Windows.Forms.TextBox()
+        Me.DommeStatsGroupBox = New System.Windows.Forms.GroupBox()
+        Me.Label128 = New System.Windows.Forms.Label()
+        Me.LBLEmpathy = New System.Windows.Forms.Label()
+        Me.NBEmpathy = New System.Windows.Forms.NumericUpDown()
+        Me.Label83 = New System.Windows.Forms.Label()
+        Me.NBDomBirthdayDay = New System.Windows.Forms.NumericUpDown()
+        Me.TBDomEyeColor = New System.Windows.Forms.TextBox()
+        Me.TBDomHairColor = New System.Windows.Forms.TextBox()
+        Me.DomAgeNumberBox = New System.Windows.Forms.NumericUpDown()
+        Me.Label47 = New System.Windows.Forms.Label()
+        Me.Label76 = New System.Windows.Forms.Label()
+        Me.NBDomBirthdayMonth = New System.Windows.Forms.NumericUpDown()
+        Me.Label84 = New System.Windows.Forms.Label()
+        Me.CBDomTattoos = New System.Windows.Forms.CheckBox()
+        Me.CBDomFreckles = New System.Windows.Forms.CheckBox()
+        Me.domhairlengthComboBox = New System.Windows.Forms.ComboBox()
+        Me.Label10 = New System.Windows.Forms.Label()
+        Me.DommePubicHairComboBox = New System.Windows.Forms.ComboBox()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.boobComboBox = New System.Windows.Forms.ComboBox()
+        Me.DomLevelDescLabel = New System.Windows.Forms.Label()
+        Me.DominationLevel = New System.Windows.Forms.NumericUpDown()
+        Me.Label43 = New System.Windows.Forms.Label()
+        Me.Label44 = New System.Windows.Forms.Label()
+        Me.Label45 = New System.Windows.Forms.Label()
+        Me.Label46 = New System.Windows.Forms.Label()
+        Me.GBDomPetNames = New System.Windows.Forms.GroupBox()
+        Me.Label74 = New System.Windows.Forms.Label()
+        Me.petnameBox7 = New System.Windows.Forms.TextBox()
+        Me.petnameBox8 = New System.Windows.Forms.TextBox()
+        Me.PetNameBox1 = New System.Windows.Forms.TextBox()
+        Me.Label15 = New System.Windows.Forms.Label()
+        Me.petnameBox4 = New System.Windows.Forms.TextBox()
+        Me.petnameBox6 = New System.Windows.Forms.TextBox()
+        Me.petnameBox2 = New System.Windows.Forms.TextBox()
+        Me.Label11 = New System.Windows.Forms.Label()
+        Me.petnameBox5 = New System.Windows.Forms.TextBox()
+        Me.petnameBox3 = New System.Windows.Forms.TextBox()
+        Me.GBDomOrgasms = New System.Windows.Forms.GroupBox()
+        Me.CBLockOrgasmChances = New System.Windows.Forms.CheckBox()
+        Me.orgasmlockrandombutton = New System.Windows.Forms.Button()
+        Me.CBDomOrgasmEnds = New System.Windows.Forms.CheckBox()
+        Me.Label16 = New System.Windows.Forms.Label()
+        Me.Label12 = New System.Windows.Forms.Label()
+        Me.orgasmsperlockButton = New System.Windows.Forms.Button()
+        Me.OrgasmsPerComboBox = New System.Windows.Forms.ComboBox()
+        Me.orgasmsperLabel = New System.Windows.Forms.Label()
+        Me.limitcheckbox = New System.Windows.Forms.CheckBox()
+        Me.OrgasmsPerNumBox = New System.Windows.Forms.NumericUpDown()
+        Me.CBDomDenialEnds = New System.Windows.Forms.CheckBox()
+        Me.AllowsOrgasmComboBox = New System.Windows.Forms.ComboBox()
+        Me.RuinsOrgasmsComboBox = New System.Windows.Forms.ComboBox()
+        Me.GBDomPersonality = New System.Windows.Forms.GroupBox()
+        Me.degradingCheckBox = New System.Windows.Forms.CheckBox()
+        Me.sadisticCheckBox = New System.Windows.Forms.CheckBox()
+        Me.supremacistCheckBox = New System.Windows.Forms.CheckBox()
+        Me.vulgarCheckBox = New System.Windows.Forms.CheckBox()
+        Me.crazyCheckBox = New System.Windows.Forms.CheckBox()
+        Me.CondescendingCheckBox = New System.Windows.Forms.CheckBox()
         Me.GBDomRanges = New System.Windows.Forms.GroupBox()
         Me.NBDomMoodMax = New System.Windows.Forms.NumericUpDown()
         Me.NBDomMoodMin = New System.Windows.Forms.NumericUpDown()
@@ -120,66 +165,27 @@ Partial Class FrmSettings
         Me.NBAvgCockMin = New System.Windows.Forms.NumericUpDown()
         Me.Label23 = New System.Windows.Forms.Label()
         Me.Label30 = New System.Windows.Forms.Label()
-        Me.GBDomStats = New System.Windows.Forms.GroupBox()
-        Me.Label128 = New System.Windows.Forms.Label()
-        Me.LBLEmpathy = New System.Windows.Forms.Label()
-        Me.NBEmpathy = New System.Windows.Forms.NumericUpDown()
-        Me.Label83 = New System.Windows.Forms.Label()
-        Me.NBDomBirthdayDay = New System.Windows.Forms.NumericUpDown()
-        Me.TBDomEyeColor = New System.Windows.Forms.TextBox()
-        Me.TBDomHairColor = New System.Windows.Forms.TextBox()
-        Me.DomAgeNumberBox = New System.Windows.Forms.NumericUpDown()
-        Me.Label47 = New System.Windows.Forms.Label()
-        Me.Label76 = New System.Windows.Forms.Label()
-        Me.NBDomBirthdayMonth = New System.Windows.Forms.NumericUpDown()
-        Me.Label84 = New System.Windows.Forms.Label()
-        Me.CBDomTattoos = New System.Windows.Forms.CheckBox()
-        Me.CBDomFreckles = New System.Windows.Forms.CheckBox()
-        Me.domhairlengthComboBox = New System.Windows.Forms.ComboBox()
-        Me.Label10 = New System.Windows.Forms.Label()
-        Me.dompubichairComboBox = New System.Windows.Forms.ComboBox()
-        Me.Label9 = New System.Windows.Forms.Label()
-        Me.boobComboBox = New System.Windows.Forms.ComboBox()
-        Me.DomLevelDescLabel = New System.Windows.Forms.Label()
-        Me.DominationLevel = New System.Windows.Forms.NumericUpDown()
-        Me.Label43 = New System.Windows.Forms.Label()
-        Me.Label44 = New System.Windows.Forms.Label()
-        Me.Label45 = New System.Windows.Forms.Label()
-        Me.Label46 = New System.Windows.Forms.Label()
-        Me.GBDomPersonality = New System.Windows.Forms.GroupBox()
-        Me.degradingCheckBox = New System.Windows.Forms.CheckBox()
-        Me.sadisticCheckBox = New System.Windows.Forms.CheckBox()
-        Me.supremacistCheckBox = New System.Windows.Forms.CheckBox()
-        Me.vulgarCheckBox = New System.Windows.Forms.CheckBox()
-        Me.crazyCheckBox = New System.Windows.Forms.CheckBox()
-        Me.condescendingCheckBox = New System.Windows.Forms.CheckBox()
-        Me.GBDomOrgasms = New System.Windows.Forms.GroupBox()
-        Me.CBLockOrgasmChances = New System.Windows.Forms.CheckBox()
-        Me.orgasmlockrandombutton = New System.Windows.Forms.Button()
-        Me.CBDomOrgasmEnds = New System.Windows.Forms.CheckBox()
-        Me.Label16 = New System.Windows.Forms.Label()
-        Me.Label12 = New System.Windows.Forms.Label()
-        Me.orgasmsperlockButton = New System.Windows.Forms.Button()
-        Me.OrgasmsPerComboBox = New System.Windows.Forms.ComboBox()
-        Me.orgasmsperLabel = New System.Windows.Forms.Label()
-        Me.limitcheckbox = New System.Windows.Forms.CheckBox()
-        Me.OrgasmsPerNumBox = New System.Windows.Forms.NumericUpDown()
-        Me.CBDomDenialEnds = New System.Windows.Forms.CheckBox()
-        Me.alloworgasmComboBox = New System.Windows.Forms.ComboBox()
-        Me.ruinorgasmComboBox = New System.Windows.Forms.ComboBox()
-        Me.GBDomPetNames = New System.Windows.Forms.GroupBox()
-        Me.Label74 = New System.Windows.Forms.Label()
-        Me.petnameBox7 = New System.Windows.Forms.TextBox()
-        Me.petnameBox8 = New System.Windows.Forms.TextBox()
-        Me.PetNameBox1 = New System.Windows.Forms.TextBox()
-        Me.Label15 = New System.Windows.Forms.Label()
-        Me.petnameBox4 = New System.Windows.Forms.TextBox()
-        Me.petnameBox6 = New System.Windows.Forms.TextBox()
-        Me.petnameBox2 = New System.Windows.Forms.TextBox()
-        Me.Label11 = New System.Windows.Forms.Label()
-        Me.petnameBox5 = New System.Windows.Forms.TextBox()
-        Me.petnameBox3 = New System.Windows.Forms.TextBox()
-        Me.Label54 = New System.Windows.Forms.Label()
+        Me.GBDomTypingStyle = New System.Windows.Forms.GroupBox()
+        Me.TBEmoteEnd = New System.Windows.Forms.TextBox()
+        Me.Label67 = New System.Windows.Forms.Label()
+        Me.TBEmote = New System.Windows.Forms.TextBox()
+        Me.NBTypoChance = New System.Windows.Forms.NumericUpDown()
+        Me.Label66 = New System.Windows.Forms.Label()
+        Me.CBMeMyMine = New System.Windows.Forms.CheckBox()
+        Me.GroupBox63 = New System.Windows.Forms.GroupBox()
+        Me.LCaseCheckBox = New System.Windows.Forms.CheckBox()
+        Me.apostropheCheckBox = New System.Windows.Forms.CheckBox()
+        Me.periodCheckBox = New System.Windows.Forms.CheckBox()
+        Me.commaCheckBox = New System.Windows.Forms.CheckBox()
+        Me.Label64 = New System.Windows.Forms.Label()
+        Me.DommeSettingsHeaderPanel = New System.Windows.Forms.Panel()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.BTNSaveDomSet = New System.Windows.Forms.Button()
+        Me.DommeSettingsSaveButton = New System.Windows.Forms.Button()
+        Me.DommeSettingsLogo = New System.Windows.Forms.PictureBox()
+        Me.DommeSettingsHeaderLabel = New System.Windows.Forms.Label()
+        Me.DommeSettingsDescriptionGroupBox = New System.Windows.Forms.GroupBox()
+        Me.DommeSettingsDescriptionLabel = New System.Windows.Forms.Label()
         Me.TabPage10 = New System.Windows.Forms.TabPage()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.GroupBox22 = New System.Windows.Forms.GroupBox()
@@ -193,10 +199,6 @@ Partial Class FrmSettings
         Me.CockTortureEnabledCB = New System.Windows.Forms.CheckBox()
         Me.CockAndBallTortureLevelSlider = New System.Windows.Forms.TrackBar()
         Me.GroupBox35 = New System.Windows.Forms.GroupBox()
-        Me.GroupBox39 = New System.Windows.Forms.GroupBox()
-        Me.CBHonorificInclude = New System.Windows.Forms.CheckBox()
-        Me.CBHonorificCapitalized = New System.Windows.Forms.CheckBox()
-        Me.TBHonorific = New System.Windows.Forms.TextBox()
         Me.GroupBox38 = New System.Windows.Forms.GroupBox()
         Me.TBNo = New System.Windows.Forms.TextBox()
         Me.GroupBox37 = New System.Windows.Forms.GroupBox()
@@ -658,14 +660,14 @@ Partial Class FrmSettings
         Me.VideoDescriptionGroupBox = New System.Windows.Forms.GroupBox()
         Me.VideoDescriptionLabel = New System.Windows.Forms.Label()
         Me.TabPage20 = New System.Windows.Forms.TabPage()
-        Me.TabControl1 = New System.Windows.Forms.TabControl()
+        Me.AppsSettingsHeaderPanel = New System.Windows.Forms.Panel()
+        Me.AppsSettingsLoad = New System.Windows.Forms.Button()
+        Me.AppsSettingsSave = New System.Windows.Forms.Button()
+        Me.AppsSettingsLogo = New System.Windows.Forms.PictureBox()
+        Me.AppsSettingsHeaderLabel = New System.Windows.Forms.Label()
+        Me.AppsSettingsTabList = New System.Windows.Forms.TabControl()
         Me.TabPage22 = New System.Windows.Forms.TabPage()
-        Me.PNLGlitter = New System.Windows.Forms.Panel()
-        Me.Button15 = New System.Windows.Forms.Button()
-        Me.Button16 = New System.Windows.Forms.Button()
-        Me.Label121 = New System.Windows.Forms.Label()
-        Me.Label122 = New System.Windows.Forms.Label()
-        Me.GBGlitterD = New System.Windows.Forms.GroupBox()
+        Me.DommeGlitterGroupBox = New System.Windows.Forms.GroupBox()
         Me.GrbGlitterfeed = New System.Windows.Forms.GroupBox()
         Me.CBGlitterFeedScripts = New System.Windows.Forms.RadioButton()
         Me.CBGlitterFeed = New System.Windows.Forms.RadioButton()
@@ -681,7 +683,7 @@ Partial Class FrmSettings
         Me.TBGlitterShortName = New System.Windows.Forms.TextBox()
         Me.CBEgotist = New System.Windows.Forms.CheckBox()
         Me.CBTease = New System.Windows.Forms.CheckBox()
-        Me.GlitterAV = New System.Windows.Forms.PictureBox()
+        Me.DommeGlitterAvatar = New System.Windows.Forms.PictureBox()
         Me.GBGlitter1 = New System.Windows.Forms.GroupBox()
         Me.BtnContact1ImageDirClear = New System.Windows.Forms.Button()
         Me.BtnContact1ImageDir = New System.Windows.Forms.Button()
@@ -1119,12 +1121,19 @@ Partial Class FrmSettings
         CType(Me.NBFontSize, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GBDommeFont.SuspendLayout
         CType(Me.NBFontSizeD, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.TabPage2.SuspendLayout
-        Me.Panel3.SuspendLayout
-        CType(Me.PictureBox4, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.GBDomTypingStyle.SuspendLayout
-        CType(Me.NBTypoChance, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.GroupBox63.SuspendLayout
+        Me.DommeSettingsTabPage.SuspendLayout
+        Me.DommeSettingsBodyPanel.SuspendLayout
+        Me.GroupBox39.SuspendLayout
+        Me.DommeStatsGroupBox.SuspendLayout
+        CType(Me.NBEmpathy, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBDomBirthdayDay, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.DomAgeNumberBox, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NBDomBirthdayMonth, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.DominationLevel, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GBDomPetNames.SuspendLayout
+        Me.GBDomOrgasms.SuspendLayout
+        CType(Me.OrgasmsPerNumBox, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GBDomPersonality.SuspendLayout
         Me.GBDomRanges.SuspendLayout
         CType(Me.NBDomMoodMax, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NBDomMoodMin, System.ComponentModel.ISupportInitialize).BeginInit
@@ -1134,16 +1143,13 @@ Partial Class FrmSettings
         CType(Me.NBSelfAgeMin, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NBAvgCockMax, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NBAvgCockMin, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.GBDomStats.SuspendLayout
-        CType(Me.NBEmpathy, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.NBDomBirthdayDay, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.DomAgeNumberBox, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.NBDomBirthdayMonth, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.DominationLevel, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.GBDomPersonality.SuspendLayout
-        Me.GBDomOrgasms.SuspendLayout
-        CType(Me.OrgasmsPerNumBox, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.GBDomPetNames.SuspendLayout
+        Me.GBDomTypingStyle.SuspendLayout
+        CType(Me.NBTypoChance, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GroupBox63.SuspendLayout
+        Me.DommeSettingsHeaderPanel.SuspendLayout
+        Me.Panel1.SuspendLayout
+        CType(Me.DommeSettingsLogo, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.DommeSettingsDescriptionGroupBox.SuspendLayout
         Me.TabPage10.SuspendLayout
         Me.Panel2.SuspendLayout
         Me.GroupBox22.SuspendLayout
@@ -1152,7 +1158,6 @@ Partial Class FrmSettings
         Me.GroupBox45.SuspendLayout
         CType(Me.CockAndBallTortureLevelSlider, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GroupBox35.SuspendLayout
-        Me.GroupBox39.SuspendLayout
         Me.GroupBox38.SuspendLayout
         Me.GroupBox37.SuspendLayout
         Me.GroupBox36.SuspendLayout
@@ -1228,13 +1233,14 @@ Partial Class FrmSettings
         CType(Me.VideoLogo, System.ComponentModel.ISupportInitialize).BeginInit
         Me.VideoDescriptionGroupBox.SuspendLayout
         Me.TabPage20.SuspendLayout
-        Me.TabControl1.SuspendLayout
+        Me.AppsSettingsHeaderPanel.SuspendLayout
+        CType(Me.AppsSettingsLogo, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.AppsSettingsTabList.SuspendLayout
         Me.TabPage22.SuspendLayout
-        Me.PNLGlitter.SuspendLayout
-        Me.GBGlitterD.SuspendLayout
+        Me.DommeGlitterGroupBox.SuspendLayout
         Me.GrbGlitterfeed.SuspendLayout
         CType(Me.GlitterSlider, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.GlitterAV, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.DommeGlitterAvatar, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GBGlitter1.SuspendLayout
         CType(Me.GlitterSlider1, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.GlitterAV1, System.ComponentModel.ISupportInitialize).BeginInit
@@ -1370,7 +1376,7 @@ Partial Class FrmSettings
         'SettingsTabs
         '
         Me.SettingsTabs.Controls.Add(Me.TabPage1)
-        Me.SettingsTabs.Controls.Add(Me.TabPage2)
+        Me.SettingsTabs.Controls.Add(Me.DommeSettingsTabPage)
         Me.SettingsTabs.Controls.Add(Me.TabPage10)
         Me.SettingsTabs.Controls.Add(Me.TabPage16)
         Me.SettingsTabs.Controls.Add(Me.TabPage7)
@@ -2121,504 +2127,112 @@ Partial Class FrmSettings
         Me.LBLGeneralSettings.Text = "General Settings"
         Me.LBLGeneralSettings.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'TabPage2
-        '
-        Me.TabPage2.BackColor = System.Drawing.Color.Silver
-        Me.TabPage2.Controls.Add(Me.Panel3)
-        Me.TabPage2.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage2.Name = "TabPage2"
-        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(972, 631)
-        Me.TabPage2.TabIndex = 1
-        Me.TabPage2.Text = "Domme"
-        '
-        'Panel3
-        '
-        Me.Panel3.BackColor = System.Drawing.Color.LightGray
-        Me.Panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Panel3.Controls.Add(Me.BTNLoadDomSet)
-        Me.Panel3.Controls.Add(Me.BTNSaveDomSet)
-        Me.Panel3.Controls.Add(Me.Label127)
-        Me.Panel3.Controls.Add(Me.Label126)
-        Me.Panel3.Controls.Add(Me.PictureBox4)
-        Me.Panel3.Controls.Add(Me.GBDomTypingStyle)
-        Me.Panel3.Controls.Add(Me.GBDomRanges)
-        Me.Panel3.Controls.Add(Me.GBDomStats)
-        Me.Panel3.Controls.Add(Me.GBDomPersonality)
-        Me.Panel3.Controls.Add(Me.GBDomOrgasms)
-        Me.Panel3.Controls.Add(Me.GBDomPetNames)
-        Me.Panel3.Controls.Add(Me.Label54)
-        Me.Panel3.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Panel3.Location = New System.Drawing.Point(3, 3)
-        Me.Panel3.Name = "Panel3"
-        Me.Panel3.Size = New System.Drawing.Size(966, 625)
-        Me.Panel3.TabIndex = 93
-        '
-        'BTNLoadDomSet
-        '
-        Me.BTNLoadDomSet.BackColor = System.Drawing.Color.LightGray
-        Me.BTNLoadDomSet.BackgroundImage = Global.Tease_AI.My.Resources.Resources.Button_Export
-        Me.BTNLoadDomSet.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.BTNLoadDomSet.FlatAppearance.BorderSize = 0
-        Me.BTNLoadDomSet.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray
-        Me.BTNLoadDomSet.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver
-        Me.BTNLoadDomSet.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BTNLoadDomSet.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BTNLoadDomSet.ForeColor = System.Drawing.Color.Black
-        Me.BTNLoadDomSet.Location = New System.Drawing.Point(671, 11)
-        Me.BTNLoadDomSet.Name = "BTNLoadDomSet"
-        Me.BTNLoadDomSet.Size = New System.Drawing.Size(30, 26)
-        Me.BTNLoadDomSet.TabIndex = 150
-        Me.BTNLoadDomSet.UseVisualStyleBackColor = False
-        '
-        'BTNSaveDomSet
-        '
-        Me.BTNSaveDomSet.BackColor = System.Drawing.Color.LightGray
-        Me.BTNSaveDomSet.BackgroundImage = Global.Tease_AI.My.Resources.Resources.Button_Save
-        Me.BTNSaveDomSet.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.BTNSaveDomSet.FlatAppearance.BorderSize = 0
-        Me.BTNSaveDomSet.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray
-        Me.BTNSaveDomSet.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver
-        Me.BTNSaveDomSet.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BTNSaveDomSet.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BTNSaveDomSet.ForeColor = System.Drawing.Color.Black
-        Me.BTNSaveDomSet.Location = New System.Drawing.Point(636, 8)
-        Me.BTNSaveDomSet.Name = "BTNSaveDomSet"
-        Me.BTNSaveDomSet.Size = New System.Drawing.Size(30, 26)
-        Me.BTNSaveDomSet.TabIndex = 151
-        Me.BTNSaveDomSet.UseVisualStyleBackColor = False
-        '
-        'Label127
-        '
-        Me.Label127.AutoSize = True
-        Me.Label127.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label127.ForeColor = System.Drawing.Color.Black
-        Me.Label127.Location = New System.Drawing.Point(670, -3)
-        Me.Label127.Name = "Label127"
-        Me.Label127.Size = New System.Drawing.Size(27, 13)
-        Me.Label127.TabIndex = 153
-        Me.Label127.Text = "load"
-        Me.Label127.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'Label126
-        '
-        Me.Label126.AutoSize = True
-        Me.Label126.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label126.ForeColor = System.Drawing.Color.Black
-        Me.Label126.Location = New System.Drawing.Point(636, -3)
-        Me.Label126.Name = "Label126"
-        Me.Label126.Size = New System.Drawing.Size(30, 13)
-        Me.Label126.TabIndex = 152
-        Me.Label126.Text = "save"
-        Me.Label126.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'PictureBox4
-        '
-        Me.PictureBox4.BackColor = System.Drawing.Color.LightGray
-        Me.PictureBox4.Image = Global.Tease_AI.My.Resources.Resources.TAI_Banner_small
-        Me.PictureBox4.Location = New System.Drawing.Point(9, 6)
-        Me.PictureBox4.Name = "PictureBox4"
-        Me.PictureBox4.Size = New System.Drawing.Size(160, 19)
-        Me.PictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
-        Me.PictureBox4.TabIndex = 149
-        Me.PictureBox4.TabStop = False
-        '
-        'GBDomTypingStyle
-        '
-        Me.GBDomTypingStyle.Controls.Add(Me.TBEmoteEnd)
-        Me.GBDomTypingStyle.Controls.Add(Me.Label67)
-        Me.GBDomTypingStyle.Controls.Add(Me.TBEmote)
-        Me.GBDomTypingStyle.Controls.Add(Me.NBTypoChance)
-        Me.GBDomTypingStyle.Controls.Add(Me.Label66)
-        Me.GBDomTypingStyle.Controls.Add(Me.CBMeMyMine)
-        Me.GBDomTypingStyle.Controls.Add(Me.GroupBox63)
-        Me.GBDomTypingStyle.Controls.Add(Me.Label64)
-        Me.GBDomTypingStyle.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GBDomTypingStyle.ForeColor = System.Drawing.Color.Black
-        Me.GBDomTypingStyle.Location = New System.Drawing.Point(7, 299)
-        Me.GBDomTypingStyle.Name = "GBDomTypingStyle"
-        Me.GBDomTypingStyle.Size = New System.Drawing.Size(427, 124)
-        Me.GBDomTypingStyle.TabIndex = 138
-        Me.GBDomTypingStyle.TabStop = False
-        Me.GBDomTypingStyle.Text = "Typing Style"
-        '
-        'TBEmoteEnd
-        '
-        Me.TBEmoteEnd.BackColor = System.Drawing.Color.White
-        Me.TBEmoteEnd.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TBEmoteEnd.ForeColor = System.Drawing.Color.Black
-        Me.TBEmoteEnd.Location = New System.Drawing.Point(115, 91)
-        Me.TBEmoteEnd.Name = "TBEmoteEnd"
-        Me.TBEmoteEnd.Size = New System.Drawing.Size(84, 23)
-        Me.TBEmoteEnd.TabIndex = 155
-        Me.TBEmoteEnd.Text = "*"
-        Me.TBEmoteEnd.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
-        'Label67
-        '
-        Me.Label67.AutoSize = True
-        Me.Label67.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label67.ForeColor = System.Drawing.Color.Black
-        Me.Label67.Location = New System.Drawing.Point(237, 77)
-        Me.Label67.Name = "Label67"
-        Me.Label67.Size = New System.Drawing.Size(42, 13)
-        Me.Label67.TabIndex = 169
-        Me.Label67.Text = "Typo %"
-        Me.Label67.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'TBEmote
-        '
-        Me.TBEmote.BackColor = System.Drawing.Color.White
-        Me.TBEmote.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TBEmote.ForeColor = System.Drawing.Color.Black
-        Me.TBEmote.Location = New System.Drawing.Point(9, 91)
-        Me.TBEmote.Name = "TBEmote"
-        Me.TBEmote.Size = New System.Drawing.Size(85, 23)
-        Me.TBEmote.TabIndex = 154
-        Me.TBEmote.Text = "*"
-        Me.TBEmote.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
-        'NBTypoChance
-        '
-        Me.NBTypoChance.Location = New System.Drawing.Point(238, 94)
-        Me.NBTypoChance.Name = "NBTypoChance"
-        Me.NBTypoChance.Size = New System.Drawing.Size(44, 20)
-        Me.NBTypoChance.TabIndex = 168
-        Me.NBTypoChance.Value = New Decimal(New Integer() {1, 0, 0, 0})
-        '
-        'Label66
-        '
-        Me.Label66.AutoSize = True
-        Me.Label66.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label66.ForeColor = System.Drawing.Color.Black
-        Me.Label66.Location = New System.Drawing.Point(322, 77)
-        Me.Label66.Name = "Label66"
-        Me.Label66.Size = New System.Drawing.Size(52, 13)
-        Me.Label66.TabIndex = 44
-        Me.Label66.Text = "Pronouns"
-        Me.Label66.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'CBMeMyMine
-        '
-        Me.CBMeMyMine.AutoSize = True
-        Me.CBMeMyMine.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CBMeMyMine.ForeColor = System.Drawing.Color.Black
-        Me.CBMeMyMine.Location = New System.Drawing.Point(325, 97)
-        Me.CBMeMyMine.Name = "CBMeMyMine"
-        Me.CBMeMyMine.Size = New System.Drawing.Size(88, 17)
-        Me.CBMeMyMine.TabIndex = 40
-        Me.CBMeMyMine.Text = "Me/My/Mine"
-        Me.CBMeMyMine.UseVisualStyleBackColor = True
-        '
-        'GroupBox63
-        '
-        Me.GroupBox63.Controls.Add(Me.LCaseCheckBox)
-        Me.GroupBox63.Controls.Add(Me.apostropheCheckBox)
-        Me.GroupBox63.Controls.Add(Me.periodCheckBox)
-        Me.GroupBox63.Controls.Add(Me.commaCheckBox)
-        Me.GroupBox63.Location = New System.Drawing.Point(9, 15)
-        Me.GroupBox63.Name = "GroupBox63"
-        Me.GroupBox63.Size = New System.Drawing.Size(407, 48)
-        Me.GroupBox63.TabIndex = 41
-        Me.GroupBox63.TabStop = False
-        Me.GroupBox63.Text = "Remove"
-        '
-        'LCaseCheckBox
-        '
-        Me.LCaseCheckBox.AutoSize = True
-        Me.LCaseCheckBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LCaseCheckBox.ForeColor = System.Drawing.Color.Black
-        Me.LCaseCheckBox.Location = New System.Drawing.Point(16, 19)
-        Me.LCaseCheckBox.Name = "LCaseCheckBox"
-        Me.LCaseCheckBox.Size = New System.Drawing.Size(88, 17)
-        Me.LCaseCheckBox.TabIndex = 38
-        Me.LCaseCheckBox.Text = "Capitalization"
-        Me.LCaseCheckBox.UseVisualStyleBackColor = True
-        '
-        'apostropheCheckBox
-        '
-        Me.apostropheCheckBox.AutoSize = True
-        Me.apostropheCheckBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.apostropheCheckBox.ForeColor = System.Drawing.Color.Black
-        Me.apostropheCheckBox.Location = New System.Drawing.Point(116, 19)
-        Me.apostropheCheckBox.Name = "apostropheCheckBox"
-        Me.apostropheCheckBox.Size = New System.Drawing.Size(85, 17)
-        Me.apostropheCheckBox.TabIndex = 39
-        Me.apostropheCheckBox.Text = "Apostrophes"
-        Me.apostropheCheckBox.UseVisualStyleBackColor = True
-        '
-        'periodCheckBox
-        '
-        Me.periodCheckBox.AutoSize = True
-        Me.periodCheckBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.periodCheckBox.ForeColor = System.Drawing.Color.Black
-        Me.periodCheckBox.Location = New System.Drawing.Point(316, 19)
-        Me.periodCheckBox.Name = "periodCheckBox"
-        Me.periodCheckBox.Size = New System.Drawing.Size(61, 17)
-        Me.periodCheckBox.TabIndex = 37
-        Me.periodCheckBox.Text = "Periods"
-        Me.periodCheckBox.UseVisualStyleBackColor = True
-        '
-        'commaCheckBox
-        '
-        Me.commaCheckBox.AutoSize = True
-        Me.commaCheckBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.commaCheckBox.ForeColor = System.Drawing.Color.Black
-        Me.commaCheckBox.Location = New System.Drawing.Point(216, 19)
-        Me.commaCheckBox.Name = "commaCheckBox"
-        Me.commaCheckBox.Size = New System.Drawing.Size(66, 17)
-        Me.commaCheckBox.TabIndex = 36
-        Me.commaCheckBox.Text = "Commas"
-        Me.commaCheckBox.UseVisualStyleBackColor = True
-        '
-        'Label64
-        '
-        Me.Label64.AutoSize = True
-        Me.Label64.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label64.ForeColor = System.Drawing.Color.Black
-        Me.Label64.Location = New System.Drawing.Point(8, 77)
-        Me.Label64.Name = "Label64"
-        Me.Label64.Size = New System.Drawing.Size(79, 13)
-        Me.Label64.TabIndex = 43
-        Me.Label64.Text = "Emote Symbols"
-        Me.Label64.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'GBDomRanges
-        '
-        Me.GBDomRanges.Controls.Add(Me.NBDomMoodMax)
-        Me.GBDomRanges.Controls.Add(Me.NBDomMoodMin)
-        Me.GBDomRanges.Controls.Add(Me.Label37)
-        Me.GBDomRanges.Controls.Add(Me.Label39)
-        Me.GBDomRanges.Controls.Add(Me.NBSubAgeMax)
-        Me.GBDomRanges.Controls.Add(Me.NBSubAgeMin)
-        Me.GBDomRanges.Controls.Add(Me.Label31)
-        Me.GBDomRanges.Controls.Add(Me.Label36)
-        Me.GBDomRanges.Controls.Add(Me.NBSelfAgeMax)
-        Me.GBDomRanges.Controls.Add(Me.NBSelfAgeMin)
-        Me.GBDomRanges.Controls.Add(Me.Label21)
-        Me.GBDomRanges.Controls.Add(Me.Label22)
-        Me.GBDomRanges.Controls.Add(Me.NBAvgCockMax)
-        Me.GBDomRanges.Controls.Add(Me.NBAvgCockMin)
-        Me.GBDomRanges.Controls.Add(Me.Label23)
-        Me.GBDomRanges.Controls.Add(Me.Label30)
-        Me.GBDomRanges.Location = New System.Drawing.Point(440, 230)
-        Me.GBDomRanges.Name = "GBDomRanges"
-        Me.GBDomRanges.Size = New System.Drawing.Size(259, 94)
-        Me.GBDomRanges.TabIndex = 148
-        Me.GBDomRanges.TabStop = False
-        Me.GBDomRanges.Text = "Ranges"
-        '
-        'NBDomMoodMax
-        '
-        Me.NBDomMoodMax.Location = New System.Drawing.Point(200, 11)
-        Me.NBDomMoodMax.Maximum = New Decimal(New Integer() {10, 0, 0, 0})
-        Me.NBDomMoodMax.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
-        Me.NBDomMoodMax.Name = "NBDomMoodMax"
-        Me.NBDomMoodMax.Size = New System.Drawing.Size(44, 20)
-        Me.NBDomMoodMax.TabIndex = 168
-        Me.NBDomMoodMax.Value = New Decimal(New Integer() {8, 0, 0, 0})
-        '
-        'NBDomMoodMin
-        '
-        Me.NBDomMoodMin.Location = New System.Drawing.Point(134, 11)
-        Me.NBDomMoodMin.Maximum = New Decimal(New Integer() {9, 0, 0, 0})
-        Me.NBDomMoodMin.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NBDomMoodMin.Name = "NBDomMoodMin"
-        Me.NBDomMoodMin.Size = New System.Drawing.Size(44, 20)
-        Me.NBDomMoodMin.TabIndex = 167
-        Me.NBDomMoodMin.Value = New Decimal(New Integer() {6, 0, 0, 0})
-        '
-        'Label37
-        '
-        Me.Label37.BackColor = System.Drawing.Color.Transparent
-        Me.Label37.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label37.ForeColor = System.Drawing.Color.Black
-        Me.Label37.Location = New System.Drawing.Point(184, 11)
-        Me.Label37.Name = "Label37"
-        Me.Label37.Size = New System.Drawing.Size(10, 17)
-        Me.Label37.TabIndex = 166
-        Me.Label37.Text = "-"
-        Me.Label37.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label39
-        '
-        Me.Label39.BackColor = System.Drawing.Color.Transparent
-        Me.Label39.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label39.ForeColor = System.Drawing.Color.Black
-        Me.Label39.Location = New System.Drawing.Point(12, 11)
-        Me.Label39.Name = "Label39"
-        Me.Label39.Size = New System.Drawing.Size(116, 17)
-        Me.Label39.TabIndex = 165
-        Me.Label39.Text = "Domme Mood Index:"
-        Me.Label39.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'NBSubAgeMax
-        '
-        Me.NBSubAgeMax.Location = New System.Drawing.Point(200, 68)
-        Me.NBSubAgeMax.Maximum = New Decimal(New Integer() {98, 0, 0, 0})
-        Me.NBSubAgeMax.Minimum = New Decimal(New Integer() {29, 0, 0, 0})
-        Me.NBSubAgeMax.Name = "NBSubAgeMax"
-        Me.NBSubAgeMax.Size = New System.Drawing.Size(44, 20)
-        Me.NBSubAgeMax.TabIndex = 164
-        Me.NBSubAgeMax.Value = New Decimal(New Integer() {49, 0, 0, 0})
-        '
-        'NBSubAgeMin
-        '
-        Me.NBSubAgeMin.Location = New System.Drawing.Point(134, 68)
-        Me.NBSubAgeMin.Maximum = New Decimal(New Integer() {50, 0, 0, 0})
-        Me.NBSubAgeMin.Minimum = New Decimal(New Integer() {19, 0, 0, 0})
-        Me.NBSubAgeMin.Name = "NBSubAgeMin"
-        Me.NBSubAgeMin.Size = New System.Drawing.Size(44, 20)
-        Me.NBSubAgeMin.TabIndex = 163
-        Me.NBSubAgeMin.Value = New Decimal(New Integer() {28, 0, 0, 0})
-        '
-        'Label31
-        '
-        Me.Label31.BackColor = System.Drawing.Color.Transparent
-        Me.Label31.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label31.ForeColor = System.Drawing.Color.Black
-        Me.Label31.Location = New System.Drawing.Point(184, 68)
-        Me.Label31.Name = "Label31"
-        Me.Label31.Size = New System.Drawing.Size(10, 17)
-        Me.Label31.TabIndex = 162
-        Me.Label31.Text = "-"
-        Me.Label31.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label36
-        '
-        Me.Label36.BackColor = System.Drawing.Color.Transparent
-        Me.Label36.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label36.ForeColor = System.Drawing.Color.Black
-        Me.Label36.Location = New System.Drawing.Point(12, 68)
-        Me.Label36.Name = "Label36"
-        Me.Label36.Size = New System.Drawing.Size(113, 17)
-        Me.Label36.TabIndex = 161
-        Me.Label36.Text = "Sub Age Perception:"
-        Me.Label36.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'NBSelfAgeMax
-        '
-        Me.NBSelfAgeMax.Location = New System.Drawing.Point(200, 49)
-        Me.NBSelfAgeMax.Maximum = New Decimal(New Integer() {98, 0, 0, 0})
-        Me.NBSelfAgeMax.Minimum = New Decimal(New Integer() {29, 0, 0, 0})
-        Me.NBSelfAgeMax.Name = "NBSelfAgeMax"
-        Me.NBSelfAgeMax.Size = New System.Drawing.Size(44, 20)
-        Me.NBSelfAgeMax.TabIndex = 156
-        Me.NBSelfAgeMax.Value = New Decimal(New Integer() {49, 0, 0, 0})
-        '
-        'NBSelfAgeMin
-        '
-        Me.NBSelfAgeMin.Location = New System.Drawing.Point(134, 49)
-        Me.NBSelfAgeMin.Maximum = New Decimal(New Integer() {50, 0, 0, 0})
-        Me.NBSelfAgeMin.Minimum = New Decimal(New Integer() {19, 0, 0, 0})
-        Me.NBSelfAgeMin.Name = "NBSelfAgeMin"
-        Me.NBSelfAgeMin.Size = New System.Drawing.Size(44, 20)
-        Me.NBSelfAgeMin.TabIndex = 155
-        Me.NBSelfAgeMin.Value = New Decimal(New Integer() {28, 0, 0, 0})
-        '
-        'Label21
-        '
-        Me.Label21.BackColor = System.Drawing.Color.Transparent
-        Me.Label21.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label21.ForeColor = System.Drawing.Color.Black
-        Me.Label21.Location = New System.Drawing.Point(184, 49)
-        Me.Label21.Name = "Label21"
-        Me.Label21.Size = New System.Drawing.Size(10, 17)
-        Me.Label21.TabIndex = 154
-        Me.Label21.Text = "-"
-        Me.Label21.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label22
-        '
-        Me.Label22.BackColor = System.Drawing.Color.Transparent
-        Me.Label22.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label22.ForeColor = System.Drawing.Color.Black
-        Me.Label22.Location = New System.Drawing.Point(12, 49)
-        Me.Label22.Name = "Label22"
-        Me.Label22.Size = New System.Drawing.Size(116, 17)
-        Me.Label22.TabIndex = 153
-        Me.Label22.Text = "Self Age Perception:"
-        Me.Label22.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'NBAvgCockMax
-        '
-        Me.NBAvgCockMax.Location = New System.Drawing.Point(200, 30)
-        Me.NBAvgCockMax.Maximum = New Decimal(New Integer() {14, 0, 0, 0})
-        Me.NBAvgCockMax.Minimum = New Decimal(New Integer() {3, 0, 0, 0})
-        Me.NBAvgCockMax.Name = "NBAvgCockMax"
-        Me.NBAvgCockMax.Size = New System.Drawing.Size(44, 20)
-        Me.NBAvgCockMax.TabIndex = 152
-        Me.NBAvgCockMax.Value = New Decimal(New Integer() {8, 0, 0, 0})
-        '
-        'NBAvgCockMin
-        '
-        Me.NBAvgCockMin.Location = New System.Drawing.Point(134, 30)
-        Me.NBAvgCockMin.Maximum = New Decimal(New Integer() {13, 0, 0, 0})
-        Me.NBAvgCockMin.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
-        Me.NBAvgCockMin.Name = "NBAvgCockMin"
-        Me.NBAvgCockMin.Size = New System.Drawing.Size(44, 20)
-        Me.NBAvgCockMin.TabIndex = 151
-        Me.NBAvgCockMin.Value = New Decimal(New Integer() {6, 0, 0, 0})
-        '
-        'Label23
-        '
-        Me.Label23.BackColor = System.Drawing.Color.Transparent
-        Me.Label23.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label23.ForeColor = System.Drawing.Color.Black
-        Me.Label23.Location = New System.Drawing.Point(184, 30)
-        Me.Label23.Name = "Label23"
-        Me.Label23.Size = New System.Drawing.Size(10, 17)
-        Me.Label23.TabIndex = 150
-        Me.Label23.Text = "-"
-        Me.Label23.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label30
-        '
-        Me.Label30.BackColor = System.Drawing.Color.Transparent
-        Me.Label30.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label30.ForeColor = System.Drawing.Color.Black
-        Me.Label30.Location = New System.Drawing.Point(12, 30)
-        Me.Label30.Name = "Label30"
-        Me.Label30.Size = New System.Drawing.Size(116, 17)
-        Me.Label30.TabIndex = 149
-        Me.Label30.Text = "Average Dick Size:"
-        Me.Label30.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'GBDomStats
-        '
-        Me.GBDomStats.BackColor = System.Drawing.Color.LightGray
-        Me.GBDomStats.Controls.Add(Me.Label128)
-        Me.GBDomStats.Controls.Add(Me.LBLEmpathy)
-        Me.GBDomStats.Controls.Add(Me.NBEmpathy)
-        Me.GBDomStats.Controls.Add(Me.Label83)
-        Me.GBDomStats.Controls.Add(Me.NBDomBirthdayDay)
-        Me.GBDomStats.Controls.Add(Me.TBDomEyeColor)
-        Me.GBDomStats.Controls.Add(Me.TBDomHairColor)
-        Me.GBDomStats.Controls.Add(Me.DomAgeNumberBox)
-        Me.GBDomStats.Controls.Add(Me.Label47)
-        Me.GBDomStats.Controls.Add(Me.Label76)
-        Me.GBDomStats.Controls.Add(Me.NBDomBirthdayMonth)
-        Me.GBDomStats.Controls.Add(Me.Label84)
-        Me.GBDomStats.Controls.Add(Me.CBDomTattoos)
-        Me.GBDomStats.Controls.Add(Me.CBDomFreckles)
-        Me.GBDomStats.Controls.Add(Me.domhairlengthComboBox)
-        Me.GBDomStats.Controls.Add(Me.Label10)
-        Me.GBDomStats.Controls.Add(Me.dompubichairComboBox)
-        Me.GBDomStats.Controls.Add(Me.Label9)
-        Me.GBDomStats.Controls.Add(Me.boobComboBox)
-        Me.GBDomStats.Controls.Add(Me.DomLevelDescLabel)
-        Me.GBDomStats.Controls.Add(Me.DominationLevel)
-        Me.GBDomStats.Controls.Add(Me.Label43)
-        Me.GBDomStats.Controls.Add(Me.Label44)
-        Me.GBDomStats.Controls.Add(Me.Label45)
-        Me.GBDomStats.Controls.Add(Me.Label46)
-        Me.GBDomStats.ForeColor = System.Drawing.Color.Black
-        Me.GBDomStats.Location = New System.Drawing.Point(7, 30)
-        Me.GBDomStats.Name = "GBDomStats"
-        Me.GBDomStats.Size = New System.Drawing.Size(171, 263)
-        Me.GBDomStats.TabIndex = 62
-        Me.GBDomStats.TabStop = False
-        Me.GBDomStats.Text = "Stats/Appearance"
+        'DommeSettingsTabPage
+        '
+        Me.DommeSettingsTabPage.BackColor = System.Drawing.Color.Silver
+        Me.DommeSettingsTabPage.Controls.Add(Me.DommeSettingsBodyPanel)
+        Me.DommeSettingsTabPage.Controls.Add(Me.DommeSettingsHeaderPanel)
+        Me.DommeSettingsTabPage.Controls.Add(Me.DommeSettingsDescriptionGroupBox)
+        Me.DommeSettingsTabPage.Location = New System.Drawing.Point(4, 22)
+        Me.DommeSettingsTabPage.Name = "DommeSettingsTabPage"
+        Me.DommeSettingsTabPage.Padding = New System.Windows.Forms.Padding(3)
+        Me.DommeSettingsTabPage.Size = New System.Drawing.Size(972, 631)
+        Me.DommeSettingsTabPage.TabIndex = 1
+        Me.DommeSettingsTabPage.Text = "Domme"
+        '
+        'DommeSettingsBodyPanel
+        '
+        Me.DommeSettingsBodyPanel.Controls.Add(Me.GroupBox39)
+        Me.DommeSettingsBodyPanel.Controls.Add(Me.DommeStatsGroupBox)
+        Me.DommeSettingsBodyPanel.Controls.Add(Me.GBDomPetNames)
+        Me.DommeSettingsBodyPanel.Controls.Add(Me.GBDomOrgasms)
+        Me.DommeSettingsBodyPanel.Controls.Add(Me.GBDomPersonality)
+        Me.DommeSettingsBodyPanel.Controls.Add(Me.GBDomRanges)
+        Me.DommeSettingsBodyPanel.Controls.Add(Me.GBDomTypingStyle)
+        Me.DommeSettingsBodyPanel.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.DommeSettingsBodyPanel.Location = New System.Drawing.Point(3, 63)
+        Me.DommeSettingsBodyPanel.Name = "DommeSettingsBodyPanel"
+        Me.DommeSettingsBodyPanel.Size = New System.Drawing.Size(966, 465)
+        Me.DommeSettingsBodyPanel.TabIndex = 154
+        '
+        'GroupBox39
+        '
+        Me.GroupBox39.Controls.Add(Me.CBHonorificInclude)
+        Me.GroupBox39.Controls.Add(Me.CBHonorificCapitalized)
+        Me.GroupBox39.Controls.Add(Me.TBHonorific)
+        Me.GroupBox39.Location = New System.Drawing.Point(489, 341)
+        Me.GroupBox39.Name = "GroupBox39"
+        Me.GroupBox39.Size = New System.Drawing.Size(247, 89)
+        Me.GroupBox39.TabIndex = 149
+        Me.GroupBox39.TabStop = False
+        Me.GroupBox39.Tag = ""
+        Me.GroupBox39.Text = "Honorific"
+        '
+        'CBHonorificInclude
+        '
+        Me.CBHonorificInclude.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CBHonorificInclude.ForeColor = System.Drawing.Color.Black
+        Me.CBHonorificInclude.Location = New System.Drawing.Point(9, 44)
+        Me.CBHonorificInclude.Name = "CBHonorificInclude"
+        Me.CBHonorificInclude.Size = New System.Drawing.Size(234, 21)
+        Me.CBHonorificInclude.TabIndex = 40
+        Me.CBHonorificInclude.Text = "Honorific Must Be Included w/ Key Phrases"
+        Me.CBHonorificInclude.UseVisualStyleBackColor = True
+        '
+        'CBHonorificCapitalized
+        '
+        Me.CBHonorificCapitalized.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CBHonorificCapitalized.ForeColor = System.Drawing.Color.Black
+        Me.CBHonorificCapitalized.Location = New System.Drawing.Point(9, 66)
+        Me.CBHonorificCapitalized.Name = "CBHonorificCapitalized"
+        Me.CBHonorificCapitalized.Size = New System.Drawing.Size(179, 21)
+        Me.CBHonorificCapitalized.TabIndex = 39
+        Me.CBHonorificCapitalized.Text = "Honorific Must Be Capitalized"
+        Me.CBHonorificCapitalized.UseVisualStyleBackColor = True
+        '
+        'TBHonorific
+        '
+        Me.TBHonorific.Location = New System.Drawing.Point(9, 16)
+        Me.TBHonorific.Name = "TBHonorific"
+        Me.TBHonorific.Size = New System.Drawing.Size(229, 20)
+        Me.TBHonorific.TabIndex = 0
+        Me.TBHonorific.Text = "Mistress"
+        '
+        'DommeStatsGroupBox
+        '
+        Me.DommeStatsGroupBox.BackColor = System.Drawing.Color.Transparent
+        Me.DommeStatsGroupBox.Controls.Add(Me.Label128)
+        Me.DommeStatsGroupBox.Controls.Add(Me.LBLEmpathy)
+        Me.DommeStatsGroupBox.Controls.Add(Me.NBEmpathy)
+        Me.DommeStatsGroupBox.Controls.Add(Me.Label83)
+        Me.DommeStatsGroupBox.Controls.Add(Me.NBDomBirthdayDay)
+        Me.DommeStatsGroupBox.Controls.Add(Me.TBDomEyeColor)
+        Me.DommeStatsGroupBox.Controls.Add(Me.TBDomHairColor)
+        Me.DommeStatsGroupBox.Controls.Add(Me.DomAgeNumberBox)
+        Me.DommeStatsGroupBox.Controls.Add(Me.Label47)
+        Me.DommeStatsGroupBox.Controls.Add(Me.Label76)
+        Me.DommeStatsGroupBox.Controls.Add(Me.NBDomBirthdayMonth)
+        Me.DommeStatsGroupBox.Controls.Add(Me.Label84)
+        Me.DommeStatsGroupBox.Controls.Add(Me.CBDomTattoos)
+        Me.DommeStatsGroupBox.Controls.Add(Me.CBDomFreckles)
+        Me.DommeStatsGroupBox.Controls.Add(Me.domhairlengthComboBox)
+        Me.DommeStatsGroupBox.Controls.Add(Me.Label10)
+        Me.DommeStatsGroupBox.Controls.Add(Me.DommePubicHairComboBox)
+        Me.DommeStatsGroupBox.Controls.Add(Me.Label9)
+        Me.DommeStatsGroupBox.Controls.Add(Me.boobComboBox)
+        Me.DommeStatsGroupBox.Controls.Add(Me.DomLevelDescLabel)
+        Me.DommeStatsGroupBox.Controls.Add(Me.DominationLevel)
+        Me.DommeStatsGroupBox.Controls.Add(Me.Label43)
+        Me.DommeStatsGroupBox.Controls.Add(Me.Label44)
+        Me.DommeStatsGroupBox.Controls.Add(Me.Label45)
+        Me.DommeStatsGroupBox.Controls.Add(Me.Label46)
+        Me.DommeStatsGroupBox.ForeColor = System.Drawing.Color.Black
+        Me.DommeStatsGroupBox.Location = New System.Drawing.Point(56, 37)
+        Me.DommeStatsGroupBox.Name = "DommeStatsGroupBox"
+        Me.DommeStatsGroupBox.Size = New System.Drawing.Size(171, 263)
+        Me.DommeStatsGroupBox.TabIndex = 62
+        Me.DommeStatsGroupBox.TabStop = False
+        Me.DommeStatsGroupBox.Text = "Stats/Appearance"
         '
         'Label128
         '
@@ -2812,18 +2426,19 @@ Partial Class FrmSettings
         Me.Label10.Text = "Hair Length:"
         Me.Label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'dompubichairComboBox
+        'DommePubicHairComboBox
         '
-        Me.dompubichairComboBox.BackColor = System.Drawing.Color.White
-        Me.dompubichairComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.dompubichairComboBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.dompubichairComboBox.ForeColor = System.Drawing.Color.Black
-        Me.dompubichairComboBox.FormattingEnabled = True
-        Me.dompubichairComboBox.Items.AddRange(New Object() {"Shaved", "Sparse", "Trimmed", "Natural", "Hairy"})
-        Me.dompubichairComboBox.Location = New System.Drawing.Point(73, 208)
-        Me.dompubichairComboBox.Name = "dompubichairComboBox"
-        Me.dompubichairComboBox.Size = New System.Drawing.Size(89, 21)
-        Me.dompubichairComboBox.TabIndex = 143
+        Me.DommePubicHairComboBox.BackColor = System.Drawing.Color.White
+        Me.DommePubicHairComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.DommePubicHairComboBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.DommePubicHairComboBox.ForeColor = System.Drawing.Color.Black
+        Me.DommePubicHairComboBox.FormattingEnabled = True
+        Me.DommePubicHairComboBox.Items.AddRange(New Object() {"Shaved", "Sparse", "Trimmed", "Natural", "Hairy"})
+        Me.DommePubicHairComboBox.Location = New System.Drawing.Point(73, 208)
+        Me.DommePubicHairComboBox.Name = "DommePubicHairComboBox"
+        Me.DommePubicHairComboBox.Size = New System.Drawing.Size(89, 21)
+        Me.DommePubicHairComboBox.TabIndex = 143
+        Me.TTDir.SetToolTip(Me.DommePubicHairComboBox, "Sets description of the Domme's pubic hair.")
         '
         'Label9
         '
@@ -2920,93 +2535,157 @@ Partial Class FrmSettings
         Me.Label46.Text = "Level:"
         Me.Label46.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'GBDomPersonality
+        'GBDomPetNames
         '
-        Me.GBDomPersonality.Controls.Add(Me.degradingCheckBox)
-        Me.GBDomPersonality.Controls.Add(Me.sadisticCheckBox)
-        Me.GBDomPersonality.Controls.Add(Me.supremacistCheckBox)
-        Me.GBDomPersonality.Controls.Add(Me.vulgarCheckBox)
-        Me.GBDomPersonality.Controls.Add(Me.crazyCheckBox)
-        Me.GBDomPersonality.Controls.Add(Me.condescendingCheckBox)
-        Me.GBDomPersonality.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GBDomPersonality.ForeColor = System.Drawing.Color.Black
-        Me.GBDomPersonality.Location = New System.Drawing.Point(184, 30)
-        Me.GBDomPersonality.Name = "GBDomPersonality"
-        Me.GBDomPersonality.Size = New System.Drawing.Size(250, 67)
-        Me.GBDomPersonality.TabIndex = 131
-        Me.GBDomPersonality.TabStop = False
-        Me.GBDomPersonality.Text = "Personality"
+        Me.GBDomPetNames.BackColor = System.Drawing.Color.Transparent
+        Me.GBDomPetNames.Controls.Add(Me.Label74)
+        Me.GBDomPetNames.Controls.Add(Me.petnameBox7)
+        Me.GBDomPetNames.Controls.Add(Me.petnameBox8)
+        Me.GBDomPetNames.Controls.Add(Me.PetNameBox1)
+        Me.GBDomPetNames.Controls.Add(Me.Label15)
+        Me.GBDomPetNames.Controls.Add(Me.petnameBox4)
+        Me.GBDomPetNames.Controls.Add(Me.petnameBox6)
+        Me.GBDomPetNames.Controls.Add(Me.petnameBox2)
+        Me.GBDomPetNames.Controls.Add(Me.Label11)
+        Me.GBDomPetNames.Controls.Add(Me.petnameBox5)
+        Me.GBDomPetNames.Controls.Add(Me.petnameBox3)
+        Me.GBDomPetNames.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GBDomPetNames.ForeColor = System.Drawing.Color.Black
+        Me.GBDomPetNames.Location = New System.Drawing.Point(233, 110)
+        Me.GBDomPetNames.Name = "GBDomPetNames"
+        Me.GBDomPetNames.Size = New System.Drawing.Size(250, 190)
+        Me.GBDomPetNames.TabIndex = 134
+        Me.GBDomPetNames.TabStop = False
+        Me.GBDomPetNames.Text = "Pet Names"
         '
-        'degradingCheckBox
+        'Label74
         '
-        Me.degradingCheckBox.AutoSize = True
-        Me.degradingCheckBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.degradingCheckBox.ForeColor = System.Drawing.Color.Black
-        Me.degradingCheckBox.Location = New System.Drawing.Point(73, 43)
-        Me.degradingCheckBox.Name = "degradingCheckBox"
-        Me.degradingCheckBox.Size = New System.Drawing.Size(75, 17)
-        Me.degradingCheckBox.TabIndex = 40
-        Me.degradingCheckBox.Text = "Degrading"
-        Me.degradingCheckBox.UseVisualStyleBackColor = True
+        Me.Label74.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label74.ForeColor = System.Drawing.Color.Black
+        Me.Label74.Location = New System.Drawing.Point(8, 14)
+        Me.Label74.Name = "Label74"
+        Me.Label74.Size = New System.Drawing.Size(233, 13)
+        Me.Label74.TabIndex = 45
+        Me.Label74.Text = "Great Mood"
+        Me.Label74.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'sadisticCheckBox
+        'petnameBox7
         '
-        Me.sadisticCheckBox.AutoSize = True
-        Me.sadisticCheckBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.sadisticCheckBox.ForeColor = System.Drawing.Color.Black
-        Me.sadisticCheckBox.Location = New System.Drawing.Point(11, 43)
-        Me.sadisticCheckBox.Name = "sadisticCheckBox"
-        Me.sadisticCheckBox.Size = New System.Drawing.Size(63, 17)
-        Me.sadisticCheckBox.TabIndex = 39
-        Me.sadisticCheckBox.Text = "Sadistic"
-        Me.sadisticCheckBox.UseVisualStyleBackColor = True
+        Me.petnameBox7.BackColor = System.Drawing.Color.White
+        Me.petnameBox7.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.petnameBox7.ForeColor = System.Drawing.Color.Black
+        Me.petnameBox7.Location = New System.Drawing.Point(8, 154)
+        Me.petnameBox7.Name = "petnameBox7"
+        Me.petnameBox7.Size = New System.Drawing.Size(114, 23)
+        Me.petnameBox7.TabIndex = 13
+        Me.petnameBox7.Text = "bitch boy"
+        Me.petnameBox7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
-        'supremacistCheckBox
+        'petnameBox8
         '
-        Me.supremacistCheckBox.AutoSize = True
-        Me.supremacistCheckBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.supremacistCheckBox.ForeColor = System.Drawing.Color.Black
-        Me.supremacistCheckBox.Location = New System.Drawing.Point(148, 20)
-        Me.supremacistCheckBox.Name = "supremacistCheckBox"
-        Me.supremacistCheckBox.Size = New System.Drawing.Size(84, 17)
-        Me.supremacistCheckBox.TabIndex = 38
-        Me.supremacistCheckBox.Text = "Supremacist"
-        Me.supremacistCheckBox.UseVisualStyleBackColor = True
+        Me.petnameBox8.BackColor = System.Drawing.Color.White
+        Me.petnameBox8.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.petnameBox8.ForeColor = System.Drawing.Color.Black
+        Me.petnameBox8.Location = New System.Drawing.Point(128, 154)
+        Me.petnameBox8.Name = "petnameBox8"
+        Me.petnameBox8.Size = New System.Drawing.Size(113, 22)
+        Me.petnameBox8.TabIndex = 14
+        Me.petnameBox8.Text = "slut"
+        Me.petnameBox8.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
-        'vulgarCheckBox
+        'PetNameBox1
         '
-        Me.vulgarCheckBox.AutoSize = True
-        Me.vulgarCheckBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.vulgarCheckBox.ForeColor = System.Drawing.Color.Black
-        Me.vulgarCheckBox.Location = New System.Drawing.Point(73, 20)
-        Me.vulgarCheckBox.Name = "vulgarCheckBox"
-        Me.vulgarCheckBox.Size = New System.Drawing.Size(56, 17)
-        Me.vulgarCheckBox.TabIndex = 37
-        Me.vulgarCheckBox.Text = "Vulgar"
-        Me.vulgarCheckBox.UseVisualStyleBackColor = True
+        Me.PetNameBox1.BackColor = System.Drawing.Color.White
+        Me.PetNameBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.PetNameBox1.ForeColor = System.Drawing.Color.Black
+        Me.PetNameBox1.Location = New System.Drawing.Point(8, 32)
+        Me.PetNameBox1.Name = "PetNameBox1"
+        Me.PetNameBox1.Size = New System.Drawing.Size(114, 23)
+        Me.PetNameBox1.TabIndex = 7
+        Me.PetNameBox1.Text = "stroker"
+        Me.PetNameBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
-        'crazyCheckBox
+        'Label15
         '
-        Me.crazyCheckBox.AutoSize = True
-        Me.crazyCheckBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.crazyCheckBox.ForeColor = System.Drawing.Color.Black
-        Me.crazyCheckBox.Location = New System.Drawing.Point(11, 20)
-        Me.crazyCheckBox.Name = "crazyCheckBox"
-        Me.crazyCheckBox.Size = New System.Drawing.Size(52, 17)
-        Me.crazyCheckBox.TabIndex = 36
-        Me.crazyCheckBox.Text = "Crazy"
-        Me.crazyCheckBox.UseVisualStyleBackColor = True
+        Me.Label15.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label15.ForeColor = System.Drawing.Color.Black
+        Me.Label15.Location = New System.Drawing.Point(8, 136)
+        Me.Label15.Name = "Label15"
+        Me.Label15.Size = New System.Drawing.Size(233, 13)
+        Me.Label15.TabIndex = 44
+        Me.Label15.Text = "Bad Mood"
+        Me.Label15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'condescendingCheckBox
+        'petnameBox4
         '
-        Me.condescendingCheckBox.AutoSize = True
-        Me.condescendingCheckBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.condescendingCheckBox.ForeColor = System.Drawing.Color.Black
-        Me.condescendingCheckBox.Location = New System.Drawing.Point(148, 43)
-        Me.condescendingCheckBox.Name = "condescendingCheckBox"
-        Me.condescendingCheckBox.Size = New System.Drawing.Size(15, 14)
-        Me.condescendingCheckBox.TabIndex = 41
-        Me.condescendingCheckBox.UseVisualStyleBackColor = True
+        Me.petnameBox4.BackColor = System.Drawing.Color.White
+        Me.petnameBox4.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.petnameBox4.ForeColor = System.Drawing.Color.Black
+        Me.petnameBox4.Location = New System.Drawing.Point(128, 81)
+        Me.petnameBox4.Name = "petnameBox4"
+        Me.petnameBox4.Size = New System.Drawing.Size(113, 23)
+        Me.petnameBox4.TabIndex = 10
+        Me.petnameBox4.Text = "loser"
+        Me.petnameBox4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'petnameBox6
+        '
+        Me.petnameBox6.BackColor = System.Drawing.Color.White
+        Me.petnameBox6.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.petnameBox6.ForeColor = System.Drawing.Color.Black
+        Me.petnameBox6.Location = New System.Drawing.Point(128, 107)
+        Me.petnameBox6.Name = "petnameBox6"
+        Me.petnameBox6.Size = New System.Drawing.Size(113, 23)
+        Me.petnameBox6.TabIndex = 12
+        Me.petnameBox6.Text = "pet"
+        Me.petnameBox6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'petnameBox2
+        '
+        Me.petnameBox2.BackColor = System.Drawing.Color.White
+        Me.petnameBox2.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.petnameBox2.ForeColor = System.Drawing.Color.Black
+        Me.petnameBox2.Location = New System.Drawing.Point(128, 32)
+        Me.petnameBox2.Name = "petnameBox2"
+        Me.petnameBox2.Size = New System.Drawing.Size(114, 23)
+        Me.petnameBox2.TabIndex = 8
+        Me.petnameBox2.Text = "wanker"
+        Me.petnameBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Label11
+        '
+        Me.Label11.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label11.ForeColor = System.Drawing.Color.Black
+        Me.Label11.Location = New System.Drawing.Point(5, 63)
+        Me.Label11.Name = "Label11"
+        Me.Label11.Size = New System.Drawing.Size(239, 13)
+        Me.Label11.TabIndex = 43
+        Me.Label11.Text = "Neutral Mood"
+        Me.Label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'petnameBox5
+        '
+        Me.petnameBox5.BackColor = System.Drawing.Color.White
+        Me.petnameBox5.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.petnameBox5.ForeColor = System.Drawing.Color.Black
+        Me.petnameBox5.Location = New System.Drawing.Point(8, 107)
+        Me.petnameBox5.Name = "petnameBox5"
+        Me.petnameBox5.Size = New System.Drawing.Size(114, 23)
+        Me.petnameBox5.TabIndex = 11
+        Me.petnameBox5.Text = "baby"
+        Me.petnameBox5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'petnameBox3
+        '
+        Me.petnameBox3.BackColor = System.Drawing.Color.White
+        Me.petnameBox3.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.petnameBox3.ForeColor = System.Drawing.Color.Black
+        Me.petnameBox3.Location = New System.Drawing.Point(8, 81)
+        Me.petnameBox3.Name = "petnameBox3"
+        Me.petnameBox3.Size = New System.Drawing.Size(114, 23)
+        Me.petnameBox3.TabIndex = 9
+        Me.petnameBox3.Text = "slave"
+        Me.petnameBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'GBDomOrgasms
         '
@@ -3021,11 +2700,11 @@ Partial Class FrmSettings
         Me.GBDomOrgasms.Controls.Add(Me.limitcheckbox)
         Me.GBDomOrgasms.Controls.Add(Me.OrgasmsPerNumBox)
         Me.GBDomOrgasms.Controls.Add(Me.CBDomDenialEnds)
-        Me.GBDomOrgasms.Controls.Add(Me.alloworgasmComboBox)
-        Me.GBDomOrgasms.Controls.Add(Me.ruinorgasmComboBox)
+        Me.GBDomOrgasms.Controls.Add(Me.AllowsOrgasmComboBox)
+        Me.GBDomOrgasms.Controls.Add(Me.RuinsOrgasmsComboBox)
         Me.GBDomOrgasms.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GBDomOrgasms.ForeColor = System.Drawing.Color.Black
-        Me.GBDomOrgasms.Location = New System.Drawing.Point(440, 30)
+        Me.GBDomOrgasms.Location = New System.Drawing.Point(489, 37)
         Me.GBDomOrgasms.Name = "GBDomOrgasms"
         Me.GBDomOrgasms.Size = New System.Drawing.Size(259, 194)
         Me.GBDomOrgasms.TabIndex = 132
@@ -3164,197 +2843,597 @@ Partial Class FrmSettings
         Me.CBDomDenialEnds.Text = "Denial Always Ends Tease"
         Me.CBDomDenialEnds.UseVisualStyleBackColor = True
         '
-        'alloworgasmComboBox
+        'AllowsOrgasmComboBox
         '
-        Me.alloworgasmComboBox.BackColor = System.Drawing.Color.White
-        Me.alloworgasmComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.alloworgasmComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.alloworgasmComboBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.alloworgasmComboBox.ForeColor = System.Drawing.Color.Black
-        Me.alloworgasmComboBox.FormattingEnabled = True
-        Me.alloworgasmComboBox.Items.AddRange(New Object() {"Never Allows", "Rarely Allows", "Sometimes Allows", "Often Allows", "Always Allows"})
-        Me.alloworgasmComboBox.Location = New System.Drawing.Point(98, 18)
-        Me.alloworgasmComboBox.Name = "alloworgasmComboBox"
-        Me.alloworgasmComboBox.Size = New System.Drawing.Size(146, 21)
-        Me.alloworgasmComboBox.TabIndex = 1
+        Me.AllowsOrgasmComboBox.BackColor = System.Drawing.Color.White
+        Me.AllowsOrgasmComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.AllowsOrgasmComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.AllowsOrgasmComboBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.AllowsOrgasmComboBox.ForeColor = System.Drawing.Color.Black
+        Me.AllowsOrgasmComboBox.FormattingEnabled = True
+        Me.AllowsOrgasmComboBox.Items.AddRange(New Object() {"Never Allows", "Rarely Allows", "Sometimes Allows", "Often Allows", "Always Allows"})
+        Me.AllowsOrgasmComboBox.Location = New System.Drawing.Point(98, 18)
+        Me.AllowsOrgasmComboBox.Name = "AllowsOrgasmComboBox"
+        Me.AllowsOrgasmComboBox.Size = New System.Drawing.Size(146, 21)
+        Me.AllowsOrgasmComboBox.TabIndex = 1
         '
-        'ruinorgasmComboBox
+        'RuinsOrgasmsComboBox
         '
-        Me.ruinorgasmComboBox.BackColor = System.Drawing.Color.White
-        Me.ruinorgasmComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.ruinorgasmComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.ruinorgasmComboBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ruinorgasmComboBox.ForeColor = System.Drawing.Color.Black
-        Me.ruinorgasmComboBox.FormattingEnabled = True
-        Me.ruinorgasmComboBox.Items.AddRange(New Object() {"Never Ruins", "Rarely Ruins", "Sometimes Ruins", "Often Ruins", "Always Ruins"})
-        Me.ruinorgasmComboBox.Location = New System.Drawing.Point(98, 46)
-        Me.ruinorgasmComboBox.Name = "ruinorgasmComboBox"
-        Me.ruinorgasmComboBox.Size = New System.Drawing.Size(146, 21)
-        Me.ruinorgasmComboBox.TabIndex = 2
+        Me.RuinsOrgasmsComboBox.BackColor = System.Drawing.Color.White
+        Me.RuinsOrgasmsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.RuinsOrgasmsComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.RuinsOrgasmsComboBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RuinsOrgasmsComboBox.ForeColor = System.Drawing.Color.Black
+        Me.RuinsOrgasmsComboBox.FormattingEnabled = True
+        Me.RuinsOrgasmsComboBox.Items.AddRange(New Object() {"Never Ruins", "Rarely Ruins", "Sometimes Ruins", "Often Ruins", "Always Ruins"})
+        Me.RuinsOrgasmsComboBox.Location = New System.Drawing.Point(98, 46)
+        Me.RuinsOrgasmsComboBox.Name = "RuinsOrgasmsComboBox"
+        Me.RuinsOrgasmsComboBox.Size = New System.Drawing.Size(146, 21)
+        Me.RuinsOrgasmsComboBox.TabIndex = 2
         '
-        'GBDomPetNames
+        'GBDomPersonality
         '
-        Me.GBDomPetNames.BackColor = System.Drawing.Color.LightGray
-        Me.GBDomPetNames.Controls.Add(Me.Label74)
-        Me.GBDomPetNames.Controls.Add(Me.petnameBox7)
-        Me.GBDomPetNames.Controls.Add(Me.petnameBox8)
-        Me.GBDomPetNames.Controls.Add(Me.PetNameBox1)
-        Me.GBDomPetNames.Controls.Add(Me.Label15)
-        Me.GBDomPetNames.Controls.Add(Me.petnameBox4)
-        Me.GBDomPetNames.Controls.Add(Me.petnameBox6)
-        Me.GBDomPetNames.Controls.Add(Me.petnameBox2)
-        Me.GBDomPetNames.Controls.Add(Me.Label11)
-        Me.GBDomPetNames.Controls.Add(Me.petnameBox5)
-        Me.GBDomPetNames.Controls.Add(Me.petnameBox3)
-        Me.GBDomPetNames.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GBDomPetNames.ForeColor = System.Drawing.Color.Black
-        Me.GBDomPetNames.Location = New System.Drawing.Point(184, 103)
-        Me.GBDomPetNames.Name = "GBDomPetNames"
-        Me.GBDomPetNames.Size = New System.Drawing.Size(250, 190)
-        Me.GBDomPetNames.TabIndex = 134
-        Me.GBDomPetNames.TabStop = False
-        Me.GBDomPetNames.Text = "Pet Names"
+        Me.GBDomPersonality.Controls.Add(Me.degradingCheckBox)
+        Me.GBDomPersonality.Controls.Add(Me.sadisticCheckBox)
+        Me.GBDomPersonality.Controls.Add(Me.supremacistCheckBox)
+        Me.GBDomPersonality.Controls.Add(Me.vulgarCheckBox)
+        Me.GBDomPersonality.Controls.Add(Me.crazyCheckBox)
+        Me.GBDomPersonality.Controls.Add(Me.CondescendingCheckBox)
+        Me.GBDomPersonality.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GBDomPersonality.ForeColor = System.Drawing.Color.Black
+        Me.GBDomPersonality.Location = New System.Drawing.Point(233, 37)
+        Me.GBDomPersonality.Name = "GBDomPersonality"
+        Me.GBDomPersonality.Size = New System.Drawing.Size(250, 67)
+        Me.GBDomPersonality.TabIndex = 131
+        Me.GBDomPersonality.TabStop = False
+        Me.GBDomPersonality.Text = "Personality"
         '
-        'Label74
+        'degradingCheckBox
         '
-        Me.Label74.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label74.ForeColor = System.Drawing.Color.Black
-        Me.Label74.Location = New System.Drawing.Point(8, 14)
-        Me.Label74.Name = "Label74"
-        Me.Label74.Size = New System.Drawing.Size(233, 13)
-        Me.Label74.TabIndex = 45
-        Me.Label74.Text = "Great Mood"
-        Me.Label74.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.degradingCheckBox.AutoSize = True
+        Me.degradingCheckBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.degradingCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.degradingCheckBox.Location = New System.Drawing.Point(73, 43)
+        Me.degradingCheckBox.Name = "degradingCheckBox"
+        Me.degradingCheckBox.Size = New System.Drawing.Size(75, 17)
+        Me.degradingCheckBox.TabIndex = 40
+        Me.degradingCheckBox.Text = "Degrading"
+        Me.degradingCheckBox.UseVisualStyleBackColor = True
         '
-        'petnameBox7
+        'sadisticCheckBox
         '
-        Me.petnameBox7.BackColor = System.Drawing.Color.White
-        Me.petnameBox7.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.petnameBox7.ForeColor = System.Drawing.Color.Black
-        Me.petnameBox7.Location = New System.Drawing.Point(8, 154)
-        Me.petnameBox7.Name = "petnameBox7"
-        Me.petnameBox7.Size = New System.Drawing.Size(114, 23)
-        Me.petnameBox7.TabIndex = 13
-        Me.petnameBox7.Text = "bitch boy"
-        Me.petnameBox7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.sadisticCheckBox.AutoSize = True
+        Me.sadisticCheckBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.sadisticCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.sadisticCheckBox.Location = New System.Drawing.Point(11, 43)
+        Me.sadisticCheckBox.Name = "sadisticCheckBox"
+        Me.sadisticCheckBox.Size = New System.Drawing.Size(63, 17)
+        Me.sadisticCheckBox.TabIndex = 39
+        Me.sadisticCheckBox.Text = "Sadistic"
+        Me.sadisticCheckBox.UseVisualStyleBackColor = True
         '
-        'petnameBox8
+        'supremacistCheckBox
         '
-        Me.petnameBox8.BackColor = System.Drawing.Color.White
-        Me.petnameBox8.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.petnameBox8.ForeColor = System.Drawing.Color.Black
-        Me.petnameBox8.Location = New System.Drawing.Point(128, 154)
-        Me.petnameBox8.Name = "petnameBox8"
-        Me.petnameBox8.Size = New System.Drawing.Size(113, 22)
-        Me.petnameBox8.TabIndex = 14
-        Me.petnameBox8.Text = "slut"
-        Me.petnameBox8.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.supremacistCheckBox.AutoSize = True
+        Me.supremacistCheckBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.supremacistCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.supremacistCheckBox.Location = New System.Drawing.Point(148, 20)
+        Me.supremacistCheckBox.Name = "supremacistCheckBox"
+        Me.supremacistCheckBox.Size = New System.Drawing.Size(84, 17)
+        Me.supremacistCheckBox.TabIndex = 38
+        Me.supremacistCheckBox.Text = "Supremacist"
+        Me.supremacistCheckBox.UseVisualStyleBackColor = True
         '
-        'PetNameBox1
+        'vulgarCheckBox
         '
-        Me.PetNameBox1.BackColor = System.Drawing.Color.White
-        Me.PetNameBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.PetNameBox1.ForeColor = System.Drawing.Color.Black
-        Me.PetNameBox1.Location = New System.Drawing.Point(8, 32)
-        Me.PetNameBox1.Name = "PetNameBox1"
-        Me.PetNameBox1.Size = New System.Drawing.Size(114, 23)
-        Me.PetNameBox1.TabIndex = 7
-        Me.PetNameBox1.Text = "stroker"
-        Me.PetNameBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.vulgarCheckBox.AutoSize = True
+        Me.vulgarCheckBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.vulgarCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.vulgarCheckBox.Location = New System.Drawing.Point(73, 20)
+        Me.vulgarCheckBox.Name = "vulgarCheckBox"
+        Me.vulgarCheckBox.Size = New System.Drawing.Size(56, 17)
+        Me.vulgarCheckBox.TabIndex = 37
+        Me.vulgarCheckBox.Text = "Vulgar"
+        Me.vulgarCheckBox.UseVisualStyleBackColor = True
         '
-        'Label15
+        'crazyCheckBox
         '
-        Me.Label15.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label15.ForeColor = System.Drawing.Color.Black
-        Me.Label15.Location = New System.Drawing.Point(8, 136)
-        Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(233, 13)
-        Me.Label15.TabIndex = 44
-        Me.Label15.Text = "Bad Mood"
-        Me.Label15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.crazyCheckBox.AutoSize = True
+        Me.crazyCheckBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.crazyCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.crazyCheckBox.Location = New System.Drawing.Point(11, 20)
+        Me.crazyCheckBox.Name = "crazyCheckBox"
+        Me.crazyCheckBox.Size = New System.Drawing.Size(52, 17)
+        Me.crazyCheckBox.TabIndex = 36
+        Me.crazyCheckBox.Text = "Crazy"
+        Me.crazyCheckBox.UseVisualStyleBackColor = True
         '
-        'petnameBox4
+        'CondescendingCheckBox
         '
-        Me.petnameBox4.BackColor = System.Drawing.Color.White
-        Me.petnameBox4.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.petnameBox4.ForeColor = System.Drawing.Color.Black
-        Me.petnameBox4.Location = New System.Drawing.Point(128, 81)
-        Me.petnameBox4.Name = "petnameBox4"
-        Me.petnameBox4.Size = New System.Drawing.Size(113, 23)
-        Me.petnameBox4.TabIndex = 10
-        Me.petnameBox4.Text = "loser"
-        Me.petnameBox4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.CondescendingCheckBox.AutoSize = True
+        Me.CondescendingCheckBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CondescendingCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.CondescendingCheckBox.Location = New System.Drawing.Point(148, 43)
+        Me.CondescendingCheckBox.Name = "CondescendingCheckBox"
+        Me.CondescendingCheckBox.Size = New System.Drawing.Size(100, 17)
+        Me.CondescendingCheckBox.TabIndex = 41
+        Me.CondescendingCheckBox.Text = "Condescending"
+        Me.CondescendingCheckBox.UseVisualStyleBackColor = True
         '
-        'petnameBox6
+        'GBDomRanges
         '
-        Me.petnameBox6.BackColor = System.Drawing.Color.White
-        Me.petnameBox6.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.petnameBox6.ForeColor = System.Drawing.Color.Black
-        Me.petnameBox6.Location = New System.Drawing.Point(128, 107)
-        Me.petnameBox6.Name = "petnameBox6"
-        Me.petnameBox6.Size = New System.Drawing.Size(113, 23)
-        Me.petnameBox6.TabIndex = 12
-        Me.petnameBox6.Text = "pet"
-        Me.petnameBox6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.GBDomRanges.Controls.Add(Me.NBDomMoodMax)
+        Me.GBDomRanges.Controls.Add(Me.NBDomMoodMin)
+        Me.GBDomRanges.Controls.Add(Me.Label37)
+        Me.GBDomRanges.Controls.Add(Me.Label39)
+        Me.GBDomRanges.Controls.Add(Me.NBSubAgeMax)
+        Me.GBDomRanges.Controls.Add(Me.NBSubAgeMin)
+        Me.GBDomRanges.Controls.Add(Me.Label31)
+        Me.GBDomRanges.Controls.Add(Me.Label36)
+        Me.GBDomRanges.Controls.Add(Me.NBSelfAgeMax)
+        Me.GBDomRanges.Controls.Add(Me.NBSelfAgeMin)
+        Me.GBDomRanges.Controls.Add(Me.Label21)
+        Me.GBDomRanges.Controls.Add(Me.Label22)
+        Me.GBDomRanges.Controls.Add(Me.NBAvgCockMax)
+        Me.GBDomRanges.Controls.Add(Me.NBAvgCockMin)
+        Me.GBDomRanges.Controls.Add(Me.Label23)
+        Me.GBDomRanges.Controls.Add(Me.Label30)
+        Me.GBDomRanges.Location = New System.Drawing.Point(489, 237)
+        Me.GBDomRanges.Name = "GBDomRanges"
+        Me.GBDomRanges.Size = New System.Drawing.Size(259, 94)
+        Me.GBDomRanges.TabIndex = 148
+        Me.GBDomRanges.TabStop = False
+        Me.GBDomRanges.Text = "Ranges"
         '
-        'petnameBox2
+        'NBDomMoodMax
         '
-        Me.petnameBox2.BackColor = System.Drawing.Color.White
-        Me.petnameBox2.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.petnameBox2.ForeColor = System.Drawing.Color.Black
-        Me.petnameBox2.Location = New System.Drawing.Point(128, 32)
-        Me.petnameBox2.Name = "petnameBox2"
-        Me.petnameBox2.Size = New System.Drawing.Size(114, 23)
-        Me.petnameBox2.TabIndex = 8
-        Me.petnameBox2.Text = "wanker"
-        Me.petnameBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.NBDomMoodMax.Location = New System.Drawing.Point(200, 11)
+        Me.NBDomMoodMax.Maximum = New Decimal(New Integer() {10, 0, 0, 0})
+        Me.NBDomMoodMax.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
+        Me.NBDomMoodMax.Name = "NBDomMoodMax"
+        Me.NBDomMoodMax.Size = New System.Drawing.Size(44, 20)
+        Me.NBDomMoodMax.TabIndex = 168
+        Me.NBDomMoodMax.Value = New Decimal(New Integer() {8, 0, 0, 0})
         '
-        'Label11
+        'NBDomMoodMin
         '
-        Me.Label11.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label11.ForeColor = System.Drawing.Color.Black
-        Me.Label11.Location = New System.Drawing.Point(5, 63)
-        Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(239, 13)
-        Me.Label11.TabIndex = 43
-        Me.Label11.Text = "Neutral Mood"
-        Me.Label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.NBDomMoodMin.Location = New System.Drawing.Point(134, 11)
+        Me.NBDomMoodMin.Maximum = New Decimal(New Integer() {9, 0, 0, 0})
+        Me.NBDomMoodMin.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NBDomMoodMin.Name = "NBDomMoodMin"
+        Me.NBDomMoodMin.Size = New System.Drawing.Size(44, 20)
+        Me.NBDomMoodMin.TabIndex = 167
+        Me.NBDomMoodMin.Value = New Decimal(New Integer() {6, 0, 0, 0})
         '
-        'petnameBox5
+        'Label37
         '
-        Me.petnameBox5.BackColor = System.Drawing.Color.White
-        Me.petnameBox5.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.petnameBox5.ForeColor = System.Drawing.Color.Black
-        Me.petnameBox5.Location = New System.Drawing.Point(8, 107)
-        Me.petnameBox5.Name = "petnameBox5"
-        Me.petnameBox5.Size = New System.Drawing.Size(114, 23)
-        Me.petnameBox5.TabIndex = 11
-        Me.petnameBox5.Text = "baby"
-        Me.petnameBox5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.Label37.BackColor = System.Drawing.Color.Transparent
+        Me.Label37.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label37.ForeColor = System.Drawing.Color.Black
+        Me.Label37.Location = New System.Drawing.Point(184, 11)
+        Me.Label37.Name = "Label37"
+        Me.Label37.Size = New System.Drawing.Size(10, 17)
+        Me.Label37.TabIndex = 166
+        Me.Label37.Text = "-"
+        Me.Label37.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'petnameBox3
+        'Label39
         '
-        Me.petnameBox3.BackColor = System.Drawing.Color.White
-        Me.petnameBox3.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.petnameBox3.ForeColor = System.Drawing.Color.Black
-        Me.petnameBox3.Location = New System.Drawing.Point(8, 81)
-        Me.petnameBox3.Name = "petnameBox3"
-        Me.petnameBox3.Size = New System.Drawing.Size(114, 23)
-        Me.petnameBox3.TabIndex = 9
-        Me.petnameBox3.Text = "slave"
-        Me.petnameBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.Label39.BackColor = System.Drawing.Color.Transparent
+        Me.Label39.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label39.ForeColor = System.Drawing.Color.Black
+        Me.Label39.Location = New System.Drawing.Point(12, 11)
+        Me.Label39.Name = "Label39"
+        Me.Label39.Size = New System.Drawing.Size(116, 17)
+        Me.Label39.TabIndex = 165
+        Me.Label39.Text = "Domme Mood Index:"
+        Me.Label39.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'Label54
+        'NBSubAgeMax
         '
-        Me.Label54.BackColor = System.Drawing.Color.Transparent
-        Me.Label54.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label54.ForeColor = System.Drawing.Color.Black
-        Me.Label54.Location = New System.Drawing.Point(7, 6)
-        Me.Label54.Name = "Label54"
-        Me.Label54.Size = New System.Drawing.Size(692, 21)
-        Me.Label54.TabIndex = 49
-        Me.Label54.Text = "Domme Settings"
-        Me.Label54.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.NBSubAgeMax.Location = New System.Drawing.Point(200, 68)
+        Me.NBSubAgeMax.Maximum = New Decimal(New Integer() {98, 0, 0, 0})
+        Me.NBSubAgeMax.Minimum = New Decimal(New Integer() {29, 0, 0, 0})
+        Me.NBSubAgeMax.Name = "NBSubAgeMax"
+        Me.NBSubAgeMax.Size = New System.Drawing.Size(44, 20)
+        Me.NBSubAgeMax.TabIndex = 164
+        Me.NBSubAgeMax.Value = New Decimal(New Integer() {49, 0, 0, 0})
+        '
+        'NBSubAgeMin
+        '
+        Me.NBSubAgeMin.Location = New System.Drawing.Point(134, 68)
+        Me.NBSubAgeMin.Maximum = New Decimal(New Integer() {50, 0, 0, 0})
+        Me.NBSubAgeMin.Minimum = New Decimal(New Integer() {19, 0, 0, 0})
+        Me.NBSubAgeMin.Name = "NBSubAgeMin"
+        Me.NBSubAgeMin.Size = New System.Drawing.Size(44, 20)
+        Me.NBSubAgeMin.TabIndex = 163
+        Me.NBSubAgeMin.Value = New Decimal(New Integer() {28, 0, 0, 0})
+        '
+        'Label31
+        '
+        Me.Label31.BackColor = System.Drawing.Color.Transparent
+        Me.Label31.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label31.ForeColor = System.Drawing.Color.Black
+        Me.Label31.Location = New System.Drawing.Point(184, 68)
+        Me.Label31.Name = "Label31"
+        Me.Label31.Size = New System.Drawing.Size(10, 17)
+        Me.Label31.TabIndex = 162
+        Me.Label31.Text = "-"
+        Me.Label31.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label36
+        '
+        Me.Label36.BackColor = System.Drawing.Color.Transparent
+        Me.Label36.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label36.ForeColor = System.Drawing.Color.Black
+        Me.Label36.Location = New System.Drawing.Point(12, 68)
+        Me.Label36.Name = "Label36"
+        Me.Label36.Size = New System.Drawing.Size(113, 17)
+        Me.Label36.TabIndex = 161
+        Me.Label36.Text = "Sub Age Perception:"
+        Me.Label36.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'NBSelfAgeMax
+        '
+        Me.NBSelfAgeMax.Location = New System.Drawing.Point(200, 49)
+        Me.NBSelfAgeMax.Maximum = New Decimal(New Integer() {98, 0, 0, 0})
+        Me.NBSelfAgeMax.Minimum = New Decimal(New Integer() {29, 0, 0, 0})
+        Me.NBSelfAgeMax.Name = "NBSelfAgeMax"
+        Me.NBSelfAgeMax.Size = New System.Drawing.Size(44, 20)
+        Me.NBSelfAgeMax.TabIndex = 156
+        Me.NBSelfAgeMax.Value = New Decimal(New Integer() {49, 0, 0, 0})
+        '
+        'NBSelfAgeMin
+        '
+        Me.NBSelfAgeMin.Location = New System.Drawing.Point(134, 49)
+        Me.NBSelfAgeMin.Maximum = New Decimal(New Integer() {50, 0, 0, 0})
+        Me.NBSelfAgeMin.Minimum = New Decimal(New Integer() {19, 0, 0, 0})
+        Me.NBSelfAgeMin.Name = "NBSelfAgeMin"
+        Me.NBSelfAgeMin.Size = New System.Drawing.Size(44, 20)
+        Me.NBSelfAgeMin.TabIndex = 155
+        Me.NBSelfAgeMin.Value = New Decimal(New Integer() {28, 0, 0, 0})
+        '
+        'Label21
+        '
+        Me.Label21.BackColor = System.Drawing.Color.Transparent
+        Me.Label21.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label21.ForeColor = System.Drawing.Color.Black
+        Me.Label21.Location = New System.Drawing.Point(184, 49)
+        Me.Label21.Name = "Label21"
+        Me.Label21.Size = New System.Drawing.Size(10, 17)
+        Me.Label21.TabIndex = 154
+        Me.Label21.Text = "-"
+        Me.Label21.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label22
+        '
+        Me.Label22.BackColor = System.Drawing.Color.Transparent
+        Me.Label22.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label22.ForeColor = System.Drawing.Color.Black
+        Me.Label22.Location = New System.Drawing.Point(12, 49)
+        Me.Label22.Name = "Label22"
+        Me.Label22.Size = New System.Drawing.Size(116, 17)
+        Me.Label22.TabIndex = 153
+        Me.Label22.Text = "Self Age Perception:"
+        Me.Label22.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'NBAvgCockMax
+        '
+        Me.NBAvgCockMax.Location = New System.Drawing.Point(200, 30)
+        Me.NBAvgCockMax.Maximum = New Decimal(New Integer() {14, 0, 0, 0})
+        Me.NBAvgCockMax.Minimum = New Decimal(New Integer() {3, 0, 0, 0})
+        Me.NBAvgCockMax.Name = "NBAvgCockMax"
+        Me.NBAvgCockMax.Size = New System.Drawing.Size(44, 20)
+        Me.NBAvgCockMax.TabIndex = 152
+        Me.NBAvgCockMax.Value = New Decimal(New Integer() {8, 0, 0, 0})
+        '
+        'NBAvgCockMin
+        '
+        Me.NBAvgCockMin.Location = New System.Drawing.Point(134, 30)
+        Me.NBAvgCockMin.Maximum = New Decimal(New Integer() {13, 0, 0, 0})
+        Me.NBAvgCockMin.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
+        Me.NBAvgCockMin.Name = "NBAvgCockMin"
+        Me.NBAvgCockMin.Size = New System.Drawing.Size(44, 20)
+        Me.NBAvgCockMin.TabIndex = 151
+        Me.NBAvgCockMin.Value = New Decimal(New Integer() {6, 0, 0, 0})
+        '
+        'Label23
+        '
+        Me.Label23.BackColor = System.Drawing.Color.Transparent
+        Me.Label23.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label23.ForeColor = System.Drawing.Color.Black
+        Me.Label23.Location = New System.Drawing.Point(184, 30)
+        Me.Label23.Name = "Label23"
+        Me.Label23.Size = New System.Drawing.Size(10, 17)
+        Me.Label23.TabIndex = 150
+        Me.Label23.Text = "-"
+        Me.Label23.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label30
+        '
+        Me.Label30.BackColor = System.Drawing.Color.Transparent
+        Me.Label30.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label30.ForeColor = System.Drawing.Color.Black
+        Me.Label30.Location = New System.Drawing.Point(12, 30)
+        Me.Label30.Name = "Label30"
+        Me.Label30.Size = New System.Drawing.Size(116, 17)
+        Me.Label30.TabIndex = 149
+        Me.Label30.Text = "Average Dick Size:"
+        Me.Label30.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'GBDomTypingStyle
+        '
+        Me.GBDomTypingStyle.Controls.Add(Me.TBEmoteEnd)
+        Me.GBDomTypingStyle.Controls.Add(Me.Label67)
+        Me.GBDomTypingStyle.Controls.Add(Me.TBEmote)
+        Me.GBDomTypingStyle.Controls.Add(Me.NBTypoChance)
+        Me.GBDomTypingStyle.Controls.Add(Me.Label66)
+        Me.GBDomTypingStyle.Controls.Add(Me.CBMeMyMine)
+        Me.GBDomTypingStyle.Controls.Add(Me.GroupBox63)
+        Me.GBDomTypingStyle.Controls.Add(Me.Label64)
+        Me.GBDomTypingStyle.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GBDomTypingStyle.ForeColor = System.Drawing.Color.Black
+        Me.GBDomTypingStyle.Location = New System.Drawing.Point(56, 306)
+        Me.GBDomTypingStyle.Name = "GBDomTypingStyle"
+        Me.GBDomTypingStyle.Size = New System.Drawing.Size(427, 124)
+        Me.GBDomTypingStyle.TabIndex = 138
+        Me.GBDomTypingStyle.TabStop = False
+        Me.GBDomTypingStyle.Text = "Typing Style"
+        '
+        'TBEmoteEnd
+        '
+        Me.TBEmoteEnd.BackColor = System.Drawing.Color.White
+        Me.TBEmoteEnd.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TBEmoteEnd.ForeColor = System.Drawing.Color.Black
+        Me.TBEmoteEnd.Location = New System.Drawing.Point(115, 91)
+        Me.TBEmoteEnd.Name = "TBEmoteEnd"
+        Me.TBEmoteEnd.Size = New System.Drawing.Size(84, 23)
+        Me.TBEmoteEnd.TabIndex = 155
+        Me.TBEmoteEnd.Text = "*"
+        Me.TBEmoteEnd.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Label67
+        '
+        Me.Label67.AutoSize = True
+        Me.Label67.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label67.ForeColor = System.Drawing.Color.Black
+        Me.Label67.Location = New System.Drawing.Point(237, 77)
+        Me.Label67.Name = "Label67"
+        Me.Label67.Size = New System.Drawing.Size(42, 13)
+        Me.Label67.TabIndex = 169
+        Me.Label67.Text = "Typo %"
+        Me.Label67.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'TBEmote
+        '
+        Me.TBEmote.BackColor = System.Drawing.Color.White
+        Me.TBEmote.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TBEmote.ForeColor = System.Drawing.Color.Black
+        Me.TBEmote.Location = New System.Drawing.Point(9, 91)
+        Me.TBEmote.Name = "TBEmote"
+        Me.TBEmote.Size = New System.Drawing.Size(85, 23)
+        Me.TBEmote.TabIndex = 154
+        Me.TBEmote.Text = "*"
+        Me.TBEmote.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'NBTypoChance
+        '
+        Me.NBTypoChance.Location = New System.Drawing.Point(238, 94)
+        Me.NBTypoChance.Name = "NBTypoChance"
+        Me.NBTypoChance.Size = New System.Drawing.Size(44, 20)
+        Me.NBTypoChance.TabIndex = 168
+        Me.NBTypoChance.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'Label66
+        '
+        Me.Label66.AutoSize = True
+        Me.Label66.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label66.ForeColor = System.Drawing.Color.Black
+        Me.Label66.Location = New System.Drawing.Point(322, 77)
+        Me.Label66.Name = "Label66"
+        Me.Label66.Size = New System.Drawing.Size(52, 13)
+        Me.Label66.TabIndex = 44
+        Me.Label66.Text = "Pronouns"
+        Me.Label66.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'CBMeMyMine
+        '
+        Me.CBMeMyMine.AutoSize = True
+        Me.CBMeMyMine.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CBMeMyMine.ForeColor = System.Drawing.Color.Black
+        Me.CBMeMyMine.Location = New System.Drawing.Point(325, 97)
+        Me.CBMeMyMine.Name = "CBMeMyMine"
+        Me.CBMeMyMine.Size = New System.Drawing.Size(88, 17)
+        Me.CBMeMyMine.TabIndex = 40
+        Me.CBMeMyMine.Text = "Me/My/Mine"
+        Me.CBMeMyMine.UseVisualStyleBackColor = True
+        '
+        'GroupBox63
+        '
+        Me.GroupBox63.Controls.Add(Me.LCaseCheckBox)
+        Me.GroupBox63.Controls.Add(Me.apostropheCheckBox)
+        Me.GroupBox63.Controls.Add(Me.periodCheckBox)
+        Me.GroupBox63.Controls.Add(Me.commaCheckBox)
+        Me.GroupBox63.Location = New System.Drawing.Point(9, 15)
+        Me.GroupBox63.Name = "GroupBox63"
+        Me.GroupBox63.Size = New System.Drawing.Size(407, 48)
+        Me.GroupBox63.TabIndex = 41
+        Me.GroupBox63.TabStop = False
+        Me.GroupBox63.Text = "Remove"
+        '
+        'LCaseCheckBox
+        '
+        Me.LCaseCheckBox.AutoSize = True
+        Me.LCaseCheckBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LCaseCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.LCaseCheckBox.Location = New System.Drawing.Point(16, 19)
+        Me.LCaseCheckBox.Name = "LCaseCheckBox"
+        Me.LCaseCheckBox.Size = New System.Drawing.Size(88, 17)
+        Me.LCaseCheckBox.TabIndex = 38
+        Me.LCaseCheckBox.Text = "Capitalization"
+        Me.LCaseCheckBox.UseVisualStyleBackColor = True
+        '
+        'apostropheCheckBox
+        '
+        Me.apostropheCheckBox.AutoSize = True
+        Me.apostropheCheckBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.apostropheCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.apostropheCheckBox.Location = New System.Drawing.Point(116, 19)
+        Me.apostropheCheckBox.Name = "apostropheCheckBox"
+        Me.apostropheCheckBox.Size = New System.Drawing.Size(85, 17)
+        Me.apostropheCheckBox.TabIndex = 39
+        Me.apostropheCheckBox.Text = "Apostrophes"
+        Me.apostropheCheckBox.UseVisualStyleBackColor = True
+        '
+        'periodCheckBox
+        '
+        Me.periodCheckBox.AutoSize = True
+        Me.periodCheckBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.periodCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.periodCheckBox.Location = New System.Drawing.Point(316, 19)
+        Me.periodCheckBox.Name = "periodCheckBox"
+        Me.periodCheckBox.Size = New System.Drawing.Size(61, 17)
+        Me.periodCheckBox.TabIndex = 37
+        Me.periodCheckBox.Text = "Periods"
+        Me.periodCheckBox.UseVisualStyleBackColor = True
+        '
+        'commaCheckBox
+        '
+        Me.commaCheckBox.AutoSize = True
+        Me.commaCheckBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.commaCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.commaCheckBox.Location = New System.Drawing.Point(216, 19)
+        Me.commaCheckBox.Name = "commaCheckBox"
+        Me.commaCheckBox.Size = New System.Drawing.Size(66, 17)
+        Me.commaCheckBox.TabIndex = 36
+        Me.commaCheckBox.Text = "Commas"
+        Me.commaCheckBox.UseVisualStyleBackColor = True
+        '
+        'Label64
+        '
+        Me.Label64.AutoSize = True
+        Me.Label64.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label64.ForeColor = System.Drawing.Color.Black
+        Me.Label64.Location = New System.Drawing.Point(8, 77)
+        Me.Label64.Name = "Label64"
+        Me.Label64.Size = New System.Drawing.Size(79, 13)
+        Me.Label64.TabIndex = 43
+        Me.Label64.Text = "Emote Symbols"
+        Me.Label64.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'DommeSettingsHeaderPanel
+        '
+        Me.DommeSettingsHeaderPanel.Controls.Add(Me.Panel1)
+        Me.DommeSettingsHeaderPanel.Controls.Add(Me.DommeSettingsLogo)
+        Me.DommeSettingsHeaderPanel.Controls.Add(Me.DommeSettingsHeaderLabel)
+        Me.DommeSettingsHeaderPanel.Dock = System.Windows.Forms.DockStyle.Top
+        Me.DommeSettingsHeaderPanel.Location = New System.Drawing.Point(3, 3)
+        Me.DommeSettingsHeaderPanel.Name = "DommeSettingsHeaderPanel"
+        Me.DommeSettingsHeaderPanel.Size = New System.Drawing.Size(966, 60)
+        Me.DommeSettingsHeaderPanel.TabIndex = 155
+        '
+        'Panel1
+        '
+        Me.Panel1.Controls.Add(Me.BTNSaveDomSet)
+        Me.Panel1.Controls.Add(Me.DommeSettingsSaveButton)
+        Me.Panel1.Dock = System.Windows.Forms.DockStyle.Right
+        Me.Panel1.Location = New System.Drawing.Point(844, 0)
+        Me.Panel1.Margin = New System.Windows.Forms.Padding(0)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(122, 60)
+        Me.Panel1.TabIndex = 152
+        '
+        'BTNSaveDomSet
+        '
+        Me.BTNSaveDomSet.BackColor = System.Drawing.Color.Transparent
+        Me.BTNSaveDomSet.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+        Me.BTNSaveDomSet.Dock = System.Windows.Forms.DockStyle.Right
+        Me.BTNSaveDomSet.FlatAppearance.BorderSize = 0
+        Me.BTNSaveDomSet.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray
+        Me.BTNSaveDomSet.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver
+        Me.BTNSaveDomSet.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BTNSaveDomSet.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BTNSaveDomSet.ForeColor = System.Drawing.Color.Black
+        Me.BTNSaveDomSet.Image = Global.Tease_AI.My.Resources.Resources.Button_Save
+        Me.BTNSaveDomSet.Location = New System.Drawing.Point(-2, 0)
+        Me.BTNSaveDomSet.Margin = New System.Windows.Forms.Padding(0)
+        Me.BTNSaveDomSet.Name = "BTNSaveDomSet"
+        Me.BTNSaveDomSet.Size = New System.Drawing.Size(62, 60)
+        Me.BTNSaveDomSet.TabIndex = 151
+        Me.BTNSaveDomSet.Text = "Load"
+        Me.BTNSaveDomSet.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        Me.BTNSaveDomSet.UseVisualStyleBackColor = False
+        '
+        'DommeSettingsSaveButton
+        '
+        Me.DommeSettingsSaveButton.BackColor = System.Drawing.Color.Transparent
+        Me.DommeSettingsSaveButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.DommeSettingsSaveButton.Dock = System.Windows.Forms.DockStyle.Right
+        Me.DommeSettingsSaveButton.FlatAppearance.BorderSize = 0
+        Me.DommeSettingsSaveButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray
+        Me.DommeSettingsSaveButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver
+        Me.DommeSettingsSaveButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.DommeSettingsSaveButton.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.DommeSettingsSaveButton.ForeColor = System.Drawing.Color.Black
+        Me.DommeSettingsSaveButton.Image = Global.Tease_AI.My.Resources.Resources.Button_Export
+        Me.DommeSettingsSaveButton.Location = New System.Drawing.Point(60, 0)
+        Me.DommeSettingsSaveButton.Margin = New System.Windows.Forms.Padding(0)
+        Me.DommeSettingsSaveButton.Name = "DommeSettingsSaveButton"
+        Me.DommeSettingsSaveButton.Size = New System.Drawing.Size(62, 60)
+        Me.DommeSettingsSaveButton.TabIndex = 150
+        Me.DommeSettingsSaveButton.Text = "Save"
+        Me.DommeSettingsSaveButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        Me.DommeSettingsSaveButton.UseVisualStyleBackColor = False
+        '
+        'DommeSettingsLogo
+        '
+        Me.DommeSettingsLogo.BackColor = System.Drawing.Color.Transparent
+        Me.DommeSettingsLogo.Dock = System.Windows.Forms.DockStyle.Left
+        Me.DommeSettingsLogo.Image = Global.Tease_AI.My.Resources.Resources.TAI_Banner_small
+        Me.DommeSettingsLogo.Location = New System.Drawing.Point(0, 0)
+        Me.DommeSettingsLogo.Name = "DommeSettingsLogo"
+        Me.DommeSettingsLogo.Size = New System.Drawing.Size(160, 60)
+        Me.DommeSettingsLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
+        Me.DommeSettingsLogo.TabIndex = 149
+        Me.DommeSettingsLogo.TabStop = False
+        '
+        'DommeSettingsHeaderLabel
+        '
+        Me.DommeSettingsHeaderLabel.BackColor = System.Drawing.Color.Transparent
+        Me.DommeSettingsHeaderLabel.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.DommeSettingsHeaderLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.DommeSettingsHeaderLabel.ForeColor = System.Drawing.Color.Black
+        Me.DommeSettingsHeaderLabel.Location = New System.Drawing.Point(0, 0)
+        Me.DommeSettingsHeaderLabel.Name = "DommeSettingsHeaderLabel"
+        Me.DommeSettingsHeaderLabel.Size = New System.Drawing.Size(966, 60)
+        Me.DommeSettingsHeaderLabel.TabIndex = 49
+        Me.DommeSettingsHeaderLabel.Text = "Domme Settings"
+        Me.DommeSettingsHeaderLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'DommeSettingsDescriptionGroupBox
+        '
+        Me.DommeSettingsDescriptionGroupBox.Controls.Add(Me.DommeSettingsDescriptionLabel)
+        Me.DommeSettingsDescriptionGroupBox.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.DommeSettingsDescriptionGroupBox.Location = New System.Drawing.Point(3, 528)
+        Me.DommeSettingsDescriptionGroupBox.Name = "DommeSettingsDescriptionGroupBox"
+        Me.DommeSettingsDescriptionGroupBox.Size = New System.Drawing.Size(966, 100)
+        Me.DommeSettingsDescriptionGroupBox.TabIndex = 156
+        Me.DommeSettingsDescriptionGroupBox.TabStop = False
+        Me.DommeSettingsDescriptionGroupBox.Text = "Description"
+        '
+        'DommeSettingsDescriptionLabel
+        '
+        Me.DommeSettingsDescriptionLabel.BackColor = System.Drawing.Color.Transparent
+        Me.DommeSettingsDescriptionLabel.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.DommeSettingsDescriptionLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.DommeSettingsDescriptionLabel.ForeColor = System.Drawing.Color.Black
+        Me.DommeSettingsDescriptionLabel.Location = New System.Drawing.Point(3, 16)
+        Me.DommeSettingsDescriptionLabel.Name = "DommeSettingsDescriptionLabel"
+        Me.DommeSettingsDescriptionLabel.Size = New System.Drawing.Size(960, 81)
+        Me.DommeSettingsDescriptionLabel.TabIndex = 63
+        Me.DommeSettingsDescriptionLabel.Text = "Hover over any setting in the menu for a more detailed description of its functio" &
+    "n."
+        Me.DommeSettingsDescriptionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'TabPage10
         '
@@ -3508,7 +3587,6 @@ Partial Class FrmSettings
         'GroupBox35
         '
         Me.GroupBox35.BackColor = System.Drawing.Color.LightGray
-        Me.GroupBox35.Controls.Add(Me.GroupBox39)
         Me.GroupBox35.Controls.Add(Me.GroupBox38)
         Me.GroupBox35.Controls.Add(Me.GroupBox37)
         Me.GroupBox35.Controls.Add(Me.GroupBox36)
@@ -3519,49 +3597,6 @@ Partial Class FrmSettings
         Me.GroupBox35.TabIndex = 154
         Me.GroupBox35.TabStop = False
         Me.GroupBox35.Text = "Key Phrases"
-        '
-        'GroupBox39
-        '
-        Me.GroupBox39.Controls.Add(Me.CBHonorificInclude)
-        Me.GroupBox39.Controls.Add(Me.CBHonorificCapitalized)
-        Me.GroupBox39.Controls.Add(Me.TBHonorific)
-        Me.GroupBox39.Location = New System.Drawing.Point(6, 168)
-        Me.GroupBox39.Name = "GroupBox39"
-        Me.GroupBox39.Size = New System.Drawing.Size(247, 89)
-        Me.GroupBox39.TabIndex = 3
-        Me.GroupBox39.TabStop = False
-        Me.GroupBox39.Tag = ""
-        Me.GroupBox39.Text = "Honorific"
-        '
-        'CBHonorificInclude
-        '
-        Me.CBHonorificInclude.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CBHonorificInclude.ForeColor = System.Drawing.Color.Black
-        Me.CBHonorificInclude.Location = New System.Drawing.Point(9, 44)
-        Me.CBHonorificInclude.Name = "CBHonorificInclude"
-        Me.CBHonorificInclude.Size = New System.Drawing.Size(234, 21)
-        Me.CBHonorificInclude.TabIndex = 40
-        Me.CBHonorificInclude.Text = "Honorific Must Be Included w/ Key Phrases"
-        Me.CBHonorificInclude.UseVisualStyleBackColor = True
-        '
-        'CBHonorificCapitalized
-        '
-        Me.CBHonorificCapitalized.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CBHonorificCapitalized.ForeColor = System.Drawing.Color.Black
-        Me.CBHonorificCapitalized.Location = New System.Drawing.Point(9, 66)
-        Me.CBHonorificCapitalized.Name = "CBHonorificCapitalized"
-        Me.CBHonorificCapitalized.Size = New System.Drawing.Size(179, 21)
-        Me.CBHonorificCapitalized.TabIndex = 39
-        Me.CBHonorificCapitalized.Text = "Honorific Must Be Capitalized"
-        Me.CBHonorificCapitalized.UseVisualStyleBackColor = True
-        '
-        'TBHonorific
-        '
-        Me.TBHonorific.Location = New System.Drawing.Point(9, 16)
-        Me.TBHonorific.Name = "TBHonorific"
-        Me.TBHonorific.Size = New System.Drawing.Size(229, 20)
-        Me.TBHonorific.TabIndex = 0
-        Me.TBHonorific.Text = "Mistress"
         '
         'GroupBox38
         '
@@ -9471,7 +9506,8 @@ Partial Class FrmSettings
         'TabPage20
         '
         Me.TabPage20.BackColor = System.Drawing.Color.Silver
-        Me.TabPage20.Controls.Add(Me.TabControl1)
+        Me.TabPage20.Controls.Add(Me.AppsSettingsHeaderPanel)
+        Me.TabPage20.Controls.Add(Me.AppsSettingsTabList)
         Me.TabPage20.Location = New System.Drawing.Point(4, 22)
         Me.TabPage20.Name = "TabPage20"
         Me.TabPage20.Padding = New System.Windows.Forms.Padding(3)
@@ -9479,126 +9515,133 @@ Partial Class FrmSettings
         Me.TabPage20.TabIndex = 16
         Me.TabPage20.Text = "Apps"
         '
-        'TabControl1
+        'AppsSettingsHeaderPanel
         '
-        Me.TabControl1.Controls.Add(Me.TabPage22)
-        Me.TabControl1.Controls.Add(Me.TpGames)
-        Me.TabControl1.Controls.Add(Me.TabPage6)
-        Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TabControl1.Location = New System.Drawing.Point(3, 3)
-        Me.TabControl1.Name = "TabControl1"
-        Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(966, 625)
-        Me.TabControl1.TabIndex = 0
+        Me.AppsSettingsHeaderPanel.Controls.Add(Me.AppsSettingsLoad)
+        Me.AppsSettingsHeaderPanel.Controls.Add(Me.AppsSettingsSave)
+        Me.AppsSettingsHeaderPanel.Controls.Add(Me.AppsSettingsLogo)
+        Me.AppsSettingsHeaderPanel.Controls.Add(Me.AppsSettingsHeaderLabel)
+        Me.AppsSettingsHeaderPanel.Dock = System.Windows.Forms.DockStyle.Top
+        Me.AppsSettingsHeaderPanel.Location = New System.Drawing.Point(3, 3)
+        Me.AppsSettingsHeaderPanel.Name = "AppsSettingsHeaderPanel"
+        Me.AppsSettingsHeaderPanel.Size = New System.Drawing.Size(966, 60)
+        Me.AppsSettingsHeaderPanel.TabIndex = 1
+        '
+        'AppsSettingsLoad
+        '
+        Me.AppsSettingsLoad.BackColor = System.Drawing.Color.Transparent
+        Me.AppsSettingsLoad.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+        Me.AppsSettingsLoad.Dock = System.Windows.Forms.DockStyle.Right
+        Me.AppsSettingsLoad.FlatAppearance.BorderSize = 0
+        Me.AppsSettingsLoad.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray
+        Me.AppsSettingsLoad.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver
+        Me.AppsSettingsLoad.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.AppsSettingsLoad.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.AppsSettingsLoad.ForeColor = System.Drawing.Color.Black
+        Me.AppsSettingsLoad.Image = Global.Tease_AI.My.Resources.Resources.Button_Save
+        Me.AppsSettingsLoad.Location = New System.Drawing.Point(842, 0)
+        Me.AppsSettingsLoad.Margin = New System.Windows.Forms.Padding(0)
+        Me.AppsSettingsLoad.Name = "AppsSettingsLoad"
+        Me.AppsSettingsLoad.Size = New System.Drawing.Size(62, 60)
+        Me.AppsSettingsLoad.TabIndex = 153
+        Me.AppsSettingsLoad.Text = "Load"
+        Me.AppsSettingsLoad.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        Me.AppsSettingsLoad.UseVisualStyleBackColor = False
+        '
+        'AppsSettingsSave
+        '
+        Me.AppsSettingsSave.BackColor = System.Drawing.Color.Transparent
+        Me.AppsSettingsSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.AppsSettingsSave.Dock = System.Windows.Forms.DockStyle.Right
+        Me.AppsSettingsSave.FlatAppearance.BorderSize = 0
+        Me.AppsSettingsSave.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray
+        Me.AppsSettingsSave.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver
+        Me.AppsSettingsSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.AppsSettingsSave.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.AppsSettingsSave.ForeColor = System.Drawing.Color.Black
+        Me.AppsSettingsSave.Image = Global.Tease_AI.My.Resources.Resources.Button_Export
+        Me.AppsSettingsSave.Location = New System.Drawing.Point(904, 0)
+        Me.AppsSettingsSave.Margin = New System.Windows.Forms.Padding(0)
+        Me.AppsSettingsSave.Name = "AppsSettingsSave"
+        Me.AppsSettingsSave.Size = New System.Drawing.Size(62, 60)
+        Me.AppsSettingsSave.TabIndex = 152
+        Me.AppsSettingsSave.Text = "Save"
+        Me.AppsSettingsSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        Me.AppsSettingsSave.UseVisualStyleBackColor = False
+        '
+        'AppsSettingsLogo
+        '
+        Me.AppsSettingsLogo.BackColor = System.Drawing.Color.Transparent
+        Me.AppsSettingsLogo.Dock = System.Windows.Forms.DockStyle.Left
+        Me.AppsSettingsLogo.Image = Global.Tease_AI.My.Resources.Resources.TAI_Banner_small
+        Me.AppsSettingsLogo.Location = New System.Drawing.Point(0, 0)
+        Me.AppsSettingsLogo.Name = "AppsSettingsLogo"
+        Me.AppsSettingsLogo.Size = New System.Drawing.Size(160, 60)
+        Me.AppsSettingsLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
+        Me.AppsSettingsLogo.TabIndex = 150
+        Me.AppsSettingsLogo.TabStop = False
+        '
+        'AppsSettingsHeaderLabel
+        '
+        Me.AppsSettingsHeaderLabel.BackColor = System.Drawing.Color.Transparent
+        Me.AppsSettingsHeaderLabel.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.AppsSettingsHeaderLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.AppsSettingsHeaderLabel.ForeColor = System.Drawing.Color.Black
+        Me.AppsSettingsHeaderLabel.Location = New System.Drawing.Point(0, 0)
+        Me.AppsSettingsHeaderLabel.Name = "AppsSettingsHeaderLabel"
+        Me.AppsSettingsHeaderLabel.Size = New System.Drawing.Size(966, 60)
+        Me.AppsSettingsHeaderLabel.TabIndex = 151
+        Me.AppsSettingsHeaderLabel.Text = "Apps Settings"
+        Me.AppsSettingsHeaderLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'AppsSettingsTabList
+        '
+        Me.AppsSettingsTabList.Controls.Add(Me.TabPage22)
+        Me.AppsSettingsTabList.Controls.Add(Me.TpGames)
+        Me.AppsSettingsTabList.Controls.Add(Me.TabPage6)
+        Me.AppsSettingsTabList.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.AppsSettingsTabList.Location = New System.Drawing.Point(3, 75)
+        Me.AppsSettingsTabList.Name = "AppsSettingsTabList"
+        Me.AppsSettingsTabList.SelectedIndex = 0
+        Me.AppsSettingsTabList.Size = New System.Drawing.Size(966, 553)
+        Me.AppsSettingsTabList.TabIndex = 0
         '
         'TabPage22
         '
-        Me.TabPage22.BackColor = System.Drawing.Color.LightGray
-        Me.TabPage22.Controls.Add(Me.PNLGlitter)
+        Me.TabPage22.BackColor = System.Drawing.SystemColors.ControlLight
+        Me.TabPage22.Controls.Add(Me.DommeGlitterGroupBox)
+        Me.TabPage22.Controls.Add(Me.GBGlitter1)
+        Me.TabPage22.Controls.Add(Me.GBGlitter3)
+        Me.TabPage22.Controls.Add(Me.GBGlitter2)
         Me.TabPage22.Location = New System.Drawing.Point(4, 22)
         Me.TabPage22.Name = "TabPage22"
         Me.TabPage22.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage22.Size = New System.Drawing.Size(958, 599)
+        Me.TabPage22.Size = New System.Drawing.Size(958, 527)
         Me.TabPage22.TabIndex = 0
         Me.TabPage22.Text = "Glitter"
         '
-        'PNLGlitter
+        'DommeGlitterGroupBox
         '
-        Me.PNLGlitter.BackColor = System.Drawing.Color.LightGray
-        Me.PNLGlitter.Controls.Add(Me.Button15)
-        Me.PNLGlitter.Controls.Add(Me.Button16)
-        Me.PNLGlitter.Controls.Add(Me.Label121)
-        Me.PNLGlitter.Controls.Add(Me.Label122)
-        Me.PNLGlitter.Controls.Add(Me.GBGlitterD)
-        Me.PNLGlitter.Controls.Add(Me.GBGlitter1)
-        Me.PNLGlitter.Controls.Add(Me.GBGlitter3)
-        Me.PNLGlitter.Controls.Add(Me.GBGlitter2)
-        Me.PNLGlitter.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.PNLGlitter.Location = New System.Drawing.Point(3, 3)
-        Me.PNLGlitter.Name = "PNLGlitter"
-        Me.PNLGlitter.Size = New System.Drawing.Size(952, 593)
-        Me.PNLGlitter.TabIndex = 91
-        '
-        'Button15
-        '
-        Me.Button15.BackColor = System.Drawing.Color.LightGray
-        Me.Button15.BackgroundImage = Global.Tease_AI.My.Resources.Resources.Button_Export
-        Me.Button15.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.Button15.FlatAppearance.BorderSize = 0
-        Me.Button15.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray
-        Me.Button15.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver
-        Me.Button15.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.Button15.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button15.ForeColor = System.Drawing.Color.Black
-        Me.Button15.Location = New System.Drawing.Point(670, 366)
-        Me.Button15.Name = "Button15"
-        Me.Button15.Size = New System.Drawing.Size(30, 26)
-        Me.Button15.TabIndex = 163
-        Me.Button15.UseVisualStyleBackColor = False
-        '
-        'Button16
-        '
-        Me.Button16.BackColor = System.Drawing.Color.LightGray
-        Me.Button16.BackgroundImage = Global.Tease_AI.My.Resources.Resources.Button_Save
-        Me.Button16.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.Button16.FlatAppearance.BorderSize = 0
-        Me.Button16.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray
-        Me.Button16.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver
-        Me.Button16.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.Button16.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button16.ForeColor = System.Drawing.Color.Black
-        Me.Button16.Location = New System.Drawing.Point(667, 324)
-        Me.Button16.Name = "Button16"
-        Me.Button16.Size = New System.Drawing.Size(30, 26)
-        Me.Button16.TabIndex = 164
-        Me.Button16.UseVisualStyleBackColor = False
-        '
-        'Label121
-        '
-        Me.Label121.AutoSize = True
-        Me.Label121.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label121.ForeColor = System.Drawing.Color.Black
-        Me.Label121.Location = New System.Drawing.Point(669, 352)
-        Me.Label121.Name = "Label121"
-        Me.Label121.Size = New System.Drawing.Size(27, 13)
-        Me.Label121.TabIndex = 166
-        Me.Label121.Text = "load"
-        Me.Label121.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'Label122
-        '
-        Me.Label122.AutoSize = True
-        Me.Label122.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label122.ForeColor = System.Drawing.Color.Black
-        Me.Label122.Location = New System.Drawing.Point(667, 313)
-        Me.Label122.Name = "Label122"
-        Me.Label122.Size = New System.Drawing.Size(30, 13)
-        Me.Label122.TabIndex = 165
-        Me.Label122.Text = "save"
-        Me.Label122.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'GBGlitterD
-        '
-        Me.GBGlitterD.BackColor = System.Drawing.Color.LightGray
-        Me.GBGlitterD.Controls.Add(Me.GrbGlitterfeed)
-        Me.GBGlitterD.Controls.Add(Me.BTNGlitterD)
-        Me.GBGlitterD.Controls.Add(Me.LBLGlitterNCDomme)
-        Me.GBGlitterD.Controls.Add(Me.LBLGlitterSlider)
-        Me.GBGlitterD.Controls.Add(Me.CBCustom2)
-        Me.GBGlitterD.Controls.Add(Me.GlitterSlider)
-        Me.GBGlitterD.Controls.Add(Me.CBCustom1)
-        Me.GBGlitterD.Controls.Add(Me.CBDaily)
-        Me.GBGlitterD.Controls.Add(Me.CBTrivia)
-        Me.GBGlitterD.Controls.Add(Me.TBGlitterShortName)
-        Me.GBGlitterD.Controls.Add(Me.CBEgotist)
-        Me.GBGlitterD.Controls.Add(Me.CBTease)
-        Me.GBGlitterD.Controls.Add(Me.GlitterAV)
-        Me.GBGlitterD.Location = New System.Drawing.Point(7, 1)
-        Me.GBGlitterD.Name = "GBGlitterD"
-        Me.GBGlitterD.Size = New System.Drawing.Size(344, 150)
-        Me.GBGlitterD.TabIndex = 162
-        Me.GBGlitterD.TabStop = False
-        Me.GBGlitterD.Text = "Domme"
+        Me.DommeGlitterGroupBox.BackColor = System.Drawing.Color.Transparent
+        Me.DommeGlitterGroupBox.Controls.Add(Me.GrbGlitterfeed)
+        Me.DommeGlitterGroupBox.Controls.Add(Me.BTNGlitterD)
+        Me.DommeGlitterGroupBox.Controls.Add(Me.LBLGlitterNCDomme)
+        Me.DommeGlitterGroupBox.Controls.Add(Me.LBLGlitterSlider)
+        Me.DommeGlitterGroupBox.Controls.Add(Me.CBCustom2)
+        Me.DommeGlitterGroupBox.Controls.Add(Me.GlitterSlider)
+        Me.DommeGlitterGroupBox.Controls.Add(Me.CBCustom1)
+        Me.DommeGlitterGroupBox.Controls.Add(Me.CBDaily)
+        Me.DommeGlitterGroupBox.Controls.Add(Me.CBTrivia)
+        Me.DommeGlitterGroupBox.Controls.Add(Me.TBGlitterShortName)
+        Me.DommeGlitterGroupBox.Controls.Add(Me.CBEgotist)
+        Me.DommeGlitterGroupBox.Controls.Add(Me.CBTease)
+        Me.DommeGlitterGroupBox.Controls.Add(Me.DommeGlitterAvatar)
+        Me.DommeGlitterGroupBox.Location = New System.Drawing.Point(10, 6)
+        Me.DommeGlitterGroupBox.Name = "DommeGlitterGroupBox"
+        Me.DommeGlitterGroupBox.Size = New System.Drawing.Size(344, 150)
+        Me.DommeGlitterGroupBox.TabIndex = 162
+        Me.DommeGlitterGroupBox.TabStop = False
+        Me.DommeGlitterGroupBox.Text = "Domme"
         '
         'GrbGlitterfeed
         '
@@ -9774,19 +9817,19 @@ Partial Class FrmSettings
         Me.CBTease.Text = "Tease"
         Me.CBTease.UseVisualStyleBackColor = True
         '
-        'GlitterAV
+        'DommeGlitterAvatar
         '
-        Me.GlitterAV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.GlitterAV.Location = New System.Drawing.Point(9, 16)
-        Me.GlitterAV.Name = "GlitterAV"
-        Me.GlitterAV.Size = New System.Drawing.Size(64, 64)
-        Me.GlitterAV.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.GlitterAV.TabIndex = 149
-        Me.GlitterAV.TabStop = False
+        Me.DommeGlitterAvatar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.DommeGlitterAvatar.Location = New System.Drawing.Point(9, 16)
+        Me.DommeGlitterAvatar.Name = "DommeGlitterAvatar"
+        Me.DommeGlitterAvatar.Size = New System.Drawing.Size(64, 64)
+        Me.DommeGlitterAvatar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.DommeGlitterAvatar.TabIndex = 149
+        Me.DommeGlitterAvatar.TabStop = False
         '
         'GBGlitter1
         '
-        Me.GBGlitter1.BackColor = System.Drawing.Color.LightGray
+        Me.GBGlitter1.BackColor = System.Drawing.Color.Transparent
         Me.GBGlitter1.Controls.Add(Me.BtnContact1ImageDirClear)
         Me.GBGlitter1.Controls.Add(Me.BtnContact1ImageDir)
         Me.GBGlitter1.Controls.Add(Me.TbxContact1ImageDir)
@@ -9797,7 +9840,7 @@ Partial Class FrmSettings
         Me.GBGlitter1.Controls.Add(Me.CBGlitter1)
         Me.GBGlitter1.Controls.Add(Me.TBGlitter1)
         Me.GBGlitter1.Controls.Add(Me.GlitterAV1)
-        Me.GBGlitter1.Location = New System.Drawing.Point(355, 1)
+        Me.GBGlitter1.Location = New System.Drawing.Point(360, 6)
         Me.GBGlitter1.Name = "GBGlitter1"
         Me.GBGlitter1.Size = New System.Drawing.Size(344, 150)
         Me.GBGlitter1.TabIndex = 161
@@ -9926,7 +9969,7 @@ Partial Class FrmSettings
         '
         'GBGlitter3
         '
-        Me.GBGlitter3.BackColor = System.Drawing.Color.LightGray
+        Me.GBGlitter3.BackColor = System.Drawing.Color.Transparent
         Me.GBGlitter3.Controls.Add(Me.BtnContact3ImageDirClear)
         Me.GBGlitter3.Controls.Add(Me.BtnContact3ImageDir)
         Me.GBGlitter3.Controls.Add(Me.TbxContact3ImageDir)
@@ -9937,7 +9980,7 @@ Partial Class FrmSettings
         Me.GBGlitter3.Controls.Add(Me.CBGlitter3)
         Me.GBGlitter3.Controls.Add(Me.TBGlitter3)
         Me.GBGlitter3.Controls.Add(Me.GlitterAV3)
-        Me.GBGlitter3.Location = New System.Drawing.Point(355, 151)
+        Me.GBGlitter3.Location = New System.Drawing.Point(360, 162)
         Me.GBGlitter3.Name = "GBGlitter3"
         Me.GBGlitter3.Size = New System.Drawing.Size(344, 150)
         Me.GBGlitter3.TabIndex = 160
@@ -10066,7 +10109,7 @@ Partial Class FrmSettings
         '
         'GBGlitter2
         '
-        Me.GBGlitter2.BackColor = System.Drawing.Color.LightGray
+        Me.GBGlitter2.BackColor = System.Drawing.Color.Transparent
         Me.GBGlitter2.Controls.Add(Me.BtnContact2ImageDirClear)
         Me.GBGlitter2.Controls.Add(Me.BtnContact2ImageDir)
         Me.GBGlitter2.Controls.Add(Me.TbxContact2ImageDir)
@@ -10077,7 +10120,7 @@ Partial Class FrmSettings
         Me.GBGlitter2.Controls.Add(Me.CBGlitter2)
         Me.GBGlitter2.Controls.Add(Me.TBGlitter2)
         Me.GBGlitter2.Controls.Add(Me.GlitterAV2)
-        Me.GBGlitter2.Location = New System.Drawing.Point(7, 151)
+        Me.GBGlitter2.Location = New System.Drawing.Point(10, 162)
         Me.GBGlitter2.Name = "GBGlitter2"
         Me.GBGlitter2.Size = New System.Drawing.Size(344, 150)
         Me.GBGlitter2.TabIndex = 151
@@ -10217,7 +10260,7 @@ Partial Class FrmSettings
         Me.TpGames.Location = New System.Drawing.Point(4, 22)
         Me.TpGames.Name = "TpGames"
         Me.TpGames.Padding = New System.Windows.Forms.Padding(3)
-        Me.TpGames.Size = New System.Drawing.Size(958, 599)
+        Me.TpGames.Size = New System.Drawing.Size(958, 527)
         Me.TpGames.TabIndex = 1
         Me.TpGames.Text = "Games"
         '
@@ -10715,7 +10758,7 @@ Partial Class FrmSettings
         Me.TabPage6.Location = New System.Drawing.Point(4, 22)
         Me.TabPage6.Name = "TabPage6"
         Me.TabPage6.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage6.Size = New System.Drawing.Size(958, 599)
+        Me.TabPage6.Size = New System.Drawing.Size(958, 527)
         Me.TabPage6.TabIndex = 2
         Me.TabPage6.Text = "Wishlist"
         '
@@ -11297,9 +11340,9 @@ Partial Class FrmSettings
         Me.RangeSettingsBody.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.RangeSettingsBody.Controls.Add(Me.RangeSettingsBodyTablePanel)
         Me.RangeSettingsBody.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.RangeSettingsBody.Location = New System.Drawing.Point(3, 49)
+        Me.RangeSettingsBody.Location = New System.Drawing.Point(3, 63)
         Me.RangeSettingsBody.Name = "RangeSettingsBody"
-        Me.RangeSettingsBody.Size = New System.Drawing.Size(966, 414)
+        Me.RangeSettingsBody.Size = New System.Drawing.Size(966, 400)
         Me.RangeSettingsBody.TabIndex = 91
         '
         'RangeSettingsBodyTablePanel
@@ -11317,7 +11360,7 @@ Partial Class FrmSettings
         Me.RangeSettingsBodyTablePanel.Name = "RangeSettingsBodyTablePanel"
         Me.RangeSettingsBodyTablePanel.RowCount = 1
         Me.RangeSettingsBodyTablePanel.RowStyles.Add(New System.Windows.Forms.RowStyle())
-        Me.RangeSettingsBodyTablePanel.Size = New System.Drawing.Size(964, 412)
+        Me.RangeSettingsBodyTablePanel.Size = New System.Drawing.Size(964, 398)
         Me.RangeSettingsBodyTablePanel.TabIndex = 174
         '
         'RangeSettingsBodyRightColumnPanel
@@ -12668,7 +12711,7 @@ Partial Class FrmSettings
         Me.RangeSettingsHeaderPanel.Dock = System.Windows.Forms.DockStyle.Top
         Me.RangeSettingsHeaderPanel.Location = New System.Drawing.Point(3, 3)
         Me.RangeSettingsHeaderPanel.Name = "RangeSettingsHeaderPanel"
-        Me.RangeSettingsHeaderPanel.Size = New System.Drawing.Size(966, 46)
+        Me.RangeSettingsHeaderPanel.Size = New System.Drawing.Size(966, 60)
         Me.RangeSettingsHeaderPanel.TabIndex = 174
         '
         'RangeSettingsLogo
@@ -12678,7 +12721,7 @@ Partial Class FrmSettings
         Me.RangeSettingsLogo.Image = Global.Tease_AI.My.Resources.Resources.TAI_Banner_small
         Me.RangeSettingsLogo.Location = New System.Drawing.Point(0, 0)
         Me.RangeSettingsLogo.Name = "RangeSettingsLogo"
-        Me.RangeSettingsLogo.Size = New System.Drawing.Size(160, 46)
+        Me.RangeSettingsLogo.Size = New System.Drawing.Size(160, 60)
         Me.RangeSettingsLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
         Me.RangeSettingsLogo.TabIndex = 166
         Me.RangeSettingsLogo.TabStop = False
@@ -12691,7 +12734,7 @@ Partial Class FrmSettings
         Me.RangeSettingsHeaderLabel.ForeColor = System.Drawing.Color.Black
         Me.RangeSettingsHeaderLabel.Location = New System.Drawing.Point(0, 0)
         Me.RangeSettingsHeaderLabel.Name = "RangeSettingsHeaderLabel"
-        Me.RangeSettingsHeaderLabel.Size = New System.Drawing.Size(966, 46)
+        Me.RangeSettingsHeaderLabel.Size = New System.Drawing.Size(966, 60)
         Me.RangeSettingsHeaderLabel.TabIndex = 48
         Me.RangeSettingsHeaderLabel.Text = "Range Settings"
         Me.RangeSettingsHeaderLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -14555,15 +14598,24 @@ Partial Class FrmSettings
         CType(Me.NBFontSize, System.ComponentModel.ISupportInitialize).EndInit
         Me.GBDommeFont.ResumeLayout(False)
         CType(Me.NBFontSizeD, System.ComponentModel.ISupportInitialize).EndInit
-        Me.TabPage2.ResumeLayout(False)
-        Me.Panel3.ResumeLayout(False)
-        Me.Panel3.PerformLayout
-        CType(Me.PictureBox4, System.ComponentModel.ISupportInitialize).EndInit
-        Me.GBDomTypingStyle.ResumeLayout(False)
-        Me.GBDomTypingStyle.PerformLayout
-        CType(Me.NBTypoChance, System.ComponentModel.ISupportInitialize).EndInit
-        Me.GroupBox63.ResumeLayout(False)
-        Me.GroupBox63.PerformLayout
+        Me.DommeSettingsTabPage.ResumeLayout(False)
+        Me.DommeSettingsBodyPanel.ResumeLayout(False)
+        Me.GroupBox39.ResumeLayout(False)
+        Me.GroupBox39.PerformLayout
+        Me.DommeStatsGroupBox.ResumeLayout(False)
+        Me.DommeStatsGroupBox.PerformLayout
+        CType(Me.NBEmpathy, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBDomBirthdayDay, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.DomAgeNumberBox, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NBDomBirthdayMonth, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.DominationLevel, System.ComponentModel.ISupportInitialize).EndInit
+        Me.GBDomPetNames.ResumeLayout(False)
+        Me.GBDomPetNames.PerformLayout
+        Me.GBDomOrgasms.ResumeLayout(False)
+        Me.GBDomOrgasms.PerformLayout
+        CType(Me.OrgasmsPerNumBox, System.ComponentModel.ISupportInitialize).EndInit
+        Me.GBDomPersonality.ResumeLayout(False)
+        Me.GBDomPersonality.PerformLayout
         Me.GBDomRanges.ResumeLayout(False)
         CType(Me.NBDomMoodMax, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NBDomMoodMin, System.ComponentModel.ISupportInitialize).EndInit
@@ -14573,20 +14625,15 @@ Partial Class FrmSettings
         CType(Me.NBSelfAgeMin, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NBAvgCockMax, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NBAvgCockMin, System.ComponentModel.ISupportInitialize).EndInit
-        Me.GBDomStats.ResumeLayout(False)
-        Me.GBDomStats.PerformLayout
-        CType(Me.NBEmpathy, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.NBDomBirthdayDay, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.DomAgeNumberBox, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.NBDomBirthdayMonth, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.DominationLevel, System.ComponentModel.ISupportInitialize).EndInit
-        Me.GBDomPersonality.ResumeLayout(False)
-        Me.GBDomPersonality.PerformLayout
-        Me.GBDomOrgasms.ResumeLayout(False)
-        Me.GBDomOrgasms.PerformLayout
-        CType(Me.OrgasmsPerNumBox, System.ComponentModel.ISupportInitialize).EndInit
-        Me.GBDomPetNames.ResumeLayout(False)
-        Me.GBDomPetNames.PerformLayout
+        Me.GBDomTypingStyle.ResumeLayout(False)
+        Me.GBDomTypingStyle.PerformLayout
+        CType(Me.NBTypoChance, System.ComponentModel.ISupportInitialize).EndInit
+        Me.GroupBox63.ResumeLayout(False)
+        Me.GroupBox63.PerformLayout
+        Me.DommeSettingsHeaderPanel.ResumeLayout(False)
+        Me.Panel1.ResumeLayout(False)
+        CType(Me.DommeSettingsLogo, System.ComponentModel.ISupportInitialize).EndInit
+        Me.DommeSettingsDescriptionGroupBox.ResumeLayout(False)
         Me.TabPage10.ResumeLayout(False)
         Me.Panel2.ResumeLayout(False)
         Me.GroupBox22.ResumeLayout(False)
@@ -14595,8 +14642,6 @@ Partial Class FrmSettings
         Me.GroupBox45.ResumeLayout(False)
         CType(Me.CockAndBallTortureLevelSlider, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox35.ResumeLayout(False)
-        Me.GroupBox39.ResumeLayout(False)
-        Me.GroupBox39.PerformLayout
         Me.GroupBox38.ResumeLayout(False)
         Me.GroupBox38.PerformLayout
         Me.GroupBox37.ResumeLayout(False)
@@ -14697,16 +14742,16 @@ Partial Class FrmSettings
         CType(Me.VideoLogo, System.ComponentModel.ISupportInitialize).EndInit
         Me.VideoDescriptionGroupBox.ResumeLayout(False)
         Me.TabPage20.ResumeLayout(False)
-        Me.TabControl1.ResumeLayout(False)
+        Me.AppsSettingsHeaderPanel.ResumeLayout(False)
+        CType(Me.AppsSettingsLogo, System.ComponentModel.ISupportInitialize).EndInit
+        Me.AppsSettingsTabList.ResumeLayout(False)
         Me.TabPage22.ResumeLayout(False)
-        Me.PNLGlitter.ResumeLayout(False)
-        Me.PNLGlitter.PerformLayout
-        Me.GBGlitterD.ResumeLayout(False)
-        Me.GBGlitterD.PerformLayout
+        Me.DommeGlitterGroupBox.ResumeLayout(False)
+        Me.DommeGlitterGroupBox.PerformLayout
         Me.GrbGlitterfeed.ResumeLayout(False)
         Me.GrbGlitterfeed.PerformLayout
         CType(Me.GlitterSlider, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.GlitterAV, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.DommeGlitterAvatar, System.ComponentModel.ISupportInitialize).EndInit
         Me.GBGlitter1.ResumeLayout(False)
         Me.GBGlitter1.PerformLayout
         CType(Me.GlitterSlider1, System.ComponentModel.ISupportInitialize).EndInit
@@ -14892,9 +14937,8 @@ Partial Class FrmSettings
     Friend WithEvents TimeStampCheckBox As System.Windows.Forms.CheckBox
     Friend WithEvents ShowNamesCheckBox As System.Windows.Forms.CheckBox
     Friend WithEvents LBLGeneralSettings As System.Windows.Forms.Label
-    Friend WithEvents TabPage2 As System.Windows.Forms.TabPage
-    Friend WithEvents Panel3 As System.Windows.Forms.Panel
-    Friend WithEvents PictureBox4 As System.Windows.Forms.PictureBox
+    Friend WithEvents DommeSettingsTabPage As System.Windows.Forms.TabPage
+    Friend WithEvents DommeSettingsLogo As System.Windows.Forms.PictureBox
     Friend WithEvents GBDomRanges As System.Windows.Forms.GroupBox
     Friend WithEvents NBDomMoodMax As System.Windows.Forms.NumericUpDown
     Friend WithEvents NBDomMoodMin As System.Windows.Forms.NumericUpDown
@@ -14912,7 +14956,7 @@ Partial Class FrmSettings
     Friend WithEvents NBAvgCockMin As System.Windows.Forms.NumericUpDown
     Friend WithEvents Label23 As System.Windows.Forms.Label
     Friend WithEvents Label30 As System.Windows.Forms.Label
-    Friend WithEvents GBDomStats As System.Windows.Forms.GroupBox
+    Friend WithEvents DommeStatsGroupBox As System.Windows.Forms.GroupBox
     Friend WithEvents boobComboBox As System.Windows.Forms.ComboBox
     Friend WithEvents DomLevelDescLabel As System.Windows.Forms.Label
     Friend WithEvents DomAgeNumberBox As System.Windows.Forms.NumericUpDown
@@ -14922,7 +14966,7 @@ Partial Class FrmSettings
     Friend WithEvents Label45 As System.Windows.Forms.Label
     Friend WithEvents Label46 As System.Windows.Forms.Label
     Friend WithEvents Label47 As System.Windows.Forms.Label
-    Friend WithEvents Label54 As System.Windows.Forms.Label
+    Friend WithEvents DommeSettingsHeaderLabel As System.Windows.Forms.Label
     Friend WithEvents GBDomPersonality As System.Windows.Forms.GroupBox
     Friend WithEvents supremacistCheckBox As System.Windows.Forms.CheckBox
     Friend WithEvents vulgarCheckBox As System.Windows.Forms.CheckBox
@@ -14944,8 +14988,8 @@ Partial Class FrmSettings
     Friend WithEvents limitcheckbox As System.Windows.Forms.CheckBox
     Friend WithEvents OrgasmsPerNumBox As System.Windows.Forms.NumericUpDown
     Friend WithEvents CBDomDenialEnds As System.Windows.Forms.CheckBox
-    Friend WithEvents alloworgasmComboBox As System.Windows.Forms.ComboBox
-    Friend WithEvents ruinorgasmComboBox As System.Windows.Forms.ComboBox
+    Friend WithEvents AllowsOrgasmComboBox As System.Windows.Forms.ComboBox
+    Friend WithEvents RuinsOrgasmsComboBox As System.Windows.Forms.ComboBox
     Friend WithEvents GBDomPetNames As System.Windows.Forms.GroupBox
     Friend WithEvents petnameBox7 As System.Windows.Forms.TextBox
     Friend WithEvents PetNameBox1 As System.Windows.Forms.TextBox
@@ -14958,10 +15002,6 @@ Partial Class FrmSettings
     Friend WithEvents TabPage10 As System.Windows.Forms.TabPage
     Friend WithEvents Panel2 As System.Windows.Forms.Panel
     Friend WithEvents GroupBox35 As System.Windows.Forms.GroupBox
-    Friend WithEvents GroupBox39 As System.Windows.Forms.GroupBox
-    Friend WithEvents CBHonorificInclude As System.Windows.Forms.CheckBox
-    Friend WithEvents CBHonorificCapitalized As System.Windows.Forms.CheckBox
-    Friend WithEvents TBHonorific As System.Windows.Forms.TextBox
     Friend WithEvents GroupBox38 As System.Windows.Forms.GroupBox
     Friend WithEvents TBNo As System.Windows.Forms.TextBox
     Friend WithEvents GroupBox37 As System.Windows.Forms.GroupBox
@@ -15064,8 +15104,7 @@ Partial Class FrmSettings
     Friend WithEvents Label25 As System.Windows.Forms.Label
     Friend WithEvents Label24 As System.Windows.Forms.Label
     Friend WithEvents RangeSettingsHeaderLabel As System.Windows.Forms.Label
-    Friend WithEvents PNLGlitter As System.Windows.Forms.Panel
-    Friend WithEvents GBGlitterD As System.Windows.Forms.GroupBox
+    Friend WithEvents DommeGlitterGroupBox As System.Windows.Forms.GroupBox
     Friend WithEvents BTNGlitterD As System.Windows.Forms.Button
     Friend WithEvents LBLGlitterNCDomme As System.Windows.Forms.Label
     Friend WithEvents LBLGlitterSlider As System.Windows.Forms.Label
@@ -15077,7 +15116,7 @@ Partial Class FrmSettings
     Friend WithEvents TBGlitterShortName As System.Windows.Forms.TextBox
     Friend WithEvents CBEgotist As System.Windows.Forms.CheckBox
     Friend WithEvents CBTease As System.Windows.Forms.CheckBox
-    Friend WithEvents GlitterAV As System.Windows.Forms.PictureBox
+    Friend WithEvents DommeGlitterAvatar As System.Windows.Forms.PictureBox
     Friend WithEvents GBGlitter1 As System.Windows.Forms.GroupBox
     Friend WithEvents BTNGlitter1 As System.Windows.Forms.Button
     Friend WithEvents LBLGlitterNC1 As System.Windows.Forms.Label
@@ -15150,7 +15189,7 @@ Partial Class FrmSettings
     Friend WithEvents NBFontSizeD As System.Windows.Forms.NumericUpDown
     Friend WithEvents GBDommeFont As System.Windows.Forms.GroupBox
     Friend WithEvents GBSubFont As System.Windows.Forms.GroupBox
-    Friend WithEvents dompubichairComboBox As System.Windows.Forms.ComboBox
+    Friend WithEvents DommePubicHairComboBox As System.Windows.Forms.ComboBox
     Friend WithEvents Label9 As System.Windows.Forms.Label
     Friend WithEvents domhairlengthComboBox As System.Windows.Forms.ComboBox
     Friend WithEvents Label10 As System.Windows.Forms.Label
@@ -15259,7 +15298,7 @@ Partial Class FrmSettings
     Friend WithEvents NBEmpathy As System.Windows.Forms.NumericUpDown
     Friend WithEvents Label83 As System.Windows.Forms.Label
     Friend WithEvents BTNSaveDomSet As System.Windows.Forms.Button
-    Friend WithEvents BTNLoadDomSet As System.Windows.Forms.Button
+    Friend WithEvents DommeSettingsSaveButton As System.Windows.Forms.Button
     Friend WithEvents CBAuditStartup As System.Windows.Forms.CheckBox
     Friend WithEvents GBRangeOrgasmChance As System.Windows.Forms.GroupBox
     Friend WithEvents RarelyAllowsPercentLabel As System.Windows.Forms.Label
@@ -15281,7 +15320,7 @@ Partial Class FrmSettings
     Friend WithEvents LBLSafeword As System.Windows.Forms.Label
     Friend WithEvents TBSafeword As System.Windows.Forms.TextBox
     Friend WithEvents TabPage20 As System.Windows.Forms.TabPage
-    Friend WithEvents TabControl1 As System.Windows.Forms.TabControl
+    Friend WithEvents AppsSettingsTabList As System.Windows.Forms.TabControl
     Friend WithEvents TabPage22 As System.Windows.Forms.TabPage
     Friend WithEvents TpGames As System.Windows.Forms.TabPage
     Friend WithEvents GbxCardsGold As System.Windows.Forms.GroupBox
@@ -15425,8 +15464,6 @@ Partial Class FrmSettings
     Friend WithEvents Label94 As System.Windows.Forms.Label
     Friend WithEvents GroupBox6 As System.Windows.Forms.GroupBox
     Friend WithEvents Button1 As System.Windows.Forms.Button
-    Friend WithEvents Label127 As System.Windows.Forms.Label
-    Friend WithEvents Label126 As System.Windows.Forms.Label
     Friend WithEvents Label128 As System.Windows.Forms.Label
     Friend WithEvents LBLSubBdayFormat As System.Windows.Forms.Label
     Friend WithEvents ScriptPlayList As System.Windows.Forms.WebBrowser
@@ -15460,10 +15497,6 @@ Partial Class FrmSettings
     Friend WithEvents BtnContact3ImageDirClear As System.Windows.Forms.Button
     Friend WithEvents BtnContact1ImageDirClear As System.Windows.Forms.Button
     Friend WithEvents BtnContact2ImageDirClear As System.Windows.Forms.Button
-    Friend WithEvents Button15 As System.Windows.Forms.Button
-    Friend WithEvents Button16 As System.Windows.Forms.Button
-    Friend WithEvents Label121 As System.Windows.Forms.Label
-    Friend WithEvents Label122 As System.Windows.Forms.Label
     Friend WithEvents GroupBox62 As System.Windows.Forms.GroupBox
     Friend WithEvents RBGerman As System.Windows.Forms.RadioButton
     Friend WithEvents RBEnglish As System.Windows.Forms.RadioButton
@@ -15498,7 +15531,7 @@ Partial Class FrmSettings
     Friend WithEvents Button31 As System.Windows.Forms.Button
     Friend WithEvents CBFlipBack As System.Windows.Forms.CheckBox
     Friend WithEvents Button32 As System.Windows.Forms.Button
-    Friend WithEvents condescendingCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents CondescendingCheckBox As System.Windows.Forms.CheckBox
     Friend WithEvents degradingCheckBox As System.Windows.Forms.CheckBox
     Friend WithEvents sadisticCheckBox As System.Windows.Forms.CheckBox
     Friend WithEvents GroupBox13 As System.Windows.Forms.GroupBox
@@ -15942,4 +15975,18 @@ Partial Class FrmSettings
     Friend WithEvents GreenLightMinimumSeconds As NumericUpDown
     Friend WithEvents RedLightMaximumSeconds As NumericUpDown
     Friend WithEvents RedLightMinimumSeconds As NumericUpDown
+    Friend WithEvents DommeSettingsDescriptionGroupBox As GroupBox
+    Friend WithEvents DommeSettingsHeaderPanel As Panel
+    Friend WithEvents DommeSettingsBodyPanel As Panel
+    Friend WithEvents Panel1 As Panel
+    Friend WithEvents GroupBox39 As GroupBox
+    Private WithEvents CBHonorificInclude As CheckBox
+    Private WithEvents CBHonorificCapitalized As CheckBox
+    Private WithEvents TBHonorific As TextBox
+    Friend WithEvents DommeSettingsDescriptionLabel As Label
+    Friend WithEvents AppsSettingsHeaderPanel As Panel
+    Friend WithEvents AppsSettingsLogo As PictureBox
+    Friend WithEvents AppsSettingsHeaderLabel As Label
+    Friend WithEvents AppsSettingsLoad As Button
+    Friend WithEvents AppsSettingsSave As Button
 End Class

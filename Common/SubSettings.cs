@@ -4,6 +4,9 @@ using TeaseAI.Common.Constants;
 
 namespace TeaseAI.Common
 {
+    /// <summary>
+    /// Settings specific to the sub
+    /// </summary>
     public class SubSettings
     {
         /// <summary>
@@ -133,7 +136,15 @@ namespace TeaseAI.Common
         ///  Does the sub use female pronounce
         /// </summary>
         public bool IsSubFemale { get; set; }
+
+        /// <summary>
+        /// Image file for the sub
+        /// </summary>
         public string AvatarImageFile { get; set; }
+
+        /// <summary>
+        /// Name of the sub
+        /// </summary>
         public string Name { get; set; }
 
         /// <summary>
@@ -146,12 +157,12 @@ namespace TeaseAI.Common
         }
 
         /// <summary>
-        /// how long is the sub's cock
+        /// how long is the cock attached to the sub
         /// </summary>
         public int CockLength { get; set; }
 
         /// <summary>
-        /// When is the sub's birthdate
+        /// When was the sub born
         /// </summary>
         public DateTime BirthDate { get; set; }
 
@@ -178,7 +189,14 @@ namespace TeaseAI.Common
             set { _noPhrases = value; }
         }
 
+        /// <summary>
+        /// hair color of the sub
+        /// </summary>
         public string HairColor { get; set; }
+
+        /// <summary>
+        /// eye color of the sub
+        /// </summary>
         public string EyeColor { get; set; }
 
         /// <summary>

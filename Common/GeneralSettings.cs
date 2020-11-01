@@ -9,6 +9,9 @@ namespace TeaseAI.Common
     /// </summary>
     public class GeneralSettings
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public GeneralSettings()
         {
             Version = 1;

@@ -118,7 +118,7 @@ namespace TeaseAI.Services
         }
 
         #region events and OnEvent methods
-        public event EventHandler<DommeSaidEventArgs> DommeSaid;
+        public event EventHandler<SendMessageEventArgs> DommeSaid;
         /// <summary>
         /// Fire DommeSaid event, but *only* if message is not empty. 
         /// The Domme only speaks when she has something to say.
@@ -130,7 +130,7 @@ namespace TeaseAI.Services
             if (string.IsNullOrWhiteSpace(message))
                 return;
 
-            DommeSaid?.Invoke(this, new DommeSaidEventArgs()
+            DommeSaid?.Invoke(this, new SendMessageEventArgs()
             {
                 ChatMessage = new ChatMessage()
                 {

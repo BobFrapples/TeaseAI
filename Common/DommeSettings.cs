@@ -201,6 +201,26 @@ namespace TeaseAI.Common
         /// </summary>
         public int AverageAgeSubMaximum { get; set; }
 
+        /// <summary>
+        /// Title used to address the Domme, defaults to Mistress
+        /// </summary>
+        public string Honorific
+        {
+            get => string.IsNullOrWhiteSpace(_honorific) ? "Mistress" : _honorific;
+            set => _honorific = value;
+        }
+
+        /// <summary>
+        /// Does the Domme require the use of a title. 
+        /// </summary>
+        public bool RequiresHonorific { get; set; }
+
+        /// <summary>
+        /// Does the Domme require the Honorific be capitalized (Mistress vs mistress)
+        /// </summary>
+        public bool RequiresHonorificCapitalized { get; set; }
+
+        private string _honorific;
         private List<string> _petNames;
     }
 }

@@ -104,6 +104,10 @@ Public Class ApplicationFactory
         Return New SessionEngine(CreateSettingsAccessor(), New StringService(), CreateScriptAccessor(), New TimerFactory(), New FlagAccessor(), CreateImageMetaDataService(), New VideoAccessor(), New VariableAccessor(), New TauntAccessor(), New SystemVocabularyAccessor(), New VocabularyAccessor(), New LineCollectionFilter(), New RandomNumberService(), CreateConfigurationAccessor(), New NotifyUser(), CreatePathsAccessor(), CreateGetCommandProcessorsService(), CreateInterpolationProcessor())
     End Function
 
+    Friend Shared Function CreateLazySubStatementsService() As ILazySubStatementLogic
+        Return New LazySubStatementLogic()
+    End Function
+
     Private Shared Function CreateInterpolationProcessor() As IInterpolationProcessor
         Return New InterpolationProcessor(CreateSettingsAccessor())
     End Function

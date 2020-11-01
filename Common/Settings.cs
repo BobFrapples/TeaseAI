@@ -56,25 +56,35 @@ namespace TeaseAI.Common
         /// <summary>
         /// Sub configuration
         /// </summary>
-        public SubSettings Sub 
+        public SubSettings Sub
         {
             get { return _sub ?? (_sub = new SubSettings()); }
             set { _sub = value; }
         }
-        
+
         /// <summary>
         /// Misc configuration
         /// </summary>
-        public MiscSettings Misc 
+        public MiscSettings Misc
         {
             get { return _misc ?? (_misc = new MiscSettings()); }
             set { _misc = value; }
         }
-        
+
+        /// <summary>
+        /// Apps configs
+        /// </summary>
+        public AppSettings Apps
+        {
+            get { return _apps ?? (_apps = new AppSettings()); }
+            set { _apps = value; }
+        }
+
         private DommeSettings _domme;
         private SubSettings _sub;
         private RangeSettings _range;
         private GeneralSettings _general;
         private MiscSettings _misc;
+        private AppSettings _apps;
     }
 }

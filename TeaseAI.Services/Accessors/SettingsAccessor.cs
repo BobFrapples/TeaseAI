@@ -93,6 +93,7 @@ namespace TeaseAI.Services.Accessors
                     AverageAgeSelfMaximum = 49,
                     AverageAgeSubMinimum = 28,
                     AverageAgeSubMaximum = 49,
+                    Honorific = "Mistress",
                 },
                 General = new GeneralSettings
                 {
@@ -167,7 +168,29 @@ namespace TeaseAI.Services.Accessors
                 {
                     IsOffline = false,
                     IsInChastity = false,
-                }
+                },
+                Apps = new AppSettings
+                {
+                    LazySub = new LazySubSettings
+                    {
+                        CustomTextOne = "Custom One",
+                        CustomTextTwo = "Custom Two",
+                        CustomTextThree = "Custom Three",
+                        CustomTextFour = "Custom Four",
+                        CustomTextFive = "Custom Five",
+                        AreShortcutsEnabled = false,
+                        GreetingShortCut = "hi",
+                        LetMeCumShortCut = "c",
+                        NoShortCut = "n",
+                        OnTheEdgeShortCut = "e",
+                        SafewordShortCut = "red",
+                        SlowDownShortCut = "sd",
+                        SpeedUpShortCut = "su",
+                        StopShortCut = "s",
+                        StrokeShortCut = "stroke",
+                        YesShortCut = "y",
+                    },
+                },
             };
         }
 

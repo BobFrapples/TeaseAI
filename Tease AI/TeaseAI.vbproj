@@ -94,6 +94,8 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
@@ -113,6 +115,7 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Speech" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -153,13 +156,27 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Classes\TranslationService.vb" />
-    <Compile Include="Controls\RandomizerAppPanel.Designer.vb">
-      <DependentUpon>RandomizerAppPanel.vb</DependentUpon>
+    <Compile Include="Controls\LazySubApp.Designer.vb">
+      <DependentUpon>LazySubApp.vb</DependentUpon>
     </Compile>
-    <Compile Include="Controls\RandomizerAppPanel.vb">
+    <Compile Include="Controls\LazySubApp.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\RandomizerAppPanelDesigner.vb" />
+    <Compile Include="Controls\LazySubAppDesigner.vb" />
+    <Compile Include="Controls\RandomizerApp.Designer.vb">
+      <DependentUpon>RandomizerApp.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\RandomizerApp.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\RandomizerAppDesigner.vb" />
+    <Compile Include="Controls\Settings\GlitterSettingsControl.Designer.vb">
+      <DependentUpon>GlitterSettingsControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Settings\GlitterSettingsControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Settings\GlitterSettingsControlDesigner.vb" />
     <Compile Include="Logics\ConvertTagLogic.vb" />
     <Compile Include="MainWindow.vb">
       <SubType>Form</SubType>
@@ -258,8 +275,14 @@
     <Compile Include="Classes\SystemTimer.vb" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Controls\RandomizerAppPanel.resx">
-      <DependentUpon>RandomizerAppPanel.vb</DependentUpon>
+    <EmbeddedResource Include="Controls\LazySubApp.resx">
+      <DependentUpon>LazySubApp.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\RandomizerApp.resx">
+      <DependentUpon>RandomizerApp.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Settings\GlitterSettingsControl.resx">
+      <DependentUpon>GlitterSettingsControl.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.vb</DependentUpon>
@@ -378,9 +401,7 @@
       <Name>TeaseAI.Services</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controls\" />
-  </ItemGroup>  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>

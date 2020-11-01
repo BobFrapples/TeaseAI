@@ -48,6 +48,7 @@ Public Class MainWindow
     Dim myOldPathsAccessor As PathsAccessor = New PathsAccessor(ApplicationFactory.CreateConfigurationAccessor, ApplicationFactory.CreateOldSettingsAccessor())
     Dim myPathsAccessor As IPathsAccessor = ApplicationFactory.CreatePathsAccessor()
     Dim myVitalSubService As IVitalSubService = ApplicationFactory.CreateVitalSubService()
+    Private ReadOnly myLazySubStatementLogic As ILazySubStatementLogic = ApplicationFactory.CreateLazySubStatementsService()
 
     Private myReceivedFile As String
     Dim WithEvents mySession As SessionEngine
@@ -140,11 +141,6 @@ Public Class MainWindow
     Public synth As New SpeechSynthesizer
     Public synth2 As New SpeechSynthesizer
 
-    Public LazyEdit1 As Boolean
-    Public LazyEdit2 As Boolean
-    Public LazyEdit3 As Boolean
-    Public LazyEdit4 As Boolean
-    Public LazyEdit5 As Boolean
     Public ApplyingTheme As Boolean
 
     Private Const DISABLE_SOUNDS As Integer = 21
@@ -167,6 +163,16 @@ Public Class MainWindow
 
     Declare Function mciSendString Lib "winmm.dll" Alias "mciSendStringA" (ByVal lpstrCommand As String,
 ByVal lpstrReturnString As String, ByVal uReturnLength As Integer, ByVal hwndCallback As Integer) As Integer
+
+    Public Sub New()
+        ' This call is required by the designer.
+        InitializeComponent()
+
+        ' Add any initialization after the InitializeComponent() call.
+        SideBarAppLazySub.ButtonBackgroundColor = My.Settings.ButtonColor
+        SideBarAppLazySub.ButtonForegroundColor = My.Settings.TextColor
+        SideBarAppLazySub.LabelColor = My.Settings.TextColor
+    End Sub
 
     Private Sub Form1_FormClosing(sender As Object, e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
         Try
@@ -404,7 +410,7 @@ retryStart:
             ssh.VideoType = "General"
 
             splashScreen.UpdateText("Loading Glitter avatar images...")
-            If File.Exists(My.Settings.GlitterAV) Then FrmSettings.GlitterAV.Image = Image.FromFile(My.Settings.GlitterAV)
+            If File.Exists(My.Settings.GlitterAV) Then FrmSettings.DommeGlitterAvatar.Image = Image.FromFile(My.Settings.GlitterAV)
             If File.Exists(My.Settings.GlitterAV1) Then FrmSettings.GlitterAV1.Image = Image.FromFile(My.Settings.GlitterAV1)
             If File.Exists(My.Settings.GlitterAV2) Then FrmSettings.GlitterAV2.Image = Image.FromFile(My.Settings.GlitterAV2)
             If File.Exists(My.Settings.GlitterAV3) Then FrmSettings.GlitterAV3.Image = Image.FromFile(My.Settings.GlitterAV3)
@@ -607,22 +613,6 @@ retryStart:
 
             WMPTimer.Start()
 
-            splashScreen.UpdateText("Loading Shorthands...")
-            CBShortcuts.Checked = My.Settings.Shortcuts
-            CBHideShortcuts.Checked = My.Settings.ShowShortcuts
-            SetShortcutsVisible()
-
-            TBShortYes.Text = My.Settings.ShortYes
-            TBShortNo.Text = My.Settings.ShortNo
-            TBShortEdge.Text = My.Settings.ShortEdge
-            TBShortSpeedUp.Text = My.Settings.ShortSpeedUp
-            TBShortSlowDown.Text = My.Settings.ShortSlowDown
-            TBShortStop.Text = My.Settings.ShortStop
-            TBShortStroke.Text = My.Settings.ShortStroke
-            TBShortCum.Text = My.Settings.ShortCum
-            TBShortGreet.Text = My.Settings.ShortGreet
-            TBShortSafeword.Text = My.Settings.ShortSafeword
-
             splashScreen.UpdateText("Checking saved dimensions...")
             ToggleAppVisibility(Nothing)
 
@@ -656,12 +646,6 @@ retryStart:
             MetroThread = New Thread(AddressOf MetronomeTick) With {.Name = "Metronome-Thread"}
             MetroThread.IsBackground = True
             MetroThread.Start()
-
-            BTNLS1.Text = My.Settings.LS1
-            BTNLS2.Text = My.Settings.LS2
-            BTNLS3.Text = My.Settings.LS3
-            BTNLS4.Text = My.Settings.LS4
-            BTNLS5.Text = My.Settings.LS5
 
             splashScreen.Close()
 
@@ -702,7 +686,16 @@ retryStart:
         End Try
     End Sub
 
+    Public Sub CheatCheck()
+
+        If chatBox.Text = LBLWritingTaskText.Text Then
+            chatBox.Text = "I'm a dirty cheater"
+        End If
+
+    End Sub
+
     Private Sub SendButton_Click(sender As Object, e As EventArgs) Handles SendButton.Click
+        CheatCheck()
         Dim chatMessage As ChatMessage = New ChatMessage With {
             .TimeStamp = DateTime.Now,
             .Sender = SubName.Text.Trim(),
@@ -723,68 +716,23 @@ retryStart:
             Return
         End If
 
-#Region "This is for editing teh lazy sub buttons"
-        If LazyEdit1 Then
-            BTNLS1.Text = chatMessage.Message
-            BTNLS1.Visible = True
-            BTNLS1Edit.BackColor = My.Settings.ButtonColor
-            BTNLS1Edit.ForeColor = My.Settings.TextColor
-            My.Settings.LS1 = BTNLS1.Text
-            Return
-        End If
-
-        If LazyEdit2 Then
-            BTNLS2.Text = chatMessage.Message
-            BTNLS2.Visible = True
-            BTNLS2Edit.BackColor = My.Settings.ButtonColor
-            BTNLS2Edit.ForeColor = My.Settings.TextColor
-            My.Settings.LS2 = BTNLS2.Text
-            Return
-        End If
-
-        If LazyEdit3 Then
-            BTNLS3.Text = chatMessage.Message
-            BTNLS3.Visible = True
-            BTNLS3Edit.BackColor = My.Settings.ButtonColor
-            BTNLS3Edit.ForeColor = My.Settings.TextColor
-            My.Settings.LS3 = BTNLS3.Text
-            Return
-        End If
-
-        If LazyEdit4 Then
-            BTNLS4.Text = chatMessage.Message
-            BTNLS4.Visible = True
-            BTNLS4Edit.BackColor = My.Settings.ButtonColor
-            BTNLS4Edit.ForeColor = My.Settings.TextColor
-            My.Settings.LS4 = BTNLS4.Text
-            Return
-        End If
-
-        If LazyEdit5 Then
-            BTNLS5.Text = chatMessage.Message
-            BTNLS5.Visible = True
-            BTNLS5Edit.BackColor = My.Settings.ButtonColor
-            BTNLS5Edit.ForeColor = My.Settings.TextColor
-            My.Settings.LS5 = BTNLS5.Text
-            Return
-        End If
-#End Region
-
         If TimeoutTimer.Enabled Then TimeoutTimer.Stop()
 
         ssh.ChatString = chatMessage.Message
 
-        If CBShortcuts.Checked Then
-            If UCase(ssh.ChatString) = UCase(TBShortYes.Text) Then ssh.ChatString = "Yes " & FrmSettings.TBHonorific.Text
-            If UCase(ssh.ChatString) = UCase(TBShortNo.Text) Then ssh.ChatString = "No " & FrmSettings.TBHonorific.Text
-            If UCase(ssh.ChatString) = UCase(TBShortEdge.Text) Then ssh.ChatString = "On the edge"
-            If UCase(ssh.ChatString) = UCase(TBShortSpeedUp.Text) Then ssh.ChatString = "Let me speed up"
-            If UCase(ssh.ChatString) = UCase(TBShortSlowDown.Text) Then ssh.ChatString = "Let me slow down"
-            If UCase(ssh.ChatString) = UCase(TBShortStop.Text) Then ssh.ChatString = "Let me stop"
-            If UCase(ssh.ChatString) = UCase(TBShortStroke.Text) Then ssh.ChatString = "May I start stroking?"
-            If UCase(ssh.ChatString) = UCase(TBShortCum.Text) Then ssh.ChatString = "Please let me cum!"
-            If UCase(ssh.ChatString) = UCase(TBShortGreet.Text) Then ssh.ChatString = "Hello " & FrmSettings.TBHonorific.Text
-            If UCase(ssh.ChatString) = UCase(TBShortSafeword.Text) Then ssh.ChatString = FrmSettings.TBSafeword.Text
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        Dim lazySubSettings As LazySubSettings = settings.Apps.LazySub
+        If lazySubSettings.AreShortcutsEnabled Then
+            If chatMessage.Message.ToLower() = lazySubSettings.YesShortCut.ToLower() Then chatMessage.Message = myLazySubStatementLogic.GetAffirmative(settings)
+            If chatMessage.Message.ToLower() = lazySubSettings.NoShortCut.ToLower() Then chatMessage.Message = myLazySubStatementLogic.GetAffirmative(settings)
+            If chatMessage.Message.ToLower() = lazySubSettings.OnTheEdgeShortCut.ToLower() Then chatMessage.Message = myLazySubStatementLogic.GetOnTheEdge(settings)
+            If chatMessage.Message.ToLower() = lazySubSettings.SpeedUpShortCut.ToLower() Then chatMessage.Message = myLazySubStatementLogic.GetSpeedUp(settings)
+            If chatMessage.Message.ToLower() = lazySubSettings.SlowDownShortCut.ToLower() Then chatMessage.Message = myLazySubStatementLogic.GetSlowDown(settings)
+            If chatMessage.Message.ToLower() = lazySubSettings.StopShortCut.ToLower() Then chatMessage.Message = myLazySubStatementLogic.GetStop(settings)
+            If chatMessage.Message.ToLower() = lazySubSettings.StrokeShortCut.ToLower() Then chatMessage.Message = myLazySubStatementLogic.GetStroke(settings)
+            If chatMessage.Message.ToLower() = lazySubSettings.LetMeCumShortCut.ToLower() Then chatMessage.Message = myLazySubStatementLogic.GetLetMeCum(settings)
+            If chatMessage.Message.ToLower() = lazySubSettings.GreetingShortCut.ToLower() Then chatMessage.Message = myLazySubStatementLogic.GetGreeting(settings)
+            If chatMessage.Message.ToLower() = lazySubSettings.SafewordShortCut.ToLower() Then chatMessage.Message = myLazySubStatementLogic.GetSafeword(settings)
         End If
 
         ' User command detection? right now it doesn't do much but spit out some data
@@ -6165,7 +6113,7 @@ TaskCleanSet:
             End If
 
 
-            If FrmSettings.alloworgasmComboBox.Text = "Always Allows" And FrmSettings.ruinorgasmComboBox.Text = "Always Ruins" Then
+            If FrmSettings.AllowsOrgasmComboBox.Text = "Always Allows" And FrmSettings.RuinsOrgasmsComboBox.Text = "Always Ruins" Then
                 ssh.FileGoto = RuinGoto
                 ssh.OrgasmRuined = True
                 GoTo OrgasmDecided
@@ -6174,17 +6122,17 @@ TaskCleanSet:
             Dim OrgasmInt As Integer = myRandomNumberService.RollPercent()
             Dim OrgasmThreshold As Integer
 
-            If FrmSettings.alloworgasmComboBox.Text = "Never Allows" Then OrgasmThreshold = 0
-            If FrmSettings.alloworgasmComboBox.Text = "Always Allows" Then OrgasmThreshold = 1000
+            If FrmSettings.AllowsOrgasmComboBox.Text = "Never Allows" Then OrgasmThreshold = 0
+            If FrmSettings.AllowsOrgasmComboBox.Text = "Always Allows" Then OrgasmThreshold = 1000
 
             If FrmSettings.DommeDecideOrgasmCheckBox.Checked = True Then
-                If FrmSettings.alloworgasmComboBox.Text = "Rarely Allows" Then OrgasmThreshold = 20
-                If FrmSettings.alloworgasmComboBox.Text = "Sometimes Allows" Then OrgasmThreshold = 50
-                If FrmSettings.alloworgasmComboBox.Text = "Often Allows" Then OrgasmThreshold = 75
+                If FrmSettings.AllowsOrgasmComboBox.Text = "Rarely Allows" Then OrgasmThreshold = 20
+                If FrmSettings.AllowsOrgasmComboBox.Text = "Sometimes Allows" Then OrgasmThreshold = 50
+                If FrmSettings.AllowsOrgasmComboBox.Text = "Often Allows" Then OrgasmThreshold = 75
             Else
-                If FrmSettings.alloworgasmComboBox.Text = "Rarely Allows" Then OrgasmThreshold = FrmSettings.RarelyAllowsPercentNumberBox.Value
-                If FrmSettings.alloworgasmComboBox.Text = "Sometimes Allows" Then OrgasmThreshold = FrmSettings.SometimesAllowsPercentNumberBox.Value
-                If FrmSettings.alloworgasmComboBox.Text = "Often Allows" Then OrgasmThreshold = FrmSettings.OftenAllowsPercentNumberBox.Value
+                If FrmSettings.AllowsOrgasmComboBox.Text = "Rarely Allows" Then OrgasmThreshold = FrmSettings.RarelyAllowsPercentNumberBox.Value
+                If FrmSettings.AllowsOrgasmComboBox.Text = "Sometimes Allows" Then OrgasmThreshold = FrmSettings.SometimesAllowsPercentNumberBox.Value
+                If FrmSettings.AllowsOrgasmComboBox.Text = "Often Allows" Then OrgasmThreshold = FrmSettings.OftenAllowsPercentNumberBox.Value
             End If
 
 
@@ -6197,18 +6145,18 @@ TaskCleanSet:
             Dim RuinInt As Integer = myRandomNumberService.RollPercent()
             Dim RuinThreshold As Integer
 
-            If FrmSettings.ruinorgasmComboBox.Text = "Never Ruins" Then RuinThreshold = 0
-            If FrmSettings.ruinorgasmComboBox.Text = "Always Ruins" Then RuinThreshold = 1000
+            If FrmSettings.RuinsOrgasmsComboBox.Text = "Never Ruins" Then RuinThreshold = 0
+            If FrmSettings.RuinsOrgasmsComboBox.Text = "Always Ruins" Then RuinThreshold = 1000
 
 
             If FrmSettings.DommeDecideRuinCheckBox.Checked = True Then
-                If FrmSettings.ruinorgasmComboBox.Text = "Rarely Ruins" Then RuinThreshold = 20
-                If FrmSettings.ruinorgasmComboBox.Text = "Sometimes Ruins" Then RuinThreshold = 50
-                If FrmSettings.ruinorgasmComboBox.Text = "Often Ruins" Then RuinThreshold = 75
+                If FrmSettings.RuinsOrgasmsComboBox.Text = "Rarely Ruins" Then RuinThreshold = 20
+                If FrmSettings.RuinsOrgasmsComboBox.Text = "Sometimes Ruins" Then RuinThreshold = 50
+                If FrmSettings.RuinsOrgasmsComboBox.Text = "Often Ruins" Then RuinThreshold = 75
             Else
-                If FrmSettings.ruinorgasmComboBox.Text = "Rarely Ruins" Then RuinThreshold = FrmSettings.NBRuinRarely.Value
-                If FrmSettings.ruinorgasmComboBox.Text = "Sometimes Ruins" Then RuinThreshold = FrmSettings.NBRuinSometimes.Value
-                If FrmSettings.ruinorgasmComboBox.Text = "Often Ruins" Then RuinThreshold = FrmSettings.NBRuinOften.Value
+                If FrmSettings.RuinsOrgasmsComboBox.Text = "Rarely Ruins" Then RuinThreshold = FrmSettings.NBRuinRarely.Value
+                If FrmSettings.RuinsOrgasmsComboBox.Text = "Sometimes Ruins" Then RuinThreshold = FrmSettings.NBRuinSometimes.Value
+                If FrmSettings.RuinsOrgasmsComboBox.Text = "Often Ruins" Then RuinThreshold = FrmSettings.NBRuinOften.Value
             End If
 
 
@@ -9221,20 +9169,20 @@ SkipTextedTags:
                 .Add("@StrokeFastest", StrokePace = NBMaxPace.Value Or ssh.WorshipMode = True)
                 .Add("@StrokeSlower", StrokePace = NBMinPace.Value Or ssh.WorshipMode = True)
                 .Add("@StrokeSlowest", StrokePace = NBMinPace.Value Or ssh.WorshipMode = True)
-                .Add("@AlwaysAllowsOrgasm", FrmSettings.alloworgasmComboBox.Text <> "Always Allows")
-                .Add("@OftenAllowsOrgasm", FrmSettings.alloworgasmComboBox.Text <> "Often Allows")
-                .Add("@SometimesAllowsOrgasm", FrmSettings.alloworgasmComboBox.Text <> "Sometimes Allows")
-                .Add("@RarelyAllowsOrgasm", FrmSettings.alloworgasmComboBox.Text <> "Rarely Allows")
-                .Add("@NeverAllowsOrgasm", FrmSettings.alloworgasmComboBox.Text <> "Never Allows")
-                .Add("@AlwaysRuinsOrgasm", FrmSettings.ruinorgasmComboBox.Text <> "Always Ruins")
-                .Add("@OftenRuinsOrgasm", FrmSettings.ruinorgasmComboBox.Text <> "Often Ruins")
-                .Add("@SometimesRuinsOrgasm", FrmSettings.ruinorgasmComboBox.Text <> "Sometimes Ruins")
-                .Add("@RarelyRuinsOrgasm", FrmSettings.ruinorgasmComboBox.Text <> "Rarely Ruins")
-                .Add("@NeverRuinsOrgasm", FrmSettings.ruinorgasmComboBox.Text <> "Never Ruins")
-                .Add("@NotAlwaysAllowsOrgasm", FrmSettings.alloworgasmComboBox.Text = "Always Allows")
-                .Add("@NotNeverAllowsOrgasm", FrmSettings.alloworgasmComboBox.Text = "Never Allows")
-                .Add("@NotAlwaysRuinsOrgasm", FrmSettings.ruinorgasmComboBox.Text = "Always Ruins")
-                .Add("@NotNeverRuinsOrgasm", FrmSettings.ruinorgasmComboBox.Text = "Never Allows")
+                .Add("@AlwaysAllowsOrgasm", FrmSettings.AllowsOrgasmComboBox.Text <> "Always Allows")
+                .Add("@OftenAllowsOrgasm", FrmSettings.AllowsOrgasmComboBox.Text <> "Often Allows")
+                .Add("@SometimesAllowsOrgasm", FrmSettings.AllowsOrgasmComboBox.Text <> "Sometimes Allows")
+                .Add("@RarelyAllowsOrgasm", FrmSettings.AllowsOrgasmComboBox.Text <> "Rarely Allows")
+                .Add("@NeverAllowsOrgasm", FrmSettings.AllowsOrgasmComboBox.Text <> "Never Allows")
+                .Add("@AlwaysRuinsOrgasm", FrmSettings.RuinsOrgasmsComboBox.Text <> "Always Ruins")
+                .Add("@OftenRuinsOrgasm", FrmSettings.RuinsOrgasmsComboBox.Text <> "Often Ruins")
+                .Add("@SometimesRuinsOrgasm", FrmSettings.RuinsOrgasmsComboBox.Text <> "Sometimes Ruins")
+                .Add("@RarelyRuinsOrgasm", FrmSettings.RuinsOrgasmsComboBox.Text <> "Rarely Ruins")
+                .Add("@NeverRuinsOrgasm", FrmSettings.RuinsOrgasmsComboBox.Text <> "Never Ruins")
+                .Add("@NotAlwaysAllowsOrgasm", FrmSettings.AllowsOrgasmComboBox.Text = "Always Allows")
+                .Add("@NotNeverAllowsOrgasm", FrmSettings.AllowsOrgasmComboBox.Text = "Never Allows")
+                .Add("@NotAlwaysRuinsOrgasm", FrmSettings.RuinsOrgasmsComboBox.Text = "Always Ruins")
+                .Add("@NotNeverRuinsOrgasm", FrmSettings.RuinsOrgasmsComboBox.Text = "Never Allows")
                 .Add("@LongEdge", ssh.LongEdge = False Or FrmSettings.AllowLongEdgeTauntCB.Checked = False)
                 .Add("@InterruptLongEdge", Not ssh.LongEdge OrElse Not FrmSettings.AllowLongEdgeInterruptCB.Checked OrElse ssh.TeaseTick < 1 OrElse ssh.RiskyEdges)
                 .Add("@ShowHardcoreImage", Not Directory.Exists(My.Settings.IHardcore) OrElse Not My.Settings.CBIHardcore OrElse ssh.CustomSlideEnabled OrElse myFlagAccessor.IsSet(CreateDommePersonality(), "SYS_NoPornAllowed") OrElse ssh.LockImage)
@@ -9388,8 +9336,8 @@ SkipTextedTags:
                     Select Case m.Value.ToUpper
                         Case "@DommeLevel(".ToUpper : Condition = FilterCheck(GetParentheses(FilterString, "@DommeLevel("), FrmSettings.DominationLevel)
                         Case "@Cup(".ToUpper : Condition = FilterCheck(GetParentheses(FilterString, "@Cup("), FrmSettings.boobComboBox)
-                        Case Keyword.AllowsOrgasm.ToUpper : Condition = FilterCheck(GetParentheses(FilterString, Keyword.AllowsOrgasm), FrmSettings.alloworgasmComboBox)
-                        Case Keyword.RuinsOrgasm.ToUpper : Condition = FilterCheck(GetParentheses(FilterString, Keyword.RuinsOrgasm), FrmSettings.ruinorgasmComboBox)
+                        Case Keyword.AllowsOrgasm.ToUpper : Condition = FilterCheck(GetParentheses(FilterString, Keyword.AllowsOrgasm), FrmSettings.AllowsOrgasmComboBox)
+                        Case Keyword.RuinsOrgasm.ToUpper : Condition = FilterCheck(GetParentheses(FilterString, Keyword.RuinsOrgasm), FrmSettings.RuinsOrgasmsComboBox)
                         Case Keyword.ApathyLevel.ToUpper : Condition = FilterCheck(GetParentheses(FilterString, Keyword.ApathyLevel), FrmSettings.NBEmpathy)
                         Case "@Variable[".ToUpper : Condition = CheckVariable(FilterString)
                         Case "@CheckDate(".ToUpper : Condition = CheckDateList(FilterString)
@@ -10870,10 +10818,7 @@ RestartFunction:
                 mainPictureBox.Visible = True
                 WindowsMediaPlayerPane.Visible = False
             End If
-
-
         End If
-
     End Sub
 
     Private Sub WMPTimer_Tick(sender As Object, e As EventArgs) Handles WMPTimer.Tick
@@ -11707,6 +11652,7 @@ restartInstantly:
         Next
 
     End Sub
+
 #Region "Apps"
 
 #Region "--------------------------------------------------- DommeTag APP -----------------------------------------------------"
@@ -12462,16 +12408,21 @@ restartInstantly:
 
 #End Region ' DommeTag APP
 
-#Region "------------------------------------------------------ Lazy-Sub ------------------------------------------------------"
+#Region "LazySubApp"
 
-    Private Sub Button25_Click(sender As Object, e As EventArgs) Handles BTNStop.Click, Button7.Click
+    Private Sub SideBarAppLazySub_SendMessage(sender As Object, e As SendMessageEventArgs) Handles SideBarAppLazySub.SendMessage
+        chatBox.Text = e.ChatMessage.Message
+        SendButton.PerformClick()
+    End Sub
+
+    Private Sub Button25_Click(sender As Object, e As EventArgs) Handles Button7.Click
         chatBox.Text = "Let me stop"
         SendButton.PerformClick()
     End Sub
 
-    Private Sub BTNYes_Click(sender As Object, e As EventArgs) Handles BTNYes.Click, Button2.Click
+    Private Sub BTNYes_Click(sender As Object, e As EventArgs) Handles Button2.Click
         Try
-            chatBox.Text = "Yes " & FrmSettings.TBHonorific.Text
+            chatBox.Text = "Yes "
         Catch
             chatBox.Text = "Yes"
         End Try
@@ -12479,9 +12430,9 @@ restartInstantly:
         SendButton.PerformClick()
     End Sub
 
-    Private Sub BTNNo_Click(sender As Object, e As EventArgs) Handles BTNNo.Click, Button3.Click
+    Private Sub BTNNo_Click(sender As Object, e As EventArgs) Handles Button3.Click
         Try
-            chatBox.Text = "No " & FrmSettings.TBHonorific.Text
+            chatBox.Text = "No "
         Catch
             chatBox.Text = "No"
         End Try
@@ -12489,32 +12440,32 @@ restartInstantly:
         SendButton.PerformClick()
     End Sub
 
-    Private Sub BTNEdge_Click(sender As Object, e As EventArgs) Handles BTNEdge.Click, Button4.Click
+    Private Sub BTNEdge_Click(sender As Object, e As EventArgs) Handles Button4.Click
         chatBox.Text = "On the edge"
         SendButton.PerformClick()
     End Sub
 
-    Private Sub BTNSpeedUp_Click(sender As Object, e As EventArgs) Handles BTNSpeedUp.Click, Button8.Click
+    Private Sub BTNSpeedUp_Click(sender As Object, e As EventArgs) Handles Button8.Click
         chatBox.Text = "Let me speed up"
         SendButton.PerformClick()
     End Sub
 
-    Private Sub BTNSlowDown_Click(sender As Object, e As EventArgs) Handles BTNSlowDown.Click, Button5.Click
+    Private Sub BTNSlowDown_Click(sender As Object, e As EventArgs) Handles Button5.Click
         chatBox.Text = "Let me slow down"
         SendButton.PerformClick()
     End Sub
 
-    Private Sub BTNStroke_Click(sender As Object, e As EventArgs) Handles BTNStroke.Click, Button6.Click
+    Private Sub BTNStroke_Click(sender As Object, e As EventArgs) Handles Button6.Click
         chatBox.Text = "May I start stroking?"
         SendButton.PerformClick()
     End Sub
 
-    Private Sub BTNAskToCum_Click(sender As Object, e As EventArgs) Handles BTNAskToCum.Click, Button9.Click
+    Private Sub BTNAskToCum_Click(sender As Object, e As EventArgs) Handles Button9.Click
         chatBox.Text = "Please let me cum!"
         SendButton.PerformClick()
     End Sub
 
-    Private Sub BTNGreeting_Click(sender As Object, e As EventArgs) Handles BTNGreeting.Click, Button10.Click
+    Private Sub BTNGreeting_Click(sender As Object, e As EventArgs) Handles Button10.Click
 
         If mySession.Session.Domme.WasGreeted = True Then
             ssh.LockImage = False
@@ -12528,7 +12479,7 @@ restartInstantly:
         End If
 
         Try
-            chatBox.Text = "Hello " & FrmSettings.TBHonorific.Text
+            chatBox.Text = "Hello "
         Catch
             chatBox.Text = "Hello"
         End Try
@@ -12536,7 +12487,7 @@ restartInstantly:
         SendButton.PerformClick()
     End Sub
 
-    Private Sub BTNSafeword_Click(sender As Object, e As EventArgs) Handles BTNSafeword.Click, Button11.Click
+    Private Sub BTNSafeword_Click(sender As Object, e As EventArgs) Handles Button11.Click
         Try
             chatBox.Text = FrmSettings.TBSafeword.Text
         Catch
@@ -12546,303 +12497,15 @@ restartInstantly:
         SendButton.PerformClick()
     End Sub
 
-    Private Sub CBHideShortcuts_CheckedChanged(sender As Object, e As EventArgs) Handles CBHideShortcuts.CheckedChanged
-        If FormLoading = False Then
-            SetShortcutsVisible()
-            My.Settings.ShowShortcuts = CBHideShortcuts.Checked
-        End If
-    End Sub
 
-    Public Sub SetShortcutsVisible()
-        Dim isHidden As Boolean = CBHideShortcuts.Checked
-        TBShortYes.Visible = Not isHidden
-        TBShortNo.Visible = Not isHidden
-        TBShortEdge.Visible = Not isHidden
-        TBShortSpeedUp.Visible = Not isHidden
-        TBShortSlowDown.Visible = Not isHidden
-        TBShortStop.Visible = Not isHidden
-        TBShortStroke.Visible = Not isHidden
-        TBShortCum.Visible = Not isHidden
-        TBShortGreet.Visible = Not isHidden
-        TBShortSafeword.Visible = Not isHidden
-        BTNLS1Edit.Visible = Not isHidden
-        BTNLS2Edit.Visible = Not isHidden
-        BTNLS3Edit.Visible = Not isHidden
-        BTNLS4Edit.Visible = Not isHidden
-        BTNLS5Edit.Visible = Not isHidden
 
-        Dim width As Integer = 163
-        If isHidden Then width = 214
-        BTNLS1.Width = width
-        BTNLS2.Width = width
-        BTNLS3.Width = width
-        BTNLS4.Width = width
-        BTNLS5.Width = width
-    End Sub
-
-    Private Sub CBShortcuts_CheckedChanged(sender As Object, e As EventArgs) Handles CBShortcuts.CheckedChanged
-        If FormLoading = False Then
-            My.Settings.Shortcuts = CBShortcuts.Checked
-        End If
-    End Sub
-
-    Private Sub TBShortYes_LostFocus(sender As Object, e As EventArgs) Handles TBShortYes.LostFocus
-        My.Settings.ShortYes = TBShortYes.Text
-    End Sub
-
-    Private Sub TBShortNo_LostFocus(sender As Object, e As EventArgs) Handles TBShortNo.LostFocus
-        My.Settings.ShortNo = TBShortNo.Text
-    End Sub
-
-    Private Sub TBShortEdge_LostFocus(sender As Object, e As EventArgs) Handles TBShortEdge.LostFocus
-        My.Settings.ShortEdge = TBShortEdge.Text
-    End Sub
-
-    Private Sub TBShortSpeedUp_LostFocus(sender As Object, e As EventArgs) Handles TBShortSpeedUp.LostFocus
-        My.Settings.ShortSpeedUp = TBShortSpeedUp.Text
-    End Sub
-
-    Private Sub TBShortSlowDown_LostFocus(sender As Object, e As EventArgs) Handles TBShortSlowDown.LostFocus
-        My.Settings.ShortSlowDown = TBShortSlowDown.Text
-    End Sub
-
-    Private Sub TBShortStop_LostFocus(sender As Object, e As EventArgs) Handles TBShortStop.LostFocus
-        My.Settings.ShortStop = TBShortStop.Text
-    End Sub
-
-    Private Sub TBShortStroke_LostFocus(sender As Object, e As EventArgs) Handles TBShortStroke.LostFocus
-        My.Settings.ShortStroke = TBShortStroke.Text
-    End Sub
-
-    Private Sub TBShortCum_LostFocus(sender As Object, e As EventArgs) Handles TBShortCum.LostFocus
-        My.Settings.ShortCum = TBShortCum.Text
-    End Sub
-
-    Private Sub TBShortGreet_LostFocus(sender As Object, e As EventArgs) Handles TBShortGreet.LostFocus
-        My.Settings.ShortGreet = TBShortGreet.Text
-    End Sub
-
-    Private Sub TBShortSafeword_LostFocus(sender As Object, e As EventArgs) Handles TBShortSafeword.LostFocus
-        My.Settings.ShortSafeword = TBShortSafeword.Text
-    End Sub
-
-    Public Sub CheatCheck()
-
-        If chatBox.Text = LBLWritingTaskText.Text Then
-            chatBox.Text = "I'm a dirty cheater"
-        End If
-
-    End Sub
-
-    Private Sub BTNLS1_Click(sender As Object, e As EventArgs) Handles BTNLS1.Click
-
-
-        If BTNLS1.Text <> "" Then
-            chatBox.Text = BTNLS1.Text
-            If ssh.WritingTaskFlag = True Then CheatCheck()
-            SendButton.PerformClick()
-        End If
-
-    End Sub
-
-    Private Sub BTNLS1Edit_Click(sender As Object, e As EventArgs) Handles BTNLS1Edit.Click
-
-
-        LazyEdit2 = False
-        LazyEdit3 = False
-        LazyEdit4 = False
-        LazyEdit5 = False
-
-        BTNLS2Edit.BackColor = My.Settings.ButtonColor
-        BTNLS2Edit.ForeColor = My.Settings.TextColor
-        BTNLS3Edit.BackColor = My.Settings.ButtonColor
-        BTNLS3Edit.ForeColor = My.Settings.TextColor
-        BTNLS4Edit.BackColor = My.Settings.ButtonColor
-        BTNLS4Edit.ForeColor = My.Settings.TextColor
-        BTNLS5Edit.BackColor = My.Settings.ButtonColor
-        BTNLS5Edit.ForeColor = My.Settings.TextColor
-
-
-        If LazyEdit1 = False Then
-            BTNLS1Edit.BackColor = Color.ForestGreen
-            BTNLS1Edit.ForeColor = Color.White
-            LazyEdit1 = True
-        Else
-            BTNLS1Edit.BackColor = My.Settings.ButtonColor
-            BTNLS1Edit.ForeColor = My.Settings.TextColor
-            LazyEdit1 = False
-        End If
-
-    End Sub
-
-    Private Sub BTNLS2_Click(sender As Object, e As EventArgs) Handles BTNLS2.Click
-
-
-        If BTNLS2.Text <> "" Then
-            chatBox.Text = BTNLS2.Text
-            If ssh.WritingTaskFlag = True Then CheatCheck()
-            SendButton.PerformClick()
-        End If
-
-    End Sub
-
-    Private Sub BTNLS2Edit_Click(sender As Object, e As EventArgs) Handles BTNLS2Edit.Click
-
-
-        LazyEdit1 = False
-        LazyEdit3 = False
-        LazyEdit4 = False
-        LazyEdit5 = False
-
-        BTNLS1Edit.BackColor = My.Settings.ButtonColor
-        BTNLS1Edit.ForeColor = My.Settings.TextColor
-        BTNLS3Edit.BackColor = My.Settings.ButtonColor
-        BTNLS3Edit.ForeColor = My.Settings.TextColor
-        BTNLS4Edit.BackColor = My.Settings.ButtonColor
-        BTNLS4Edit.ForeColor = My.Settings.TextColor
-        BTNLS5Edit.BackColor = My.Settings.ButtonColor
-        BTNLS5Edit.ForeColor = My.Settings.TextColor
-
-        If LazyEdit2 = False Then
-            BTNLS2Edit.BackColor = Color.ForestGreen
-            BTNLS2Edit.ForeColor = Color.White
-            LazyEdit2 = True
-        Else
-            BTNLS2Edit.BackColor = My.Settings.ButtonColor
-            BTNLS2Edit.ForeColor = My.Settings.TextColor
-            LazyEdit2 = False
-        End If
-
-    End Sub
-
-    Private Sub BTNLS3_Click(sender As Object, e As EventArgs) Handles BTNLS3.Click
-
-
-        If BTNLS3.Text <> "" Then
-            chatBox.Text = BTNLS3.Text
-            If ssh.WritingTaskFlag = True Then CheatCheck()
-            SendButton.PerformClick()
-        End If
-
-    End Sub
-
-    Private Sub BTNLS3Edit_Click(sender As Object, e As EventArgs) Handles BTNLS3Edit.Click
-
-
-        LazyEdit2 = False
-        LazyEdit1 = False
-        LazyEdit4 = False
-        LazyEdit5 = False
-
-        BTNLS2Edit.BackColor = My.Settings.ButtonColor
-        BTNLS2Edit.ForeColor = My.Settings.TextColor
-        BTNLS1Edit.BackColor = My.Settings.ButtonColor
-        BTNLS1Edit.ForeColor = My.Settings.TextColor
-        BTNLS4Edit.BackColor = My.Settings.ButtonColor
-        BTNLS4Edit.ForeColor = My.Settings.TextColor
-        BTNLS5Edit.BackColor = My.Settings.ButtonColor
-        BTNLS5Edit.ForeColor = My.Settings.TextColor
-
-
-        If LazyEdit3 = False Then
-            BTNLS3Edit.BackColor = Color.ForestGreen
-            BTNLS3Edit.ForeColor = Color.White
-            LazyEdit3 = True
-        Else
-            BTNLS3Edit.BackColor = My.Settings.ButtonColor
-            BTNLS3Edit.ForeColor = My.Settings.TextColor
-            LazyEdit3 = False
-        End If
-
-    End Sub
-
-    Private Sub BTNLS4_Click(sender As Object, e As EventArgs) Handles BTNLS4.Click
-
-
-        If BTNLS4.Text <> "" Then
-            chatBox.Text = BTNLS4.Text
-            If ssh.WritingTaskFlag = True Then CheatCheck()
-            SendButton.PerformClick()
-        End If
-
-    End Sub
-
-    Private Sub BTNLS4Edit_Click(sender As Object, e As EventArgs) Handles BTNLS4Edit.Click
-
-
-        LazyEdit2 = False
-        LazyEdit3 = False
-        LazyEdit1 = False
-        LazyEdit5 = False
-
-        BTNLS2Edit.BackColor = My.Settings.ButtonColor
-        BTNLS2Edit.ForeColor = My.Settings.TextColor
-        BTNLS3Edit.BackColor = My.Settings.ButtonColor
-        BTNLS3Edit.ForeColor = My.Settings.TextColor
-        BTNLS1Edit.BackColor = My.Settings.ButtonColor
-        BTNLS1Edit.ForeColor = My.Settings.TextColor
-        BTNLS5Edit.BackColor = My.Settings.ButtonColor
-        BTNLS5Edit.ForeColor = My.Settings.TextColor
-
-
-        If LazyEdit4 = False Then
-            BTNLS4Edit.BackColor = Color.ForestGreen
-            BTNLS4Edit.ForeColor = Color.White
-            LazyEdit4 = True
-        Else
-            BTNLS4Edit.BackColor = My.Settings.ButtonColor
-            BTNLS4Edit.ForeColor = My.Settings.TextColor
-            LazyEdit4 = False
-        End If
-
-    End Sub
-
-    Private Sub BTNLS5_Click(sender As Object, e As EventArgs) Handles BTNLS5.Click
-
-
-        If BTNLS5.Text <> "" Then
-            chatBox.Text = BTNLS5.Text
-            If ssh.WritingTaskFlag = True Then CheatCheck()
-            SendButton.PerformClick()
-        End If
-
-    End Sub
-
-    Private Sub BTNLS5Edit_Click(sender As Object, e As EventArgs) Handles BTNLS5Edit.Click
-
-
-        LazyEdit2 = False
-        LazyEdit3 = False
-        LazyEdit4 = False
-        LazyEdit1 = False
-
-        BTNLS2Edit.BackColor = My.Settings.ButtonColor
-        BTNLS2Edit.ForeColor = My.Settings.TextColor
-        BTNLS3Edit.BackColor = My.Settings.ButtonColor
-        BTNLS3Edit.ForeColor = My.Settings.TextColor
-        BTNLS4Edit.BackColor = My.Settings.ButtonColor
-        BTNLS4Edit.ForeColor = My.Settings.TextColor
-        BTNLS1Edit.BackColor = My.Settings.ButtonColor
-        BTNLS1Edit.ForeColor = My.Settings.TextColor
-
-        If LazyEdit5 = False Then
-            BTNLS5Edit.BackColor = Color.ForestGreen
-            BTNLS5Edit.ForeColor = Color.White
-            LazyEdit5 = True
-        Else
-            BTNLS5Edit.BackColor = My.Settings.ButtonColor
-            BTNLS5Edit.ForeColor = My.Settings.TextColor
-            LazyEdit5 = False
-        End If
-
-    End Sub
 
 #End Region ' Lazy-Sub
 
 #Region "Randomizer-App"
 
-    Private Sub BlogImageRandomizerButton_Click(sender As Object, e As EventArgs) Handles RandomizerAppPanel.BlogImageRandomizerButton_Clicked
-        RandomizerAppPanel.BlogImageRandomizerButton.Enabled = False
+    Private Sub BlogImageRandomizerButton_Click(sender As Object, e As EventArgs) Handles SideBarAppRandomizer.BlogImageRandomizerButton_Clicked
+        SideBarAppRandomizer.BlogImageRandomizerButton.Enabled = False
 
         Dim dommePersonality As DommePersonality = CreateDommePersonality()
         Dim doCommand As Result = VerifyDommeAllowsPorn(dommePersonality) _
@@ -12853,12 +12516,12 @@ restartInstantly:
             DommeSays(dommePersonality.PersonalityName, doCommand.Error.Message)
         End If
 
-        RandomizerAppPanel.BlogImageRandomizerButton.Enabled = True
+        SideBarAppRandomizer.BlogImageRandomizerButton.Enabled = True
     End Sub
 
 
-    Private Sub LocalImageRandomizerButton_Click(sender As Object, e As EventArgs) Handles RandomizerAppPanel.LocalImageRandomizerButton_Clicked
-        RandomizerAppPanel.LocalImageRandomizerButton.Enabled = False
+    Private Sub LocalImageRandomizerButton_Click(sender As Object, e As EventArgs) Handles SideBarAppRandomizer.LocalImageRandomizerButton_Clicked
+        SideBarAppRandomizer.LocalImageRandomizerButton.Enabled = False
 
         Dim dommePersonality As DommePersonality = CreateDommePersonality()
         Dim doCommand As Result = VerifyDommeAllowsPorn(dommePersonality) _
@@ -12869,11 +12532,11 @@ restartInstantly:
             DommeSays(dommePersonality.PersonalityName, doCommand.Error.Message)
         End If
 
-        RandomizerAppPanel.LocalImageRandomizerButton.Enabled = True
+        SideBarAppRandomizer.LocalImageRandomizerButton.Enabled = True
     End Sub
 
-    Private Sub VideoRandomizerButton_Click(sender As Object, e As EventArgs) Handles RandomizerAppPanel.VideoRandomizerButton_Clicked
-        RandomizerAppPanel.VideoRandomizerButton.Enabled = False
+    Private Sub VideoRandomizerButton_Click(sender As Object, e As EventArgs) Handles SideBarAppRandomizer.VideoRandomizerButton_Clicked
+        SideBarAppRandomizer.VideoRandomizerButton.Enabled = False
 
         Dim dommePersonality As DommePersonality = CreateDommePersonality()
         Dim doCommand As Result = VerifyDommeAllowsPorn(dommePersonality) _
@@ -12883,11 +12546,11 @@ restartInstantly:
             DommeSays(dommePersonality.PersonalityName, doCommand.Error.Message)
         End If
 
-        RandomizerAppPanel.VideoRandomizerButton.Enabled = True
+        SideBarAppRandomizer.VideoRandomizerButton.Enabled = True
     End Sub
 
-    Private Sub JoiRandomizerButton_Click(sender As Object, e As EventArgs) Handles RandomizerAppPanel.JerkOffInstructionsRandomizerButton_Clicked
-        RandomizerAppPanel.JerkOffInstructionsRandomizerButton.Enabled = False
+    Private Sub JoiRandomizerButton_Click(sender As Object, e As EventArgs) Handles SideBarAppRandomizer.JerkOffInstructionsRandomizerButton_Clicked
+        SideBarAppRandomizer.JerkOffInstructionsRandomizerButton.Enabled = False
 
         Dim dommePersonality As DommePersonality = CreateDommePersonality()
         Dim doCommand As Result = VerifyDommeAllowsPorn(dommePersonality) _
@@ -12897,11 +12560,11 @@ restartInstantly:
             DommeSays(dommePersonality.PersonalityName, doCommand.Error.Message)
         End If
 
-        RandomizerAppPanel.JerkOffInstructionsRandomizerButton.Enabled = True
+        SideBarAppRandomizer.JerkOffInstructionsRandomizerButton.Enabled = True
     End Sub
 
-    Private Sub CensorshipSucksRandomizerButton_Click(sender As Object, e As EventArgs) Handles RandomizerAppPanel.CensorshipSucksRandomizerButton_Clicked
-        RandomizerAppPanel.CensorshipSucksRandomizerButton.Enabled = False
+    Private Sub CensorshipSucksRandomizerButton_Click(sender As Object, e As EventArgs) Handles SideBarAppRandomizer.CensorshipSucksRandomizerButton_Clicked
+        SideBarAppRandomizer.CensorshipSucksRandomizerButton.Enabled = False
 
         Dim dommePersonality As DommePersonality = CreateDommePersonality()
         Dim doCommand As Result = VerifyDommeAllowsPorn(dommePersonality) _
@@ -12911,12 +12574,12 @@ restartInstantly:
             DommeSays(dommePersonality.Name, doCommand.Error.Message)
         End If
 
-        RandomizerAppPanel.CensorshipSucksRandomizerButton.Enabled = True
+        SideBarAppRandomizer.CensorshipSucksRandomizerButton.Enabled = True
 
     End Sub
 
-    Private Sub AvoidTheEdgeRandomizerButton_Click(sender As Object, e As EventArgs) Handles RandomizerAppPanel.AvoidTheEdgeRandomizerButton_Clicked
-        RandomizerAppPanel.AvoidTheEdgeRandomizerButton.Enabled = False
+    Private Sub AvoidTheEdgeRandomizerButton_Click(sender As Object, e As EventArgs) Handles SideBarAppRandomizer.AvoidTheEdgeRandomizerButton_Clicked
+        SideBarAppRandomizer.AvoidTheEdgeRandomizerButton.Enabled = False
 
         Dim dommePersonality As DommePersonality = CreateDommePersonality()
         Dim settings As Settings = mySettingsAccessor.GetSettings()
@@ -12930,7 +12593,7 @@ restartInstantly:
         End If
 
         mySession.SendCommand(Keyword.PlayVideo)
-        RandomizerAppPanel.AvoidTheEdgeRandomizerButton.Enabled = True
+        SideBarAppRandomizer.AvoidTheEdgeRandomizerButton.Enabled = True
 
         ssh.AvoidTheEdgeTick = VideoTauntToSecondsDivisor / settings.Range.VideoTauntFrequency
 
@@ -12954,9 +12617,9 @@ restartInstantly:
 
     End Sub
 
-    Private Sub RedLightGreenLightRandomizerButton_Click(sender As Object, e As EventArgs) Handles RandomizerAppPanel.RedLightGreenLightRandomizerButton_Clicked
+    Private Sub RedLightGreenLightRandomizerButton_Click(sender As Object, e As EventArgs) Handles SideBarAppRandomizer.RedLightGreenLightRandomizerButton_Clicked
 
-        RandomizerAppPanel.RedLightGreenLightRandomizerButton.Enabled = False
+        SideBarAppRandomizer.RedLightGreenLightRandomizerButton.Enabled = False
 
         Dim dommePersonality As DommePersonality = CreateDommePersonality()
         Dim doCommand As Result = VerifyDommeAllowsPorn(dommePersonality) _
@@ -12966,7 +12629,7 @@ restartInstantly:
             DommeSays(dommePersonality.Name, doCommand.Error.Message)
         End If
 
-        RandomizerAppPanel.RedLightGreenLightRandomizerButton.Enabled = True
+        SideBarAppRandomizer.RedLightGreenLightRandomizerButton.Enabled = True
 
 
         ssh.StartStrokingCount += 1
@@ -12974,8 +12637,8 @@ restartInstantly:
         StrokePace = 50 * Math.Round(StrokePace / 50)
     End Sub
 
-    Private Sub CockHeroRandomizerButton_Click(sender As Object, e As EventArgs) Handles RandomizerAppPanel.CockHeroRandomizerButton_Clicked
-        RandomizerAppPanel.CockHeroRandomizerButton.Enabled = False
+    Private Sub CockHeroRandomizerButton_Click(sender As Object, e As EventArgs) Handles SideBarAppRandomizer.CockHeroRandomizerButton_Clicked
+        SideBarAppRandomizer.CockHeroRandomizerButton.Enabled = False
 
         Dim dommePersonality As DommePersonality = CreateDommePersonality()
         Dim sysNoPornAllowed As Boolean = myFlagAccessor.IsSet(dommePersonality, "SYS_NoPornAllowed")
@@ -12989,7 +12652,7 @@ restartInstantly:
 
         mySession.SendCommand(Keyword.PlayCockHeroVideo)
 
-        RandomizerAppPanel.CockHeroRandomizerButton.Enabled = True
+        SideBarAppRandomizer.CockHeroRandomizerButton.Enabled = True
     End Sub
 
     ''' =========================================================================================================
@@ -13843,7 +13506,7 @@ playLoop:
         returnValue.AgeOldLimit = settings.Domme.AverageAgeSelfMaximum
         returnValue.AgeYoungLimit = settings.Domme.AverageAgeSelfMinimum
         returnValue.Name = settings.Domme.Name
-        returnValue.Honorific = FrmSettings.TBHonorific.Text
+        returnValue.Honorific = settings.Domme.Honorific
 
         returnValue.SubAgeOldLimit = settings.Domme.AverageAgeSubMaximum
         returnValue.SubAgeYoungLimit = settings.Domme.AverageAgeSubMinimum
@@ -13864,8 +13527,8 @@ playLoop:
         returnValue.MoodAngry = MoodLevel.Create(settings.Domme.BadMoodThreshold).Value
         returnValue.MoodHappy = MoodLevel.Create(settings.Domme.GoodMoodThreshold).Value
 
-        returnValue.RequiresHonorific = FrmSettings.CBHonorificInclude.Checked
-        returnValue.RequiresHonorificCapitalized = FrmSettings.CBHonorificCapitalized.Checked
+        returnValue.RequiresHonorific = settings.Domme.RequiresHonorific
+        returnValue.RequiresHonorificCapitalized = settings.Domme.RequiresHonorificCapitalized
 
         Return returnValue
     End Function
@@ -14317,7 +13980,7 @@ playLoop:
 #End Region
 
 #Region "Session Engine Events"
-    Public Sub mySession_DommeSaid(sender As Object, e As DommeSaidEventArgs)
+    Public Sub mySession_DommeSaid(sender As Object, e As SendMessageEventArgs)
         Dim session As SessionEngine = CType(sender, SessionEngine)
         If InvokeRequired Then
             BeginInvoke(New MethodInvoker(Sub() mySession_DommeSaid(sender, e)))
@@ -14502,14 +14165,14 @@ NoPlaylistStartFile:
 
 #Region "UI Events"
     Private Sub Form1_PreviewKeyDown(sender As Object, e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
-        If e.KeyCode = (Global.System.Windows.Forms.Keys.F Or Global.System.Windows.Forms.Keys.Control) Then
-            FullscreenToolStripMenuItem_Click(Nothing, Nothing)
-        ElseIf e.Alt AndAlso MyBase.MainMenuStrip.Visible = False Then
-            MyBase.MainMenuStrip.Visible = True
-            MyBase.MainMenuStrip.Focus()
-        ElseIf e.Alt AndAlso MyBase.FormBorderStyle = Global.System.Windows.Forms.FormBorderStyle.None Then
-            MyBase.MainMenuStrip.Visible = False
-        End If
+        'If e.KeyCode = (Global.System.Windows.Forms.Keys.F Or Global.System.Windows.Forms.Keys.Control) Then
+        '    FullscreenToolStripMenuItem_Click(Nothing, Nothing)
+        'ElseIf e.Alt AndAlso MyBase.MainMenuStrip.Visible = False Then
+        '    MyBase.MainMenuStrip.Visible = True
+        '    MyBase.MainMenuStrip.Focus()
+        'ElseIf e.Alt AndAlso MyBase.FormBorderStyle = Global.System.Windows.Forms.FormBorderStyle.None Then
+        '    MyBase.MainMenuStrip.Visible = False
+        'End If
     End Sub
 
     Private Sub MenuStrip2_Leave(sender As Object, e As EventArgs) Handles MainMenuStrip.Leave
@@ -14769,11 +14432,11 @@ NoPlaylistStartFile:
     End Sub
 
     Private Sub LazySubToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LazySubToolStripMenuItem.Click
-        ToggleAppVisibility(PNLLazySub)
+        SetVisibleApp(SideBarAppLazySub)
     End Sub
 
     Private Sub RandomizerToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RandomizerToolStripMenuItem.Click
-        SetVisibleApp(RandomizerAppPanel)
+        SetVisibleApp(SideBarAppRandomizer)
     End Sub
 
     Private Sub PlaylistToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PlaylistToolStripMenuItem.Click

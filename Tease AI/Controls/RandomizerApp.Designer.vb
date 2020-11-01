@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class RandomizerAppPanel
+Partial Class RandomizerApp
     Inherits System.Windows.Forms.UserControl
 
     'UserControl overrides dispose to clean up the component list.
@@ -53,7 +53,7 @@ Partial Class RandomizerAppPanel
         Me.LocalImageRandomizerButton.Margin = New System.Windows.Forms.Padding(0, 3, 0, 3)
         Me.LocalImageRandomizerButton.Name = "LocalImageRandomizerButton"
         Me.LocalImageRandomizerButton.Size = New System.Drawing.Size(230, 28)
-        Me.LocalImageRandomizerButton.TabIndex = 11
+        Me.LocalImageRandomizerButton.TabIndex = 1
         Me.LocalImageRandomizerButton.Text = "Local Image"
         Me.LocalImageRandomizerButton.UseVisualStyleBackColor = False
         '
@@ -231,7 +231,7 @@ Partial Class RandomizerAppPanel
         Me.SpecialVideoButtonPanel.Name = "SpecialVideoButtonPanel"
         Me.SpecialVideoButtonPanel.Padding = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.SpecialVideoButtonPanel.Size = New System.Drawing.Size(240, 100)
-        Me.SpecialVideoButtonPanel.TabIndex = 13
+        Me.SpecialVideoButtonPanel.TabIndex = 3
         '
         'VideoTeaseButtonPanel
         '
@@ -246,7 +246,7 @@ Partial Class RandomizerAppPanel
         Me.VideoTeaseButtonPanel.Size = New System.Drawing.Size(240, 128)
         Me.VideoTeaseButtonPanel.TabIndex = 14
         '
-        'RandomizerAppPanel
+        'RandomizerApp
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -257,7 +257,7 @@ Partial Class RandomizerAppPanel
         Me.Controls.Add(Me.SpecialVideoLabel)
         Me.Controls.Add(Me.MediaButtonPanel)
         Me.Controls.Add(Me.MediaLabel)
-        Me.Name = "RandomizerAppPanel"
+        Me.Name = "RandomizerApp"
         Me.Size = New System.Drawing.Size(240, 477)
         Me.MediaButtonPanel.ResumeLayout(False)
         Me.SpecialVideoButtonPanel.ResumeLayout(False)

@@ -7,8 +7,8 @@ Imports System.Drawing.Design
 Imports System.Windows.Forms
 Imports System.Windows.Forms.Design
 
-<Designer(GetType(RandomizerAppPanelDesigner), GetType(IRootDesigner))>
-Public Class RandomizerAppPanel
+<Designer(GetType(RandomizerAppDesigner), GetType(IRootDesigner))>
+Public Class RandomizerApp
 
     Public Property LabelColor As Color
         Get

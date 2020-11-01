@@ -4,6 +4,26 @@
         <name>TeaseAI.Common</name>
     </assembly>
     <members>
+        <member name="T:TeaseAI.Common.AppSettings">
+            <summary>
+            Settings from the apps tab
+            </summary>
+        </member>
+        <member name="M:TeaseAI.Common.AppSettings.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.AppSettings.Version">
+            <summary>
+            used to manage serialization. Changes when the model breaks compatibility
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.AppSettings.LazySub">
+            <summary>
+            Settings for the Lazy Sub app
+            </summary>
+        </member>
         <member name="T:TeaseAI.Common.ChatMessage">
             <summary>
             Message sent from one person to another, used to update the chat window
@@ -32,6 +52,41 @@
         <member name="T:TeaseAI.Common.ChatMessagePreferences">
             <summary>
             preferences on how chat messagaes should display (timestamp, color, etc)
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.ChatMessagePreferences.BackgroundColor">
+            <summary>
+            Background color
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.ChatMessagePreferences.FontColor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.ChatMessagePreferences.FontName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.ChatMessagePreferences.FontSize">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.ChatMessagePreferences.SenderColor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.ChatMessagePreferences.ShowSenderName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.ChatMessagePreferences.ShowTimeStamp">
+            <summary>
+            
             </summary>
         </member>
         <member name="T:TeaseAI.Common.ConditionalObject">
@@ -1316,6 +1371,21 @@
             Over this number, the Domme thinks of the sub as old
             </summary>
         </member>
+        <member name="P:TeaseAI.Common.DommeSettings.Honorific">
+            <summary>
+            Title used to address the Domme, defaults to Mistress
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.RequiresHonorific">
+            <summary>
+            Does the Domme require the use of a title. 
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.RequiresHonorificCapitalized">
+            <summary>
+            Does the Domme require the Honorific be capitalized (Mistress vs mistress)
+            </summary>
+        </member>
         <member name="T:TeaseAI.Common.Error">
             <summary>Error when a method that returns <see cref="T:TeaseAI.Common.Result"/> fails.</summary>
         </member>
@@ -1370,9 +1440,24 @@
             Did the video start, or did it fail, and why
             </summary>
         </member>
+        <member name="T:TeaseAI.Common.Events.SendMessageEventArgs">
+            <summary>
+            Used to send a message between participants
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Events.SendMessageEventArgs.ChatMessage">
+            <summary>
+            Chat message to send
+            </summary>
+        </member>
         <member name="T:TeaseAI.Common.GeneralSettings">
             <summary>
             Settings on the general chat tab
+            </summary>
+        </member>
+        <member name="M:TeaseAI.Common.GeneralSettings.#ctor">
+            <summary>
+            Constructor
             </summary>
         </member>
         <member name="P:TeaseAI.Common.GeneralSettings.Version">
@@ -1709,6 +1794,11 @@
             <param name="line"></param>
             <returns></returns>
         </member>
+        <member name="T:TeaseAI.Common.Interfaces.IGetCommandProcessorsService">
+            <summary>
+            Get a dictionary of all command processors, indexed by the keyword they process
+            </summary>
+        </member>
         <member name="M:TeaseAI.Common.Interfaces.IGetCommandProcessorsService.CreateCommandProcessors">
             <summary>
             Create all command processors currently implemented
@@ -1734,6 +1824,80 @@
             </summary>
             <param name="session"></param>
             <param name="line"></param>
+            <returns></returns>
+        </member>
+        <member name="T:TeaseAI.Common.Interfaces.ILazySubStatementLogic">
+            <summary>
+            Build statements used by lazy sub apps
+            </summary>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.ILazySubStatementLogic.GetAffirmative(TeaseAI.Common.Settings)">
+            <summary>
+            Get a statement indicating yes
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.ILazySubStatementLogic.GetNegative(TeaseAI.Common.Settings)">
+            <summary>
+            Get a statement indicating no
+            </summary>
+            <param name="settings"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.ILazySubStatementLogic.GetOnTheEdge(TeaseAI.Common.Settings)">
+            <summary>
+            
+            </summary>
+            <param name="settings"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.ILazySubStatementLogic.GetSafeword(TeaseAI.Common.Settings)">
+            <summary>
+            
+            </summary>
+            <param name="settings"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.ILazySubStatementLogic.GetGreeting(TeaseAI.Common.Settings)">
+            <summary>
+            
+            </summary>
+            <param name="settings"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.ILazySubStatementLogic.GetLetMeCum(TeaseAI.Common.Settings)">
+            <summary>
+            
+            </summary>
+            <param name="settings"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.ILazySubStatementLogic.GetStop(TeaseAI.Common.Settings)">
+            <summary>
+            
+            </summary>
+            <param name="settings"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.ILazySubStatementLogic.GetStroke(TeaseAI.Common.Settings)">
+            <summary>
+            
+            </summary>
+            <param name="settings"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.ILazySubStatementLogic.GetSlowDown(TeaseAI.Common.Settings)">
+            <summary>
+            
+            </summary>
+            <param name="settings"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Interfaces.ILazySubStatementLogic.GetSpeedUp(TeaseAI.Common.Settings)">
+            <summary>
+            
+            </summary>
+            <param name="settings"></param>
             <returns></returns>
         </member>
         <member name="T:TeaseAI.Common.Interfaces.ILineCollectionFilter">
@@ -1826,9 +1990,14 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:TeaseAI.Common.Interfaces.IRandomNumberService">
+            <summary>
+            Interface to generate random numbers
+            </summary>
+        </member>
         <member name="M:TeaseAI.Common.Interfaces.IRandomNumberService.RollPercent">
             <summary>
-            Roll a number between 1 and 100
+            Roll a number between 1 and 100 (inclusive)
             </summary>
             <returns></returns>
         </member>
@@ -1923,6 +2092,101 @@
             Create a new ITimer
             </summary>
             <returns></returns>
+        </member>
+        <member name="T:TeaseAI.Common.LazySubSettings">
+            <summary>
+            Settings specific to the Lazy Sub App
+            </summary>
+        </member>
+        <member name="M:TeaseAI.Common.LazySubSettings.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.LazySubSettings.Version">
+            <summary>
+            used to manage serialization. Changes when the model breaks compatibility
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.LazySubSettings.CustomTextOne">
+            <summary>
+            Custom text Sent when button one is pressed
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.LazySubSettings.CustomTextTwo">
+            <summary>
+            Custom text Sent when button two is pressed
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.LazySubSettings.CustomTextThree">
+            <summary>
+            Custom text Sent when button three is pressed
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.LazySubSettings.CustomTextFour">
+            <summary>
+            Custom text Sent when button four is pressed
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.LazySubSettings.CustomTextFive">
+            <summary>
+            Custom text Sent when button five is pressed
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.LazySubSettings.YesShortCut">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.LazySubSettings.NoShortCut">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.LazySubSettings.OnTheEdgeShortCut">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.LazySubSettings.SpeedUpShortCut">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.LazySubSettings.SlowDownShortCut">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.LazySubSettings.StrokeShortCut">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.LazySubSettings.StopShortCut">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.LazySubSettings.LetMeCumShortCut">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.LazySubSettings.GreetingShortCut">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.LazySubSettings.SafewordShortCut">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.LazySubSettings.AreShortcutsEnabled">
+            <summary>
+            Should the engine expand shortcuts
+            </summary>
         </member>
         <member name="T:TeaseAI.Common.MessageProcessedResult">
             <summary>
@@ -2228,6 +2492,11 @@
             Misc configuration
             </summary>
         </member>
+        <member name="P:TeaseAI.Common.Settings.Apps">
+            <summary>
+            Apps configs
+            </summary>
+        </member>
         <member name="P:TeaseAI.Common.SubPersonality.IsStroking">
             <summary>
             Is the sub stroking
@@ -2286,6 +2555,11 @@
         <member name="P:TeaseAI.Common.SubPersonality.Purse">
             <summary>
             How many tokens of what denomination does the sub have
+            </summary>
+        </member>
+        <member name="T:TeaseAI.Common.SubSettings">
+            <summary>
+            Settings specific to the sub
             </summary>
         </member>
         <member name="M:TeaseAI.Common.SubSettings.#ctor">
@@ -2413,6 +2687,16 @@
              Does the sub use female pronounce
             </summary>
         </member>
+        <member name="P:TeaseAI.Common.SubSettings.AvatarImageFile">
+            <summary>
+            Image file for the sub
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubSettings.Name">
+            <summary>
+            Name of the sub
+            </summary>
+        </member>
         <member name="P:TeaseAI.Common.SubSettings.Greetings">
             <summary>
             list of greetings the sub may use
@@ -2420,12 +2704,12 @@
         </member>
         <member name="P:TeaseAI.Common.SubSettings.CockLength">
             <summary>
-            how long is the sub's cock
+            how long is the cock attached to the sub
             </summary>
         </member>
         <member name="P:TeaseAI.Common.SubSettings.BirthDate">
             <summary>
-            When is the sub's birthdate
+            When was the sub born
             </summary>
         </member>
         <member name="P:TeaseAI.Common.SubSettings.Age">
@@ -2441,6 +2725,16 @@
         <member name="P:TeaseAI.Common.SubSettings.NoPhrases">
             <summary>
             List of phrases the sub can use to indicate no
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubSettings.HairColor">
+            <summary>
+            hair color of the sub
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.SubSettings.EyeColor">
+            <summary>
+            eye color of the sub
             </summary>
         </member>
         <member name="P:TeaseAI.Common.SubSettings.HealthGoals">

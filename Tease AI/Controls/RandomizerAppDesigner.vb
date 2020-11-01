@@ -8,12 +8,12 @@ Imports System.Windows.Forms
 Imports System.Windows.Forms.Design
 
 
-<ToolboxItemFilter("RandomizerAppPanel.LabelColor", ToolboxItemFilterType.Require)>
-<ToolboxItemFilter("RandomizerAppPanel.BackColor", ToolboxItemFilterType.Require)>
-<ToolboxItemFilter("RandomizerAppPanel.ButtonForegroundColor", ToolboxItemFilterType.Require)>
-<ToolboxItemFilter("RandomizerAppPanel.ButtonBackgroundColor", ToolboxItemFilterType.Require)>
+<ToolboxItemFilter("RandomizerApp.LabelColor", ToolboxItemFilterType.Require)>
+<ToolboxItemFilter("RandomizerApp.BackColor", ToolboxItemFilterType.Require)>
+<ToolboxItemFilter("RandomizerApp.ButtonForegroundColor", ToolboxItemFilterType.Require)>
+<ToolboxItemFilter("RandomizerApp.ButtonBackgroundColor", ToolboxItemFilterType.Require)>
 <Security.Permissions.PermissionSet(Security.Permissions.SecurityAction.Demand)>
-Public Class RandomizerAppPanelDesigner
+Public Class RandomizerAppDesigner
     Inherits DocumentDesigner
     Public Sub New()
         Trace.WriteLine("MarqueeControlRootDesigner ctor")
