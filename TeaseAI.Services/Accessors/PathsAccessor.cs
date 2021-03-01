@@ -15,6 +15,15 @@ namespace TeaseAI.Services.Accessors
 
         public string RiskyPickScript => throw new System.NotImplementedException();
 
+        public string GetGlitterFolder(string dommePersonality, string glitterModule)
+        {
+            return GetPersonalitiesFolder() + Path.DirectorySeparatorChar
+                + dommePersonality + Path.DirectorySeparatorChar
+                + "apps" + Path.DirectorySeparatorChar 
+                + "glitter" + Path.DirectorySeparatorChar
+                + glitterModule + Path.DirectorySeparatorChar;
+        }
+
         public string GetPersonalitiesFolder() =>
             _configurationAccessor.GetBaseFolder() + Path.DirectorySeparatorChar + "Scripts";
 

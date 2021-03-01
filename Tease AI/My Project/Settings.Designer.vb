@@ -542,18 +542,6 @@ Namespace My
         <Global.System.Configuration.UserScopedSettingAttribute(),
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
          Global.System.Configuration.DefaultSettingValueAttribute("")>
-        Public Property GlitterAV() As String
-            Get
-                Return CType(Me("GlitterAV"), String)
-            End Get
-            Set
-                Me("GlitterAV") = Value
-            End Set
-        End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("")>
         Public Property GlitterAV1() As String
             Get
                 Return CType(Me("GlitterAV1"), String)
@@ -686,18 +674,6 @@ Namespace My
         <Global.System.Configuration.UserScopedSettingAttribute(),
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
          Global.System.Configuration.DefaultSettingValueAttribute("5")>
-        Public Property GlitterDSlider() As Integer
-            Get
-                Return CType(Me("GlitterDSlider"), Integer)
-            End Get
-            Set
-                Me("GlitterDSlider") = Value
-            End Set
-        End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("5")>
         Public Property Glitter1Slider() As Integer
             Get
                 Return CType(Me("Glitter1Slider"), Integer)
@@ -776,78 +752,6 @@ Namespace My
             End Get
             Set
                 Me("CBGlitter3") = Value
-            End Set
-        End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>
-        Public Property CBTease() As Boolean
-            Get
-                Return CType(Me("CBTease"), Boolean)
-            End Get
-            Set
-                Me("CBTease") = Value
-            End Set
-        End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>
-        Public Property CBEgotist() As Boolean
-            Get
-                Return CType(Me("CBEgotist"), Boolean)
-            End Get
-            Set
-                Me("CBEgotist") = Value
-            End Set
-        End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("True")>
-        Public Property CBTrivia() As Boolean
-            Get
-                Return CType(Me("CBTrivia"), Boolean)
-            End Get
-            Set
-                Me("CBTrivia") = Value
-            End Set
-        End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>
-        Public Property CBDaily() As Boolean
-            Get
-                Return CType(Me("CBDaily"), Boolean)
-            End Get
-            Set
-                Me("CBDaily") = Value
-            End Set
-        End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>
-        Public Property CBCustom1() As Boolean
-            Get
-                Return CType(Me("CBCustom1"), Boolean)
-            End Get
-            Set
-                Me("CBCustom1") = Value
-            End Set
-        End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>
-        Public Property CBCustom2() As Boolean
-            Get
-                Return CType(Me("CBCustom2"), Boolean)
-            End Get
-            Set
-                Me("CBCustom2") = Value
             End Set
         End Property
 

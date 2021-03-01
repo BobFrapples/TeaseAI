@@ -8,6 +8,7 @@ Imports TeaseAI.Data
 Imports TeaseAI.Data.Interfaces
 Imports TeaseAI.Data.Repositories
 Imports TeaseAI.Services
+Imports TeaseAI.Services.Accessors
 Imports TeaseAI.Services.Services
 Imports TeaseAI.Services.VocabularyProcessors
 
@@ -65,12 +66,28 @@ Public Class ApplicationFactory
             )
     End Function
 
-    Private Shared Function CreateSessionVocabularyProcessor() As IVocabularyProcessor
+    Public Shared Function CreateSessionVocabularyProcessor() As IVocabularyProcessor
         Return New SessionVocabularyProcessor()
     End Function
 
     Private Shared Function CreateConditionalObjectLogic() As IConditionalObjectLogic
         Return New ConditionalObjectLogic()
+    End Function
+
+    Public Shared Function CreateVocabularyProcessor() As VocabularyProcessor
+        Return New VocabularyProcessor(CreateLineCollectionFilter(), CreateLineService(), CreateVocabularyAccessor(), CreateImageAccessor(), CreateRandomNumberService, CreateSettingsAccessor())
+    End Function
+
+    Private Shared Function CreateImageAccessor() As IImageAccessor
+        Return New ImageAccessor(CreateConfigurationAccessor(), CreatePathsAccessor(), CreateImageMetaDataRepository(), CreateMediaContainerService())
+    End Function
+
+    Private Shared Function CreateVocabularyAccessor() As IVocabularyAccessor
+        Return New VocabularyAccessor()
+    End Function
+
+    Public Shared Function CreateLineService() As LineService
+        Return New LineService()
     End Function
 
     Public Shared Function CreateLineCollectionFilter() As ILineCollectionFilter

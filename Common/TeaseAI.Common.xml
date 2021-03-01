@@ -1286,19 +1286,39 @@
             What style is the Domme's pubic hair
             </summary>
         </member>
+        <member name="P:TeaseAI.Common.DommeSettings.IsAngry">
+            <summary>
+            Does the Domme get angry easily. 
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.IsBratty">
+            <summary>
+            Is the Domme bratty
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.IsCaring">
+            <summary>
+            Is the Domme Caring
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.IsCondescending">
+            <summary>
+            Is the Domme Condescending
+            </summary>
+        </member>
         <member name="P:TeaseAI.Common.DommeSettings.IsCrazy">
             <summary>
             Is the domme crazy
             </summary>
         </member>
-        <member name="P:TeaseAI.Common.DommeSettings.IsVulgar">
-            <summary>
-            Is the domme Vulgar
-            </summary>
-        </member>
         <member name="P:TeaseAI.Common.DommeSettings.IsSupremacist">
             <summary>
             Is the Domme a Female Supremicist
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.IsVulgar">
+            <summary>
+            Is the domme Vulgar
             </summary>
         </member>
         <member name="P:TeaseAI.Common.DommeSettings.UseLowercase">
@@ -1384,6 +1404,11 @@
         <member name="P:TeaseAI.Common.DommeSettings.RequiresHonorificCapitalized">
             <summary>
             Does the Domme require the Honorific be capitalized (Mistress vs mistress)
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.GlitterContactName">
+            <summary>
+            Name, or handle, the Domme uses in glitter.
             </summary>
         </member>
         <member name="T:TeaseAI.Common.Error">

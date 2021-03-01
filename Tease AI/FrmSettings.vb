@@ -1153,49 +1153,6 @@ Public Class FrmSettings
         TTDir.SetToolTip(DommeSettingsSaveButton, "Click to load a custom Domme Settings file you have previously created.")
     End Sub
 
-
-    Private Sub BTNGlitterD_MouseHover(sender As Object, e As EventArgs) Handles BTNGlitterD.MouseHover
-        TTDir.SetToolTip(BTNGlitterD, "This button allows you to change the color of the domme's name as it appears in the Glitter app." & Environment.NewLine &
-                                      "A preview will appear in the text box below this button once a color has been selected.")
-    End Sub
-    Private Sub GlitterAV_MouseHover(sender As Object, e As EventArgs) Handles DommeGlitterAvatar.MouseHover
-        TTDir.SetToolTip(DommeGlitterAvatar, "Click here to set the image the domme will use as her Glitter avatar.")
-    End Sub
-    Private Sub LBLGlitterNCDomme_Click(sender As Object, e As EventArgs) Handles LBLGlitterNCDomme.MouseHover, LBLGlitterNC3.MouseHover, LBLGlitterNC2.MouseHover, LBLGlitterNC1.MouseHover
-        TTDir.SetToolTip(sender, "After clicking the ""Choose Name Color"" button above, a preview of the selected color will appear here.")
-    End Sub
-    Private Sub TBGlitterShortName_MouseHover(sender As Object, e As EventArgs) Handles TBGlitterShortName.MouseHover
-        TTDir.SetToolTip(TBGlitterShortName, "This is the name that the domme's contacts will refer to her as in the Glitter feed.")
-    End Sub
-    Private Sub CBTease_MouseHover(sender As Object, e As EventArgs) Handles CBTease.MouseHover
-        TTDir.SetToolTip(CBTease, "When this box is checked, the domme will make posts referencing your ongoing teasing and denial.")
-    End Sub
-    Private Sub CBEgotist_MouseHover(sender As Object, e As EventArgs) Handles CBEgotist.MouseHover
-        TTDir.SetToolTip(CBEgotist, "When this box is checked, the domme will make self-centered posts stating how amazing she is.")
-    End Sub
-    Private Sub CBTrivia_MouseHover(sender As Object, e As EventArgs) Handles CBTrivia.MouseHover
-        TTDir.SetToolTip(CBTrivia, "When this box is checked, the domme will make posts containing quotes or general trivia.")
-    End Sub
-    Private Sub CBDaily_MouseHover(sender As Object, e As EventArgs) Handles CBDaily.MouseHover
-        TTDir.SetToolTip(CBDaily, "When this box is checked, the domme will make mundane posts about her day.")
-    End Sub
-    Private Sub CBCustom1_MouseHover(sender As Object, e As EventArgs) Handles CBCustom1.MouseHover
-        TTDir.SetToolTip(CBCustom1, "When this box is checked, the domme will make posts taken from Custom 1" & Environment.NewLine &
-                                  "folder in the Glitter scripts directory for her personality style.")
-    End Sub
-    Private Sub CBCustom2_MouseHover(sender As Object, e As EventArgs) Handles CBCustom2.MouseHover
-        TTDir.SetToolTip(CBCustom2, "When this box is checked, the domme will make posts taken from Custom 2" & Environment.NewLine &
-                                  "folder in the Glitter scripts directory for her personality style.")
-    End Sub
-    Private Sub GlitterSlider_MouseHover(sender As Object, e As EventArgs) Handles GlitterSlider.MouseHover
-        TTDir.SetToolTip(GlitterSlider, "This slider determines how often the domme makes Glitter posts on her own." & Environment.NewLine &
-                                             "The further to the right the slider is, the more often she posts.")
-    End Sub
-    Private Sub LBLGlitterSlider_MouseHover(sender As Object, e As EventArgs) Handles LBLGlitterSlider.MouseHover
-        TTDir.SetToolTip(LBLGlitterSlider, "This slider determines how often the domme makes Glitter posts on her own." & Environment.NewLine &
-                                             "The further to the right the slider is, the more often she posts.")
-    End Sub
-
     Private Sub TBGlitter1_MouseHover(sender As Object, e As EventArgs) Handles TBGlitter3.MouseHover, TBGlitter2.MouseHover, TBGlitter1.MouseHover
         TTDir.SetToolTip(sender, "This will be the name of this contact as it appears in the Glitter feed.")
     End Sub
@@ -1218,7 +1175,6 @@ Public Class FrmSettings
     End Sub
 
     Private Sub Button2_MouseHover(sender As Object, e As EventArgs) Handles BtnContact3ImageDir.MouseHover, BtnContact2ImageDir.MouseHover, BtnContact1ImageDir.MouseHover
-
         If RBEnglish.Checked Then TTDir.SetToolTip(sender, "Use this button to select a directory containing several image" & Environment.NewLine &
 "set folders of the same model you're using as your contact.")
         If RBGerman.Checked Then TTDir.SetToolTip(sender, "Benutze diese Schaltfläche um einen Ordner zu wählen, welcher mehre" & Environment.NewLine &
@@ -2713,13 +2669,74 @@ Public Class FrmSettings
 #Region "Apps"
 
 #Region "----------------------------------------- Glitter ----------------------------------------------"
+    Private Sub GlitterSettingsControl_VisibleChanged(sender As Object, e As EventArgs) Handles DommeGlitterSettings.VisibleChanged
+        UpdateGlitterSettingsFromDomme(mySettingsAccessor.GetSettings().Domme, DommeGlitterSettings)
+    End Sub
 
-    Private Sub GlitterAV_Click(sender As Object, e As EventArgs) Handles DommeGlitterAvatar.Click
-        Dim openFileDialog As OpenFileDialog = New OpenFileDialog()
-        If openFileDialog.ShowDialog() = DialogResult.OK Then
-            DommeGlitterAvatar.Image = Image.FromFile(OpenFileDialog1.FileName)
-            My.Settings.GlitterAV = OpenFileDialog1.FileName
-        End If
+    ''' <summary>
+    ''' Update configuration when Domme glitter changes
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub GlitterAV_Click(sender As Object, e As EventArgs) Handles DommeGlitterSettings.GlitterChanged
+        UpdateSettings(DommeGlitterSettings.Visible, Sub(settings As Settings)
+                                                         UpdateDommeSettingsFromGlitter(DommeGlitterSettings, settings.Domme)
+                                                     End Sub)
+    End Sub
+
+    Public Sub UpdateGlitterSettingsFromDomme(source As DommeSettings, destination As GlitterSettingsControl)
+        destination.AvatarImageFile = source.AvatarImageFile
+        destination.IsGlitterEnabled = source.IsGlitterEnabled
+        destination.GlitterContactName = source.GlitterContactName
+        destination.ChatColor = source.ChatColor
+        destination.PostFrequency = source.GlitterPostFrequency
+        destination.ResponseFrequency = source.GlitterResponseFrequency
+
+        destination.IsAngry = source.IsAngry
+        destination.IsBratty = source.IsBratty
+        destination.IsCaring = source.IsCaring
+        destination.IsCondescending = source.IsCondescending
+        destination.IsCrazy = source.IsCrazy
+        destination.IsCruel = source.IsCruel
+        destination.IsDegrading = source.IsDegrading
+        destination.IsSadistic = source.IsSadistic
+        destination.IsSupremacist = source.IsSupremacist
+        destination.IsVulgar = source.IsVulgar
+
+        destination.IsTeaseModuleEnabled = source.IsGlitterTeaseModuleEnabled
+        destination.IsEgotistModuleEnabled = source.IsGlitterEgotistModuleEnabled
+        destination.IsTriviaModuleEnabled = source.IsGlitterTriviaModuleEnabled
+        destination.IsDailyModuleEnabled = source.IsGlitterDailyModuleEnabled
+        destination.IsCustom1ModuleEnabled = source.IsGlitterCustom1ModuleEnabled
+        destination.IsCustom2ModuleEnabled = source.IsGlitterCustom2ModuleEnabled
+    End Sub
+
+    Public Sub UpdateDommeSettingsFromGlitter(source As GlitterSettingsControl, destination As DommeSettings)
+        destination.AvatarImageFile = source.AvatarImageFile
+        destination.GlitterContactName = source.GlitterContactName
+        destination.ChatColor = source.ChatColor
+
+        destination.GlitterPostFrequency = source.PostFrequency
+        destination.GlitterResponseFrequency = source.ResponseFrequency
+        destination.IsGlitterEnabled = source.IsGlitterEnabled
+
+        destination.IsAngry = source.IsAngry
+        destination.IsBratty = source.IsBratty
+        destination.IsCaring = source.IsCaring
+        destination.IsCondescending = source.IsCondescending
+        destination.IsCrazy = source.IsCrazy
+        destination.IsCruel = source.IsCruel
+        destination.IsDegrading = source.IsDegrading
+        destination.IsSadistic = source.IsSadistic
+        destination.IsSupremacist = source.IsSupremacist
+        destination.IsVulgar = source.IsVulgar
+
+        destination.IsGlitterTeaseModuleEnabled = source.IsTeaseModuleEnabled
+        destination.IsGlitterEgotistModuleEnabled = source.IsEgotistModuleEnabled
+        destination.IsGlitterTriviaModuleEnabled = source.IsTriviaModuleEnabled
+        destination.IsGlitterDailyModuleEnabled = source.IsDailyModuleEnabled
+        destination.IsGlitterCustom1ModuleEnabled = source.IsCustom1ModuleEnabled
+        destination.IsGlitterCustom2ModuleEnabled = source.IsCustom2ModuleEnabled
     End Sub
 
     Private Sub GlitterAV1_Click(sender As Object, e As EventArgs) Handles GlitterAV1.Click
@@ -2778,10 +2795,6 @@ Public Class FrmSettings
         End If
     End Sub
 
-    Private Sub BTNGlitterD_Click(sender As Object, e As EventArgs) Handles BTNGlitterD.Click
-        SetColor(LBLGlitterNCDomme)
-    End Sub
-
     Private Sub BTNGlitter1_Click(sender As Object, e As EventArgs) Handles BTNGlitter1.Click
         SetColor(LBLGlitterNC1)
     End Sub
@@ -2794,24 +2807,24 @@ Public Class FrmSettings
         SetColor(LBLGlitterNC3)
     End Sub
 
-    Private Sub CBGlitterFeed_CheckedChanged(sender As Object, e As EventArgs) Handles CBGlitterFeedScripts.Click, CBGlitterFeedOff.Click, CBGlitterFeed.Click
-        If MainWindow.FormLoading Then
-            Return
-        End If
-        ' In order to prevent wrong values, we have to change the DataSourceUpdateMode.
-        ' Since the Designer will reset this value, we have to undo this changes.
-        For Each ob As RadioButton In {CBGlitterFeed, CBGlitterFeedOff, CBGlitterFeedScripts}
-            ob.DataBindings("Checked").DataSourceUpdateMode = DataSourceUpdateMode.OnValidation
-        Next
+    'Private Sub CBGlitterFeed_CheckedChanged(sender As Object, e As EventArgs) Handles CBGlitterFeedScripts.Click, CBGlitterFeedOff.Click, CBGlitterFeed.Click
+    '    If MainWindow.FormLoading Then
+    '        Return
+    '    End If
+    '    ' In order to prevent wrong values, we have to change the DataSourceUpdateMode.
+    '    ' Since the Designer will reset this value, we have to undo this changes.
+    '    For Each ob As RadioButton In {CBGlitterFeed, CBGlitterFeedOff, CBGlitterFeedScripts}
+    '        ob.DataBindings("Checked").DataSourceUpdateMode = DataSourceUpdateMode.OnValidation
+    '    Next
 
-        ' Set the desired Value manually - Didn't know it is that much of a problem to databind RadioButtons.
-        ' This Solution ensures the ui to display the current value, whenever and whatever thread changed in and
-        ' it saves correctly. The only issue could be, when setting a value, while forgetting to disable the others.
-        Dim checked As Boolean = CType(sender, RadioButton).Checked
-        My.Settings.CBGlitterFeed = If(sender Is CBGlitterFeed, checked, False)
-        My.Settings.CBGlitterFeedOff = If(sender Is CBGlitterFeedOff, checked, False)
-        My.Settings.CBGlitterFeedScripts = If(sender Is CBGlitterFeedScripts, checked, False)
-    End Sub
+    '    ' Set the desired Value manually - Didn't know it is that much of a problem to databind RadioButtons.
+    '    ' This Solution ensures the ui to display the current value, whenever and whatever thread changed in and
+    '    ' it saves correctly. The only issue could be, when setting a value, while forgetting to disable the others.
+    '    Dim checked As Boolean = CType(sender, RadioButton).Checked
+    '    My.Settings.CBGlitterFeed = If(sender Is CBGlitterFeed, checked, False)
+    '    My.Settings.CBGlitterFeedOff = If(sender Is CBGlitterFeedOff, checked, False)
+    '    My.Settings.CBGlitterFeedScripts = If(sender Is CBGlitterFeedScripts, checked, False)
+    'End Sub
 
     Private Sub BtnContact1ImageDirClear_Click(sender As Object, e As EventArgs) Handles BtnContact1ImageDirClear.Click
         My.Settings.ResetField(TbxContact1ImageDir, "Text")
@@ -2829,6 +2842,7 @@ Public Class FrmSettings
     End Sub
 
     Private Sub Button16_Click(sender As Object, e As EventArgs)
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
         Dim saveSettingsDialog = New SaveFileDialog()
         saveSettingsDialog.Title = "Select a location to save current Glitter settings"
         saveSettingsDialog.InitialDirectory = Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\System\"
@@ -2847,13 +2861,15 @@ Public Class FrmSettings
 
             settingsList.Add("Short Name: " & My.Settings.GlitterSN)
             settingsList.Add("Domme Color: " & My.Settings.GlitterNCDommeColor.ToArgb.ToString)
-            settingsList.Add("Tease: " & My.Settings.CBTease)
-            settingsList.Add("Egotist: " & My.Settings.CBEgotist)
-            settingsList.Add("Trivia: " & My.Settings.CBTrivia)
-            settingsList.Add("Daily: " & My.Settings.CBDaily)
-            settingsList.Add("Custom 1: " & My.Settings.CBCustom1)
-            settingsList.Add("Custom 2: " & My.Settings.CBCustom2)
-            settingsList.Add("Domme Post Frequency: " & My.Settings.GlitterDSlider)
+
+            settingsList.Add("Tease: " & settings.Domme.IsGlitterTeaseModuleEnabled)
+            settingsList.Add("Egotist: " & settings.Domme.IsGlitterEgotistModuleEnabled)
+            settingsList.Add("Trivia: " & settings.Domme.IsGlitterTriviaModuleEnabled)
+            settingsList.Add("Daily: " & settings.Domme.IsGlitterDailyModuleEnabled)
+            settingsList.Add("Custom 1: " & settings.Domme.IsGlitterCustom1ModuleEnabled)
+            settingsList.Add("Custom 2: " & settings.Domme.IsGlitterCustom2ModuleEnabled)
+
+            settingsList.Add("Domme Post Frequency: " & settings.Domme.GlitterPostFrequency)
 
             settingsList.Add("Contact 1 Enabled: " & My.Settings.CBGlitter1)
             settingsList.Add("Contact 1 Name: " & My.Settings.Glitter1)
@@ -2873,7 +2889,6 @@ Public Class FrmSettings
             settingsList.Add("Contact 3 Image Directory: " & My.Settings.Contact3ImageDir)
             settingsList.Add("Contact 3 Post Frequency: " & My.Settings.Glitter3Slider)
 
-            settingsList.Add("Domme AV: " & My.Settings.GlitterAV)
             settingsList.Add("Contact 1 AV: " & My.Settings.GlitterAV1)
             settingsList.Add("Contact 2 AV: " & My.Settings.GlitterAV2)
             settingsList.Add("Contact 3 AV: " & My.Settings.GlitterAV3)
@@ -2900,22 +2915,17 @@ Public Class FrmSettings
 
         If OpenSettingsDialog.ShowDialog() = DialogResult.OK Then
 
-            Dim SettingsList As New List(Of String)
+            Dim settingsList As List(Of String) = System.IO.File.ReadAllLines(OpenSettingsDialog.FileName).ToList()
 
             Try
-                Dim SettingsReader As New StreamReader(OpenSettingsDialog.FileName)
-                While SettingsReader.Peek <> -1
-                    SettingsList.Add(SettingsReader.ReadLine())
-                End While
-                SettingsReader.Close()
-                SettingsReader.Dispose()
+                settingsList = System.IO.File.ReadAllLines(OpenSettingsDialog.FileName).ToList()
             Catch ex As Exception
-                MessageBox.Show(Me, "This file could not be opened!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
+                MessageBox.Show(Me, "This file could not be opened!" + ex.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
                 Return
             End Try
 
             Try
-
+                Dim settings As Settings = mySettingsAccessor.GetSettings()
                 Dim CheckState As String = SettingsList(0).Replace("Glitter Feed: ", "")
                 If CheckState = "On" Then My.Settings.CBGlitterFeed = True
                 If CheckState = "Scripts" Then My.Settings.CBGlitterFeedScripts = True
@@ -2926,14 +2936,13 @@ Public Class FrmSettings
                 Dim GlitterColor As Color = Color.FromArgb(SettingsList(2).Replace("Domme Color: ", ""))
                 My.Settings.GlitterNCDommeColor = GlitterColor
 
-                My.Settings.CBTease = SettingsList(3).Replace("Tease: ", "")
-                My.Settings.CBEgotist = SettingsList(4).Replace("Egotist: ", "")
-                My.Settings.CBTrivia = SettingsList(5).Replace("Trivia: ", "")
-                My.Settings.CBDaily = SettingsList(6).Replace("Daily: ", "")
-                My.Settings.CBCustom1 = SettingsList(7).Replace("Custom 1: ", "")
-                My.Settings.CBCustom2 = SettingsList(8).Replace("Custom 2: ", "")
-                My.Settings.GlitterDSlider = CInt(SettingsList(9).Replace("Domme Post Frequency: ", ""))
-
+                settings.Domme.IsGlitterTeaseModuleEnabled = settingsList(3).Replace("Tease: ", "")
+                settings.Domme.IsGlitterEgotistModuleEnabled = settingsList(4).Replace("Egotist: ", "")
+                settings.Domme.IsGlitterTriviaModuleEnabled = settingsList(5).Replace("Trivia: ", "")
+                settings.Domme.IsGlitterDailyModuleEnabled = settingsList(6).Replace("Daily: ", "")
+                settings.Domme.IsGlitterCustom1ModuleEnabled = settingsList(7).Replace("Custom 1: ", "")
+                settings.Domme.IsGlitterCustom2ModuleEnabled = settingsList(8).Replace("Custom 2: ", "")
+                settings.Domme.GlitterPostFrequency = CInt(SettingsList(9).Replace("Domme Post Frequency: ", ""))
 
                 My.Settings.CBGlitter1 = SettingsList(10).Replace("Contact 1 Enabled: ", "")
                 My.Settings.Glitter1 = SettingsList(11).Replace("Contact 1 Name: ", "")
@@ -2955,12 +2964,6 @@ Public Class FrmSettings
                 My.Settings.GlitterNC3Color = GlitterColor
                 My.Settings.Contact3ImageDir = SettingsList(23).Replace("Contact 3 Image Directory: ", "")
                 My.Settings.Glitter3Slider = SettingsList(24).Replace("Contact 3 Post Frequency: ", "")
-
-                Try
-                    DommeGlitterAvatar.Image = Image.FromFile(SettingsList(25).Replace("Domme AV: ", ""))
-                    My.Settings.GlitterAV = SettingsList(25).Replace("Domme AV: ", "")
-                Catch
-                End Try
 
                 Try
                     GlitterAV1.Image = Image.FromFile(SettingsList(26).Replace("Contact 1 AV: ", ""))
@@ -2987,6 +2990,11 @@ Public Class FrmSettings
 
         End If
     End Sub
+
+    Private Sub DommeGlitterSettings_Description(sender As Object, e As ShowDescriptionEventArgs) Handles DommeGlitterSettings.ShowDescription
+        SettingsDescriptionControl.DescriptionText = e.Description
+    End Sub
+
 
 #End Region ' Glitter
 
@@ -5260,6 +5268,7 @@ Public Class FrmSettings
         , CensorshipBarDuringVideoTease.MouseEnter _
         , ShowCensorshipBarMinimumSeconds.MouseEnter _
         , ShowCensorshipBarMaximumSeconds.MouseEnter, DommePubicHairComboBox.MouseEnter
+        SettingsDescriptionControl.DescriptionText = TTDir.GetToolTip(sender)
         RangeSettingsDescriptionLabel.Text = TTDir.GetToolTip(sender)
     End Sub
 #End Region
@@ -5483,7 +5492,7 @@ Public Class FrmSettings
 
         If Not File.Exists(GlitPath) Then Return
 
-        If GlitPath = MainWindow.ssh.StatusText Then
+        If GlitPath = MainWindow.ssh.GlitterScript Then
             MsgBox("This file is currently in use by the program. Saving changes may be slow until the Glitter process has finished.", , "Warning!")
         End If
 
@@ -7626,6 +7635,15 @@ Public Class FrmSettings
         Dim settings As Settings = mySettingsAccessor.GetSettings()
         updateAction(settings)
         mySettingsAccessor.WriteSettings(settings)
+    End Sub
+
+    ''' <summary>
+    ''' Do a thing when the selected tab changes
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub SettingsTabs_TabIndexChanged(sender As Object, e As TabControlEventArgs) Handles SettingsTabs.Selected
+        SettingsHeader.SettingsTitle = SettingsTabs.SelectedTab.ToolTipText
     End Sub
 
     Private ReadOnly mySettingsAccessor As ISettingsAccessor

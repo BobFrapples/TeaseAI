@@ -47,5 +47,6 @@ namespace TeaseAI.Common.Interfaces.Accessors
         /// <param name="dommePersonalityName"></param>
         /// <returns></returns>
         string GetVitalSubDir(string dommePersonalityName);
+        string GetGlitterFolder(string dommePersonality, string glitterModule);
     }
 }

@@ -121,6 +121,7 @@ Public Class Common
     ''' an empty List if the specified file doesn't exists, or an exception occurs.</returns>
     ''' <remarks>This Method will create the given DirectoryStructure for the given
     ''' Filepath if it doesn't exist.</remarks>
+    <Obsolete("use File.ReadAllLines instead")>
     Friend Shared Function Txt2List(ByVal filePath As String) As List(Of String)
         Dim data As List(Of String) = File.ReadAllLines(filePath).ToList()
         Return data

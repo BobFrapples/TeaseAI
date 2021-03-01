@@ -122,7 +122,7 @@ Partial Class MainWindow
         Me.PicStripTSMIdommeSlideshowGoToLast = New System.Windows.Forms.ToolStripMenuItem()
         Me.PicStripTSMIdommeSlideshowTSS1 = New System.Windows.Forms.ToolStripSeparator()
         Me.PicStripTSMIdommeSlideshowLoadNewSlideshow = New System.Windows.Forms.ToolStripMenuItem()
-        Me.StatusUpdates = New System.Windows.Forms.WebBrowser()
+        Me.GlitterWindow = New System.Windows.Forms.WebBrowser()
         Me.TeaseAINotify = New System.Windows.Forms.NotifyIcon(Me.components)
         Me.TeaseAIMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.GamesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -333,7 +333,7 @@ Partial Class MainWindow
         Me.SendTimer = New Tease_AI.teaseAI_Timer()
         Me.StrokeTimer = New Tease_AI.teaseAI_Timer()
         Me.StrokeTauntTimer = New Tease_AI.teaseAI_Timer()
-        Me.UpdatesTimer = New Tease_AI.teaseAI_Timer()
+        Me.GlitterTimer = New Tease_AI.teaseAI_Timer()
         Me.AvoidTheEdge = New Tease_AI.teaseAI_Timer()
         Me.AvoidTheEdgeResume = New Tease_AI.teaseAI_Timer()
         Me.EdgeTauntTimer = New Tease_AI.teaseAI_Timer()
@@ -1552,12 +1552,12 @@ Partial Class MainWindow
         '
         'StatusUpdates
         '
-        Me.StatusUpdates.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.StatusUpdates.Location = New System.Drawing.Point(0, 0)
-        Me.StatusUpdates.MinimumSize = New System.Drawing.Size(20, 20)
-        Me.StatusUpdates.Name = "StatusUpdates"
-        Me.StatusUpdates.Size = New System.Drawing.Size(240, 477)
-        Me.StatusUpdates.TabIndex = 770
+        Me.GlitterWindow.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.GlitterWindow.Location = New System.Drawing.Point(0, 0)
+        Me.GlitterWindow.MinimumSize = New System.Drawing.Size(20, 20)
+        Me.GlitterWindow.Name = "StatusUpdates"
+        Me.GlitterWindow.Size = New System.Drawing.Size(240, 477)
+        Me.GlitterWindow.TabIndex = 770
         '
         'TeaseAINotify
         '
@@ -2990,7 +2990,7 @@ Partial Class MainWindow
         '
         'PnlGlitter
         '
-        Me.PnlGlitter.Controls.Add(Me.StatusUpdates)
+        Me.PnlGlitter.Controls.Add(Me.GlitterWindow)
         Me.PnlGlitter.Dock = System.Windows.Forms.DockStyle.Fill
         Me.PnlGlitter.Location = New System.Drawing.Point(0, 0)
         Me.PnlGlitter.Name = "PnlGlitter"
@@ -3580,7 +3580,7 @@ Partial Class MainWindow
         '
         'UpdatesTimer
         '
-        Me.UpdatesTimer.Interval = 1000
+        Me.GlitterTimer.Interval = 1000
         '
         'AvoidTheEdge
         '
@@ -3790,7 +3790,7 @@ Partial Class MainWindow
     Friend WithEvents OpenFileDialog1 As System.Windows.Forms.OpenFileDialog
     Friend WithEvents BTNLoadVideo As System.Windows.Forms.Button
     Friend WithEvents BTNVideoControls As System.Windows.Forms.Button
-    Friend WithEvents UpdatesTimer As Tease_AI.teaseAI_Timer
+    Friend WithEvents GlitterTimer As Tease_AI.teaseAI_Timer
     Friend WithEvents GetColor As System.Windows.Forms.ColorDialog
     Friend WithEvents SendButton As System.Windows.Forms.Button
     Friend WithEvents AvoidTheEdge As Tease_AI.teaseAI_Timer
@@ -3822,7 +3822,7 @@ Partial Class MainWindow
     Friend WithEvents PicStripTSMIlikeImage As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents PicStripTSMIdislikeImage As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents PicStripTSMIremoveFromURL As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents StatusUpdates As System.Windows.Forms.WebBrowser
+    Friend WithEvents GlitterWindow As System.Windows.Forms.WebBrowser
     Friend WithEvents PicStripTSMIcopyImageLocation As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents CustomSlideshowTimer As Tease_AI.teaseAI_Timer
     Friend WithEvents Contact1Timer As Tease_AI.teaseAI_Timer

@@ -94,6 +94,15 @@ namespace TeaseAI.Services.Accessors
                     AverageAgeSubMinimum = 28,
                     AverageAgeSubMaximum = 49,
                     Honorific = "Mistress",
+                    ChatColor = "#FF8020",
+                    GlitterContactName = "Domme Name",
+                    GlitterPostFrequency = 9,
+                    GlitterResponseFrequency = 9,
+                    IsGlitterEnabled = true,
+                    IsGlitterDailyModuleEnabled = true,
+                    IsGlitterEgotistModuleEnabled = true,
+                    IsGlitterTeaseModuleEnabled = true,
+                    IsGlitterTriviaModuleEnabled = true,
                 },
                 General = new GeneralSettings
                 {

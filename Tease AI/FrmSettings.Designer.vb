@@ -437,7 +437,6 @@ Partial Class FrmSettings
         Me.LBLLocalTagCount = New System.Windows.Forms.Label()
         Me.FileTagNextButton = New System.Windows.Forms.Button()
         Me.FileTagPreviousButton = New System.Windows.Forms.Button()
-        Me.LocalTagPictureBox = New System.Windows.Forms.PictureBox()
         Me.GenreDropDownLabel = New System.Windows.Forms.Label()
         Me.GenreCombo = New System.Windows.Forms.ComboBox()
         Me.GroupBox55 = New System.Windows.Forms.GroupBox()
@@ -548,6 +547,7 @@ Partial Class FrmSettings
         Me.CBTagChastity = New System.Windows.Forms.CheckBox()
         Me.CBTagShower = New System.Windows.Forms.CheckBox()
         Me.SaveTagButton = New System.Windows.Forms.Button()
+        Me.LocalTagPictureBox = New System.Windows.Forms.PictureBox()
         Me.UrlFilesTab = New System.Windows.Forms.TabPage()
         Me.UrlFilesPanel = New System.Windows.Forms.Panel()
         Me.SelectBlogDropDown = New System.Windows.Forms.ComboBox()
@@ -659,31 +659,10 @@ Partial Class FrmSettings
         Me.VideoLogo = New System.Windows.Forms.PictureBox()
         Me.VideoDescriptionGroupBox = New System.Windows.Forms.GroupBox()
         Me.VideoDescriptionLabel = New System.Windows.Forms.Label()
-        Me.TabPage20 = New System.Windows.Forms.TabPage()
-        Me.AppsSettingsHeaderPanel = New System.Windows.Forms.Panel()
-        Me.AppsSettingsLoad = New System.Windows.Forms.Button()
-        Me.AppsSettingsSave = New System.Windows.Forms.Button()
-        Me.AppsSettingsLogo = New System.Windows.Forms.PictureBox()
-        Me.AppsSettingsHeaderLabel = New System.Windows.Forms.Label()
+        Me.AppsTabPage = New System.Windows.Forms.TabPage()
         Me.AppsSettingsTabList = New System.Windows.Forms.TabControl()
-        Me.TabPage22 = New System.Windows.Forms.TabPage()
-        Me.DommeGlitterGroupBox = New System.Windows.Forms.GroupBox()
-        Me.GrbGlitterfeed = New System.Windows.Forms.GroupBox()
-        Me.CBGlitterFeedScripts = New System.Windows.Forms.RadioButton()
-        Me.CBGlitterFeed = New System.Windows.Forms.RadioButton()
-        Me.CBGlitterFeedOff = New System.Windows.Forms.RadioButton()
-        Me.BTNGlitterD = New System.Windows.Forms.Button()
-        Me.LBLGlitterNCDomme = New System.Windows.Forms.Label()
-        Me.LBLGlitterSlider = New System.Windows.Forms.Label()
-        Me.CBCustom2 = New System.Windows.Forms.CheckBox()
-        Me.GlitterSlider = New System.Windows.Forms.TrackBar()
-        Me.CBCustom1 = New System.Windows.Forms.CheckBox()
-        Me.CBDaily = New System.Windows.Forms.CheckBox()
-        Me.CBTrivia = New System.Windows.Forms.CheckBox()
-        Me.TBGlitterShortName = New System.Windows.Forms.TextBox()
-        Me.CBEgotist = New System.Windows.Forms.CheckBox()
-        Me.CBTease = New System.Windows.Forms.CheckBox()
-        Me.DommeGlitterAvatar = New System.Windows.Forms.PictureBox()
+        Me.GlitterAppTabPage = New System.Windows.Forms.TabPage()
+        Me.DommeGlitterSettings = New Tease_AI.GlitterSettingsControl()
         Me.GBGlitter1 = New System.Windows.Forms.GroupBox()
         Me.BtnContact1ImageDirClear = New System.Windows.Forms.Button()
         Me.BtnContact1ImageDir = New System.Windows.Forms.Button()
@@ -784,6 +763,11 @@ Partial Class FrmSettings
         Me.WishlistCostGold = New System.Windows.Forms.PictureBox()
         Me.LBLWishListName = New System.Windows.Forms.Label()
         Me.WishlistPreview = New System.Windows.Forms.PictureBox()
+        Me.AppsSettingsHeaderPanel = New System.Windows.Forms.Panel()
+        Me.AppsSettingsLoad = New System.Windows.Forms.Button()
+        Me.AppsSettingsSave = New System.Windows.Forms.Button()
+        Me.AppsSettingsLogo = New System.Windows.Forms.PictureBox()
+        Me.AppsSettingsHeaderLabel = New System.Windows.Forms.Label()
         Me.TabPage26 = New System.Windows.Forms.TabPage()
         Me.Panel12 = New System.Windows.Forms.Panel()
         Me.GroupBox9 = New System.Windows.Forms.GroupBox()
@@ -1102,6 +1086,8 @@ Partial Class FrmSettings
         Me.TTDir = New System.Windows.Forms.ToolTip(Me.components)
         Me.TxbImgUrlHardcore = New System.Windows.Forms.TextBox()
         Me.TextBox2 = New System.Windows.Forms.TextBox()
+        Me.SettingsHeader = New Tease_AI.SettingsHeaderControl()
+        Me.SettingsDescriptionControl = New Tease_AI.SettingsDescriptionControl()
         Me.BWURLFiles = New Tease_AI.URL_Files.URL_File_BGW()
         Me.SettingsTabs.SuspendLayout
         Me.TabPage1.SuspendLayout
@@ -1205,7 +1191,6 @@ Partial Class FrmSettings
         CType(Me.ImageTagPictureBox, System.ComponentModel.ISupportInitialize).BeginInit
         Me.FileDropDownLabel.SuspendLayout
         Me.LocalTagImageNavGroup.SuspendLayout
-        CType(Me.LocalTagPictureBox, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GroupBox55.SuspendLayout
         Me.GroupBox53.SuspendLayout
         Me.GroupBox49.SuspendLayout
@@ -1214,6 +1199,7 @@ Partial Class FrmSettings
         Me.BdsmTagGroup.SuspendLayout
         Me.GroupBox50.SuspendLayout
         Me.GroupBox48.SuspendLayout
+        CType(Me.LocalTagPictureBox, System.ComponentModel.ISupportInitialize).BeginInit
         Me.UrlFilesTab.SuspendLayout
         Me.UrlFilesPanel.SuspendLayout
         CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).BeginInit
@@ -1232,15 +1218,9 @@ Partial Class FrmSettings
         Me.VideoHeaderPanel.SuspendLayout
         CType(Me.VideoLogo, System.ComponentModel.ISupportInitialize).BeginInit
         Me.VideoDescriptionGroupBox.SuspendLayout
-        Me.TabPage20.SuspendLayout
-        Me.AppsSettingsHeaderPanel.SuspendLayout
-        CType(Me.AppsSettingsLogo, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.AppsTabPage.SuspendLayout
         Me.AppsSettingsTabList.SuspendLayout
-        Me.TabPage22.SuspendLayout
-        Me.DommeGlitterGroupBox.SuspendLayout
-        Me.GrbGlitterfeed.SuspendLayout
-        CType(Me.GlitterSlider, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.DommeGlitterAvatar, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GlitterAppTabPage.SuspendLayout
         Me.GBGlitter1.SuspendLayout
         CType(Me.GlitterSlider1, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.GlitterAV1, System.ComponentModel.ISupportInitialize).BeginInit
@@ -1281,6 +1261,8 @@ Partial Class FrmSettings
         CType(Me.WishlistCostSilver, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.WishlistCostGold, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.WishlistPreview, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.AppsSettingsHeaderPanel.SuspendLayout
+        CType(Me.AppsSettingsLogo, System.ComponentModel.ISupportInitialize).BeginInit
         Me.TabPage26.SuspendLayout
         Me.Panel12.SuspendLayout
         Me.GroupBox9.SuspendLayout
@@ -1383,7 +1365,7 @@ Partial Class FrmSettings
         Me.SettingsTabs.Controls.Add(Me.TabPage33)
         Me.SettingsTabs.Controls.Add(Me.UrlFilesTab)
         Me.SettingsTabs.Controls.Add(Me.TpVideoSettings)
-        Me.SettingsTabs.Controls.Add(Me.TabPage20)
+        Me.SettingsTabs.Controls.Add(Me.AppsTabPage)
         Me.SettingsTabs.Controls.Add(Me.TabPage26)
         Me.SettingsTabs.Controls.Add(Me.RangeSettingsTabPage)
         Me.SettingsTabs.Controls.Add(Me.TabPage13)
@@ -1391,11 +1373,11 @@ Partial Class FrmSettings
         Me.SettingsTabs.Controls.Add(Me.TabPage28)
         Me.SettingsTabs.Controls.Add(Me.TabPage5)
         Me.SettingsTabs.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SettingsTabs.Location = New System.Drawing.Point(0, 0)
+        Me.SettingsTabs.Location = New System.Drawing.Point(0, 60)
         Me.SettingsTabs.Name = "SettingsTabs"
         Me.SettingsTabs.SelectedIndex = 0
-        Me.SettingsTabs.Size = New System.Drawing.Size(980, 657)
-        Me.SettingsTabs.TabIndex = 0
+        Me.SettingsTabs.Size = New System.Drawing.Size(980, 482)
+        Me.SettingsTabs.TabIndex = 1
         '
         'TabPage1
         '
@@ -1404,7 +1386,7 @@ Partial Class FrmSettings
         Me.TabPage1.Location = New System.Drawing.Point(4, 22)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(972, 631)
+        Me.TabPage1.Size = New System.Drawing.Size(972, 456)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "General"
         '
@@ -1426,8 +1408,8 @@ Partial Class FrmSettings
         Me.PNLGeneralSettings.Dock = System.Windows.Forms.DockStyle.Fill
         Me.PNLGeneralSettings.Location = New System.Drawing.Point(3, 3)
         Me.PNLGeneralSettings.Name = "PNLGeneralSettings"
-        Me.PNLGeneralSettings.Size = New System.Drawing.Size(966, 625)
-        Me.PNLGeneralSettings.TabIndex = 0
+        Me.PNLGeneralSettings.Size = New System.Drawing.Size(966, 450)
+        Me.PNLGeneralSettings.TabIndex = 1
         '
         'BtnImportSettings
         '
@@ -2136,7 +2118,7 @@ Partial Class FrmSettings
         Me.DommeSettingsTabPage.Location = New System.Drawing.Point(4, 22)
         Me.DommeSettingsTabPage.Name = "DommeSettingsTabPage"
         Me.DommeSettingsTabPage.Padding = New System.Windows.Forms.Padding(3)
-        Me.DommeSettingsTabPage.Size = New System.Drawing.Size(972, 631)
+        Me.DommeSettingsTabPage.Size = New System.Drawing.Size(972, 456)
         Me.DommeSettingsTabPage.TabIndex = 1
         Me.DommeSettingsTabPage.Text = "Domme"
         '
@@ -2152,7 +2134,7 @@ Partial Class FrmSettings
         Me.DommeSettingsBodyPanel.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DommeSettingsBodyPanel.Location = New System.Drawing.Point(3, 63)
         Me.DommeSettingsBodyPanel.Name = "DommeSettingsBodyPanel"
-        Me.DommeSettingsBodyPanel.Size = New System.Drawing.Size(966, 465)
+        Me.DommeSettingsBodyPanel.Size = New System.Drawing.Size(966, 290)
         Me.DommeSettingsBodyPanel.TabIndex = 154
         '
         'GroupBox39
@@ -3414,7 +3396,7 @@ Partial Class FrmSettings
         '
         Me.DommeSettingsDescriptionGroupBox.Controls.Add(Me.DommeSettingsDescriptionLabel)
         Me.DommeSettingsDescriptionGroupBox.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.DommeSettingsDescriptionGroupBox.Location = New System.Drawing.Point(3, 528)
+        Me.DommeSettingsDescriptionGroupBox.Location = New System.Drawing.Point(3, 353)
         Me.DommeSettingsDescriptionGroupBox.Name = "DommeSettingsDescriptionGroupBox"
         Me.DommeSettingsDescriptionGroupBox.Size = New System.Drawing.Size(966, 100)
         Me.DommeSettingsDescriptionGroupBox.TabIndex = 156
@@ -3442,7 +3424,7 @@ Partial Class FrmSettings
         Me.TabPage10.Location = New System.Drawing.Point(4, 22)
         Me.TabPage10.Name = "TabPage10"
         Me.TabPage10.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage10.Size = New System.Drawing.Size(972, 631)
+        Me.TabPage10.Size = New System.Drawing.Size(972, 456)
         Me.TabPage10.TabIndex = 9
         Me.TabPage10.Text = "Sub"
         '
@@ -3462,7 +3444,7 @@ Partial Class FrmSettings
         Me.Panel2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel2.Location = New System.Drawing.Point(3, 3)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(966, 625)
+        Me.Panel2.Size = New System.Drawing.Size(966, 450)
         Me.Panel2.TabIndex = 94
         '
         'GroupBox22
@@ -4322,7 +4304,7 @@ Partial Class FrmSettings
         Me.TabPage16.Location = New System.Drawing.Point(4, 22)
         Me.TabPage16.Name = "TabPage16"
         Me.TabPage16.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage16.Size = New System.Drawing.Size(972, 631)
+        Me.TabPage16.Size = New System.Drawing.Size(972, 456)
         Me.TabPage16.TabIndex = 14
         Me.TabPage16.Text = "Scripts"
         '
@@ -4336,7 +4318,7 @@ Partial Class FrmSettings
         Me.Panel9.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel9.Location = New System.Drawing.Point(3, 3)
         Me.Panel9.Name = "Panel9"
-        Me.Panel9.Size = New System.Drawing.Size(966, 625)
+        Me.Panel9.Size = New System.Drawing.Size(966, 450)
         Me.Panel9.TabIndex = 94
         '
         'ScriptNavPanel
@@ -4350,7 +4332,7 @@ Partial Class FrmSettings
         Me.ScriptNavPanel.Dock = System.Windows.Forms.DockStyle.Left
         Me.ScriptNavPanel.Location = New System.Drawing.Point(0, 0)
         Me.ScriptNavPanel.Name = "ScriptNavPanel"
-        Me.ScriptNavPanel.Size = New System.Drawing.Size(443, 532)
+        Me.ScriptNavPanel.Size = New System.Drawing.Size(443, 357)
         Me.ScriptNavPanel.TabIndex = 162
         '
         'SelectAllScriptsButton
@@ -4507,7 +4489,7 @@ Partial Class FrmSettings
         Me.ScriptInfoPanel.Dock = System.Windows.Forms.DockStyle.Right
         Me.ScriptInfoPanel.Location = New System.Drawing.Point(449, 0)
         Me.ScriptInfoPanel.Name = "ScriptInfoPanel"
-        Me.ScriptInfoPanel.Size = New System.Drawing.Size(515, 532)
+        Me.ScriptInfoPanel.Size = New System.Drawing.Size(515, 357)
         Me.ScriptInfoPanel.TabIndex = 161
         '
         'ScriptsDescriptionGroup
@@ -4538,7 +4520,7 @@ Partial Class FrmSettings
         Me.LBLScriptReq.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.LBLScriptReq.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LBLScriptReq.ForeColor = System.Drawing.Color.Green
-        Me.LBLScriptReq.Location = New System.Drawing.Point(0, 283)
+        Me.LBLScriptReq.Location = New System.Drawing.Point(0, 108)
         Me.LBLScriptReq.Name = "LBLScriptReq"
         Me.LBLScriptReq.Size = New System.Drawing.Size(515, 27)
         Me.LBLScriptReq.TabIndex = 156
@@ -4548,7 +4530,7 @@ Partial Class FrmSettings
         '
         Me.ScriptsRequirementsGroup.Controls.Add(Me.ScriptRequirements)
         Me.ScriptsRequirementsGroup.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.ScriptsRequirementsGroup.Location = New System.Drawing.Point(0, 310)
+        Me.ScriptsRequirementsGroup.Location = New System.Drawing.Point(0, 135)
         Me.ScriptsRequirementsGroup.Name = "ScriptsRequirementsGroup"
         Me.ScriptsRequirementsGroup.Size = New System.Drawing.Size(515, 222)
         Me.ScriptsRequirementsGroup.TabIndex = 155
@@ -4571,7 +4553,7 @@ Partial Class FrmSettings
         Me.GroupBox43.Controls.Add(Me.Label98)
         Me.GroupBox43.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.GroupBox43.ForeColor = System.Drawing.Color.Black
-        Me.GroupBox43.Location = New System.Drawing.Point(0, 532)
+        Me.GroupBox43.Location = New System.Drawing.Point(0, 357)
         Me.GroupBox43.Name = "GroupBox43"
         Me.GroupBox43.Size = New System.Drawing.Size(964, 91)
         Me.GroupBox43.TabIndex = 65
@@ -4597,7 +4579,7 @@ Partial Class FrmSettings
         Me.TabPage7.Location = New System.Drawing.Point(4, 22)
         Me.TabPage7.Name = "TabPage7"
         Me.TabPage7.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage7.Size = New System.Drawing.Size(972, 631)
+        Me.TabPage7.Size = New System.Drawing.Size(972, 456)
         Me.TabPage7.TabIndex = 11
         Me.TabPage7.Text = "Images"
         '
@@ -4609,7 +4591,7 @@ Partial Class FrmSettings
         Me.GernreImagesTab.Location = New System.Drawing.Point(3, 3)
         Me.GernreImagesTab.Name = "GernreImagesTab"
         Me.GernreImagesTab.SelectedIndex = 0
-        Me.GernreImagesTab.Size = New System.Drawing.Size(966, 625)
+        Me.GernreImagesTab.Size = New System.Drawing.Size(966, 450)
         Me.GernreImagesTab.TabIndex = 154
         '
         'TpImagesUrlFiles
@@ -4623,7 +4605,7 @@ Partial Class FrmSettings
         Me.TpImagesUrlFiles.Location = New System.Drawing.Point(4, 22)
         Me.TpImagesUrlFiles.Name = "TpImagesUrlFiles"
         Me.TpImagesUrlFiles.Padding = New System.Windows.Forms.Padding(3)
-        Me.TpImagesUrlFiles.Size = New System.Drawing.Size(958, 599)
+        Me.TpImagesUrlFiles.Size = New System.Drawing.Size(958, 424)
         Me.TpImagesUrlFiles.TabIndex = 0
         Me.TpImagesUrlFiles.Text = "URL Files"
         '
@@ -4696,7 +4678,7 @@ Partial Class FrmSettings
         Me.TpImagesGenre.Location = New System.Drawing.Point(4, 22)
         Me.TpImagesGenre.Name = "TpImagesGenre"
         Me.TpImagesGenre.Padding = New System.Windows.Forms.Padding(3)
-        Me.TpImagesGenre.Size = New System.Drawing.Size(958, 599)
+        Me.TpImagesGenre.Size = New System.Drawing.Size(958, 424)
         Me.TpImagesGenre.TabIndex = 1
         Me.TpImagesGenre.Text = "Genre Images"
         '
@@ -6059,7 +6041,7 @@ Partial Class FrmSettings
         Me.TabPage33.Location = New System.Drawing.Point(4, 22)
         Me.TabPage33.Name = "TabPage33"
         Me.TabPage33.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage33.Size = New System.Drawing.Size(972, 631)
+        Me.TabPage33.Size = New System.Drawing.Size(972, 456)
         Me.TabPage33.TabIndex = 21
         Me.TabPage33.Text = "Tagging"
         '
@@ -6071,7 +6053,7 @@ Partial Class FrmSettings
         Me.LocalTagsTab.Location = New System.Drawing.Point(3, 3)
         Me.LocalTagsTab.Name = "LocalTagsTab"
         Me.LocalTagsTab.SelectedIndex = 0
-        Me.LocalTagsTab.Size = New System.Drawing.Size(966, 625)
+        Me.LocalTagsTab.Size = New System.Drawing.Size(966, 450)
         Me.LocalTagsTab.TabIndex = 0
         '
         'TabPage34
@@ -6118,7 +6100,7 @@ Partial Class FrmSettings
         Me.TabPage34.Location = New System.Drawing.Point(4, 22)
         Me.TabPage34.Name = "TabPage34"
         Me.TabPage34.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage34.Size = New System.Drawing.Size(958, 599)
+        Me.TabPage34.Size = New System.Drawing.Size(958, 424)
         Me.TabPage34.TabIndex = 0
         Me.TabPage34.Text = "Domme Tags"
         '
@@ -6552,7 +6534,6 @@ Partial Class FrmSettings
         '
         Me.FileDropDownLabel.BackColor = System.Drawing.Color.LightGray
         Me.FileDropDownLabel.Controls.Add(Me.LocalTagImageNavGroup)
-        Me.FileDropDownLabel.Controls.Add(Me.LocalTagPictureBox)
         Me.FileDropDownLabel.Controls.Add(Me.GenreDropDownLabel)
         Me.FileDropDownLabel.Controls.Add(Me.GenreCombo)
         Me.FileDropDownLabel.Controls.Add(Me.GroupBox55)
@@ -6564,10 +6545,11 @@ Partial Class FrmSettings
         Me.FileDropDownLabel.Controls.Add(Me.GroupBox50)
         Me.FileDropDownLabel.Controls.Add(Me.GroupBox48)
         Me.FileDropDownLabel.Controls.Add(Me.SaveTagButton)
+        Me.FileDropDownLabel.Controls.Add(Me.LocalTagPictureBox)
         Me.FileDropDownLabel.Location = New System.Drawing.Point(4, 22)
         Me.FileDropDownLabel.Name = "FileDropDownLabel"
         Me.FileDropDownLabel.Padding = New System.Windows.Forms.Padding(3)
-        Me.FileDropDownLabel.Size = New System.Drawing.Size(958, 599)
+        Me.FileDropDownLabel.Size = New System.Drawing.Size(958, 424)
         Me.FileDropDownLabel.TabIndex = 1
         Me.FileDropDownLabel.Text = "Local Tags"
         '
@@ -6632,16 +6614,6 @@ Partial Class FrmSettings
         Me.FileTagPreviousButton.TabIndex = 3
         Me.FileTagPreviousButton.Text = "<<"
         Me.FileTagPreviousButton.UseVisualStyleBackColor = False
-        '
-        'LocalTagPictureBox
-        '
-        Me.LocalTagPictureBox.BackColor = System.Drawing.Color.Black
-        Me.LocalTagPictureBox.Location = New System.Drawing.Point(450, 282)
-        Me.LocalTagPictureBox.Name = "LocalTagPictureBox"
-        Me.LocalTagPictureBox.Size = New System.Drawing.Size(502, 311)
-        Me.LocalTagPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.LocalTagPictureBox.TabIndex = 246
-        Me.LocalTagPictureBox.TabStop = False
         '
         'GenreDropDownLabel
         '
@@ -8031,6 +8003,16 @@ Partial Class FrmSettings
         Me.SaveTagButton.Text = "Save Tags"
         Me.SaveTagButton.UseVisualStyleBackColor = True
         '
+        'LocalTagPictureBox
+        '
+        Me.LocalTagPictureBox.BackColor = System.Drawing.Color.Black
+        Me.LocalTagPictureBox.Location = New System.Drawing.Point(450, 282)
+        Me.LocalTagPictureBox.Name = "LocalTagPictureBox"
+        Me.LocalTagPictureBox.Size = New System.Drawing.Size(502, 311)
+        Me.LocalTagPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.LocalTagPictureBox.TabIndex = 246
+        Me.LocalTagPictureBox.TabStop = False
+        '
         'UrlFilesTab
         '
         Me.UrlFilesTab.BackColor = System.Drawing.Color.Silver
@@ -8038,7 +8020,7 @@ Partial Class FrmSettings
         Me.UrlFilesTab.Location = New System.Drawing.Point(4, 22)
         Me.UrlFilesTab.Name = "UrlFilesTab"
         Me.UrlFilesTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.UrlFilesTab.Size = New System.Drawing.Size(972, 631)
+        Me.UrlFilesTab.Size = New System.Drawing.Size(972, 456)
         Me.UrlFilesTab.TabIndex = 10
         Me.UrlFilesTab.Text = "URL Files"
         '
@@ -8069,7 +8051,7 @@ Partial Class FrmSettings
         Me.UrlFilesPanel.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UrlFilesPanel.Location = New System.Drawing.Point(3, 3)
         Me.UrlFilesPanel.Name = "UrlFilesPanel"
-        Me.UrlFilesPanel.Size = New System.Drawing.Size(966, 625)
+        Me.UrlFilesPanel.Size = New System.Drawing.Size(966, 450)
         Me.UrlFilesPanel.TabIndex = 91
         '
         'SelectBlogDropDown
@@ -8311,7 +8293,7 @@ Partial Class FrmSettings
         Me.TpVideoSettings.Location = New System.Drawing.Point(4, 22)
         Me.TpVideoSettings.Name = "TpVideoSettings"
         Me.TpVideoSettings.Padding = New System.Windows.Forms.Padding(6)
-        Me.TpVideoSettings.Size = New System.Drawing.Size(972, 631)
+        Me.TpVideoSettings.Size = New System.Drawing.Size(972, 456)
         Me.TpVideoSettings.TabIndex = 2
         Me.TpVideoSettings.Text = "Video"
         '
@@ -9503,329 +9485,79 @@ Partial Class FrmSettings
     "using as your domme."
         Me.VideoDescriptionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'TabPage20
+        'AppsTabPage
         '
-        Me.TabPage20.BackColor = System.Drawing.Color.Silver
-        Me.TabPage20.Controls.Add(Me.AppsSettingsHeaderPanel)
-        Me.TabPage20.Controls.Add(Me.AppsSettingsTabList)
-        Me.TabPage20.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage20.Name = "TabPage20"
-        Me.TabPage20.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage20.Size = New System.Drawing.Size(972, 631)
-        Me.TabPage20.TabIndex = 16
-        Me.TabPage20.Text = "Apps"
-        '
-        'AppsSettingsHeaderPanel
-        '
-        Me.AppsSettingsHeaderPanel.Controls.Add(Me.AppsSettingsLoad)
-        Me.AppsSettingsHeaderPanel.Controls.Add(Me.AppsSettingsSave)
-        Me.AppsSettingsHeaderPanel.Controls.Add(Me.AppsSettingsLogo)
-        Me.AppsSettingsHeaderPanel.Controls.Add(Me.AppsSettingsHeaderLabel)
-        Me.AppsSettingsHeaderPanel.Dock = System.Windows.Forms.DockStyle.Top
-        Me.AppsSettingsHeaderPanel.Location = New System.Drawing.Point(3, 3)
-        Me.AppsSettingsHeaderPanel.Name = "AppsSettingsHeaderPanel"
-        Me.AppsSettingsHeaderPanel.Size = New System.Drawing.Size(966, 60)
-        Me.AppsSettingsHeaderPanel.TabIndex = 1
-        '
-        'AppsSettingsLoad
-        '
-        Me.AppsSettingsLoad.BackColor = System.Drawing.Color.Transparent
-        Me.AppsSettingsLoad.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
-        Me.AppsSettingsLoad.Dock = System.Windows.Forms.DockStyle.Right
-        Me.AppsSettingsLoad.FlatAppearance.BorderSize = 0
-        Me.AppsSettingsLoad.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray
-        Me.AppsSettingsLoad.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver
-        Me.AppsSettingsLoad.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.AppsSettingsLoad.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.AppsSettingsLoad.ForeColor = System.Drawing.Color.Black
-        Me.AppsSettingsLoad.Image = Global.Tease_AI.My.Resources.Resources.Button_Save
-        Me.AppsSettingsLoad.Location = New System.Drawing.Point(842, 0)
-        Me.AppsSettingsLoad.Margin = New System.Windows.Forms.Padding(0)
-        Me.AppsSettingsLoad.Name = "AppsSettingsLoad"
-        Me.AppsSettingsLoad.Size = New System.Drawing.Size(62, 60)
-        Me.AppsSettingsLoad.TabIndex = 153
-        Me.AppsSettingsLoad.Text = "Load"
-        Me.AppsSettingsLoad.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        Me.AppsSettingsLoad.UseVisualStyleBackColor = False
-        '
-        'AppsSettingsSave
-        '
-        Me.AppsSettingsSave.BackColor = System.Drawing.Color.Transparent
-        Me.AppsSettingsSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.AppsSettingsSave.Dock = System.Windows.Forms.DockStyle.Right
-        Me.AppsSettingsSave.FlatAppearance.BorderSize = 0
-        Me.AppsSettingsSave.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray
-        Me.AppsSettingsSave.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver
-        Me.AppsSettingsSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.AppsSettingsSave.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.AppsSettingsSave.ForeColor = System.Drawing.Color.Black
-        Me.AppsSettingsSave.Image = Global.Tease_AI.My.Resources.Resources.Button_Export
-        Me.AppsSettingsSave.Location = New System.Drawing.Point(904, 0)
-        Me.AppsSettingsSave.Margin = New System.Windows.Forms.Padding(0)
-        Me.AppsSettingsSave.Name = "AppsSettingsSave"
-        Me.AppsSettingsSave.Size = New System.Drawing.Size(62, 60)
-        Me.AppsSettingsSave.TabIndex = 152
-        Me.AppsSettingsSave.Text = "Save"
-        Me.AppsSettingsSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        Me.AppsSettingsSave.UseVisualStyleBackColor = False
-        '
-        'AppsSettingsLogo
-        '
-        Me.AppsSettingsLogo.BackColor = System.Drawing.Color.Transparent
-        Me.AppsSettingsLogo.Dock = System.Windows.Forms.DockStyle.Left
-        Me.AppsSettingsLogo.Image = Global.Tease_AI.My.Resources.Resources.TAI_Banner_small
-        Me.AppsSettingsLogo.Location = New System.Drawing.Point(0, 0)
-        Me.AppsSettingsLogo.Name = "AppsSettingsLogo"
-        Me.AppsSettingsLogo.Size = New System.Drawing.Size(160, 60)
-        Me.AppsSettingsLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
-        Me.AppsSettingsLogo.TabIndex = 150
-        Me.AppsSettingsLogo.TabStop = False
-        '
-        'AppsSettingsHeaderLabel
-        '
-        Me.AppsSettingsHeaderLabel.BackColor = System.Drawing.Color.Transparent
-        Me.AppsSettingsHeaderLabel.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.AppsSettingsHeaderLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.AppsSettingsHeaderLabel.ForeColor = System.Drawing.Color.Black
-        Me.AppsSettingsHeaderLabel.Location = New System.Drawing.Point(0, 0)
-        Me.AppsSettingsHeaderLabel.Name = "AppsSettingsHeaderLabel"
-        Me.AppsSettingsHeaderLabel.Size = New System.Drawing.Size(966, 60)
-        Me.AppsSettingsHeaderLabel.TabIndex = 151
-        Me.AppsSettingsHeaderLabel.Text = "Apps Settings"
-        Me.AppsSettingsHeaderLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.AppsTabPage.BackColor = System.Drawing.Color.Silver
+        Me.AppsTabPage.Controls.Add(Me.AppsSettingsTabList)
+        Me.AppsTabPage.Controls.Add(Me.AppsSettingsHeaderPanel)
+        Me.AppsTabPage.Location = New System.Drawing.Point(4, 22)
+        Me.AppsTabPage.Name = "AppsTabPage"
+        Me.AppsTabPage.Padding = New System.Windows.Forms.Padding(3)
+        Me.AppsTabPage.Size = New System.Drawing.Size(972, 456)
+        Me.AppsTabPage.TabIndex = 16
+        Me.AppsTabPage.Text = "Apps"
+        Me.AppsTabPage.ToolTipText = "App Settings"
         '
         'AppsSettingsTabList
         '
-        Me.AppsSettingsTabList.Controls.Add(Me.TabPage22)
+        Me.AppsSettingsTabList.Controls.Add(Me.GlitterAppTabPage)
         Me.AppsSettingsTabList.Controls.Add(Me.TpGames)
         Me.AppsSettingsTabList.Controls.Add(Me.TabPage6)
-        Me.AppsSettingsTabList.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.AppsSettingsTabList.Location = New System.Drawing.Point(3, 75)
+        Me.AppsSettingsTabList.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.AppsSettingsTabList.Location = New System.Drawing.Point(3, 3)
         Me.AppsSettingsTabList.Name = "AppsSettingsTabList"
         Me.AppsSettingsTabList.SelectedIndex = 0
-        Me.AppsSettingsTabList.Size = New System.Drawing.Size(966, 553)
+        Me.AppsSettingsTabList.Size = New System.Drawing.Size(966, 450)
         Me.AppsSettingsTabList.TabIndex = 0
         '
-        'TabPage22
+        'GlitterAppTabPage
         '
-        Me.TabPage22.BackColor = System.Drawing.SystemColors.ControlLight
-        Me.TabPage22.Controls.Add(Me.DommeGlitterGroupBox)
-        Me.TabPage22.Controls.Add(Me.GBGlitter1)
-        Me.TabPage22.Controls.Add(Me.GBGlitter3)
-        Me.TabPage22.Controls.Add(Me.GBGlitter2)
-        Me.TabPage22.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage22.Name = "TabPage22"
-        Me.TabPage22.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage22.Size = New System.Drawing.Size(958, 527)
-        Me.TabPage22.TabIndex = 0
-        Me.TabPage22.Text = "Glitter"
+        Me.GlitterAppTabPage.AutoScroll = True
+        Me.GlitterAppTabPage.BackColor = System.Drawing.SystemColors.ControlLight
+        Me.GlitterAppTabPage.Controls.Add(Me.DommeGlitterSettings)
+        Me.GlitterAppTabPage.Controls.Add(Me.GBGlitter1)
+        Me.GlitterAppTabPage.Controls.Add(Me.GBGlitter3)
+        Me.GlitterAppTabPage.Controls.Add(Me.GBGlitter2)
+        Me.GlitterAppTabPage.Location = New System.Drawing.Point(4, 22)
+        Me.GlitterAppTabPage.Name = "GlitterAppTabPage"
+        Me.GlitterAppTabPage.Padding = New System.Windows.Forms.Padding(3)
+        Me.GlitterAppTabPage.Size = New System.Drawing.Size(958, 424)
+        Me.GlitterAppTabPage.TabIndex = 0
+        Me.GlitterAppTabPage.Text = "Glitter"
         '
-        'DommeGlitterGroupBox
+        'DommeGlitterSettings
         '
-        Me.DommeGlitterGroupBox.BackColor = System.Drawing.Color.Transparent
-        Me.DommeGlitterGroupBox.Controls.Add(Me.GrbGlitterfeed)
-        Me.DommeGlitterGroupBox.Controls.Add(Me.BTNGlitterD)
-        Me.DommeGlitterGroupBox.Controls.Add(Me.LBLGlitterNCDomme)
-        Me.DommeGlitterGroupBox.Controls.Add(Me.LBLGlitterSlider)
-        Me.DommeGlitterGroupBox.Controls.Add(Me.CBCustom2)
-        Me.DommeGlitterGroupBox.Controls.Add(Me.GlitterSlider)
-        Me.DommeGlitterGroupBox.Controls.Add(Me.CBCustom1)
-        Me.DommeGlitterGroupBox.Controls.Add(Me.CBDaily)
-        Me.DommeGlitterGroupBox.Controls.Add(Me.CBTrivia)
-        Me.DommeGlitterGroupBox.Controls.Add(Me.TBGlitterShortName)
-        Me.DommeGlitterGroupBox.Controls.Add(Me.CBEgotist)
-        Me.DommeGlitterGroupBox.Controls.Add(Me.CBTease)
-        Me.DommeGlitterGroupBox.Controls.Add(Me.DommeGlitterAvatar)
-        Me.DommeGlitterGroupBox.Location = New System.Drawing.Point(10, 6)
-        Me.DommeGlitterGroupBox.Name = "DommeGlitterGroupBox"
-        Me.DommeGlitterGroupBox.Size = New System.Drawing.Size(344, 150)
-        Me.DommeGlitterGroupBox.TabIndex = 162
-        Me.DommeGlitterGroupBox.TabStop = False
-        Me.DommeGlitterGroupBox.Text = "Domme"
-        '
-        'GrbGlitterfeed
-        '
-        Me.GrbGlitterfeed.Controls.Add(Me.CBGlitterFeedScripts)
-        Me.GrbGlitterfeed.Controls.Add(Me.CBGlitterFeed)
-        Me.GrbGlitterfeed.Controls.Add(Me.CBGlitterFeedOff)
-        Me.GrbGlitterfeed.Location = New System.Drawing.Point(79, 16)
-        Me.GrbGlitterfeed.Name = "GrbGlitterfeed"
-        Me.GrbGlitterfeed.Size = New System.Drawing.Size(134, 35)
-        Me.GrbGlitterfeed.TabIndex = 168
-        Me.GrbGlitterfeed.TabStop = False
-        Me.GrbGlitterfeed.Text = "Glitterfeeds"
-        '
-        'CBGlitterFeedScripts
-        '
-        Me.CBGlitterFeedScripts.AutoSize = True
-        Me.CBGlitterFeedScripts.BackColor = System.Drawing.Color.Transparent
-        Me.CBGlitterFeedScripts.Location = New System.Drawing.Point(79, 11)
-        Me.CBGlitterFeedScripts.Margin = New System.Windows.Forms.Padding(0)
-        Me.CBGlitterFeedScripts.Name = "CBGlitterFeedScripts"
-        Me.CBGlitterFeedScripts.Size = New System.Drawing.Size(57, 17)
-        Me.CBGlitterFeedScripts.TabIndex = 146
-        Me.CBGlitterFeedScripts.Text = "Scripts"
-        Me.CBGlitterFeedScripts.UseVisualStyleBackColor = False
-        '
-        'CBGlitterFeed
-        '
-        Me.CBGlitterFeed.AutoSize = True
-        Me.CBGlitterFeed.Location = New System.Drawing.Point(42, 11)
-        Me.CBGlitterFeed.Margin = New System.Windows.Forms.Padding(3, 3, 0, 3)
-        Me.CBGlitterFeed.Name = "CBGlitterFeed"
-        Me.CBGlitterFeed.Size = New System.Drawing.Size(39, 17)
-        Me.CBGlitterFeed.TabIndex = 145
-        Me.CBGlitterFeed.Text = "On"
-        Me.CBGlitterFeed.UseVisualStyleBackColor = True
-        '
-        'CBGlitterFeedOff
-        '
-        Me.CBGlitterFeedOff.AutoSize = True
-        Me.CBGlitterFeedOff.Location = New System.Drawing.Point(8, 11)
-        Me.CBGlitterFeedOff.Margin = New System.Windows.Forms.Padding(0)
-        Me.CBGlitterFeedOff.Name = "CBGlitterFeedOff"
-        Me.CBGlitterFeedOff.Size = New System.Drawing.Size(39, 17)
-        Me.CBGlitterFeedOff.TabIndex = 147
-        Me.CBGlitterFeedOff.TabStop = True
-        Me.CBGlitterFeedOff.Text = "Off"
-        Me.CBGlitterFeedOff.UseVisualStyleBackColor = True
-        '
-        'BTNGlitterD
-        '
-        Me.BTNGlitterD.BackColor = System.Drawing.Color.LightGray
-        Me.BTNGlitterD.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BTNGlitterD.ForeColor = System.Drawing.Color.Black
-        Me.BTNGlitterD.Location = New System.Drawing.Point(220, 23)
-        Me.BTNGlitterD.Name = "BTNGlitterD"
-        Me.BTNGlitterD.Size = New System.Drawing.Size(115, 24)
-        Me.BTNGlitterD.TabIndex = 166
-        Me.BTNGlitterD.Text = "Choose Name Color"
-        Me.BTNGlitterD.UseVisualStyleBackColor = False
-        '
-        'LBLGlitterNCDomme
-        '
-        Me.LBLGlitterNCDomme.BackColor = System.Drawing.Color.White
-        Me.LBLGlitterNCDomme.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.LBLGlitterNCDomme.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LBLGlitterNCDomme.Location = New System.Drawing.Point(220, 57)
-        Me.LBLGlitterNCDomme.Name = "LBLGlitterNCDomme"
-        Me.LBLGlitterNCDomme.Size = New System.Drawing.Size(115, 23)
-        Me.LBLGlitterNCDomme.TabIndex = 163
-        Me.LBLGlitterNCDomme.Text = "Preview"
-        Me.LBLGlitterNCDomme.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'LBLGlitterSlider
-        '
-        Me.LBLGlitterSlider.BackColor = System.Drawing.Color.Transparent
-        Me.LBLGlitterSlider.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LBLGlitterSlider.ForeColor = System.Drawing.Color.Black
-        Me.LBLGlitterSlider.Location = New System.Drawing.Point(220, 96)
-        Me.LBLGlitterSlider.Name = "LBLGlitterSlider"
-        Me.LBLGlitterSlider.Size = New System.Drawing.Size(115, 19)
-        Me.LBLGlitterSlider.TabIndex = 162
-        Me.LBLGlitterSlider.Text = "Post Frequency"
-        Me.LBLGlitterSlider.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'CBCustom2
-        '
-        Me.CBCustom2.AutoSize = True
-        Me.CBCustom2.ForeColor = System.Drawing.Color.Black
-        Me.CBCustom2.Location = New System.Drawing.Point(149, 121)
-        Me.CBCustom2.Name = "CBCustom2"
-        Me.CBCustom2.Size = New System.Drawing.Size(70, 17)
-        Me.CBCustom2.TabIndex = 161
-        Me.CBCustom2.Text = "Custom 2"
-        Me.CBCustom2.UseVisualStyleBackColor = True
-        '
-        'GlitterSlider
-        '
-        Me.GlitterSlider.AutoSize = False
-        Me.GlitterSlider.LargeChange = 1
-        Me.GlitterSlider.Location = New System.Drawing.Point(220, 118)
-        Me.GlitterSlider.Maximum = 9
-        Me.GlitterSlider.Minimum = 1
-        Me.GlitterSlider.Name = "GlitterSlider"
-        Me.GlitterSlider.Size = New System.Drawing.Size(115, 25)
-        Me.GlitterSlider.TabIndex = 160
-        Me.GlitterSlider.Value = 1
-        '
-        'CBCustom1
-        '
-        Me.CBCustom1.AutoSize = True
-        Me.CBCustom1.ForeColor = System.Drawing.Color.Black
-        Me.CBCustom1.Location = New System.Drawing.Point(149, 98)
-        Me.CBCustom1.Name = "CBCustom1"
-        Me.CBCustom1.Size = New System.Drawing.Size(70, 17)
-        Me.CBCustom1.TabIndex = 157
-        Me.CBCustom1.Text = "Custom 1"
-        Me.CBCustom1.UseVisualStyleBackColor = True
-        '
-        'CBDaily
-        '
-        Me.CBDaily.AutoSize = True
-        Me.CBDaily.ForeColor = System.Drawing.Color.Black
-        Me.CBDaily.Location = New System.Drawing.Point(79, 121)
-        Me.CBDaily.Name = "CBDaily"
-        Me.CBDaily.Size = New System.Drawing.Size(49, 17)
-        Me.CBDaily.TabIndex = 156
-        Me.CBDaily.Text = "Daily"
-        Me.CBDaily.UseVisualStyleBackColor = True
-        '
-        'CBTrivia
-        '
-        Me.CBTrivia.AutoSize = True
-        Me.CBTrivia.Checked = True
-        Me.CBTrivia.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CBTrivia.ForeColor = System.Drawing.Color.Black
-        Me.CBTrivia.Location = New System.Drawing.Point(79, 98)
-        Me.CBTrivia.Name = "CBTrivia"
-        Me.CBTrivia.Size = New System.Drawing.Size(52, 17)
-        Me.CBTrivia.TabIndex = 155
-        Me.CBTrivia.Text = "Trivia"
-        Me.CBTrivia.UseVisualStyleBackColor = True
-        '
-        'TBGlitterShortName
-        '
-        Me.TBGlitterShortName.BackColor = System.Drawing.Color.White
-        Me.TBGlitterShortName.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TBGlitterShortName.ForeColor = System.Drawing.Color.Black
-        Me.TBGlitterShortName.Location = New System.Drawing.Point(79, 57)
-        Me.TBGlitterShortName.Name = "TBGlitterShortName"
-        Me.TBGlitterShortName.Size = New System.Drawing.Size(134, 23)
-        Me.TBGlitterShortName.TabIndex = 49
-        Me.TBGlitterShortName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
-        'CBEgotist
-        '
-        Me.CBEgotist.AutoSize = True
-        Me.CBEgotist.ForeColor = System.Drawing.Color.Black
-        Me.CBEgotist.Location = New System.Drawing.Point(9, 121)
-        Me.CBEgotist.Name = "CBEgotist"
-        Me.CBEgotist.Size = New System.Drawing.Size(58, 17)
-        Me.CBEgotist.TabIndex = 153
-        Me.CBEgotist.Text = "Egotist"
-        Me.CBEgotist.UseVisualStyleBackColor = True
-        '
-        'CBTease
-        '
-        Me.CBTease.AutoSize = True
-        Me.CBTease.ForeColor = System.Drawing.Color.Black
-        Me.CBTease.Location = New System.Drawing.Point(9, 98)
-        Me.CBTease.Name = "CBTease"
-        Me.CBTease.Size = New System.Drawing.Size(56, 17)
-        Me.CBTease.TabIndex = 152
-        Me.CBTease.Text = "Tease"
-        Me.CBTease.UseVisualStyleBackColor = True
-        '
-        'DommeGlitterAvatar
-        '
-        Me.DommeGlitterAvatar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.DommeGlitterAvatar.Location = New System.Drawing.Point(9, 16)
-        Me.DommeGlitterAvatar.Name = "DommeGlitterAvatar"
-        Me.DommeGlitterAvatar.Size = New System.Drawing.Size(64, 64)
-        Me.DommeGlitterAvatar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.DommeGlitterAvatar.TabIndex = 149
-        Me.DommeGlitterAvatar.TabStop = False
+        Me.DommeGlitterSettings.AvatarImageFile = Nothing
+        Me.DommeGlitterSettings.BackColor = System.Drawing.Color.Transparent
+        Me.DommeGlitterSettings.ChatColor = "buttontext"
+        Me.DommeGlitterSettings.EnabledLabel = "Glitter Feed"
+        Me.DommeGlitterSettings.GlitterContactName = ""
+        Me.DommeGlitterSettings.GlitterLabel = "Domme"
+        Me.DommeGlitterSettings.IsAngry = False
+        Me.DommeGlitterSettings.IsBratty = False
+        Me.DommeGlitterSettings.IsCaring = False
+        Me.DommeGlitterSettings.IsCondescending = False
+        Me.DommeGlitterSettings.IsCrazy = False
+        Me.DommeGlitterSettings.IsCruel = False
+        Me.DommeGlitterSettings.IsCustom1ModuleEnabled = False
+        Me.DommeGlitterSettings.IsCustom2ModuleEnabled = False
+        Me.DommeGlitterSettings.IsDailyModuleEnabled = False
+        Me.DommeGlitterSettings.IsDegrading = False
+        Me.DommeGlitterSettings.IsEgotistModuleEnabled = False
+        Me.DommeGlitterSettings.IsGlitterEnabled = False
+        Me.DommeGlitterSettings.IsSadistic = False
+        Me.DommeGlitterSettings.IsScriptsOptionEnabled = False
+        Me.DommeGlitterSettings.IsSupremacist = False
+        Me.DommeGlitterSettings.IsTeaseModuleEnabled = False
+        Me.DommeGlitterSettings.IsTriviaModuleEnabled = False
+        Me.DommeGlitterSettings.IsVulgar = False
+        Me.DommeGlitterSettings.Location = New System.Drawing.Point(10, 6)
+        Me.DommeGlitterSettings.MinimumSize = New System.Drawing.Size(350, 150)
+        Me.DommeGlitterSettings.Name = "DommeGlitterSettings"
+        Me.DommeGlitterSettings.PostFrequency = 1
+        Me.DommeGlitterSettings.ResponseFrequency = 1
+        Me.DommeGlitterSettings.Size = New System.Drawing.Size(421, 300)
+        Me.DommeGlitterSettings.TabIndex = 163
         '
         'GBGlitter1
         '
@@ -9840,7 +9572,7 @@ Partial Class FrmSettings
         Me.GBGlitter1.Controls.Add(Me.CBGlitter1)
         Me.GBGlitter1.Controls.Add(Me.TBGlitter1)
         Me.GBGlitter1.Controls.Add(Me.GlitterAV1)
-        Me.GBGlitter1.Location = New System.Drawing.Point(360, 6)
+        Me.GBGlitter1.Location = New System.Drawing.Point(437, 6)
         Me.GBGlitter1.Name = "GBGlitter1"
         Me.GBGlitter1.Size = New System.Drawing.Size(344, 150)
         Me.GBGlitter1.TabIndex = 161
@@ -9980,7 +9712,7 @@ Partial Class FrmSettings
         Me.GBGlitter3.Controls.Add(Me.CBGlitter3)
         Me.GBGlitter3.Controls.Add(Me.TBGlitter3)
         Me.GBGlitter3.Controls.Add(Me.GlitterAV3)
-        Me.GBGlitter3.Location = New System.Drawing.Point(360, 162)
+        Me.GBGlitter3.Location = New System.Drawing.Point(26, 312)
         Me.GBGlitter3.Name = "GBGlitter3"
         Me.GBGlitter3.Size = New System.Drawing.Size(344, 150)
         Me.GBGlitter3.TabIndex = 160
@@ -10120,7 +9852,7 @@ Partial Class FrmSettings
         Me.GBGlitter2.Controls.Add(Me.CBGlitter2)
         Me.GBGlitter2.Controls.Add(Me.TBGlitter2)
         Me.GBGlitter2.Controls.Add(Me.GlitterAV2)
-        Me.GBGlitter2.Location = New System.Drawing.Point(10, 162)
+        Me.GBGlitter2.Location = New System.Drawing.Point(466, 328)
         Me.GBGlitter2.Name = "GBGlitter2"
         Me.GBGlitter2.Size = New System.Drawing.Size(344, 150)
         Me.GBGlitter2.TabIndex = 151
@@ -10260,7 +9992,7 @@ Partial Class FrmSettings
         Me.TpGames.Location = New System.Drawing.Point(4, 22)
         Me.TpGames.Name = "TpGames"
         Me.TpGames.Padding = New System.Windows.Forms.Padding(3)
-        Me.TpGames.Size = New System.Drawing.Size(958, 527)
+        Me.TpGames.Size = New System.Drawing.Size(958, 424)
         Me.TpGames.TabIndex = 1
         Me.TpGames.Text = "Games"
         '
@@ -10758,7 +10490,7 @@ Partial Class FrmSettings
         Me.TabPage6.Location = New System.Drawing.Point(4, 22)
         Me.TabPage6.Name = "TabPage6"
         Me.TabPage6.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage6.Size = New System.Drawing.Size(958, 527)
+        Me.TabPage6.Size = New System.Drawing.Size(958, 424)
         Me.TabPage6.TabIndex = 2
         Me.TabPage6.Text = "Wishlist"
         '
@@ -10977,6 +10709,84 @@ Partial Class FrmSettings
         Me.WishlistPreview.TabIndex = 101
         Me.WishlistPreview.TabStop = False
         '
+        'AppsSettingsHeaderPanel
+        '
+        Me.AppsSettingsHeaderPanel.Controls.Add(Me.AppsSettingsLoad)
+        Me.AppsSettingsHeaderPanel.Controls.Add(Me.AppsSettingsSave)
+        Me.AppsSettingsHeaderPanel.Controls.Add(Me.AppsSettingsLogo)
+        Me.AppsSettingsHeaderPanel.Controls.Add(Me.AppsSettingsHeaderLabel)
+        Me.AppsSettingsHeaderPanel.Location = New System.Drawing.Point(3, 3)
+        Me.AppsSettingsHeaderPanel.Name = "AppsSettingsHeaderPanel"
+        Me.AppsSettingsHeaderPanel.Size = New System.Drawing.Size(966, 60)
+        Me.AppsSettingsHeaderPanel.TabIndex = 1
+        '
+        'AppsSettingsLoad
+        '
+        Me.AppsSettingsLoad.BackColor = System.Drawing.Color.Transparent
+        Me.AppsSettingsLoad.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+        Me.AppsSettingsLoad.Dock = System.Windows.Forms.DockStyle.Right
+        Me.AppsSettingsLoad.FlatAppearance.BorderSize = 0
+        Me.AppsSettingsLoad.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray
+        Me.AppsSettingsLoad.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver
+        Me.AppsSettingsLoad.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.AppsSettingsLoad.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.AppsSettingsLoad.ForeColor = System.Drawing.Color.Black
+        Me.AppsSettingsLoad.Image = Global.Tease_AI.My.Resources.Resources.Button_Save
+        Me.AppsSettingsLoad.Location = New System.Drawing.Point(842, 0)
+        Me.AppsSettingsLoad.Margin = New System.Windows.Forms.Padding(0)
+        Me.AppsSettingsLoad.Name = "AppsSettingsLoad"
+        Me.AppsSettingsLoad.Size = New System.Drawing.Size(62, 60)
+        Me.AppsSettingsLoad.TabIndex = 153
+        Me.AppsSettingsLoad.Text = "Load"
+        Me.AppsSettingsLoad.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        Me.AppsSettingsLoad.UseVisualStyleBackColor = False
+        '
+        'AppsSettingsSave
+        '
+        Me.AppsSettingsSave.BackColor = System.Drawing.Color.Transparent
+        Me.AppsSettingsSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.AppsSettingsSave.Dock = System.Windows.Forms.DockStyle.Right
+        Me.AppsSettingsSave.FlatAppearance.BorderSize = 0
+        Me.AppsSettingsSave.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray
+        Me.AppsSettingsSave.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver
+        Me.AppsSettingsSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.AppsSettingsSave.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.AppsSettingsSave.ForeColor = System.Drawing.Color.Black
+        Me.AppsSettingsSave.Image = Global.Tease_AI.My.Resources.Resources.Button_Export
+        Me.AppsSettingsSave.Location = New System.Drawing.Point(904, 0)
+        Me.AppsSettingsSave.Margin = New System.Windows.Forms.Padding(0)
+        Me.AppsSettingsSave.Name = "AppsSettingsSave"
+        Me.AppsSettingsSave.Size = New System.Drawing.Size(62, 60)
+        Me.AppsSettingsSave.TabIndex = 152
+        Me.AppsSettingsSave.Text = "Save"
+        Me.AppsSettingsSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        Me.AppsSettingsSave.UseVisualStyleBackColor = False
+        '
+        'AppsSettingsLogo
+        '
+        Me.AppsSettingsLogo.BackColor = System.Drawing.Color.Transparent
+        Me.AppsSettingsLogo.Dock = System.Windows.Forms.DockStyle.Left
+        Me.AppsSettingsLogo.Image = Global.Tease_AI.My.Resources.Resources.TAI_Banner_small
+        Me.AppsSettingsLogo.Location = New System.Drawing.Point(0, 0)
+        Me.AppsSettingsLogo.Name = "AppsSettingsLogo"
+        Me.AppsSettingsLogo.Size = New System.Drawing.Size(160, 60)
+        Me.AppsSettingsLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
+        Me.AppsSettingsLogo.TabIndex = 150
+        Me.AppsSettingsLogo.TabStop = False
+        '
+        'AppsSettingsHeaderLabel
+        '
+        Me.AppsSettingsHeaderLabel.BackColor = System.Drawing.Color.Transparent
+        Me.AppsSettingsHeaderLabel.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.AppsSettingsHeaderLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.AppsSettingsHeaderLabel.ForeColor = System.Drawing.Color.Black
+        Me.AppsSettingsHeaderLabel.Location = New System.Drawing.Point(0, 0)
+        Me.AppsSettingsHeaderLabel.Name = "AppsSettingsHeaderLabel"
+        Me.AppsSettingsHeaderLabel.Size = New System.Drawing.Size(966, 60)
+        Me.AppsSettingsHeaderLabel.TabIndex = 151
+        Me.AppsSettingsHeaderLabel.Text = "Apps Settings"
+        Me.AppsSettingsHeaderLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
         'TabPage26
         '
         Me.TabPage26.BackColor = System.Drawing.Color.Silver
@@ -10984,7 +10794,7 @@ Partial Class FrmSettings
         Me.TabPage26.Location = New System.Drawing.Point(4, 22)
         Me.TabPage26.Name = "TabPage26"
         Me.TabPage26.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage26.Size = New System.Drawing.Size(972, 631)
+        Me.TabPage26.Size = New System.Drawing.Size(972, 456)
         Me.TabPage26.TabIndex = 19
         Me.TabPage26.Text = "Themes"
         '
@@ -11001,7 +10811,7 @@ Partial Class FrmSettings
         Me.Panel12.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel12.Location = New System.Drawing.Point(3, 3)
         Me.Panel12.Name = "Panel12"
-        Me.Panel12.Size = New System.Drawing.Size(966, 625)
+        Me.Panel12.Size = New System.Drawing.Size(966, 450)
         Me.Panel12.TabIndex = 93
         '
         'GroupBox9
@@ -11330,7 +11140,7 @@ Partial Class FrmSettings
         Me.RangeSettingsTabPage.Location = New System.Drawing.Point(4, 22)
         Me.RangeSettingsTabPage.Name = "RangeSettingsTabPage"
         Me.RangeSettingsTabPage.Padding = New System.Windows.Forms.Padding(3)
-        Me.RangeSettingsTabPage.Size = New System.Drawing.Size(972, 631)
+        Me.RangeSettingsTabPage.Size = New System.Drawing.Size(972, 456)
         Me.RangeSettingsTabPage.TabIndex = 3
         Me.RangeSettingsTabPage.Text = "Ranges"
         '
@@ -11342,7 +11152,7 @@ Partial Class FrmSettings
         Me.RangeSettingsBody.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RangeSettingsBody.Location = New System.Drawing.Point(3, 63)
         Me.RangeSettingsBody.Name = "RangeSettingsBody"
-        Me.RangeSettingsBody.Size = New System.Drawing.Size(966, 400)
+        Me.RangeSettingsBody.Size = New System.Drawing.Size(966, 225)
         Me.RangeSettingsBody.TabIndex = 91
         '
         'RangeSettingsBodyTablePanel
@@ -11360,7 +11170,7 @@ Partial Class FrmSettings
         Me.RangeSettingsBodyTablePanel.Name = "RangeSettingsBodyTablePanel"
         Me.RangeSettingsBodyTablePanel.RowCount = 1
         Me.RangeSettingsBodyTablePanel.RowStyles.Add(New System.Windows.Forms.RowStyle())
-        Me.RangeSettingsBodyTablePanel.Size = New System.Drawing.Size(964, 398)
+        Me.RangeSettingsBodyTablePanel.Size = New System.Drawing.Size(964, 223)
         Me.RangeSettingsBodyTablePanel.TabIndex = 174
         '
         'RangeSettingsBodyRightColumnPanel
@@ -12745,7 +12555,7 @@ Partial Class FrmSettings
         Me.RangeSettingsDescriptionGroupBox.Controls.Add(Me.RangeSettingsDescriptionLabel)
         Me.RangeSettingsDescriptionGroupBox.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.RangeSettingsDescriptionGroupBox.ForeColor = System.Drawing.Color.Black
-        Me.RangeSettingsDescriptionGroupBox.Location = New System.Drawing.Point(3, 463)
+        Me.RangeSettingsDescriptionGroupBox.Location = New System.Drawing.Point(3, 288)
         Me.RangeSettingsDescriptionGroupBox.Name = "RangeSettingsDescriptionGroupBox"
         Me.RangeSettingsDescriptionGroupBox.Size = New System.Drawing.Size(966, 165)
         Me.RangeSettingsDescriptionGroupBox.TabIndex = 66
@@ -12775,7 +12585,7 @@ Partial Class FrmSettings
         Me.TabPage13.Location = New System.Drawing.Point(4, 22)
         Me.TabPage13.Name = "TabPage13"
         Me.TabPage13.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage13.Size = New System.Drawing.Size(972, 631)
+        Me.TabPage13.Size = New System.Drawing.Size(972, 456)
         Me.TabPage13.TabIndex = 13
         Me.TabPage13.Text = "Modding"
         '
@@ -12790,7 +12600,7 @@ Partial Class FrmSettings
         Me.ModSubTab.Location = New System.Drawing.Point(3, 3)
         Me.ModSubTab.Name = "ModSubTab"
         Me.ModSubTab.SelectedIndex = 0
-        Me.ModSubTab.Size = New System.Drawing.Size(966, 625)
+        Me.ModSubTab.Size = New System.Drawing.Size(966, 450)
         Me.ModSubTab.TabIndex = 0
         '
         'ModPlaylistTabPage
@@ -12813,7 +12623,7 @@ Partial Class FrmSettings
         Me.ModPlaylistTabPage.Location = New System.Drawing.Point(4, 22)
         Me.ModPlaylistTabPage.Name = "ModPlaylistTabPage"
         Me.ModPlaylistTabPage.Padding = New System.Windows.Forms.Padding(3)
-        Me.ModPlaylistTabPage.Size = New System.Drawing.Size(958, 599)
+        Me.ModPlaylistTabPage.Size = New System.Drawing.Size(958, 424)
         Me.ModPlaylistTabPage.TabIndex = 5
         Me.ModPlaylistTabPage.Text = "Playlists"
         '
@@ -12977,7 +12787,7 @@ Partial Class FrmSettings
         Me.TabPage14.Location = New System.Drawing.Point(4, 22)
         Me.TabPage14.Name = "TabPage14"
         Me.TabPage14.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage14.Size = New System.Drawing.Size(958, 599)
+        Me.TabPage14.Size = New System.Drawing.Size(958, 424)
         Me.TabPage14.TabIndex = 0
         Me.TabPage14.Text = "Keywords"
         '
@@ -13076,7 +12886,7 @@ Partial Class FrmSettings
         Me.TabPage24.Location = New System.Drawing.Point(4, 22)
         Me.TabPage24.Name = "TabPage24"
         Me.TabPage24.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage24.Size = New System.Drawing.Size(958, 599)
+        Me.TabPage24.Size = New System.Drawing.Size(958, 424)
         Me.TabPage24.TabIndex = 3
         Me.TabPage24.Text = "Responses"
         '
@@ -13152,7 +12962,7 @@ Partial Class FrmSettings
         Me.TabPage8.Controls.Add(Me.BTNVideoModSave)
         Me.TabPage8.Location = New System.Drawing.Point(4, 22)
         Me.TabPage8.Name = "TabPage8"
-        Me.TabPage8.Size = New System.Drawing.Size(958, 599)
+        Me.TabPage8.Size = New System.Drawing.Size(958, 424)
         Me.TabPage8.TabIndex = 2
         Me.TabPage8.Text = "Video"
         '
@@ -13280,7 +13090,7 @@ Partial Class FrmSettings
         Me.TabPage15.Location = New System.Drawing.Point(4, 22)
         Me.TabPage15.Name = "TabPage15"
         Me.TabPage15.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage15.Size = New System.Drawing.Size(958, 599)
+        Me.TabPage15.Size = New System.Drawing.Size(958, 424)
         Me.TabPage15.TabIndex = 1
         Me.TabPage15.Text = "Glitter"
         '
@@ -13465,7 +13275,7 @@ Partial Class FrmSettings
         Me.TabPage25.Location = New System.Drawing.Point(4, 22)
         Me.TabPage25.Name = "TabPage25"
         Me.TabPage25.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage25.Size = New System.Drawing.Size(972, 631)
+        Me.TabPage25.Size = New System.Drawing.Size(972, 456)
         Me.TabPage25.TabIndex = 18
         Me.TabPage25.Text = "Misc"
         '
@@ -13484,7 +13294,7 @@ Partial Class FrmSettings
         Me.Panel11.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel11.Location = New System.Drawing.Point(3, 3)
         Me.Panel11.Name = "Panel11"
-        Me.Panel11.Size = New System.Drawing.Size(966, 625)
+        Me.Panel11.Size = New System.Drawing.Size(966, 450)
         Me.Panel11.TabIndex = 92
         '
         'GroupBox62
@@ -13858,7 +13668,7 @@ Partial Class FrmSettings
         Me.TabPage28.Location = New System.Drawing.Point(4, 22)
         Me.TabPage28.Name = "TabPage28"
         Me.TabPage28.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage28.Size = New System.Drawing.Size(972, 631)
+        Me.TabPage28.Size = New System.Drawing.Size(972, 456)
         Me.TabPage28.TabIndex = 20
         Me.TabPage28.Text = "Debug"
         '
@@ -13870,7 +13680,7 @@ Partial Class FrmSettings
         Me.TabControl3.Location = New System.Drawing.Point(3, 3)
         Me.TabControl3.Name = "TabControl3"
         Me.TabControl3.SelectedIndex = 0
-        Me.TabControl3.Size = New System.Drawing.Size(966, 625)
+        Me.TabControl3.Size = New System.Drawing.Size(966, 450)
         Me.TabControl3.TabIndex = 0
         '
         'TabPage29
@@ -13898,7 +13708,7 @@ Partial Class FrmSettings
         Me.TabPage29.Location = New System.Drawing.Point(4, 22)
         Me.TabPage29.Name = "TabPage29"
         Me.TabPage29.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage29.Size = New System.Drawing.Size(958, 599)
+        Me.TabPage29.Size = New System.Drawing.Size(958, 424)
         Me.TabPage29.TabIndex = 0
         Me.TabPage29.Text = "TabPage29"
         '
@@ -14331,7 +14141,7 @@ Partial Class FrmSettings
         Me.TabPage30.Location = New System.Drawing.Point(4, 22)
         Me.TabPage30.Name = "TabPage30"
         Me.TabPage30.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage30.Size = New System.Drawing.Size(958, 599)
+        Me.TabPage30.Size = New System.Drawing.Size(958, 424)
         Me.TabPage30.TabIndex = 1
         Me.TabPage30.Text = "TabPage30"
         '
@@ -14359,7 +14169,7 @@ Partial Class FrmSettings
         Me.TabPage5.Controls.Add(Me.Panel5)
         Me.TabPage5.Location = New System.Drawing.Point(4, 22)
         Me.TabPage5.Name = "TabPage5"
-        Me.TabPage5.Size = New System.Drawing.Size(972, 631)
+        Me.TabPage5.Size = New System.Drawing.Size(972, 456)
         Me.TabPage5.TabIndex = 17
         Me.TabPage5.Text = "About"
         '
@@ -14381,7 +14191,7 @@ Partial Class FrmSettings
         Me.Panel5.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel5.Location = New System.Drawing.Point(0, 0)
         Me.Panel5.Name = "Panel5"
-        Me.Panel5.Size = New System.Drawing.Size(972, 631)
+        Me.Panel5.Size = New System.Drawing.Size(972, 456)
         Me.Panel5.TabIndex = 92
         '
         'Label130
@@ -14550,6 +14360,26 @@ Partial Class FrmSettings
         Me.TextBox2.Size = New System.Drawing.Size(189, 20)
         Me.TextBox2.TabIndex = 145
         '
+        'SettingsHeader
+        '
+        Me.SettingsHeader.Dock = System.Windows.Forms.DockStyle.Top
+        Me.SettingsHeader.Location = New System.Drawing.Point(0, 0)
+        Me.SettingsHeader.Name = "SettingsHeader"
+        Me.SettingsHeader.SettingsTitle = "Header Text"
+        Me.SettingsHeader.Size = New System.Drawing.Size(980, 60)
+        Me.SettingsHeader.TabIndex = 0
+        '
+        'SettingsDescriptionControl
+        '
+        Me.SettingsDescriptionControl.BackColor = System.Drawing.Color.Transparent
+        Me.SettingsDescriptionControl.DescriptionText = "Hover over any setting in the menu for a more detailed description of its functio" &
+    "n."
+        Me.SettingsDescriptionControl.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.SettingsDescriptionControl.Location = New System.Drawing.Point(0, 542)
+        Me.SettingsDescriptionControl.Name = "SettingsDescriptionControl"
+        Me.SettingsDescriptionControl.Size = New System.Drawing.Size(980, 165)
+        Me.SettingsDescriptionControl.TabIndex = 2
+        '
         'BWURLFiles
         '
         Me.BWURLFiles.DislikeListPath = "Images\System\DislikedImageURLs.txt"
@@ -14563,11 +14393,14 @@ Partial Class FrmSettings
         Me.AllowDrop = True
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(980, 657)
+        Me.ClientSize = New System.Drawing.Size(980, 707)
         Me.Controls.Add(Me.SettingsTabs)
+        Me.Controls.Add(Me.SettingsHeader)
+        Me.Controls.Add(Me.SettingsDescriptionControl)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
         Me.MaximizeBox = False
         Me.MinimizeBox = False
+        Me.MinimumSize = New System.Drawing.Size(1000, 750)
         Me.Name = "FrmSettings"
         Me.ShowIcon = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
@@ -14699,7 +14532,6 @@ Partial Class FrmSettings
         Me.FileDropDownLabel.ResumeLayout(False)
         Me.FileDropDownLabel.PerformLayout
         Me.LocalTagImageNavGroup.ResumeLayout(False)
-        CType(Me.LocalTagPictureBox, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox55.ResumeLayout(False)
         Me.GroupBox55.PerformLayout
         Me.GroupBox53.ResumeLayout(False)
@@ -14716,6 +14548,7 @@ Partial Class FrmSettings
         Me.GroupBox50.PerformLayout
         Me.GroupBox48.ResumeLayout(False)
         Me.GroupBox48.PerformLayout
+        CType(Me.LocalTagPictureBox, System.ComponentModel.ISupportInitialize).EndInit
         Me.UrlFilesTab.ResumeLayout(False)
         Me.UrlFilesPanel.ResumeLayout(False)
         Me.UrlFilesPanel.PerformLayout
@@ -14741,17 +14574,9 @@ Partial Class FrmSettings
         Me.VideoHeaderPanel.ResumeLayout(False)
         CType(Me.VideoLogo, System.ComponentModel.ISupportInitialize).EndInit
         Me.VideoDescriptionGroupBox.ResumeLayout(False)
-        Me.TabPage20.ResumeLayout(False)
-        Me.AppsSettingsHeaderPanel.ResumeLayout(False)
-        CType(Me.AppsSettingsLogo, System.ComponentModel.ISupportInitialize).EndInit
+        Me.AppsTabPage.ResumeLayout(False)
         Me.AppsSettingsTabList.ResumeLayout(False)
-        Me.TabPage22.ResumeLayout(False)
-        Me.DommeGlitterGroupBox.ResumeLayout(False)
-        Me.DommeGlitterGroupBox.PerformLayout
-        Me.GrbGlitterfeed.ResumeLayout(False)
-        Me.GrbGlitterfeed.PerformLayout
-        CType(Me.GlitterSlider, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.DommeGlitterAvatar, System.ComponentModel.ISupportInitialize).EndInit
+        Me.GlitterAppTabPage.ResumeLayout(False)
         Me.GBGlitter1.ResumeLayout(False)
         Me.GBGlitter1.PerformLayout
         CType(Me.GlitterSlider1, System.ComponentModel.ISupportInitialize).EndInit
@@ -14800,6 +14625,8 @@ Partial Class FrmSettings
         CType(Me.WishlistCostSilver, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.WishlistCostGold, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.WishlistPreview, System.ComponentModel.ISupportInitialize).EndInit
+        Me.AppsSettingsHeaderPanel.ResumeLayout(False)
+        CType(Me.AppsSettingsLogo, System.ComponentModel.ISupportInitialize).EndInit
         Me.TabPage26.ResumeLayout(False)
         Me.Panel12.ResumeLayout(False)
         Me.GroupBox9.ResumeLayout(False)
@@ -15104,19 +14931,6 @@ Partial Class FrmSettings
     Friend WithEvents Label25 As System.Windows.Forms.Label
     Friend WithEvents Label24 As System.Windows.Forms.Label
     Friend WithEvents RangeSettingsHeaderLabel As System.Windows.Forms.Label
-    Friend WithEvents DommeGlitterGroupBox As System.Windows.Forms.GroupBox
-    Friend WithEvents BTNGlitterD As System.Windows.Forms.Button
-    Friend WithEvents LBLGlitterNCDomme As System.Windows.Forms.Label
-    Friend WithEvents LBLGlitterSlider As System.Windows.Forms.Label
-    Friend WithEvents CBCustom2 As System.Windows.Forms.CheckBox
-    Friend WithEvents GlitterSlider As System.Windows.Forms.TrackBar
-    Friend WithEvents CBCustom1 As System.Windows.Forms.CheckBox
-    Friend WithEvents CBDaily As System.Windows.Forms.CheckBox
-    Friend WithEvents CBTrivia As System.Windows.Forms.CheckBox
-    Friend WithEvents TBGlitterShortName As System.Windows.Forms.TextBox
-    Friend WithEvents CBEgotist As System.Windows.Forms.CheckBox
-    Friend WithEvents CBTease As System.Windows.Forms.CheckBox
-    Friend WithEvents DommeGlitterAvatar As System.Windows.Forms.PictureBox
     Friend WithEvents GBGlitter1 As System.Windows.Forms.GroupBox
     Friend WithEvents BTNGlitter1 As System.Windows.Forms.Button
     Friend WithEvents LBLGlitterNC1 As System.Windows.Forms.Label
@@ -15319,9 +15133,9 @@ Partial Class FrmSettings
     Friend WithEvents RangeSettingsTeaseGroupBox As System.Windows.Forms.GroupBox
     Friend WithEvents LBLSafeword As System.Windows.Forms.Label
     Friend WithEvents TBSafeword As System.Windows.Forms.TextBox
-    Friend WithEvents TabPage20 As System.Windows.Forms.TabPage
+    Friend WithEvents AppsTabPage As System.Windows.Forms.TabPage
     Friend WithEvents AppsSettingsTabList As System.Windows.Forms.TabControl
-    Friend WithEvents TabPage22 As System.Windows.Forms.TabPage
+    Friend WithEvents GlitterAppTabPage As System.Windows.Forms.TabPage
     Friend WithEvents TpGames As System.Windows.Forms.TabPage
     Friend WithEvents GbxCardsGold As System.Windows.Forms.GroupBox
     Friend WithEvents GN6 As System.Windows.Forms.TextBox
@@ -15486,9 +15300,6 @@ Partial Class FrmSettings
     Friend WithEvents TbxContact3ImageDir As System.Windows.Forms.TextBox
     Friend WithEvents BtnContact2ImageDir As System.Windows.Forms.Button
     Friend WithEvents TbxContact2ImageDir As System.Windows.Forms.TextBox
-    Friend WithEvents CBGlitterFeedOff As System.Windows.Forms.RadioButton
-    Friend WithEvents CBGlitterFeedScripts As System.Windows.Forms.RadioButton
-    Friend WithEvents CBGlitterFeed As System.Windows.Forms.RadioButton
     Friend WithEvents GroupBox33 As System.Windows.Forms.GroupBox
     Friend WithEvents ChastityModeButton As System.Windows.Forms.Button
     Friend WithEvents InChastityLabel As System.Windows.Forms.Label
@@ -15869,7 +15680,6 @@ Partial Class FrmSettings
     Friend WithEvents SaveTagButton As Button
     Friend WithEvents CBLockOrgasmChances As CheckBox
     Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
-    Friend WithEvents GrbGlitterfeed As GroupBox
     Friend WithEvents GenreDropDownLabel As Label
     Friend WithEvents GenreCombo As ComboBox
     Friend WithEvents FileTagCombo As ComboBox
@@ -15989,4 +15799,7 @@ Partial Class FrmSettings
     Friend WithEvents AppsSettingsHeaderLabel As Label
     Friend WithEvents AppsSettingsLoad As Button
     Friend WithEvents AppsSettingsSave As Button
+    Friend WithEvents DommeGlitterSettings As GlitterSettingsControl
+    Friend WithEvents SettingsHeader As SettingsHeaderControl
+    Friend WithEvents SettingsDescriptionControl As SettingsDescriptionControl
 End Class
