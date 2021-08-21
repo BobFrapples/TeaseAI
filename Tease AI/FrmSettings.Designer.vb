@@ -662,18 +662,8 @@ Partial Class FrmSettings
         Me.AppsTabPage = New System.Windows.Forms.TabPage()
         Me.AppsSettingsTabList = New System.Windows.Forms.TabControl()
         Me.GlitterAppTabPage = New System.Windows.Forms.TabPage()
+        Me.GlitterContact1SettingsControl = New Tease_AI.GlitterSettingsControl()
         Me.DommeGlitterSettings = New Tease_AI.GlitterSettingsControl()
-        Me.GBGlitter1 = New System.Windows.Forms.GroupBox()
-        Me.BtnContact1ImageDirClear = New System.Windows.Forms.Button()
-        Me.BtnContact1ImageDir = New System.Windows.Forms.Button()
-        Me.TbxContact1ImageDir = New System.Windows.Forms.TextBox()
-        Me.BTNGlitter1 = New System.Windows.Forms.Button()
-        Me.LBLGlitterNC1 = New System.Windows.Forms.Label()
-        Me.LBLGlitterSlider1 = New System.Windows.Forms.Label()
-        Me.GlitterSlider1 = New System.Windows.Forms.TrackBar()
-        Me.CBGlitter1 = New System.Windows.Forms.CheckBox()
-        Me.TBGlitter1 = New System.Windows.Forms.TextBox()
-        Me.GlitterAV1 = New System.Windows.Forms.PictureBox()
         Me.GBGlitter3 = New System.Windows.Forms.GroupBox()
         Me.BtnContact3ImageDirClear = New System.Windows.Forms.Button()
         Me.BtnContact3ImageDir = New System.Windows.Forms.Button()
@@ -685,17 +675,6 @@ Partial Class FrmSettings
         Me.CBGlitter3 = New System.Windows.Forms.CheckBox()
         Me.TBGlitter3 = New System.Windows.Forms.TextBox()
         Me.GlitterAV3 = New System.Windows.Forms.PictureBox()
-        Me.GBGlitter2 = New System.Windows.Forms.GroupBox()
-        Me.BtnContact2ImageDirClear = New System.Windows.Forms.Button()
-        Me.BtnContact2ImageDir = New System.Windows.Forms.Button()
-        Me.TbxContact2ImageDir = New System.Windows.Forms.TextBox()
-        Me.BTNGlitter2 = New System.Windows.Forms.Button()
-        Me.LBLGlitterNC2 = New System.Windows.Forms.Label()
-        Me.LBLGlitterSlider2 = New System.Windows.Forms.Label()
-        Me.GlitterSlider2 = New System.Windows.Forms.TrackBar()
-        Me.CBGlitter2 = New System.Windows.Forms.CheckBox()
-        Me.TBGlitter2 = New System.Windows.Forms.TextBox()
-        Me.GlitterAV2 = New System.Windows.Forms.PictureBox()
         Me.TpGames = New System.Windows.Forms.TabPage()
         Me.CBIncludeGifs = New System.Windows.Forms.CheckBox()
         Me.LblCardsSetupNote = New System.Windows.Forms.Label()
@@ -1089,6 +1068,7 @@ Partial Class FrmSettings
         Me.SettingsHeader = New Tease_AI.SettingsHeaderControl()
         Me.SettingsDescriptionControl = New Tease_AI.SettingsDescriptionControl()
         Me.BWURLFiles = New Tease_AI.URL_Files.URL_File_BGW()
+        Me.GlitterContact2SettingsControl = New Tease_AI.GlitterSettingsControl()
         Me.SettingsTabs.SuspendLayout
         Me.TabPage1.SuspendLayout
         Me.PNLGeneralSettings.SuspendLayout
@@ -1221,15 +1201,9 @@ Partial Class FrmSettings
         Me.AppsTabPage.SuspendLayout
         Me.AppsSettingsTabList.SuspendLayout
         Me.GlitterAppTabPage.SuspendLayout
-        Me.GBGlitter1.SuspendLayout
-        CType(Me.GlitterSlider1, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.GlitterAV1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GBGlitter3.SuspendLayout
         CType(Me.GlitterSlider3, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.GlitterAV3, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.GBGlitter2.SuspendLayout
-        CType(Me.GlitterSlider2, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.GlitterAV2, System.ComponentModel.ISupportInitialize).BeginInit
         Me.TpGames.SuspendLayout
         Me.GbxCardsGold.SuspendLayout
         CType(Me.GP6, System.ComponentModel.ISupportInitialize).BeginInit
@@ -9514,16 +9488,51 @@ Partial Class FrmSettings
         '
         Me.GlitterAppTabPage.AutoScroll = True
         Me.GlitterAppTabPage.BackColor = System.Drawing.SystemColors.ControlLight
+        Me.GlitterAppTabPage.Controls.Add(Me.GlitterContact2SettingsControl)
+        Me.GlitterAppTabPage.Controls.Add(Me.GlitterContact1SettingsControl)
         Me.GlitterAppTabPage.Controls.Add(Me.DommeGlitterSettings)
-        Me.GlitterAppTabPage.Controls.Add(Me.GBGlitter1)
         Me.GlitterAppTabPage.Controls.Add(Me.GBGlitter3)
-        Me.GlitterAppTabPage.Controls.Add(Me.GBGlitter2)
         Me.GlitterAppTabPage.Location = New System.Drawing.Point(4, 22)
         Me.GlitterAppTabPage.Name = "GlitterAppTabPage"
         Me.GlitterAppTabPage.Padding = New System.Windows.Forms.Padding(3)
         Me.GlitterAppTabPage.Size = New System.Drawing.Size(958, 424)
         Me.GlitterAppTabPage.TabIndex = 0
         Me.GlitterAppTabPage.Text = "Glitter"
+        '
+        'GlitterContact1SettingsControl
+        '
+        Me.GlitterContact1SettingsControl.AvatarImageFile = Nothing
+        Me.GlitterContact1SettingsControl.BackColor = System.Drawing.Color.Transparent
+        Me.GlitterContact1SettingsControl.ChatColor = "buttontext"
+        Me.GlitterContact1SettingsControl.EnabledLabel = "Enabled"
+        Me.GlitterContact1SettingsControl.GlitterContactName = ""
+        Me.GlitterContact1SettingsControl.GlitterImageDirectory = ""
+        Me.GlitterContact1SettingsControl.GlitterLabel = "Contact 1"
+        Me.GlitterContact1SettingsControl.IsAngry = False
+        Me.GlitterContact1SettingsControl.IsBratty = False
+        Me.GlitterContact1SettingsControl.IsCaring = False
+        Me.GlitterContact1SettingsControl.IsCondescending = False
+        Me.GlitterContact1SettingsControl.IsCrazy = False
+        Me.GlitterContact1SettingsControl.IsCruel = False
+        Me.GlitterContact1SettingsControl.IsCustom1ModuleEnabled = False
+        Me.GlitterContact1SettingsControl.IsCustom2ModuleEnabled = False
+        Me.GlitterContact1SettingsControl.IsDailyModuleEnabled = False
+        Me.GlitterContact1SettingsControl.IsDegrading = False
+        Me.GlitterContact1SettingsControl.IsEgotistModuleEnabled = False
+        Me.GlitterContact1SettingsControl.IsGlitterEnabled = False
+        Me.GlitterContact1SettingsControl.IsSadistic = False
+        Me.GlitterContact1SettingsControl.IsScriptsOptionEnabled = False
+        Me.GlitterContact1SettingsControl.IsSupremacist = False
+        Me.GlitterContact1SettingsControl.IsTeaseModuleEnabled = False
+        Me.GlitterContact1SettingsControl.IsTriviaModuleEnabled = False
+        Me.GlitterContact1SettingsControl.IsVulgar = False
+        Me.GlitterContact1SettingsControl.Location = New System.Drawing.Point(477, 6)
+        Me.GlitterContact1SettingsControl.MinimumSize = New System.Drawing.Size(350, 150)
+        Me.GlitterContact1SettingsControl.Name = "GlitterContact1SettingsControl"
+        Me.GlitterContact1SettingsControl.PostFrequency = 1
+        Me.GlitterContact1SettingsControl.ResponseFrequency = 1
+        Me.GlitterContact1SettingsControl.Size = New System.Drawing.Size(455, 300)
+        Me.GlitterContact1SettingsControl.TabIndex = 164
         '
         'DommeGlitterSettings
         '
@@ -9532,6 +9541,7 @@ Partial Class FrmSettings
         Me.DommeGlitterSettings.ChatColor = "buttontext"
         Me.DommeGlitterSettings.EnabledLabel = "Glitter Feed"
         Me.DommeGlitterSettings.GlitterContactName = ""
+        Me.DommeGlitterSettings.GlitterImageDirectory = ""
         Me.DommeGlitterSettings.GlitterLabel = "Domme"
         Me.DommeGlitterSettings.IsAngry = False
         Me.DommeGlitterSettings.IsBratty = False
@@ -9556,148 +9566,8 @@ Partial Class FrmSettings
         Me.DommeGlitterSettings.Name = "DommeGlitterSettings"
         Me.DommeGlitterSettings.PostFrequency = 1
         Me.DommeGlitterSettings.ResponseFrequency = 1
-        Me.DommeGlitterSettings.Size = New System.Drawing.Size(421, 300)
+        Me.DommeGlitterSettings.Size = New System.Drawing.Size(455, 300)
         Me.DommeGlitterSettings.TabIndex = 163
-        '
-        'GBGlitter1
-        '
-        Me.GBGlitter1.BackColor = System.Drawing.Color.Transparent
-        Me.GBGlitter1.Controls.Add(Me.BtnContact1ImageDirClear)
-        Me.GBGlitter1.Controls.Add(Me.BtnContact1ImageDir)
-        Me.GBGlitter1.Controls.Add(Me.TbxContact1ImageDir)
-        Me.GBGlitter1.Controls.Add(Me.BTNGlitter1)
-        Me.GBGlitter1.Controls.Add(Me.LBLGlitterNC1)
-        Me.GBGlitter1.Controls.Add(Me.LBLGlitterSlider1)
-        Me.GBGlitter1.Controls.Add(Me.GlitterSlider1)
-        Me.GBGlitter1.Controls.Add(Me.CBGlitter1)
-        Me.GBGlitter1.Controls.Add(Me.TBGlitter1)
-        Me.GBGlitter1.Controls.Add(Me.GlitterAV1)
-        Me.GBGlitter1.Location = New System.Drawing.Point(437, 6)
-        Me.GBGlitter1.Name = "GBGlitter1"
-        Me.GBGlitter1.Size = New System.Drawing.Size(344, 150)
-        Me.GBGlitter1.TabIndex = 161
-        Me.GBGlitter1.TabStop = False
-        Me.GBGlitter1.Text = "Contact 1"
-        '
-        'BtnContact1ImageDirClear
-        '
-        Me.BtnContact1ImageDirClear.BackColor = System.Drawing.Color.LightGray
-        Me.BtnContact1ImageDirClear.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnContact1ImageDirClear.ForeColor = System.Drawing.Color.Black
-        Me.BtnContact1ImageDirClear.Location = New System.Drawing.Point(174, 93)
-        Me.BtnContact1ImageDirClear.Name = "BtnContact1ImageDirClear"
-        Me.BtnContact1ImageDirClear.Size = New System.Drawing.Size(39, 22)
-        Me.BtnContact1ImageDirClear.TabIndex = 181
-        Me.BtnContact1ImageDirClear.Text = "Clear"
-        Me.BtnContact1ImageDirClear.UseVisualStyleBackColor = False
-        '
-        'BtnContact1ImageDir
-        '
-        Me.BtnContact1ImageDir.BackColor = System.Drawing.Color.LightGray
-        Me.BtnContact1ImageDir.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnContact1ImageDir.ForeColor = System.Drawing.Color.Black
-        Me.BtnContact1ImageDir.Location = New System.Drawing.Point(9, 93)
-        Me.BtnContact1ImageDir.Name = "BtnContact1ImageDir"
-        Me.BtnContact1ImageDir.Size = New System.Drawing.Size(160, 22)
-        Me.BtnContact1ImageDir.TabIndex = 177
-        Me.BtnContact1ImageDir.Text = "Set Contact1 Images Directory"
-        Me.BtnContact1ImageDir.UseVisualStyleBackColor = False
-        '
-        'TbxContact1ImageDir
-        '
-        Me.TbxContact1ImageDir.BackColor = System.Drawing.Color.LightGray
-        Me.TbxContact1ImageDir.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TbxContact1ImageDir.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TbxContact1ImageDir.ForeColor = System.Drawing.Color.Black
-        Me.TbxContact1ImageDir.Location = New System.Drawing.Point(9, 121)
-        Me.TbxContact1ImageDir.MaximumSize = New System.Drawing.Size(2, 17)
-        Me.TbxContact1ImageDir.MinimumSize = New System.Drawing.Size(204, 17)
-        Me.TbxContact1ImageDir.Name = "TbxContact1ImageDir"
-        Me.TbxContact1ImageDir.ReadOnly = True
-        Me.TbxContact1ImageDir.Size = New System.Drawing.Size(204, 17)
-        Me.TbxContact1ImageDir.TabIndex = 176
-        '
-        'BTNGlitter1
-        '
-        Me.BTNGlitter1.BackColor = System.Drawing.Color.LightGray
-        Me.BTNGlitter1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BTNGlitter1.ForeColor = System.Drawing.Color.Black
-        Me.BTNGlitter1.Location = New System.Drawing.Point(220, 23)
-        Me.BTNGlitter1.Name = "BTNGlitter1"
-        Me.BTNGlitter1.Size = New System.Drawing.Size(115, 24)
-        Me.BTNGlitter1.TabIndex = 175
-        Me.BTNGlitter1.Text = "Choose Name Color"
-        Me.BTNGlitter1.UseVisualStyleBackColor = False
-        '
-        'LBLGlitterNC1
-        '
-        Me.LBLGlitterNC1.BackColor = System.Drawing.Color.White
-        Me.LBLGlitterNC1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.LBLGlitterNC1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LBLGlitterNC1.Location = New System.Drawing.Point(220, 57)
-        Me.LBLGlitterNC1.Name = "LBLGlitterNC1"
-        Me.LBLGlitterNC1.Size = New System.Drawing.Size(115, 23)
-        Me.LBLGlitterNC1.TabIndex = 166
-        Me.LBLGlitterNC1.Text = "Preview"
-        Me.LBLGlitterNC1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'LBLGlitterSlider1
-        '
-        Me.LBLGlitterSlider1.BackColor = System.Drawing.Color.Transparent
-        Me.LBLGlitterSlider1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LBLGlitterSlider1.ForeColor = System.Drawing.Color.Black
-        Me.LBLGlitterSlider1.Location = New System.Drawing.Point(220, 96)
-        Me.LBLGlitterSlider1.Name = "LBLGlitterSlider1"
-        Me.LBLGlitterSlider1.Size = New System.Drawing.Size(115, 19)
-        Me.LBLGlitterSlider1.TabIndex = 163
-        Me.LBLGlitterSlider1.Text = "Response Frequency"
-        Me.LBLGlitterSlider1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'GlitterSlider1
-        '
-        Me.GlitterSlider1.AutoSize = False
-        Me.GlitterSlider1.LargeChange = 1
-        Me.GlitterSlider1.Location = New System.Drawing.Point(220, 118)
-        Me.GlitterSlider1.Maximum = 9
-        Me.GlitterSlider1.Minimum = 1
-        Me.GlitterSlider1.Name = "GlitterSlider1"
-        Me.GlitterSlider1.Size = New System.Drawing.Size(115, 25)
-        Me.GlitterSlider1.TabIndex = 161
-        Me.GlitterSlider1.Value = 1
-        '
-        'CBGlitter1
-        '
-        Me.CBGlitter1.AutoSize = True
-        Me.CBGlitter1.Checked = True
-        Me.CBGlitter1.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CBGlitter1.ForeColor = System.Drawing.Color.Black
-        Me.CBGlitter1.Location = New System.Drawing.Point(79, 26)
-        Me.CBGlitter1.Name = "CBGlitter1"
-        Me.CBGlitter1.Size = New System.Drawing.Size(122, 17)
-        Me.CBGlitter1.TabIndex = 151
-        Me.CBGlitter1.Text = "Enable This Contact"
-        Me.CBGlitter1.UseVisualStyleBackColor = True
-        '
-        'TBGlitter1
-        '
-        Me.TBGlitter1.BackColor = System.Drawing.Color.White
-        Me.TBGlitter1.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TBGlitter1.ForeColor = System.Drawing.Color.Black
-        Me.TBGlitter1.Location = New System.Drawing.Point(79, 57)
-        Me.TBGlitter1.Name = "TBGlitter1"
-        Me.TBGlitter1.Size = New System.Drawing.Size(134, 23)
-        Me.TBGlitter1.TabIndex = 49
-        Me.TBGlitter1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
-        'GlitterAV1
-        '
-        Me.GlitterAV1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.GlitterAV1.Location = New System.Drawing.Point(9, 16)
-        Me.GlitterAV1.Name = "GlitterAV1"
-        Me.GlitterAV1.Size = New System.Drawing.Size(64, 64)
-        Me.GlitterAV1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.GlitterAV1.TabIndex = 149
-        Me.GlitterAV1.TabStop = False
         '
         'GBGlitter3
         '
@@ -9712,7 +9582,7 @@ Partial Class FrmSettings
         Me.GBGlitter3.Controls.Add(Me.CBGlitter3)
         Me.GBGlitter3.Controls.Add(Me.TBGlitter3)
         Me.GBGlitter3.Controls.Add(Me.GlitterAV3)
-        Me.GBGlitter3.Location = New System.Drawing.Point(26, 312)
+        Me.GBGlitter3.Location = New System.Drawing.Point(588, 337)
         Me.GBGlitter3.Name = "GBGlitter3"
         Me.GBGlitter3.Size = New System.Drawing.Size(344, 150)
         Me.GBGlitter3.TabIndex = 160
@@ -9838,146 +9708,6 @@ Partial Class FrmSettings
         Me.GlitterAV3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
         Me.GlitterAV3.TabIndex = 149
         Me.GlitterAV3.TabStop = False
-        '
-        'GBGlitter2
-        '
-        Me.GBGlitter2.BackColor = System.Drawing.Color.Transparent
-        Me.GBGlitter2.Controls.Add(Me.BtnContact2ImageDirClear)
-        Me.GBGlitter2.Controls.Add(Me.BtnContact2ImageDir)
-        Me.GBGlitter2.Controls.Add(Me.TbxContact2ImageDir)
-        Me.GBGlitter2.Controls.Add(Me.BTNGlitter2)
-        Me.GBGlitter2.Controls.Add(Me.LBLGlitterNC2)
-        Me.GBGlitter2.Controls.Add(Me.LBLGlitterSlider2)
-        Me.GBGlitter2.Controls.Add(Me.GlitterSlider2)
-        Me.GBGlitter2.Controls.Add(Me.CBGlitter2)
-        Me.GBGlitter2.Controls.Add(Me.TBGlitter2)
-        Me.GBGlitter2.Controls.Add(Me.GlitterAV2)
-        Me.GBGlitter2.Location = New System.Drawing.Point(466, 328)
-        Me.GBGlitter2.Name = "GBGlitter2"
-        Me.GBGlitter2.Size = New System.Drawing.Size(344, 150)
-        Me.GBGlitter2.TabIndex = 151
-        Me.GBGlitter2.TabStop = False
-        Me.GBGlitter2.Text = "Contact 2"
-        '
-        'BtnContact2ImageDirClear
-        '
-        Me.BtnContact2ImageDirClear.BackColor = System.Drawing.Color.LightGray
-        Me.BtnContact2ImageDirClear.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnContact2ImageDirClear.ForeColor = System.Drawing.Color.Black
-        Me.BtnContact2ImageDirClear.Location = New System.Drawing.Point(174, 93)
-        Me.BtnContact2ImageDirClear.Name = "BtnContact2ImageDirClear"
-        Me.BtnContact2ImageDirClear.Size = New System.Drawing.Size(39, 22)
-        Me.BtnContact2ImageDirClear.TabIndex = 181
-        Me.BtnContact2ImageDirClear.Text = "Clear"
-        Me.BtnContact2ImageDirClear.UseVisualStyleBackColor = False
-        '
-        'BtnContact2ImageDir
-        '
-        Me.BtnContact2ImageDir.BackColor = System.Drawing.Color.LightGray
-        Me.BtnContact2ImageDir.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnContact2ImageDir.ForeColor = System.Drawing.Color.Black
-        Me.BtnContact2ImageDir.Location = New System.Drawing.Point(9, 93)
-        Me.BtnContact2ImageDir.Name = "BtnContact2ImageDir"
-        Me.BtnContact2ImageDir.Size = New System.Drawing.Size(160, 22)
-        Me.BtnContact2ImageDir.TabIndex = 179
-        Me.BtnContact2ImageDir.Text = "Set Contact2 Images Directory"
-        Me.BtnContact2ImageDir.UseVisualStyleBackColor = False
-        '
-        'TbxContact2ImageDir
-        '
-        Me.TbxContact2ImageDir.BackColor = System.Drawing.Color.LightGray
-        Me.TbxContact2ImageDir.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TbxContact2ImageDir.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TbxContact2ImageDir.ForeColor = System.Drawing.Color.Black
-        Me.TbxContact2ImageDir.Location = New System.Drawing.Point(9, 121)
-        Me.TbxContact2ImageDir.MaximumSize = New System.Drawing.Size(2, 17)
-        Me.TbxContact2ImageDir.MinimumSize = New System.Drawing.Size(204, 17)
-        Me.TbxContact2ImageDir.Name = "TbxContact2ImageDir"
-        Me.TbxContact2ImageDir.ReadOnly = True
-        Me.TbxContact2ImageDir.Size = New System.Drawing.Size(204, 17)
-        Me.TbxContact2ImageDir.TabIndex = 178
-        '
-        'BTNGlitter2
-        '
-        Me.BTNGlitter2.BackColor = System.Drawing.Color.LightGray
-        Me.BTNGlitter2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BTNGlitter2.ForeColor = System.Drawing.Color.Black
-        Me.BTNGlitter2.Location = New System.Drawing.Point(220, 23)
-        Me.BTNGlitter2.Name = "BTNGlitter2"
-        Me.BTNGlitter2.Size = New System.Drawing.Size(115, 24)
-        Me.BTNGlitter2.TabIndex = 167
-        Me.BTNGlitter2.Text = "Choose Name Color"
-        Me.BTNGlitter2.UseVisualStyleBackColor = False
-        '
-        'LBLGlitterNC2
-        '
-        Me.LBLGlitterNC2.BackColor = System.Drawing.Color.White
-        Me.LBLGlitterNC2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.LBLGlitterNC2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LBLGlitterNC2.Location = New System.Drawing.Point(220, 57)
-        Me.LBLGlitterNC2.Name = "LBLGlitterNC2"
-        Me.LBLGlitterNC2.Size = New System.Drawing.Size(115, 23)
-        Me.LBLGlitterNC2.TabIndex = 166
-        Me.LBLGlitterNC2.Text = "Preview"
-        Me.LBLGlitterNC2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'LBLGlitterSlider2
-        '
-        Me.LBLGlitterSlider2.BackColor = System.Drawing.Color.Transparent
-        Me.LBLGlitterSlider2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LBLGlitterSlider2.ForeColor = System.Drawing.Color.Black
-        Me.LBLGlitterSlider2.Location = New System.Drawing.Point(220, 96)
-        Me.LBLGlitterSlider2.Name = "LBLGlitterSlider2"
-        Me.LBLGlitterSlider2.Size = New System.Drawing.Size(115, 19)
-        Me.LBLGlitterSlider2.TabIndex = 163
-        Me.LBLGlitterSlider2.Text = "Response Frequency"
-        Me.LBLGlitterSlider2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'GlitterSlider2
-        '
-        Me.GlitterSlider2.AutoSize = False
-        Me.GlitterSlider2.LargeChange = 1
-        Me.GlitterSlider2.Location = New System.Drawing.Point(220, 118)
-        Me.GlitterSlider2.Maximum = 9
-        Me.GlitterSlider2.Minimum = 1
-        Me.GlitterSlider2.Name = "GlitterSlider2"
-        Me.GlitterSlider2.Size = New System.Drawing.Size(115, 25)
-        Me.GlitterSlider2.TabIndex = 161
-        Me.GlitterSlider2.Value = 1
-        '
-        'CBGlitter2
-        '
-        Me.CBGlitter2.AutoSize = True
-        Me.CBGlitter2.Checked = True
-        Me.CBGlitter2.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CBGlitter2.ForeColor = System.Drawing.Color.Black
-        Me.CBGlitter2.Location = New System.Drawing.Point(79, 26)
-        Me.CBGlitter2.Name = "CBGlitter2"
-        Me.CBGlitter2.Size = New System.Drawing.Size(122, 17)
-        Me.CBGlitter2.TabIndex = 151
-        Me.CBGlitter2.Text = "Enable This Contact"
-        Me.CBGlitter2.UseVisualStyleBackColor = True
-        '
-        'TBGlitter2
-        '
-        Me.TBGlitter2.BackColor = System.Drawing.Color.White
-        Me.TBGlitter2.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TBGlitter2.ForeColor = System.Drawing.Color.Black
-        Me.TBGlitter2.Location = New System.Drawing.Point(79, 57)
-        Me.TBGlitter2.Name = "TBGlitter2"
-        Me.TBGlitter2.Size = New System.Drawing.Size(134, 23)
-        Me.TBGlitter2.TabIndex = 49
-        Me.TBGlitter2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
-        'GlitterAV2
-        '
-        Me.GlitterAV2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.GlitterAV2.Location = New System.Drawing.Point(9, 16)
-        Me.GlitterAV2.Name = "GlitterAV2"
-        Me.GlitterAV2.Size = New System.Drawing.Size(64, 64)
-        Me.GlitterAV2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.GlitterAV2.TabIndex = 149
-        Me.GlitterAV2.TabStop = False
         '
         'TpGames
         '
@@ -14388,6 +14118,42 @@ Partial Class FrmSettings
         Me.BWURLFiles.WorkerReportsProgress = True
         Me.BWURLFiles.WorkerSupportsCancellation = True
         '
+        'GlitterContact2SettingsControl
+        '
+        Me.GlitterContact2SettingsControl.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.GlitterContact2SettingsControl.AvatarImageFile = Nothing
+        Me.GlitterContact2SettingsControl.BackColor = System.Drawing.Color.Transparent
+        Me.GlitterContact2SettingsControl.ChatColor = "buttontext"
+        Me.GlitterContact2SettingsControl.EnabledLabel = "Enabled"
+        Me.GlitterContact2SettingsControl.GlitterContactName = ""
+        Me.GlitterContact2SettingsControl.GlitterImageDirectory = ""
+        Me.GlitterContact2SettingsControl.GlitterLabel = "Contact 2"
+        Me.GlitterContact2SettingsControl.IsAngry = False
+        Me.GlitterContact2SettingsControl.IsBratty = False
+        Me.GlitterContact2SettingsControl.IsCaring = False
+        Me.GlitterContact2SettingsControl.IsCondescending = False
+        Me.GlitterContact2SettingsControl.IsCrazy = False
+        Me.GlitterContact2SettingsControl.IsCruel = False
+        Me.GlitterContact2SettingsControl.IsCustom1ModuleEnabled = False
+        Me.GlitterContact2SettingsControl.IsCustom2ModuleEnabled = False
+        Me.GlitterContact2SettingsControl.IsDailyModuleEnabled = False
+        Me.GlitterContact2SettingsControl.IsDegrading = False
+        Me.GlitterContact2SettingsControl.IsEgotistModuleEnabled = False
+        Me.GlitterContact2SettingsControl.IsGlitterEnabled = False
+        Me.GlitterContact2SettingsControl.IsSadistic = False
+        Me.GlitterContact2SettingsControl.IsScriptsOptionEnabled = False
+        Me.GlitterContact2SettingsControl.IsSupremacist = False
+        Me.GlitterContact2SettingsControl.IsTeaseModuleEnabled = False
+        Me.GlitterContact2SettingsControl.IsTriviaModuleEnabled = False
+        Me.GlitterContact2SettingsControl.IsVulgar = False
+        Me.GlitterContact2SettingsControl.Location = New System.Drawing.Point(10, 312)
+        Me.GlitterContact2SettingsControl.MinimumSize = New System.Drawing.Size(350, 150)
+        Me.GlitterContact2SettingsControl.Name = "GlitterContact2SettingsControl"
+        Me.GlitterContact2SettingsControl.PostFrequency = 1
+        Me.GlitterContact2SettingsControl.ResponseFrequency = 1
+        Me.GlitterContact2SettingsControl.Size = New System.Drawing.Size(455, 300)
+        Me.GlitterContact2SettingsControl.TabIndex = 165
+        '
         'FrmSettings
         '
         Me.AllowDrop = True
@@ -14577,18 +14343,10 @@ Partial Class FrmSettings
         Me.AppsTabPage.ResumeLayout(False)
         Me.AppsSettingsTabList.ResumeLayout(False)
         Me.GlitterAppTabPage.ResumeLayout(False)
-        Me.GBGlitter1.ResumeLayout(False)
-        Me.GBGlitter1.PerformLayout
-        CType(Me.GlitterSlider1, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.GlitterAV1, System.ComponentModel.ISupportInitialize).EndInit
         Me.GBGlitter3.ResumeLayout(False)
         Me.GBGlitter3.PerformLayout
         CType(Me.GlitterSlider3, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.GlitterAV3, System.ComponentModel.ISupportInitialize).EndInit
-        Me.GBGlitter2.ResumeLayout(False)
-        Me.GBGlitter2.PerformLayout
-        CType(Me.GlitterSlider2, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.GlitterAV2, System.ComponentModel.ISupportInitialize).EndInit
         Me.TpGames.ResumeLayout(False)
         Me.TpGames.PerformLayout
         Me.GbxCardsGold.ResumeLayout(False)
@@ -14931,14 +14689,6 @@ Partial Class FrmSettings
     Friend WithEvents Label25 As System.Windows.Forms.Label
     Friend WithEvents Label24 As System.Windows.Forms.Label
     Friend WithEvents RangeSettingsHeaderLabel As System.Windows.Forms.Label
-    Friend WithEvents GBGlitter1 As System.Windows.Forms.GroupBox
-    Friend WithEvents BTNGlitter1 As System.Windows.Forms.Button
-    Friend WithEvents LBLGlitterNC1 As System.Windows.Forms.Label
-    Friend WithEvents LBLGlitterSlider1 As System.Windows.Forms.Label
-    Friend WithEvents GlitterSlider1 As System.Windows.Forms.TrackBar
-    Friend WithEvents CBGlitter1 As System.Windows.Forms.CheckBox
-    Friend WithEvents TBGlitter1 As System.Windows.Forms.TextBox
-    Friend WithEvents GlitterAV1 As System.Windows.Forms.PictureBox
     Friend WithEvents GBGlitter3 As System.Windows.Forms.GroupBox
     Friend WithEvents BTNGlitter3 As System.Windows.Forms.Button
     Friend WithEvents LBLGlitterNC3 As System.Windows.Forms.Label
@@ -14947,14 +14697,6 @@ Partial Class FrmSettings
     Friend WithEvents CBGlitter3 As System.Windows.Forms.CheckBox
     Friend WithEvents TBGlitter3 As System.Windows.Forms.TextBox
     Friend WithEvents GlitterAV3 As System.Windows.Forms.PictureBox
-    Friend WithEvents GBGlitter2 As System.Windows.Forms.GroupBox
-    Friend WithEvents BTNGlitter2 As System.Windows.Forms.Button
-    Friend WithEvents LBLGlitterNC2 As System.Windows.Forms.Label
-    Friend WithEvents LBLGlitterSlider2 As System.Windows.Forms.Label
-    Friend WithEvents GlitterSlider2 As System.Windows.Forms.TrackBar
-    Friend WithEvents CBGlitter2 As System.Windows.Forms.CheckBox
-    Friend WithEvents TBGlitter2 As System.Windows.Forms.TextBox
-    Friend WithEvents GlitterAV2 As System.Windows.Forms.PictureBox
     Friend WithEvents Label62 As System.Windows.Forms.Label
     Friend WithEvents Label61 As System.Windows.Forms.Label
     Friend WithEvents Label60 As System.Windows.Forms.Label
@@ -14986,10 +14728,14 @@ Partial Class FrmSettings
     Friend WithEvents LBKeyWords As System.Windows.Forms.ListBox
     Friend WithEvents RTBKeyWords As System.Windows.Forms.RichTextBox
     Friend WithEvents TabPage15 As System.Windows.Forms.TabPage
+    <Obsolete("Create a local variable instead")>
     Friend WithEvents OpenFileDialog1 As System.Windows.Forms.OpenFileDialog
     Friend WithEvents GetColor As System.Windows.Forms.ColorDialog
+    <Obsolete("Create a local variable instead")>
     Friend WithEvents WebImageFileDialog As System.Windows.Forms.OpenFileDialog
+    <Obsolete("Create a local variable instead")>
     Friend WithEvents SaveFileDialog1 As System.Windows.Forms.SaveFileDialog
+    <Obsolete("Create a local variable instead")>
     Friend WithEvents OpenScriptDialog As System.Windows.Forms.OpenFileDialog
     Friend WithEvents TeaseSlideShowRadio As System.Windows.Forms.RadioButton
     Friend WithEvents ManualSlideShowRadio As System.Windows.Forms.RadioButton
@@ -15294,20 +15040,14 @@ Partial Class FrmSettings
     Friend WithEvents BTNPlaylistCtrlZ As System.Windows.Forms.Button
     Friend WithEvents RadioPlaylistRegScripts As System.Windows.Forms.RadioButton
     Friend WithEvents RadioPlaylistScripts As System.Windows.Forms.RadioButton
-    Friend WithEvents BtnContact1ImageDir As System.Windows.Forms.Button
-    Friend WithEvents TbxContact1ImageDir As System.Windows.Forms.TextBox
     Friend WithEvents BtnContact3ImageDir As System.Windows.Forms.Button
     Friend WithEvents TbxContact3ImageDir As System.Windows.Forms.TextBox
-    Friend WithEvents BtnContact2ImageDir As System.Windows.Forms.Button
-    Friend WithEvents TbxContact2ImageDir As System.Windows.Forms.TextBox
     Friend WithEvents GroupBox33 As System.Windows.Forms.GroupBox
     Friend WithEvents ChastityModeButton As System.Windows.Forms.Button
     Friend WithEvents InChastityLabel As System.Windows.Forms.Label
     Friend WithEvents Label120 As System.Windows.Forms.Label
     Friend WithEvents TTDir As System.Windows.Forms.ToolTip
     Friend WithEvents BtnContact3ImageDirClear As System.Windows.Forms.Button
-    Friend WithEvents BtnContact1ImageDirClear As System.Windows.Forms.Button
-    Friend WithEvents BtnContact2ImageDirClear As System.Windows.Forms.Button
     Friend WithEvents GroupBox62 As System.Windows.Forms.GroupBox
     Friend WithEvents RBGerman As System.Windows.Forms.RadioButton
     Friend WithEvents RBEnglish As System.Windows.Forms.RadioButton
@@ -15802,4 +15542,6 @@ Partial Class FrmSettings
     Friend WithEvents DommeGlitterSettings As GlitterSettingsControl
     Friend WithEvents SettingsHeader As SettingsHeaderControl
     Friend WithEvents SettingsDescriptionControl As SettingsDescriptionControl
+    Friend WithEvents GlitterContact1SettingsControl As GlitterSettingsControl
+    Friend WithEvents GlitterContact2SettingsControl As GlitterSettingsControl
 End Class

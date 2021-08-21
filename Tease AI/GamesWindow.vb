@@ -4934,8 +4934,7 @@ Card9:
 
                            PlayRiskyPickButton.Text = ""
                            PlayRiskyPickButton.Enabled = False
-
-                           If Directory.Exists(My.Settings.DomImageDir) AndAlso mainWindow.ssh.SlideshowLoaded Then
+                           If Directory.Exists(mySettingsAccessor.GetSettings().Domme.GlitterImageDirectory) AndAlso mainWindow.ssh.SlideshowLoaded Then
                                mainWindow.LoadDommeImageFolder()
                            End If
                        End Sub)

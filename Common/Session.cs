@@ -26,7 +26,9 @@ namespace TeaseAI.Common
         /// Used to pause reading the script. some commands do this instead of using @wait, etc.
         /// </summary>
         public bool IsScriptPaused { get; set; }
+        #endregion
 
+        #region Video information
         /// <summary>
         /// Information about what video was requested to play
         /// </summary>
@@ -44,6 +46,18 @@ namespace TeaseAI.Common
         public bool IsVideoTaunt { get; set; }
         #endregion
 
+        #region Image displayed information
+        /// <summary>
+        /// This is the last image shown in the session
+        /// </summary>
+        public ImageMetaData LastImageShowed { get; set; }
+        #endregion
+
+        /// <summary>
+        /// Create a new session with <paramref name="domme"/> and <paramref name="sub"/>
+        /// </summary>
+        /// <param name="domme"></param>
+        /// <param name="sub"></param>
         public Session(DommePersonality domme, SubPersonality sub)
         {
             Domme = domme;

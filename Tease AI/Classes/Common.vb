@@ -233,6 +233,7 @@ Public Class Common
     ''' <param name="path">The string to be tested.</param>
     ''' <returns>True if the given string is an URL.</returns>
     Friend Shared Function IsUrl(path As String) As Boolean
+        If (String.IsNullOrWhiteSpace(path)) Then Return False
         If path.Contains("/") And path.Contains("://") Then
             Return True
         Else

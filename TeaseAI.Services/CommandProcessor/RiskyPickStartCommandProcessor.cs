@@ -11,7 +11,6 @@ namespace TeaseAI.Services.CommandProcessor
     public class RiskyPickStartCommandProcessor : CommandProcessorBase
     {
         private readonly int RiskyPickCost = 0;
-        private readonly LineService _lineService;
         private readonly IPathsAccessor _pathsAccessor;
         private readonly ISettingsAccessor _settingsAccessor;
 

@@ -774,8 +774,6 @@ retryLocal: ' If an exception occures the function is restarted and the Errorima
             If TypeOf e.Error Is TimeoutException Then Debug.Print(e.Error.Message)
             If e.Error IsNot Nothing Then Exit Sub
 
-            ssh.JustShowedBlogImage = True
-
             If e.Cancelled Then
                 MainPictureboxSetImage(New Bitmap(Image.FromFile(myOldPathsAccessor.PathImageErrorOnLoading)), "")
                 Exit Sub
@@ -1024,13 +1022,16 @@ retryLocal: ' If an exception occures the function is restarted and the Errorima
                 If ssh.SlideshowContact3.ImageList.Contains(ssh.ImageLocation) Then _
                     Throw New ArgumentException("Contact3-Slideshow images are not allowed to delete!")
 
-                If ssh.ImageLocation.ToLower.StartsWith(My.Settings.DomImageDir.ToLower) Then _
+                Dim settings As Settings = mySettingsAccessor.GetSettings()
+                Dim glitterContact As DommeSettings = GetContactFromLocation(ssh.ImageLocation, settings)
+
+                If ssh.ImageLocation.ToLower().StartsWith(settings.Domme.GlitterImageDirectory.ToLower()) Then _
                     Throw New Exception("Images in Domme-Image-Dir are not allowed to delete!")
-                If ssh.ImageLocation.ToLower.StartsWith(My.Settings.Contact1ImageDir.ToLower) Then _
+                If ssh.ImageLocation.ToLower.StartsWith(settings.Apps.Glitter.Contact1.GlitterImageDirectory.ToLower()) Then _
                     Throw New Exception("Images in Contact1-Image-Dir are not allowed to delete!")
-                If ssh.ImageLocation.ToLower.StartsWith(My.Settings.Contact1ImageDir.ToLower) Then _
+                If ssh.ImageLocation.ToLower.StartsWith(settings.Apps.Glitter.Contact2.GlitterImageDirectory.ToLower()) Then _
                     Throw New Exception("Images in Contact2-Image-Dir are not allowed to delete!")
-                If ssh.ImageLocation.ToLower.StartsWith(My.Settings.Contact1ImageDir.ToLower) Then _
+                If ssh.ImageLocation.ToLower.StartsWith(settings.Apps.Glitter.Contact2.GlitterImageDirectory.ToLower()) Then _
                     Throw New Exception("Images in contact3-Image-Dir are not allowed to delete!")
 
 
@@ -1064,6 +1065,27 @@ retryLocal: ' If an exception occures the function is restarted and the Errorima
             Throw
         End Try
     End Sub
+
+    ''' <summary>
+    ''' Determine which glitter contact is sending a message.
+    ''' </summary>
+    ''' <param name="sentMessage"></param>
+    ''' <param name="settings"></param>
+    ''' <returns></returns>
+    Private Shared Function GetContactFromLocation(sentMessage As String, settings As Settings) As DommeSettings
+        If sentMessage.Contains("@Contact1") Then
+            Return settings.Apps.Glitter.Contact1
+        End If
+
+        If sentMessage.Contains("@Contact2") Then
+            Return settings.Apps.Glitter.Contact2
+        End If
+
+        If sentMessage.Contains("@Contact3") Then
+            Return settings.Apps.Glitter.Contact3
+        End If
+        Return settings.Domme
+    End Function
 
     ''' =========================================================================================================
     ''' <summary>

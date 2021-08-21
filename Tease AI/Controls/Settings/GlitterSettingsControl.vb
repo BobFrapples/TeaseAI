@@ -1,4 +1,6 @@
-﻿Public Class GlitterSettingsControl
+﻿Option Strict On
+Option Infer Off
+Public Class GlitterSettingsControl
 
     Public Event ShowDescription(sender As Object, e As ShowDescriptionEventArgs)
 
@@ -194,6 +196,9 @@
         End Get
         Set(ByVal value As String)
             myAvatarImageFile = value
+            If Not String.IsNullOrWhiteSpace(value) Then
+                GlitterAvatarImage.Image = Image.FromFile(myAvatarImageFile)
+            End If
         End Set
     End Property
 
@@ -252,6 +257,15 @@
         End Set
     End Property
 
+    Public Property GlitterImageDirectory As String
+        Get
+            Return GlitterImageDirectoryTextBox.Text
+        End Get
+        Set(ByVal value As String)
+            GlitterImageDirectoryTextBox.Text = value
+        End Set
+    End Property
+
 #End Region
 
 #Region "Event handling"
@@ -290,9 +304,15 @@
         , CustomTwoModuleCheckBox.MouseEnter _
         , DailyModuleCheckBox.MouseEnter _
         , VulgarCheckBox.MouseEnter
-        OnShowDescription("Name", ToolTipData.GetToolTip(sender))
+        OnShowDescription("Name", ToolTipData.GetToolTip(CType(sender, Control)))
+    End Sub
+
+    Private Sub ClearImageDirectoryButton_Click(sender As Object, e As EventArgs) Handles ClearImageDirectoryButton.Click
+        GlitterImageDirectoryTextBox.Text = String.Empty
+        OnGlitterChanged()
     End Sub
 #End Region
 
     Private Property myAvatarImageFile As String
+
 End Class

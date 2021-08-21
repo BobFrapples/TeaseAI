@@ -75,6 +75,7 @@
     <Compile Include="Repositories\ImageTagMapRepository.cs" />
     <Compile Include="Repositories\ItemTagRepository.cs" />
     <Compile Include="Repositories\MediaContainerRepository.cs" />
+    <Compile Include="Repositories\SlideshowRepository.cs" />
     <Compile Include="RepositoryFactory.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -285,7 +285,7 @@ Partial Class GlitterSettingsControl
         Me.GlitterFeedOn.TabIndex = 1
         Me.GlitterFeedOn.TabStop = True
         Me.GlitterFeedOn.Text = "On"
-        Me.ToolTipData.SetToolTip(Me.GlitterFeedOn, "This person does participate in Glitter")
+        Me.ToolTipData.SetToolTip(Me.GlitterFeedOn, "This person participates in Glitter")
         Me.GlitterFeedOn.UseVisualStyleBackColor = True
         '
         'GlitterFeedOffRadio
@@ -470,7 +470,7 @@ Partial Class GlitterSettingsControl
         Me.GlitterNameColorButton.Name = "GlitterNameColorButton"
         Me.GlitterNameColorButton.Size = New System.Drawing.Size(115, 24)
         Me.GlitterNameColorButton.TabIndex = 188
-        Me.GlitterNameColorButton.Text = "Choose Name Color"
+        Me.GlitterNameColorButton.Text = "Choose Name Color in Glitter"
         Me.ToolTipData.SetToolTip(Me.GlitterNameColorButton, "Select this person's Glitter color")
         Me.GlitterNameColorButton.UseVisualStyleBackColor = False
         '
@@ -500,7 +500,7 @@ Partial Class GlitterSettingsControl
         Me.GlitterContactNameTextBox.Size = New System.Drawing.Size(298, 23)
         Me.GlitterContactNameTextBox.TabIndex = 182
         Me.GlitterContactNameTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.ToolTipData.SetToolTip(Me.GlitterContactNameTextBox, "The name this person uses on Glitter")
+        Me.ToolTipData.SetToolTip(Me.GlitterContactNameTextBox, "This will be the name of this contact as it appears in the Glitter feed.")
         '
         'GlitterAvatarImage
         '

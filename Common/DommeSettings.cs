@@ -6,7 +6,7 @@ using TeaseAI.Common.Constants;
 namespace TeaseAI.Common
 {
     /// <summary>
-    /// Settings specific to the Domme
+    /// Settings specific to the Domme. These are things consistent across sessions, or session defaults
     /// </summary>
     public class DommeSettings
     {
@@ -252,7 +252,8 @@ namespace TeaseAI.Common
         public bool IsGlitterDailyModuleEnabled { get; set; }
         public bool IsGlitterCustom1ModuleEnabled { get; set; }
         public bool IsGlitterCustom2ModuleEnabled { get; set; }
-
+        public bool IsGlitterCustom3ModuleEnabled { get; set; }
+        
         /// <summary>
         /// Name, or handle, the Domme uses in glitter.
         /// </summary>
@@ -261,11 +262,19 @@ namespace TeaseAI.Common
             get => _glitterContactName ?? Name;
             set => _glitterContactName = value;
         }
-        public string ChatColor { get; set; }
-        public int GlitterPostFrequency { get; set; }
-        public int GlitterResponseFrequency { get; set; }
-        public bool IsGlitterEnabled { get; set; }
 
+        public string ChatColor { get; set; }
+
+        public int GlitterPostFrequency { get; set; }
+
+        public int GlitterResponseFrequency { get; set; }
+
+        public GlitterMode GlitterMode { get; set; }
+
+        /// <summary>
+        /// Folder storing images for this glitter contact
+        /// </summary>
+        public string GlitterImageDirectory { get; set; }
         private string _honorific;
         private string _glitterContactName;
         private List<string> _petNames;

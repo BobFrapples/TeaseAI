@@ -15,6 +15,7 @@ Public NotInheritable Class myDirectory
     ''' an error occurs when trying to determine if the specified directory exists.</returns>
     ''' <remarks>BaseFunction to wrap around.</remarks>
     Private Shared Function DirectoryCheck(path As String) As Boolean
+        If String.IsNullOrWhiteSpace(path) Then Throw New Exception("Fix path here buddy")
         If path.ToUpper = "No path selected".ToUpper Then Return False
         If path = Nothing Then Return False
         If path = "" Then Return False
@@ -228,12 +229,8 @@ Public NotInheritable Class myDirectory
     ''' 
     ''' <returns>A generic list containing all video-files in the directory.</returns>
     ''' <exception cref="Exception">Rethrows all exceptions.</exception>
-    Public Shared Function GetFilesImages(ByVal path As String,
-                                         ByVal Optional searchOption As System.IO.SearchOption = System.IO.SearchOption.AllDirectories) As List(Of String)
-        Dim supportedExtension As New List(Of String) From {".png", ".jpg", ".gif", ".bmp", ".jpeg"}
-
-        Return GetFilesExtension(path, supportedExtension, searchOption)
-
+    Public Shared Function GetFilesImages(path As String, searchOption As IO.SearchOption) As List(Of String)
+        Return GetFilesExtension(path, New List(Of String) From {".png", ".jpg", ".gif", ".bmp", ".jpeg"}, searchOption)
     End Function
 
 #End Region
@@ -253,11 +250,11 @@ Public NotInheritable Class myDirectory
     ''' be found. This Functions create the Directory, as long as it is in die Application.StartupPath.
     ''' </remarks>
     ''' <seealso cref="System.IO.Directory.GetDirectories(String) "/>
-    Public Shared Function GetDirectories(path As String) As String()
+    Public Shared Function GetDirectories(path As String) As List(Of String)
         ' IF directory-check has failed return an empty String.Array
-        If DirectoryCheck(path) = False Then Return New List(Of String)().ToArray
+        If Not DirectoryCheck(path) Then Return New List(Of String)()
 
-        Return System.IO.Directory.GetDirectories(path)
+        Return System.IO.Directory.GetDirectories(path).ToList()
     End Function
 
     ''' <summary>

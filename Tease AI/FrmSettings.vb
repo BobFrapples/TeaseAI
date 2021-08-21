@@ -56,7 +56,6 @@ Public Class FrmSettings
     Public ApproveImage As Integer = 0
 
     Dim CheckImgDir As New List(Of String)
-    Dim FolderBrowserDialog1 As New FolderBrowserDialog()
 
     Public Sub New()
         mySettingsAccessor = ApplicationFactory.CreateSettingsAccessor()
@@ -90,7 +89,7 @@ Public Class FrmSettings
     End Sub
 
     Private Sub FrmSettings_Visible(sender As Object, e As EventArgs) Handles MyBase.VisibleChanged
-        LoadSettings(mySettingsAccessor.GetSettings())
+        'LoadSettings(mySettingsAccessor.GetSettings())
     End Sub
 
     ''' <summary>
@@ -1151,34 +1150,6 @@ Public Class FrmSettings
 
     Private Sub BTNLoadDomSet_MouseHover(sender As Object, e As EventArgs) Handles DommeSettingsSaveButton.MouseHover
         TTDir.SetToolTip(DommeSettingsSaveButton, "Click to load a custom Domme Settings file you have previously created.")
-    End Sub
-
-    Private Sub TBGlitter1_MouseHover(sender As Object, e As EventArgs) Handles TBGlitter3.MouseHover, TBGlitter2.MouseHover, TBGlitter1.MouseHover
-        TTDir.SetToolTip(sender, "This will be the name of this contact as it appears in the Glitter feed.")
-    End Sub
-    Private Sub GlitterSlider1_MouseHover(sender As Object, e As EventArgs) Handles LBLGlitterSlider3.MouseHover, LBLGlitterSlider2.MouseHover, LBLGlitterSlider1.MouseHover, GlitterSlider3.MouseHover, GlitterSlider2.MouseHover, GlitterSlider1.MouseHover
-        TTDir.SetToolTip(sender, "This slider determines how often this contact responds to the domme's Glitter posts." & Environment.NewLine &
-                                         "The further to the right the slider is, the more often she responds.")
-    End Sub
-    Private Sub GlitterAV1_MouseHover(sender As Object, e As EventArgs) Handles GlitterAV3.MouseHover, GlitterAV2.MouseHover, GlitterAV1.MouseHover
-        TTDir.SetToolTip(sender, "Click here to set the image that this contact will use as her Glitter avatar.")
-    End Sub
-    Private Sub CBGlitter1_MouseHover(sender As Object, e As EventArgs) Handles CBGlitter3.MouseHover, CBGlitter2.MouseHover, CBGlitter1.MouseHover
-        TTDir.SetToolTip(sender, "This check box enables this contact's participation in the Glitter feed.")
-    End Sub
-    Private Sub BTNGlitter1_MouseHover(sender As Object, e As EventArgs) Handles BTNGlitter3.MouseHover, BTNGlitter2.MouseHover, BTNGlitter1.MouseHover
-        TTDir.SetToolTip(sender, "This button allows you to change the color of this contact's name as it appears in the Glitter app.")
-    End Sub
-
-    Private Sub LBLContact1ImageDir_MouseHover(sender As Object, e As EventArgs) Handles TbxDomImageDir.MouseHover, TbxContact3ImageDir.MouseHover, TbxContact2ImageDir.MouseHover, TbxContact1ImageDir.MouseHover
-        TTDir.SetToolTip(sender, CType(sender, TextBox).Text)
-    End Sub
-
-    Private Sub Button2_MouseHover(sender As Object, e As EventArgs) Handles BtnContact3ImageDir.MouseHover, BtnContact2ImageDir.MouseHover, BtnContact1ImageDir.MouseHover
-        If RBEnglish.Checked Then TTDir.SetToolTip(sender, "Use this button to select a directory containing several image" & Environment.NewLine &
-"set folders of the same model you're using as your contact.")
-        If RBGerman.Checked Then TTDir.SetToolTip(sender, "Benutze diese Schaltfläche um einen Ordner zu wählen, welcher mehre" & Environment.NewLine &
-"Bildersets von dem selben Model enthält, die du als Kontakt benutzt.")
     End Sub
 
     Private Sub LBLIHardcore_MouseHover(sender As Object, e As EventArgs) Handles LocalHardcoreDirectoryTextBox.MouseHover
@@ -2678,19 +2649,37 @@ Public Class FrmSettings
     ''' </summary>
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
-    Private Sub GlitterAV_Click(sender As Object, e As EventArgs) Handles DommeGlitterSettings.GlitterChanged
+    Private Sub DommeGlitterSettings_GlitterChanged(sender As Object, e As EventArgs) Handles DommeGlitterSettings.GlitterChanged
         UpdateSettings(DommeGlitterSettings.Visible, Sub(settings As Settings)
                                                          UpdateDommeSettingsFromGlitter(DommeGlitterSettings, settings.Domme)
                                                      End Sub)
     End Sub
 
-    Public Sub UpdateGlitterSettingsFromDomme(source As DommeSettings, destination As GlitterSettingsControl)
+    Private Sub GlitterContact1SettingsControl_GlitterChanged(sender As Object, e As EventArgs) Handles GlitterContact1SettingsControl.GlitterChanged
+        UpdateSettings(DommeGlitterSettings.Visible, Sub(settings As Settings)
+                                                         UpdateDommeSettingsFromGlitter(GlitterContact1SettingsControl, settings.Apps.Glitter.Contact1)
+                                                     End Sub)
+    End Sub
+    Private Sub GlitterContact2SettingsControl_GlitterChanged(sender As Object, e As EventArgs) Handles GlitterContact2SettingsControl.GlitterChanged
+        UpdateSettings(DommeGlitterSettings.Visible, Sub(settings As Settings)
+                                                         UpdateDommeSettingsFromGlitter(GlitterContact1SettingsControl, settings.Apps.Glitter.Contact1)
+                                                     End Sub)
+    End Sub
+
+    'Private Sub GlitterContact3SettingsControl_GlitterChanged(sender As Object, e As EventArgs) Handles GlitterContact3SettingsControl.GlitterChanged
+    '    UpdateSettings(DommeGlitterSettings.Visible, Sub(settings As Settings)
+    '                                                     UpdateDommeSettingsFromGlitter(GlitterContact1SettingsControl, settings.Apps.Glitter.Contact1)
+    '                                                 End Sub)
+    'End Sub
+
+    Private Sub UpdateGlitterSettingsFromDomme(source As DommeSettings, destination As GlitterSettingsControl)
         destination.AvatarImageFile = source.AvatarImageFile
-        destination.IsGlitterEnabled = source.IsGlitterEnabled
+        destination.IsGlitterEnabled = source.GlitterMode
         destination.GlitterContactName = source.GlitterContactName
         destination.ChatColor = source.ChatColor
         destination.PostFrequency = source.GlitterPostFrequency
         destination.ResponseFrequency = source.GlitterResponseFrequency
+        destination.GlitterImageDirectory = source.GlitterImageDirectory
 
         destination.IsAngry = source.IsAngry
         destination.IsBratty = source.IsBratty
@@ -2711,14 +2700,14 @@ Public Class FrmSettings
         destination.IsCustom2ModuleEnabled = source.IsGlitterCustom2ModuleEnabled
     End Sub
 
-    Public Sub UpdateDommeSettingsFromGlitter(source As GlitterSettingsControl, destination As DommeSettings)
+    Private Sub UpdateDommeSettingsFromGlitter(source As GlitterSettingsControl, destination As DommeSettings)
         destination.AvatarImageFile = source.AvatarImageFile
         destination.GlitterContactName = source.GlitterContactName
         destination.ChatColor = source.ChatColor
-
         destination.GlitterPostFrequency = source.PostFrequency
         destination.GlitterResponseFrequency = source.ResponseFrequency
-        destination.IsGlitterEnabled = source.IsGlitterEnabled
+        destination.GlitterMode = source.IsGlitterEnabled
+        destination.GlitterImageDirectory = source.GlitterImageDirectory
 
         destination.IsAngry = source.IsAngry
         destination.IsBratty = source.IsBratty
@@ -2739,73 +2728,25 @@ Public Class FrmSettings
         destination.IsGlitterCustom2ModuleEnabled = source.IsCustom2ModuleEnabled
     End Sub
 
-    Private Sub GlitterAV1_Click(sender As Object, e As EventArgs) Handles GlitterAV1.Click
-        Dim openFileDialog As OpenFileDialog = New OpenFileDialog()
-        If openFileDialog.ShowDialog() = DialogResult.OK Then
-            GlitterAV1.Image = Image.FromFile(OpenFileDialog1.FileName)
-            My.Settings.GlitterAV1 = OpenFileDialog1.FileName
-        End If
-    End Sub
-
-    Private Sub GlitterAV2_Click(sender As Object, e As EventArgs) Handles GlitterAV2.Click
-        Dim openFileDialog As OpenFileDialog = New OpenFileDialog()
-        If openFileDialog.ShowDialog() = DialogResult.OK Then
-            GlitterAV2.Image = Image.FromFile(OpenFileDialog1.FileName)
-            My.Settings.GlitterAV2 = OpenFileDialog1.FileName
-        End If
-    End Sub
-
-    Private Sub GlitterAV3_Click(sender As Object, e As EventArgs) Handles GlitterAV3.Click
-        Dim openFileDialog As OpenFileDialog = New OpenFileDialog()
-        If openFileDialog.ShowDialog() = DialogResult.OK Then
-            GlitterAV3.Image = Image.FromFile(OpenFileDialog1.FileName)
-            My.Settings.GlitterAV3 = OpenFileDialog1.FileName
-        End If
-    End Sub
-
     Private Sub BTNDomImageDir_Click(sender As Object, e As EventArgs) Handles BTNDomImageDir.Click
         Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
         If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
-            My.Settings.DomImageDir = FolderBrowserDialog1.SelectedPath
+            UpdateSettings(DominationLevel.Visible, Sub(settings As Settings)
+                                                        settings.Domme.GlitterImageDirectory = folderBrowserDialog.SelectedPath
+                                                        DomLevelDescLabel.Text = settings.Domme.DominationLevel.ToString()
+                                                    End Sub)
             My.Application.Session.SlideshowMain = New ContactData(ContactType.Domme)
-        End If
-    End Sub
-
-    Private Sub BtnContact1ImageDir_Click(sender As Object, e As EventArgs) Handles BtnContact1ImageDir.Click
-        Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
-        If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
-            My.Settings.Contact1ImageDir = FolderBrowserDialog1.SelectedPath
-            My.Application.Session.SlideshowContact1 = New ContactData(ContactType.Contact1)
-        End If
-    End Sub
-
-    Private Sub BtnContact2ImageDir_Click(sender As Object, e As EventArgs) Handles BtnContact2ImageDir.Click
-        Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
-        If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
-            My.Settings.Contact2ImageDir = FolderBrowserDialog1.SelectedPath
-            My.Application.Session.SlideshowContact2 = New ContactData(ContactType.Contact2)
         End If
     End Sub
 
     Private Sub BtnContact3ImageDir_Click(sender As Object, e As EventArgs) Handles BtnContact3ImageDir.Click
         Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
         If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
-            My.Settings.Contact3ImageDir = FolderBrowserDialog1.SelectedPath
+            My.Settings.Contact3ImageDir = folderBrowserDialog.SelectedPath
             My.Application.Session.SlideshowContact3 = New ContactData(ContactType.Contact3)
         End If
     End Sub
 
-    Private Sub BTNGlitter1_Click(sender As Object, e As EventArgs) Handles BTNGlitter1.Click
-        SetColor(LBLGlitterNC1)
-    End Sub
-
-    Private Sub BTNGlitter2_click(sender As Object, e As EventArgs) Handles BTNGlitter2.Click
-        SetColor(LBLGlitterNC2)
-    End Sub
-
-    Private Sub BTNGlitter3_Click(sender As Object, e As EventArgs) Handles BTNGlitter3.Click
-        SetColor(LBLGlitterNC3)
-    End Sub
 
     'Private Sub CBGlitterFeed_CheckedChanged(sender As Object, e As EventArgs) Handles CBGlitterFeedScripts.Click, CBGlitterFeedOff.Click, CBGlitterFeed.Click
     '    If MainWindow.FormLoading Then
@@ -2826,19 +2767,11 @@ Public Class FrmSettings
     '    My.Settings.CBGlitterFeedScripts = If(sender Is CBGlitterFeedScripts, checked, False)
     'End Sub
 
-    Private Sub BtnContact1ImageDirClear_Click(sender As Object, e As EventArgs) Handles BtnContact1ImageDirClear.Click
-        My.Settings.ResetField(TbxContact1ImageDir, "Text")
-        My.Application.Session.SlideshowContact1 = New ContactData()
-    End Sub
-
-    Private Sub BtnContact2ImageDirClear_Click(sender As Object, e As EventArgs) Handles BtnContact2ImageDirClear.Click
-        My.Settings.ResetField(TbxContact2ImageDir, "Text")
-        My.Application.Session.SlideshowContact2 = New ContactData()
-    End Sub
-
     Private Sub BtnContact3ImageDirClear_Click(sender As Object, e As EventArgs) Handles BtnContact3ImageDirClear.Click
-        My.Settings.ResetField(TbxContact3ImageDir, "Text")
-        My.Application.Session.SlideshowContact3 = New ContactData()
+        UpdateSettings(DominationLevel.Visible, Sub(settings As Settings)
+                                                    settings.Apps.Glitter.Contact3.GlitterImageDirectory = String.Empty
+                                                    TbxContact3ImageDir.Text = settings.Apps.Glitter.Contact3.GlitterImageDirectory
+                                                End Sub)
     End Sub
 
     Private Sub Button16_Click(sender As Object, e As EventArgs)
@@ -2854,56 +2787,51 @@ Public Class FrmSettings
             Dim settingsList As New List(Of String)
             settingsList.Clear()
 
+            settingsList.Add("Glitter Feed: " & settings.Domme.GlitterMode.ToString())
+            settingsList.Add("Short Name: " & settings.Domme.GlitterContactName)
+                settingsList.Add("Domme Color: " & settings.Domme.ChatColor)
 
-            If My.Settings.CBGlitterFeed Then settingsList.Add("Glitter Feed: On")
-            If My.Settings.CBGlitterFeedScripts Then settingsList.Add("Glitter Feed: Scripts")
-            If My.Settings.CBGlitterFeedOff Then settingsList.Add("Glitter Feed: Off")
+                settingsList.Add("Tease: " & settings.Domme.IsGlitterTeaseModuleEnabled)
+                settingsList.Add("Egotist: " & settings.Domme.IsGlitterEgotistModuleEnabled)
+                settingsList.Add("Trivia: " & settings.Domme.IsGlitterTriviaModuleEnabled)
+                settingsList.Add("Daily: " & settings.Domme.IsGlitterDailyModuleEnabled)
+                settingsList.Add("Custom 1: " & settings.Domme.IsGlitterCustom1ModuleEnabled)
+                settingsList.Add("Custom 2: " & settings.Domme.IsGlitterCustom2ModuleEnabled)
+                settingsList.Add("Domme Post Frequency: " & settings.Domme.GlitterPostFrequency)
 
-            settingsList.Add("Short Name: " & My.Settings.GlitterSN)
-            settingsList.Add("Domme Color: " & My.Settings.GlitterNCDommeColor.ToArgb.ToString)
+                settingsList.Add("Contact 1 Enabled: " & settings.Apps.Glitter.Contact1.GlitterMode)
+                settingsList.Add("Contact 1 Name: " & settings.Apps.Glitter.Contact1.GlitterContactName)
+                settingsList.Add("Contact 1 Color: " & settings.Apps.Glitter.Contact1.ChatColor)
+                settingsList.Add("Contact 1 Image Directory: " & settings.Apps.Glitter.Contact1.GlitterImageDirectory)
+                settingsList.Add("Contact 1 Post Frequency: " & settings.Apps.Glitter.Contact1.GlitterResponseFrequency)
+                settingsList.Add("Contact 1 AV: " & settings.Apps.Glitter.Contact1.AvatarImageFile)
 
-            settingsList.Add("Tease: " & settings.Domme.IsGlitterTeaseModuleEnabled)
-            settingsList.Add("Egotist: " & settings.Domme.IsGlitterEgotistModuleEnabled)
-            settingsList.Add("Trivia: " & settings.Domme.IsGlitterTriviaModuleEnabled)
-            settingsList.Add("Daily: " & settings.Domme.IsGlitterDailyModuleEnabled)
-            settingsList.Add("Custom 1: " & settings.Domme.IsGlitterCustom1ModuleEnabled)
-            settingsList.Add("Custom 2: " & settings.Domme.IsGlitterCustom2ModuleEnabled)
+                settingsList.Add("Contact 2 Enabled: " & settings.Apps.Glitter.Contact2.GlitterMode)
+                settingsList.Add("Contact 2 Name: " & settings.Apps.Glitter.Contact2.GlitterContactName)
+                settingsList.Add("Contact 2 Color: " & settings.Apps.Glitter.Contact2.ChatColor)
+                settingsList.Add("Contact 2 Image Directory: " & settings.Apps.Glitter.Contact2.GlitterImageDirectory)
+                settingsList.Add("Contact 2 Post Frequency: " & settings.Apps.Glitter.Contact2.GlitterResponseFrequency)
+                settingsList.Add("Contact 2 AV: " & settings.Apps.Glitter.Contact2.AvatarImageFile)
 
-            settingsList.Add("Domme Post Frequency: " & settings.Domme.GlitterPostFrequency)
-
-            settingsList.Add("Contact 1 Enabled: " & My.Settings.CBGlitter1)
-            settingsList.Add("Contact 1 Name: " & My.Settings.Glitter1)
-            settingsList.Add("Contact 1 Color: " & My.Settings.GlitterNC1Color.ToArgb.ToString)
-            settingsList.Add("Contact 1 Image Directory: " & My.Settings.Contact1ImageDir)
-            settingsList.Add("Contact 1 Post Frequency: " & My.Settings.Glitter1Slider)
-
-            settingsList.Add("Contact 2 Enabled: " & My.Settings.CBGlitter2)
-            settingsList.Add("Contact 2 Name: " & My.Settings.Glitter2)
-            settingsList.Add("Contact 2 Color: " & My.Settings.GlitterNC2Color.ToArgb.ToString)
-            settingsList.Add("Contact 2 Image Directory: " & My.Settings.Contact2ImageDir)
-            settingsList.Add("Contact 2 Post Frequency: " & My.Settings.Glitter2Slider)
-
-            settingsList.Add("Contact 3 Enabled: " & My.Settings.CBGlitter3)
-            settingsList.Add("Contact 3 Name: " & My.Settings.Glitter3)
-            settingsList.Add("Contact 3 Color: " & My.Settings.GlitterNC3Color.ToArgb.ToString)
-            settingsList.Add("Contact 3 Image Directory: " & My.Settings.Contact3ImageDir)
-            settingsList.Add("Contact 3 Post Frequency: " & My.Settings.Glitter3Slider)
-
-            settingsList.Add("Contact 1 AV: " & My.Settings.GlitterAV1)
-            settingsList.Add("Contact 2 AV: " & My.Settings.GlitterAV2)
-            settingsList.Add("Contact 3 AV: " & My.Settings.GlitterAV3)
+                settingsList.Add("Contact 3 Enabled: " & settings.Apps.Glitter.Contact3.GlitterMode)
+                settingsList.Add("Contact 3 Name: " & settings.Apps.Glitter.Contact3.GlitterContactName)
+                settingsList.Add("Contact 3 Color: " & settings.Apps.Glitter.Contact3.ChatColor)
+                settingsList.Add("Contact 3 Image Directory: " & settings.Apps.Glitter.Contact3.GlitterImageDirectory)
+                settingsList.Add("Contact 3 Post Frequency: " & settings.Apps.Glitter.Contact3.GlitterResponseFrequency)
+                settingsList.Add("Contact 3 AV: " & settings.Apps.Glitter.Contact3.AvatarImageFile)
 
 
 
-            Dim SettingsString As String = ""
 
-            For i As Integer = 0 To settingsList.Count - 1
-                SettingsString = SettingsString & settingsList(i)
-                If i <> settingsList.Count - 1 Then SettingsString = SettingsString & Environment.NewLine
-            Next
+                Dim SettingsString As String = ""
 
-            My.Computer.FileSystem.WriteAllText(settingsPath, SettingsString, False)
-        End If
+                For i As Integer = 0 To settingsList.Count - 1
+                    SettingsString = SettingsString & settingsList(i)
+                    If i <> settingsList.Count - 1 Then SettingsString = SettingsString & Environment.NewLine
+                Next
+
+                My.Computer.FileSystem.WriteAllText(settingsPath, SettingsString, False)
+            End If
 
 
     End Sub
@@ -2926,15 +2854,12 @@ Public Class FrmSettings
 
             Try
                 Dim settings As Settings = mySettingsAccessor.GetSettings()
-                Dim CheckState As String = SettingsList(0).Replace("Glitter Feed: ", "")
-                If CheckState = "On" Then My.Settings.CBGlitterFeed = True
-                If CheckState = "Scripts" Then My.Settings.CBGlitterFeedScripts = True
-                If CheckState = "Off" Then My.Settings.CBGlitterFeedOff = True
+                Dim glitterState As String = settingsList(0).Contains("Glitter Feed: ", "")
+                settings.Domme.GlitterMode = (glitterState.ToLower() = "on")
+                'If glitterState = "Scripts" Then My.Settings.CBGlitterFeedScripts = True
 
-                My.Settings.GlitterSN = SettingsList(1).Replace("Short Name: ", "")
-
-                Dim GlitterColor As Color = Color.FromArgb(SettingsList(2).Replace("Domme Color: ", ""))
-                My.Settings.GlitterNCDommeColor = GlitterColor
+                settings.Domme.GlitterContactName = settingsList(1).Replace("Short Name: ", "")
+                settings.Domme.ChatColor = settingsList(2).Replace("Domme Color: ", "")
 
                 settings.Domme.IsGlitterTeaseModuleEnabled = settingsList(3).Replace("Tease: ", "")
                 settings.Domme.IsGlitterEgotistModuleEnabled = settingsList(4).Replace("Egotist: ", "")
@@ -2942,52 +2867,48 @@ Public Class FrmSettings
                 settings.Domme.IsGlitterDailyModuleEnabled = settingsList(6).Replace("Daily: ", "")
                 settings.Domme.IsGlitterCustom1ModuleEnabled = settingsList(7).Replace("Custom 1: ", "")
                 settings.Domme.IsGlitterCustom2ModuleEnabled = settingsList(8).Replace("Custom 2: ", "")
-                settings.Domme.GlitterPostFrequency = CInt(SettingsList(9).Replace("Domme Post Frequency: ", ""))
+                settings.Domme.GlitterPostFrequency = CInt(settingsList(9).Replace("Domme Post Frequency: ", ""))
 
-                My.Settings.CBGlitter1 = SettingsList(10).Replace("Contact 1 Enabled: ", "")
-                My.Settings.Glitter1 = SettingsList(11).Replace("Contact 1 Name: ", "")
-                GlitterColor = Color.FromArgb(SettingsList(12).Replace("Contact 1 Color: ", ""))
-                My.Settings.GlitterNC1Color = GlitterColor
-                My.Settings.Contact1ImageDir = SettingsList(13).Replace("Contact 1 Image Directory: ", "")
-                My.Settings.Glitter1Slider = SettingsList(14).Replace("Contact 1 Post Frequency: ", "")
+                settings.Apps.Glitter.Contact1.GlitterMode = settingsList(10).Replace("Contact 1 Enabled: ", "")
+                settings.Apps.Glitter.Contact1.GlitterContactName = settingsList(11).Replace("Contact 1 Name: ", "")
+                settings.Apps.Glitter.Contact1.ChatColor = settingsList(12).Replace("Contact 1 Color: ", "")
+                settings.Apps.Glitter.Contact1.GlitterImageDirectory = settingsList(13).Replace("Contact 1 Image Directory: ", "")
+                settings.Apps.Glitter.Contact1.GlitterResponseFrequency = settingsList(14).Replace("Contact 1 Post Frequency: ", "")
 
-                My.Settings.CBGlitter2 = SettingsList(15).Replace("Contact 2 Enabled: ", "")
-                My.Settings.Glitter2 = SettingsList(16).Replace("Contact 2 Name: ", "")
-                GlitterColor = Color.FromArgb(SettingsList(17).Replace("Contact 2 Color: ", ""))
-                My.Settings.GlitterNC2Color = GlitterColor
-                My.Settings.Contact2ImageDir = SettingsList(18).Replace("Contact 2 Image Directory: ", "")
-                My.Settings.Glitter2Slider = SettingsList(19).Replace("Contact 2 Post Frequency: ", "")
+                settings.Apps.Glitter.Contact2.GlitterMode = settingsList(15).Replace("Contact 2 Enabled: ", "")
+                settings.Apps.Glitter.Contact2.GlitterContactName = settingsList(16).Replace("Contact 2 Name: ", "")
+                settings.Apps.Glitter.Contact2.ChatColor = settingsList(17).Replace("Contact 2 Color: ", "")
+                settings.Apps.Glitter.Contact2.GlitterImageDirectory = settingsList(18).Replace("Contact 2   Image Directory: ", "")
+                settings.Apps.Glitter.Contact2.GlitterResponseFrequency = settingsList(19).Replace("Contact 1 Post Frequency: ", "")
 
-                My.Settings.CBGlitter3 = SettingsList(20).Replace("Contact 3 Enabled: ", "")
-                My.Settings.Glitter3 = SettingsList(21).Replace("Contact 3 Name: ", "")
-                GlitterColor = Color.FromArgb(SettingsList(22).Replace("Contact 3 Color: ", ""))
-                My.Settings.GlitterNC3Color = GlitterColor
-                My.Settings.Contact3ImageDir = SettingsList(23).Replace("Contact 3 Image Directory: ", "")
-                My.Settings.Glitter3Slider = SettingsList(24).Replace("Contact 3 Post Frequency: ", "")
+                settings.Apps.Glitter.Contact3.GlitterMode = settingsList(20).Replace("Contact 1 Enabled: ", "")
+                settings.Apps.Glitter.Contact3.GlitterContactName = settingsList(21).Replace("Contact 1 Name: ", "")
+                settings.Apps.Glitter.Contact3.ChatColor = settingsList(22).Replace("Contact 1 Color: ", "")
+                settings.Apps.Glitter.Contact3.GlitterImageDirectory = settingsList(23).Replace("Contact 1 Image Directory: ", "")
+                settings.Apps.Glitter.Contact3.GlitterResponseFrequency = settingsList(24).Replace("Contact 1 Post Frequency: ", "")
 
-                Try
-                    GlitterAV1.Image = Image.FromFile(SettingsList(26).Replace("Contact 1 AV: ", ""))
-                    My.Settings.GlitterAV1 = SettingsList(26).Replace("Contact 1 AV: ", "")
-                Catch
-                End Try
+                Dim fileName As String = settingsList(25).Replace("Contact 1 AV: ", "")
+                If (File.Exists(fileName)) Then
+                    settings.Domme.AvatarImageFile = fileName
+                End If
 
-                Try
-                    GlitterAV2.Image = Image.FromFile(SettingsList(27).Replace("Contact 2 AV: ", ""))
-                    My.Settings.GlitterAV2 = SettingsList(27).Replace("Contact 2 AV: ", "")
-                Catch
-                End Try
+                fileName = settingsList(26).Replace("Contact 1 AV: ", "")
+                If (File.Exists(fileName)) Then
+                    settings.Apps.Glitter.Contact1.AvatarImageFile = fileName
+                End If
 
-                Try
-                    GlitterAV3.Image = Image.FromFile(SettingsList(28).Replace("Contact 3 AV: ", ""))
-                    My.Settings.GlitterAV3 = SettingsList(28).Replace("Contact 3 AV: ", "")
-                Catch
-                End Try
+                fileName = settingsList(27).Replace("Contact 2 AV: ", "")
+                If (File.Exists(fileName)) Then
+                    settings.Apps.Glitter.Contact2.AvatarImageFile = fileName
+                End If
 
-
+                fileName = settingsList(28).Replace("Contact 3 AV: ", "")
+                If (File.Exists(fileName)) Then
+                    settings.Apps.Glitter.Contact3.AvatarImageFile = fileName
+                End If
             Catch
                 MessageBox.Show(Me, "This Glitter settings file is invalid or has been edited incorrectly!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
             End Try
-
         End If
     End Sub
 
@@ -3450,8 +3371,9 @@ Public Class FrmSettings
 #Region "------------------------------------- Softcore Videos -------------------------------------------"
 
     Private Sub BTNVideoSoftCore_Click(sender As Object, e As EventArgs) Handles BTNVideoSoftCore.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-            My.Settings.VideoSoftcore = FolderBrowserDialog1.SelectedPath
+        Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
+        If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
+            My.Settings.VideoSoftcore = folderBrowserDialog.SelectedPath
             My.Settings.CBSoftcore = True
             LblVideoSoftCoreTotal.Text = VideoSoftcore_Count(False)
         End If
@@ -3479,8 +3401,9 @@ Public Class FrmSettings
 #Region "------------------------------------- Lesbian Videos --------------------------------------------"
 
     Private Sub BTNVideoLesbian_Click(sender As Object, e As EventArgs) Handles BTNVideoLesbian.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-            My.Settings.VideoLesbian = FolderBrowserDialog1.SelectedPath
+        Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
+        If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
+            My.Settings.VideoLesbian = folderBrowserDialog.SelectedPath
             My.Settings.CBLesbian = True
             LblVideoLesbianTotal.Text = VideoLesbian_Count(False)
         End If
@@ -3508,8 +3431,9 @@ Public Class FrmSettings
 #Region "------------------------------------- Blowjob Videos --------------------------------------------"
 
     Private Sub BTNVideoBlowjob_Click(sender As Object, e As EventArgs) Handles BTNVideoBlowjob.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-            My.Settings.VideoBlowjob = FolderBrowserDialog1.SelectedPath
+        Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
+        If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
+            My.Settings.VideoBlowjob = folderBrowserDialog.SelectedPath
             My.Settings.CBBlowjob = True
             LblVideoBlowjobTotal.Text = VideoBlowjob_Count(False)
         End If
@@ -3537,8 +3461,9 @@ Public Class FrmSettings
 #Region "---------------------------------------- Femdom -------------------------------------------------"
 
     Private Sub BTNVideoFemDom_Click(sender As Object, e As EventArgs) Handles BTNVideoFemDom.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-            My.Settings.VideoFemdom = FolderBrowserDialog1.SelectedPath
+        Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
+        If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
+            My.Settings.VideoFemdom = folderBrowserDialog.SelectedPath
             My.Settings.CBFemdom = True
             LblVideoFemdomTotal.Text = VideoFemdom_Count(False)
         End If
@@ -3566,8 +3491,9 @@ Public Class FrmSettings
 #Region "------------------------------------- Femsub Videos ---------------------------------------------"
 
     Private Sub BTNVideoFemSub_Click(sender As Object, e As EventArgs) Handles BTNVideoFemSub.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-            My.Settings.VideoFemsub = FolderBrowserDialog1.SelectedPath
+        Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
+        If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
+            My.Settings.VideoFemsub = folderBrowserDialog.SelectedPath
             My.Settings.CBFemsub = True
             LblVideoFemsubTotal.Text = VideoFemsub_Count(False)
         End If
@@ -3595,8 +3521,9 @@ Public Class FrmSettings
 #Region "------------------------------------- JOI Videos ------------------------------------------------"
 
     Private Sub BTNVideoJOI_Click(sender As Object, e As EventArgs) Handles BTNVideoJOI.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-            My.Settings.VideoJOI = FolderBrowserDialog1.SelectedPath
+        Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
+        If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
+            My.Settings.VideoJOI = folderBrowserDialog.SelectedPath
             My.Settings.CBJOI = True
             LblVideoJOITotal.Text = VideoJOI_Count(False)
         End If
@@ -3624,8 +3551,9 @@ Public Class FrmSettings
 #Region "------------------------------------- CH Videos -------------------------------------------------"
 
     Private Sub BTNVideoCH_Click(sender As Object, e As EventArgs) Handles BTNVideoCH.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-            My.Settings.VideoCH = FolderBrowserDialog1.SelectedPath
+        Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
+        If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
+            My.Settings.VideoCH = folderBrowserDialog.SelectedPath
             My.Settings.CBCH = True
             LblVideoCHTotal.Text = VideoCH_Count(False)
         End If
@@ -3653,8 +3581,9 @@ Public Class FrmSettings
 #Region "------------------------------------- General Videos --------------------------------------------"
 
     Private Sub BTNVideoGeneral_Click(sender As Object, e As EventArgs) Handles BTNVideoGeneral.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-            My.Settings.VideoGeneral = FolderBrowserDialog1.SelectedPath
+        Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
+        If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
+            My.Settings.VideoGeneral = folderBrowserDialog.SelectedPath
             My.Settings.CBGeneral = True
             LblVideoGeneralTotal.Text = VideoGeneral_Count(False)
         End If
@@ -3686,8 +3615,9 @@ Public Class FrmSettings
 #Region "---------------------------------------- HardcoreD ----------------------------------------------"
 
     Private Sub BTNVideoHardcoreD_Click(sender As Object, e As EventArgs) Handles BTNVideoHardCoreD.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-            My.Settings.VideoHardcoreD = FolderBrowserDialog1.SelectedPath
+        Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
+        If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
+            My.Settings.VideoHardcoreD = folderBrowserDialog.SelectedPath
             My.Settings.CBHardcoreD = True
             LblVideoHardCoreTotalD.Text = VideoHardcoreD_Count(False)
         End If
@@ -3715,8 +3645,9 @@ Public Class FrmSettings
 #Region "---------------------------------------- SoftcoreD ----------------------------------------------"
 
     Private Sub BTNVideoSoftcoreD_Click(sender As Object, e As EventArgs) Handles BTNVideoSoftCoreD.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-            My.Settings.VideoSoftcoreD = FolderBrowserDialog1.SelectedPath
+        Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
+        If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
+            My.Settings.VideoSoftcoreD = folderBrowserDialog.SelectedPath
             My.Settings.CBSoftcoreD = True
             LblVideoSoftCoreTotalD.Text = VideoSoftcoreD_Count(False)
         End If
@@ -3744,8 +3675,9 @@ Public Class FrmSettings
 #Region "---------------------------------------- LesbianD -----------------------------------------------"
 
     Private Sub BTNVideoLesbianD_Click(sender As Object, e As EventArgs) Handles BTNVideoLesbianD.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-            My.Settings.VideoLesbianD = FolderBrowserDialog1.SelectedPath
+        Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
+        If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
+            My.Settings.VideoLesbianD = folderBrowserDialog.SelectedPath
             My.Settings.CBLesbianD = True
             LblVideoLesbianTotalD.Text = VideoLesbianD_Count(False)
         End If
@@ -3773,8 +3705,9 @@ Public Class FrmSettings
 #Region "---------------------------------------- BlowjobD -----------------------------------------------"
 
     Private Sub BTNVideoBlowjobD_Click(sender As Object, e As EventArgs) Handles BTNVideoBlowjobD.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-            My.Settings.VideoBlowjobD = FolderBrowserDialog1.SelectedPath
+        Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
+        If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
+            My.Settings.VideoBlowjobD = folderBrowserDialog.SelectedPath
             My.Settings.CBBlowjobD = True
             LblVideoBlowjobTotalD.Text = VideoBlowjobD_Count(False)
         End If
@@ -3802,8 +3735,9 @@ Public Class FrmSettings
 #Region "---------------------------------------- FemdomD ------------------------------------------------"
 
     Private Sub BTNVideoFemdomD_Click(sender As Object, e As EventArgs) Handles BTNVideoFemDomD.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-            My.Settings.VideoFemdomD = FolderBrowserDialog1.SelectedPath
+        Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
+        If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
+            My.Settings.VideoFemdomD = folderBrowserDialog.SelectedPath
             My.Settings.CBFemdomD = True
             LblVideoFemdomTotalD.Text = VideoFemdomD_Count(False)
         End If
@@ -3831,8 +3765,9 @@ Public Class FrmSettings
 #Region "---------------------------------------- FemsubD ------------------------------------------------"
 
     Private Sub BTNVideoFemsubD_Click(sender As Object, e As EventArgs) Handles BTNVideoFemSubD.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-            My.Settings.VideoFemsubD = FolderBrowserDialog1.SelectedPath
+        Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
+        If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
+            My.Settings.VideoFemsubD = folderBrowserDialog.SelectedPath
             My.Settings.CBFemsubD = True
             LblVideoFemsubTotalD.Text = VideoFemsubD_Count(False)
         End If
@@ -3860,8 +3795,9 @@ Public Class FrmSettings
 #Region "---------------------------------------- JOI-D --------------------------------------------------"
 
     Private Sub BTNVideoJOID_Click(sender As Object, e As EventArgs) Handles BTNVideoJOID.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-            My.Settings.VideoJOID = FolderBrowserDialog1.SelectedPath
+        Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
+        If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
+            My.Settings.VideoJOID = folderBrowserDialog.SelectedPath
             My.Settings.CBJOID = True
             LblVideoJOITotalD.Text = VideoJOID_Count(False)
         End If
@@ -3889,8 +3825,9 @@ Public Class FrmSettings
 #Region "---------------------------------------- CH-D ---------------------------------------------------"
 
     Private Sub BTNVideoCHD_Click(sender As Object, e As EventArgs) Handles BTNVideoCHD.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-            My.Settings.VideoCHD = FolderBrowserDialog1.SelectedPath
+        Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
+        If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
+            My.Settings.VideoCHD = folderBrowserDialog.SelectedPath
             My.Settings.CBCHD = True
             LblVideoCHTotalD.Text = VideoCHD_Count(False)
         End If
@@ -3918,8 +3855,9 @@ Public Class FrmSettings
 #Region "---------------------------------------- GeneralD -----------------------------------------------"
 
     Private Sub BTNVideoGeneralD_Click(sender As Object, e As EventArgs) Handles BTNVideoGeneralD.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-            My.Settings.VideoGeneralD = FolderBrowserDialog1.SelectedPath
+        Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
+        If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
+            My.Settings.VideoGeneralD = folderBrowserDialog.SelectedPath
             My.Settings.CBGeneralD = True
             VideoTotalDommeGeneral.Text = VideoGeneralD_Count(False)
         End If
@@ -4802,8 +4740,9 @@ Public Class FrmSettings
     End Sub
 
     Private Sub Button57_Click(sender As Object, e As EventArgs) Handles BTNWIBrowse.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-            TBWIDirectory.Text = FolderBrowserDialog1.SelectedPath
+        Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
+        If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
+            TBWIDirectory.Text = folderBrowserDialog.SelectedPath
         End If
     End Sub
 
@@ -7492,13 +7431,6 @@ Public Class FrmSettings
             Return Sub() saveCheckedListBox(target, Ssh.Files.EndChecklist)
         End If
     End Function
-
-    Private Sub SetColor(label As Label)
-        Dim getColor As ColorDialog = New ColorDialog
-        If getColor.ShowDialog() = DialogResult.OK Then
-            label.ForeColor = getColor.Color
-        End If
-    End Sub
 
     Public Function Color2Html(color As Color) As String
         Return "#" & color.ToArgb().ToString("x").Substring(2).ToUpper

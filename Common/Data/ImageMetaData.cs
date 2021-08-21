@@ -26,8 +26,6 @@ namespace TeaseAI.Common.Data
 
         public string FullFileName { get; set; }
 
-
-
         /// <summary>
         /// Create a new instances of this image meta data
         /// </summary>

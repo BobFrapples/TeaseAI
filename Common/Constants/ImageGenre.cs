@@ -18,5 +18,6 @@
         General = 14,
         Liked = 15,
         Disliked = 16,
+        Glitter= 17,
     }
 }

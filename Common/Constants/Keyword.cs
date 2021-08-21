@@ -10,10 +10,11 @@ namespace TeaseAI.Common.Constants
     {
         /// <summary>
         /// Accepts an answer other than what the sub spoke, works similar to <see cref="DifferentAnswer"/>
-        /// <para>Do you like pain?
-        /// <para>[yes] Good</para>
-        /// <para>[no] Too bad</para>
-        /// <para>@AcceptAnswer I guess we'll find out</para>
+        /// <para>
+        /// Do you like pain?<br />
+        /// [yes] Good<br />
+        /// [no] Too bad<br />
+        /// @AcceptAnswer I guess we'll find out</para>
         /// </summary>
         public const string AcceptAnswer = @"@AcceptAnswer";
 
@@ -196,14 +197,17 @@ namespace TeaseAI.Common.Constants
 
         public const string ShowButtImage = @"@ShowButtImage";
         public const string ShowButtsImage = @"@ShowButtsImage";
+
         /// <summary>
         /// Show a random image local or blog
         /// </summary>
         public const string ShowImage = @"@ShowImage";
+
         /// <summary>
         /// Show a random local image.
         /// </summary>
         public const string ShowLocalImage = @"@ShowLocalImage";
+
         /// <summary>
         /// Show a local image in a category listed.
         /// i.e. @ShowLocalImage(butt,femdom)
@@ -237,6 +241,12 @@ namespace TeaseAI.Common.Constants
         public const string ShowLikedImage = @"@ShowLikedImage";
         public const string ShowDislikedImage = @"@ShowDislikedImage";
         public const string ShowBlogImage = @"@ShowBlogImage";
+
+        /// <summary>
+        /// I think this command is to show a Domme image with a specific tag, i.e. @ShowDommeTag(Face) would show an Domme image tagged as being of the face
+        /// </summary>
+        public const string ShowDommeImageWithTag = @"@DommeTag(";
+
         /// <summary>
         /// This command is deprecated. Please use @ShowBlogImage instead
         /// </summary>

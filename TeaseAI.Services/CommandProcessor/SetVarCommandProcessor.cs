@@ -9,7 +9,6 @@ namespace TeaseAI.Services.CommandProcessor
 {
     public class SetVarCommandProcessor : CommandProcessorBase
     {
-        private readonly LineService _lineService;
         private readonly IVariableAccessor _variableAccessor;
 
         public SetVarCommandProcessor(LineService lineService

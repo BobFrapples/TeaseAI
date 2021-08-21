@@ -358,8 +358,6 @@ Public Class SessionState
     Public Property OrgasmRuined As Boolean
     Public Property LastOrgasmType As String = ""
 
-    Public Property CaloriesGoal As Integer
-
     <Category("Tokens")> <[ReadOnly](True)> Public Property GoldTokens As Integer
     <Category("Tokens")> <[ReadOnly](True)> Public Property SilverTokens As Integer
     <Category("Tokens")> <[ReadOnly](True)> Public Property BronzeTokens As Integer
@@ -372,27 +370,35 @@ Public Class SessionState
     Public Property CustomSlideEnabled As Boolean
     <Category("Images")> <Description("Stores all images and genre informations for CustomSlideshow")>
     Public Property CustomSlideshow As New CustomSlideshow
-    <Obsolete("Obsolete as of v0.54.5.1. Left for version tolerance.", True)>
-    <Category("Images")> <Browsable(False)> Public Property DommeImageFound As Boolean
-    <Category("Images")> Public Property DommeImageSTR As String
-    <Obsolete("Obsolete as of v0.54.5.1. Left for version tolerance.", True)>
-    <Category("Images")> <Browsable(False)> Public Property DomPic As String
-    <Category("Images")> Public Property JustShowedBlogImage As Boolean = False
     <Category("Images")> Public Property JustShowedSlideshowImage As Boolean = False
     <Category("Images")> Public Property LockImage As Boolean
     <Category("Images")> Public Property RandomSlideshowCategory As String
-    <Category("Images")> <Description("True if main slideshow is loaded.")>
+    <Category("Images")>
+    <Description("True if main slideshow is loaded.")>
     Public Property SlideshowLoaded As Boolean
-    <Category("Images")> Public Property SlideshowMain As ContactData
-    <Category("Images")> Public Property SlideshowContact1 As ContactData
-    <Category("Images")> Public Property SlideshowContact2 As ContactData
-    <Category("Images")> Public Property SlideshowContact3 As ContactData
 
-    <Category("Custom Task")> Public Property CustomTask As Boolean
-    <Category("Custom Task")> Public Property CustomTaskFirst As Boolean = True
-    <Category("Custom Task")> Public Property CustomTaskText As String
-    <Category("Custom Task")> Public Property CustomTaskTextFirst As String
-    <Category("Custom Task")> Public Property CustomTaskActive As Boolean
+    <Category("Images")>
+    Public Property SlideshowMain As ContactData
+
+    <Category("Images")>
+    Public Property SlideshowContact1 As ContactData
+
+    <Category("Images")>
+    Public Property SlideshowContact2 As ContactData
+
+    <Category("Images")>
+    Public Property SlideshowContact3 As ContactData
+
+    <Category("Custom Task")>
+    Public Property CustomTask As Boolean
+    <Category("Custom Task")>
+    Public Property CustomTaskFirst As Boolean = True
+    <Category("Custom Task")>
+    Public Property CustomTaskText As String
+    <Category("Custom Task")>
+    Public Property CustomTaskTextFirst As String
+    <Category("Custom Task")>
+    Public Property CustomTaskActive As Boolean
 
 
     <Category("Risky Pick")> Public Property RiskyDeal As Boolean
