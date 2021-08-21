@@ -240,6 +240,7 @@ Partial Class GlitterSettingsControl
         '
         'SetImageDirectoryButton
         '
+        Me.SetImageDirectoryButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.SetImageDirectoryButton.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.SetImageDirectoryButton.Font = New System.Drawing.Font("Wingdings", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
         Me.SetImageDirectoryButton.ForeColor = System.Drawing.Color.Black
