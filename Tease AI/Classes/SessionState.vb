@@ -265,7 +265,6 @@ Public Class SessionState
     <Category("Glitter")> Public Property UpdateStageTick As Integer
     <Category("Glitter")> Public Property GlitterScript As String
 
-    <Category("Glitter")> Public Property StatusText1 As String
     <Category("Glitter")> Public Property StatusText2 As String
     <Category("Glitter")> Public Property StatusText3 As String
 

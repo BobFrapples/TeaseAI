@@ -2656,20 +2656,20 @@ Public Class FrmSettings
     End Sub
 
     Private Sub GlitterContact1SettingsControl_GlitterChanged(sender As Object, e As EventArgs) Handles GlitterContact1SettingsControl.GlitterChanged
-        UpdateSettings(DommeGlitterSettings.Visible, Sub(settings As Settings)
-                                                         UpdateDommeSettingsFromGlitter(GlitterContact1SettingsControl, settings.Apps.Glitter.Contact1)
-                                                     End Sub)
+        UpdateSettings(GlitterContact1SettingsControl.Visible, Sub(settings As Settings)
+                                                                   UpdateDommeSettingsFromGlitter(GlitterContact1SettingsControl, settings.Apps.Glitter.Contact1)
+                                                               End Sub)
     End Sub
     Private Sub GlitterContact2SettingsControl_GlitterChanged(sender As Object, e As EventArgs) Handles GlitterContact2SettingsControl.GlitterChanged
-        UpdateSettings(DommeGlitterSettings.Visible, Sub(settings As Settings)
-                                                         UpdateDommeSettingsFromGlitter(GlitterContact1SettingsControl, settings.Apps.Glitter.Contact2)
-                                                     End Sub)
+        UpdateSettings(GlitterContact2SettingsControl.Visible, Sub(settings As Settings)
+                                                                   UpdateDommeSettingsFromGlitter(GlitterContact2SettingsControl, settings.Apps.Glitter.Contact2)
+                                                               End Sub)
     End Sub
 
     Private Sub GlitterContact3SettingsControl_GlitterChanged(sender As Object, e As EventArgs) Handles GlitterContact3SettingsControl.GlitterChanged
-        UpdateSettings(DommeGlitterSettings.Visible, Sub(settings As Settings)
-                                                         UpdateDommeSettingsFromGlitter(GlitterContact3SettingsControl, settings.Apps.Glitter.Contact3)
-                                                     End Sub)
+        UpdateSettings(GlitterContact3SettingsControl.Visible, Sub(settings As Settings)
+                                                                   UpdateDommeSettingsFromGlitter(GlitterContact3SettingsControl, settings.Apps.Glitter.Contact3)
+                                                               End Sub)
     End Sub
 
     Private Sub UpdateGlitterSettingsFromDomme(source As DommeSettings, destination As GlitterSettingsControl)
@@ -2747,13 +2747,6 @@ Public Class FrmSettings
         End If
     End Sub
 
-    Private Sub BtnContact3ImageDirClear_Click(sender As Object, e As EventArgs)
-        UpdateSettings(DominationLevel.Visible, Sub(settings As Settings)
-                                                    settings.Apps.Glitter.Contact3.GlitterImageDirectory = String.Empty
-                                                    TbxContact3ImageDir.Text = settings.Apps.Glitter.Contact3.GlitterImageDirectory
-                                                End Sub)
-    End Sub
-
     Private Sub Button16_Click(sender As Object, e As EventArgs)
         Dim settings As Settings = mySettingsAccessor.GetSettings()
         Dim saveSettingsDialog = New SaveFileDialog()
@@ -2769,49 +2762,49 @@ Public Class FrmSettings
 
             settingsList.Add("Glitter Feed: " & settings.Domme.GlitterMode.ToString())
             settingsList.Add("Short Name: " & settings.Domme.GlitterContactName)
-                settingsList.Add("Domme Color: " & settings.Domme.ChatColor)
+            settingsList.Add("Domme Color: " & settings.Domme.ChatColor)
 
-                settingsList.Add("Tease: " & settings.Domme.IsGlitterTeaseModuleEnabled)
-                settingsList.Add("Egotist: " & settings.Domme.IsGlitterEgotistModuleEnabled)
-                settingsList.Add("Trivia: " & settings.Domme.IsGlitterTriviaModuleEnabled)
-                settingsList.Add("Daily: " & settings.Domme.IsGlitterDailyModuleEnabled)
-                settingsList.Add("Custom 1: " & settings.Domme.IsGlitterCustom1ModuleEnabled)
-                settingsList.Add("Custom 2: " & settings.Domme.IsGlitterCustom2ModuleEnabled)
-                settingsList.Add("Domme Post Frequency: " & settings.Domme.GlitterPostFrequency)
+            settingsList.Add("Tease: " & settings.Domme.IsGlitterTeaseModuleEnabled)
+            settingsList.Add("Egotist: " & settings.Domme.IsGlitterEgotistModuleEnabled)
+            settingsList.Add("Trivia: " & settings.Domme.IsGlitterTriviaModuleEnabled)
+            settingsList.Add("Daily: " & settings.Domme.IsGlitterDailyModuleEnabled)
+            settingsList.Add("Custom 1: " & settings.Domme.IsGlitterCustom1ModuleEnabled)
+            settingsList.Add("Custom 2: " & settings.Domme.IsGlitterCustom2ModuleEnabled)
+            settingsList.Add("Domme Post Frequency: " & settings.Domme.GlitterPostFrequency)
 
-                settingsList.Add("Contact 1 Enabled: " & settings.Apps.Glitter.Contact1.GlitterMode)
-                settingsList.Add("Contact 1 Name: " & settings.Apps.Glitter.Contact1.GlitterContactName)
-                settingsList.Add("Contact 1 Color: " & settings.Apps.Glitter.Contact1.ChatColor)
-                settingsList.Add("Contact 1 Image Directory: " & settings.Apps.Glitter.Contact1.GlitterImageDirectory)
-                settingsList.Add("Contact 1 Post Frequency: " & settings.Apps.Glitter.Contact1.GlitterResponseFrequency)
-                settingsList.Add("Contact 1 AV: " & settings.Apps.Glitter.Contact1.AvatarImageFile)
+            settingsList.Add("Contact 1 Enabled: " & settings.Apps.Glitter.Contact1.GlitterMode)
+            settingsList.Add("Contact 1 Name: " & settings.Apps.Glitter.Contact1.GlitterContactName)
+            settingsList.Add("Contact 1 Color: " & settings.Apps.Glitter.Contact1.ChatColor)
+            settingsList.Add("Contact 1 Image Directory: " & settings.Apps.Glitter.Contact1.GlitterImageDirectory)
+            settingsList.Add("Contact 1 Post Frequency: " & settings.Apps.Glitter.Contact1.GlitterResponseFrequency)
+            settingsList.Add("Contact 1 AV: " & settings.Apps.Glitter.Contact1.AvatarImageFile)
 
-                settingsList.Add("Contact 2 Enabled: " & settings.Apps.Glitter.Contact2.GlitterMode)
-                settingsList.Add("Contact 2 Name: " & settings.Apps.Glitter.Contact2.GlitterContactName)
-                settingsList.Add("Contact 2 Color: " & settings.Apps.Glitter.Contact2.ChatColor)
-                settingsList.Add("Contact 2 Image Directory: " & settings.Apps.Glitter.Contact2.GlitterImageDirectory)
-                settingsList.Add("Contact 2 Post Frequency: " & settings.Apps.Glitter.Contact2.GlitterResponseFrequency)
-                settingsList.Add("Contact 2 AV: " & settings.Apps.Glitter.Contact2.AvatarImageFile)
+            settingsList.Add("Contact 2 Enabled: " & settings.Apps.Glitter.Contact2.GlitterMode)
+            settingsList.Add("Contact 2 Name: " & settings.Apps.Glitter.Contact2.GlitterContactName)
+            settingsList.Add("Contact 2 Color: " & settings.Apps.Glitter.Contact2.ChatColor)
+            settingsList.Add("Contact 2 Image Directory: " & settings.Apps.Glitter.Contact2.GlitterImageDirectory)
+            settingsList.Add("Contact 2 Post Frequency: " & settings.Apps.Glitter.Contact2.GlitterResponseFrequency)
+            settingsList.Add("Contact 2 AV: " & settings.Apps.Glitter.Contact2.AvatarImageFile)
 
-                settingsList.Add("Contact 3 Enabled: " & settings.Apps.Glitter.Contact3.GlitterMode)
-                settingsList.Add("Contact 3 Name: " & settings.Apps.Glitter.Contact3.GlitterContactName)
-                settingsList.Add("Contact 3 Color: " & settings.Apps.Glitter.Contact3.ChatColor)
-                settingsList.Add("Contact 3 Image Directory: " & settings.Apps.Glitter.Contact3.GlitterImageDirectory)
-                settingsList.Add("Contact 3 Post Frequency: " & settings.Apps.Glitter.Contact3.GlitterResponseFrequency)
-                settingsList.Add("Contact 3 AV: " & settings.Apps.Glitter.Contact3.AvatarImageFile)
-
-
+            settingsList.Add("Contact 3 Enabled: " & settings.Apps.Glitter.Contact3.GlitterMode)
+            settingsList.Add("Contact 3 Name: " & settings.Apps.Glitter.Contact3.GlitterContactName)
+            settingsList.Add("Contact 3 Color: " & settings.Apps.Glitter.Contact3.ChatColor)
+            settingsList.Add("Contact 3 Image Directory: " & settings.Apps.Glitter.Contact3.GlitterImageDirectory)
+            settingsList.Add("Contact 3 Post Frequency: " & settings.Apps.Glitter.Contact3.GlitterResponseFrequency)
+            settingsList.Add("Contact 3 AV: " & settings.Apps.Glitter.Contact3.AvatarImageFile)
 
 
-                Dim SettingsString As String = ""
 
-                For i As Integer = 0 To settingsList.Count - 1
-                    SettingsString = SettingsString & settingsList(i)
-                    If i <> settingsList.Count - 1 Then SettingsString = SettingsString & Environment.NewLine
-                Next
 
-                My.Computer.FileSystem.WriteAllText(settingsPath, SettingsString, False)
-            End If
+            Dim SettingsString As String = ""
+
+            For i As Integer = 0 To settingsList.Count - 1
+                SettingsString = SettingsString & settingsList(i)
+                If i <> settingsList.Count - 1 Then SettingsString = SettingsString & Environment.NewLine
+            Next
+
+            My.Computer.FileSystem.WriteAllText(settingsPath, SettingsString, False)
+        End If
 
 
     End Sub
@@ -2892,7 +2885,7 @@ Public Class FrmSettings
         End If
     End Sub
 
-    Private Sub DommeGlitterSettings_Description(sender As Object, e As ShowDescriptionEventArgs) Handles DommeGlitterSettings.ShowDescription
+    Private Sub GlitterSettingsControl_Description(sender As Object, e As ShowDescriptionEventArgs) Handles DommeGlitterSettings.ShowDescription, GlitterContact1SettingsControl.ShowDescription, GlitterContact2SettingsControl.ShowDescription, GlitterContact3SettingsControl.ShowDescription
         SettingsDescriptionControl.DescriptionText = e.Description
     End Sub
 

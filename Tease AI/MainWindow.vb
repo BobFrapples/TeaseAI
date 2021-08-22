@@ -3458,129 +3458,122 @@ DommeSlideshowFallback:
     End Sub
 
     Public Sub StatusUpdatePost(possiblePosts As List(Of String))
+        Dim statusText1 As String = ""
         Dim settings As Settings = mySettingsAccessor.GetSettings()
         ssh.UpdatingPost = True
-        If ssh.UpdateStage > 0 Then
-            GoTo StatusUpdateBegin
-        End If
-        ssh.GlitterScript = possiblePosts(myRandomNumberService.Roll(0, possiblePosts.Count))
+        If ssh.UpdateStage = 0 Then
+            ssh.GlitterScript = possiblePosts(myRandomNumberService.Roll(0, possiblePosts.Count))
 
-        ' Read all lines of the given File.
-        Dim lines As List(Of String) = File.ReadAllLines(ssh.GlitterScript) _
+            ' Read all lines of the given File.
+            Dim lines As List(Of String) = File.ReadAllLines(ssh.GlitterScript) _
             .Where(Function(gl) Not String.IsNullOrWhiteSpace(gl)).ToList()
 
-        Dim dommeLine As String = lines(0)
-        Dim loopBuffer As Integer = 0
-        Do
-            loopBuffer += 1
-            dommeLine = PoundClean(dommeLine)
-            If loopBuffer > 4 Then Exit Do
-        Loop Until Not dommeLine.Contains("#")
+            Dim dommeLine As String = lines(0)
+            Dim loopBuffer As Integer = 0
+            Do
+                loopBuffer += 1
+                dommeLine = PoundClean(dommeLine)
+                If loopBuffer > 4 Then Exit Do
+            Loop Until Not dommeLine.Contains("#")
 
-        dommeLine = GlitterReplacePronouns(dommeLine, settings.Sub.IsSubFemale)
+            dommeLine = GlitterReplacePronouns(dommeLine, settings.Sub.IsSubFemale)
 
-        Dim imageUrl As String = ("file://" & settings.Domme.AvatarImageFile).Replace("\", "/")
-        Dim statusName As String
-        statusName = GlitterWindow.DocumentText & "<img class=""floatright"" style="" float: left; width: 48; height: 48; border: 0;"" src=""" & imageUrl & """> <font face=""Cambria"" size=""3"" color=""" _
-            & settings.Domme.ChatColor & """><b>" & domName.Text & "</b></font> <br><font face=""Cambria"" size=""2"" color=""DarkGray"">" & Date.Today & "</font><br><br>"
-        GlitterWindow.DocumentText = statusName & "<font face=""Cambria"" size=""2"" color=""" & settings.Domme.ChatColor & """>" & dommeLine & "</font><br><br>"
-        GlitterWindow.DocumentText = GlitterWindow.DocumentText & BuildGlitterMessage(settings.Domme, dommeLine, Color2Html(My.Settings.ChatTextColor))
+            Dim imageUrl As String = ("file://" & settings.Domme.AvatarImageFile).Replace("\", "/")
+            Dim statusName As String = BuildGlitterMessage(settings.Domme, dommeLine, Color2Html(My.Settings.ChatTextColor))
+            'statusName = GlitterWindow.DocumentText & "<img class=""floatright"" style="" float: left; width: 48; height: 48; border: 0;"" src=""" & imageUrl & """> <font face=""Cambria"" size=""3"" color=""" _
+            '& settings.Domme.ChatColor & """><b>" & domName.Text & "</b></font> <br><font face=""Cambria"" size=""2"" color=""DarkGray"">" & Date.Today & "</font><br><br>"
+            'GlitterWindow.DocumentText = statusName & "<font face=""Cambria"" size=""2"" color=""" & settings.Domme.ChatColor & """>" & dommeLine & "</font><br><br>"
+            GlitterWindow.DocumentText = GlitterWindow.DocumentText & statusName
+            GlitterWindow.DocumentText = statusName
 
-        Dim statusLines As List(Of String) = New List(Of String)
-        For i As Integer = 1 To lines.Count - 1
-            statusLines.Add(lines(i))
-        Next
+            Dim statusLines As List(Of String) = New List(Of String)
+            For i As Integer = 1 To lines.Count - 1
+                statusLines.Add(lines(i))
+            Next
 
-        Dim contactOneLines = StatusClean(statusLines, 1)
-        If contactOneLines.Any() Then
-            ssh.StatusText1 = contactOneLines(myRandomNumberService.Roll(0, contactOneLines.Count))
-            ssh.StatusText1 = myVocabularyProcessor.ReplaceVocabulary(CreateSession(), ssh.StatusText1)
+            Dim contactOneLines = StatusClean(statusLines, 1)
+            If contactOneLines.Any() Then
+                statusText1 = contactOneLines(myRandomNumberService.Roll(0, contactOneLines.Count))
+                statusText1 = myVocabularyProcessor.ReplaceVocabulary(CreateSession(), statusText1)
+            End If
+
+            Dim contactTwoLines As List(Of String) = StatusClean(statusLines, 2)
+            Do
+                ssh.StatusText2 = contactTwoLines(myRandomNumberService.Roll(0, contactTwoLines.Count))
+                ssh.StatusText2 = myVocabularyProcessor.ReplaceVocabulary(CreateSession(), ssh.StatusText2)
+            Loop Until ssh.StatusText2 <> statusText1
+
+            Dim contactThreeLines As List(Of String) = StatusClean(statusLines, 2)
+            Do
+                ssh.StatusText3 = contactThreeLines(myRandomNumberService.Roll(0, contactThreeLines.Count))
+                ssh.StatusText3 = myVocabularyProcessor.ReplaceVocabulary(CreateSession(), ssh.StatusText3)
+            Loop Until ssh.StatusText3 <> ssh.StatusText2 AndAlso ssh.StatusText3 <> statusText1
+
+            statusText1 = GlitterReplacePronouns(statusText1, settings.Sub.IsSubFemale)
+
+            ssh.StatusText2 = GlitterReplacePronouns(ssh.StatusText2, settings.Sub.IsSubFemale)
+
+            ssh.StatusText3 = GlitterReplacePronouns(ssh.StatusText3, settings.Sub.IsSubFemale)
+
+            'TestSkip:
+            ssh.Update1 = False
+            ssh.Update2 = False
+            ssh.Update3 = False
+
+            ssh.StatusChance1 = myRandomNumberService.RollPercent()
+            ssh.StatusChance2 = myRandomNumberService.RollPercent()
+            ssh.StatusChance3 = myRandomNumberService.RollPercent()
+
+            ssh.UpdateStageTick = myRandomNumberService.Roll(10, 21)
+            UpdateStageTimer.Start()
+            ssh.UpdateStage = 1
         End If
 
-        Dim contactTwoLines As List(Of String) = StatusClean(statusLines, 2)
-        Do
-            ssh.StatusText2 = contactTwoLines(myRandomNumberService.Roll(0, contactTwoLines.Count))
-            ssh.StatusText2 = myVocabularyProcessor.ReplaceVocabulary(CreateSession(), ssh.StatusText2)
-        Loop Until ssh.StatusText2 <> ssh.StatusText1
-
-        Dim contactThreeLines As List(Of String) = StatusClean(statusLines, 2)
-        Do
-            ssh.StatusText3 = contactThreeLines(myRandomNumberService.Roll(0, contactThreeLines.Count))
-            ssh.StatusText3 = myVocabularyProcessor.ReplaceVocabulary(CreateSession(), ssh.StatusText3)
-        Loop Until ssh.StatusText3 <> ssh.StatusText2 AndAlso ssh.StatusText3 <> ssh.StatusText1
-
-        ssh.StatusText1 = GlitterReplacePronouns(ssh.StatusText1, settings.Sub.IsSubFemale)
-
-        ssh.StatusText2 = GlitterReplacePronouns(ssh.StatusText2, settings.Sub.IsSubFemale)
-
-        ssh.StatusText3 = GlitterReplacePronouns(ssh.StatusText3, settings.Sub.IsSubFemale)
-
-        'TestSkip:
-        ssh.Update1 = False
-        ssh.Update2 = False
-        ssh.Update3 = False
-
-        ssh.StatusChance1 = myRandomNumberService.RollPercent()
-        ssh.StatusChance2 = myRandomNumberService.RollPercent()
-        ssh.StatusChance3 = myRandomNumberService.RollPercent()
-
-        ssh.UpdateStageTick = myRandomNumberService.Roll(10, 21)
-        UpdateStageTimer.Start()
-        ssh.UpdateStage = 1
-
-StatusUpdateBegin:
         ' all glitter parcipitants have said something
-        If ssh.Update1 AndAlso ssh.Update2 AndAlso ssh.Update3 Then GoTo StatusUpdateEnd
-
+        If Not (ssh.Update1 AndAlso ssh.Update2 AndAlso ssh.Update3) Then
 ReRoll:
-        Dim glitterSender As Int32 = myRandomNumberService.Roll(1, 4)
-        Select Case glitterSender
-            Case 1
-                If Not ssh.Update1 Then GoTo StatusUpdate1
-            Case 2
-                If Not ssh.Update1 Then GoTo StatusUpdate2
-            Case 3
-                If Not ssh.Update1 Then GoTo StatusUpdate3
-        End Select
-        GoTo ReRoll
+            Dim glitterSender As Int32 = myRandomNumberService.Roll(1, 4)
+            Select Case glitterSender
+                Case 1
+                    If Not ssh.Update1 Then
+                        If settings.Apps.Glitter.Contact1.GlitterMode AndAlso ssh.StatusChance1 < (settings.Apps.Glitter.Contact1.GlitterResponseFrequency * 10) Then
+                            GlitterWindow.DocumentText = GlitterWindow.DocumentText & BuildGlitterMessage(settings.Apps.Glitter.Contact1, statusText1, Color2Html(My.Settings.ChatTextColor))
+                        End If
 
-StatusUpdate1:
-        If settings.Apps.Glitter.Contact1.GlitterMode AndAlso ssh.StatusChance1 < (settings.Apps.Glitter.Contact1.GlitterResponseFrequency * 10) Then
-            GlitterWindow.DocumentText = GlitterWindow.DocumentText & BuildGlitterMessage(settings.Apps.Glitter.Contact1, ssh.StatusText1, Color2Html(My.Settings.ChatTextColor))
+                        ssh.Update1 = True
+
+                        ssh.UpdateStageTick = myRandomNumberService.Roll(10, 21)
+                        UpdateStageTimer.Start()
+                        Return
+                    End If
+                Case 2
+                    If Not ssh.Update2 Then
+                        If settings.Apps.Glitter.Contact2.GlitterMode AndAlso ssh.StatusChance2 < (settings.Apps.Glitter.Contact2.GlitterResponseFrequency * 10) Then
+                            GlitterWindow.DocumentText = GlitterWindow.DocumentText & BuildGlitterMessage(settings.Apps.Glitter.Contact2, ssh.StatusText2, Color2Html(My.Settings.ChatTextColor))
+                        End If
+
+                        ssh.Update2 = True
+
+                        ssh.UpdateStageTick = myRandomNumberService.Roll(10, 21)
+                        UpdateStageTimer.Start()
+                        Return
+                    End If
+                Case 3
+                    If Not ssh.Update3 Then
+                        If settings.Apps.Glitter.Contact3.GlitterMode AndAlso ssh.StatusChance3 < (settings.Apps.Glitter.Contact3.GlitterResponseFrequency * 10) Then
+                            GlitterWindow.DocumentText = GlitterWindow.DocumentText & BuildGlitterMessage(settings.Apps.Glitter.Contact3, ssh.StatusText3, Color2Html(My.Settings.ChatTextColor))
+                        End If
+
+                        ssh.Update3 = True
+
+                        ssh.UpdateStageTick = myRandomNumberService.Roll(10, 21)
+                        UpdateStageTimer.Start()
+                        Return
+                    End If
+            End Select
+            GoTo ReRoll
         End If
 
-        ssh.Update1 = True
-
-        ssh.UpdateStageTick = myRandomNumberService.Roll(10, 21)
-        UpdateStageTimer.Start()
-        Return
-        'GoTo StatusUpdateBegin
-
-StatusUpdate2:
-        If settings.Apps.Glitter.Contact2.GlitterMode AndAlso ssh.StatusChance2 < (settings.Apps.Glitter.Contact2.GlitterResponseFrequency * 10) Then
-            GlitterWindow.DocumentText = GlitterWindow.DocumentText & BuildGlitterMessage(settings.Apps.Glitter.Contact2, ssh.StatusText2, Color2Html(My.Settings.ChatTextColor))
-        End If
-
-        ssh.Update2 = True
-
-        ssh.UpdateStageTick = myRandomNumberService.Roll(10, 21)
-        UpdateStageTimer.Start()
-        Return
-        'GoTo StatusUpdateBegin
-
-StatusUpdate3:
-        If settings.Apps.Glitter.Contact3.GlitterMode AndAlso ssh.StatusChance3 < (settings.Apps.Glitter.Contact3.GlitterResponseFrequency * 10) Then
-            GlitterWindow.DocumentText = GlitterWindow.DocumentText & BuildGlitterMessage(settings.Apps.Glitter.Contact3, ssh.StatusText3, Color2Html(My.Settings.ChatTextColor))
-        End If
-
-        ssh.Update3 = True
-
-        ssh.UpdateStageTick = myRandomNumberService.Roll(10, 21)
-        UpdateStageTimer.Start()
-        Return
-        'GoTo StatusUpdateBegin
-
-StatusUpdateEnd:
         ssh.UpdateStage = 0
         ssh.UpdatingPost = False
     End Sub
@@ -3594,6 +3587,7 @@ StatusUpdateEnd:
             & messageColor & """>" & messageText & "</font><br><br>"
         Return message
     End Function
+
     Private Shared Function GlitterReplacePronouns(messageText As String, subIdentifiesAsFemale As Boolean) As String
         Dim lineTokens As List(Of String) = messageText.Split(" ").ToList()
 
@@ -3613,7 +3607,8 @@ StatusUpdateEnd:
         lineTokens = lineTokens.Where(Function(t) Not String.IsNullOrWhiteSpace(t)).ToList()
         Return String.Join(" ", lineTokens)
     End Function
-    Public Function StatusClean(inputList As List(Of String), contactNumber As Int32) As List(Of String)
+
+    Private Function StatusClean(inputList As List(Of String), contactNumber As Int32) As List(Of String)
         Dim filteredList As List(Of String) = inputList.Where(Function(l) Not l.StartsWith("@")).ToList()
         If contactNumber = 1 Then
             filteredList.AddRange(inputList.Where(Function(l) l.Contains("@Bratty") OrElse l.Contains("@Contact1")))
