@@ -2662,15 +2662,15 @@ Public Class FrmSettings
     End Sub
     Private Sub GlitterContact2SettingsControl_GlitterChanged(sender As Object, e As EventArgs) Handles GlitterContact2SettingsControl.GlitterChanged
         UpdateSettings(DommeGlitterSettings.Visible, Sub(settings As Settings)
-                                                         UpdateDommeSettingsFromGlitter(GlitterContact1SettingsControl, settings.Apps.Glitter.Contact1)
+                                                         UpdateDommeSettingsFromGlitter(GlitterContact1SettingsControl, settings.Apps.Glitter.Contact2)
                                                      End Sub)
     End Sub
 
-    'Private Sub GlitterContact3SettingsControl_GlitterChanged(sender As Object, e As EventArgs) Handles GlitterContact3SettingsControl.GlitterChanged
-    '    UpdateSettings(DommeGlitterSettings.Visible, Sub(settings As Settings)
-    '                                                     UpdateDommeSettingsFromGlitter(GlitterContact1SettingsControl, settings.Apps.Glitter.Contact1)
-    '                                                 End Sub)
-    'End Sub
+    Private Sub GlitterContact3SettingsControl_GlitterChanged(sender As Object, e As EventArgs) Handles GlitterContact3SettingsControl.GlitterChanged
+        UpdateSettings(DommeGlitterSettings.Visible, Sub(settings As Settings)
+                                                         UpdateDommeSettingsFromGlitter(GlitterContact3SettingsControl, settings.Apps.Glitter.Contact3)
+                                                     End Sub)
+    End Sub
 
     Private Sub UpdateGlitterSettingsFromDomme(source As DommeSettings, destination As GlitterSettingsControl)
         destination.AvatarImageFile = source.AvatarImageFile
@@ -2739,7 +2739,7 @@ Public Class FrmSettings
         End If
     End Sub
 
-    Private Sub BtnContact3ImageDir_Click(sender As Object, e As EventArgs) Handles BtnContact3ImageDir.Click
+    Private Sub BtnContact3ImageDir_Click(sender As Object, e As EventArgs)
         Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
         If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
             My.Settings.Contact3ImageDir = folderBrowserDialog.SelectedPath
@@ -2747,27 +2747,7 @@ Public Class FrmSettings
         End If
     End Sub
 
-
-    'Private Sub CBGlitterFeed_CheckedChanged(sender As Object, e As EventArgs) Handles CBGlitterFeedScripts.Click, CBGlitterFeedOff.Click, CBGlitterFeed.Click
-    '    If MainWindow.FormLoading Then
-    '        Return
-    '    End If
-    '    ' In order to prevent wrong values, we have to change the DataSourceUpdateMode.
-    '    ' Since the Designer will reset this value, we have to undo this changes.
-    '    For Each ob As RadioButton In {CBGlitterFeed, CBGlitterFeedOff, CBGlitterFeedScripts}
-    '        ob.DataBindings("Checked").DataSourceUpdateMode = DataSourceUpdateMode.OnValidation
-    '    Next
-
-    '    ' Set the desired Value manually - Didn't know it is that much of a problem to databind RadioButtons.
-    '    ' This Solution ensures the ui to display the current value, whenever and whatever thread changed in and
-    '    ' it saves correctly. The only issue could be, when setting a value, while forgetting to disable the others.
-    '    Dim checked As Boolean = CType(sender, RadioButton).Checked
-    '    My.Settings.CBGlitterFeed = If(sender Is CBGlitterFeed, checked, False)
-    '    My.Settings.CBGlitterFeedOff = If(sender Is CBGlitterFeedOff, checked, False)
-    '    My.Settings.CBGlitterFeedScripts = If(sender Is CBGlitterFeedScripts, checked, False)
-    'End Sub
-
-    Private Sub BtnContact3ImageDirClear_Click(sender As Object, e As EventArgs) Handles BtnContact3ImageDirClear.Click
+    Private Sub BtnContact3ImageDirClear_Click(sender As Object, e As EventArgs)
         UpdateSettings(DominationLevel.Visible, Sub(settings As Settings)
                                                     settings.Apps.Glitter.Contact3.GlitterImageDirectory = String.Empty
                                                     TbxContact3ImageDir.Text = settings.Apps.Glitter.Contact3.GlitterImageDirectory

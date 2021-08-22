@@ -311,6 +311,16 @@ Public Class GlitterSettingsControl
         GlitterImageDirectoryTextBox.Text = String.Empty
         OnGlitterChanged()
     End Sub
+
+    Private Sub SetImageDirectoryButton_Click(sender As Object, e As EventArgs) Handles SetImageDirectoryButton.Click
+        Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
+
+        If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
+            GlitterImageDirectoryTextBox.Text = folderBrowserDialog.SelectedPath
+            OnGlitterChanged()
+        End If
+    End Sub
+
 #End Region
 
     Private Property myAvatarImageFile As String
