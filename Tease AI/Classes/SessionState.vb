@@ -260,21 +260,9 @@ Public Class SessionState
     <Category("Video")> <Obsolete("Never set to TRUE")> Public Property NoVideo As Boolean
 
     <Category("Glitter")> Public Property UpdatesTick As Integer = 120
-    <Category("Glitter")> Public Property UpdatingPost As Boolean
     <Category("Glitter")> Public Property UpdateStage As Integer
     <Category("Glitter")> Public Property UpdateStageTick As Integer
     <Category("Glitter")> Public Property GlitterScript As String
-
-    <Category("Glitter")> Public Property StatusText2 As String
-    <Category("Glitter")> Public Property StatusText3 As String
-
-    <Category("Glitter")> Public Property StatusChance1 As Integer
-    <Category("Glitter")> Public Property StatusChance2 As Integer
-    <Category("Glitter")> Public Property StatusChance3 As Integer
-
-    <Category("Glitter")> Public Property Update1 As Boolean
-    <Category("Glitter")> Public Property Update2 As Boolean
-    <Category("Glitter")> Public Property Update3 As Boolean
 
 
     <Editor(EditorGenericStringList, GetType(UITypeEditor))>
@@ -759,7 +747,6 @@ Public Class SessionState
             TeaseTimer_enabled = .TeaseTimer.Enabled
             Timer1_enabled = .Timer1.Enabled
             TnASlides_enabled = .TnASlides.Enabled
-            UpdateStageTimer_enabled = .UpdateStageTimer.Enabled
             UpdatesTimer_enabled = .GlitterTimer.Enabled
             VideoTauntTimer_enabled = .VideoTauntTimer.Enabled
             WaitTimer_enabled = .WaitTimer.Enabled
@@ -788,7 +775,6 @@ Public Class SessionState
             TeaseTimer_Interval = .TeaseTimer.Interval
             Timer1_Interval = .Timer1.Interval
             TnASlides_Interval = .TnASlides.Interval
-            UpdateStageTimer_Interval = .UpdateStageTimer.Interval
             UpdatesTimer_Interval = .GlitterTimer.Interval
             VideoTauntTimer_Interval = .VideoTauntTimer.Interval
             WaitTimer_Interval = .WaitTimer.Interval
@@ -889,7 +875,6 @@ Public Class SessionState
             .TeaseTimer.Enabled = False
             .Timer1.Enabled = False
             .TnASlides.Enabled = False
-            .UpdateStageTimer.Enabled = False
             .GlitterTimer.Enabled = False
             .VideoTauntTimer.Enabled = False
             .WaitTimer.Enabled = False
@@ -1026,7 +1011,6 @@ Public Class SessionState
             .TeaseTimer.Interval = TeaseTimer_Interval
             .Timer1.Interval = Timer1_Interval
             .TnASlides.Interval = TnASlides_Interval
-            .UpdateStageTimer.Interval = UpdateStageTimer_Interval
             .GlitterTimer.Interval = UpdatesTimer_Interval
             .VideoTauntTimer.Interval = VideoTauntTimer_Interval
             .WaitTimer.Interval = WaitTimer_Interval
@@ -1056,7 +1040,6 @@ Public Class SessionState
             .TeaseTimer.Enabled = TeaseTimer_enabled
             .Timer1.Enabled = Timer1_enabled
             .TnASlides.Enabled = TnASlides_enabled
-            .UpdateStageTimer.Enabled = UpdateStageTimer_enabled
             .GlitterTimer.Enabled = UpdatesTimer_enabled
             .VideoTauntTimer.Enabled = VideoTauntTimer_enabled
             .WaitTimer.Enabled = WaitTimer_enabled

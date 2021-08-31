@@ -2,7 +2,7 @@
 
 namespace TeaseAI.Common.Constants
 {
-    public struct CupSize : IEquatable<CupSize>
+    public class CupSize : IEquatable<CupSize>
     {
 
         public static Result<CupSize> Create(string value)
@@ -53,6 +53,10 @@ namespace TeaseAI.Common.Constants
             }
         }
 
+        private CupSize()
+        {
+        }
+
         private CupSize(int value)
         {
             _value = value;
@@ -73,7 +77,17 @@ namespace TeaseAI.Common.Constants
 
         public bool Equals(CupSize other)
         {
-            return _value == other._value;
+            return _value == other?._value;
+        }
+
+        public override bool Equals(object other)
+        {
+            return Equals(other as CupSize);
+        }
+
+        public override int GetHashCode()
+        {
+            return -1939223833 + _value.GetHashCode();
         }
 
         #region casting
@@ -121,6 +135,6 @@ namespace TeaseAI.Common.Constants
         public static bool operator !=(CupSize value, int other) => !value.Equals(new CupSize(other));
         #endregion
 
-        private int _value;
+        private int _value = 1;
     }
 }

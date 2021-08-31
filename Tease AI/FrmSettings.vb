@@ -1,4 +1,7 @@
-﻿Imports System.ComponentModel
+﻿'Option Strict On
+'Option Infer Off
+
+Imports System.ComponentModel
 Imports System.IO
 Imports System.Speech.Synthesis
 Imports System.Threading.Tasks
@@ -120,6 +123,7 @@ Public Class FrmSettings
         Dim remoteImageMediaContainers As List(Of MediaContainer) = mediaContainers.Where(Function(mc) mc.MediaTypeId = 1 AndAlso mc.SourceId = ImageSource.Remote).ToList()
 
         RemoteMediaContainerList.Items.Clear()
+        Dim mediaContainer As MediaContainer
         For Each mediaContainer In remoteImageMediaContainers
             RemoteMediaContainerList.Items.Add(mediaContainer.Name, mediaContainer.IsEnabled)
         Next
@@ -224,8 +228,8 @@ Public Class FrmSettings
         SliderVVolume.Value = My.Settings.VVolume
         SliderVRate.Value = My.Settings.VRate
 
-        LBLVVolume.Text = SliderVVolume.Value
-        LBLVRate.Text = SliderVRate.Value
+        LBLVVolume.Text = SliderVVolume.Value.ToString()
+        LBLVRate.Text = SliderVRate.Value.ToString()
 
         CBNewSlideshow.Checked = My.Settings.CBNewSlideshow
 
@@ -233,7 +237,7 @@ Public Class FrmSettings
 
         PreviewRemoteImagesCheckBox.Checked = My.Settings.CBURLPreview
 
-        TypesSpeedVal.Text = TypeSpeedSlider.Value
+        TypesSpeedVal.Text = TypeSpeedSlider.Value.ToString()
 
         FrmSettingsLoading = False
         Visible = False
@@ -391,7 +395,7 @@ Public Class FrmSettings
         TBDomHairColor.Text = dommeSettings.HairColor
         domhairlengthComboBox.Text = dommeSettings.HairLength
         TBDomEyeColor.Text = dommeSettings.EyeColor
-        boobComboBox.Text = dommeSettings.CupSize
+        boobComboBox.Text = dommeSettings.CupSize.ToString()
         DommePubicHairComboBox.Text = dommeSettings.PubicHair
         CBDomTattoos.Checked = dommeSettings.HasTattoos
         CBDomFreckles.Checked = dommeSettings.HasFreckles
@@ -434,8 +438,8 @@ Public Class FrmSettings
         petnameBox7.Text = dommeSettings.PetNames(6)
         petnameBox8.Text = dommeSettings.PetNames(7)
 
-        AllowsOrgasmComboBox.Text = dommeSettings.AllowsOrgasms
-        RuinsOrgasmsComboBox.Text = dommeSettings.RuinsOrgasms
+        AllowsOrgasmComboBox.Text = dommeSettings.AllowsOrgasms.ToString()
+        RuinsOrgasmsComboBox.Text = dommeSettings.RuinsOrgasms.ToString()
         CBLockOrgasmChances.Checked = dommeSettings.IsOrgasmChanceLocked
         CBDomDenialEnds.Checked = dommeSettings.DoesDenialEndTease
         CBDomOrgasmEnds.Checked = dommeSettings.DoesOrgasmEndTease
@@ -1521,7 +1525,7 @@ Public Class FrmSettings
 
     Private Sub TimedSlideShowRadio_CheckedChanged(sender As Object, e As EventArgs) Handles TimedSlideShowRadio.CheckedChanged
         If MainWindow.ssh.SlideshowLoaded AndAlso TimedSlideShowRadio.Checked Then
-            MainWindow.ssh.SlideshowTimerTick = SlideShowNumBox.Value
+            MainWindow.ssh.SlideshowTimerTick = Convert.ToInt32(SlideShowNumBox.Value)
             MainWindow.SlideshowTimer.Start()
         End If
     End Sub
@@ -1547,7 +1551,7 @@ Public Class FrmSettings
     End Sub
 
     Private Sub NBFontSizeD_LostFocus(sender As Object, e As EventArgs) Handles NBFontSizeD.LostFocus
-        My.Settings.DomFontSize = NBFontSizeD.Value
+        My.Settings.DomFontSize = Convert.ToInt32(NBFontSizeD.Value)
     End Sub
 
     Private Sub NBFontSize_LostFocus(sender As Object, e As EventArgs) Handles NBFontSize.LostFocus
@@ -2225,7 +2229,7 @@ Public Class FrmSettings
     Public Shared Sub saveCheckedListBox(target As CheckedListBox, filePath As String)
         If Not Directory.Exists(Path.GetDirectoryName(filePath)) Then _
             Directory.CreateDirectory(Path.GetDirectoryName(filePath))
-
+        Dim i As Integer
         Using fs As New FileStream(filePath, IO.FileMode.Create), BinWrite As New BinaryWriter(fs)
             For i = 0 To target.Items.Count - 1
                 BinWrite.Write(CStr(target.Items(i)))
@@ -2271,7 +2275,7 @@ Public Class FrmSettings
         End If
 
         Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(mySettingsAccessor.GetSettings().DommePersonality, sessionPhase)
-        Dim script = scripts.First(Function(smd) smd.Name = target.SelectedItem.ToString())
+        Dim script As ScriptMetaData = scripts.First(Function(smd) smd.Name = target.SelectedItem.ToString())
         ScriptInfoTextArea.Text = script.Info
         GetScriptStatus(script)
     End Sub
@@ -2369,7 +2373,7 @@ Public Class FrmSettings
         Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(dommePersonalityName, stage)
 
         Dim lastIndex As Integer = target.SelectedIndex
-        Dim lastItem As String = target.SelectedItem
+        Dim lastItem As String = target.SelectedItem.ToString()
 
         target.BeginUpdate()
         target.Items.Clear()
@@ -2400,11 +2404,13 @@ Public Class FrmSettings
             Throw New ApplicationException(getScript.Error.Message)
         End If
         Dim script As Script = getScript.Value
+        Dim line As String
         For Each line In script.Lines
             Dim workingLine As String = line
+            Dim scriptCommand As String
             For Each scriptCommand In commandProcessors.Keys
                 If (commandProcessors(scriptCommand).IsRelevant(workingLine)) Then
-                    Dim parseCommand = commandProcessors(scriptCommand).ParseCommand(script, mySettingsAccessor.GetSettings().DommePersonality, workingLine)
+                    Dim parseCommand As Result = commandProcessors(scriptCommand).ParseCommand(script, mySettingsAccessor.GetSettings().DommePersonality, workingLine)
                     areScriptRequirementsMet = areScriptRequirementsMet AndAlso parseCommand.IsSuccess
                     Dim requirement As String = GetCommandRequirement(scriptCommand)
                     If (parseCommand.IsFailure) Then
@@ -2674,7 +2680,7 @@ Public Class FrmSettings
 
     Private Sub UpdateGlitterSettingsFromDomme(source As DommeSettings, destination As GlitterSettingsControl)
         destination.AvatarImageFile = source.AvatarImageFile
-        destination.IsGlitterEnabled = source.GlitterMode
+        destination.IsGlitterEnabled = source.GlitterMode = GlitterMode.On
         destination.GlitterContactName = source.GlitterContactName
         destination.ChatColor = source.ChatColor
         destination.PostFrequency = source.GlitterPostFrequency
@@ -2706,7 +2712,7 @@ Public Class FrmSettings
         destination.ChatColor = source.ChatColor
         destination.GlitterPostFrequency = source.PostFrequency
         destination.GlitterResponseFrequency = source.ResponseFrequency
-        destination.GlitterMode = source.IsGlitterEnabled
+        destination.GlitterMode = IIf(source.IsGlitterEnabled, GlitterMode.On, GlitterMode.Off)
         destination.GlitterImageDirectory = source.GlitterImageDirectory
 
         destination.IsAngry = source.IsAngry
@@ -2749,7 +2755,7 @@ Public Class FrmSettings
 
     Private Sub Button16_Click(sender As Object, e As EventArgs)
         Dim settings As Settings = mySettingsAccessor.GetSettings()
-        Dim saveSettingsDialog = New SaveFileDialog()
+        Dim saveSettingsDialog As SaveFileDialog = New SaveFileDialog()
         saveSettingsDialog.Title = "Select a location to save current Glitter settings"
         saveSettingsDialog.InitialDirectory = Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\System\"
 
@@ -2813,76 +2819,76 @@ Public Class FrmSettings
         'ISSUE: Loading a corrupted textfile results in half loaded Glitter settings.
         OpenSettingsDialog.Title = "Select a Glitter settings file"
         OpenSettingsDialog.InitialDirectory = Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\System\"
+        ' This is all commented out because it's ugly and shouldn't be used
+        'If OpenSettingsDialog.ShowDialog() = DialogResult.OK Then
 
-        If OpenSettingsDialog.ShowDialog() = DialogResult.OK Then
+        '    Dim settingsList As List(Of String) = System.IO.File.ReadAllLines(OpenSettingsDialog.FileName).ToList()
 
-            Dim settingsList As List(Of String) = System.IO.File.ReadAllLines(OpenSettingsDialog.FileName).ToList()
+        '    Try
+        '        settingsList = System.IO.File.ReadAllLines(OpenSettingsDialog.FileName).ToList()
+        '    Catch ex As Exception
+        '        MessageBox.Show(Me, "This file could not be opened!" + ex.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
+        '        Return
+        '    End Try
 
-            Try
-                settingsList = System.IO.File.ReadAllLines(OpenSettingsDialog.FileName).ToList()
-            Catch ex As Exception
-                MessageBox.Show(Me, "This file could not be opened!" + ex.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
-                Return
-            End Try
+        '    Try
+        '        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        '        Dim glitterState As String = settingsList(0).Contains("Glitter Feed: ", "").ToLower()
+        '        settings.Domme.GlitterMode = CType(IIf(glitterState = "on", GlitterMode.On, GlitterMode.Off), GlitterMode)
+        '        'If glitterState = "Scripts" Then My.Settings.CBGlitterFeedScripts = True
 
-            Try
-                Dim settings As Settings = mySettingsAccessor.GetSettings()
-                Dim glitterState As String = settingsList(0).Contains("Glitter Feed: ", "")
-                settings.Domme.GlitterMode = (glitterState.ToLower() = "on")
-                'If glitterState = "Scripts" Then My.Settings.CBGlitterFeedScripts = True
+        '        settings.Domme.GlitterContactName = settingsList(1).Replace("Short Name: ", "")
+        '        settings.Domme.ChatColor = settingsList(2).Replace("Domme Color: ", "")
 
-                settings.Domme.GlitterContactName = settingsList(1).Replace("Short Name: ", "")
-                settings.Domme.ChatColor = settingsList(2).Replace("Domme Color: ", "")
+        '        settings.Domme.IsGlitterTeaseModuleEnabled = settingsList(3).Replace("Tease: ", "")
+        '        settings.Domme.IsGlitterEgotistModuleEnabled = settingsList(4).Replace("Egotist: ", "")
+        '        settings.Domme.IsGlitterTriviaModuleEnabled = settingsList(5).Replace("Trivia: ", "")
+        '        settings.Domme.IsGlitterDailyModuleEnabled = settingsList(6).Replace("Daily: ", "")
+        '        settings.Domme.IsGlitterCustom1ModuleEnabled = settingsList(7).Replace("Custom 1: ", "")
+        '        settings.Domme.IsGlitterCustom2ModuleEnabled = settingsList(8).Replace("Custom 2: ", "")
+        '        settings.Domme.GlitterPostFrequency = CInt(settingsList(9).Replace("Domme Post Frequency: ", ""))
 
-                settings.Domme.IsGlitterTeaseModuleEnabled = settingsList(3).Replace("Tease: ", "")
-                settings.Domme.IsGlitterEgotistModuleEnabled = settingsList(4).Replace("Egotist: ", "")
-                settings.Domme.IsGlitterTriviaModuleEnabled = settingsList(5).Replace("Trivia: ", "")
-                settings.Domme.IsGlitterDailyModuleEnabled = settingsList(6).Replace("Daily: ", "")
-                settings.Domme.IsGlitterCustom1ModuleEnabled = settingsList(7).Replace("Custom 1: ", "")
-                settings.Domme.IsGlitterCustom2ModuleEnabled = settingsList(8).Replace("Custom 2: ", "")
-                settings.Domme.GlitterPostFrequency = CInt(settingsList(9).Replace("Domme Post Frequency: ", ""))
+        '        settings.Apps.Glitter.Contact1.GlitterMode = settingsList(10).Replace("Contact 1 Enabled: ", "")
+        '        settings.Apps.Glitter.Contact1.GlitterContactName = settingsList(11).Replace("Contact 1 Name: ", "")
+        '        settings.Apps.Glitter.Contact1.ChatColor = settingsList(12).Replace("Contact 1 Color: ", "")
+        '        settings.Apps.Glitter.Contact1.GlitterImageDirectory = settingsList(13).Replace("Contact 1 Image Directory: ", "")
+        '        settings.Apps.Glitter.Contact1.GlitterResponseFrequency = settingsList(14).Replace("Contact 1 Post Frequency: ", "")
 
-                settings.Apps.Glitter.Contact1.GlitterMode = settingsList(10).Replace("Contact 1 Enabled: ", "")
-                settings.Apps.Glitter.Contact1.GlitterContactName = settingsList(11).Replace("Contact 1 Name: ", "")
-                settings.Apps.Glitter.Contact1.ChatColor = settingsList(12).Replace("Contact 1 Color: ", "")
-                settings.Apps.Glitter.Contact1.GlitterImageDirectory = settingsList(13).Replace("Contact 1 Image Directory: ", "")
-                settings.Apps.Glitter.Contact1.GlitterResponseFrequency = settingsList(14).Replace("Contact 1 Post Frequency: ", "")
+        '        settings.Apps.Glitter.Contact2.GlitterMode = settingsList(15).Replace("Contact 2 Enabled: ", "")
+        '        settings.Apps.Glitter.Contact2.GlitterContactName = settingsList(16).Replace("Contact 2 Name: ", "")
+        '        settings.Apps.Glitter.Contact2.ChatColor = settingsList(17).Replace("Contact 2 Color: ", "")
+        '        settings.Apps.Glitter.Contact2.GlitterImageDirectory = settingsList(18).Replace("Contact 2   Image Directory: ", "")
+        '        settings.Apps.Glitter.Contact2.GlitterResponseFrequency = settingsList(19).Replace("Contact 1 Post Frequency: ", "")
 
-                settings.Apps.Glitter.Contact2.GlitterMode = settingsList(15).Replace("Contact 2 Enabled: ", "")
-                settings.Apps.Glitter.Contact2.GlitterContactName = settingsList(16).Replace("Contact 2 Name: ", "")
-                settings.Apps.Glitter.Contact2.ChatColor = settingsList(17).Replace("Contact 2 Color: ", "")
-                settings.Apps.Glitter.Contact2.GlitterImageDirectory = settingsList(18).Replace("Contact 2   Image Directory: ", "")
-                settings.Apps.Glitter.Contact2.GlitterResponseFrequency = settingsList(19).Replace("Contact 1 Post Frequency: ", "")
+        '        settings.Apps.Glitter.Contact3.GlitterMode = settingsList(20).Replace("Contact 1 Enabled: ", "")
+        '        settings.Apps.Glitter.Contact3.GlitterContactName = settingsList(21).Replace("Contact 1 Name: ", "")
+        '        settings.Apps.Glitter.Contact3.ChatColor = settingsList(22).Replace("Contact 1 Color: ", "")
+        '        settings.Apps.Glitter.Contact3.GlitterImageDirectory = settingsList(23).Replace("Contact 1 Image Directory: ", "")
+        '        settings.Apps.Glitter.Contact3.GlitterResponseFrequency = settingsList(24).Replace("Contact 1 Post Frequency: ", "")
 
-                settings.Apps.Glitter.Contact3.GlitterMode = settingsList(20).Replace("Contact 1 Enabled: ", "")
-                settings.Apps.Glitter.Contact3.GlitterContactName = settingsList(21).Replace("Contact 1 Name: ", "")
-                settings.Apps.Glitter.Contact3.ChatColor = settingsList(22).Replace("Contact 1 Color: ", "")
-                settings.Apps.Glitter.Contact3.GlitterImageDirectory = settingsList(23).Replace("Contact 1 Image Directory: ", "")
-                settings.Apps.Glitter.Contact3.GlitterResponseFrequency = settingsList(24).Replace("Contact 1 Post Frequency: ", "")
+        '        Dim fileName As String = settingsList(25).Replace("Contact 1 AV: ", "")
+        '        If (File.Exists(fileName)) Then
+        '            settings.Domme.AvatarImageFile = fileName
+        '        End If
 
-                Dim fileName As String = settingsList(25).Replace("Contact 1 AV: ", "")
-                If (File.Exists(fileName)) Then
-                    settings.Domme.AvatarImageFile = fileName
-                End If
+        '        fileName = settingsList(26).Replace("Contact 1 AV: ", "")
+        '        If (File.Exists(fileName)) Then
+        '            settings.Apps.Glitter.Contact1.AvatarImageFile = fileName
+        '        End If
 
-                fileName = settingsList(26).Replace("Contact 1 AV: ", "")
-                If (File.Exists(fileName)) Then
-                    settings.Apps.Glitter.Contact1.AvatarImageFile = fileName
-                End If
+        '        fileName = settingsList(27).Replace("Contact 2 AV: ", "")
+        '        If (File.Exists(fileName)) Then
+        '            settings.Apps.Glitter.Contact2.AvatarImageFile = fileName
+        '        End If
 
-                fileName = settingsList(27).Replace("Contact 2 AV: ", "")
-                If (File.Exists(fileName)) Then
-                    settings.Apps.Glitter.Contact2.AvatarImageFile = fileName
-                End If
-
-                fileName = settingsList(28).Replace("Contact 3 AV: ", "")
-                If (File.Exists(fileName)) Then
-                    settings.Apps.Glitter.Contact3.AvatarImageFile = fileName
-                End If
-            Catch
-                MessageBox.Show(Me, "This Glitter settings file is invalid or has been edited incorrectly!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
-            End Try
-        End If
+        '        fileName = settingsList(28).Replace("Contact 3 AV: ", "")
+        '        If (File.Exists(fileName)) Then
+        '            settings.Apps.Glitter.Contact3.AvatarImageFile = fileName
+        '        End If
+        '    Catch
+        '        MessageBox.Show(Me, "This Glitter settings file is invalid or has been edited incorrectly!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
+        '    End Try
+        'End If
     End Sub
 
     Private Sub GlitterSettingsControl_Description(sender As Object, e As ShowDescriptionEventArgs) Handles DommeGlitterSettings.ShowDescription, GlitterContact1SettingsControl.ShowDescription, GlitterContact2SettingsControl.ShowDescription, GlitterContact3SettingsControl.ShowDescription
@@ -3059,8 +3065,9 @@ Public Class FrmSettings
     End Sub
 
     Private Sub RemoteMediaContainerList_VisibleChanged(sender As Object, e As EventArgs) Handles RemoteMediaContainerList.VisibleChanged
-        Dim remoteImageMediaContainers = myMediaContainerService.Get(1, ImageSource.Remote)
+        Dim remoteImageMediaContainers As List(Of MediaContainer) = myMediaContainerService.Get(1, ImageSource.Remote)
         RemoteMediaContainerList.Items.Clear()
+        Dim mediaContainer As MediaContainer
         For Each mediaContainer In remoteImageMediaContainers
             RemoteMediaContainerList.Items.Add(mediaContainer.Name, mediaContainer.IsEnabled)
         Next
@@ -3094,8 +3101,9 @@ Public Class FrmSettings
         If Not TpImagesGenre.Visible Then
             Return
         End If
-        Dim mediaContainers = myMediaContainerService.Get().Where(Function(mc) mc.MediaTypeId = 1 AndAlso mc.SourceId = ImageSource.Local).ToList()
+        Dim mediaContainers As List(Of MediaContainer) = myMediaContainerService.Get().Where(Function(mc) mc.MediaTypeId = 1 AndAlso mc.SourceId = ImageSource.Local).ToList()
 
+        Dim mediaContainer As MediaContainer
         For Each mediaContainer In mediaContainers
             Dim controlName As String = mediaContainer.SourceId.ToString() & mediaContainer.GenreId.ToString()
             Dim enabledCheckBoxControl As CheckBox = CType(FindChildControl(TableLayoutPanel1, controlName & "EnabledCheckBox"), CheckBox)
@@ -6461,7 +6469,7 @@ Public Class FrmSettings
         Debug.Print("done")
 
         ' Github Patch
-        MessageBox.Show(If(Me.Visible, Me, FrmSplash), PBMaintenance.Maximum & " scripts have been audited." & Environment.NewLine & Environment.NewLine &
+        MessageBox.Show(If(Me.Visible, CType(Me, IWin32Window), FrmSplash), PBMaintenance.Maximum.ToString() & " scripts have been audited." & Environment.NewLine & Environment.NewLine &
                         "Blank lines cleared: " & BlankAudit & Environment.NewLine & Environment.NewLine &
                         "Script errors corrected: " & ErrorAudit, "Success!", MessageBoxButtons.OK, MessageBoxIcon.Information)
 

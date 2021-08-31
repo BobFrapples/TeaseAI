@@ -6,13 +6,13 @@
     public enum GlitterMode
     {
         /// <summary>
-        /// Glitter is enabled, this Domme will engage
-        /// </summary>
-        On,
-        /// <summary>
         /// Glitter is Disabled, this Domme will not engage
         /// </summary>
         Off,
+        /// <summary>
+        /// Glitter is enabled, this Domme will engage
+        /// </summary>
+        On,
         /// <summary>
         /// I honestly don't know yet.
         /// </summary>

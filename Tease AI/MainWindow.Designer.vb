@@ -122,7 +122,7 @@ Partial Class MainWindow
         Me.PicStripTSMIdommeSlideshowGoToLast = New System.Windows.Forms.ToolStripMenuItem()
         Me.PicStripTSMIdommeSlideshowTSS1 = New System.Windows.Forms.ToolStripSeparator()
         Me.PicStripTSMIdommeSlideshowLoadNewSlideshow = New System.Windows.Forms.ToolStripMenuItem()
-        Me.GlitterWindow = New System.Windows.Forms.WebBrowser()
+        Me.SideBarAppGlitter = New GlitterApp()
         Me.TeaseAINotify = New System.Windows.Forms.NotifyIcon(Me.components)
         Me.TeaseAIMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.GamesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -283,7 +283,6 @@ Partial Class MainWindow
         Me.NBMaxPace = New System.Windows.Forms.NumericUpDown()
         Me.LBLMaxSpeed = New System.Windows.Forms.Label()
         Me.CBMetronome = New System.Windows.Forms.CheckBox()
-        Me.PnlGlitter = New System.Windows.Forms.Panel()
         Me.PnlSidechat = New System.Windows.Forms.Panel()
         Me.ChatText2 = New System.Windows.Forms.WebBrowser()
         Me.PNLChatBox2 = New System.Windows.Forms.Panel()
@@ -352,7 +351,6 @@ Partial Class MainWindow
         Me.Contact1Timer = New Tease_AI.teaseAI_Timer()
         Me.Contact2Timer = New Tease_AI.teaseAI_Timer()
         Me.Contact3Timer = New Tease_AI.teaseAI_Timer()
-        Me.UpdateStageTimer = New Tease_AI.teaseAI_Timer()
         Me.WMPTimer = New Tease_AI.teaseAI_Timer()
         Me.DommeTimer = New Tease_AI.teaseAI_Timer()
         Me.TeaseAIClock = New Tease_AI.teaseAI_Timer()
@@ -393,7 +391,6 @@ Partial Class MainWindow
         Me.PNLMetronome.SuspendLayout()
         CType(Me.NBMinPace, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NBMaxPace, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.PnlGlitter.SuspendLayout()
         Me.PnlSidechat.SuspendLayout()
         Me.PNLChatBox2.SuspendLayout()
         Me.PNLWritingTask.SuspendLayout()
@@ -1549,15 +1546,7 @@ Partial Class MainWindow
         Me.PicStripTSMIdommeSlideshowLoadNewSlideshow.Name = "PicStripTSMIdommeSlideshowLoadNewSlideshow"
         Me.PicStripTSMIdommeSlideshowLoadNewSlideshow.Size = New System.Drawing.Size(165, 22)
         Me.PicStripTSMIdommeSlideshowLoadNewSlideshow.Text = "New Slideshow"
-        '
-        'StatusUpdates
-        '
-        Me.GlitterWindow.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.GlitterWindow.Location = New System.Drawing.Point(0, 0)
-        Me.GlitterWindow.MinimumSize = New System.Drawing.Size(20, 20)
-        Me.GlitterWindow.Name = "StatusUpdates"
-        Me.GlitterWindow.Size = New System.Drawing.Size(240, 477)
-        Me.GlitterWindow.TabIndex = 770
+
         '
         'TeaseAINotify
         '
@@ -2194,7 +2183,7 @@ Partial Class MainWindow
         Me.PNLTabs.Controls.Add(Me.VitalSubPanel)
         Me.PNLTabs.Controls.Add(Me.PNLMetronome)
         Me.PNLTabs.Controls.Add(Me.SideBarAppLazySub)
-        Me.PNLTabs.Controls.Add(Me.PnlGlitter)
+        Me.PNLTabs.Controls.Add(Me.SideBarAppGlitter)
         Me.PNLTabs.Controls.Add(Me.PnlSidechat)
         Me.PNLTabs.Controls.Add(Me.PNLWritingTask)
         Me.PNLTabs.Controls.Add(Me.SideBarAppRandomizer)
@@ -2988,14 +2977,15 @@ Partial Class MainWindow
         Me.CBMetronome.Text = "Enable Metronome"
         Me.CBMetronome.UseVisualStyleBackColor = False
         '
-        'PnlGlitter
+        'StatusUpdates
         '
-        Me.PnlGlitter.Controls.Add(Me.GlitterWindow)
-        Me.PnlGlitter.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.PnlGlitter.Location = New System.Drawing.Point(0, 0)
-        Me.PnlGlitter.Name = "PnlGlitter"
-        Me.PnlGlitter.Size = New System.Drawing.Size(240, 477)
-        Me.PnlGlitter.TabIndex = 783
+        Me.SideBarAppGlitter.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SideBarAppGlitter.Location = New System.Drawing.Point(0, 0)
+        Me.SideBarAppGlitter.MinimumSize = New System.Drawing.Size(20, 20)
+        Me.SideBarAppGlitter.Name = "GlitterApp"
+        Me.SideBarAppGlitter.Size = New System.Drawing.Size(240, 477)
+        Me.SideBarAppGlitter.TabIndex = 770
+
         '
         'PnlSidechat
         '
@@ -3654,10 +3644,6 @@ Partial Class MainWindow
         '
         Me.Contact3Timer.Interval = 1000
         '
-        'UpdateStageTimer
-        '
-        Me.UpdateStageTimer.Interval = 1000
-        '
         'WMPTimer
         '
         Me.WMPTimer.Interval = 1000
@@ -3741,7 +3727,6 @@ Partial Class MainWindow
         Me.PNLMetronome.PerformLayout()
         CType(Me.NBMinPace, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.NBMaxPace, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.PnlGlitter.ResumeLayout(False)
         Me.PnlSidechat.ResumeLayout(False)
         Me.PNLChatBox2.ResumeLayout(False)
         Me.PNLChatBox2.PerformLayout()
@@ -3822,13 +3807,12 @@ Partial Class MainWindow
     Friend WithEvents PicStripTSMIlikeImage As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents PicStripTSMIdislikeImage As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents PicStripTSMIremoveFromURL As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents GlitterWindow As System.Windows.Forms.WebBrowser
+    Friend WithEvents SideBarAppGlitter As GlitterApp
     Friend WithEvents PicStripTSMIcopyImageLocation As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents CustomSlideshowTimer As Tease_AI.teaseAI_Timer
     Friend WithEvents Contact1Timer As Tease_AI.teaseAI_Timer
     Friend WithEvents Contact2Timer As Tease_AI.teaseAI_Timer
     Friend WithEvents Contact3Timer As Tease_AI.teaseAI_Timer
-    Friend WithEvents UpdateStageTimer As Tease_AI.teaseAI_Timer
     Friend WithEvents WMPTimer As Tease_AI.teaseAI_Timer
     Friend WithEvents TeaseAINotify As System.Windows.Forms.NotifyIcon
     Friend WithEvents TeaseAIMenu As System.Windows.Forms.ContextMenuStrip
@@ -4096,7 +4080,6 @@ Partial Class MainWindow
     Friend WithEvents Panel7 As System.Windows.Forms.Panel
     Friend WithEvents PnlSidechat As System.Windows.Forms.Panel
     Friend WithEvents FullscreenToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents PnlGlitter As System.Windows.Forms.Panel
     Friend WithEvents SidepanelToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents SideBarAppLazySub As LazySubApp
 End Class

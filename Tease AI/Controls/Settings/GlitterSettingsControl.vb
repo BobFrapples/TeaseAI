@@ -1,5 +1,6 @@
 ﻿Option Strict On
 Option Infer Off
+
 Public Class GlitterSettingsControl
 
     Public Event ShowDescription(sender As Object, e As ShowDescriptionEventArgs)
@@ -64,11 +65,12 @@ Public Class GlitterSettingsControl
             GlitterFeedGroupBox.Text = value
         End Set
     End Property
+
     Public Property IsGlitterEnabled As Boolean
         Get
             Return GlitterFeedOn.Checked
         End Get
-        Set(ByVal value As Boolean)
+        Set(value As Boolean)
             GlitterFeedOn.Checked = value
         End Set
     End Property
@@ -303,7 +305,7 @@ Public Class GlitterSettingsControl
         , CustomOneModuleCheckBox.MouseEnter _
         , CustomTwoModuleCheckBox.MouseEnter _
         , DailyModuleCheckBox.MouseEnter _
-        , VulgarCheckBox.MouseEnter
+        , VulgarCheckBox.MouseEnter, TriviaModuleCheckBox.MouseEnter, TeaseModuleCheckBox.MouseEnter, SupremicistCheckBox.MouseEnter, SetImageDirectoryButton.MouseEnter, SadisticCheckBox.MouseEnter, EgotistModuleCheckBox.MouseEnter, DegradingCheckBox.MouseEnter, ClearImageDirectoryButton.MouseEnter
         OnShowDescription("Name", ToolTipData.GetToolTip(CType(sender, Control)))
     End Sub
 
@@ -312,7 +314,7 @@ Public Class GlitterSettingsControl
         OnGlitterChanged()
     End Sub
 
-    Private Sub SetImageDirectoryButton_Click(sender As Object, e As EventArgs) Handles SetImageDirectoryButton.Click
+    Private Sub SetImageDirectoryButton_Click(sender As Object, e As EventArgs) Handles SetImageDirectoryButton.Click, GlitterImageDirectoryTextBox.Click
         Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
 
         If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
@@ -320,7 +322,9 @@ Public Class GlitterSettingsControl
             OnGlitterChanged()
         End If
     End Sub
-
+    Private Sub Controls_FireOnGlitterChanged(sender As Object, e As EventArgs) Handles CustomTwoModuleCheckBox.CheckedChanged, TriviaModuleCheckBox.CheckedChanged, TeaseModuleCheckBox.CheckedChanged, EgotistModuleCheckBox.CheckedChanged, DailyModuleCheckBox.CheckedChanged, CustomOneModuleCheckBox.CheckedChanged, BrattyCheckBox.CheckedChanged, VulgarCheckBox.CheckedChanged, SupremicistCheckBox.CheckedChanged, SadisticCheckBox.CheckedChanged, DegradingCheckBox.CheckedChanged, CruelCheckBox.CheckedChanged, CrazyCheckBox.CheckedChanged, CondescendingCheckBox.CheckedChanged, CaringCheckBox.CheckedChanged, AngryCheckBox.CheckedChanged, ResponseFrequencySlider.ValueChanged, PostFrequencySlider.ValueChanged, GlitterFeedScripts.CheckedChanged, GlitterFeedOn.CheckedChanged, GlitterFeedOffRadio.CheckedChanged, GlitterContactNameTextBox.Validated
+        OnGlitterChanged()
+    End Sub
 #End Region
 
     Private Property myAvatarImageFile As String

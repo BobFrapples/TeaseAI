@@ -19,12 +19,12 @@ namespace TeaseAI.Services.Accessors
         public Settings GetSettings()
         {
 
-            //var settingsFile = _configurationAccessor.GetSettingsLocation();
-            //if (File.Exists(settingsFile))
-            //{
-            //    var jsonString = File.ReadAllText(settingsFile);
-            //    return Deserialize(jsonString);
-            //}
+            var settingsFile = _configurationAccessor.GetSettingsLocation();
+            if (File.Exists(settingsFile))
+            {
+                var jsonString = File.ReadAllText(settingsFile);
+                return Deserialize(jsonString);
+            }
             var settings = CreateDefaultSettings();
             return WriteSettings(settings);
         }
