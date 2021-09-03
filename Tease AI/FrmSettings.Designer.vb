@@ -96,7 +96,7 @@ Partial Class FrmSettings
         Me.Label83 = New System.Windows.Forms.Label()
         Me.NBDomBirthdayDay = New System.Windows.Forms.NumericUpDown()
         Me.TBDomEyeColor = New System.Windows.Forms.TextBox()
-        Me.TBDomHairColor = New System.Windows.Forms.TextBox()
+        Me.DomHairComboBox = New System.Windows.Forms.TextBox()
         Me.DomAgeNumberBox = New System.Windows.Forms.NumericUpDown()
         Me.Label47 = New System.Windows.Forms.Label()
         Me.Label76 = New System.Windows.Forms.Label()
@@ -104,11 +104,11 @@ Partial Class FrmSettings
         Me.Label84 = New System.Windows.Forms.Label()
         Me.CBDomTattoos = New System.Windows.Forms.CheckBox()
         Me.CBDomFreckles = New System.Windows.Forms.CheckBox()
-        Me.domhairlengthComboBox = New System.Windows.Forms.ComboBox()
+        Me.DomHairLengthComboBox = New System.Windows.Forms.ComboBox()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.DommePubicHairComboBox = New System.Windows.Forms.ComboBox()
         Me.Label9 = New System.Windows.Forms.Label()
-        Me.boobComboBox = New System.Windows.Forms.ComboBox()
+        Me.BoobComboBox = New System.Windows.Forms.ComboBox()
         Me.DomLevelDescLabel = New System.Windows.Forms.Label()
         Me.DominationLevel = New System.Windows.Forms.NumericUpDown()
         Me.Label43 = New System.Windows.Forms.Label()
@@ -2152,7 +2152,7 @@ Partial Class FrmSettings
         Me.DommeStatsGroupBox.Controls.Add(Me.Label83)
         Me.DommeStatsGroupBox.Controls.Add(Me.NBDomBirthdayDay)
         Me.DommeStatsGroupBox.Controls.Add(Me.TBDomEyeColor)
-        Me.DommeStatsGroupBox.Controls.Add(Me.TBDomHairColor)
+        Me.DommeStatsGroupBox.Controls.Add(Me.DomHairComboBox)
         Me.DommeStatsGroupBox.Controls.Add(Me.DomAgeNumberBox)
         Me.DommeStatsGroupBox.Controls.Add(Me.Label47)
         Me.DommeStatsGroupBox.Controls.Add(Me.Label76)
@@ -2160,11 +2160,11 @@ Partial Class FrmSettings
         Me.DommeStatsGroupBox.Controls.Add(Me.Label84)
         Me.DommeStatsGroupBox.Controls.Add(Me.CBDomTattoos)
         Me.DommeStatsGroupBox.Controls.Add(Me.CBDomFreckles)
-        Me.DommeStatsGroupBox.Controls.Add(Me.domhairlengthComboBox)
+        Me.DommeStatsGroupBox.Controls.Add(Me.DomHairLengthComboBox)
         Me.DommeStatsGroupBox.Controls.Add(Me.Label10)
         Me.DommeStatsGroupBox.Controls.Add(Me.DommePubicHairComboBox)
         Me.DommeStatsGroupBox.Controls.Add(Me.Label9)
-        Me.DommeStatsGroupBox.Controls.Add(Me.boobComboBox)
+        Me.DommeStatsGroupBox.Controls.Add(Me.BoobComboBox)
         Me.DommeStatsGroupBox.Controls.Add(Me.DomLevelDescLabel)
         Me.DommeStatsGroupBox.Controls.Add(Me.DominationLevel)
         Me.DommeStatsGroupBox.Controls.Add(Me.Label43)
@@ -2250,14 +2250,14 @@ Partial Class FrmSettings
         '
         'TBDomHairColor
         '
-        Me.TBDomHairColor.BackColor = System.Drawing.Color.White
-        Me.TBDomHairColor.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TBDomHairColor.ForeColor = System.Drawing.Color.Black
-        Me.TBDomHairColor.Location = New System.Drawing.Point(73, 105)
-        Me.TBDomHairColor.Name = "TBDomHairColor"
-        Me.TBDomHairColor.Size = New System.Drawing.Size(89, 23)
-        Me.TBDomHairColor.TabIndex = 153
-        Me.TBDomHairColor.Text = "brown"
+        Me.DomHairComboBox.BackColor = System.Drawing.Color.White
+        Me.DomHairComboBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.DomHairComboBox.ForeColor = System.Drawing.Color.Black
+        Me.DomHairComboBox.Location = New System.Drawing.Point(73, 105)
+        Me.DomHairComboBox.Name = "TBDomHairColor"
+        Me.DomHairComboBox.Size = New System.Drawing.Size(89, 23)
+        Me.DomHairComboBox.TabIndex = 153
+        Me.DomHairComboBox.Text = "brown"
         '
         'DomAgeNumberBox
         '
@@ -2348,16 +2348,16 @@ Partial Class FrmSettings
         '
         'domhairlengthComboBox
         '
-        Me.domhairlengthComboBox.BackColor = System.Drawing.Color.White
-        Me.domhairlengthComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.domhairlengthComboBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.domhairlengthComboBox.ForeColor = System.Drawing.Color.Black
-        Me.domhairlengthComboBox.FormattingEnabled = True
-        Me.domhairlengthComboBox.Items.AddRange(New Object() {"Shaved", "Buzz cut", "Short", "Medium", "Long", "Very Long"})
-        Me.domhairlengthComboBox.Location = New System.Drawing.Point(73, 132)
-        Me.domhairlengthComboBox.Name = "domhairlengthComboBox"
-        Me.domhairlengthComboBox.Size = New System.Drawing.Size(89, 21)
-        Me.domhairlengthComboBox.TabIndex = 145
+        Me.DomHairLengthComboBox.BackColor = System.Drawing.Color.White
+        Me.DomHairLengthComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.DomHairLengthComboBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.DomHairLengthComboBox.ForeColor = System.Drawing.Color.Black
+        Me.DomHairLengthComboBox.FormattingEnabled = True
+        Me.DomHairLengthComboBox.Items.AddRange(New Object() {"Shaved", "Buzz cut", "Short", "Medium", "Long", "Very Long"})
+        Me.DomHairLengthComboBox.Location = New System.Drawing.Point(73, 132)
+        Me.DomHairLengthComboBox.Name = "domhairlengthComboBox"
+        Me.DomHairLengthComboBox.Size = New System.Drawing.Size(89, 21)
+        Me.DomHairLengthComboBox.TabIndex = 145
         '
         'Label10
         '
@@ -2399,16 +2399,16 @@ Partial Class FrmSettings
         '
         'boobComboBox
         '
-        Me.boobComboBox.BackColor = System.Drawing.Color.White
-        Me.boobComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.boobComboBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.boobComboBox.ForeColor = System.Drawing.Color.Black
-        Me.boobComboBox.FormattingEnabled = True
-        Me.boobComboBox.Items.AddRange(New Object() {"A", "B", "C", "D", "DD", "DDD+"})
-        Me.boobComboBox.Location = New System.Drawing.Point(73, 182)
-        Me.boobComboBox.Name = "boobComboBox"
-        Me.boobComboBox.Size = New System.Drawing.Size(89, 21)
-        Me.boobComboBox.TabIndex = 2
+        Me.BoobComboBox.BackColor = System.Drawing.Color.White
+        Me.BoobComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.BoobComboBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BoobComboBox.ForeColor = System.Drawing.Color.Black
+        Me.BoobComboBox.FormattingEnabled = True
+        Me.BoobComboBox.Items.AddRange(New Object() {"A", "B", "C", "D", "DD", "DDD+"})
+        Me.BoobComboBox.Location = New System.Drawing.Point(73, 182)
+        Me.BoobComboBox.Name = "boobComboBox"
+        Me.BoobComboBox.Size = New System.Drawing.Size(89, 21)
+        Me.BoobComboBox.TabIndex = 2
         '
         'DomLevelDescLabel
         '
@@ -14442,7 +14442,7 @@ Partial Class FrmSettings
     Friend WithEvents Label23 As System.Windows.Forms.Label
     Friend WithEvents Label30 As System.Windows.Forms.Label
     Friend WithEvents DommeStatsGroupBox As System.Windows.Forms.GroupBox
-    Friend WithEvents boobComboBox As System.Windows.Forms.ComboBox
+    Friend WithEvents BoobComboBox As System.Windows.Forms.ComboBox
     Friend WithEvents DomLevelDescLabel As System.Windows.Forms.Label
     Friend WithEvents DomAgeNumberBox As System.Windows.Forms.NumericUpDown
     Friend WithEvents DominationLevel As System.Windows.Forms.NumericUpDown
@@ -14643,7 +14643,7 @@ Partial Class FrmSettings
     Friend WithEvents GBSubFont As System.Windows.Forms.GroupBox
     Friend WithEvents DommePubicHairComboBox As System.Windows.Forms.ComboBox
     Friend WithEvents Label9 As System.Windows.Forms.Label
-    Friend WithEvents domhairlengthComboBox As System.Windows.Forms.ComboBox
+    Friend WithEvents DomHairLengthComboBox As System.Windows.Forms.ComboBox
     Friend WithEvents Label10 As System.Windows.Forms.Label
     Friend WithEvents CBDomTattoos As System.Windows.Forms.CheckBox
     Friend WithEvents CBDomFreckles As System.Windows.Forms.CheckBox
@@ -14741,7 +14741,7 @@ Partial Class FrmSettings
     Friend WithEvents CockAndBallTortureLevelLbl As System.Windows.Forms.Label
     Friend WithEvents CockAndBallTortureLevelSlider As System.Windows.Forms.TrackBar
     Friend WithEvents TBDomEyeColor As System.Windows.Forms.TextBox
-    Friend WithEvents TBDomHairColor As System.Windows.Forms.TextBox
+    Friend WithEvents DomHairComboBox As System.Windows.Forms.TextBox
     Friend WithEvents TBSubEyeColor As System.Windows.Forms.TextBox
     Friend WithEvents TBSubHairColor As System.Windows.Forms.TextBox
     Friend WithEvents CBSubCircumcised As System.Windows.Forms.CheckBox

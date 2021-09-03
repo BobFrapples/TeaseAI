@@ -376,10 +376,10 @@ Public Class FrmSettings
         NBDomBirthdayMonth.Value = dommeSettings.BirthDate.Month
         NBDomBirthdayDay.Value = dommeSettings.BirthDate.Day
 
-        TBDomHairColor.Text = dommeSettings.HairColor
-        domhairlengthComboBox.Text = dommeSettings.HairLength
+        DomHairComboBox.Text = dommeSettings.HairColor
+        DomHairLengthComboBox.Text = dommeSettings.HairLength
         TBDomEyeColor.Text = dommeSettings.EyeColor
-        boobComboBox.Text = dommeSettings.CupSize.ToString()
+        BoobComboBox.Text = dommeSettings.CupSize.ToString()
         DommePubicHairComboBox.Text = dommeSettings.PubicHair
         CBDomTattoos.Checked = dommeSettings.HasTattoos
         CBDomFreckles.Checked = dommeSettings.HasFreckles
@@ -533,7 +533,7 @@ Public Class FrmSettings
         ' die du als Domina benutzt. Nachdem einmal ein gültiges Verzeichnis gesetzt wurde, wird nachdem du Hello zu der Domina gesagt hast, automatisch zufällig eine Diashow ausgewählt."
     End Sub
 
-    Private Sub offRadio_MouseHover(sender As Object, e As EventArgs) Handles ManualSlideShowRadio.MouseHover
+    Private Sub ManualSlideShowRadio_MouseHover(sender As Object, e As EventArgs) Handles ManualSlideShowRadio.MouseHover
         If RBEnglish.Checked Then TTDir.SetToolTip(ManualSlideShowRadio, "When this is set, any domme slideshow you have selected will not advance during the" & Environment.NewLine &
                                                                     "tease. Use the Previous and Next buttons on the Media Bar to change the images.")
         If RBGerman.Checked Then TTDir.SetToolTip(ManualSlideShowRadio, "Wenn dies aktiviert ist, wird jede Diashow nicht automatisch die Bilder wechseln." & Environment.NewLine &
@@ -831,7 +831,7 @@ Public Class FrmSettings
         'LblDommeSettingsDescription.Text = "Sets the day the domme was born."
     End Sub
 
-    Private Sub domageNumBox_MouseHover(sender As Object, e As EventArgs) Handles DomAgeNumberBox.MouseHover
+    Private Sub DomAgeNumberBox_MouseHover(sender As Object, e As EventArgs) Handles DomAgeNumberBox.MouseHover
 
         TTDir.SetToolTip(DomAgeNumberBox, "Sets the Domme's age (18-99 years old).")
 
@@ -839,25 +839,25 @@ Public Class FrmSettings
         ' & "as tight or smooth, while an older domme might choose words like sensuous. Scripts may also contain keywords and variables that will limit certain paths to certain age groups."
     End Sub
 
-    Private Sub domhairComboBox_MouseHover(sender As Object, e As EventArgs) Handles TBDomHairColor.MouseHover
+    Private Sub DomHairComboBox_MouseHover(sender As Object, e As EventArgs) Handles DomHairComboBox.MouseHover
 
-        TTDir.SetToolTip(TBDomHairColor, "Sets the domme's hair color.")
+        TTDir.SetToolTip(DomHairComboBox, "Sets the domme's hair color.")
 
         'LblDommeSettingsDescription.Text = "Sets the Domme's hair color." & Environment.NewLine & Environment.NewLine & "The domme may sometimes refer to her hair color over the course of the tease. Set this value to the color " & _
         ' "of the slideshow model's hair to enhance immersion."
     End Sub
 
-    Private Sub boobComboBox_MouseHover(sender As Object, e As EventArgs) Handles boobComboBox.MouseHover
+    Private Sub BoobComboBox_MouseHover(sender As Object, e As EventArgs) Handles BoobComboBox.MouseHover
 
-        TTDir.SetToolTip(boobComboBox, "Sets the Domme's cup size.")
+        TTDir.SetToolTip(BoobComboBox, "Sets the Domme's cup size.")
 
         'LblDommeSettingsDescription.Text = "Sets the Domme's cup size." & Environment.NewLine & Environment.NewLine & "The domme may sometimes refer to the size of her breasts over the course of the tease. Set this value to the " & _
         '   "slideshow model's cup size to enhance immersion."
     End Sub
 
-    Private Sub domhairlengthComboBox_MouseHover(sender As Object, e As EventArgs) Handles domhairlengthComboBox.MouseHover
+    Private Sub DomHairLengthComboBox_MouseHover(sender As Object, e As EventArgs) Handles DomHairLengthComboBox.MouseHover
 
-        TTDir.SetToolTip(domhairlengthComboBox, "Sets the domme's hair length.")
+        TTDir.SetToolTip(DomHairLengthComboBox, "Sets the domme's hair length.")
 
         'LblDommeSettingsDescription.Text = "Sets the Domme's hair length." & Environment.NewLine & Environment.NewLine & "The domme may sometimes refer to her hair length over the course of the tease. Set this value to the length " & _
         '   "of the slideshow model's hair to enhance immersion."
@@ -1560,8 +1560,6 @@ Public Class FrmSettings
 
 #Region "Domme Tab"
     Private Sub PetNameBox1_LostFocus(sender As Object, e As EventArgs) Handles petnameBox8.LostFocus, petnameBox7.LostFocus, petnameBox6.LostFocus, petnameBox5.LostFocus, petnameBox4.LostFocus, petnameBox3.LostFocus, petnameBox2.LostFocus, PetNameBox1.LostFocus
-        Dim workingPetNameBox As TextBox
-        workingPetNameBox = CType(sender, TextBox)
 
         Dim settings As Settings = mySettingsAccessor.GetSettings()
         settings.Domme.PetNames(0) = PetNameBox1.Text
@@ -1616,20 +1614,20 @@ Public Class FrmSettings
         UpdateSettings(NBDomBirthdayDay.Visible, Sub(settings As Settings) settings.Domme.BirthDate = New DateTime(settings.Domme.BirthDate.Year, settings.Domme.BirthDate.Month, Convert.ToInt32(NBDomBirthdayDay.Value)))
     End Sub
 
-    Private Sub TBDomHairColor_LostFocus(sender As Object, e As EventArgs) Handles TBDomHairColor.LostFocus
-        UpdateSettings(TBDomHairColor.Visible, Sub(settings As Settings) settings.Domme.HairColor = TBDomHairColor.Text)
+    Private Sub TBDomHairColor_LostFocus(sender As Object, e As EventArgs) Handles DomHairComboBox.LostFocus
+        UpdateSettings(DomHairComboBox.Visible, Sub(settings As Settings) settings.Domme.HairColor = DomHairComboBox.Text)
     End Sub
 
-    Private Sub domhairlengthComboBox_LostFocus(sender As Object, e As EventArgs) Handles domhairlengthComboBox.SelectedValueChanged
-        UpdateSettings(domhairlengthComboBox.Visible, Sub(settings As Settings) settings.Domme.HairLength = domhairlengthComboBox.Text)
+    Private Sub domhairlengthComboBox_LostFocus(sender As Object, e As EventArgs) Handles DomHairLengthComboBox.SelectedValueChanged
+        UpdateSettings(DomHairLengthComboBox.Visible, Sub(settings As Settings) settings.Domme.HairLength = DomHairLengthComboBox.Text)
     End Sub
 
     Private Sub TBDomEyeColor_LostFocus(sender As Object, e As EventArgs) Handles TBDomEyeColor.LostFocus
         UpdateSettings(TBDomEyeColor.Visible, Sub(settings As Settings) settings.Domme.EyeColor = TBDomEyeColor.Text)
     End Sub
 
-    Private Sub boobComboBox_LostFocus(sender As Object, e As EventArgs) Handles boobComboBox.LostFocus
-        UpdateSettings(boobComboBox.Visible, Sub(settings As Settings) settings.Domme.CupSize = CupSize.Create(boobComboBox.Text).Value)
+    Private Sub boobComboBox_LostFocus(sender As Object, e As EventArgs) Handles BoobComboBox.LostFocus
+        UpdateSettings(BoobComboBox.Visible, Sub(settings As Settings) settings.Domme.CupSize = CupSize.Create(BoobComboBox.Text).Value)
     End Sub
 
     Private Sub domPubicHairComboBox_SelectedValueChanged(sender As Object, e As EventArgs) Handles DommePubicHairComboBox.SelectedValueChanged
@@ -2744,11 +2742,11 @@ Public Class FrmSettings
 
     Private Sub Button16_Click(sender As Object, e As EventArgs)
         Dim settings As Settings = mySettingsAccessor.GetSettings()
-        Dim saveSettingsDialog As SaveFileDialog = New SaveFileDialog()
-        saveSettingsDialog.Title = "Select a location to save current Glitter settings"
-        saveSettingsDialog.InitialDirectory = Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\System\"
-
-        saveSettingsDialog.FileName = MainWindow.DommePersonalityComboBox.Text & " Glitter Settings"
+        Dim saveSettingsDialog As SaveFileDialog = New SaveFileDialog With {
+            .Title = "Select a location to save current Glitter settings",
+            .InitialDirectory = Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\System\",
+            .FileName = MainWindow.DommePersonalityComboBox.Text & " Glitter Settings"
+        }
 
         If saveSettingsDialog.ShowDialog() = DialogResult.OK Then
             Dim settingsPath As String = saveSettingsDialog.FileName
@@ -2794,7 +2792,7 @@ Public Class FrmSettings
             Dim SettingsString As String = ""
 
             For i As Integer = 0 To settingsList.Count - 1
-                SettingsString = SettingsString & settingsList(i)
+                SettingsString &= settingsList(i)
                 If i <> settingsList.Count - 1 Then SettingsString = SettingsString & Environment.NewLine
             Next
 
@@ -5682,10 +5680,10 @@ Public Class FrmSettings
             SettingsList.Add("Age: " & DomAgeNumberBox.Value)
             SettingsList.Add("Birth Month: " & NBDomBirthdayMonth.Value)
             SettingsList.Add("Birth Day: " & NBDomBirthdayDay.Value)
-            SettingsList.Add("Hair Color: " & TBDomHairColor.Text)
-            SettingsList.Add("Hair Length: " & domhairlengthComboBox.Text)
+            SettingsList.Add("Hair Color: " & DomHairComboBox.Text)
+            SettingsList.Add("Hair Length: " & DomHairLengthComboBox.Text)
             SettingsList.Add("Eye Color: " & TBDomEyeColor.Text)
-            SettingsList.Add("Cup Size: " & boobComboBox.Text)
+            SettingsList.Add("Cup Size: " & BoobComboBox.Text)
             SettingsList.Add("Pubic Hair: " & DommePubicHairComboBox.Text)
             SettingsList.Add("Tattoos: " & CBDomTattoos.Checked)
             SettingsList.Add("Freckles: " & CBDomFreckles.Checked)
@@ -5771,10 +5769,10 @@ Public Class FrmSettings
                 DomAgeNumberBox.Value = Convert.ToDecimal(SettingsList(2).Replace("Age: ", ""))
                 NBDomBirthdayMonth.Value = Convert.ToDecimal(SettingsList(3).Replace("Birth Month: ", ""))
                 NBDomBirthdayDay.Value = Convert.ToDecimal(SettingsList(4).Replace("Birth Day: ", ""))
-                TBDomHairColor.Text = SettingsList(5).Replace("Hair Color: ", "")
-                domhairlengthComboBox.Text = SettingsList(6).Replace("Hair Length: ", "")
+                DomHairComboBox.Text = SettingsList(5).Replace("Hair Color: ", "")
+                DomHairLengthComboBox.Text = SettingsList(6).Replace("Hair Length: ", "")
                 TBDomEyeColor.Text = SettingsList(7).Replace("Eye Color: ", "")
-                boobComboBox.Text = SettingsList(8).Replace("Cup Size: ", "")
+                BoobComboBox.Text = SettingsList(8).Replace("Cup Size: ", "")
                 DommePubicHairComboBox.Text = SettingsList(9).Replace("Pubic Hair: ", "")
                 CBDomTattoos.Checked = Convert.ToBoolean(SettingsList(10).Replace("Tattoos: ", ""))
                 CBDomFreckles.Checked = Convert.ToBoolean(SettingsList(11).Replace("Freckles: ", ""))
@@ -7518,6 +7516,9 @@ Public Class FrmSettings
         SettingsHeader.SettingsTitle = SettingsTabs.SelectedTab.ToolTipText
     End Sub
 
+    Private myIsFormSettingTags As Boolean
+    Private myWorkingUrlImageMetaDatas As List(Of ImageMetaData)
+    Private myIsMediaContainerLoading As Boolean
     Private ReadOnly mySettingsAccessor As ISettingsAccessor
     Private ReadOnly myConfigurationAccessor As IConfigurationAccessor
     Private ReadOnly myBlogAccessor As BlogImageAccessor
@@ -7533,8 +7534,5 @@ Public Class FrmSettings
     Private ReadOnly myNotifyUserService As INotifyUser
     Private ReadOnly myImageBlogDownloadService As IImageBlogDownloadService
     Private ReadOnly myRandomNumberService As IRandomNumberService
-    Private myIsFormSettingTags As Boolean
-    Private myIsMediaContainerLoading As Boolean
-    Private myWorkingUrlImageMetaDatas As List(Of ImageMetaData)
 
 End Class

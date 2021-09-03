@@ -41,11 +41,11 @@ Public Class GlitterApp
         Try
             GlitterHistory.Document.Window.ScrollTo(Int16.MaxValue, Int16.MaxValue)
         Catch ex As Exception
-            Dim i As Integer = 3
+            ' This is intentionally suppressing all exceptions
         End Try
     End Sub
 
-    Dim GlitterBaseHtml As String
-    Dim myGlitterMessages As List(Of String)
+    Private ReadOnly GlitterBaseHtml As String
+    Private ReadOnly myGlitterMessages As List(Of String)
     Private ReadOnly mySettingsAccessor As ISettingsAccessor
 End Class
