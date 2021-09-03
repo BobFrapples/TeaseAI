@@ -1339,7 +1339,7 @@ Partial Class FrmSettings
         Me.SettingsTabs.Location = New System.Drawing.Point(0, 60)
         Me.SettingsTabs.Name = "SettingsTabs"
         Me.SettingsTabs.SelectedIndex = 0
-        Me.SettingsTabs.Size = New System.Drawing.Size(1080, 482)
+        Me.SettingsTabs.Size = New System.Drawing.Size(1180, 532)
         Me.SettingsTabs.TabIndex = 1
         '
         'TabPage1
@@ -9456,7 +9456,7 @@ Partial Class FrmSettings
         Me.AppsTabPage.Location = New System.Drawing.Point(4, 22)
         Me.AppsTabPage.Name = "AppsTabPage"
         Me.AppsTabPage.Padding = New System.Windows.Forms.Padding(3)
-        Me.AppsTabPage.Size = New System.Drawing.Size(1072, 456)
+        Me.AppsTabPage.Size = New System.Drawing.Size(1172, 506)
         Me.AppsTabPage.TabIndex = 16
         Me.AppsTabPage.Text = "Apps"
         Me.AppsTabPage.ToolTipText = "App Settings"
@@ -9470,7 +9470,7 @@ Partial Class FrmSettings
         Me.AppsSettingsTabList.Location = New System.Drawing.Point(3, 3)
         Me.AppsSettingsTabList.Name = "AppsSettingsTabList"
         Me.AppsSettingsTabList.SelectedIndex = 0
-        Me.AppsSettingsTabList.Size = New System.Drawing.Size(1066, 450)
+        Me.AppsSettingsTabList.Size = New System.Drawing.Size(1166, 500)
         Me.AppsSettingsTabList.TabIndex = 0
         '
         'GlitterAppTabPage
@@ -9480,7 +9480,7 @@ Partial Class FrmSettings
         Me.GlitterAppTabPage.Location = New System.Drawing.Point(4, 22)
         Me.GlitterAppTabPage.Name = "GlitterAppTabPage"
         Me.GlitterAppTabPage.Padding = New System.Windows.Forms.Padding(3)
-        Me.GlitterAppTabPage.Size = New System.Drawing.Size(1058, 424)
+        Me.GlitterAppTabPage.Size = New System.Drawing.Size(1158, 474)
         Me.GlitterAppTabPage.TabIndex = 0
         Me.GlitterAppTabPage.Text = "Glitter"
         '
@@ -9501,7 +9501,7 @@ Partial Class FrmSettings
         Me.GlitterTableLayoutPanel.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 300.0!))
         Me.GlitterTableLayoutPanel.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 300.0!))
         Me.GlitterTableLayoutPanel.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
-        Me.GlitterTableLayoutPanel.Size = New System.Drawing.Size(1052, 418)
+        Me.GlitterTableLayoutPanel.Size = New System.Drawing.Size(1152, 468)
         Me.GlitterTableLayoutPanel.TabIndex = 166
         '
         'DommeGlitterSettings
@@ -9537,7 +9537,7 @@ Partial Class FrmSettings
         Me.DommeGlitterSettings.Name = "DommeGlitterSettings"
         Me.DommeGlitterSettings.PostFrequency = 1
         Me.DommeGlitterSettings.ResponseFrequency = 1
-        Me.DommeGlitterSettings.Size = New System.Drawing.Size(520, 294)
+        Me.DommeGlitterSettings.Size = New System.Drawing.Size(561, 294)
         Me.DommeGlitterSettings.TabIndex = 163
         '
         'GlitterContact1SettingsControl
@@ -9568,12 +9568,12 @@ Partial Class FrmSettings
         Me.GlitterContact1SettingsControl.IsTeaseModuleEnabled = False
         Me.GlitterContact1SettingsControl.IsTriviaModuleEnabled = False
         Me.GlitterContact1SettingsControl.IsVulgar = False
-        Me.GlitterContact1SettingsControl.Location = New System.Drawing.Point(529, 3)
+        Me.GlitterContact1SettingsControl.Location = New System.Drawing.Point(570, 3)
         Me.GlitterContact1SettingsControl.MinimumSize = New System.Drawing.Size(350, 150)
         Me.GlitterContact1SettingsControl.Name = "GlitterContact1SettingsControl"
         Me.GlitterContact1SettingsControl.PostFrequency = 1
         Me.GlitterContact1SettingsControl.ResponseFrequency = 1
-        Me.GlitterContact1SettingsControl.Size = New System.Drawing.Size(520, 294)
+        Me.GlitterContact1SettingsControl.Size = New System.Drawing.Size(562, 294)
         Me.GlitterContact1SettingsControl.TabIndex = 164
         '
         'GlitterContact2SettingsControl
@@ -9609,7 +9609,7 @@ Partial Class FrmSettings
         Me.GlitterContact2SettingsControl.Name = "GlitterContact2SettingsControl"
         Me.GlitterContact2SettingsControl.PostFrequency = 1
         Me.GlitterContact2SettingsControl.ResponseFrequency = 1
-        Me.GlitterContact2SettingsControl.Size = New System.Drawing.Size(520, 294)
+        Me.GlitterContact2SettingsControl.Size = New System.Drawing.Size(561, 294)
         Me.GlitterContact2SettingsControl.TabIndex = 165
         '
         'GlitterContact3SettingsControl
@@ -9617,6 +9617,7 @@ Partial Class FrmSettings
         Me.GlitterContact3SettingsControl.AvatarImageFile = Nothing
         Me.GlitterContact3SettingsControl.BackColor = System.Drawing.Color.Transparent
         Me.GlitterContact3SettingsControl.ChatColor = "buttontext"
+        Me.GlitterContact3SettingsControl.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GlitterContact3SettingsControl.EnabledLabel = "Enabled"
         Me.GlitterContact3SettingsControl.GlitterContactName = ""
         Me.GlitterContact3SettingsControl.GlitterImageDirectory = ""
@@ -9639,12 +9640,12 @@ Partial Class FrmSettings
         Me.GlitterContact3SettingsControl.IsTeaseModuleEnabled = False
         Me.GlitterContact3SettingsControl.IsTriviaModuleEnabled = False
         Me.GlitterContact3SettingsControl.IsVulgar = False
-        Me.GlitterContact3SettingsControl.Location = New System.Drawing.Point(529, 303)
+        Me.GlitterContact3SettingsControl.Location = New System.Drawing.Point(570, 303)
         Me.GlitterContact3SettingsControl.MinimumSize = New System.Drawing.Size(350, 150)
         Me.GlitterContact3SettingsControl.Name = "GlitterContact3SettingsControl"
         Me.GlitterContact3SettingsControl.PostFrequency = 1
         Me.GlitterContact3SettingsControl.ResponseFrequency = 1
-        Me.GlitterContact3SettingsControl.Size = New System.Drawing.Size(520, 294)
+        Me.GlitterContact3SettingsControl.Size = New System.Drawing.Size(562, 294)
         Me.GlitterContact3SettingsControl.TabIndex = 166
         '
         'TpGames
@@ -14034,7 +14035,7 @@ Partial Class FrmSettings
         Me.SettingsHeader.Location = New System.Drawing.Point(0, 0)
         Me.SettingsHeader.Name = "SettingsHeader"
         Me.SettingsHeader.SettingsTitle = "Header Text"
-        Me.SettingsHeader.Size = New System.Drawing.Size(1080, 60)
+        Me.SettingsHeader.Size = New System.Drawing.Size(1180, 60)
         Me.SettingsHeader.TabIndex = 0
         '
         'SettingsDescriptionControl
@@ -14043,9 +14044,9 @@ Partial Class FrmSettings
         Me.SettingsDescriptionControl.DescriptionText = "Hover over any setting in the menu for a more detailed description of its functio" &
     "n."
         Me.SettingsDescriptionControl.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.SettingsDescriptionControl.Location = New System.Drawing.Point(0, 542)
+        Me.SettingsDescriptionControl.Location = New System.Drawing.Point(0, 592)
         Me.SettingsDescriptionControl.Name = "SettingsDescriptionControl"
-        Me.SettingsDescriptionControl.Size = New System.Drawing.Size(1080, 165)
+        Me.SettingsDescriptionControl.Size = New System.Drawing.Size(1180, 165)
         Me.SettingsDescriptionControl.TabIndex = 2
         '
         'BWURLFiles
@@ -14061,14 +14062,14 @@ Partial Class FrmSettings
         Me.AllowDrop = True
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1080, 707)
+        Me.ClientSize = New System.Drawing.Size(1180, 757)
         Me.Controls.Add(Me.SettingsTabs)
         Me.Controls.Add(Me.SettingsHeader)
         Me.Controls.Add(Me.SettingsDescriptionControl)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
         Me.MaximizeBox = False
         Me.MinimizeBox = False
-        Me.MinimumSize = New System.Drawing.Size(1100, 750)
+        Me.MinimumSize = New System.Drawing.Size(1200, 800)
         Me.Name = "FrmSettings"
         Me.ShowIcon = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen

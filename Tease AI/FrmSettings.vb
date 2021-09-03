@@ -1,5 +1,5 @@
-﻿'Option Strict On
-'Option Infer Off
+﻿Option Strict On
+Option Infer Off
 
 Imports System.ComponentModel
 Imports System.IO
@@ -24,26 +24,13 @@ Public Class FrmSettings
         End Set
     End Property
 
-    ''' <summary>
-    ''' Location of the local image tag file.
-    ''' </summary>
-    ''' <returns></returns>
-    <Obsolete("TODO: go away")>
-    Private ReadOnly Property LocalImageTagFile As String
-        Get
-            Return Application.StartupPath & "\Images\System\LocalImageTags.txt"
-        End Get
-    End Property
+    Public Property IsFrmSettingsLoading As Boolean
 
-    Public URLFileIncludeList As New List(Of String)
-    Public FrmSettingsLoading As Boolean
-    Dim LocalImageDir As New List(Of String)
-
-    Dim ImageTagDir As New List(Of String)
-    Dim LocalImageTagDir As New List(Of String)
-    Dim ImageTagCount As Integer
-    Dim CurrentImageTagImage As String
-    Dim CurrentLocalImageTagImage As String
+    Dim imageTagDir As New List(Of String)
+    Dim localImageTagDir As New List(Of String)
+    Dim imageTagCount As Integer
+    Dim currentImageTagImage As String
+    Dim currentLocalImageTagImage As String
 
     ' Index of current working image for tagging
     Dim TagCount As Integer
@@ -58,8 +45,6 @@ Public Class FrmSettings
     Public WebImagePath As String
     Public ApproveImage As Integer = 0
 
-    Dim CheckImgDir As New List(Of String)
-
     Public Sub New()
         mySettingsAccessor = ApplicationFactory.CreateSettingsAccessor()
         myConfigurationAccessor = ApplicationFactory.CreateConfigurationAccessor()
@@ -68,7 +53,10 @@ Public Class FrmSettings
         myScriptAccessor = ApplicationFactory.CreateScriptAccessor()
         myLoadFileData = ApplicationFactory.CreateLoadFileData()
         myParseTagDataService = New ParseOldTagDataService()
+        ' Older, compatible pathsAccessor
         myPathsAccessor = New PathsAccessor(ApplicationFactory.CreateConfigurationAccessor, ApplicationFactory.CreateOldSettingsAccessor())
+        ' C# paths accessor
+        'myPathsAccessor = ApplicationFactory.CreatePathsAccessor()
         myMediaContainerService = ApplicationFactory.CreateMediaContainerService()
         myImageMetaDataService = ApplicationFactory.CreateImageMetaDataService()
         myImageTagMapService = ApplicationFactory.CreateImageTagMapService()
@@ -81,7 +69,7 @@ Public Class FrmSettings
         InitializeComponent()
     End Sub
 
-    Private Sub frmProgramma_FormClosing(ByVal sender As Object, ByVal e As Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
+    Private Sub FrmSettings_FormClosing(ByVal sender As Object, ByVal e As Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
         Visible = False
         MainWindow.BtnToggleSettings.Text = "Open Settings Menu"
         e.Cancel = True
@@ -91,15 +79,11 @@ Public Class FrmSettings
         My.Settings.Save()
     End Sub
 
-    Private Sub FrmSettings_Visible(sender As Object, e As EventArgs) Handles MyBase.VisibleChanged
-        'LoadSettings(mySettingsAccessor.GetSettings())
-    End Sub
-
     ''' <summary>
     ''' Called when we want to validate everything
     ''' </summary>
     Public Sub FrmSettingStartUp()
-        FrmSettingsLoading = True
+        IsFrmSettingsLoading = True
         Dim settings As Settings = mySettingsAccessor.GetSettings()
 
         FrmSplash.UpdateText("Loading Settings...")
@@ -239,7 +223,7 @@ Public Class FrmSettings
 
         TypesSpeedVal.Text = TypeSpeedSlider.Value.ToString()
 
-        FrmSettingsLoading = False
+        IsFrmSettingsLoading = False
         Visible = False
         Dim languageCode As String = "en"
         If RBGerman.Checked Then
@@ -340,7 +324,7 @@ Public Class FrmSettings
         HoldEdgeMaximum.Value = ConvertHoldTime(subSettings.HoldEdgeSecondsMaximum)
         LBLMaxHold.Text = ConvertHoldTimeUnits(subSettings.HoldEdgeSecondsMaximum)
         HoldEdgeMinimum.Value = ConvertHoldTime(subSettings.HoldEdgeSecondsMinimum)
-        HoldEdgeMinimumUnits.Text = ConvertHoldTime(subSettings.HoldEdgeSecondsMinimum)
+        HoldEdgeMinimumUnits.Text = ConvertHoldTime(subSettings.HoldEdgeSecondsMinimum).ToString()
 
         LongEdgeHoldMaximum.Value = subSettings.LongEdgeHoldMaximum
         LongEdgeHoldMinimum.Value = subSettings.LongEdgeHoldMinimum
@@ -1199,8 +1183,7 @@ Public Class FrmSettings
     End Sub
 
     Private Sub TxbVideoFolder_MouseHover(sender As Object, e As EventArgs) Handles TxbVideoSoftCoreD.MouseHover, TxbVideoSoftCore.MouseHover, TxbVideoLesbianD.MouseHover, TxbVideoLesbian.MouseHover, TxbVideoJOID.MouseHover, TxbVideoJOI.MouseHover, TxbVideoHardCoreD.MouseHover, VideoHardCorePathTextBox.MouseHover, VideoDommeGeneralPathTextBox.MouseHover, TxbVideoGeneral.MouseHover, TxbVideoFemsubD.MouseHover, TxbVideoFemsub.MouseHover, TxbVideoFemdomD.MouseHover, TxbVideoFemdom.MouseHover, TxbVideoCHD.MouseHover, TxbVideoCH.MouseHover, TxbVideoBlowjobD.MouseHover, TxbVideoBlowjob.MouseHover
-
-        TTDir.SetToolTip(sender, CType(sender, TextBox).Text)
+        TTDir.SetToolTip(CType(sender, Control), CType(sender, TextBox).Text)
     End Sub
 
     Private Sub BTNRefreshVideos_MouseHover(sender As Object, e As EventArgs) Handles VideoRefreshButton.MouseHover
@@ -1555,7 +1538,7 @@ Public Class FrmSettings
     End Sub
 
     Private Sub NBFontSize_LostFocus(sender As Object, e As EventArgs) Handles NBFontSize.LostFocus
-        My.Settings.SubFontSize = NBFontSize.Value
+        My.Settings.SubFontSize = Convert.ToInt32(NBFontSize.Value)
     End Sub
 
     Private Sub CBImageInfo_CheckedChanged(sender As Object, e As EventArgs) Handles CBImageInfo.CheckedChanged
@@ -1614,11 +1597,11 @@ Public Class FrmSettings
     End Sub
 
     Private Sub AllowsOrgasmComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles AllowsOrgasmComboBox.SelectedIndexChanged
-        UpdateSettings(AllowsOrgasmComboBox.Visible, Sub(settings As Settings) settings.Domme.AllowsOrgasms = AllowsOrgasms.Create(AllowsOrgasmComboBox.Text).Value)
+        UpdateSettings(AllowsOrgasmComboBox.Visible, Sub(settings As Settings) settings.Domme.AllowsOrgasms = AllowsOrgasms.Create(CInt(AllowsOrgasmComboBox.Text)).Value)
     End Sub
 
     Private Sub RuinsOrgasmComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles RuinsOrgasmsComboBox.SelectedIndexChanged
-        UpdateSettings(RuinsOrgasmsComboBox.Visible, Sub(settings As Settings) settings.Domme.RuinsOrgasms = RuinsOrgasms.Create(RuinsOrgasmsComboBox.Text).Value)
+        UpdateSettings(RuinsOrgasmsComboBox.Visible, Sub(settings As Settings) settings.Domme.RuinsOrgasms = RuinsOrgasms.Create(CInt(RuinsOrgasmsComboBox.Text)).Value)
     End Sub
 
     Private Sub DomAgeNumBox_ValueChanged(sender As Object, e As EventArgs) Handles DomAgeNumberBox.ValueChanged
@@ -1626,11 +1609,11 @@ Public Class FrmSettings
     End Sub
 
     Private Sub NBDomBirthdayMonth_LostFocus(sender As Object, e As EventArgs) Handles NBDomBirthdayMonth.ValueChanged
-        UpdateSettings(NBDomBirthdayMonth.Visible, Sub(settings As Settings) settings.Domme.BirthDate = New DateTime(settings.Domme.BirthDate.Year, NBDomBirthdayMonth.Value, settings.Domme.BirthDate.Day))
+        UpdateSettings(NBDomBirthdayMonth.Visible, Sub(settings As Settings) settings.Domme.BirthDate = New DateTime(settings.Domme.BirthDate.Year, Convert.ToInt32(NBDomBirthdayMonth.Value), settings.Domme.BirthDate.Day))
     End Sub
 
     Private Sub NBDomBirthdayDay_LostFocus(sender As Object, e As EventArgs) Handles NBDomBirthdayDay.ValueChanged
-        UpdateSettings(NBDomBirthdayDay.Visible, Sub(settings As Settings) settings.Domme.BirthDate = New DateTime(settings.Domme.BirthDate.Year, settings.Domme.BirthDate.Month, NBDomBirthdayDay.Value))
+        UpdateSettings(NBDomBirthdayDay.Visible, Sub(settings As Settings) settings.Domme.BirthDate = New DateTime(settings.Domme.BirthDate.Year, settings.Domme.BirthDate.Month, Convert.ToInt32(NBDomBirthdayDay.Value)))
     End Sub
 
     Private Sub TBDomHairColor_LostFocus(sender As Object, e As EventArgs) Handles TBDomHairColor.LostFocus
@@ -1733,42 +1716,42 @@ Public Class FrmSettings
 
     Private Sub NBAvgCockMin_ValueChanged(sender As Object, e As EventArgs) Handles NBAvgCockMin.ValueChanged
         UpdateSettings(NBAvgCockMin.Visible, Sub(settings As Settings)
-                                                 settings.Domme.AveragePenisMinimum = NBAvgCockMin.Value
+                                                 settings.Domme.AveragePenisMinimum = Convert.ToInt32(NBAvgCockMin.Value)
                                                  NBAvgCockMax.Minimum = settings.Domme.AveragePenisMinimum
                                              End Sub)
     End Sub
 
     Private Sub NBAvgCockMax_ValueChanged(sender As Object, e As EventArgs) Handles NBAvgCockMax.ValueChanged
         UpdateSettings(NBAvgCockMax.Visible, Sub(settings As Settings)
-                                                 settings.Domme.AveragePenisMaximum = NBAvgCockMax.Value
+                                                 settings.Domme.AveragePenisMaximum = Convert.ToInt32(NBAvgCockMax.Value)
                                                  NBAvgCockMin.Maximum = settings.Domme.AveragePenisMinimum
                                              End Sub)
     End Sub
 
     Private Sub NBSelfAgeMin_ValueChanged(sender As Object, e As EventArgs) Handles NBSelfAgeMin.ValueChanged
         UpdateSettings(NBSelfAgeMin.Visible, Sub(settings As Settings)
-                                                 settings.Domme.AverageAgeSelfMinimum = NBSelfAgeMin.Value
+                                                 settings.Domme.AverageAgeSelfMinimum = CInt(NBSelfAgeMin.Value)
                                                  NBSelfAgeMax.Minimum = settings.Domme.AverageAgeSelfMinimum
                                              End Sub)
     End Sub
 
     Private Sub NBSelfAgeMax_ValueChanged(sender As Object, e As EventArgs) Handles NBSelfAgeMax.ValueChanged
         UpdateSettings(NBSelfAgeMax.Visible, Sub(settings As Settings)
-                                                 settings.Domme.AverageAgeSelfMaximum = NBSelfAgeMax.Value
+                                                 settings.Domme.AverageAgeSelfMaximum = Convert.ToInt32(NBSelfAgeMax.Value)
                                                  NBSelfAgeMin.Maximum = settings.Domme.AverageAgeSelfMaximum
                                              End Sub)
     End Sub
 
     Private Sub NBSubAgeMin_ValueChanged(sender As Object, e As EventArgs) Handles NBSubAgeMin.ValueChanged
         UpdateSettings(NBSubAgeMin.Visible, Sub(settings As Settings)
-                                                settings.Domme.AverageAgeSubMinimum = NBSubAgeMin.Value
+                                                settings.Domme.AverageAgeSubMinimum = CInt(NBSubAgeMin.Value)
                                                 NBSubAgeMax.Minimum = settings.Domme.AverageAgeSubMinimum
                                             End Sub)
     End Sub
 
     Private Sub NBSubAgeMax_ValueChanged(sender As Object, e As EventArgs) Handles NBSubAgeMax.ValueChanged
         UpdateSettings(NBSubAgeMax.Visible, Sub(settings As Settings)
-                                                settings.Domme.AverageAgeSubMaximum = NBSubAgeMax.Value
+                                                settings.Domme.AverageAgeSubMaximum = CInt(NBSubAgeMax.Value)
                                                 NBSubAgeMax.Maximum = settings.Domme.AverageAgeSubMaximum
                                             End Sub)
     End Sub
@@ -1793,7 +1776,7 @@ Public Class FrmSettings
     End Sub
 
     Private Sub DommeSettingsDescriptionLabel_ShowToolTips(sender As Object, e As EventArgs) Handles DommePubicHairComboBox.MouseEnter
-        DommeSettingsDescriptionLabel.Text = TTDir.GetToolTip(sender)
+        DommeSettingsDescriptionLabel.Text = TTDir.GetToolTip(CType(sender, Control))
     End Sub
 #End Region ' Domme
 
@@ -1804,12 +1787,12 @@ Public Class FrmSettings
         End If
 
         Dim settings As Settings = mySettingsAccessor.GetSettings()
-        settings.Sub.HoldEdgeSecondsMaximum = ConvertHoldTime(HoldEdgeMaximum.Value, LBLMaxHold.Text)
+        settings.Sub.HoldEdgeSecondsMaximum = ConvertHoldTime(CInt(HoldEdgeMaximum.Value), LBLMaxHold.Text)
         mySettingsAccessor.WriteSettings(settings)
     End Sub
 
     Private Sub HoldEdgeMaximumValueChanged(sender As Object, e As EventArgs) Handles HoldEdgeMaximum.ValueChanged
-        If FrmSettingsLoading = False Then
+        If IsFrmSettingsLoading = False Then
 
             If HoldEdgeMaximum.Value = 0 And LBLMaxHold.Text = "minutes" Then
                 HoldEdgeMaximum.Value = 59
@@ -1831,12 +1814,12 @@ Public Class FrmSettings
         End If
 
         Dim settings As Settings = mySettingsAccessor.GetSettings()
-        settings.Sub.HoldEdgeSecondsMinimum = ConvertHoldTime(HoldEdgeMinimum.Value, HoldEdgeMinimumUnits.Text)
+        settings.Sub.HoldEdgeSecondsMinimum = ConvertHoldTime(CInt(HoldEdgeMinimum.Value), HoldEdgeMinimumUnits.Text)
         mySettingsAccessor.WriteSettings(settings)
     End Sub
 
     Private Sub HoldEdgeMinimum_ValueChanged(sender As Object, e As EventArgs) Handles HoldEdgeMinimum.ValueChanged
-        If FrmSettingsLoading = False Then
+        If IsFrmSettingsLoading = False Then
             If HoldEdgeMinimum.Value = 0 And HoldEdgeMinimumUnits.Text = "minutes" Then
                 HoldEdgeMinimum.Value = 59
                 HoldEdgeMinimumUnits.Text = "seconds"
@@ -1996,7 +1979,7 @@ Public Class FrmSettings
     End Sub
 
     Private Sub LongEdgeHoldMaximum_ValueChanged(sender As Object, e As EventArgs) Handles LongEdgeHoldMaximum.ValueChanged
-        If FrmSettingsLoading = False Then
+        If IsFrmSettingsLoading = False Then
             If LongEdgeHoldMaximum.Value = 1 Then
                 LBLMaxLongHold.Text = "minute"
             Else
@@ -2006,7 +1989,7 @@ Public Class FrmSettings
     End Sub
 
     Private Sub LongEdgeHoldMinimum_ValueChanged(sender As Object, e As EventArgs) Handles LongEdgeHoldMinimum.ValueChanged
-        If FrmSettingsLoading = False Then
+        If IsFrmSettingsLoading = False Then
             If LongEdgeHoldMinimum.Value = 1 Then
                 LBLMinLongHold.Text = "minute"
             Else
@@ -2036,7 +2019,7 @@ Public Class FrmSettings
     End Sub
 
     Private Sub NBExtremeHoldMax_ValueChanged(sender As Object, e As EventArgs) Handles ExtremeEdgeHoldMaximum.ValueChanged
-        If FrmSettingsLoading = False Then
+        If IsFrmSettingsLoading = False Then
             If ExtremeEdgeHoldMaximum.Value = 1 Then
                 LBLMaxExtremeHold.Text = "minute"
             Else
@@ -2046,7 +2029,7 @@ Public Class FrmSettings
     End Sub
 
     Private Sub NBExtremeHoldMin_ValueChanged(sender As Object, e As EventArgs) Handles ExtremeEdgeHoldMinimum.ValueChanged
-        If FrmSettingsLoading = False Then
+        If IsFrmSettingsLoading = False Then
             If ExtremeEdgeHoldMinimum.Value = 1 Then
                 LBLMinExtremeHold.Text = "minute"
             Else
@@ -2111,7 +2094,7 @@ Public Class FrmSettings
         End If
 
         Dim settings As Settings = mySettingsAccessor.GetSettings()
-        settings.Sub.Greetings = TBGreeting.Text.Trim().Split(",").ToList()
+        settings.Sub.Greetings = TBGreeting.Text.Trim().Split(","(0)).ToList()
         mySettingsAccessor.WriteSettings(settings)
     End Sub
 
@@ -2121,7 +2104,7 @@ Public Class FrmSettings
         End If
 
         Dim settings As Settings = mySettingsAccessor.GetSettings()
-        settings.Sub.CockLength = CockSizeNumBox.Value
+        settings.Sub.CockLength = CInt(CockSizeNumBox.Value)
         mySettingsAccessor.WriteSettings(settings)
     End Sub
 
@@ -2131,7 +2114,7 @@ Public Class FrmSettings
         End If
 
         Dim settings As Settings = mySettingsAccessor.GetSettings()
-        settings.Sub.YesPhrases = TBYes.Text.Split(",").ToList()
+        settings.Sub.YesPhrases = TBYes.Text.Split(","(0)).ToList()
         mySettingsAccessor.WriteSettings(settings)
     End Sub
 
@@ -2141,7 +2124,7 @@ Public Class FrmSettings
         End If
 
         Dim settings As Settings = mySettingsAccessor.GetSettings()
-        settings.Sub.NoPhrases = TBNo.Text.Split(",").ToList()
+        settings.Sub.NoPhrases = TBNo.Text.Split(","(0)).ToList()
         mySettingsAccessor.WriteSettings(settings)
     End Sub
 
@@ -2151,7 +2134,7 @@ Public Class FrmSettings
         End If
 
         Dim settings As Settings = mySettingsAccessor.GetSettings()
-        settings.Sub.BirthDate = New DateTime(settings.Sub.BirthDate.Year, NBBirthdayMonth.Value, settings.Sub.BirthDate.Day)
+        settings.Sub.BirthDate = New DateTime(settings.Sub.BirthDate.Year, CInt(NBBirthdayMonth.Value), settings.Sub.BirthDate.Day)
         mySettingsAccessor.WriteSettings(settings)
     End Sub
 
@@ -2161,7 +2144,7 @@ Public Class FrmSettings
         End If
 
         Dim settings As Settings = mySettingsAccessor.GetSettings()
-        settings.Sub.BirthDate = New DateTime(settings.Sub.BirthDate.Year, settings.Sub.BirthDate.Month, NBBirthdayDay.Value)
+        settings.Sub.BirthDate = New DateTime(settings.Sub.BirthDate.Year, settings.Sub.BirthDate.Month, CInt(NBBirthdayDay.Value))
         mySettingsAccessor.WriteSettings(settings)
     End Sub
 
@@ -2302,7 +2285,7 @@ Public Class FrmSettings
         Dim checkedListBox As CheckedListBox = GetScriptsCheckedListBox(sessionPhase)
         Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(mySettingsAccessor.GetSettings().DommePersonality, sessionPhase)
 
-        Dim clickedScript = scripts.First(Function(smd) smd.Name = checkedListBox.SelectedItem.ToString())
+        Dim clickedScript As ScriptMetaData = scripts.First(Function(smd) smd.Name = checkedListBox.SelectedItem.ToString())
         MainWindow.OpenFile(clickedScript.Key)
     End Sub
 
@@ -2343,9 +2326,9 @@ Public Class FrmSettings
                 Dim scripts As List(Of ScriptMetaData) = myScriptAccessor.GetAllScripts(mySettingsAccessor.GetSettings().DommePersonality, sessionPhase)
 
                 For i As Integer = 0 To target.Items.Count - 1
-                    Dim item = target.Items(i)
-                    Dim scriptMetaData = scripts.First(Function(smd) smd.Name = item.ToString())
-                    Dim requirements = GetScriptRequirements(scriptMetaData)
+                    Dim item As Object = target.Items(i)
+                    Dim scriptMetaData As ScriptMetaData = scripts.First(Function(smd) smd.Name = item.ToString())
+                    Dim requirements As Tuple(Of Boolean, String) = GetScriptRequirements(scriptMetaData)
                     target.SetItemChecked(i, requirements.Item1)
                 Next
             End If
@@ -2377,7 +2360,7 @@ Public Class FrmSettings
 
         target.BeginUpdate()
         target.Items.Clear()
-        For Each cldFile In scripts
+        For Each cldFile As ScriptMetaData In scripts
             target.Items.Add(cldFile.Name, cldFile.IsEnabled)
         Next
 
@@ -2616,7 +2599,7 @@ Public Class FrmSettings
     ''' </summary>
     ''' <param name="scriptMetaData"></param>
     Public Sub GetScriptStatus(scriptMetaData As ScriptMetaData)
-        Dim scriptRequirements = GetScriptRequirements(scriptMetaData)
+        Dim scriptRequirements As Tuple(Of Boolean, String) = GetScriptRequirements(scriptMetaData)
 
         Try
             ScriptStatusUnlock(True)
@@ -2636,7 +2619,9 @@ Public Class FrmSettings
     End Sub
 
     Public Function GetCommandRequirement(scriptCommand As String) As String
+#Disable Warning BC40000 ' NewBlogImage is obsolete, but this needs to be here for compatibility purposes
         If scriptCommand.Contains(Keyword.ShowBlogImage) OrElse scriptCommand.Contains(Keyword.NewBlogImage) OrElse scriptCommand.Contains(Keyword.ShowImage) Then
+#Enable Warning BC40000 ' Type or member is obsolete
             Return "At least one URL File must be configured"
         End If
         Return String.Empty
@@ -2647,7 +2632,11 @@ Public Class FrmSettings
 
 #Region "----------------------------------------- Glitter ----------------------------------------------"
     Private Sub GlitterSettingsControl_VisibleChanged(sender As Object, e As EventArgs) Handles DommeGlitterSettings.VisibleChanged
-        UpdateGlitterSettingsFromDomme(mySettingsAccessor.GetSettings().Domme, DommeGlitterSettings)
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        UpdateGlitterSettingsFromDomme(settings.Domme, DommeGlitterSettings)
+        UpdateGlitterSettingsFromDomme(settings.Apps.Glitter.Contact1, GlitterContact1SettingsControl)
+        UpdateGlitterSettingsFromDomme(settings.Apps.Glitter.Contact2, GlitterContact2SettingsControl)
+        UpdateGlitterSettingsFromDomme(settings.Apps.Glitter.Contact3, GlitterContact3SettingsControl)
     End Sub
 
     ''' <summary>
@@ -2712,7 +2701,7 @@ Public Class FrmSettings
         destination.ChatColor = source.ChatColor
         destination.GlitterPostFrequency = source.PostFrequency
         destination.GlitterResponseFrequency = source.ResponseFrequency
-        destination.GlitterMode = IIf(source.IsGlitterEnabled, GlitterMode.On, GlitterMode.Off)
+        destination.GlitterMode = CType(IIf(source.IsGlitterEnabled, GlitterMode.On, GlitterMode.Off), GlitterMode)
         destination.GlitterImageDirectory = source.GlitterImageDirectory
 
         destination.IsAngry = source.IsAngry
@@ -2972,7 +2961,7 @@ Public Class FrmSettings
             Loop
 
             If retrycounter <= 0 Then Throw New IOException(
-                String.Format("The file ""{0}"" is already in use.", savePath), savePath)
+                String.Format("The file ""{0}"" is already in use.", savePath))
 
             ' Check if the Databinding is properly set.
             If target.DataBindings.Item("ImageLocation") Is Nothing Then
@@ -3005,7 +2994,7 @@ Public Class FrmSettings
     End Sub
 
     Private Sub CardPictureboxes_DragDrop(sender As Object, e As Windows.Forms.DragEventArgs) Handles SP6.DragDrop, SP5.DragDrop, SP4.DragDrop, SP3.DragDrop, SP2.DragDrop, SP1.DragDrop, GP6.DragDrop, GP5.DragDrop, GP4.DragDrop, GP3.DragDrop, GP2.DragDrop, GP1.DragDrop, CardBack.DragDrop, BP6.DragDrop, BP5.DragDrop, BP4.DragDrop, BP3.DragDrop, BP2.DragDrop, BP1.DragDrop
-        CardImageSet(CType(sender, PictureBox), CType(e.Data.GetData(DataFormats.FileDrop), Array).GetValue(0))
+        CardImageSet(CType(sender, PictureBox), CType(e.Data.GetData(DataFormats.FileDrop), Array).GetValue(0).ToString())
     End Sub
 
     Private Sub CardPictureboxes_Click(sender As Object, e As EventArgs) Handles SP6.Click, SP5.Click, SP4.Click, SP3.Click, SP2.Click, SP1.Click, GP6.Click, GP5.Click, GP4.Click, GP3.Click, GP2.Click, GP1.Click, CardBack.Click, BP6.Click, BP5.Click, BP4.Click, BP3.Click, BP2.Click, BP1.Click
@@ -3037,14 +3026,13 @@ Public Class FrmSettings
             Return
         End If
         If PreviewRemoteImagesCheckBox.Checked Then
-            Dim mediaContainer = myMediaContainerService.Get(1, ImageSource.Remote).First(Function(mc) mc.Name = RemoteMediaContainerList.SelectedItem.ToString())
-            Dim imageMetaDatas = myImageMetaDataService.GetImagesInContainer(mediaContainer.Id) _
-                .Ensure(Function(imds) imds.Any(), "No images stored for " & mediaContainer.Name) _
-                .OnSuccess(Async Function(imds)
-                               Dim image As ImageMetaData = imds(myRandomNumberService.Roll(0, imds.Count))
-                               PBURLPreview.Image = Await LoadImageAsync(image)
-                           End Function)
-            If imageMetaDatas.IsFailure Then
+            Dim mediaContainer As MediaContainer = myMediaContainerService.Get(1, ImageSource.Remote).First(Function(mc) mc.Name = RemoteMediaContainerList.SelectedItem.ToString())
+            Dim imageMetaDatas As Result(Of List(Of ImageMetaData)) = myImageMetaDataService.GetImagesInContainer(mediaContainer.Id) _
+                .Ensure(Function(imds) imds.Any(), "No images stored for " & mediaContainer.Name)
+            If (imageMetaDatas.IsSuccess) Then
+                Dim image As ImageMetaData = imageMetaDatas.Value(myRandomNumberService.Roll(0, imageMetaDatas.Value.Count))
+                PBURLPreview.Image = Await LoadImageAsync(image)
+            Else
                 Await myNotifyUserService.ErrorMessageAsync(imageMetaDatas.Error)
             End If
         End If
@@ -3054,7 +3042,7 @@ Public Class FrmSettings
         If (Not RemoteMediaContainerList.Visible) OrElse RemoteMediaContainerList.SelectedIndex < 0 Then
             Return
         End If
-        Dim mediaContainer = myMediaContainerService.Get(1, ImageSource.Remote).First(Function(mc) mc.Name = RemoteMediaContainerList.SelectedItem.ToString())
+        Dim mediaContainer As MediaContainer = myMediaContainerService.Get(1, ImageSource.Remote).First(Function(mc) mc.Name = RemoteMediaContainerList.SelectedItem.ToString())
         mediaContainer.IsEnabled = Not mediaContainer.IsEnabled
         Dim updateContainer As Result(Of MediaContainer) = myMediaContainerService.Update(mediaContainer)
 
@@ -3074,12 +3062,12 @@ Public Class FrmSettings
         RemoteMediaContainerList.Refresh()
     End Sub
 
-    Private Sub URL_File_Set(ByVal URL_FileName As String)
+    Private Sub URL_File_Set(ByVal urlFileName As String)
         ' Set the new URL-File
-        If Not RemoteMediaContainerList.Items.Contains(URL_FileName) Then
-            RemoteMediaContainerList.Items.Add(URL_FileName)
+        If Not RemoteMediaContainerList.Items.Contains(urlFileName) Then
+            RemoteMediaContainerList.Items.Add(urlFileName)
             For i As Integer = 0 To RemoteMediaContainerList.Items.Count - 1
-                If RemoteMediaContainerList.Items(i) = URL_FileName Then RemoteMediaContainerList.SetItemChecked(i, True)
+                If RemoteMediaContainerList.Items(i).ToString() = urlFileName Then RemoteMediaContainerList.SetItemChecked(i, True)
             Next
         End If
         ' Save ListState
@@ -3244,7 +3232,7 @@ Public Class FrmSettings
         Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
         folderBrowserDialog.SelectedPath = directoryTextBoxControl.Text
 
-        Dim answer = folderBrowserDialog.ShowDialog()
+        Dim answer As DialogResult = folderBrowserDialog.ShowDialog()
         If answer <> DialogResult.OK Then
             Return
         End If
@@ -3264,20 +3252,19 @@ Public Class FrmSettings
         If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
             Dim genre As ImageGenre = ImageGenre.Hardcore
 
-            Dim mediaContainer = myMediaContainerService.GetOrCreate(2, ImageSource.Local, genre)
+            Dim mediaContainer As MediaContainer = myMediaContainerService.GetOrCreate(2, ImageSource.Local, genre)
             mediaContainer.Path = folderBrowserDialog.SelectedPath
 
             myMediaContainerService.Update(mediaContainer)
 
             My.Settings.VideoHardcore = folderBrowserDialog.SelectedPath
             My.Settings.CBHardcore = True
-            LblVideoHardCoreTotal.Text = VideoHardcore_Count(False)
+            LblVideoHardCoreTotal.Text = VideoHardcore_Count(False).ToString()
         End If
     End Sub
 
     Friend Shared Function VideoHardcore_CheckFolder() As Boolean
-        Dim def As String =
-            My.Settings.PropertyValues("VideoHardcore").Property.DefaultValue
+        Dim def As String = My.Settings.PropertyValues("VideoHardcore").Property.DefaultValue.ToString()
 
         My.Settings.VideoHardcore = Video_FolderCheck("Hardcore Video", My.Settings.VideoHardcore, def)
 
@@ -3325,25 +3312,25 @@ Public Class FrmSettings
     Friend Function Video_CheckAllFolders() As Integer
         Dim t As Integer = 0
 
-        LblVideoHardCoreTotal.Text = VideoHardcore_Count() : t += CInt(LblVideoHardCoreTotal.Text)
-        LblVideoSoftCoreTotal.Text = VideoSoftcore_Count() : t += CInt(LblVideoSoftCoreTotal.Text)
-        LblVideoLesbianTotal.Text = VideoLesbian_Count() : t += CInt(LblVideoLesbianTotal.Text)
-        LblVideoBlowjobTotal.Text = VideoBlowjob_Count() : t += CInt(LblVideoBlowjobTotal.Text)
-        LblVideoFemdomTotal.Text = VideoFemdom_Count() : t += CInt(LblVideoFemdomTotal.Text)
-        LblVideoFemsubTotal.Text = VideoFemsub_Count() : t += CInt(LblVideoFemsubTotal.Text)
-        LblVideoJOITotal.Text = VideoJOI_Count() : t += CInt(LblVideoJOITotal.Text)
-        LblVideoCHTotal.Text = VideoCH_Count() : t += CInt(LblVideoCHTotal.Text)
-        LblVideoGeneralTotal.Text = VideoGeneral_Count() : t += CInt(LblVideoGeneralTotal.Text)
+        LblVideoHardCoreTotal.Text = VideoHardcore_Count().ToString() : t += CInt(LblVideoHardCoreTotal.Text)
+        LblVideoSoftCoreTotal.Text = VideoSoftcore_Count().ToString() : t += CInt(LblVideoSoftCoreTotal.Text)
+        LblVideoLesbianTotal.Text = VideoLesbian_Count().ToString() : t += CInt(LblVideoLesbianTotal.Text)
+        LblVideoBlowjobTotal.Text = VideoBlowjob_Count().ToString() : t += CInt(LblVideoBlowjobTotal.Text)
+        LblVideoFemdomTotal.Text = VideoFemdom_Count().ToString() : t += CInt(LblVideoFemdomTotal.Text)
+        LblVideoFemsubTotal.Text = VideoFemsub_Count().ToString() : t += CInt(LblVideoFemsubTotal.Text)
+        LblVideoJOITotal.Text = VideoJOI_Count().ToString() : t += CInt(LblVideoJOITotal.Text)
+        LblVideoCHTotal.Text = VideoCH_Count().ToString() : t += CInt(LblVideoCHTotal.Text)
+        LblVideoGeneralTotal.Text = VideoGeneral_Count().ToString() : t += CInt(LblVideoGeneralTotal.Text)
 
-        LblVideoHardCoreTotalD.Text = VideoHardcoreD_Count() : t += CInt(LblVideoHardCoreTotalD.Text)
-        LblVideoSoftCoreTotalD.Text = VideoSoftcoreD_Count() : t += CInt(LblVideoSoftCoreTotalD.Text)
-        LblVideoLesbianTotalD.Text = VideoLesbianD_Count() : t += CInt(LblVideoLesbianTotalD.Text)
-        LblVideoBlowjobTotalD.Text = VideoBlowjobD_Count() : t += CInt(LblVideoBlowjobTotalD.Text)
-        LblVideoFemdomTotalD.Text = VideoFemdomD_Count() : t += CInt(LblVideoFemdomTotalD.Text)
-        LblVideoFemsubTotalD.Text = VideoFemsubD_Count() : t += CInt(LblVideoFemsubTotalD.Text)
-        LblVideoJOITotalD.Text = VideoJOID_Count() : t += CInt(LblVideoJOITotalD.Text)
-        LblVideoCHTotalD.Text = VideoCHD_Count() : t += CInt(LblVideoCHTotalD.Text)
-        VideoTotalDommeGeneral.Text = VideoGeneralD_Count() : t += CInt(VideoTotalDommeGeneral.Text)
+        LblVideoHardCoreTotalD.Text = VideoHardcoreD_Count().ToString() : t += CInt(LblVideoHardCoreTotalD.Text)
+        LblVideoSoftCoreTotalD.Text = VideoSoftcoreD_Count().ToString() : t += CInt(LblVideoSoftCoreTotalD.Text)
+        LblVideoLesbianTotalD.Text = VideoLesbianD_Count().ToString() : t += CInt(LblVideoLesbianTotalD.Text)
+        LblVideoBlowjobTotalD.Text = VideoBlowjobD_Count().ToString() : t += CInt(LblVideoBlowjobTotalD.Text)
+        LblVideoFemdomTotalD.Text = VideoFemdomD_Count().ToString() : t += CInt(LblVideoFemdomTotalD.Text)
+        LblVideoFemsubTotalD.Text = VideoFemsubD_Count().ToString() : t += CInt(LblVideoFemsubTotalD.Text)
+        LblVideoJOITotalD.Text = VideoJOID_Count().ToString() : t += CInt(LblVideoJOITotalD.Text)
+        LblVideoCHTotalD.Text = VideoCHD_Count().ToString() : t += CInt(LblVideoCHTotalD.Text)
+        VideoTotalDommeGeneral.Text = VideoGeneralD_Count().ToString() : t += CInt(VideoTotalDommeGeneral.Text)
 
         Return t
     End Function
@@ -3356,13 +3343,13 @@ Public Class FrmSettings
         If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
             My.Settings.VideoSoftcore = folderBrowserDialog.SelectedPath
             My.Settings.CBSoftcore = True
-            LblVideoSoftCoreTotal.Text = VideoSoftcore_Count(False)
+            LblVideoSoftCoreTotal.Text = VideoSoftcore_Count(False).ToString()
         End If
     End Sub
 
     Friend Shared Function VideoSoftcore_CheckFolder() As Boolean
         Dim def As String =
-            My.Settings.PropertyValues("VideoSoftcore").Property.DefaultValue
+            My.Settings.PropertyValues("VideoSoftcore").Property.DefaultValue.ToString()
 
         My.Settings.VideoSoftcore =
             Video_FolderCheck("Softcore Video", My.Settings.VideoSoftcore, def)
@@ -3386,13 +3373,13 @@ Public Class FrmSettings
         If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
             My.Settings.VideoLesbian = folderBrowserDialog.SelectedPath
             My.Settings.CBLesbian = True
-            LblVideoLesbianTotal.Text = VideoLesbian_Count(False)
+            LblVideoLesbianTotal.Text = VideoLesbian_Count(False).ToString()
         End If
     End Sub
 
     Friend Shared Function VideoLesbian_CheckFolder() As Boolean
         Dim def As String =
-            My.Settings.PropertyValues("VideoLesbian").Property.DefaultValue
+            My.Settings.PropertyValues("VideoLesbian").Property.DefaultValue.ToString()
 
         My.Settings.VideoLesbian =
             Video_FolderCheck("Lesbian Video", My.Settings.VideoLesbian, def)
@@ -3416,13 +3403,13 @@ Public Class FrmSettings
         If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
             My.Settings.VideoBlowjob = folderBrowserDialog.SelectedPath
             My.Settings.CBBlowjob = True
-            LblVideoBlowjobTotal.Text = VideoBlowjob_Count(False)
+            LblVideoBlowjobTotal.Text = VideoBlowjob_Count(False).ToString()
         End If
     End Sub
 
     Friend Shared Function VideoBlowjob_CheckFolder() As Boolean
         Dim def As String =
-            My.Settings.PropertyValues("VideoBlowjob").Property.DefaultValue
+            My.Settings.PropertyValues("VideoBlowjob").Property.DefaultValue.ToString()
 
         My.Settings.VideoBlowjob =
             Video_FolderCheck("Blowjob Video", My.Settings.VideoBlowjob, def)
@@ -3446,13 +3433,13 @@ Public Class FrmSettings
         If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
             My.Settings.VideoFemdom = folderBrowserDialog.SelectedPath
             My.Settings.CBFemdom = True
-            LblVideoFemdomTotal.Text = VideoFemdom_Count(False)
+            LblVideoFemdomTotal.Text = VideoFemdom_Count(False).ToString()
         End If
     End Sub
 
     Friend Shared Function VideoFemdom_CheckFolder() As Boolean
         Dim def As String =
-            My.Settings.PropertyValues("VideoFemdom").Property.DefaultValue
+            My.Settings.PropertyValues("VideoFemdom").Property.DefaultValue.ToString()
 
         My.Settings.VideoFemdom =
             Video_FolderCheck("Femdom Video", My.Settings.VideoFemdom, def)
@@ -3476,13 +3463,13 @@ Public Class FrmSettings
         If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
             My.Settings.VideoFemsub = folderBrowserDialog.SelectedPath
             My.Settings.CBFemsub = True
-            LblVideoFemsubTotal.Text = VideoFemsub_Count(False)
+            LblVideoFemsubTotal.Text = VideoFemsub_Count(False).ToString()
         End If
     End Sub
 
     Friend Shared Function VideoFemsub_CheckFolder() As Boolean
         Dim def As String =
-            My.Settings.PropertyValues("VideoFemsub").Property.DefaultValue
+            My.Settings.PropertyValues("VideoFemsub").Property.DefaultValue.ToString()
 
         My.Settings.VideoFemsub =
             Video_FolderCheck("Femsub Video", My.Settings.VideoFemsub, def)
@@ -3506,13 +3493,13 @@ Public Class FrmSettings
         If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
             My.Settings.VideoJOI = folderBrowserDialog.SelectedPath
             My.Settings.CBJOI = True
-            LblVideoJOITotal.Text = VideoJOI_Count(False)
+            LblVideoJOITotal.Text = VideoJOI_Count(False).ToString()
         End If
     End Sub
 
     Friend Shared Function VideoJOI_CheckFolder() As Boolean
         Dim def As String =
-            My.Settings.PropertyValues("VideoJOI").Property.DefaultValue
+            My.Settings.PropertyValues("VideoJOI").Property.DefaultValue.ToString()
 
         My.Settings.VideoJOI =
             Video_FolderCheck("JOI Video", My.Settings.VideoJOI, def)
@@ -3536,13 +3523,13 @@ Public Class FrmSettings
         If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
             My.Settings.VideoCH = folderBrowserDialog.SelectedPath
             My.Settings.CBCH = True
-            LblVideoCHTotal.Text = VideoCH_Count(False)
+            LblVideoCHTotal.Text = VideoCH_Count(False).ToString()
         End If
     End Sub
 
     Friend Shared Function VideoCH_CheckFolder() As Boolean
         Dim def As String =
-            My.Settings.PropertyValues("VideoCH").Property.DefaultValue
+            My.Settings.PropertyValues("VideoCH").Property.DefaultValue.ToString()
 
         My.Settings.VideoCH =
             Video_FolderCheck("CH Video", My.Settings.VideoCH, def)
@@ -3566,13 +3553,13 @@ Public Class FrmSettings
         If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
             My.Settings.VideoGeneral = folderBrowserDialog.SelectedPath
             My.Settings.CBGeneral = True
-            LblVideoGeneralTotal.Text = VideoGeneral_Count(False)
+            LblVideoGeneralTotal.Text = VideoGeneral_Count(False).ToString()
         End If
     End Sub
 
     Friend Shared Function VideoGeneral_CheckFolder() As Boolean
         Dim def As String =
-            My.Settings.PropertyValues("VideoGeneral").Property.DefaultValue
+            My.Settings.PropertyValues("VideoGeneral").Property.DefaultValue.ToString()
 
         My.Settings.VideoGeneral =
             Video_FolderCheck("General Video", My.Settings.VideoGeneral, def)
@@ -3600,13 +3587,13 @@ Public Class FrmSettings
         If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
             My.Settings.VideoHardcoreD = folderBrowserDialog.SelectedPath
             My.Settings.CBHardcoreD = True
-            LblVideoHardCoreTotalD.Text = VideoHardcoreD_Count(False)
+            LblVideoHardCoreTotalD.Text = VideoHardcoreD_Count(False).ToString()
         End If
     End Sub
 
     Friend Shared Function VideoHardcoreD_CheckFolder() As Boolean
         Dim def As String =
-            My.Settings.PropertyValues("VideoHardcoreD").Property.DefaultValue
+            My.Settings.PropertyValues("VideoHardcoreD").Property.DefaultValue.ToString()
 
         My.Settings.VideoHardcoreD =
             Video_FolderCheck("HardcoreD Video", My.Settings.VideoHardcoreD, def)
@@ -3630,13 +3617,13 @@ Public Class FrmSettings
         If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
             My.Settings.VideoSoftcoreD = folderBrowserDialog.SelectedPath
             My.Settings.CBSoftcoreD = True
-            LblVideoSoftCoreTotalD.Text = VideoSoftcoreD_Count(False)
+            LblVideoSoftCoreTotalD.Text = VideoSoftcoreD_Count(False).ToString()
         End If
     End Sub
 
     Friend Shared Function VideoSoftcoreD_CheckFolder() As Boolean
         Dim def As String =
-            My.Settings.PropertyValues("VideoSoftcoreD").Property.DefaultValue
+            My.Settings.PropertyValues("VideoSoftcoreD").Property.DefaultValue.ToString()
 
         My.Settings.VideoSoftcoreD =
             Video_FolderCheck("SoftcoreD Video", My.Settings.VideoSoftcoreD, def)
@@ -3660,13 +3647,13 @@ Public Class FrmSettings
         If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
             My.Settings.VideoLesbianD = folderBrowserDialog.SelectedPath
             My.Settings.CBLesbianD = True
-            LblVideoLesbianTotalD.Text = VideoLesbianD_Count(False)
+            LblVideoLesbianTotalD.Text = VideoLesbianD_Count(False).ToString()
         End If
     End Sub
 
     Friend Shared Function VideoLesbianD_CheckFolder() As Boolean
         Dim def As String =
-            My.Settings.PropertyValues("VideoLesbianD").Property.DefaultValue
+            My.Settings.PropertyValues("VideoLesbianD").Property.DefaultValue.ToString()
 
         My.Settings.VideoLesbianD =
             Video_FolderCheck("LesbianD Video", My.Settings.VideoLesbianD, def)
@@ -3690,13 +3677,13 @@ Public Class FrmSettings
         If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
             My.Settings.VideoBlowjobD = folderBrowserDialog.SelectedPath
             My.Settings.CBBlowjobD = True
-            LblVideoBlowjobTotalD.Text = VideoBlowjobD_Count(False)
+            LblVideoBlowjobTotalD.Text = VideoBlowjobD_Count(False).ToString()
         End If
     End Sub
 
     Friend Shared Function VideoBlowjobD_CheckFolder() As Boolean
         Dim def As String =
-            My.Settings.PropertyValues("VideoBlowjobD").Property.DefaultValue
+            My.Settings.PropertyValues("VideoBlowjobD").Property.DefaultValue.ToString()
 
         My.Settings.VideoBlowjobD =
             Video_FolderCheck("BlowjobD Video", My.Settings.VideoBlowjobD, def)
@@ -3720,13 +3707,13 @@ Public Class FrmSettings
         If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
             My.Settings.VideoFemdomD = folderBrowserDialog.SelectedPath
             My.Settings.CBFemdomD = True
-            LblVideoFemdomTotalD.Text = VideoFemdomD_Count(False)
+            LblVideoFemdomTotalD.Text = VideoFemdomD_Count(False).ToString()
         End If
     End Sub
 
     Friend Shared Function VideoFemdomD_CheckFolder() As Boolean
         Dim def As String =
-            My.Settings.PropertyValues("VideoFemdomD").Property.DefaultValue
+            My.Settings.PropertyValues("VideoFemdomD").Property.DefaultValue.ToString()
 
         My.Settings.VideoFemdomD =
             Video_FolderCheck("FemdomD Video", My.Settings.VideoFemdomD, def)
@@ -3750,13 +3737,13 @@ Public Class FrmSettings
         If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
             My.Settings.VideoFemsubD = folderBrowserDialog.SelectedPath
             My.Settings.CBFemsubD = True
-            LblVideoFemsubTotalD.Text = VideoFemsubD_Count(False)
+            LblVideoFemsubTotalD.Text = VideoFemsubD_Count(False).ToString()
         End If
     End Sub
 
     Friend Shared Function VideoFemsubD_CheckFolder() As Boolean
         Dim def As String =
-            My.Settings.PropertyValues("VideoFemsubD").Property.DefaultValue
+            My.Settings.PropertyValues("VideoFemsubD").Property.DefaultValue.ToString()
 
         My.Settings.VideoFemsubD =
             Video_FolderCheck("FemsubD Video", My.Settings.VideoFemsubD, def)
@@ -3780,13 +3767,13 @@ Public Class FrmSettings
         If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
             My.Settings.VideoJOID = folderBrowserDialog.SelectedPath
             My.Settings.CBJOID = True
-            LblVideoJOITotalD.Text = VideoJOID_Count(False)
+            LblVideoJOITotalD.Text = VideoJOID_Count(False).ToString()
         End If
     End Sub
 
     Friend Shared Function VideoJOID_CheckFolder() As Boolean
         Dim def As String =
-            My.Settings.PropertyValues("VideoJOID").Property.DefaultValue
+            My.Settings.PropertyValues("VideoJOID").Property.DefaultValue.ToString()
 
         My.Settings.VideoJOID =
             Video_FolderCheck("JOID Video", My.Settings.VideoJOID, def)
@@ -3810,13 +3797,13 @@ Public Class FrmSettings
         If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
             My.Settings.VideoCHD = folderBrowserDialog.SelectedPath
             My.Settings.CBCHD = True
-            LblVideoCHTotalD.Text = VideoCHD_Count(False)
+            LblVideoCHTotalD.Text = VideoCHD_Count(False).ToString()
         End If
     End Sub
 
     Friend Shared Function VideoCHD_CheckFolder() As Boolean
         Dim def As String =
-            My.Settings.PropertyValues("VideoCHD").Property.DefaultValue
+            My.Settings.PropertyValues("VideoCHD").Property.DefaultValue.ToString()
 
         My.Settings.VideoCHD =
             Video_FolderCheck("CHD Video", My.Settings.VideoCHD, def)
@@ -3840,13 +3827,13 @@ Public Class FrmSettings
         If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
             My.Settings.VideoGeneralD = folderBrowserDialog.SelectedPath
             My.Settings.CBGeneralD = True
-            VideoTotalDommeGeneral.Text = VideoGeneralD_Count(False)
+            VideoTotalDommeGeneral.Text = VideoGeneralD_Count(False).ToString()
         End If
     End Sub
 
     Friend Shared Function VideoGeneralD_CheckFolder() As Boolean
         Dim def As String =
-            My.Settings.PropertyValues("VideoGeneralD").Property.DefaultValue
+            My.Settings.PropertyValues("VideoGeneralD").Property.DefaultValue.ToString()
 
         My.Settings.VideoGeneralD =
             Video_FolderCheck("GeneralD Video", My.Settings.VideoGeneralD, def)
@@ -3889,7 +3876,7 @@ Public Class FrmSettings
         If mediaContainer Is Nothing Then
             Return
         End If
-        Dim containerId As Integer = GenreCombo.SelectedValue
+        Dim containerId As Integer = CInt(GenreCombo.SelectedValue)
         Dim imageMetaData As Result(Of List(Of ImageMetaData)) = myImageMetaDataService.GetImagesInContainer(containerId)
         If imageMetaData.IsFailure Then
             MessageBox.Show(imageMetaData.Error.Message)
@@ -3915,7 +3902,7 @@ Public Class FrmSettings
         LocalTagPictureBox.Load(images(FileTagCombo.SelectedIndex).FullFileName)
 
         EnableUserInterface(images, FileTagCombo.SelectedIndex)
-        Dim imageTagMaps As List(Of ImageTagMap) = myImageTagMapService.GetTagMapsForImage(FileTagCombo.SelectedValue)
+        Dim imageTagMaps As List(Of ImageTagMap) = myImageTagMapService.GetTagMapsForImage(CInt(FileTagCombo.SelectedValue))
         Dim itemTagIds As List(Of ItemTagId) = imageTagMaps.Select(Function(itm) itm.ItemTagId).ToList()
         SetLocalTagCheckboxes(itemTagIds)
     End Sub
@@ -4290,7 +4277,7 @@ Public Class FrmSettings
 
         Dim folderBrowserDialog As FolderBrowserDialog = New FolderBrowserDialog()
         If (folderBrowserDialog.ShowDialog() = DialogResult.OK) Then
-            ImageTagDir.Clear()
+            imageTagDir.Clear()
 
             DommeTagDirInput.Text = folderBrowserDialog.SelectedPath
 
@@ -4301,26 +4288,26 @@ Public Class FrmSettings
 
             For Each fi As String In files
                 If supportedExtensions.Contains(Path.GetExtension(LCase(fi))) Then
-                    ImageTagDir.Add(fi)
+                    imageTagDir.Add(fi)
                 End If
             Next
 
-            If ImageTagDir.Count < 1 Then
+            If imageTagDir.Count < 1 Then
                 MessageBox.Show(Me, "There are no images in the specified folder.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Return
             End If
 
-            ImageTagPictureBox.Image = Image.FromFile(ImageTagDir(0))
-            MainWindow.mainPictureBox.LoadAsync(ImageTagDir(0))
-            CurrentImageTagImage = ImageTagDir(0)
+            ImageTagPictureBox.Image = Image.FromFile(imageTagDir(0))
+            MainWindow.mainPictureBox.LoadAsync(imageTagDir(0))
+            currentImageTagImage = imageTagDir(0)
 
-            Dim taggedItem As TeaseAI.Common.TaggedItem = GetTaggedItem(DommeTagDirInput.Text & "\ImageTags.txt", CurrentImageTagImage)
+            Dim taggedItem As TeaseAI.Common.TaggedItem = GetTaggedItem(DommeTagDirInput.Text & "\ImageTags.txt", currentImageTagImage)
             SetDommeTagCheckboxes(taggedItem.ItemTags)
 
             TagCount = 1
-            LBLTagCount.Text = TagCount & "/" & ImageTagDir.Count
+            LBLTagCount.Text = TagCount & "/" & imageTagDir.Count
 
-            ImageTagCount = 0
+            imageTagCount = 0
 
             BTNTagSave.Enabled = True
             BTNTagNext.Enabled = True
@@ -4344,7 +4331,7 @@ Public Class FrmSettings
         Dim getImages As Result(Of List(Of String)) = GetImagesInFolder(DommeTagDirInput.Text) _
             .Ensure(Function(data) data.Any(), DommeTagDirInput.Text & " does not have any images in it.")
 
-        LocalImageTagDir = getImages.GetResultOrDefault(New List(Of String))
+        localImageTagDir = getImages.GetResultOrDefault(New List(Of String))
 
         If Not getImages.IsFailure() Then
             MessageBox.Show(Me, getImages.GetErrorMessageOrDefault(), "Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -4352,19 +4339,19 @@ Public Class FrmSettings
         End If
 
 
-        CurrentImageTagImage = ImageTagDir.First()
-        ImageTagPictureBox.Image = Image.FromFile(CurrentImageTagImage)
-        MainWindow.mainPictureBox.LoadAsync(CurrentImageTagImage)
+        currentImageTagImage = imageTagDir.First()
+        ImageTagPictureBox.Image = Image.FromFile(currentImageTagImage)
+        MainWindow.mainPictureBox.LoadAsync(currentImageTagImage)
 
-        Dim taggedItem As TeaseAI.Common.TaggedItem = GetTaggedItem(DommeTagDirInput.Text & "\ImageTags.txt", CurrentImageTagImage)
+        Dim taggedItem As TeaseAI.Common.TaggedItem = GetTaggedItem(DommeTagDirInput.Text & "\ImageTags.txt", currentImageTagImage)
         SetDommeTagCheckboxes(taggedItem.ItemTags)
 
         TagCount = 1
-        LBLTagCount.Text = TagCount & "/" & ImageTagDir.Count
+        LBLTagCount.Text = TagCount & "/" & imageTagDir.Count
 
-        ImageTagCount = 0
+        imageTagCount = 0
         BTNTagSave.Enabled = True
-        BTNTagNext.Enabled = TagCount < ImageTagDir.Count
+        BTNTagNext.Enabled = TagCount < imageTagDir.Count
         BTNTagPrevious.Enabled = TagCount > 1
         DommeTagDirectoryButton.Enabled = False
         DommeTagDirInput.Enabled = False
@@ -4373,7 +4360,7 @@ Public Class FrmSettings
 
     Private Sub BTNTagSave_Click(sender As Object, e As EventArgs) Handles BTNTagSave.Click
 
-        SaveDommeTags(DommeTagDirInput.Text & "\ImageTags.txt", CurrentImageTagImage)
+        SaveDommeTags(DommeTagDirInput.Text & "\ImageTags.txt", currentImageTagImage)
 
         DommeTagDirectoryButton.Enabled = True
         DommeTagDirInput.Enabled = True
@@ -4403,33 +4390,33 @@ Public Class FrmSettings
 
     Private Sub BTNTagNext_Click(sender As Object, e As EventArgs) Handles BTNTagNext.Click
         TagCount += 1
-        LBLTagCount.Text = TagCount & "/" & ImageTagDir.Count
+        LBLTagCount.Text = TagCount & "/" & imageTagDir.Count
 
-        SaveDommeTags(DommeTagDirInput.Text & "\ImageTags.txt", CurrentImageTagImage)
+        SaveDommeTags(DommeTagDirInput.Text & "\ImageTags.txt", currentImageTagImage)
 
-        ImageTagCount += 1
+        imageTagCount += 1
 
-        CurrentImageTagImage = ImageTagDir(ImageTagCount - 1)
-        ImageTagPictureBox.Image = Image.FromFile(CurrentImageTagImage)
-        MainWindow.mainPictureBox.LoadAsync(CurrentImageTagImage)
+        currentImageTagImage = imageTagDir(imageTagCount - 1)
+        ImageTagPictureBox.Image = Image.FromFile(currentImageTagImage)
+        MainWindow.mainPictureBox.LoadAsync(currentImageTagImage)
 
-        BTNTagNext.Enabled = TagCount < ImageTagDir.Count
+        BTNTagNext.Enabled = TagCount < imageTagDir.Count
         BTNTagPrevious.Enabled = TagCount > 1
 
-        Dim taggedItem As TeaseAI.Common.TaggedItem = GetTaggedItem(DommeTagDirInput.Text & "\ImageTags.txt", CurrentImageTagImage)
+        Dim taggedItem As TeaseAI.Common.TaggedItem = GetTaggedItem(DommeTagDirInput.Text & "\ImageTags.txt", currentImageTagImage)
         SetDommeTagCheckboxes(taggedItem.ItemTags)
     End Sub
 
     Private Sub BTNTagPrevious_Click(sender As Object, e As EventArgs) Handles BTNTagPrevious.Click
 
         TagCount -= 1
-        LBLTagCount.Text = TagCount & "/" & ImageTagDir.Count
+        LBLTagCount.Text = TagCount & "/" & imageTagDir.Count
         BTNTagNext.Enabled = True
 
 
-        SaveDommeTags(DommeTagDirInput.Text & "\ImageTags.txt", CurrentImageTagImage)
+        SaveDommeTags(DommeTagDirInput.Text & "\ImageTags.txt", currentImageTagImage)
 
-        ImageTagCount -= 1
+        imageTagCount -= 1
 
         Try
             ImageTagPictureBox.Image.Dispose()
@@ -4439,12 +4426,12 @@ Public Class FrmSettings
         ImageTagPictureBox.Image = Nothing
         GC.Collect()
 
-        ImageTagPictureBox.Image = Image.FromFile(ImageTagDir(ImageTagCount))
-        MainWindow.mainPictureBox.LoadAsync(ImageTagDir(ImageTagCount))
-        CurrentImageTagImage = ImageTagDir(ImageTagCount)
+        ImageTagPictureBox.Image = Image.FromFile(imageTagDir(imageTagCount))
+        MainWindow.mainPictureBox.LoadAsync(imageTagDir(imageTagCount))
+        currentImageTagImage = imageTagDir(imageTagCount)
 
-        BTNTagPrevious.Enabled = ImageTagCount > 0
-        Dim taggedItem As TeaseAI.Common.TaggedItem = GetTaggedItem(DommeTagDirInput.Text & "\ImageTags.txt", CurrentImageTagImage)
+        BTNTagPrevious.Enabled = imageTagCount > 0
+        Dim taggedItem As TeaseAI.Common.TaggedItem = GetTaggedItem(DommeTagDirInput.Text & "\ImageTags.txt", currentImageTagImage)
         SetDommeTagCheckboxes(taggedItem.ItemTags)
     End Sub
 
@@ -4656,7 +4643,7 @@ Public Class FrmSettings
     End Sub
 
     Private Async Sub CreateBlogContainerButton_Click(sender As Object, e As EventArgs) Handles CreateBlogContainerButton.Click
-        Dim imageBlogUrl = InputBox("Enter an image blog", "URL File Generator", "https://(Blog Name).tumblr.com/")
+        Dim imageBlogUrl As String = InputBox("Enter an image blog", "URL File Generator", "https://(Blog Name).tumblr.com/")
         Dim mediaContainer As MediaContainer = myMediaContainerService.Get().FirstOrDefault(Function(mc) mc.Path = imageBlogUrl)
         If mediaContainer Is Nothing Then
             mediaContainer = New MediaContainer With {
@@ -4691,7 +4678,7 @@ Public Class FrmSettings
         SelectBlogDropDown.DataSource = mediaContainers
 
         myUrlFileIndex = 0
-        SelectBlogDropDown.ValueMember = mediaContainer.Id
+        SelectBlogDropDown.ValueMember = mediaContainer.Id.ToString()
 
         myWorkingUrlImageMetaDatas = imageMetaDatas
 
@@ -4738,14 +4725,16 @@ Public Class FrmSettings
     End Sub
 
     Private Async Sub UrlImageAddAndContinue_Click(sender As Object, e As EventArgs) Handles UrlImageAddAndContinue.Click
-        Dim containerImages = myImageMetaDataService.GetImagesInContainer(CType(SelectBlogDropDown.SelectedValue, Integer)) _
+        Dim containerImages As Result = myImageMetaDataService.GetImagesInContainer(CType(SelectBlogDropDown.SelectedValue, Integer)) _
             .OnSuccess(Function(imds)
-                           Dim currentImageMetaData = myWorkingUrlImageMetaDatas(myUrlFileIndex)
+                           Dim currentImageMetaData As ImageMetaData = myWorkingUrlImageMetaDatas(myUrlFileIndex)
                            ' it isn't an error if this is saved, we just do nothing
                            If imds.Any(Function(imd) imd.FullFileName = currentImageMetaData.FullFileName) Then
                                Return Result.Ok()
                            End If
-                           myImageMetaDataService.Create(New List(Of ImageMetaData)(currentImageMetaData))
+                           Dim newList As List(Of ImageMetaData) = New List(Of ImageMetaData)
+                           newList.Add(currentImageMetaData)
+                           myImageMetaDataService.Create(newList)
                        End Function)
 
         myUrlFileIndex += 1
@@ -4766,10 +4755,10 @@ Public Class FrmSettings
     End Sub
 
     Private Async Sub BTNWIRemove_Click(sender As Object, e As EventArgs) Handles UrlImageRemoveButton.Click
-        Dim containerImages = myImageMetaDataService.GetImagesInContainer(CType(SelectBlogDropDown.SelectedValue, Integer)) _
+        Dim containerImages As Result = myImageMetaDataService.GetImagesInContainer(CType(SelectBlogDropDown.SelectedValue, Integer)) _
             .OnSuccess(Function(imds)
-                           Dim currentImage = myWorkingUrlImageMetaDatas(myUrlFileIndex)
-                           Dim containerImage = imds.FirstOrDefault(Function(imd) imd.FullFileName = currentImage.FullFileName)
+                           Dim currentImage As ImageMetaData = myWorkingUrlImageMetaDatas(myUrlFileIndex)
+                           Dim containerImage As ImageMetaData = imds.FirstOrDefault(Function(imd) imd.FullFileName = currentImage.FullFileName)
                            If containerImage IsNot Nothing Then
                                Return myImageMetaDataService.Delete(containerImage)
                            End If
@@ -4782,13 +4771,15 @@ Public Class FrmSettings
     End Sub
 
     Private Async Sub BTNWILiked_Click(sender As Object, e As EventArgs) Handles BTNWILiked.Click
-        Dim mediaContainer = myMediaContainerService.Get().First(Function(mc) mc.MediaTypeId = 1 AndAlso mc.SourceId = ImageSource.Remote AndAlso mc.GenreId = ImageGenre.Liked)
-        Dim containerImages = myImageMetaDataService.GetImagesInContainer(mediaContainer.Id) _
+        Dim mediaContainer As MediaContainer = myMediaContainerService.Get().First(Function(mc) mc.MediaTypeId = 1 AndAlso mc.SourceId = ImageSource.Remote AndAlso mc.GenreId = ImageGenre.Liked)
+        Dim containerImages As Result = myImageMetaDataService.GetImagesInContainer(mediaContainer.Id) _
             .OnSuccess(Function(imds)
-                           Dim currentImage = myWorkingUrlImageMetaDatas(myUrlFileIndex)
-                           Dim containerImage = imds.FirstOrDefault(Function(imd) imd.FullFileName = currentImage.FullFileName)
+                           Dim currentImage As ImageMetaData = myWorkingUrlImageMetaDatas(myUrlFileIndex)
+                           Dim containerImage As ImageMetaData = imds.FirstOrDefault(Function(imd) imd.FullFileName = currentImage.FullFileName)
                            If containerImage Is Nothing Then
-                               myImageMetaDataService.Create(New List(Of ImageMetaData)(containerImage))
+                               Dim newList As List(Of ImageMetaData) = New List(Of ImageMetaData)
+                               newList.Add(containerImage)
+                               myImageMetaDataService.Create(newList)
                            End If
                            Return Result.Ok()
                        End Function)
@@ -4845,7 +4836,7 @@ Public Class FrmSettings
 
             WebImage = WebImageLines(WebImageLine)
 
-            Dim DirSplit As String() = WebImage.Split("/")
+            Dim DirSplit As String() = WebImage.Split("/"(0))
             WebImage = DirSplit(DirSplit.Length - 1)
 
             ' ### Clean Code
@@ -4870,18 +4861,18 @@ Public Class FrmSettings
     End Sub
 
     Private Sub Button38_Click(sender As Object, e As EventArgs) Handles BTNMaintenanceRefresh.Click, BTNMaintenanceRebuild.Click, BTNMaintenanceRebuild.Click
-        Dim __PreEnabled As New List(Of Control) From
+        Dim __preEnabled As New List(Of Control) From
             {SelectBlogDropDown, CreateBlogContainerButton, BTNMaintenanceRefresh,
             BTNMaintenanceRebuild, BTNMaintenanceScripts}
-        Dim __PreDisabled As New List(Of Control) From
+        Dim __preDisabled As New List(Of Control) From
             {BTNWICancel, BTNMaintenanceCancel}
 
         Try
             ' Set their new State, so the User can't disturb.
-            __PreEnabled.ForEach(Sub(x) x.Enabled = False)
-            __PreDisabled.ForEach(Sub(x) x.Enabled = True)
+            __preEnabled.ForEach(Sub(x) x.Enabled = False)
+            __preDisabled.ForEach(Sub(x) x.Enabled = True)
 
-            Select Case sender.name
+            Select Case CType(sender, Control).Name
                 Case BTNMaintenanceRefresh.Name
                     'on the misc page
                     Try
@@ -4912,12 +4903,10 @@ Public Class FrmSettings
                         PBMaintenance.Value = 0
                     End Try
                 Case BTNMaintenanceRebuild.Name
-                    'on the misc page
                     Try
                         ' Run Backgroundworker
                         Dim __tmpResult As URL_File_BGW.MaintainUrlResult = BWURLFiles.RebuildURLFilesAsync()
 
-                        ' Activate the URL-Files
                         __tmpResult.MaintainedUrlFiles.ForEach(AddressOf URL_File_Set)
 
                         If __tmpResult.Cancelled Then
@@ -4936,22 +4925,16 @@ Public Class FrmSettings
                                             vbCrLf & vbCrLf & __tmpResult.LinkCountTotal & " URLs in total.",
                                             "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
                         End If
-                    Catch
-                        '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-                        '                                            All Errors
-                        '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-                        Throw
                     Finally
-                        '⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑ Finally ⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑
                         LBLMaintenance.Text = String.Empty
                         PBCurrent.Value = 0
                         PBMaintenance.Value = 0
                     End Try
+
+                Case Else
+                    Exit Select
             End Select
         Catch ex As Exception
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
-            '                                            All Errors
-            '▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨
             If ex.InnerException IsNot Nothing Then
                 ' If an Error ocurred in the other Thread, initial Exception is innner one.
                 MsgBox(ex.InnerException.Message, MsgBoxStyle.Critical, "Error Creating URL-File")
@@ -4960,10 +4943,8 @@ Public Class FrmSettings
                 MsgBox(ex.Message, MsgBoxStyle.Critical, "Error Creating URL-File")
             End If
         Finally
-            '⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑ Finally ⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑⚑
-            ' Restore the initial State of the Buttons
-            __PreEnabled.ForEach(Sub(x) x.Enabled = True)
-            __PreDisabled.ForEach(Sub(x) x.Enabled = False)
+            __preEnabled.ForEach(Sub(x) x.Enabled = True)
+            __preDisabled.ForEach(Sub(x) x.Enabled = False)
         End Try
     End Sub
 
@@ -5089,10 +5070,12 @@ Public Class FrmSettings
         If Not NBTeaseLengthMin.Visible Then
             Return
         End If
+        If (NBTeaseLengthMin.Value > NBTeaseLengthMax.Minimum) Then
+            NBTeaseLengthMin.Minimum = NBTeaseLengthMax.Value
+        End If
 
-        NBTeaseLengthMax.Minimum = NBTeaseLengthMin.Value
         Dim settings As Settings = mySettingsAccessor.GetSettings()
-        settings.Range.IsTauntCycleDommeDetermined = Convert.ToInt32(NBTeaseLengthMin.Value)
+        settings.Range.TeaseLengthMinutesMinimum = Convert.ToInt32(NBTeaseLengthMin.Value)
         mySettingsAccessor.WriteSettings(settings)
     End Sub
 
@@ -5103,7 +5086,7 @@ Public Class FrmSettings
         NBTeaseLengthMin.Maximum = NBTeaseLengthMax.Value
 
         Dim settings As Settings = mySettingsAccessor.GetSettings()
-        settings.Range.TeaseLengthMinutesMinimum = Convert.ToInt32(NBTeaseLengthMax.Value)
+        settings.Range.TeaseLengthMinutesMaximum = Convert.ToInt32(NBTeaseLengthMax.Value)
         mySettingsAccessor.WriteSettings(settings)
     End Sub
 
@@ -5188,8 +5171,8 @@ Public Class FrmSettings
         , CensorshipBarDuringVideoTease.MouseEnter _
         , ShowCensorshipBarMinimumSeconds.MouseEnter _
         , ShowCensorshipBarMaximumSeconds.MouseEnter, DommePubicHairComboBox.MouseEnter
-        SettingsDescriptionControl.DescriptionText = TTDir.GetToolTip(sender)
-        RangeSettingsDescriptionLabel.Text = TTDir.GetToolTip(sender)
+        SettingsDescriptionControl.DescriptionText = TTDir.GetToolTip(CType(sender, Control))
+        RangeSettingsDescriptionLabel.Text = TTDir.GetToolTip(CType(sender, Control))
     End Sub
 #End Region
 
@@ -5230,17 +5213,17 @@ Public Class FrmSettings
         Dim objBrush As Brush = Nothing
         Try
             objBrush = New SolidBrush(e.ForeColor)
-            Dim _FontName As String = SubMessageFontCB.Items(e.Index)
-            Dim _font As Font
-            Dim _fontfamily = New FontFamily(_FontName)
-            If _fontfamily.IsStyleAvailable(FontStyle.Regular) Then
-                _font = New Font(_fontfamily, 14, FontStyle.Regular)
-            ElseIf _fontfamily.IsStyleAvailable(FontStyle.Bold) Then
-                _font = New Font(_fontfamily, 14, FontStyle.Bold)
-            ElseIf _fontfamily.IsStyleAvailable(FontStyle.Italic) Then
-                _font = New Font(_fontfamily, 14, FontStyle.Italic)
+            Dim fontName As String = SubMessageFontCB.Items(e.Index).ToString()
+            Dim fontfamily As FontFamily = New FontFamily(fontName)
+            Dim font As Font = New Font(fontfamily, 14, FontStyle.Regular)
+            If fontfamily.IsStyleAvailable(FontStyle.Regular) Then
+                font = New Font(fontfamily, 14, FontStyle.Regular)
+            ElseIf fontfamily.IsStyleAvailable(FontStyle.Bold) Then
+                font = New Font(fontfamily, 14, FontStyle.Bold)
+            ElseIf fontfamily.IsStyleAvailable(FontStyle.Italic) Then
+                font = New Font(fontfamily, 14, FontStyle.Italic)
             End If
-            e.Graphics.DrawString(_FontName, _font, objBrush, e.Bounds)
+            e.Graphics.DrawString(fontName, font, objBrush, e.Bounds)
         Finally
             If objBrush IsNot Nothing Then
                 objBrush.Dispose()
@@ -5255,17 +5238,17 @@ Public Class FrmSettings
             e.DrawFocusRectangle()
         End If
         Using objBrush As Brush = New SolidBrush(e.ForeColor)
-            Dim _FontName As String = DommeMessageFontCB.Items(e.Index)
-            Dim _font As Font
-            Dim _fontfamily = New FontFamily(_FontName)
-            If _fontfamily.IsStyleAvailable(FontStyle.Regular) Then
-                _font = New Font(_fontfamily, 14, FontStyle.Regular)
-            ElseIf _fontfamily.IsStyleAvailable(FontStyle.Bold) Then
-                _font = New Font(_fontfamily, 14, FontStyle.Bold)
-            ElseIf _fontfamily.IsStyleAvailable(FontStyle.Italic) Then
-                _font = New Font(_fontfamily, 14, FontStyle.Italic)
+            Dim fontName As String = DommeMessageFontCB.Items(e.Index).ToString()
+            Dim fontfamily As FontFamily = New FontFamily(fontName)
+            Dim font As Font = New Font(fontfamily, 14, FontStyle.Regular)
+            If fontfamily.IsStyleAvailable(FontStyle.Regular) Then
+                font = New Font(fontfamily, 14, FontStyle.Regular)
+            ElseIf fontfamily.IsStyleAvailable(FontStyle.Bold) Then
+                font = New Font(fontfamily, 14, FontStyle.Bold)
+            ElseIf fontfamily.IsStyleAvailable(FontStyle.Italic) Then
+                font = New Font(fontfamily, 14, FontStyle.Italic)
             End If
-            e.Graphics.DrawString(_FontName, _font, objBrush, e.Bounds)
+            e.Graphics.DrawString(fontName, font, objBrush, e.Bounds)
         End Using
     End Sub
 
@@ -5282,18 +5265,18 @@ Public Class FrmSettings
         Dim CensorText As String = "NULL"
 
         If CBVTType.Text = "Censorship Sucks" Then
-            If LBVidScript.SelectedItem = "CensorBarOff" Then CensorText = Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Video\Censorship Sucks\CensorBarOff.txt"
-            If LBVidScript.SelectedItem = "CensorBarOn" Then CensorText = Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Video\Censorship Sucks\CensorBarOn.txt"
+            If LBVidScript.SelectedItem.ToString() = "CensorBarOff" Then CensorText = Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Video\Censorship Sucks\CensorBarOff.txt"
+            If LBVidScript.SelectedItem.ToString() = "CensorBarOn" Then CensorText = Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Video\Censorship Sucks\CensorBarOn.txt"
         End If
 
         If CBVTType.Text = "Avoid The Edge" Then
-            If LBVidScript.SelectedItem = "Taunts" Then CensorText = Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Video\Avoid The Edge\Taunts.txt"
+            If LBVidScript.SelectedItem.ToString() = "Taunts" Then CensorText = Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Video\Avoid The Edge\Taunts.txt"
         End If
 
         If CBVTType.Text = "Red Light Green Light" Then
-            If LBVidScript.SelectedItem = "Green Light" Then CensorText = Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Video\Red Light Green Light\Green Light.txt"
-            If LBVidScript.SelectedItem = "Red Light" Then CensorText = Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Video\Red Light Green Light\Red Light.txt"
-            If LBVidScript.SelectedItem = "Taunts" Then CensorText = Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Video\Red Light Green Light\Taunts.txt"
+            If LBVidScript.SelectedItem.ToString() = "Green Light" Then CensorText = Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Video\Red Light Green Light\Green Light.txt"
+            If LBVidScript.SelectedItem.ToString() = "Red Light" Then CensorText = Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Video\Red Light Green Light\Red Light.txt"
+            If LBVidScript.SelectedItem.ToString() = "Taunts" Then CensorText = Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Video\Red Light Green Light\Taunts.txt"
         End If
 
         MainWindow.ssh.VTPath = CensorText
@@ -5408,7 +5391,7 @@ Public Class FrmSettings
 
     Private Sub LBGlitModScripts_SelectedIndexChanged(sender As Object, e As EventArgs) Handles LBGlitModScripts.SelectedIndexChanged
 
-        Dim GlitPath As String = Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Apps\Glitter\" & CBGlitModType.Text & "\" & LBGlitModScripts.SelectedItem & ".txt"
+        Dim GlitPath As String = Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Apps\Glitter\" & CBGlitModType.Text & "\" & LBGlitModScripts.SelectedItem.ToString() & ".txt"
 
         If Not File.Exists(GlitPath) Then Return
 
@@ -5416,7 +5399,7 @@ Public Class FrmSettings
             MsgBox("This file is currently in use by the program. Saving changes may be slow until the Glitter process has finished.", , "Warning!")
         End If
 
-        TBGlitModFileName.Text = LBGlitModScripts.SelectedItem
+        TBGlitModFileName.Text = LBGlitModScripts.SelectedItem.ToString()
 
         RTBGlitModDommePost.Text = ""
         RTBGlitModResponses.Text = ""
@@ -5449,7 +5432,7 @@ Public Class FrmSettings
         ioFile.Close()
         ioFile.Dispose()
 
-        Debug.Print(RTBGlitModResponses.Lines.Count)
+        Debug.Print(RTBGlitModResponses.Lines.Count.ToString())
 
 
     End Sub
@@ -5504,7 +5487,7 @@ Public Class FrmSettings
     End Sub
 
     Private Sub NBWritingTaskMin_LostFocus(sender As Object, e As EventArgs) Handles NBWritingTaskMin.LostFocus
-        My.Settings.NBWritingTaskMin = NBWritingTaskMin.Value
+        My.Settings.NBWritingTaskMin = CInt(NBWritingTaskMin.Value)
     End Sub
 
     Private Sub NBWritingTaskMin_ValueChanged(sender As Object, e As EventArgs) Handles NBWritingTaskMin.ValueChanged
@@ -5512,7 +5495,7 @@ Public Class FrmSettings
     End Sub
 
     Private Sub NBWritingTaskMax_LostFocus(sender As Object, e As EventArgs) Handles NBWritingTaskMax.LostFocus
-        My.Settings.NBWritingTaskMax = NBWritingTaskMax.Value
+        My.Settings.NBWritingTaskMax = CInt(NBWritingTaskMax.Value)
     End Sub
 
     Private Sub NBWritingTaskMax_ValueChanged(sender As Object, e As EventArgs) Handles NBWritingTaskMax.ValueChanged
@@ -5536,7 +5519,7 @@ Public Class FrmSettings
 
     Private Sub LBKeyWords_SelectedIndexChanged(sender As Object, e As EventArgs) Handles LBKeyWords.SelectedIndexChanged
 
-        Dim KeyWordPath As String = Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Vocabulary\" & LBKeyWords.SelectedItem & ".txt"
+        Dim KeyWordPath As String = Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Vocabulary\" & LBKeyWords.SelectedItem.ToString() & ".txt"
 
         If Not File.Exists(KeyWordPath) Then Return
 
@@ -5545,7 +5528,7 @@ Public Class FrmSettings
         'End If
 
 
-        TBKeyWords.Text = LBKeyWords.SelectedItem
+        TBKeyWords.Text = LBKeyWords.SelectedItem.ToString()
 
         RTBKeyWords.Text = ""
 
@@ -5577,7 +5560,7 @@ Public Class FrmSettings
         ioFile.Close()
         ioFile.Dispose()
 
-        Debug.Print(RTBKeyWords.Lines.Count)
+        Debug.Print(RTBKeyWords.Lines.Count.ToString())
 
     End Sub
 
@@ -5672,16 +5655,6 @@ Public Class FrmSettings
         End If
 
     End Sub
-
-    Function InstrCount(StringToSearch As String,
-           StringToFind As String) As Long
-
-        If Len(StringToFind) Then
-            InstrCount = UBound(Split(StringToSearch, StringToFind))
-        End If
-
-        Return InstrCount
-    End Function
 
     Private Sub TBTagDir_MouseClick(sender As Object, e As Windows.Forms.MouseEventArgs) Handles DommeTagDirInput.MouseClick
         DommeTagDirInput.SelectionStart = 0
@@ -5793,23 +5766,23 @@ Public Class FrmSettings
             End Try
 
             Try
-                DominationLevel.Value = SettingsList(0).Replace("Level: ", "")
-                NBEmpathy.Value = SettingsList(1).Replace("Empathy: ", "")
-                DomAgeNumberBox.Value = SettingsList(2).Replace("Age: ", "")
-                NBDomBirthdayMonth.Value = SettingsList(3).Replace("Birth Month: ", "")
-                NBDomBirthdayDay.Value = SettingsList(4).Replace("Birth Day: ", "")
+                DominationLevel.Value = Convert.ToDecimal(SettingsList(0).Replace("Level: ", ""))
+                NBEmpathy.Value = Convert.ToDecimal(SettingsList(1).Replace("Empathy: ", ""))
+                DomAgeNumberBox.Value = Convert.ToDecimal(SettingsList(2).Replace("Age: ", ""))
+                NBDomBirthdayMonth.Value = Convert.ToDecimal(SettingsList(3).Replace("Birth Month: ", ""))
+                NBDomBirthdayDay.Value = Convert.ToDecimal(SettingsList(4).Replace("Birth Day: ", ""))
                 TBDomHairColor.Text = SettingsList(5).Replace("Hair Color: ", "")
                 domhairlengthComboBox.Text = SettingsList(6).Replace("Hair Length: ", "")
                 TBDomEyeColor.Text = SettingsList(7).Replace("Eye Color: ", "")
                 boobComboBox.Text = SettingsList(8).Replace("Cup Size: ", "")
                 DommePubicHairComboBox.Text = SettingsList(9).Replace("Pubic Hair: ", "")
-                CBDomTattoos.Checked = SettingsList(10).Replace("Tattoos: ", "")
-                CBDomFreckles.Checked = SettingsList(11).Replace("Freckles: ", "")
+                CBDomTattoos.Checked = Convert.ToBoolean(SettingsList(10).Replace("Tattoos: ", ""))
+                CBDomFreckles.Checked = Convert.ToBoolean(SettingsList(11).Replace("Freckles: ", ""))
 
                 MainWindow.DommePersonalityComboBox.Text = SettingsList(12).Replace("Personality: ", "")
-                crazyCheckBox.Checked = SettingsList(13).Replace("Crazy: ", "")
-                vulgarCheckBox.Checked = SettingsList(14).Replace("Vulgar: ", "")
-                supremacistCheckBox.Checked = SettingsList(15).Replace("Supremacist: ", "")
+                crazyCheckBox.Checked = Convert.ToBoolean(SettingsList(13).Replace("Crazy: ", ""))
+                vulgarCheckBox.Checked = Convert.ToBoolean(SettingsList(14).Replace("Vulgar: ", ""))
+                supremacistCheckBox.Checked = Convert.ToBoolean(SettingsList(15).Replace("Supremacist: ", ""))
                 PetNameBox1.Text = SettingsList(16).Replace("Pet Name 1: ", "")
                 petnameBox2.Text = SettingsList(17).Replace("Pet Name 2: ", "")
                 petnameBox3.Text = SettingsList(18).Replace("Pet Name 3: ", "")
@@ -5821,33 +5794,33 @@ Public Class FrmSettings
 
                 AllowsOrgasmComboBox.Text = SettingsList(24).Replace("Allows Orgasms: ", "")
                 RuinsOrgasmsComboBox.Text = SettingsList(25).Replace("Ruins Orgasms: ", "")
-                CBDomDenialEnds.Checked = SettingsList(26).Replace("Denial Ends: ", "")
-                CBDomOrgasmEnds.Checked = SettingsList(27).Replace("Orgasm Ends: ", "")
+                CBDomDenialEnds.Checked = Convert.ToBoolean(SettingsList(26).Replace("Denial Ends: ", ""))
+                CBDomOrgasmEnds.Checked = Convert.ToBoolean(SettingsList(27).Replace("Orgasm Ends: ", ""))
                 'CBDomPOT.Checked = SettingsList(28).Replace("P.O.T.: NULL", "")
-                LCaseCheckBox.Checked = SettingsList(29).Replace("All Lowercase: ", "")
-                apostropheCheckBox.Checked = SettingsList(30).Replace("No Apostrophes: ", "")
-                commaCheckBox.Checked = SettingsList(31).Replace("No Commas: ", "")
-                periodCheckBox.Checked = SettingsList(32).Replace("No Periods: ", "")
-                CBMeMyMine.Checked = SettingsList(33).Replace("Me/My/Mine: ", "")
+                LCaseCheckBox.Checked = Convert.ToBoolean(SettingsList(29).Replace("All Lowercase: ", ""))
+                apostropheCheckBox.Checked = Convert.ToBoolean(SettingsList(30).Replace("No Apostrophes: ", ""))
+                commaCheckBox.Checked = Convert.ToBoolean(SettingsList(31).Replace("No Commas: ", ""))
+                periodCheckBox.Checked = Convert.ToBoolean(SettingsList(32).Replace("No Periods: ", ""))
+                CBMeMyMine.Checked = Convert.ToBoolean(SettingsList(33).Replace("Me/My/Mine: ", ""))
                 'domemoteComboBox.Text = SettingsList(34).Replace("Emotes: ", "")
 
-                NBDomMoodMin.Value = SettingsList(35).Replace("DommeMoodMin: ", "")
-                NBDomMoodMax.Value = SettingsList(36).Replace("DommeMoodMax: ", "")
-                NBAvgCockMin.Value = SettingsList(37).Replace("AvgCockSizeMin: ", "")
-                NBAvgCockMax.Value = SettingsList(38).Replace("AvgCockSizeMax: ", "")
-                NBSelfAgeMin.Value = SettingsList(39).Replace("SelfAgeMin: ", "")
-                NBSelfAgeMax.Value = SettingsList(40).Replace("SelfAgeMax: ", "")
-                NBSubAgeMin.Value = SettingsList(41).Replace("SubAgeMin: ", "")
-                NBSubAgeMax.Value = SettingsList(42).Replace("SubAgeMax: ", "")
+                NBDomMoodMin.Value = Convert.ToDecimal(SettingsList(35).Replace("DommeMoodMin: ", ""))
+                NBDomMoodMax.Value = Convert.ToDecimal(SettingsList(36).Replace("DommeMoodMax: ", ""))
+                NBAvgCockMin.Value = Convert.ToDecimal(SettingsList(37).Replace("AvgCockSizeMin: ", ""))
+                NBAvgCockMax.Value = Convert.ToDecimal(SettingsList(38).Replace("AvgCockSizeMax: ", ""))
+                NBSelfAgeMin.Value = Convert.ToDecimal(SettingsList(39).Replace("SelfAgeMin: ", ""))
+                NBSelfAgeMax.Value = Convert.ToDecimal(SettingsList(40).Replace("SelfAgeMax: ", ""))
+                NBSubAgeMin.Value = Convert.ToDecimal(SettingsList(41).Replace("SubAgeMin: ", ""))
+                NBSubAgeMax.Value = Convert.ToDecimal(SettingsList(42).Replace("SubAgeMax: ", ""))
 
 
                 TBEmote.Text = SettingsList(43).Replace("Emote Start: ", "")
                 TBEmoteEnd.Text = SettingsList(44).Replace("Emote End: ", "")
 
-                sadisticCheckBox.Checked = SettingsList(45).Replace("Sadistic: ", "")
-                degradingCheckBox.Checked = SettingsList(46).Replace("Degrading: ", "")
+                sadisticCheckBox.Checked = Convert.ToBoolean(SettingsList(45).Replace("Sadistic: ", ""))
+                degradingCheckBox.Checked = Convert.ToBoolean(SettingsList(46).Replace("Degrading: ", ""))
 
-                NBTypoChance.Value = SettingsList(47).Replace("Typo Chance: ", "")
+                NBTypoChance.Value = Convert.ToDecimal(SettingsList(47).Replace("Typo Chance: ", ""))
             Catch
                 MessageBox.Show(Me, "This settings file is invalid or has been edited incorrectly!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
                 LoadDommeSettings(settings.Domme)
@@ -5876,13 +5849,13 @@ Public Class FrmSettings
 
     Private Sub LBResponses_SelectedIndexChanged(sender As Object, e As EventArgs) Handles LBResponses.SelectedIndexChanged
 
-        Dim ResponsePath As String = Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Vocabulary\Responses\" & LBResponses.SelectedItem & ".txt"
+        Dim ResponsePath As String = Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Vocabulary\Responses\" & LBResponses.SelectedItem.ToString() & ".txt"
 
         If Not File.Exists(ResponsePath) Then Return
 
 
 
-        TBResponses.Text = LBResponses.SelectedItem
+        TBResponses.Text = LBResponses.SelectedItem.ToString()
 
         RTBResponses.Text = ""
 
@@ -6065,7 +6038,7 @@ Public Class FrmSettings
     'End Sub
 
     Private Sub NBNextImageChance_LostFocus(sender As Object, e As EventArgs) Handles NBNextImageChance.LostFocus
-        My.Settings.NextImageChance = NBNextImageChance.Value
+        My.Settings.NextImageChance = CInt(NBNextImageChance.Value)
     End Sub
 
     Private Sub orgasmsperlockButton_Click(sender As Object, e As EventArgs) Handles orgasmsperlockButton.Click
@@ -6088,8 +6061,8 @@ Public Class FrmSettings
         End If
 
         Dim settings As Settings = mySettingsAccessor.GetSettings()
-        My.Settings.OrgasmsRemaining = OrgasmsPerNumBox.Value
-        settings.Domme.OrgasmsPerTimePeriod = OrgasmsPerNumBox.Value
+        My.Settings.OrgasmsRemaining = CInt(OrgasmsPerNumBox.Value)
+        settings.Domme.OrgasmsPerTimePeriod = CInt(OrgasmsPerNumBox.Value)
         Dim timePeriodDays As Integer = GetDaysForTimePeriod(OrgasmsPerComboBox.Text)
         settings.Domme.OrgasmsTimePeriodDays = timePeriodDays
 
@@ -6264,7 +6237,7 @@ Public Class FrmSettings
     End Sub
 
     Private Sub NBWishlistCost_ValueChanged(sender As Object, e As EventArgs) Handles NBWishlistCost.ValueChanged
-        LBLWishlistCost.Text = NBWishlistCost.Value
+        LBLWishlistCost.Text = NBWishlistCost.Value.ToString()
     End Sub
 
     Private Sub TBWishlistComment_TextChanged(sender As Object, e As EventArgs) Handles TBWishlistComment.TextChanged
@@ -6570,7 +6543,7 @@ Public Class FrmSettings
     Private Sub LBPlaylist_DragDrop(sender As Object, e As Windows.Forms.DragEventArgs) Handles LBPlaylist.DragDrop
 
         Debug.Print("Playlist DragDrop called? called?")
-        If FrmSettingsLoading Then Return
+        If IsFrmSettingsLoading Then Return
 
         Dim LBPlaylistString As String = CType(e.Data.GetData(DataFormats.FileDrop), Array).GetValue(0).ToString
         LBPlaylistString = Path.GetFileName(LBPlaylistString).Replace(".txt", "")
@@ -6601,7 +6574,7 @@ Public Class FrmSettings
     Private Sub BTNPlaylistEnd_Click(sender As Object, e As EventArgs) Handles BTNPlaylistEnd.Click
 
         Debug.Print("BTNPLaylistENd called?")
-        If FrmSettingsLoading = True Or BTNPlaylistEnd.BackColor = Color.Blue Then Return
+        If IsFrmSettingsLoading = True Or BTNPlaylistEnd.BackColor = Color.Blue Then Return
 
         If RadioPlaylistRegScripts.Checked Then
             ScriptPlayList.Navigate(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\Stroke\End")
@@ -6618,7 +6591,7 @@ Public Class FrmSettings
 
     Private Sub RadioPlaylistScripts_CheckedChanged(sender As Object, e As EventArgs) Handles RadioPlaylistScripts.CheckedChanged, RadioPlaylistRegScripts.CheckedChanged
         Debug.Print("Radio CHanged called?")
-        If FrmSettingsLoading = True Or MainWindow.FormLoading Then Return
+        If IsFrmSettingsLoading = True Or MainWindow.FormLoading Then Return
         Debug.Print("Radio CHanged accepted??")
         If LBLPLaylistStart.Enabled Then
             If RadioPlaylistRegScripts.Checked Then
@@ -6675,7 +6648,7 @@ Public Class FrmSettings
 
         Dim PlaylistList As New List(Of String)
         For i As Integer = 0 To LBPlaylist.Items.Count - 1
-            PlaylistList.Add(LBPlaylist.Items(i))
+            PlaylistList.Add(LBPlaylist.Items(i).ToString())
         Next
 
         Try
@@ -7012,7 +6985,7 @@ Public Class FrmSettings
     End Sub
 
     Private Sub RBGerman_CheckedChanged(sender As Object, e As EventArgs) Handles RBGerman.CheckedChanged, RBEnglish.CheckedChanged
-        If FrmSettingsLoading = False Then
+        If IsFrmSettingsLoading = False Then
 
             If RBGerman.Checked Then
                 GermanMenu()
@@ -7085,19 +7058,19 @@ Public Class FrmSettings
                     My.Settings.BackgroundImage = SettingsList(0).Replace("Background Image: ", "")
                 End If
 
-                CBStretchBack.Checked = SettingsList(1).Replace("Stretch Image: ", "")
+                CBStretchBack.Checked = Convert.ToBoolean(SettingsList(1).Replace("Stretch Image: ", ""))
 
-                My.Settings.BackgroundColor = Color.FromArgb(SettingsList(2).Replace("Background Color: ", ""))
-                My.Settings.ButtonColor = Color.FromArgb(SettingsList(3).Replace("Button Color: ", ""))
-                My.Settings.TextColor = Color.FromArgb(SettingsList(4).Replace("Text Color: ", ""))
-                My.Settings.ChatWindowColor = Color.FromArgb(SettingsList(5).Replace("Chat Window Color: ", ""))
-                My.Settings.ChatTextColor = Color.FromArgb(SettingsList(6).Replace("Chat Text Color: ", ""))
+                My.Settings.BackgroundColor = Color.FromArgb(Convert.ToInt32(SettingsList(2).Replace("Background Color: ", "")))
+                My.Settings.ButtonColor = Color.FromArgb(Convert.ToInt32(SettingsList(3).Replace("Button Color: ", "")))
+                My.Settings.TextColor = Color.FromArgb(Convert.ToInt32(SettingsList(4).Replace("Text Color: ", "")))
+                My.Settings.ChatWindowColor = Color.FromArgb(Convert.ToInt32(SettingsList(5).Replace("Chat Window Color: ", "")))
+                My.Settings.ChatTextColor = Color.FromArgb(Convert.ToInt32(SettingsList(6).Replace("Chat Text Color: ", "")))
 
-                My.Settings.DateTextColor = Color.FromArgb(SettingsList(7).Replace("Date Text Color: ", ""))
-                My.Settings.DateBackColor = Color.FromArgb(SettingsList(8).Replace("Date Back Color: ", ""))
-                CBTransparentTime.Checked = SettingsList(9).Replace("Transparent Date: ", "")
+                My.Settings.DateTextColor = Color.FromArgb(Convert.ToInt32(SettingsList(7).Replace("Date Text Color: ", "")))
+                My.Settings.DateBackColor = Color.FromArgb(Convert.ToInt32(SettingsList(8).Replace("Date Back Color: ", "")))
+                CBTransparentTime.Checked = Convert.ToBoolean(SettingsList(9).Replace("Transparent Date: ", ""))
 
-                CBFlipBack.Checked = SettingsList(10).Replace("FlipImage: ", "")
+                CBFlipBack.Checked = Convert.ToBoolean(SettingsList(10).Replace("FlipImage: ", ""))
 
 
 
@@ -7164,32 +7137,17 @@ Public Class FrmSettings
     End Sub
 
     Private Sub TimeBoxWakeUp_ValueChanged(sender As Object, e As EventArgs) Handles TimeBoxWakeUp.ValueChanged
-        If MainWindow.FormLoading = False Then
+        If Not MainWindow.FormLoading Then
+            Dim setDate As Date = TimeBoxWakeUp.Value
+            My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\System\Variables\SYS_WakeUp", FormatDateTime(setDate, DateFormat.LongTime), False)
 
-
-            Dim SetDate As Date = FormatDateTime(TimeBoxWakeUp.Value, DateFormat.LongTime)
-
-            My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & MainWindow.DommePersonalityComboBox.Text & "\System\Variables\SYS_WakeUp", FormatDateTime(SetDate, DateFormat.LongTime), False)
-
-
-
-            'Debug.Print("Dates = " & Dates)
-
-            ' Github Patch My.Settings.WakeUp = Form1.GetTime("SYS_WakeUp")
-            My.Settings.WakeUp = FormatDateTime(Now, DateFormat.ShortDate) & " " & MainWindow.GetTime("SYS_WakeUp")
-
-
-
-            Debug.Print(MainWindow.ssh.GeneralTime)
-
-
-
+            My.Settings.WakeUp = MainWindow.GetTime("SYS_WakeUp")
 
         End If
     End Sub
 
     Private Sub NBTypoChance_LostFocus(sender As Object, e As EventArgs) Handles NBTypoChance.LostFocus
-        My.Settings.TypoChance = NBTypoChance.Value
+        My.Settings.TypoChance = CInt(NBTypoChance.Value)
     End Sub
 
     Private Sub SliderVVolume_LostFocus(sender As Object, e As EventArgs) Handles SliderVVolume.LostFocus
@@ -7203,13 +7161,13 @@ Public Class FrmSettings
     Private Sub SliderVVolume_Scroll(sender As Object, e As EventArgs) Handles SliderVVolume.Scroll
         MainWindow.synth.Volume = SliderVVolume.Value
         MainWindow.synth2.Volume = SliderVVolume.Value
-        LBLVVolume.Text = SliderVVolume.Value
+        LBLVVolume.Text = SliderVVolume.Value.ToString()
     End Sub
 
     Private Sub SliderVRate_Scroll(sender As Object, e As EventArgs) Handles SliderVRate.Scroll
         MainWindow.synth.Rate = SliderVRate.Value
         MainWindow.synth2.Rate = SliderVRate.Value
-        LBLVRate.Text = SliderVRate.Value
+        LBLVRate.Text = SliderVRate.Value.ToString()
     End Sub
 
 
@@ -7255,7 +7213,7 @@ Public Class FrmSettings
     End Sub
 
     Private Sub NBTauntEdging_LostFocus(sender As Object, e As EventArgs) Handles NBTauntEdging.LostFocus
-        My.Settings.TauntEdging = NBTauntEdging.Value
+        My.Settings.TauntEdging = CInt(NBTauntEdging.Value)
     End Sub
 
     Private Sub BTNDebugTeaseTimer_Click(sender As Object, e As EventArgs) Handles BTNDebugTeaseTimer.Click
@@ -7331,24 +7289,24 @@ Public Class FrmSettings
     End Sub
 
     Private Sub TypeSpeedSlider_Scroll(sender As Object, e As EventArgs) Handles TypeSpeedSlider.Scroll
-        TypesSpeedVal.Text = TypeSpeedSlider.Value
+        TypesSpeedVal.Text = TypeSpeedSlider.Value.ToString()
     End Sub
 
     Private Function ConvertHoldTime(holdTimeSeconds As Integer) As Integer
         If (ConvertHoldTimeUnits(holdTimeSeconds) = "minutes") Then
-            Return holdTimeSeconds / 60
+            Return CInt(holdTimeSeconds / 60)
         End If
         Return holdTimeSeconds
     End Function
 
-    Private Function ConvertHoldTime(holdTime As Integer, holdTimeUnits As String) As Int16
+    Private Function ConvertHoldTime(holdTime As Integer, holdTimeUnits As String) As Integer
         If (holdTimeUnits = "minutes") Then
             Return holdTime * 60
         End If
         Return holdTime
     End Function
 
-    Private Function ConvertHoldTimeUnits(holdTimeSeconds As Int16) As String
+    Private Function ConvertHoldTimeUnits(holdTimeSeconds As Integer) As String
         If (holdTimeSeconds > 60) Then
             Return "minutes"
         End If
@@ -7369,7 +7327,7 @@ Public Class FrmSettings
         Dim scriptList As List(Of String) = New List(Of String)
         For x As Integer = 0 To StartScripts.Items.Count - 1
             If StartScripts.GetItemChecked(x) Then
-                scriptList.Add(StartScripts.Items(x))
+                scriptList.Add(StartScripts.Items(x).ToString())
             End If
         Next
         Return scriptList
@@ -7411,6 +7369,7 @@ Public Class FrmSettings
         ElseIf sessionPhase = SessionPhase.End Then
             Return Sub() saveCheckedListBox(target, Ssh.Files.EndChecklist)
         End If
+        Throw New Exception("save action not determined")
     End Function
 
     Public Function Color2Html(color As Color) As String
@@ -7459,7 +7418,7 @@ Public Class FrmSettings
         End If
 
         If dominationLevel = DomLevel.Rough Then
-            Dim time = "3 months"
+            Dim time As String = "3 months"
             If randomTime = 1 Then time = "2 Months"
             If randomTime = 2 Then time = "3 Months"
             If randomTime = 2 Then time = "6 Months"
@@ -7467,7 +7426,7 @@ Public Class FrmSettings
         End If
 
         If dominationLevel = DomLevel.Sadistic Then
-            Dim time = "6 months"
+            Dim time As String = "6 months"
             If randomTime = 2 Then time = "9 Months"
             If randomTime = 3 Then time = "Year"
             Return time
@@ -7566,7 +7525,7 @@ Public Class FrmSettings
     Private ReadOnly myScriptAccessor As IScriptAccessor
     Private ReadOnly myLoadFileData As ILoadFileData
     Private ReadOnly myParseTagDataService As ParseOldTagDataService
-    Private ReadOnly myPathsAccessor As PathsAccessor
+    Private ReadOnly myPathsAccessor As IPathsAccessor
     Private ReadOnly myMediaContainerService As IMediaContainerService
     Private ReadOnly myImageMetaDataService As IImageAccessor
     Private ReadOnly myImageTagMapService As IImageTagMapService

@@ -355,12 +355,12 @@ retryStart:
                 DommePersonalityComboBox.Text = selectedPersonality
             End If
 
-            FrmSettings.FrmSettingsLoading = True
+            FrmSettings.IsFrmSettingsLoading = True
             FrmSettings.FrmSettingStartUp()
 
             Do
                 Application.DoEvents()
-            Loop Until FrmSettings.FrmSettingsLoading = False
+            Loop Until FrmSettings.IsFrmSettingsLoading = False
 
             ssh.StrokeTimeTotal = My.Settings.StrokeTimeTotal
             StrokeTimeTotalTimer.Start()
@@ -1831,24 +1831,24 @@ TryNextWithTease:
             End If
 
 NullResponse:
-                If ssh.DomTask.Contains("@WritingTask(") Then
-                    Dim WriteFlag As String = GetParentheses(ssh.DomTask, "@WritingTask(")
-                    ssh.DomTask = ssh.DomTask.Replace(WriteFlag, PoundClean(WriteFlag))
-                End If
+            If ssh.DomTask.Contains("@WritingTask(") Then
+                Dim WriteFlag As String = GetParentheses(ssh.DomTask, "@WritingTask(")
+                ssh.DomTask = ssh.DomTask.Replace(WriteFlag, PoundClean(WriteFlag))
+            End If
 
-                If ssh.DomTask.Contains("@Contact1") Or ssh.DomTask.Contains("@Contact2") Or ssh.DomTask.Contains("@Contact3") Then ssh.SubWroteLast = True
+            If ssh.DomTask.Contains("@Contact1") Or ssh.DomTask.Contains("@Contact2") Or ssh.DomTask.Contains("@Contact3") Then ssh.SubWroteLast = True
 
-                '################### Gather Response Data #################
-                'TODO-Next: Test Code
-                ContactToUse = ssh.SlideshowMain
-                Dim glitterContact As DommeSettings = GetGlitterSender(ssh.DomTask, settings)
+            '################### Gather Response Data #################
+            'TODO-Next: Test Code
+            ContactToUse = ssh.SlideshowMain
+            Dim glitterContact As DommeSettings = GetGlitterSender(ssh.DomTask, settings)
 
-                Dim typeFont As String = My.Settings.DomFont
-                Dim typeSize As String = My.Settings.DomFontSize
+            Dim typeFont As String = My.Settings.DomFont
+            Dim typeSize As String = My.Settings.DomFontSize
 
-                Dim TTSVoice As String = FrmSettings.TTSComboBox.Text
-                Dim TTSrate As Integer = My.Settings.VRate
-                Dim TTSvolume As String = My.Settings.VVolume
+            Dim TTSVoice As String = FrmSettings.TTSComboBox.Text
+            Dim TTSrate As Integer = My.Settings.VRate
+            Dim TTSvolume As String = My.Settings.VVolume
 
             ' Set LineSpeaker for typo corrections.
             Dim lineSpeaker As String = String.Empty
@@ -1862,28 +1862,28 @@ NullResponse:
             End If
 
 
-                If FrmSettings.TTSCheckBox.Checked = True And TTSVoice <> "No voices installed" Then
-                    Dim EmoteArray() As String = Split(ssh.DomTask)
-                    For i As Integer = 0 To EmoteArray.Length - 1
-                        Try
-                            If EmoteArray(i).Contains("#") And LCase(EmoteArray(i)).Contains("emote") Then
-                                EmoteArray(i) = EmoteArray(i).Replace(EmoteArray(i), "")
-                            End If
-                        Catch
-                        End Try
-                    Next
-                    ssh.DomTask = Join(EmoteArray)
-                End If
+            If FrmSettings.TTSCheckBox.Checked = True And TTSVoice <> "No voices installed" Then
+                Dim EmoteArray() As String = Split(ssh.DomTask)
+                For i As Integer = 0 To EmoteArray.Length - 1
+                    Try
+                        If EmoteArray(i).Contains("#") And LCase(EmoteArray(i)).Contains("emote") Then
+                            EmoteArray(i) = EmoteArray(i).Replace(EmoteArray(i), "")
+                        End If
+                    Catch
+                    End Try
+                Next
+                ssh.DomTask = Join(EmoteArray)
+            End If
 
-                'SaveBlogImage.Text = ""
+            'SaveBlogImage.Text = ""
 
-                'If RiskyDeal = True Then Me.Focus()
+            'If RiskyDeal = True Then Me.Focus()
 
-                Dim LoopBuffer As Integer = 0
+            Dim LoopBuffer As Integer = 0
 
 
 #If TRACE Then
-                Dim sw As New Stopwatch
+            Dim sw As New Stopwatch
             sw.Start()
 
             Trace.WriteLine("Timer1 Parse Line: " & ssh.DomTask)
@@ -7930,7 +7930,7 @@ VTSkip:
 
     Public Function GetTime(ByVal VarName As String) As Date
 
-        Dim VarGet As String
+        Dim varGet As String
         'TODO: Remove unsecure IO.Access To file, for there is no DirectoryCheck.
         If File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & VarName) Then
             VarGet = CDate(TxtReadLine(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & VarName))
