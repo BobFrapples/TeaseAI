@@ -224,7 +224,7 @@ nextSubDir:
         End If
     End Function
 
-    <Obsolete("migrate to GetRandomImage")>
+    <Obsolete("migrate to GetNextImage")>
     Friend Function NavigateNextTease() As String
         CheckInit()
 

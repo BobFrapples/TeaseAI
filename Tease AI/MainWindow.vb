@@ -83,7 +83,7 @@ Public Class MainWindow
 
 #Region "-------------------------------------- StrokePace ----------------------------------------------"
     ''' <summary>
-    ''' Synclock Object to prevent datacorruption of <see cref="ssh.StrokePace"/>.
+    ''' Synclock Object to prevent datacorruption of ssh.StrokePace.
     ''' </summary>
     Public _StrokePaceSyncLock As New Object
     ''' <summary>
@@ -370,7 +370,6 @@ retryStart:
             FrmSettings.LBLStrokeTimeTotal.Text = String.Format("{0:0000}:{1:00}:{2:00}:{3:00}", STT.Days, STT.Hours, STT.Minutes, STT.Seconds)
 
 
-            ssh.DomTask = "Null"
             ssh.DomChat = "Null"
 
             ssh.CBTBallsFirst = True
@@ -873,34 +872,28 @@ WritingTaskLine:
 
         ' Previous Commas
 
-        Dim EdgeList As New List(Of String)
-        EdgeList = Txt2List(Application.StartupPath & "\Scripts\" + mySession.Session.Domme.PersonalityName + "\Vocabulary\Responses\System\EdgeKEY.txt")
-
-        Dim EdgeCheck As String = ssh.ChatString
-
-        Dim EdgeString As String
-
-        For i As Integer = 0 To EdgeList.Count - 1
-            EdgeString = EdgeList(i)
-            EdgeString = EdgeString.Replace("'", "")
-            EdgeString = EdgeString.Replace(".", "")
-            EdgeString = EdgeString.Replace(",", "")
-            EdgeString = EdgeString.Replace("!", "")
-            If UCase(EdgeCheck).Contains("DONT") Or UCase(EdgeCheck).Contains("NEVER") Or UCase(EdgeCheck).Contains("NOT") Then
-                If UCase(EdgeCheck).Contains(UCase(EdgeString)) Then
+        Dim edgeList As List(Of String) = File.ReadAllLines(Application.StartupPath & "\Scripts\" + mySession.Session.Domme.PersonalityName + "\Vocabulary\Responses\System\EdgeKEY.txt").ToList()
+        Dim edgeCheck As String = ssh.ChatString
+        Dim edgeString As String
+        For i As Integer = 0 To edgeList.Count - 1
+            edgeString = edgeList(i)
+            edgeString = edgeString.Replace("'", "")
+            edgeString = edgeString.Replace(".", "")
+            edgeString = edgeString.Replace(",", "")
+            edgeString = edgeString.Replace("!", "")
+            If UCase(edgeCheck).Contains("DONT") Or UCase(edgeCheck).Contains("NEVER") Or UCase(edgeCheck).Contains("NOT") Then
+                If UCase(edgeCheck).Contains(UCase(edgeString)) Then
                     ssh.EdgeNOT = True
                     Exit For
                 End If
             End If
-            If UCase(EdgeString) = UCase(EdgeCheck) Then
+            If UCase(edgeString) = UCase(edgeCheck) Then
                 ssh.EdgeFound = True
                 Exit For
             End If
         Next
 
 DebugAwareness:
-
-
 
         If ssh.InputFlag = True And ssh.DomTypeCheck = False Then
             My.Computer.FileSystem.WriteAllText(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & ssh.InputString, ssh.ChatString, False)
@@ -1312,86 +1305,67 @@ NullSkip:
     End Sub
 
     Public Sub CBTBalls()
-        Dim File2Read As String = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\CBT\CBTBalls_First.txt"
+        Dim file2Read As String = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\CBT\CBTBalls_First.txt"
 
         If ssh.CBTBallsFirst = False Then
-            File2Read = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\CBT\CBTBalls.txt"
+            file2Read = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\CBT\CBTBalls.txt"
         Else
             ssh.CBTBallsCount += 1
         End If
 
         ' Read all Lines of the given File.
-        Dim BallList As List(Of String) = Txt2List(File2Read)
-
-        Try
-            BallList = FilterList(BallList)
-            ssh.DomTask = BallList(myRandomNumberService.Roll(0, BallList.Count))
-        Catch ex As Exception
-            Log.WriteError("Tease AI did not return a valid @CBTBalls line from file: " &
-                           File2Read, ex, "CBTBalls()")
-            ssh.DomTask = "ERROR: Tease AI did not return a valid @CBTBalls line"
-        End Try
-
+        Dim ballList As List(Of String) = FilterList(File.ReadAllLines(file2Read).ToList())
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        DommeSays(settings.DommePersonality, ballList(myRandomNumberService.Roll(0, ballList.Count)))
         ssh.CBTBallsFirst = False
 
     End Sub
 
     Public Sub CBTBoth()
 
-        Dim File2Read As String = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\CBT\CBTBalls_First.txt"
+        Dim file2Read As String = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\CBT\CBTBalls_First.txt"
 
         If ssh.CBTBothFirst = False Then
-            File2Read = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\CBT\CBTBalls.txt"
+            file2Read = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\CBT\CBTBalls.txt"
         Else
             ssh.CBTBallsCount += 1
             ssh.CBTCockCount += 1
         End If
 
         ' Read all Lines of the given File.
-        Dim BothList As List(Of String) = Txt2List(File2Read)
-
-        File2Read = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\CBT\CBTCock_First.txt"
-
+        Dim bothList As List(Of String) = File.ReadAllLines(file2Read).ToList()
+        file2Read = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\CBT\CBTCock_First.txt"
         If ssh.CBTBothFirst = False Then
-            File2Read = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\CBT\CBTCock.txt"
+            file2Read = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\CBT\CBTCock.txt"
         Else
             ssh.CBTBallsCount += 1
             ssh.CBTCockCount += 1
         End If
 
         ' Read all Lines of the given file and append to List.
-        BothList.AddRange(Txt2List(File2Read))
+        bothList.AddRange(File.ReadAllLines(file2Read))
 
-        Try
-            BothList = FilterList(BothList)
-            ssh.DomTask = BothList(myRandomNumberService.Roll(0, BothList.Count))
-        Catch ex As Exception
-            Log.WriteError("Tease AI did not return a valid @CBT line from file: " &
-                           File2Read, ex, "CBTBoth()")
-            ssh.DomTask = "ERROR: Tease AI did not return a valid @CBT line"
-        End Try
+        bothList = FilterList(bothList)
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        DommeSays(settings.DommePersonality, bothList(myRandomNumberService.Roll(0, bothList.Count)))
 
         ssh.CBTBothFirst = False
     End Sub
 
     Public Sub RunCustomTask()
 
-        Dim File2Read As String = ssh.CustomTaskTextFirst
+        Dim file2Read As String = ssh.CustomTaskTextFirst
 
         If ssh.CustomTaskFirst = False Then
-            File2Read = ssh.CustomTaskText
+            file2Read = ssh.CustomTaskText
         End If
 
         ' Read all Lines of the given File.
-        Dim CustomList As List(Of String) = Txt2List(File2Read)
+        Dim customList As List(Of String) = File.ReadAllLines(file2Read).ToList()
 
-        Try
-            CustomList = FilterList(CustomList)
-            ssh.DomTask = CustomList(myRandomNumberService.Roll(0, CustomList.Count))
-        Catch ex As Exception
-            Log.WriteError("Tease AI did not return a valid Custom Taks line from file: " & File2Read, ex, "RunCustomTask()")
-            ssh.DomTask = "ERROR: Tease AI did not return a valid Custom Task line"
-        End Try
+        customList = FilterList(customList)
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        DommeSays(settings.DommePersonality, customList(myRandomNumberService.Roll(0, customList.Count)))
 
         ssh.CustomTaskFirst = False
 
@@ -1421,13 +1395,13 @@ NullSkip:
 
 ReturnCalled:
 
-        Dim lines As New List(Of String)
+        Dim lines As List(Of String) = New List(Of String)
 
         If ssh.MiniScript Then
-            lines = Txt2List(ssh.MiniScriptText)
+            lines = File.ReadAllLines(ssh.MiniScriptText).ToList()
             ssh.MiniTauntVal = AdvanceOverBookmark(lines, ssh.MiniTauntVal + 1)
         Else
-            lines = Txt2List(ssh.FileText)
+            lines = File.ReadAllLines(ssh.FileText).ToList()
             ssh.StrokeTauntVal = AdvanceOverBookmark(lines, ssh.StrokeTauntVal + 1)
         End If
 
@@ -1484,7 +1458,7 @@ ModuleEnd:
 
         Dim lines As List(Of String)
         If ssh.MiniScript = True Then
-            lines = Txt2List(ssh.MiniScriptText)
+            lines = File.ReadAllLines(ssh.MiniScriptText).ToList()
         Else
             lines = mySession.Session.CurrentScript.Lines.ToList()
         End If
@@ -1546,10 +1520,10 @@ NonModuleEnd:
 
                 If ssh.ReturnSubState = "Stroking" Then
                     If settings.Misc.IsInChastity Then
-                        ssh.DomTask = "#Return_Chastity"
+                        DommeSays(settings.DommePersonality, "#Return_Chastity")
                     Else
                         If ssh.SubStroking = False Then
-                            ssh.DomTask = "#Return_Stroking"
+                            DommeSays(settings.DommePersonality, "#Return_Stroking")
                         Else
                             StrokeTimer.Start()
                             StrokeTauntTimer.Start()
@@ -1559,8 +1533,7 @@ NonModuleEnd:
                 If ssh.ReturnSubState = "Edging" Then
 
                     If ssh.SubEdging = False Then
-                        'DomTask = "Start getting yourself to the edge again @Edge"
-                        ssh.DomTask = "#Return_Edging"
+                        DommeSays(settings.DommePersonality, "#Return_Edging")
                     Else
                         EdgeTauntTimer.Start()
                         EdgeCountTimer.Start()
@@ -1568,29 +1541,25 @@ NonModuleEnd:
                 End If
                 If ssh.ReturnSubState = "Holding The Edge" Then
                     If ssh.SubEdging = False Then
-                        'DomTask = "Start getting yourself to the edge again @EdgeHold"
-                        ssh.DomTask = "#Return_Holding"
+                        DommeSays(settings.DommePersonality, "#Return_Holding")
                     Else
                         HoldEdgeTimer.Start()
                         HoldEdgeTauntTimer.Start()
                     End If
                 End If
                 If ssh.ReturnSubState = "CBTBalls" Then
-                    'DomTask = "Now let's get back to busting those #Balls @CBTBalls"
-                    ssh.DomTask = "#Return_CBTBalls"
+                    DommeSays(settings.DommePersonality, "#Return_CBTBalls")
                     ssh.CBTBallsFirst = False
                 End If
                 If ssh.ReturnSubState = "CBTCock" Then
-                    'DomTask = "Now let's get back to abusing that #Cock @CBTCock"
-                    ssh.DomTask = "#Return_CBTCock"
+                    DommeSays(settings.DommePersonality, "#Return_CBTCock")
                     ssh.CBTCockFirst = False
                 End If
                 If ssh.ReturnSubState = "Rest" Then
                     ssh.DomTypeCheck = True
                     ssh.ScriptTick = 5
                     ScriptTimer.Start()
-                    'DomTask = "Now as I was saying"
-                    ssh.DomTask = "#Return_Rest"
+                    DommeSays(settings.DommePersonality, "#Return_Rest")
                     Return
                 End If
             End If
@@ -1605,11 +1574,11 @@ NonModuleEnd:
             End If
         End If
 
-        ssh.DomTask = (lines(currentLine).Trim)
+        DommeSays(settings.DommePersonality, lines(currentLine).Trim())
 
         ssh.StringLength = 1
 
-        ssh.DomTask = ssh.DomTask.Replace("#SubName", SubName.Text)
+        DommeSays(settings.DommePersonality, lines(currentLine).Trim())
 
         ssh.DomTask = ssh.DomTask.Replace("#VTLength", ssh.VTLength / 60)
 
@@ -1668,7 +1637,7 @@ NonModuleEnd:
 
         Dim bookmark As String = ssh.FileGoto
         Dim fileName As String = IIf(ssh.MiniScript, ssh.MiniScriptText, ssh.FileText)
-        Dim script As List(Of String) = Txt2List(fileName)
+        Dim script As List(Of String) = File.ReadAllLines(fileName).ToList()
 
         'ssh.DomTask = myGotoProcessor.DeleteGoto(ssh.DomTask)
 
@@ -2213,17 +2182,16 @@ NoResponse:
                     ' If Sync of results is activated, wait for the ImageFetcher to finish .
                     ' Do nothing else -> WaitToFinish has already displayed an image.
 
-                ElseIf ssh.RiskyDeal = True Then
+                ElseIf ssh.RiskyDeal Then
                     ' ######################## Risky Pick #########################
-                    GamesWindow.PBRiskyPic.Image = Image.FromFile(ContactToUse.NavigateNextTease)
+                    GamesWindow.PBRiskyPic.Image = Image.FromFile(ContactToUse.NavigateNextTease())
                 ElseIf ShowPicture = True AndAlso ContactToUse IsNot Nothing Then
                     ' ######################## Slideshow ##########################
-                    ShowImage(ContactToUse.NavigateNextTease, True)
-
+                    ShowImage(ssh.SlideshowMain.GetNextImage())
                 ElseIf ShowPicture = True Then
                     ' #################### Domme Slideshow ########################
 DommeSlideshowFallback:
-                    ShowImage(ssh.SlideshowMain.NavigateNextTease, True)
+                    ShowImage(ssh.SlideshowMain.GetNextImage())
                 End If
 
             Catch ex As Exception When ContactToUse IsNot ssh.SlideshowMain
@@ -2279,7 +2247,7 @@ DommeSlideshowFallback:
             If ssh.CorrectedTypo = True Then
                 ssh.CorrectedTypo = False
                 'DomTask = "*" & CorrectedWord
-                ssh.DomTask = LineSpeaker & "*" & ssh.CorrectedWord
+                ssh.DomTask = lineSpeaker & "*" & ssh.CorrectedWord
                 Return
             End If
 
@@ -2563,7 +2531,7 @@ TryNextWithTease:
 
                 If chatMessage.Contains("@Contact1") Or chatMessage.Contains("@Contact2") Or chatMessage.Contains("@Contact3") Then ssh.SubWroteLast = True
                 Dim settings As Settings = mySettingsAccessor.GetSettings()
-                Dim glitterContact As DommeSettings = GetGlitterSender(chatMessage, Settings)
+                Dim glitterContact As DommeSettings = GetGlitterSender(chatMessage, settings)
 
                 Dim TypeName As String = glitterContact.GlitterContactName
                 Dim TypeColor As String = glitterContact.ChatColor
@@ -3299,10 +3267,10 @@ DommeSlideshowFallback:
 
             If ssh.TempScriptCount = 0 Then 'And LinSelected = False Then
 
-                ' Uneseccary for txt2List creates a new List(of ) instance.
+                ' Uneseccary for File.ReadAllLines creates a new List(of ) instance.
                 ssh.TauntLines.Clear()
                 ' Read all lines of given File.
-                ssh.TauntLines = Txt2List(ssh.TauntText)
+                ssh.TauntLines = File.ReadAllLines(ssh.TauntText).ToList()
                 ssh.TauntTextTotal = ssh.TauntLines.Count
 
                 ssh.TauntTextTotal -= 1
@@ -3353,7 +3321,7 @@ DommeSlideshowFallback:
 
             'LinList.Clear()
 
-            'LinList = Txt2List(FileText)
+            'LinList = File.ReadAllLines(FileText)
 
             'TempScriptCount = LinList.Count
             'LinLine = TempScriptCount
@@ -3421,7 +3389,7 @@ DommeSlideshowFallback:
         ssh.YesOrNo = True
         Dim CBTCount As Integer
 
-        Dim lines As List(Of String) = Txt2List(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\CBT\CBT.txt")
+        Dim lines As List(Of String) = File.ReadAllLines(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\CBT\CBT.txt").ToList()
         CBTCount += lines.Count
 
         CBTCount = myRandomNumberService.Roll(0, CBTCount)
@@ -3646,58 +3614,55 @@ DommeSlideshowFallback:
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
     Private Sub GlitterTimer_Tick(sender As Object, e As EventArgs) Handles GlitterTimer.Tick
-        If FrmSettings.CBSettingsPause.Checked AndAlso FrmSettings.Visible Then
+        Dim settings As Settings = mySettingsAccessor.GetSettings()
+        If (FrmSettings.CBSettingsPause.Checked AndAlso FrmSettings.Visible) OrElse settings.Domme.GlitterMode <> GlitterMode.On Then
             Return
         End If
-        Dim settings As Settings = mySettingsAccessor.GetSettings()
 
-        If settings.Domme.GlitterMode = GlitterMode.On Then
+        ssh.UpdatesTick -= 1
 
-            ssh.UpdatesTick -= 1
+        If ssh.UpdatesTick < 1 Then
+            ssh.UpdatesTick = 1080 / settings.Domme.GlitterPostFrequency
+            Dim possiblePosts As List(Of String) = New List(Of String)()
 
-            If ssh.UpdatesTick < 1 Then
-                ssh.UpdatesTick = 1080 / settings.Domme.GlitterPostFrequency
-                Dim possiblePosts As List(Of String) = New List(Of String)()
-
-                If settings.Domme.IsGlitterTeaseModuleEnabled Then
-                    Dim teaseFolder As String = myPathsAccessor.GetGlitterFolder(settings.DommePersonality, "tease")
-                    possiblePosts.AddRange(My.Computer.FileSystem.GetFiles(teaseFolder, FileIO.SearchOption.SearchTopLevelOnly, "*.txt"))
-                End If
-
-                If settings.Domme.IsGlitterEgotistModuleEnabled Then
-                    Dim egotistFolder As String = myPathsAccessor.GetGlitterFolder(settings.DommePersonality, "egotist")
-                    possiblePosts.AddRange(My.Computer.FileSystem.GetFiles(egotistFolder, FileIO.SearchOption.SearchTopLevelOnly, "*.txt"))
-                End If
-
-                If settings.Domme.IsGlitterTriviaModuleEnabled Then
-                    Dim triviaFolder As String = myPathsAccessor.GetGlitterFolder(settings.DommePersonality, "trivia")
-                    possiblePosts.AddRange(My.Computer.FileSystem.GetFiles(triviaFolder, FileIO.SearchOption.SearchTopLevelOnly, "*.txt"))
-                End If
-
-                If settings.Domme.IsGlitterDailyModuleEnabled Then
-                    Dim dailyFolder As String = myPathsAccessor.GetGlitterFolder(settings.DommePersonality, "daily")
-                    possiblePosts.AddRange(My.Computer.FileSystem.GetFiles(dailyFolder, FileIO.SearchOption.SearchTopLevelOnly, "*.txt"))
-                End If
-
-                If settings.Domme.IsGlitterCustom1ModuleEnabled Then
-                    Dim custom1Folder As String = myPathsAccessor.GetGlitterFolder(settings.DommePersonality, "custom 1")
-                    possiblePosts.AddRange(My.Computer.FileSystem.GetFiles(custom1Folder, FileIO.SearchOption.SearchTopLevelOnly, "*.txt"))
-                End If
-
-                If settings.Domme.IsGlitterCustom2ModuleEnabled Then
-                    Dim custom2Folder As String = myPathsAccessor.GetGlitterFolder(settings.DommePersonality, "custom 2")
-                    possiblePosts.AddRange(My.Computer.FileSystem.GetFiles(custom2Folder, FileIO.SearchOption.SearchTopLevelOnly, "*.txt"))
-                End If
-
-                If Not possiblePosts.Any() Then
-                    settings.Domme.GlitterMode = False
-                    mySettingsAccessor.WriteSettings(settings)
-                    MessageBox.Show(Me, "Tease AI attempted to create a Glitter update, but no files were found! Please make sure at least one category containing Glitter txt files has been selected." & Environment.NewLine _
-                    & Environment.NewLine & "Glitter feed has been automatically disabled.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
-                    Return
-                End If
-                StatusUpdatePost(possiblePosts)
+            If settings.Domme.IsGlitterTeaseModuleEnabled Then
+                Dim teaseFolder As String = myPathsAccessor.GetGlitterFolder(settings.DommePersonality, "tease")
+                possiblePosts.AddRange(My.Computer.FileSystem.GetFiles(teaseFolder, FileIO.SearchOption.SearchTopLevelOnly, "*.txt"))
             End If
+
+            If settings.Domme.IsGlitterEgotistModuleEnabled Then
+                Dim egotistFolder As String = myPathsAccessor.GetGlitterFolder(settings.DommePersonality, "egotist")
+                possiblePosts.AddRange(My.Computer.FileSystem.GetFiles(egotistFolder, FileIO.SearchOption.SearchTopLevelOnly, "*.txt"))
+            End If
+
+            If settings.Domme.IsGlitterTriviaModuleEnabled Then
+                Dim triviaFolder As String = myPathsAccessor.GetGlitterFolder(settings.DommePersonality, "trivia")
+                possiblePosts.AddRange(My.Computer.FileSystem.GetFiles(triviaFolder, FileIO.SearchOption.SearchTopLevelOnly, "*.txt"))
+            End If
+
+            If settings.Domme.IsGlitterDailyModuleEnabled Then
+                Dim dailyFolder As String = myPathsAccessor.GetGlitterFolder(settings.DommePersonality, "daily")
+                possiblePosts.AddRange(My.Computer.FileSystem.GetFiles(dailyFolder, FileIO.SearchOption.SearchTopLevelOnly, "*.txt"))
+            End If
+
+            If settings.Domme.IsGlitterCustom1ModuleEnabled Then
+                Dim custom1Folder As String = myPathsAccessor.GetGlitterFolder(settings.DommePersonality, "custom 1")
+                possiblePosts.AddRange(My.Computer.FileSystem.GetFiles(custom1Folder, FileIO.SearchOption.SearchTopLevelOnly, "*.txt"))
+            End If
+
+            If settings.Domme.IsGlitterCustom2ModuleEnabled Then
+                Dim custom2Folder As String = myPathsAccessor.GetGlitterFolder(settings.DommePersonality, "custom 2")
+                possiblePosts.AddRange(My.Computer.FileSystem.GetFiles(custom2Folder, FileIO.SearchOption.SearchTopLevelOnly, "*.txt"))
+            End If
+
+            If Not possiblePosts.Any() Then
+                settings.Domme.GlitterMode = False
+                mySettingsAccessor.WriteSettings(settings)
+                MessageBox.Show(Me, "Tease AI attempted to create a Glitter update, but no files were found! Please make sure at least one category containing Glitter txt files has been selected." & Environment.NewLine _
+                    & Environment.NewLine & "Glitter feed has been automatically disabled.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Hand)
+                Return
+            End If
+            StatusUpdatePost(possiblePosts)
         End If
     End Sub
 
@@ -3917,12 +3882,12 @@ DommeSlideshowFallback:
             Dim slide As ContactData = ssh.SlideshowMain
             If slide.CurrentImage = String.Empty Then GoTo SkipTextedTags
 
-            Dim TagFilePath As String = Path.GetDirectoryName(slide.CurrentImage) & "\ImageTags.txt"
+            Dim tagFilePath As String = Path.GetDirectoryName(slide.CurrentImage) & "\ImageTags.txt"
 
             If (ssh.SlideshowLoaded = True And mainPictureBox.Image IsNot Nothing And WindowsMediaPlayerPane.Visible = False) _
-            AndAlso File.Exists(TagFilePath) Then
+            AndAlso File.Exists(tagFilePath) Then
                 ' Read all lines of the given file.
-                Dim TagList As List(Of String) = Txt2List(TagFilePath)
+                Dim TagList As List(Of String) = File.ReadAllLines(tagFilePath).ToList()
 
                 Try
                     For t As Integer = 0 To TagList.Count - 1
@@ -3983,7 +3948,7 @@ SkipTextedTags:
                     Dim filepath As String = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Vocabulary\" & keyword.Value & ".txt"
 
                     If Directory.Exists(Path.GetDirectoryName(filepath)) AndAlso File.Exists(filepath) Then
-                        Dim lines As List(Of String) = Txt2List(filepath)
+                        Dim lines As List(Of String) = File.ReadAllLines(filepath).ToList()
 
                         Try
                             lines = FilterList(lines)
@@ -7933,12 +7898,12 @@ VTSkip:
         Dim varGet As String
         'TODO: Remove unsecure IO.Access To file, for there is no DirectoryCheck.
         If File.Exists(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & VarName) Then
-            VarGet = CDate(TxtReadLine(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & VarName))
+            varGet = CDate(TxtReadLine(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\System\Variables\" & VarName))
         Else
-            VarGet = FormatDateTime(Now, DateFormat.LongTime)
+            varGet = FormatDateTime(Now, DateFormat.LongTime)
         End If
 
-        Return VarGet
+        Return varGet
 
 
     End Function
@@ -8147,7 +8112,7 @@ VTSkip:
 
         If File.Exists(Application.StartupPath & "\Images\System\LocalImageTags.txt") Then
             ' Read all lines of given file.
-            ssh.LocalTagImageList = Txt2List(Application.StartupPath & "\Images\System\LocalImageTags.txt")
+            ssh.LocalTagImageList = File.ReadAllLines(Application.StartupPath & "\Images\System\LocalImageTags.txt").ToList()
 
 
             Dim ValidExt As String() = Split(".jpg|.jpeg|.bmp|.png|.gif", "|")
@@ -8195,7 +8160,7 @@ VTSkip:
 
 
             Dim TagList As New List(Of String)
-            TagList = Txt2List(Application.StartupPath & "\Images\System\LocalImageTags.txt")
+            TagList = File.ReadAllLines(Application.StartupPath & "\Images\System\LocalImageTags.txt").ToList()
 
             LocTag = LocTag.Replace(" ,", ",")
             LocTag = LocTag.Replace(", ", ",")
@@ -8278,12 +8243,12 @@ VTSkip:
         Dim slide As ContactData = ssh.SlideshowMain
         If slide.CurrentImage = String.Empty Then GoTo SkipTextedTags
 
-        Dim TagFilePath As String = Path.GetDirectoryName(slide.CurrentImage) & "\ImageTags.txt"
+        Dim tagFilePath As String = Path.GetDirectoryName(slide.CurrentImage) & "\ImageTags.txt"
 
         If (ssh.SlideshowLoaded = True And mainPictureBox.Image IsNot Nothing And WindowsMediaPlayerPane.Visible = False) _
-        AndAlso File.Exists(TagFilePath) Then
+        AndAlso File.Exists(tagFilePath) Then
             Try
-                Dim TagList As List(Of String) = Txt2List(TagFilePath)
+                Dim TagList As List(Of String) = File.ReadAllLines(tagFilePath).ToList()
 
                 For t As Integer = 0 To TagList.Count - 1
                     If TagList(t).Contains(Path.GetFileName(slide.CurrentImage)) Then
@@ -9633,7 +9598,7 @@ NoPlaylistLinkFile:
             End If
 
             'Read all lines of the given file.
-            Dim ETLines As List(Of String) = Txt2List(File2Read)
+            Dim ETLines As List(Of String) = File.ReadAllLines(File2Read).ToList()
 
             Try
                 ETLines = FilterList(ETLines)
@@ -9985,23 +9950,23 @@ NoRepeatOFiles:
 
         If ssh.EdgeTauntInt < 1 Then
 
-            Dim File2Read As String = ""
+            Dim file2Read As String = ""
 
             If ssh.GlitterTease = False Then
-                File2Read = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Stroke\HoldTheEdge\HoldTheEdge.txt"
+                file2Read = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Stroke\HoldTheEdge\HoldTheEdge.txt"
             Else
-                File2Read = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Stroke\HoldTheEdge\GroupHoldTheEdge.txt"
+                file2Read = Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Stroke\HoldTheEdge\GroupHoldTheEdge.txt"
             End If
 
             ' Read all lines of given file.
-            Dim ETLines As List(Of String) = Txt2List(File2Read)
+            Dim ETLines As List(Of String) = File.ReadAllLines(file2Read).ToList()
 
             Try
                 ETLines = FilterList(ETLines)
                 ssh.DomTask = ETLines(myRandomNumberService.Roll(0, ETLines.Count))
             Catch ex As Exception
                 Log.WriteError("Tease AI did not return a valid Hold the Edge Taunt from file: " &
-                               File2Read, ex, "HoldEdgeTauntTimer.Tick")
+                               file2Read, ex, "HoldEdgeTauntTimer.Tick")
                 ssh.DomTask = "ERROR: Tease AI did not return a valid Hold the Edge Taunt"
             End Try
 
@@ -10014,7 +9979,7 @@ NoRepeatOFiles:
 
     Public Function CleanTaskLines(ByVal dir As String) As String
         Try
-            Dim taskLines As List(Of String) = Txt2List(dir)
+            Dim taskLines As List(Of String) = File.ReadAllLines(dir).ToList()
             Dim taskArray As String()
             Dim taskList As New List(Of String)
             Dim randomizer As Random = New Random()
@@ -10468,7 +10433,7 @@ RestartFunction:
             Dim WMPPos As Integer = Math.Ceiling(WindowsMediaPlayerPane.Ctlcontrols.currentPosition)
 
             Dim SubList As New List(Of String)
-            SubList = Txt2List(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Video\Scripts\" & ssh.VidFile & ".txt")
+            SubList = File.ReadAllLines(Application.StartupPath & "\Scripts\" & DommePersonalityComboBox.Text & "\Video\Scripts\" & ssh.VidFile & ".txt").ToList()
 
             If Not SubList Is Nothing Then
                 For i As Integer = 0 To SubList.Count - 1
@@ -10650,10 +10615,10 @@ RestartFunction:
         PicStripTSMIdislikeImage.Enabled = True
         PicStripTSMIdislikeImage.Checked = False
 
-        Dim tmp As List(Of String) = Txt2List(myOldPathsAccessor.LikedImages)
+        Dim tmp As List(Of String) = File.ReadAllLines(myOldPathsAccessor.LikedImages).ToList()
         If tmp.Contains(ssh.ImageLocation) Then PicStripTSMIlikeImage.Checked = True
 
-        tmp = Txt2List(myOldPathsAccessor.DislikedImages)
+        tmp = File.ReadAllLines(myOldPathsAccessor.DislikedImages).ToList()
         If tmp.Contains(ssh.ImageLocation) Then PicStripTSMIdislikeImage.Checked = True
     End Sub
 
@@ -11593,7 +11558,7 @@ restartInstantly:
         If File.Exists(TagFile) Then
 
             Dim TagList As New List(Of String)
-            TagList = Txt2List(TagFile)
+            TagList = File.ReadAllLines(TagFile).ToList()
 
             Dim FoundFile As Boolean = False
 
@@ -11645,59 +11610,59 @@ restartInstantly:
 
     End Sub
 
-    Public Function RemoveDommeTag(ByVal RemoveDomTag As String, ByVal RemoveCustomDomTag As String)
-        Dim DomTag As String = "Tag" & RemoveDomTag
-        Dim Custom As String
-        If RemoveCustomDomTag = "Nothing" Then
-            Custom = ""
+    Public Function RemoveDommeTag(removeDomTag As String, removeCustomDomTag As String)
+        Dim domTag As String = "Tag" & removeDomTag
+        Dim custom As String
+        If removeCustomDomTag = "Nothing" Then
+            custom = ""
         Else
-            Custom = RemoveCustomDomTag
+            custom = removeCustomDomTag
         End If
 
-        Dim SettingsString As String
+        Dim settingsString As String
         'Dim TagFile As String = Path.GetDirectoryName(_ImageFileNames(FileCount)) & "\ImageTags.txt"
-        Dim TagFile As String = Path.GetDirectoryName(ssh.ImageLocation) & "\ImageTags.txt"
+        Dim tagFile As String = Path.GetDirectoryName(ssh.ImageLocation) & "\ImageTags.txt"
 
-        If File.Exists(TagFile) Then
+        If File.Exists(tagFile) Then
 
-            Dim TagList As New List(Of String)
-            TagList = Txt2List(TagFile)
+            Dim tagList As New List(Of String)
+            tagList = File.ReadAllLines(tagFile).ToList()
 
-            For i As Integer = TagList.Count - 1 To 0 Step -1
-                If TagList(i).Contains(Path.GetFileName(ssh.ImageLocation)) Then
-                    If TagList(i).Contains(DomTag & Custom) Then
+            For i As Integer = tagList.Count - 1 To 0 Step -1
+                If tagList(i).Contains(Path.GetFileName(ssh.ImageLocation)) Then
+                    If tagList(i).Contains(domTag & custom) Then
 
-                        If DomTag = "TagGarment" Or DomTag = "TagUnderwear" Or DomTag = "TagTattoo" Or DomTag = "TagSexToy" Or DomTag = "TagFurniture" Then
+                        If domTag = "TagGarment" Or domTag = "TagUnderwear" Or domTag = "TagTattoo" Or domTag = "TagSexToy" Or domTag = "TagFurniture" Then
 
-                            Dim CustomArray As String() = TagList(i).Split
+                            Dim CustomArray As String() = tagList(i).Split
 
                             For x As Integer = 0 To CustomArray.Count - 1
-                                If CustomArray(x).Contains(DomTag) Then
-                                    If DomTag = "TagGarment" And CustomArray(x).Contains("TagGarment") And Not CustomArray(x).Contains("TagGarmentCovering") Then TagList(i) = TagList(i).Replace(CustomArray(x), "")
-                                    If DomTag = "TagUnderwear" And CustomArray(x).Contains("TagUnderwear") Then TagList(i) = TagList(i).Replace(CustomArray(x), "")
-                                    If DomTag = "TagTattoo" And CustomArray(x).Contains("TagTattoo") Then TagList(i) = TagList(i).Replace(CustomArray(x), "")
-                                    If DomTag = "TagSexToy" And CustomArray(x).Contains("TagSexToy") Then TagList(i) = TagList(i).Replace(CustomArray(x), "")
-                                    If DomTag = "TagFurniture" And CustomArray(x).Contains("TagFurniture") Then TagList(i) = TagList(i).Replace(CustomArray(x), "")
+                                If CustomArray(x).Contains(domTag) Then
+                                    If domTag = "TagGarment" And CustomArray(x).Contains("TagGarment") And Not CustomArray(x).Contains("TagGarmentCovering") Then tagList(i) = tagList(i).Replace(CustomArray(x), "")
+                                    If domTag = "TagUnderwear" And CustomArray(x).Contains("TagUnderwear") Then tagList(i) = tagList(i).Replace(CustomArray(x), "")
+                                    If domTag = "TagTattoo" And CustomArray(x).Contains("TagTattoo") Then tagList(i) = tagList(i).Replace(CustomArray(x), "")
+                                    If domTag = "TagSexToy" And CustomArray(x).Contains("TagSexToy") Then tagList(i) = tagList(i).Replace(CustomArray(x), "")
+                                    If domTag = "TagFurniture" And CustomArray(x).Contains("TagFurniture") Then tagList(i) = tagList(i).Replace(CustomArray(x), "")
                                 End If
                             Next
                         Else
 
-                            TagList(i) = TagList(i).Replace(" " & DomTag & Custom, "")
+                            tagList(i) = tagList(i).Replace(" " & domTag & custom, "")
                         End If
 
 
-                        If Not TagList(i).Contains(" Tag") Then TagList.Remove(TagList(i))
+                        If Not tagList(i).Contains(" Tag") Then tagList.Remove(tagList(i))
                     End If
                 End If
             Next
 
-            If TagList.Count > 0 Then
-                SettingsString = ""
-                For i As Integer = 0 To TagList.Count - 1
-                    SettingsString = SettingsString & TagList(i)
-                    If i <> TagList.Count - 1 Then SettingsString = SettingsString & Environment.NewLine
+            If tagList.Count > 0 Then
+                settingsString = ""
+                For i As Integer = 0 To tagList.Count - 1
+                    settingsString = settingsString & tagList(i)
+                    If i <> tagList.Count - 1 Then settingsString = settingsString & Environment.NewLine
                 Next
-                My.Computer.FileSystem.WriteAllText(Path.GetDirectoryName(ssh.ImageLocation) & "\ImageTags.txt", SettingsString, False)
+                My.Computer.FileSystem.WriteAllText(Path.GetDirectoryName(ssh.ImageLocation) & "\ImageTags.txt", settingsString, False)
             Else
                 If File.Exists(Path.GetDirectoryName(ssh.ImageLocation) & "\ImageTags.txt") Then My.Computer.FileSystem.DeleteFile(Path.GetDirectoryName(ssh.ImageLocation) & "\ImageTags.txt")
             End If
@@ -11820,7 +11785,7 @@ restartInstantly:
         If File.Exists(TagFile) Then
 
             Dim TagList As New List(Of String)
-            TagList = Txt2List(TagFile)
+            TagList = File.ReadAllLines(TagFile).ToList()
 
             For i As Integer = TagList.Count - 1 To 0 Step -1
 
@@ -12305,7 +12270,7 @@ restartInstantly:
             Return
         End If
 
-        Dim taunts As List(Of String) = Txt2List(tauntFile)
+        Dim taunts As List(Of String) = File.ReadAllLines(tauntFile).ToList()
         taunts = FilterList(taunts)
         If taunts.Any() Then
             DommeSays(settings.DommePersonality, taunts(myRandomNumberService.Roll(0, taunts.Count)))
@@ -12331,7 +12296,7 @@ restartInstantly:
 
         ssh.Playlist = True
 
-        ssh.PlaylistFile = Txt2List(Application.StartupPath & "\Scripts\" & dommePersonality.PersonalityName & "\Playlist\" & LBPlaylist.SelectedItem & ".txt")
+        ssh.PlaylistFile = File.ReadAllLines(Application.StartupPath & "\Scripts\" & dommePersonality.PersonalityName & "\Playlist\" & LBPlaylist.SelectedItem & ".txt").ToList()
         ssh.PlaylistFile = StripBlankLines(ssh.PlaylistFile)
         ssh.PlaylistCurrent = 0
         chatBox.Text = "Hello " & dommePersonality.Honorific
@@ -13726,7 +13691,7 @@ NoPlaylistStartFile:
         Next
         Dim settings As Settings = mySettingsAccessor.GetSettings()
         If taskList.Count > 0 Then
-            If Directory.Exists(Settings.Domme.GlitterImageDirectory) AndAlso Not ssh.SlideshowLoaded Then
+            If Directory.Exists(settings.Domme.GlitterImageDirectory) AndAlso Not ssh.SlideshowLoaded Then
                 LoadDommeImageFolder()
             End If
             ssh.BeforeTease = True
@@ -14062,7 +14027,7 @@ NoPlaylistStartFile:
             LBLWishListText.Text = ""
 
             Dim wishFile As String = wishList(myRandomNumberService.Roll(0, wishList.Count))
-            Dim wishItem As List(Of String) = Txt2List(wishFile)
+            Dim wishItem As List(Of String) = File.ReadAllLines(wishFile).ToList()
 
             LBLWishListName.Text = wishItem(0)
             My.Settings.WishlistName = LBLWishListName.Text
@@ -14446,7 +14411,7 @@ NoPlaylistStartFile:
 
             ssh.StrokeTauntVal = -1
             Dim settings As Settings = mySettingsAccessor.GetSettings()
-            If Directory.Exists(Settings.Domme.GlitterImageDirectory) AndAlso Not ssh.SlideshowLoaded Then
+            If Directory.Exists(settings.Domme.GlitterImageDirectory) AndAlso Not ssh.SlideshowLoaded Then
                 LoadDommeImageFolder()
             End If
 

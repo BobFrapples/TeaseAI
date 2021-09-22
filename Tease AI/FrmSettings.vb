@@ -2630,6 +2630,9 @@ Public Class FrmSettings
 
 #Region "----------------------------------------- Glitter ----------------------------------------------"
     Private Sub GlitterSettingsControl_VisibleChanged(sender As Object, e As EventArgs) Handles DommeGlitterSettings.VisibleChanged
+        If Not DommeGlitterSettings.Visible Then
+            Return
+        End If
         Dim settings As Settings = mySettingsAccessor.GetSettings()
         UpdateGlitterSettingsFromDomme(settings.Domme, DommeGlitterSettings)
         UpdateGlitterSettingsFromDomme(settings.Apps.Glitter.Contact1, GlitterContact1SettingsControl)
@@ -2653,6 +2656,7 @@ Public Class FrmSettings
                                                                    UpdateDommeSettingsFromGlitter(GlitterContact1SettingsControl, settings.Apps.Glitter.Contact1)
                                                                End Sub)
     End Sub
+
     Private Sub GlitterContact2SettingsControl_GlitterChanged(sender As Object, e As EventArgs) Handles GlitterContact2SettingsControl.GlitterChanged
         UpdateSettings(GlitterContact2SettingsControl.Visible, Sub(settings As Settings)
                                                                    UpdateDommeSettingsFromGlitter(GlitterContact2SettingsControl, settings.Apps.Glitter.Contact2)
@@ -2665,6 +2669,11 @@ Public Class FrmSettings
                                                                End Sub)
     End Sub
 
+    ''' <summary>
+    ''' Populate a <see cref="GlitterSettingsControl"/> object from a <see cref="DommeSettings"/>
+    ''' </summary>
+    ''' <param name="source"></param>
+    ''' <param name="destination"></param>
     Private Sub UpdateGlitterSettingsFromDomme(source As DommeSettings, destination As GlitterSettingsControl)
         destination.AvatarImageFile = source.AvatarImageFile
         destination.IsGlitterEnabled = source.GlitterMode = GlitterMode.On
@@ -2693,6 +2702,11 @@ Public Class FrmSettings
         destination.IsCustom2ModuleEnabled = source.IsGlitterCustom2ModuleEnabled
     End Sub
 
+    ''' <summary>
+    ''' Populate a <see cref="DommeSettings"/> object from a <see cref="GlitterSettingsControl"/>
+    ''' </summary>
+    ''' <param name="source"></param>
+    ''' <param name="destination"></param>
     Private Sub UpdateDommeSettingsFromGlitter(source As GlitterSettingsControl, destination As DommeSettings)
         destination.AvatarImageFile = source.AvatarImageFile
         destination.GlitterContactName = source.GlitterContactName
