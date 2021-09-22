@@ -32,5 +32,16 @@ namespace TeaseAI.Common
         }
 
         private LazySubSettings _lazySubSettings;
+        
+        /// <summary>
+        /// Settings for the Lazy Sub app
+        /// </summary>
+        public GlitterSettings Glitter
+        {
+            get { return _glitterSettings ?? (_glitterSettings = new GlitterSettings()); }
+            set { _glitterSettings = value; }
+        }
+
+        private GlitterSettings _glitterSettings;
     }
 }

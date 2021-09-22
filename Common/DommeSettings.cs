@@ -6,7 +6,7 @@ using TeaseAI.Common.Constants;
 namespace TeaseAI.Common
 {
     /// <summary>
-    /// Settings specific to the Domme
+    /// Settings specific to the Domme. These are things consistent across sessions, or session defaults
     /// </summary>
     public class DommeSettings
     {
@@ -99,19 +99,45 @@ namespace TeaseAI.Common
         public string PubicHair { get; set; }
 
         /// <summary>
+        /// Does the Domme get angry easily. 
+        /// </summary>
+        public bool IsAngry { get; set; }
+
+        /// <summary>
+        /// Is the Domme bratty
+        /// </summary>
+        public bool IsBratty { get; set; }
+
+        /// <summary>
+        /// Is the Domme Caring
+        /// </summary>
+        public bool IsCaring { get; set; }
+
+        /// <summary>
+        /// Is the Domme Condescending
+        /// </summary>
+        public bool IsCondescending { get; set; }
+
+        /// <summary>
         /// Is the domme crazy
         /// </summary>
         public bool IsCrazy { get; set; }
 
-        /// <summary>
-        /// Is the domme Vulgar
-        /// </summary>
-        public bool IsVulgar { get; set; }
+        public bool IsCruel { get; set; }
+
+        public bool IsDegrading { get; set; }
+
+        public bool IsSadistic { get; set; }
 
         /// <summary>
         /// Is the Domme a Female Supremicist
         /// </summary>
         public bool IsSupremacist { get; set; }
+
+        /// <summary>
+        /// Is the domme Vulgar
+        /// </summary>
+        public bool IsVulgar { get; set; }
 
         /// <summary>
         /// Should the domme type in all lowercase
@@ -220,7 +246,37 @@ namespace TeaseAI.Common
         /// </summary>
         public bool RequiresHonorificCapitalized { get; set; }
 
+        public bool IsGlitterTeaseModuleEnabled { get; set; }
+        public bool IsGlitterEgotistModuleEnabled { get; set; }
+        public bool IsGlitterTriviaModuleEnabled { get; set; }
+        public bool IsGlitterDailyModuleEnabled { get; set; }
+        public bool IsGlitterCustom1ModuleEnabled { get; set; }
+        public bool IsGlitterCustom2ModuleEnabled { get; set; }
+        public bool IsGlitterCustom3ModuleEnabled { get; set; }
+        
+        /// <summary>
+        /// Name, or handle, the Domme uses in glitter.
+        /// </summary>
+        public string GlitterContactName
+        {
+            get => _glitterContactName ?? Name;
+            set => _glitterContactName = value;
+        }
+
+        public string ChatColor { get; set; }
+
+        public int GlitterPostFrequency { get; set; }
+
+        public int GlitterResponseFrequency { get; set; }
+
+        public GlitterMode GlitterMode { get; set; }
+
+        /// <summary>
+        /// Folder storing images for this glitter contact
+        /// </summary>
+        public string GlitterImageDirectory { get; set; }
         private string _honorific;
+        private string _glitterContactName;
         private List<string> _petNames;
     }
 }

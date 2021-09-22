@@ -42,6 +42,5 @@ namespace TeaseAI.Services.CommandProcessor
         }
 
         private readonly FlagService _flagService;
-        private readonly LineService _lineService;
     }
 }

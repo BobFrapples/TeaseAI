@@ -19,12 +19,12 @@ namespace TeaseAI.Services.Accessors
         public Settings GetSettings()
         {
 
-            //var settingsFile = _configurationAccessor.GetSettingsLocation();
-            //if (File.Exists(settingsFile))
-            //{
-            //    var jsonString = File.ReadAllText(settingsFile);
-            //    return Deserialize(jsonString);
-            //}
+            var settingsFile = _configurationAccessor.GetSettingsLocation();
+            if (File.Exists(settingsFile))
+            {
+                var jsonString = File.ReadAllText(settingsFile);
+                return Deserialize(jsonString);
+            }
             var settings = CreateDefaultSettings();
             return WriteSettings(settings);
         }
@@ -94,6 +94,15 @@ namespace TeaseAI.Services.Accessors
                     AverageAgeSubMinimum = 28,
                     AverageAgeSubMaximum = 49,
                     Honorific = "Mistress",
+                    ChatColor = "#FF8020",
+                    GlitterContactName = "Domme Name",
+                    GlitterPostFrequency = 9,
+                    GlitterResponseFrequency = 9,
+                    GlitterMode = GlitterMode.On,
+                    IsGlitterDailyModuleEnabled = true,
+                    IsGlitterEgotistModuleEnabled = true,
+                    IsGlitterTeaseModuleEnabled = true,
+                    IsGlitterTriviaModuleEnabled = true,
                 },
                 General = new GeneralSettings
                 {
@@ -190,6 +199,42 @@ namespace TeaseAI.Services.Accessors
                         StrokeShortCut = "stroke",
                         YesShortCut = "y",
                     },
+                    Glitter = new GlitterSettings
+                    {
+                        Contact1 = new DommeSettings
+                        {
+                            Name = "Contact 1",
+                            GlitterContactName = "Contact 1",
+                            IsAngry = true,
+                            IsCruel = true,
+                            IsGlitterCustom1ModuleEnabled = true,
+                            GlitterMode = GlitterMode.On,
+                            ChatColor = "#80FF00",
+                            GlitterResponseFrequency = 5,
+                        },
+                        Contact2 = new DommeSettings
+                        {
+                            Name = "Contact 2",
+                            GlitterContactName = "Contact 2",
+                            IsBratty = true,
+                            IsGlitterCustom2ModuleEnabled = true,
+                            IsDegrading = true,
+                            GlitterMode = GlitterMode.On,
+                            ChatColor = "#FF80FF",
+                            GlitterResponseFrequency = 5,
+                        },
+                        Contact3 = new DommeSettings
+                        {
+                            Name = "Contact 3",
+                            GlitterContactName = "Contact 3",
+                            IsCaring = true,
+                            IsCondescending = true,
+                            IsGlitterCustom3ModuleEnabled = true,
+                            GlitterMode = GlitterMode.On,
+                            ChatColor = "#8080FF",
+                            GlitterResponseFrequency = 5,
+                        },
+                    }
                 },
             };
         }
@@ -223,7 +268,6 @@ namespace TeaseAI.Services.Accessors
         private readonly IConfigurationAccessor _configurationAccessor;
 
         public Dictionary<ImageGenre, string> ImageGenreFolder => throw new NotImplementedException();
-
         public bool WebTeaseModeEnabled { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public int BronzeTokens { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public int SilverTokens { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }

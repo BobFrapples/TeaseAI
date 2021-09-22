@@ -40,9 +40,37 @@ namespace TeaseAI.Common.Constants
         public static AllowsOrgasms Always => new AllowsOrgasms(100);
         #endregion
 
+        /// <summary>
+        /// Equality check
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public bool Equals(AllowsOrgasms other)
         {
             return _value == other._value;
+        }
+
+
+        /// <summary>
+        /// Equality check
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public override bool Equals(object other)
+        {
+            if (other == null || !(other is AllowsOrgasms))
+                return false;
+            else
+                return _value == ((AllowsOrgasms)other)._value;
+        }
+
+        /// <summary>
+        /// Get the hash code
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            return _value;
         }
 
         /// <summary>
@@ -54,8 +82,16 @@ namespace TeaseAI.Common.Constants
             return value._value;
         }
 
+        /// <summary>
+        /// casting operator for integer
+        /// </summary>
+        /// <param name="value"></param>
         public static explicit operator AllowsOrgasms(int value) => Create(value).Value;
 
+        /// <summary>
+        /// Casting operator for string
+        /// </summary>
+        /// <param name="value"></param>
         public static explicit operator AllowsOrgasms(string value) => Create(value).Value;
 
         private static Result<AllowsOrgasms> Create(string value)
@@ -119,8 +155,8 @@ namespace TeaseAI.Common.Constants
             }
         }
 
-        public static AllowsOrgasms operator ++(AllowsOrgasms value) => new AllowsOrgasms(Math.Min(value._value +1, Always));
-        public static AllowsOrgasms operator --(AllowsOrgasms value) => new AllowsOrgasms(Math.Max(value._value -1, Always));
+        public static AllowsOrgasms operator ++(AllowsOrgasms value) => new AllowsOrgasms(Math.Min(value._value + 1, Always));
+        public static AllowsOrgasms operator --(AllowsOrgasms value) => new AllowsOrgasms(Math.Max(value._value - 1, Always));
         public static bool operator ==(AllowsOrgasms value, AllowsOrgasms other) => value.Equals(other);
         public static bool operator ==(AllowsOrgasms value, int other) => value.Equals(new AllowsOrgasms(other));
 

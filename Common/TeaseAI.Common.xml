@@ -24,6 +24,11 @@
             Settings for the Lazy Sub app
             </summary>
         </member>
+        <member name="P:TeaseAI.Common.AppSettings.Glitter">
+            <summary>
+            Settings for the Lazy Sub app
+            </summary>
+        </member>
         <member name="T:TeaseAI.Common.ChatMessage">
             <summary>
             Message sent from one person to another, used to update the chat window
@@ -149,9 +154,41 @@
             Sub has 100 percent change of an orgasm
             </summary>
         </member>
+        <member name="M:TeaseAI.Common.Constants.AllowsOrgasms.Equals(TeaseAI.Common.Constants.AllowsOrgasms)">
+            <summary>
+            Equality check
+            </summary>
+            <param name="other"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Constants.AllowsOrgasms.Equals(System.Object)">
+            <summary>
+            Equality check
+            </summary>
+            <param name="other"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TeaseAI.Common.Constants.AllowsOrgasms.GetHashCode">
+            <summary>
+            Get the hash code
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:TeaseAI.Common.Constants.AllowsOrgasms.op_Implicit(TeaseAI.Common.Constants.AllowsOrgasms)~System.Int32">
             <summary>
             Implicity converts the orgasm value to a percent success [ 0 | 25 | 50 | 75 | 100 ]
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:TeaseAI.Common.Constants.AllowsOrgasms.op_Explicit(System.Int32)~TeaseAI.Common.Constants.AllowsOrgasms">
+            <summary>
+            casting operator for integer
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:TeaseAI.Common.Constants.AllowsOrgasms.op_Explicit(System.String)~TeaseAI.Common.Constants.AllowsOrgasms">
+            <summary>
+            Casting operator for string
             </summary>
             <param name="value"></param>
         </member>
@@ -221,6 +258,26 @@
             <param name="other"></param>
             <returns></returns>
         </member>
+        <member name="T:TeaseAI.Common.Constants.GlitterMode">
+            <summary>
+            Does someone engage in Glitter
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.GlitterMode.On">
+            <summary>
+            Glitter is enabled, this Domme will engage
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.GlitterMode.Off">
+            <summary>
+            Glitter is Disabled, this Domme will not engage
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.GlitterMode.Scripts">
+            <summary>
+            I honestly don't know yet.
+            </summary>
+        </member>
         <member name="T:TeaseAI.Common.Constants.ImageSource">
             <summary>
             Where are this container's files stored
@@ -252,7 +309,16 @@
             All commands  listed here should start with '@' in a script.
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "F:TeaseAI.Common.Constants.Keyword.AcceptAnswer" -->
+        <member name="F:TeaseAI.Common.Constants.Keyword.AcceptAnswer">
+            <summary>
+            Accepts an answer other than what the sub spoke, works similar to <see cref="F:TeaseAI.Common.Constants.Keyword.DifferentAnswer"/>
+            <para>
+            Do you like pain?<br />
+            [yes] Good<br />
+            [no] Too bad<br />
+            @AcceptAnswer I guess we'll find out</para>
+            </summary>
+        </member>
         <member name="F:TeaseAI.Common.Constants.Keyword.AllowsOrgasm">
             <summary>
             Allows matching on specific values of AllowsOrgasm, Files use @AllowsOrgasm(XXXX) where XXXX is a value listed in <see cref="T:TeaseAI.Common.Constants.AllowsOrgasms"/>
@@ -435,6 +501,11 @@
         <member name="F:TeaseAI.Common.Constants.Keyword.SearchImageBlogAgain">
             <summary>
             alias of <see cref="F:TeaseAI.Common.Constants.Keyword.SearchImageBlog"/> 
+            </summary>
+        </member>
+        <member name="F:TeaseAI.Common.Constants.Keyword.ShowDommeImageWithTag">
+            <summary>
+            I think this command is to show a Domme image with a specific tag, i.e. @ShowDommeTag(Face) would show an Domme image tagged as being of the face
             </summary>
         </member>
         <member name="F:TeaseAI.Common.Constants.Keyword.NewBlogImage">
@@ -1087,7 +1158,7 @@
         </member>
         <member name="T:TeaseAI.Common.DommePersonality">
             <summary>
-            Domme's personality for the session
+            Domme's personality for the session. This should only be things subject to change within a session.
             </summary>
         </member>
         <member name="P:TeaseAI.Common.DommePersonality.Age">
@@ -1203,7 +1274,7 @@
         </member>
         <member name="T:TeaseAI.Common.DommeSettings">
             <summary>
-            Settings specific to the Domme
+            Settings specific to the Domme. These are things consistent across sessions, or session defaults
             </summary>
         </member>
         <member name="M:TeaseAI.Common.DommeSettings.#ctor">
@@ -1286,19 +1357,39 @@
             What style is the Domme's pubic hair
             </summary>
         </member>
+        <member name="P:TeaseAI.Common.DommeSettings.IsAngry">
+            <summary>
+            Does the Domme get angry easily. 
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.IsBratty">
+            <summary>
+            Is the Domme bratty
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.IsCaring">
+            <summary>
+            Is the Domme Caring
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.IsCondescending">
+            <summary>
+            Is the Domme Condescending
+            </summary>
+        </member>
         <member name="P:TeaseAI.Common.DommeSettings.IsCrazy">
             <summary>
             Is the domme crazy
             </summary>
         </member>
-        <member name="P:TeaseAI.Common.DommeSettings.IsVulgar">
-            <summary>
-            Is the domme Vulgar
-            </summary>
-        </member>
         <member name="P:TeaseAI.Common.DommeSettings.IsSupremacist">
             <summary>
             Is the Domme a Female Supremicist
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.IsVulgar">
+            <summary>
+            Is the domme Vulgar
             </summary>
         </member>
         <member name="P:TeaseAI.Common.DommeSettings.UseLowercase">
@@ -1384,6 +1475,16 @@
         <member name="P:TeaseAI.Common.DommeSettings.RequiresHonorificCapitalized">
             <summary>
             Does the Domme require the Honorific be capitalized (Mistress vs mistress)
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.GlitterContactName">
+            <summary>
+            Name, or handle, the Domme uses in glitter.
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.DommeSettings.GlitterImageDirectory">
+            <summary>
+            Folder storing images for this glitter contact
             </summary>
         </member>
         <member name="T:TeaseAI.Common.Error">
@@ -1488,6 +1589,27 @@
         <member name="P:TeaseAI.Common.GeneralSettings.IsWebTeaseModeEnabled">
             <summary>
             Should the tease work like a web tease from milovana
+            </summary>
+        </member>
+        <member name="T:TeaseAI.Common.GlitterSettings">
+            <summary>
+            Glitter specific settings.
+            Be aware, that Domme settings are kept on the main page, not here (they are the same)
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.GlitterSettings.Contact1">
+            <summary>
+            Glitter contact one, the "Bratty" friend
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.GlitterSettings.Contact2">
+            <summary>
+            Glitter contact two, the "Cruel" friend
+            </summary>
+        </member>
+        <member name="P:TeaseAI.Common.GlitterSettings.Contact3">
+            <summary>
+            Glitter contact three, the "Caring" friend
             </summary>
         </member>
         <member name="T:TeaseAI.Common.HealthGoals">
@@ -2440,6 +2562,18 @@
             ignore if a video is not playing. Tells the engine a Taunt video
             is plaing, and to continue script processing
             </summary>
+        </member>
+        <member name="P:TeaseAI.Common.Session.LastImageShowed">
+            <summary>
+            This is the last image shown in the session
+            </summary>
+        </member>
+        <member name="M:TeaseAI.Common.Session.#ctor(TeaseAI.Common.DommePersonality,TeaseAI.Common.SubPersonality)">
+            <summary>
+            Create a new session with <paramref name="domme"/> and <paramref name="sub"/>
+            </summary>
+            <param name="domme"></param>
+            <param name="sub"></param>
         </member>
         <member name="M:TeaseAI.Common.Session.Clone">
             <summary>

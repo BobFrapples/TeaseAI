@@ -165,6 +165,10 @@ Public Class PathsAccessor
         Throw New NotImplementedException()
     End Function
 
+    Public Function GetGlitterFolder(dommePersonality As String, glitterModule As String) As String Implements IPathsAccessor.GetGlitterFolder
+        Throw New NotImplementedException()
+    End Function
+
     Private mySettingsAccessor As ISettingsAccessor
     Private myConfigurationAccessor As IConfigurationAccessor
 End Class

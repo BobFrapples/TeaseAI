@@ -259,27 +259,10 @@ Public Class SessionState
     <Category("Video - Avoid the Edge")> Public Property AvoidTheEdgeTick As Integer
     <Category("Video")> <Obsolete("Never set to TRUE")> Public Property NoVideo As Boolean
 
-    <Category("Glitter")> <Editor(EditorGenericStringList, GetType(UITypeEditor))>
-    Public Property UpdateList As New List(Of String)
-
     <Category("Glitter")> Public Property UpdatesTick As Integer = 120
-    <Category("Glitter")> Public Property UpdatingPost As Boolean
     <Category("Glitter")> Public Property UpdateStage As Integer
     <Category("Glitter")> Public Property UpdateStageTick As Integer
-    <Category("Glitter")> Public Property StatusText As String
-    <Category("Glitter")> Public Property ContactNumber As Integer
-
-    <Category("Glitter")> Public Property StatusText1 As String
-    <Category("Glitter")> Public Property StatusText2 As String
-    <Category("Glitter")> Public Property StatusText3 As String
-
-    <Category("Glitter")> Public Property StatusChance1 As Integer
-    <Category("Glitter")> Public Property StatusChance2 As Integer
-    <Category("Glitter")> Public Property StatusChance3 As Integer
-
-    <Category("Glitter")> Public Property Update1 As Boolean
-    <Category("Glitter")> Public Property Update2 As Boolean
-    <Category("Glitter")> Public Property Update3 As Boolean
+    <Category("Glitter")> Public Property GlitterScript As String
 
 
     <Editor(EditorGenericStringList, GetType(UITypeEditor))>
@@ -362,8 +345,6 @@ Public Class SessionState
     Public Property OrgasmRuined As Boolean
     Public Property LastOrgasmType As String = ""
 
-    Public Property CaloriesGoal As Integer
-
     <Category("Tokens")> <[ReadOnly](True)> Public Property GoldTokens As Integer
     <Category("Tokens")> <[ReadOnly](True)> Public Property SilverTokens As Integer
     <Category("Tokens")> <[ReadOnly](True)> Public Property BronzeTokens As Integer
@@ -376,27 +357,35 @@ Public Class SessionState
     Public Property CustomSlideEnabled As Boolean
     <Category("Images")> <Description("Stores all images and genre informations for CustomSlideshow")>
     Public Property CustomSlideshow As New CustomSlideshow
-    <Obsolete("Obsolete as of v0.54.5.1. Left for version tolerance.", True)>
-    <Category("Images")> <Browsable(False)> Public Property DommeImageFound As Boolean
-    <Category("Images")> Public Property DommeImageSTR As String
-    <Obsolete("Obsolete as of v0.54.5.1. Left for version tolerance.", True)>
-    <Category("Images")> <Browsable(False)> Public Property DomPic As String
-    <Category("Images")> Public Property JustShowedBlogImage As Boolean = False
     <Category("Images")> Public Property JustShowedSlideshowImage As Boolean = False
     <Category("Images")> Public Property LockImage As Boolean
     <Category("Images")> Public Property RandomSlideshowCategory As String
-    <Category("Images")> <Description("True if main slideshow is loaded.")>
+    <Category("Images")>
+    <Description("True if main slideshow is loaded.")>
     Public Property SlideshowLoaded As Boolean
-    <Category("Images")> Public Property SlideshowMain As ContactData
-    <Category("Images")> Public Property SlideshowContact1 As ContactData
-    <Category("Images")> Public Property SlideshowContact2 As ContactData
-    <Category("Images")> Public Property SlideshowContact3 As ContactData
 
-    <Category("Custom Task")> Public Property CustomTask As Boolean
-    <Category("Custom Task")> Public Property CustomTaskFirst As Boolean = True
-    <Category("Custom Task")> Public Property CustomTaskText As String
-    <Category("Custom Task")> Public Property CustomTaskTextFirst As String
-    <Category("Custom Task")> Public Property CustomTaskActive As Boolean
+    <Category("Images")>
+    Public Property SlideshowMain As ContactData
+
+    <Category("Images")>
+    Public Property SlideshowContact1 As ContactData
+
+    <Category("Images")>
+    Public Property SlideshowContact2 As ContactData
+
+    <Category("Images")>
+    Public Property SlideshowContact3 As ContactData
+
+    <Category("Custom Task")>
+    Public Property CustomTask As Boolean
+    <Category("Custom Task")>
+    Public Property CustomTaskFirst As Boolean = True
+    <Category("Custom Task")>
+    Public Property CustomTaskText As String
+    <Category("Custom Task")>
+    Public Property CustomTaskTextFirst As String
+    <Category("Custom Task")>
+    Public Property CustomTaskActive As Boolean
 
 
     <Category("Risky Pick")> Public Property RiskyDeal As Boolean
@@ -758,8 +747,7 @@ Public Class SessionState
             TeaseTimer_enabled = .TeaseTimer.Enabled
             Timer1_enabled = .Timer1.Enabled
             TnASlides_enabled = .TnASlides.Enabled
-            UpdateStageTimer_enabled = .UpdateStageTimer.Enabled
-            UpdatesTimer_enabled = .UpdatesTimer.Enabled
+            UpdatesTimer_enabled = .GlitterTimer.Enabled
             VideoTauntTimer_enabled = .VideoTauntTimer.Enabled
             WaitTimer_enabled = .WaitTimer.Enabled
             WMPTimer_enabled = .WMPTimer.Enabled
@@ -787,8 +775,7 @@ Public Class SessionState
             TeaseTimer_Interval = .TeaseTimer.Interval
             Timer1_Interval = .Timer1.Interval
             TnASlides_Interval = .TnASlides.Interval
-            UpdateStageTimer_Interval = .UpdateStageTimer.Interval
-            UpdatesTimer_Interval = .UpdatesTimer.Interval
+            UpdatesTimer_Interval = .GlitterTimer.Interval
             VideoTauntTimer_Interval = .VideoTauntTimer.Interval
             WaitTimer_Interval = .WaitTimer.Interval
             WMPTimer_Interval = .WMPTimer.Interval
@@ -888,8 +875,7 @@ Public Class SessionState
             .TeaseTimer.Enabled = False
             .Timer1.Enabled = False
             .TnASlides.Enabled = False
-            .UpdateStageTimer.Enabled = False
-            .UpdatesTimer.Enabled = False
+            .GlitterTimer.Enabled = False
             .VideoTauntTimer.Enabled = False
             .WaitTimer.Enabled = False
             .WMPTimer.Enabled = False
@@ -1025,8 +1011,7 @@ Public Class SessionState
             .TeaseTimer.Interval = TeaseTimer_Interval
             .Timer1.Interval = Timer1_Interval
             .TnASlides.Interval = TnASlides_Interval
-            .UpdateStageTimer.Interval = UpdateStageTimer_Interval
-            .UpdatesTimer.Interval = UpdatesTimer_Interval
+            .GlitterTimer.Interval = UpdatesTimer_Interval
             .VideoTauntTimer.Interval = VideoTauntTimer_Interval
             .WaitTimer.Interval = WaitTimer_Interval
             .WMPTimer.Interval = WMPTimer_Interval
@@ -1055,8 +1040,7 @@ Public Class SessionState
             .TeaseTimer.Enabled = TeaseTimer_enabled
             .Timer1.Enabled = Timer1_enabled
             .TnASlides.Enabled = TnASlides_enabled
-            .UpdateStageTimer.Enabled = UpdateStageTimer_enabled
-            .UpdatesTimer.Enabled = UpdatesTimer_enabled
+            .GlitterTimer.Enabled = UpdatesTimer_enabled
             .VideoTauntTimer.Enabled = VideoTauntTimer_enabled
             .WaitTimer.Enabled = WaitTimer_enabled
             .WMPTimer.Enabled = WMPTimer_enabled

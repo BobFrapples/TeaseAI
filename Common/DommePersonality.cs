@@ -4,7 +4,7 @@ using TeaseAI.Common.Constants;
 namespace TeaseAI.Common
 {
     /// <summary>
-    /// Domme's personality for the session
+    /// Domme's personality for the session. This should only be things subject to change within a session.
     /// </summary>
     public class DommePersonality
     {

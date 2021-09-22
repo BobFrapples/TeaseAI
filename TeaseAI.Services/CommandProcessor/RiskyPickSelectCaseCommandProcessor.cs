@@ -7,8 +7,6 @@ namespace TeaseAI.Services.CommandProcessor
 {
     public class RiskyPickSelectCaseCommandProcessor : CommandProcessorBase
     {
-        private readonly LineService _lineService;
-
         public RiskyPickSelectCaseCommandProcessor(LineService lineService) : base(Keyword.RiskyPickSelectCase, lineService)
         {
             _lineService = lineService;

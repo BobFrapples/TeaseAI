@@ -16,7 +16,7 @@ namespace TeaseAI.Services.Serialization
             if (!hasExistingValue)
                 return TortureLevel.Create(3).Value;
 
-            var s = (int)reader.Value;
+            var s = Convert.ToInt32(reader.Value.ToString());
             return s == 0 ? TortureLevel.Create(3).Value : TortureLevel.Create(s).Value;
         }
     }

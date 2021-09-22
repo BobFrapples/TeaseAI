@@ -24,6 +24,7 @@ namespace TeaseAI.Services
             , ISettingsAccessor settingsAccessor
             )
         {
+            var settings = settingsAccessor.GetSettings();
             _lineCollectionFilter = lineCollectionFilter;
             _lineService = lineService;
             _vocabularyAccessor = vocabularyAccessor;
@@ -77,7 +78,7 @@ namespace TeaseAI.Services
                 { "#SubWritingTaskMax", (line, session) => line.Replace("#SubWritingTaskMax", session.Sub.WritingTaskMax.ToString())  },
                 { "#SubWritingTaskMin", (line, session) => line.Replace("#SubWritingTaskMin", session.Sub.WritingTaskMin.ToString())  },
 
-                { "#ShortName", (line, session) => line.Replace("#ShortName", session.Sub.Name) },
+                { "#ShortName", (line, session) => line.Replace("#ShortName", settings.Domme.GlitterContactName) },
                 { "#GlitterContact1", (line, session) => line.Replace("#GlitterContact1", session.Glitter[0].Name) },
                 { "#Contact1", (line, session) => line.Replace("#Contact1", session.Glitter[0].Name) },
                 { "#GlitterContact2", (line, session) => line.Replace("#GlitterContact2", session.Glitter[1].Name) },
@@ -112,18 +113,7 @@ namespace TeaseAI.Services
             };
         }
 
-        private string GetPetName(string line, Session session)
-        {
-            var petNameIndex = new Random().Next(2, 7);
-            if (session.Domme.MoodLevel < session.Domme.MoodAngry)
-                petNameIndex = new Random().Next(7, 9);
-            if (session.Domme.MoodLevel > session.Domme.MoodHappy)
-                petNameIndex = new Random().Next(0, 2);
-
-            return line.Replace("#PetName", session.Sub.PetNames[petNameIndex]);
-        }
-
-
+  
         /// <summary>
         /// Replace vocabulary words in the string <paramref name="workingLine"/>
         /// </summary>
@@ -221,8 +211,20 @@ namespace TeaseAI.Services
             return "tonight";
         }
 
+        private string GetPetName(string line, Session session)
+        {
+            var petNameIndex = new Random().Next(2, 7);
+            if (session.Domme.MoodLevel < session.Domme.MoodAngry)
+                petNameIndex = new Random().Next(7, 9);
+            if (session.Domme.MoodLevel > session.Domme.MoodHappy)
+                petNameIndex = new Random().Next(0, 2);
+
+            return line.Replace("#PetName", session.Sub.PetNames[petNameIndex]);
+        }
+
         private readonly ILineCollectionFilter _lineCollectionFilter;
         private readonly LineService _lineService;
         private readonly IVocabularyAccessor _vocabularyAccessor;
+
     }
 }
